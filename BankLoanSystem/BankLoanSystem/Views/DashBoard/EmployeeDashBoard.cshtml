@@ -1,0 +1,20 @@
+﻿
+@model BankLoanSystem.Models.DashBoard
+
+@{
+    ViewBag.Title = "EmployeeDashBoard";
+}
+
+<h2>EmployeeDashBoard</h2><br /><br />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ActionLink("Create Company", "Login", "Login", new { id = Model.userId }, null)
+    </div>
+}
+
