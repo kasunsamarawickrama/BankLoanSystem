@@ -10,6 +10,8 @@ namespace BankLoanSystem.Models
     {
         public int userId { get; set; }
 
+        public string lbl { get; set; }
+
         [Required]
         [Display(Name = "User Name")]
         public string userName { get; set; }

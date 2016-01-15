@@ -14,18 +14,34 @@ namespace BankLoanSystem.Controllers
         /// user login view
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserLogin()
+        public ActionResult UserLogin(string lbl)
         {
-            return View();
+            if (lbl != null)
+            {
+                var loginlbl = new UserLogin();
+                loginlbl.lbl = lbl;
+                return View(loginlbl);
+            }
+            else {
+                return View();
+            }
         }
 
         /// <summary>
         /// employee login view
         /// </summary>
         /// <returns></returns>
-        public ActionResult EmployeeLogin()
+        public ActionResult EmployeeLogin(string lbl)
         {
-            return View();
+            if (lbl != null)
+            {
+                var loginlbl = new UserLogin();
+                loginlbl.lbl = lbl;
+                return View(loginlbl);
+            }
+            else {
+                return View();
+            }
         }
 
         /// <summary>
@@ -38,14 +54,16 @@ namespace BankLoanSystem.Controllers
         {
             var login = new Login();
 
-            int userId = login.CheckUserLogin(user.userName,user.password);
+            int userId = login.CheckUserLogin(user.userName, user.password);
 
-            if (userId > 0) {
+            if (userId > 0)
+            {
                 return RedirectToAction("UserDashBoard", "DashBoard", new { id = userId });
             }
             else {
-                return RedirectToAction("UserLogin", "Login");
-            }           
+
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password" });
+            }
         }
         /// <summary>
         /// user login controller
@@ -64,7 +82,7 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("EmployeeDashBoard", "DashBoard", new { id = userId });
             }
             else {
-                return RedirectToAction("EmployeeLogin", "Login");
+                return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect username or password" });
             }
         }
 
