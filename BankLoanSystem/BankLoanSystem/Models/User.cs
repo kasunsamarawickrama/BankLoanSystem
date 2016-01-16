@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BankLoanSystemTFN.Models
+namespace BankLoanSystem.Models
 {
-    public class UserModel
+    public class User
     {
 
         [Required]
