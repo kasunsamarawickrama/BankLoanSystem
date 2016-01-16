@@ -24,7 +24,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         {
             var dashBoardModel = new Models.DashBoard();
 
-            var newDashDAL = new DAL.DashBoardAccess();
+            var newDashDAL = new DashBoardAccess();
             if (!id.HasValue)
             {
                 return RedirectToAction("UserLogin", "Login");
@@ -85,6 +85,9 @@ namespace BankLoanSystem.Controllers.DashBoard
         }
 
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// Manage User Profiles 
         /// </summary>
         /// <param name="type">search users type
@@ -99,7 +102,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             if (type > 0)
             {
                 ///send parameters to next page 
-                return RedirectToAction("next", "next", new { typeval = type , idval = id });
+                return RedirectToAction("UserList", "UserManagement", new { typeval = type , idval = id });
             }
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");
