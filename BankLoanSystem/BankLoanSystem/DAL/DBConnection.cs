@@ -8,6 +8,12 @@ using System.Configuration;
 
 namespace BankLoanSystem.DAL
 {
+    /// <summary>
+    /// CreatedBy : Kasun Smarawickrama
+    /// CreatedDate: 2016/01/14
+    /// 
+    /// DB connection Initialize
+    /// </summary>
     public class DBConnection
     {
         public SqlConnection connection;

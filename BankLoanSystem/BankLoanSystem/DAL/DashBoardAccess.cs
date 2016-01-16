@@ -13,7 +13,14 @@ namespace BankLoanSystem.DAL
 {
     public class DashBoardAccess
     {
-
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
+        /// Retrive User Level by userid
+        /// </summary>
+        /// <param name="userId">userid</param>
+        /// <returns></returns>
         public int GetUserLevelByUserId(int userId)
         {
 

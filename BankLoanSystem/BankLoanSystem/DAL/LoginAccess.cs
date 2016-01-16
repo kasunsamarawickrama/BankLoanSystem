@@ -13,6 +13,16 @@ namespace BankLoanSystem.DAL
 {
     public class LoginAccess
     {
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
+        /// user login authentication
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// 
+        /// <returns>userid</returns>
         public int CheckUserLogin(string username, string password)
         {
 
@@ -50,7 +60,15 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
-
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
+        /// check employee authentication
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>employeeid</returns>
         public int CheckEmployeeLogin(string username, string password)
         {
 
