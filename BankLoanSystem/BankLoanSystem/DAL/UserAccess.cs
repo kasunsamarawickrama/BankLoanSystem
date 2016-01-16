@@ -66,7 +66,7 @@ namespace BankLoanSystem.DAL
 
                 catch (Exception ex )
                 {
-                    throw ex;
+                   throw ex;
                     
                 }
                 finally
@@ -151,30 +151,26 @@ namespace BankLoanSystem.DAL
         }
 
 
-        /// <summary>
-        /// CreatedBy : MAM. IRFAN
-        /// CreatedDate: 2016/01/16
-        /// 
-        /// Check the User name Exists or not in anywhere otherthan his own
-        /// 
-        /// argument: UserName , userId
-        /// 
-        /// </summary>
-        /// <returns>return true if exists else false</returns>
-        public bool isUserNameExistsAnyElse(int userId,string userName)
-        {
 
+
+        public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email, string phone, DateTime modifiedDate, string password)
+        {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("spIsUserNameExistsAnyElse", con))
+                    using (SqlCommand cmd = new SqlCommand("spUpdateProfileDetails", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.NVarChar).Value = userId;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
                         cmd.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
-                        
+                        cmd.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = firstName;
+                        cmd.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = lastName;
+                        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+                        cmd.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = phone;
+                        cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = modifiedDate;
+                        cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
 
                         con.Open();
                         cmd.ExecuteNonQuery();
@@ -208,7 +204,6 @@ namespace BankLoanSystem.DAL
                     con.Close();
                 }
             }
-
 
         }
     }
