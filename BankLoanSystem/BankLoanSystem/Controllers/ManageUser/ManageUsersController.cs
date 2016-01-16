@@ -1,12 +1,12 @@
-﻿using BankLoanSystemTFN.DAL;
-using BankLoanSystemTFN.Models;
+﻿using BankLoanSystem.DAL;
+using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BankLoanSystemTFN.Controllers
+namespace BankLoanSystem.Controllers
 {
     public class ManageUsersController : Controller
     {
@@ -30,14 +30,14 @@ namespace BankLoanSystemTFN.Controllers
             int editUserId = 1;// edit user is hard coded
             int companyId;
 
-            UserModel editUser = (new User()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
+            User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
             companyId = editUser.Company_Id;
             // get all branches
-            List<BranchModel> branchesLists = (new Branch()).getBranches(companyId);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
 
             // insert all branches into selectedlist
             List<SelectListItem> branchSelectLists = new List<SelectListItem>();
-            foreach (BranchModel branch in branchesLists)
+            foreach (Branch branch in branchesLists)
             {
                 branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
 
@@ -60,7 +60,7 @@ namespace BankLoanSystemTFN.Controllers
         /// <returns>update successful mesage / failed to update</returns>
 
         [HttpPost]
-        public ActionResult editUser(UserModel user)
+        public ActionResult editUser(User user)
         {
 
             int editUser = 1;// edit user is hard coded
@@ -68,7 +68,7 @@ namespace BankLoanSystemTFN.Controllers
 
 
             // Update the data into database
-            bool isUpdate = (new User()).updateUserDetails(editUser, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now,user.Password);
+            bool isUpdate = (new UserAccess()).updateUserDetails(editUser, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now,user.Password);
 
             if (isUpdate)
                 ViewBag.SuccessMsg = "Data Successfully Updated";
@@ -77,13 +77,13 @@ namespace BankLoanSystemTFN.Controllers
                 return View(user);
             }
 
-            user = (new User()).retreiveUserByUserId(editUser);
+            user = (new UserAccess()).retreiveUserByUserId(editUser);
             // get all branches
-            List<BranchModel> branchesLists = (new Branch()).getBranches(user.Company_Id);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(user.Company_Id);
 
             // insert all branches into selectedlist
             List<SelectListItem> branchSelectLists = new List<SelectListItem>();
-            foreach (BranchModel branch in branchesLists) {
+            foreach (Branch branch in branchesLists) {
                 branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
 
             }
