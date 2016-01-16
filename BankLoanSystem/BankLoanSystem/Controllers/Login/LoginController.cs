@@ -11,6 +11,9 @@ namespace BankLoanSystem.Controllers
     public class LoginController : Controller
     {
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// user login view
         /// </summary>
         /// <returns></returns>
@@ -28,6 +31,9 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// employee login view
         /// </summary>
         /// <returns></returns>
@@ -45,6 +51,9 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// User Login Controller
         /// </summary>
         /// <param name="user">login user details</param>
@@ -66,6 +75,9 @@ namespace BankLoanSystem.Controllers
             }
         }
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// user login controller
         /// </summary>
         /// <param name="user">login employee details</param>

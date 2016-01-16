@@ -12,11 +12,14 @@ namespace BankLoanSystem.Controllers.DashBoard
     {
 
 
-      /// <summary>
-      /// user dashboard view
-      /// </summary>
-      /// <param name="id">userid fromlogin page</param>
-      /// <returns></returns>
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
+        /// user dashboard view
+        /// </summary>
+        /// <param name="id">userid fromlogin page</param>
+        /// <returns></returns>
         public ActionResult UserDashBoard(Int32? id)
         {
             var dashBoardModel = new Models.DashBoard();
@@ -58,6 +61,9 @@ namespace BankLoanSystem.Controllers.DashBoard
         }
 
         /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
         /// emplyee dashboard view
         /// </summary>
         /// <returns></returns>
