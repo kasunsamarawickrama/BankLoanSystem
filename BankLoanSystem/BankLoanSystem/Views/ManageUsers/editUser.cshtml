@@ -5,7 +5,6 @@
 }
 
 <h2>editUser</h2>
-
 @ViewBag.SuccessMsg
 @ViewBag.ErrorMsg
 
@@ -87,7 +86,11 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Update" class="btn btn-default" />
+
+                <input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "ManageUsers")'"  class="btn btn-default" />
             </div>
+
+            
         </div>
     </div>
 }
