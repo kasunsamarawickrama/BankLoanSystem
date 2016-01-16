@@ -102,7 +102,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             if (type > 0)
             {
                 ///send parameters to next page 
-                return RedirectToAction("next", "next", new { typeval = type , idval = id });
+                return RedirectToAction("UserList", "UserManagement", new { typeval = type , idval = id });
             }
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");

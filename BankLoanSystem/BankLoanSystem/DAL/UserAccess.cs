@@ -149,5 +149,67 @@ namespace BankLoanSystem.DAL
 
             return true;
         }
+
+
+        /// <summary>
+        /// CreatedBy : MAM. IRFAN
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Check the User name Exists or not in anywhere otherthan his own
+        /// 
+        /// argument: UserName , userId
+        /// 
+        /// </summary>
+        /// <returns>return true if exists else false</returns>
+        public bool isUserNameExistsAnyElse(int userId,string userName)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spIsUserNameExistsAnyElse", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.NVarChar).Value = userId;
+                        cmd.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
+                        
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+
+        }
     }
 }

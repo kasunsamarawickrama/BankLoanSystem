@@ -92,5 +92,23 @@ namespace BankLoanSystem.Controllers
             
             return View(user);
         }
+
+
+        /// <summary>
+        /// CreatedBy : MAM. IRFAN
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Check the User name Exists or not in anywhere otherthan his own
+        /// 
+        /// argument: UserName
+        /// 
+        /// </summary>
+        /// <returns>return json object with message</returns>
+        public JsonResult IsUserExists(string UserName)
+        {
+            int userId = 1; // user id is hard coded
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return Json(!(new UserAccess()).isUserNameExistsAnyElse(userId,UserName), JsonRequestBehavior.AllowGet);
+        }
     }
 }
