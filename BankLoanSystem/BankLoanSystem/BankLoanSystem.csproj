@@ -143,14 +143,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
+    <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
+    <Compile Include="DAL\BranchAccess.cs" />
+    <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\DashBoard.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLogin.cs" />
-    <Compile Include="DAL\DashBoard.cs" />
+    <Compile Include="DAL\DashBoardAccess.cs" />
     <Compile Include="DAL\DBConnection.cs" />
-    <Compile Include="DAL\Login.cs" />
+    <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +174,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\ManageUsers\editUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

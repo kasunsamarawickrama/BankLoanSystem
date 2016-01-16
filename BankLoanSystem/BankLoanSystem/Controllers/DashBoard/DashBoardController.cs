@@ -21,7 +21,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         {
             var dashBoardModel = new Models.DashBoard();
 
-            var newDashDAL = new DAL.DashBoard();
+            var newDashDAL = new DAL.DashBoardAccess();
             if (!id.HasValue)
             {
                 return RedirectToAction("UserLogin", "Login");
