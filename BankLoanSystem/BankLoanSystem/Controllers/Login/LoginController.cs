@@ -52,7 +52,7 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult UserLogin(UserLogin user)
         {
-            var login = new Login();
+            var login = new LoginAccess();
 
             int userId = login.CheckUserLogin(user.userName, user.password);
 
@@ -73,7 +73,7 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult EmployeeLogin(UserLogin user)
         {
-            var login = new Login();
+            var login = new LoginAccess();
 
             int userId = login.CheckEmployeeLogin(user.userName, user.password);
 
