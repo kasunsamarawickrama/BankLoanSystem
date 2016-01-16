@@ -26,5 +26,12 @@ namespace BankLoanSystem.Models
         [Display(Name = "Password")]
         public string password { get; set; }
 
+        [Display(Name = "Created By")]
+        public int createdBy { get; set; }
+        public int createdByRole { get; set; }
+
+        public int roleId { get; set; }
+        public bool isEdit { get; set; }
+
     }
 }

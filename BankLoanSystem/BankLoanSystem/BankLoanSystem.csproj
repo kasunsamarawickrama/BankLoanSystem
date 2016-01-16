@@ -119,6 +119,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\message.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -144,13 +145,16 @@
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
+    <Compile Include="Controllers\UserManagement\UserManagement.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
+    <Compile Include="DAL\UserManage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\DashBoard.cs" />
+    <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
@@ -175,6 +179,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\ManageUsers\editUser.cshtml" />
+    <Content Include="Views\UserManagement\Details.cshtml" />
+    <Content Include="Views\UserManagement\UserList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
