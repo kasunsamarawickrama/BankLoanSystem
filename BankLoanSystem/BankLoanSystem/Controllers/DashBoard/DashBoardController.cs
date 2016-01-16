@@ -94,11 +94,12 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// type 4 = profile
         /// </param>
         /// <returns>return view with type</returns>
-        public ActionResult SearchUsers(int type)
+        public ActionResult SearchUsers(int type , int id)
         {
             if (type > 0)
             {
-                return RedirectToAction("next", "next", new { id = type });
+                ///send parameters to next page 
+                return RedirectToAction("next", "next", new { typeval = type , idval = id });
             }
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");
