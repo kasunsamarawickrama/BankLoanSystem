@@ -63,9 +63,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult editUser(User user)
         {
 
-            int editUser = 1;// edit user is hard coded
-            
-
+            int editUser = 1;// edit user is hard coded            
 
             // Update the data into database
             bool isUpdate = (new UserAccess()).updateUserDetails(editUser, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now,user.Password);
