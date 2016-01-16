@@ -11,7 +11,7 @@ using System.Data;
 
 namespace BankLoanSystem.DAL
 {
-    public class DashBoard
+    public class DashBoardAccess
     {
 
         public int GetUserLevelByUserId(int userId)

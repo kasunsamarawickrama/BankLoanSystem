@@ -1,4 +1,4 @@
-﻿using BankLoanSystemTFN.Models;
+﻿using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,9 +7,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace BankLoanSystemTFN.DAL
+namespace BankLoanSystem.DAL
 {
-    public class User
+    public class UserAccess
     {
         /// <summary>
         /// CreatedBy : MAM. IRFAN
@@ -22,7 +22,7 @@ namespace BankLoanSystemTFN.DAL
         /// </summary>
         /// <returns>User object</returns>
 
-        public UserModel retreiveUserByUserId(int id) {
+        public User retreiveUserByUserId(int id) {
 
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -37,7 +37,7 @@ namespace BankLoanSystemTFN.DAL
                         
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
-                        UserModel user = new UserModel();
+                        User user = new User();
                         
                         while (reader.Read())
                         {

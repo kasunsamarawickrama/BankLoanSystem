@@ -11,7 +11,7 @@ using System.Data;
 
 namespace BankLoanSystem.DAL
 {
-    public class Login
+    public class LoginAccess
     {
         public int CheckUserLogin(string username, string password)
         {

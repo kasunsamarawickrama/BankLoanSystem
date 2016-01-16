@@ -1,4 +1,4 @@
-﻿using BankLoanSystemTFN.Models;
+﻿using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,12 +8,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BankLoanSystemTFN.DAL
+namespace BankLoanSystem.DAL
 {
-    public class Branch
+    public class BranchAccess
     {
 
-        public List<BranchModel> getBranches(int companyId) {
+        public List<Branch> getBranches(int companyId) {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -28,12 +28,12 @@ namespace BankLoanSystemTFN.DAL
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
 
-                        List<BranchModel> branchesLists = new List<BranchModel>();
+                        List<Branch> branchesLists = new List<Branch>();
                         
 
                         while (reader.Read())
                         {
-                            BranchModel branch = new BranchModel();
+                            Branch branch = new Branch();
                             branch.BranchId = int.Parse(reader["branch_id"].ToString());
                             branch.BranchName = reader["branch_name"].ToString();
                             branch.BranchCode = reader["branch_code"].ToString();
