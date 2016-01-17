@@ -7,19 +7,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        
         <hr /><p>All &nbsp</p>
         @Html.CheckBox("All", false)
         <table class="dl-horizontal">
 
-            @*<tr>
-                    <td>
-                        <b> @Html.DisplayNameFor(model => model.active) &nbsp &nbsp &nbsp </b>
-                    </td>
-                    <td>
-                        <b> @Html.DisplayNameFor(model => model.description)</b>
-                    </td>
-                </tr>*@
-
+           
             @for (var i=0; i< Model.Count;i++ )
             {
                 <tr>
@@ -40,13 +33,11 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Update" class="btn btn-default" />
 
-                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "ManageUsers", new { id = ViewBag.userId })'" class="btn btn-default" />
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "ManageUsers", new { userId = ViewBag.userId , editProfileOwnerId= ViewBag.ownerId })'" class="btn btn-default" />
             </div>
 
 
         </div>
     </div>
 }
-@*<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
+
