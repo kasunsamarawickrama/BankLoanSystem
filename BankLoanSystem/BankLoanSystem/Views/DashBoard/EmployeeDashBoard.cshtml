@@ -13,8 +13,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-
-        @Html.ActionLink("Create Company", "Login", "Login", new { id = Model.userId , type="employee"}, null)
+        @Html.ActionLink("Create Company", "Setup", "SetupCompany", new { id = Model.userId, type = "CompanyEmployee" }, null)
     </div>
 }
 

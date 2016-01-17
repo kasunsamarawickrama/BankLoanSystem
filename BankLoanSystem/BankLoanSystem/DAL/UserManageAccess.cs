@@ -10,7 +10,7 @@ using System.Web;
 
 namespace BankLoanSystem.DAL
 {
-    public class UserManage
+    public class UserManageAccess
     {
         /// <summary>
         /// CreatedBy:Piyumi
@@ -48,16 +48,17 @@ namespace BankLoanSystem.DAL
                             
                             user.createdBy = int.Parse(reader["created_by"].ToString());
                             user.createdByRole = getUserRole(user.createdBy);
-                            if (user.createdByRole == userRole)
+                            
+                            user.createdName = getUserNameById(user.createdBy);
+                            user.roleId = int.Parse(reader["role_id"].ToString());
+                            if ((user.createdByRole == userRole) && (userRole == user.roleId))
                             {
                                 user.isEdit = false;
                             }
-                            else
+                            else 
                             {
                                 user.isEdit = true;
                             }
-                            user.createdName = getUserNameById(user.createdBy);
-                            user.roleId = int.Parse(reader["role_id"].ToString());
                             UserList.Add(user);
                         }
 

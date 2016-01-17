@@ -8,11 +8,27 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-  
+
     <div class="form-horizontal">
-        @Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new { type = 4 ,id = Model.userId}, null)
+        @Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new {type = 4, id = Model.userId}, null)
     </div>
-   
+
+    <br/>
+
+    if (Model.levelId == 1 || Model.levelId == 2)
+    {
+        <div class="form-horizontal">
+
+            @Html.ActionLink("Create User", "Create", "CreateUser", new { id = Model.userId, type = "" }, null)
+        </div>
+    }
+    if (Model.levelId == 1)
+    {
+        @Html.ActionLink("Create Branch", "", "", new { id = Model.userId, type = "" }, null)
+    }
+
+    <br/>
+
     if (Model.levelId == 1)
     {
         <div class="form-horizontal">
@@ -26,7 +42,7 @@
             @Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { type = 2, id = Model.userId }, null)
         </div>
     }
-    if (Model.levelId == 1 || Model.levelId == 2 || Model.levelId == 3)
+    if (Model.levelId == 1 || Model.levelId == 2)
     {
         <div class="form-horizontal">
             @Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { type = 3, id = Model.userId }, null)

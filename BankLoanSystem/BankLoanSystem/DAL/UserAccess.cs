@@ -48,7 +48,6 @@ namespace BankLoanSystem.DAL
                             user.PhoneNumber = reader["phone_no"].ToString();
                             user.Status = (bool)reader["status"];
                             user.CreatedDate = (DateTime)reader["created_date"];
-                            user.ModifiedDate = (DateTime)reader["modified_date"];
                             user.IsDelete = (bool)reader["is_delete"];
                             user.CreatedBy = int.Parse(reader["created_by"].ToString());
                             user.BranchId = int.Parse(reader["branch_id"].ToString());
@@ -213,7 +212,7 @@ namespace BankLoanSystem.DAL
         /// 
         /// Check 
         /// 
-        /// argument : companyName (string)
+        /// argument : userName (string)
         /// 
         /// </summary>
         /// <returns>true/false</returns>
@@ -263,7 +262,9 @@ namespace BankLoanSystem.DAL
                 command.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
                 command.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
                 command.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
+                command.Parameters.Add("@is_delete", SqlDbType.Bit).Value = user.IsDelete;
                 command.Parameters.Add("@created_by", SqlDbType.Int).Value = user.CreatedBy;
+                command.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
                 command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
                 command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
                 con.Open();
