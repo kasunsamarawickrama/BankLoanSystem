@@ -48,7 +48,6 @@ namespace BankLoanSystem.DAL
                             user.PhoneNumber = reader["phone_no"].ToString();
                             user.Status = (bool)reader["status"];
                             user.CreatedDate = (DateTime)reader["created_date"];
-                            user.ModifiedDate = (DateTime)reader["modified_date"];
                             user.IsDelete = (bool)reader["is_delete"];
                             user.CreatedBy = int.Parse(reader["created_by"].ToString());
                             user.BranchId = int.Parse(reader["branch_id"].ToString());
