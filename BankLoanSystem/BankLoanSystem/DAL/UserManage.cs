@@ -27,6 +27,7 @@ namespace BankLoanSystem.DAL
             {
                 try
                 {
+                    int userRole = getUserRole(userId);
                     using (SqlCommand cmd = new SqlCommand("spGetUserLoginDetailsByType", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -44,14 +45,64 @@ namespace BankLoanSystem.DAL
                             user = new UserLogin();
                             user.userId = int.Parse(reader["user_id"].ToString());
                             user.userName = reader["user_name"].ToString();
-                            user.password = reader["password"].ToString();
+                            
                             user.createdBy = int.Parse(reader["created_by"].ToString());
                             user.createdByRole = getUserRole(user.createdBy);
+                            if (user.createdByRole == userRole)
+                            {
+                                user.isEdit = false;
+                            }
+                            else
+                            {
+                                user.isEdit = true;
+                            }
+                            user.createdName = getUserNameById(user.createdBy);
                             user.roleId = int.Parse(reader["role_id"].ToString());
                             UserList.Add(user);
                         }
 
                         return UserList;
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public string getUserNameById(int createdBy)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetUserNameByUserId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = createdBy;
+
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        UserLogin dtl = new UserLogin();
+
+                        while (reader.Read())
+                        {
+
+                            dtl.userName = reader["user_name"].ToString();
+                           
+
+                        }
+
+                        return dtl.userName;
                     }
                 }
 
