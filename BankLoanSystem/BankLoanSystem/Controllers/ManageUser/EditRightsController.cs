@@ -73,6 +73,15 @@ namespace BankLoanSystem.Controllers.ManageUser
                 return RedirectToAction("editUser", "ManageUsers");
             }                
         }
+        /// <summary>
+        ///  CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/17
+        /// 
+        /// Updating the User Right String for a user Id
+        /// </summary>
+        /// <param name="rightList">List of Rights</param>
+        /// <returns></returns>
+        /// 
         [HttpPost]
         public ActionResult EditRights(IList<Right> rightList )
         {
