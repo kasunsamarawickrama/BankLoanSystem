@@ -1,36 +1,52 @@
-﻿@model BankLoanSystem.Models.Right
-
-@{
-    ViewBag.Title = "EditRights";
-}
+﻿@model IList<BankLoanSystem.Models.Right>
 
 <h2>EditRights</h2>
 
-<div>
-    <h4>Right</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        @foreach (var item in Model.rights)
-        {
-        <dt>
-            @Html.DisplayNameFor(model => model.active)
-        </dt>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.active)
-        </dd>
+    <div class="form-horizontal">
+        <hr /><p>All &nbsp</p>
+        @Html.CheckBox("All", false)
+        <table class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
+            @*<tr>
+                    <td>
+                        <b> @Html.DisplayNameFor(model => model.active) &nbsp &nbsp &nbsp </b>
+                    </td>
+                    <td>
+                        <b> @Html.DisplayNameFor(model => model.description)</b>
+                    </td>
+                </tr>*@
 
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-        }
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.rightId }) |
+            @for (var i=0; i< Model.Count;i++ )
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(x => x[i].rightId)
+                        @Html.HiddenFor(x => x[i].userId )
+                        @Html.HiddenFor(x => x[i].editorId )
+                        @Html.CheckBoxFor(x => x[i].active ) &nbsp &nbsp &nbsp
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x[i].description)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />
+
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "ManageUsers", new { id = ViewBag.userId })'" class="btn btn-default" />
+            </div>
+
+
+        </div>
+    </div>
+}
+@*<p>
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

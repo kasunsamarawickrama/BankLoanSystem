@@ -11,15 +11,71 @@ namespace BankLoanSystem.DAL
 {
     public class UserRightsAccess
     {
-
-        public List<Right> getRights(int userId)
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Get all rights in database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Right> getRights()
         {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("spRightsByUserId", con))
+                    using (SqlCommand cmd = new SqlCommand("spGetRights", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        List<Right> RightsLists = new List<Right>();
+
+                        while (reader.Read())
+                        {
+                            Right right = new Right();
+                            right.rightId = int.Parse(reader["id"].ToString());
+                            right.active = false;
+                            right.description = reader["description"].ToString();
+
+                            RightsLists.Add(right);
+
+                        }
+                        return RightsLists;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+        }
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/17
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Right> getRightsString(int userId)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetRightsStringByUserId", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
@@ -31,14 +87,67 @@ namespace BankLoanSystem.DAL
                         while (reader.Read())
                         {
                             Right right = new Right();
-                            right.rightId = int.Parse(reader["id"].ToString());
-                            right.active = true;
-                            right.description = reader["description"].ToString();
+                            right.userId = int.Parse(reader["user_id"].ToString());
+                            right.rightsPermissionString = reader["rights_id"].ToString();
 
                             RightsLists.Add(right);
 
                         }
                         return RightsLists;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+        }
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/17
+        /// 
+        /// </summary>
+        /// <param name="returnRight"></param>
+        /// <param name="writerId"></param>
+        /// <returns></returns>
+        public bool postNewRights(Right returnRight)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spUpdateRightsStringByUserId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@editor_id", SqlDbType.Int).Value = returnRight.userId;
+                        cmd.Parameters.Add("@permission", SqlDbType.VarChar).Value = returnRight.rightsPermissionString;
+                        cmd.Parameters.Add("@modified_user", SqlDbType.Int).Value = returnRight.editorId;
+                        cmd.Parameters.Add("@DateNow", SqlDbType.DateTime).Value = DateTime.Now;
+                        
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int checkUpdate = (int)returnParameter.Value;
+                        if (checkUpdate == 1)
+                        {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
 
                     }
                 }
