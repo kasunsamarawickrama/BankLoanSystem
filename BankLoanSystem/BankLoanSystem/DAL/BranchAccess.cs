@@ -13,6 +13,15 @@ namespace BankLoanSystem.DAL
     public class BranchAccess
     {
 
+        /// <summary>
+        /// CreatedBy : MAM. IRFAN
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Getting all branches
+        /// 
+        /// </summary>
+        /// <returns> a list contain all branches</returns>
+        /// 
         public List<Branch> getBranches(int companyId) {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))

@@ -48,8 +48,8 @@ namespace BankLoanSystem.Controllers
 
             }
 
-            ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);           
-            
+            ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);
+
             return View(editUser);
         }
 
@@ -75,21 +75,21 @@ namespace BankLoanSystem.Controllers
             if (currentUserId == editUserId)
             {// Update the data into database
                 ViewBag.isSame = true;
-                isUpdate = (new UserAccess()).updateProfileDetails(editUserId, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, DateTime.Now, user.Password);
+                isUpdate = (new UserAccess()).updateProfileDetails(editUserId, user.UneditUserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, DateTime.Now, user.Password);
             }
             else
             {   // Update the data into database
                 ViewBag.isSame = false;
-                isUpdate = (new UserAccess()).updateUserDetails(editUserId, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now, user.Password);
+                isUpdate = (new UserAccess()).updateUserDetails(editUserId, user.UneditUserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now, user.Password);
             }
 
 
 
-         
+
 
             if (isUpdate)
                 ViewBag.SuccessMsg = "Data Successfully Updated";
-            else { 
+            else {
                 ViewBag.ErrorMsg = "Updating failed";
                 return View(user);
             }
@@ -100,7 +100,8 @@ namespace BankLoanSystem.Controllers
 
             // insert all branches into selectedlist
             List<SelectListItem> branchSelectLists = new List<SelectListItem>();
-            foreach (Branch branch in branchesLists) {
+            foreach (Branch branch in branchesLists)
+            {
                 branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
 
             }
@@ -108,7 +109,7 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", user.BranchId);
 
-            
+
             return View(user);
         }
 
