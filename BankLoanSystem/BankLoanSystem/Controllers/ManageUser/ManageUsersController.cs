@@ -27,7 +27,12 @@ namespace BankLoanSystem.Controllers
         /// 
         public ActionResult editUser()
         {
-            int editUserId = 1;// edit user is hard coded
+            int currentUserId = 1;
+            int editUserId = 2;// edit user is hard coded
+            if (currentUserId == editUserId) { ViewBag.isSame = true; }
+            else { ViewBag.isSame = false; }
+
+
             int companyId;
 
             User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
@@ -63,10 +68,24 @@ namespace BankLoanSystem.Controllers
         public ActionResult editUser(User user)
         {
 
-            int editUser = 1;// edit user is hard coded            
+            int currentUserId = 1;
+            int editUserId = 2;// edit user is hard coded
 
-            // Update the data into database
-            bool isUpdate = (new UserAccess()).updateUserDetails(editUser, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now,user.Password);
+            bool isUpdate;
+            if (currentUserId == editUserId)
+            {// Update the data into database
+                ViewBag.isSame = true;
+                isUpdate = (new UserAccess()).updateProfileDetails(editUserId, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, DateTime.Now, user.Password);
+            }
+            else
+            {   // Update the data into database
+                ViewBag.isSame = false;
+                isUpdate = (new UserAccess()).updateUserDetails(editUserId, user.UserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now, user.Password);
+            }
+
+
+
+         
 
             if (isUpdate)
                 ViewBag.SuccessMsg = "Data Successfully Updated";
@@ -75,7 +94,7 @@ namespace BankLoanSystem.Controllers
                 return View(user);
             }
 
-            user = (new UserAccess()).retreiveUserByUserId(editUser);
+            user = (new UserAccess()).retreiveUserByUserId(editUserId);
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(user.Company_Id);
 
@@ -93,22 +112,5 @@ namespace BankLoanSystem.Controllers
             return View(user);
         }
 
-
-        /// <summary>
-        /// CreatedBy : MAM. IRFAN
-        /// CreatedDate: 2016/01/16
-        /// 
-        /// Check the User name Exists or not in anywhere otherthan his own
-        /// 
-        /// argument: UserName
-        /// 
-        /// </summary>
-        /// <returns>return json object with message</returns>
-        public JsonResult IsUserExists(string UserName)
-        {
-            int userId = 1; // user id is hard coded
-            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
-            return Json(!(new UserAccess()).isUserNameExistsAnyElse(userId,UserName), JsonRequestBehavior.AllowGet);
-        }
     }
 }
