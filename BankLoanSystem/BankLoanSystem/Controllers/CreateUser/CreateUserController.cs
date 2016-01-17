@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -7,6 +8,17 @@ namespace BankLoanSystem.Controllers.CreateUser
 {
     public class CreateUserController : Controller
     {
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Inserting user details
+        /// 
+        /// argument: None
+        /// 
+        /// </summary>
+        /// <returns>Return view</returns>
+
         // GET: CreateUser
         public ActionResult Create()
         {
@@ -15,11 +27,12 @@ namespace BankLoanSystem.Controllers.CreateUser
             int currUserRoleType = 1;
 
             //Restrict to create above user role 
-            ViewBag.CompanyEmployee = false;
+            ViewBag.CompanyEmployee = true;
+
+            RoleAccess ra = new RoleAccess();
+            List<UserRole> roleList = ra.GetAllUserRoles();
             if (ViewBag.CompanyEmployee == false)
             {
-                RoleAccess ra = new RoleAccess();
-                List<UserRole> roleList = ra.GetAllUserRoles();
                 List<UserRole> tempRoleList = new List<UserRole>();
 
                 for (int i = roleList[currUserRoleType - 1].RoleId; i <= roleList.Count && currUserRoleType != 3; i++)
@@ -35,6 +48,10 @@ namespace BankLoanSystem.Controllers.CreateUser
                 //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
                 ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
             }
+            else
+            {
+                ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName", roleList[0].RoleId);
+            }
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
@@ -45,13 +62,30 @@ namespace BankLoanSystem.Controllers.CreateUser
             return View();
         }
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Inserting user details
+        /// 
+        /// argument: User
+        /// 
+        /// </summary>
+        /// <returns>Data Successfully inserted! / Failed to insert!</returns>
         [HttpPost]
         public ActionResult Create(User user)
         {
             UserAccess ua = new UserAccess();
-            ua.InsertUser(user);
+            int res = ua.InsertUser(user);
 
-
+            if (res == 1)
+            {
+                ViewBag.SuccessMsg = "Data Successfully inserted!";
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to insert!";
+            }
 
             //Hard corded
             int companyId = 2;
@@ -87,7 +121,16 @@ namespace BankLoanSystem.Controllers.CreateUser
             return View();
         }
 
-
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Check weather user name already exist
+        /// 
+        /// argument: userName(string)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
         public JsonResult IsUserNameExists(string userName)
         {
             //check user name is already exist.  
