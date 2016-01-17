@@ -13,7 +13,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult UserList(int? typeval, int? idval)
         {
 
-            UserManage obj1 = new UserManage();
+            UserManageAccess obj1 = new UserManageAccess();
             int role = obj1.getUserRole(idval.Value);
             if (typeval.HasValue && idval.HasValue) {
 
@@ -26,7 +26,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult Details(int id)
         {
 
-            UserManage obj1 = new UserManage();
+            UserManageAccess obj1 = new UserManageAccess();
             if (id != 0)
             {
                 var ret = obj1.getUserById(id);

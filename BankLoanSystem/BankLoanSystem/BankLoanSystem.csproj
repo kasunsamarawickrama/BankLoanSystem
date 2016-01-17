@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
@@ -156,7 +157,7 @@
     <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="DAL\RoleAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
-    <Compile Include="DAL\UserManage.cs" />
+    <Compile Include="DAL\UserManageAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -197,6 +198,7 @@
     <Content Include="Views\CreateUser\CreateFirstSuperUser.cshtml" />
     <Content Include="Views\UserManagement\Details.cshtml" />
     <Content Include="Views\UserManagement\UserList.cshtml" />
+    <Content Include="Views\CreateBranch\CreateBranch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
