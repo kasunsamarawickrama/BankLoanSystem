@@ -32,44 +32,29 @@ namespace BankLoanSystem.Controllers.CreateUser
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
 
-            //BranchAccess ba = new BranchAccess();
-            //int companyId = ba.GetCompanyIdByBranchId(curUser.BranchId);
-
-            ViewBag.CompanyEmployee = false;
-
-            if (type == "employee")
-            {
-                ViewBag.CompanyEmployee = true;
-            }
-
             //Restrict to create above user role 
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
-            if (ViewBag.CompanyEmployee == false)
-            {
-                List<UserRole> tempRoleList = new List<UserRole>();
+            List<UserRole> tempRoleList = new List<UserRole>();
 
-                for (int i = roleList[ViewBag.CurrUserRoleType - 1].RoleId; i <= roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
-                {
-                    UserRole tempRole = new UserRole()
-                    {
-                        RoleId = roleList[i-1].RoleId,
-                        RoleName = roleList[i-1].RoleName
-                    };
-                    tempRoleList.Add(tempRole);
-                }
-                _createById = curUser.UserId;
-                //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
-                ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
-            }
-            else
+            for (int i = roleList[ViewBag.CurrUserRoleType - 1].RoleId; i <= roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
-                ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName", roleList[0].RoleId);
+                UserRole tempRole = new UserRole()
+                {
+                    RoleId = roleList[i - 1].RoleId,
+                    RoleName = roleList[i - 1].RoleName
+                };
+                tempRoleList.Add(tempRole);
             }
+            _createById = curUser.UserId;
+            //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
+            ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-            
+
+            //if current user is admin restrict to creat user for another branch
             if (ViewBag.CurrUserRoleType == 2)
             {
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName", curUser.BranchId);
@@ -114,26 +99,22 @@ namespace BankLoanSystem.Controllers.CreateUser
             int currUserRoleType = 1;
 
             //Restrict to create above user role 
-            ViewBag.CompanyEmployee = false;
-            if (ViewBag.CompanyEmployee == false)
+            RoleAccess ra = new RoleAccess();
+            List<UserRole> roleList = ra.GetAllUserRoles();
+            List<UserRole> tempRoleList = new List<UserRole>();
+
+            for (int i = roleList[currUserRoleType - 1].RoleId; i <= roleList.Count && currUserRoleType != 3; i++)
             {
-                RoleAccess ra = new RoleAccess();
-                List<UserRole> roleList = ra.GetAllUserRoles();
-                List<UserRole> tempRoleList = new List<UserRole>();
-
-                for (int i = roleList[currUserRoleType - 1].RoleId; i <= roleList.Count && currUserRoleType != 3; i++)
+                UserRole tempRole = new UserRole()
                 {
-                    UserRole tempRole = new UserRole()
-                    {
-                        RoleId = roleList[i - 1].RoleId,
-                        RoleName = roleList[i - 1].RoleName
-                    };
-                    tempRoleList.Add(tempRole);
-                }
-
-                //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
-                ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+                    RoleId = roleList[i - 1].RoleId,
+                    RoleName = roleList[i - 1].RoleName
+                };
+                tempRoleList.Add(tempRole);
             }
+
+            //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
+            ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
@@ -158,5 +139,21 @@ namespace BankLoanSystem.Controllers.CreateUser
             //check user name is already exist.  
             return Json((new UserAccess()).IsUniqueUserName(userName), JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/17
+        /// 
+        /// Create first super admin
+        /// 
+        /// argument: company(Company)
+        /// 
+        /// </summary>
+        /// <returns>Return to view create first super admin</returns>
+        public ActionResult CreateFirstSuperUser(Company company)
+        {
+            return View();
+        }
+
     }
 }
