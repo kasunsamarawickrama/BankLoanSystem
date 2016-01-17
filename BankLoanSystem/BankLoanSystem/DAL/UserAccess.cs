@@ -206,5 +206,70 @@ namespace BankLoanSystem.DAL
             }
 
         }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// Check 
+        /// 
+        /// argument : companyName (string)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
+        public bool IsUniqueUserName(string userName)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spIsUniqueUserName", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
+                con.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Insert User details
+        /// 
+        /// argument : user (User)
+        /// 
+        /// </summary>
+        /// <returns>1</returns>
+
+        public void InsertUser(User user)
+        {
+            using (
+                var con =
+                    new SqlConnection(
+                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spInsertUser", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
+                command.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
+                command.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
+                command.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = user.LastName;
+                command.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
+                command.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
+                command.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
+                command.Parameters.Add("@created_by", SqlDbType.Int).Value = user.CreatedBy;
+                command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
+                command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
+                con.Open();
+                int res = command.ExecuteNonQuery();
+            }
+        }
+
     }
 }
