@@ -8,6 +8,8 @@ namespace BankLoanSystem.Controllers.CreateUser
 {
     public class CreateUserController : Controller
     {
+        private static int _createById;
+
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/16
@@ -20,22 +22,34 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// <returns>Return view</returns>
 
         // GET: CreateUser
-        public ActionResult Create()
+        public ActionResult Create(int id, string type)
         {
             //Hard corded
-            int companyId = 2;
-            int currUserRoleType = 1;
+            //int companyId = 2;
+            //int userId = 1;
+
+            UserAccess ua = new UserAccess();
+            User curUser = ua.retreiveUserByUserId(id);
+            ViewBag.CurrUserRoleType = curUser.RoleId;
+
+            //BranchAccess ba = new BranchAccess();
+            //int companyId = ba.GetCompanyIdByBranchId(curUser.BranchId);
+
+            ViewBag.CompanyEmployee = false;
+
+            if (type == "employee")
+            {
+                ViewBag.CompanyEmployee = true;
+            }
 
             //Restrict to create above user role 
-            ViewBag.CompanyEmployee = true;
-
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             if (ViewBag.CompanyEmployee == false)
             {
                 List<UserRole> tempRoleList = new List<UserRole>();
 
-                for (int i = roleList[currUserRoleType - 1].RoleId; i <= roleList.Count && currUserRoleType != 3; i++)
+                for (int i = roleList[ViewBag.CurrUserRoleType - 1].RoleId; i <= roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
                 {
                     UserRole tempRole = new UserRole()
                     {
@@ -44,7 +58,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                     };
                     tempRoleList.Add(tempRole);
                 }
-
+                _createById = curUser.UserId;
                 //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
                 ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
             }
@@ -54,10 +68,16 @@ namespace BankLoanSystem.Controllers.CreateUser
             }
 
             // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
-            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
             
+            if (ViewBag.CurrUserRoleType == 2)
+            {
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName", curUser.BranchId);
+            }
+            else
+            {
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+            }
 
             return View();
         }
@@ -75,6 +95,8 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpPost]
         public ActionResult Create(User user)
         {
+            user.CreatedBy = _createById;
+            user.IsDelete = false;
             UserAccess ua = new UserAccess();
             int res = ua.InsertUser(user);
 
