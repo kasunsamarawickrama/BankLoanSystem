@@ -6,6 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BankLoanSystem.Models
 {
+    /// <summary>
+    ///  CreatedBy : Kasun Smarawickrama
+    /// CreatedDate: 2016/01/16
+    /// 
+    /// </summary>
     public class Right
     {
         public int rightId { get; set; }

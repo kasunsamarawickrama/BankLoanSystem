@@ -18,7 +18,8 @@ namespace BankLoanSystem.DAL
         /// Get all rights in database
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <returns>Right list</returns>
+        /// 
         public List<Right> getRights()
         {
 
@@ -65,9 +66,12 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/17
+        /// 
+        /// Get user permission permission string which contain rightId's
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <param name="userId"> Profile edit users id</param>
+        /// <returns>Right List,  but first Right contain the string, If List have more than 1 value it is going to be an unAuthorize one</returns>
+        /// 
         public List<Right> getRightsString(int userId)
         {
 
@@ -115,10 +119,12 @@ namespace BankLoanSystem.DAL
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/17
         /// 
+        /// Rew Right string Updating
         /// </summary>
         /// <param name="returnRight"></param>
         /// <param name="writerId"></param>
-        /// <returns></returns>
+        /// <returns>boolian value</returns>
+        /// 
         public bool postNewRights(Right returnRight)
         {
 
