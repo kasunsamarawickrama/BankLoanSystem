@@ -24,10 +24,6 @@ namespace BankLoanSystem.Controllers.CreateUser
         // GET: CreateUser
         public ActionResult Create(int id, string type)
         {
-            //Hard corded
-            //int companyId = 2;
-            //int userId = 1;
-
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
@@ -47,6 +43,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 tempRoleList.Add(tempRole);
             }
             _createById = curUser.UserId;
+
             //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 

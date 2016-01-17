@@ -78,6 +78,46 @@ namespace BankLoanSystem.DAL
             return true;
         }
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/17
+        /// 
+        /// 
+        /// 
+        /// argument : companyName (string)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
+        public string GetLatestCompanyCode(string prefix)
+        {
+            string latestCompanyCode = "";
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spGetCompanyCodebyCode", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@company_code_prefix", SqlDbType.NVarChar).Value = prefix;
+                con.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        latestCompanyCode = reader["company_code"].ToString();
+                    }
+                }
+            }
+            return latestCompanyCode;
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/17
+        /// 
+        /// Check company name is already exists in thd database
+        /// 
+        /// argument : companyName (string)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
         public void CreateCompany()
         {
             

@@ -1,6 +1,5 @@
 ﻿using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
-using Employee.Controller;
 using System;
 using System.Collections.Generic;
 using System.Linq;

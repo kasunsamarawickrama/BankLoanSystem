@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 
@@ -31,6 +32,10 @@ namespace BankLoanSystem.Controllers.SetupCompany
             //List<CompanyType> ctList = ca.GetAllCompanyType();
             //ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
             //return View();
+
+            //generate company code 
+            GeneratesCode gc = new GeneratesCode();
+            gc.GenerateCompanyCode(company.CompanyName);
 
             return RedirectToAction("CreateFirstSuperUser", "CreateUser", new {model = company});
         }
