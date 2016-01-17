@@ -33,5 +33,7 @@ namespace BankLoanSystem.Models
         public int roleId { get; set; }
         public bool isEdit { get; set; }
 
+        [Display(Name = "Created Person")]
+        public string createdName { get; set; }
     }
 }

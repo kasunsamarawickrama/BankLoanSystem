@@ -145,9 +145,9 @@
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
-    <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
     <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
+    <Compile Include="Controllers\UserManagement\UserManagement.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
@@ -161,6 +161,8 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
+    <Compile Include="Models\GetDetails.cs" />
+    <Compile Include="Models\Right.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
@@ -186,6 +188,9 @@
     <Content Include="Views\ManageUsers\editUser.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\CreateUser\Create.cshtml" />
+    <Content Include="Views\EditRights\EditRights.cshtml" />
+    <Content Include="Views\UserManagement\Details.cshtml" />
+    <Content Include="Views\UserManagement\UserList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

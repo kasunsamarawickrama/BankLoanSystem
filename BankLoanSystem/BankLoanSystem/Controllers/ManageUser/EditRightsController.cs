@@ -18,11 +18,12 @@ namespace BankLoanSystem.Controllers.ManageUser
 
         public ActionResult EditRights(int? userId)
         {
+            userId = 1;
             if (userId.HasValue)
             {
                 List<Right> rights = (new UserRightsAccess()).getRights(userId.Value);
 
-                return View();
+                return View(rights);
             }
             else
             {
