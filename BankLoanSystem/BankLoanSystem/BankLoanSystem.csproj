@@ -142,23 +142,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
     <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
+    <Compile Include="Controllers\UserManagement\UserManagement.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
+    <Compile Include="DAL\RoleAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
+    <Compile Include="DAL\UserManage.cs" />
+    <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
+    <Compile Include="Models\GetDetails.cs" />
+    <Compile Include="Models\Right.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +187,10 @@
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\ManageUsers\editUser.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
+    <Content Include="Views\CreateUser\Create.cshtml" />
+    <Content Include="Views\EditRights\EditRights.cshtml" />
+    <Content Include="Views\UserManagement\Details.cshtml" />
+    <Content Include="Views\UserManagement\UserList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
