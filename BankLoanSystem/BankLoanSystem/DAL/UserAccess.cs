@@ -248,7 +248,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>1</returns>
 
-        public void InsertUser(User user)
+        public int InsertUser(User user)
         {
             using (
                 var con =
@@ -267,7 +267,7 @@ namespace BankLoanSystem.DAL
                 command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
                 command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
                 con.Open();
-                int res = command.ExecuteNonQuery();
+                return command.ExecuteNonQuery();
             }
         }
 
