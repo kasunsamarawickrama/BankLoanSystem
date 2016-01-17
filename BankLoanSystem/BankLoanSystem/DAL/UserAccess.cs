@@ -22,7 +22,8 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>User object</returns>
 
-        public User retreiveUserByUserId(int id) {
+        public User retreiveUserByUserId(int id)
+        {
 
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -34,11 +35,11 @@ namespace BankLoanSystem.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-                        
+
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
                         User user = new User();
-                        
+
                         while (reader.Read())
                         {
                             user.UserId = int.Parse(reader["user_id"].ToString());
@@ -48,11 +49,13 @@ namespace BankLoanSystem.DAL
                             user.PhoneNumber = reader["phone_no"].ToString();
                             user.Status = (bool)reader["status"];
                             user.CreatedDate = (DateTime)reader["created_date"];
+
                             user.IsDelete = (bool)reader["is_delete"];
                             user.CreatedBy = int.Parse(reader["created_by"].ToString());
                             user.BranchId = int.Parse(reader["branch_id"].ToString());
                             user.RoleId = int.Parse(reader["role_id"].ToString());
                             user.UserName = reader["user_name"].ToString();
+                            user.UneditUserName = reader["user_name"].ToString();
                             user.Password = reader["password"].ToString();
                             user.Company_Id = int.Parse(reader["company_id"].ToString());
 
@@ -63,10 +66,10 @@ namespace BankLoanSystem.DAL
                 }
 
 
-                catch (Exception ex )
+                catch (Exception ex)
                 {
-                   throw ex;
-                    
+                    throw ex;
+
                 }
                 finally
                 {
@@ -75,21 +78,21 @@ namespace BankLoanSystem.DAL
             }
 
 
-            
+
         }
 
         /// <summary>
         /// CreatedBy : MAM. IRFAN
         /// CreatedDate: 2016/01/13
         /// 
-        /// update User Details By userName, firstName, lastName, email, phone, isActive, branchId
+        /// update User Details userName, firstName, lastName, email, phone, isActive, branchId, password
         /// 
         /// argument : user_id (int)
         /// 
         /// </summary>
         /// <returns>User object</returns>
 
-        public bool updateUserDetails(int userId, string userName , string firstName, string lastName, string email , string phone , bool isActive, int branchId, DateTime modifiedDate, string password )
+        public bool updateUserDetails(int userId, string userName, string firstName, string lastName, string email, string phone, bool isActive, int branchId, DateTime modifiedDate, string password)
         {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -112,7 +115,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
 
                         con.Open();
-                        cmd.ExecuteNonQuery();
+
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
@@ -149,7 +152,16 @@ namespace BankLoanSystem.DAL
             return true;
         }
 
-
+        /// <summary>
+        /// CreatedBy : MAM. IRFAN
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// update User Details  userName, firstName, lastName, email, phone, password
+        /// 
+        /// argument : user_id (int)
+        /// 
+        /// </summary>
+        /// <returns>User object</returns>
 
 
         public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email, string phone, DateTime modifiedDate, string password)
@@ -172,7 +184,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
 
                         con.Open();
-                        cmd.ExecuteNonQuery();
+
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
@@ -270,6 +282,61 @@ namespace BankLoanSystem.DAL
                 con.Open();
                 return command.ExecuteNonQuery();
             }
+        }
+
+
+        /// <summary>
+        /// CreatedBy : irfan
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// get user id using email
+        /// 
+        /// argument : email (string)
+        /// 
+        /// </summary>
+        /// <returns>1</returns>
+        public int getUserId(string email)
+        {
+
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetUserIdByemail", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+
+                        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        int userId = 0;
+
+                        while (reader.Read())
+                        {
+                            userId = int.Parse(reader["user_id"].ToString());
+                        }
+
+
+                        return userId;
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
         }
 
     }
