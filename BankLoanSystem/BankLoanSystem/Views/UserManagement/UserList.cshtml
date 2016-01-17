@@ -4,12 +4,12 @@
 
 
 <h2>Search</h2>
-@Html.ActionLink("Create User", "Create User")
+
 <table class="table">
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.userId)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.userName)
         </th>
@@ -22,9 +22,9 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.userId)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.userName)
             </td>
@@ -39,6 +39,14 @@
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             }
+            else{
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.userId }) 
+
+            </td>
+            }
+            
             
            
         </tr>
