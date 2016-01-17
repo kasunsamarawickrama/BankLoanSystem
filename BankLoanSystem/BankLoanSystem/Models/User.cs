@@ -17,6 +17,7 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "User Name")]
+        [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
         public string UserName { get; set; }
 
         [Required]
