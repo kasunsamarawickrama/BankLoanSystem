@@ -111,7 +111,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             }
             else if (type == 6)
             {
-                Session["type"] = "CompanyEmployee";
+                Session["type"] = "";
                 Session["id"] = id;
 
                 return RedirectToAction("CreateBranch", "CreateBranch");

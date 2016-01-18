@@ -46,7 +46,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             var userId= (int)Session["userId"];
             int ownerId = (int)Session["editUserId"];
 
-            if (userId==1)
+            if (userId > 0)
             {
                 var access = new UserRightsAccess();
 
@@ -64,18 +64,18 @@ namespace BankLoanSystem.Controllers.ManageUser
                     {
                         string[] charactors = permission.Split(',');
 
-                        List<int> intArray = new List<int>();
+                        List<string> intArray = new List<string>();
 
                         foreach (var charactor in charactors)
                         {
-                            intArray.Add(int.Parse(charactor));
+                            intArray.Add(charactor);
                         }
 
                         foreach (var chr in intArray)
                         {
                             foreach (var obj in rights)
                             {
-                                if (obj.rightId == chr)
+                                if (string.Compare(obj.rightId, chr) == 0)
                                 {
                                     obj.active = true;
                                 }
@@ -125,7 +125,7 @@ namespace BankLoanSystem.Controllers.ManageUser
         public ActionResult EditRights(IList<Right> rightList )
         {
             
-            List<int> returnIntArray = new List<int>();
+            List<string> returnIntArray = new List<string>();
 
             for (int i=0; i< rightList.Count;)
             {
