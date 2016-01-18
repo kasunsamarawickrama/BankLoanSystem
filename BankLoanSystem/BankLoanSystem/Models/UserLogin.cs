@@ -35,5 +35,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Created Person")]
         public string createdName { get; set; }
+
+        public int loginId { get; set; }
     }
 }

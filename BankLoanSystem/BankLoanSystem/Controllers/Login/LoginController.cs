@@ -23,11 +23,14 @@ namespace BankLoanSystem.Controllers
             {
                 var loginlbl = new UserLogin();
                 loginlbl.lbl = lbl;
+                Session["userId"] = "";
                 return View(loginlbl);
             }
             else {
+                Session["userId"] = "";
                 return View();
             }
+            
         }
 
         /// <summary>
@@ -67,7 +70,8 @@ namespace BankLoanSystem.Controllers
 
             if (userId > 0)
             {
-                return RedirectToAction("UserDashBoard", "DashBoard", new { id = userId });
+                Session["userId"] = userId;
+                return RedirectToAction("UserDashBoard", "DashBoard");
             }
             else {
 
@@ -91,7 +95,8 @@ namespace BankLoanSystem.Controllers
 
             if (userId > 0)
             {
-                return RedirectToAction("EmployeeDashBoard", "DashBoard", new { id = userId });
+                Session["employeeId"] = userId;
+                return RedirectToAction("EmployeeDashBoard", "DashBoard");
             }
             else {
                 return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect username or password" });

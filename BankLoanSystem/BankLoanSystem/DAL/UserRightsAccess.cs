@@ -12,7 +12,7 @@ namespace BankLoanSystem.DAL
     public class UserRightsAccess
     {
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/16
         /// 
         /// Get all rights in database
@@ -64,7 +64,7 @@ namespace BankLoanSystem.DAL
 
         }
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/17
         /// 
         /// Get user permission permission string which contain rightId's
@@ -116,7 +116,7 @@ namespace BankLoanSystem.DAL
 
         }
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/17
         /// 
         /// Rew Right string Updating

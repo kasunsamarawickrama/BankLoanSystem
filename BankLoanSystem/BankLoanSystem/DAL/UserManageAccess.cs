@@ -40,9 +40,11 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
                         List<UserLogin> UserList = new List<UserLogin>();
                         UserLogin user;
+                        
                         while (reader.Read())
                         {
                             user = new UserLogin();
+                            user.loginId = userId;
                             user.userId = int.Parse(reader["user_id"].ToString());
                             user.userName = reader["user_name"].ToString();
                             
@@ -70,6 +72,53 @@ namespace BankLoanSystem.DAL
                 catch (Exception ex)
                 {
                     throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public bool deleteUser(int id)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spDeleteUser", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
+                        
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                        cmd.ExecuteNonQuery();
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
                 }
                 finally
                 {
@@ -150,10 +199,18 @@ namespace BankLoanSystem.DAL
                             dtl.last_name = reader["last_name"].ToString();
                             dtl.email = reader["email"].ToString();
                             dtl.phone_no = reader["phone_no"].ToString();
-                            dtl.status = reader["status"].ToString();
-                            dtl.created_date = reader["created_date"].ToString();
-                            dtl.modified_date = reader["modified_date"].ToString();
-                            dtl.is_delete = bool.Parse(reader["is_delete"].ToString());
+                            if (bool.Parse(reader["status"].ToString())) {
+
+                                dtl.status = "Active";
+                            }
+                            else
+                            {
+                                dtl.status = "Not Active";
+                            }
+                            DateTime day = DateTime.Parse(reader["created_date"].ToString());
+                            dtl.created_date = day.ToShortDateString();
+                            dtl.modified_date = DateTime.Parse(reader["modified_date"].ToString());
+                           
                             dtl.role_name = reader["role_name"].ToString();
                             dtl.branch_name = reader["branch_name"].ToString();
 
