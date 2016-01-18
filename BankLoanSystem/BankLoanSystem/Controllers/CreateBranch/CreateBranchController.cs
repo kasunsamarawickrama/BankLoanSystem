@@ -29,9 +29,15 @@ namespace BankLoanSystem.Controllers.CreateBranch
         {
             if (_type == "CompanyEmployee")
             {
+                
+
+
                 CompanyBranchModel comBra = new CompanyBranchModel();
                 comBra.Company = _company;
                 comBra.MainBranch = branch;
+
+                BranchAccess ba = new BranchAccess();
+                comBra.MainBranch.BranchCode = ba.createBranchCode(comBra.Company.CompanyCode);
                 TempData["CompanyMainBranch"] = comBra;
                 return RedirectToAction("CreateFirstSuperUser", "CreateUser");
             }

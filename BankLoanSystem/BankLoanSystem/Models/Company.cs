@@ -13,8 +13,6 @@ namespace BankLoanSystem.Models
         [Remote("IsCompanyNameExists", "SetupCompany", ErrorMessage = "Company Name already in use")]
         public string CompanyName { get; set; }
 
-        [Required]
-        [Display(Name = "Company Code")]
         public string CompanyCode { get; set; }
 
         [Required]

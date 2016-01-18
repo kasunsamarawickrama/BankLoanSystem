@@ -9,6 +9,7 @@ namespace BankLoanSystem.Controllers.CreateUser
     public class CreateUserController : Controller
     {
         private static int _createById;
+        private static CompanyBranchModel _comBranchModel = null;
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -141,14 +142,35 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/17
         /// 
-        /// Create first super admin
+        /// Create first super admin view
         /// 
-        /// argument: company(Company)
+        /// argument: None
         /// 
         /// </summary>
         /// <returns>Return to view create first super admin</returns>
-        public ActionResult CreateFirstSuperUser(Company company)
+        [HttpGet]
+        public ActionResult CreateFirstSuperUser()
         {
+            CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
+            _comBranchModel = companyBranchModel;
+
+            return View();
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// Create first super admin
+        /// 
+        /// argument: user(User)
+        /// 
+        /// </summary>
+        /// <returns>Return to view create first super admin</returns>
+        public ActionResult CreateFirstSuperUser(User user)
+        {
+            CompanyAccess ca = new CompanyAccess();
+            ca.SetupCompany(_comBranchModel, user);
             return View();
         }
 
