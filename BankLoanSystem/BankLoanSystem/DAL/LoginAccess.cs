@@ -14,7 +14,7 @@ namespace BankLoanSystem.DAL
     public class LoginAccess
     {
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// user login authentication
@@ -61,7 +61,7 @@ namespace BankLoanSystem.DAL
             }
         }
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// check employee authentication

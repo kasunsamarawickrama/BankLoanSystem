@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -150,7 +151,7 @@
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
     <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
     <Compile Include="Controllers\SetupCompany\SetupCompanyController.cs" />
-    <Compile Include="Controllers\UserManagement\UserManagement.cs" />
+    <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\CompanyAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
@@ -165,6 +166,7 @@
     </Compile>
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CompanyBranchModel.cs" />
     <Compile Include="Models\CompanyType.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\Email.cs" />
@@ -201,8 +203,9 @@
     <Content Include="Views\UserManagement\Details.cshtml" />
     <Content Include="Views\UserManagement\UserList.cshtml" />
     <Content Include="Views\CreateBranch\CreateBranch.cshtml" />
-    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
+    <Content Include="Views\UserManagement\Delete.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

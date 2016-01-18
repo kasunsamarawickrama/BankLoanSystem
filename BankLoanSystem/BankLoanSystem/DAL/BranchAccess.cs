@@ -103,13 +103,13 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = branch.BranchCreatedDate;
                         cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = branch.BranchCompany;
                         con.Open();
-                        cmd.ExecuteNonQuery();
+                        
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
                         returnParameter.Direction = ParameterDirection.ReturnValue;
-
                         cmd.ExecuteNonQuery();
+
                         int countVal = (int)returnParameter.Value;
 
                         if (countVal == 1)
@@ -188,8 +188,14 @@ namespace BankLoanSystem.DAL
         {
             try
             {
+                string branchCode = "";
                 int latestBranchId = getLatestBranchId(companyCode);
-                string branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
+                
+                if ((latestBranchId>=0)&&(latestBranchId < 9))
+                {
+                    branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
+                }
+                branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
                 return branchCode;
             }
             
@@ -224,8 +230,8 @@ namespace BankLoanSystem.DAL
 
                         while (reader.Read())
                         {
-                            
-                            topId = int.Parse(reader["branch_id"].ToString());
+                           
+                                topId = int.Parse(reader["branch_id"].ToString());
 
                         }
                         return topId;

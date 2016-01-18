@@ -9,6 +9,7 @@ namespace BankLoanSystem.Controllers.CreateUser
     public class CreateUserController : Controller
     {
         private static int _createById;
+        private static CompanyBranchModel _comBranchModel = null;
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -22,12 +23,12 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// <returns>Return view</returns>
 
         // GET: CreateUser
-        public ActionResult Create(int id, string type)
+        public ActionResult Create()
         {
-            //Hard corded
-            //int companyId = 2;
-            //int userId = 1;
-
+            if (Session["id"] == null)
+                return RedirectToAction("UserLogin", "Login");
+            int id = (int) Session["id"];
+            string type = (string) Session["type"];
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
@@ -47,6 +48,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 tempRoleList.Add(tempRole);
             }
             _createById = curUser.UserId;
+
             //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
@@ -144,14 +146,35 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/17
         /// 
-        /// Create first super admin
+        /// Create first super admin view
         /// 
-        /// argument: company(Company)
+        /// argument: None
         /// 
         /// </summary>
         /// <returns>Return to view create first super admin</returns>
-        public ActionResult CreateFirstSuperUser(Company company)
+        [HttpGet]
+        public ActionResult CreateFirstSuperUser()
         {
+            CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
+            _comBranchModel = companyBranchModel;
+
+            return View();
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// Create first super admin
+        /// 
+        /// argument: user(User)
+        /// 
+        /// </summary>
+        /// <returns>Return to view create first super admin</returns>
+        public ActionResult CreateFirstSuperUser(User user)
+        {
+            CompanyAccess ca = new CompanyAccess();
+            ca.SetupCompany(_comBranchModel, user);
             return View();
         }
 

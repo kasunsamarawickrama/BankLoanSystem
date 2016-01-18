@@ -81,16 +81,24 @@
 
                 </div>
             </div>
+            
         }
+      
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
+
                 <input type="submit" value="Update" class="btn btn-default" />
 
                 <input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "ManageUsers")'" class="btn btn-default" />
+
+                
+                &nbsp;&nbsp;&nbsp; @Html.ActionLink("Edit Rights ->>", "editRights", "ManageUsers")
+                
             </div>
 
 
         </div>
+       
     </div>
 }
 

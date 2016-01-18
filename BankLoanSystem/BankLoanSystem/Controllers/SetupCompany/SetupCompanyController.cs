@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 
@@ -8,8 +9,11 @@ namespace BankLoanSystem.Controllers.SetupCompany
     public class SetupCompanyController : Controller
     {
         // GET: SetupCompany
-        public ActionResult Setup(int id, string type)
+        public ActionResult Setup()
         {
+            if(Session["type"] == null)
+                return RedirectToAction("UserLogin", "Login");
+            var type = (string)Session["type"];
             //if (type == "CompanyEmployee")
             //{
                     
@@ -32,7 +36,12 @@ namespace BankLoanSystem.Controllers.SetupCompany
             //ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
             //return View();
 
-            return RedirectToAction("CreateFirstSuperUser", "CreateUser", new {model = company});
+            //generate company code 
+            GeneratesCode gc = new GeneratesCode();
+            company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+
+            TempData["Company"] = company;
+            return RedirectToAction("CreateBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
         }
 
         /// <summary>

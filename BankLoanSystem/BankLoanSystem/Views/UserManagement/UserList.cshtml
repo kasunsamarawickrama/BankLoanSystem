@@ -1,9 +1,11 @@
 ﻿
 @model IEnumerable<BankLoanSystem.Models.UserLogin>
 
+@{
+    ViewBag.Title = "View";
+}
 
-
-<h2>Search</h2>
+<h2>View</h2>
 
 <table class="table">
     <tr>
@@ -35,8 +37,8 @@
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.userId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.userId }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Details", "Detailsset", new { id = item.userId }) |
+                    @Html.ActionLink("Delete", "PrevDelete", new { id=item.userId,lId = item.loginId,item.roleId }, new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
                 </td>
             }
             else{

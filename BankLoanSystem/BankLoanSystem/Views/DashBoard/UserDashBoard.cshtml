@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new {type = 4, id = Model.userId}, null)
+        @Html.ActionLink("My Profile", "Details", "UserManagement", new {type = 4, id = Model.userId}, null)
     </div>
 
     <br/>
@@ -19,12 +19,12 @@
     {
         <div class="form-horizontal">
 
-            @Html.ActionLink("Create User", "Create", "CreateUser", new { id = Model.userId, type = "" }, null)
+            @Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { id = Model.userId, type = 5 }, null)
         </div>
     }
     if (Model.levelId == 1)
     {
-        @Html.ActionLink("Create Branch", "", "", new { id = Model.userId, type = "" }, null)
+        @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { id = Model.userId, type = 6 }, null)
     }
 
     <br/>
