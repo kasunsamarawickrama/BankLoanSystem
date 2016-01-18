@@ -21,7 +21,7 @@ namespace BankLoanLocal.Models
         [Display(Name = "Created Date")]
         public string created_date { get; set; }
         [Display(Name = "Modified Date")]
-        public string modified_date { get; set; }
+        public DateTime modified_date { get; set; }
         [Display(Name = "Is Delete")]
         public bool is_delete { get; set; }
         [Display(Name = "Role")]

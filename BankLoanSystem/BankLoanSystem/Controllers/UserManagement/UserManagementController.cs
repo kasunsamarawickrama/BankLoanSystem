@@ -36,7 +36,25 @@ namespace BankLoanSystem.Controllers
 
 
         }
+        public ActionResult Delete(int id,int lId,int roleId)
+        {
+            DashBoardAccess db = new DashBoardAccess();
+            //int role = db.GetUserLevelByUserId(lId);
+            UserManageAccess obj1 = new UserManageAccess();
+            if (id != 0)
+            {
+                bool ret = obj1.deleteUser(id);
+                if (ret)
+                {
+                    return RedirectToAction("UserList","UserManagement",new { typeval= roleId, idval = lId });
+                }
 
+            }
+           
+                return View();
+           
+
+        }
 
     }
 }
