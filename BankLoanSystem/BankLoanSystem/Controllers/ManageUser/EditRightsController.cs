@@ -25,9 +25,23 @@ namespace BankLoanSystem.Controllers.ManageUser
         /// <param name="userId">login user </param>
         /// <param name="editorId">edit field user</param>
         /// <returns></returns>
-        public ActionResult EditRights()
+        public ActionResult EditRights(string lbl1, string lbl2)
 
         {
+
+            if (lbl1 != null) {
+                ViewBag.SuccessMsg = lbl1;
+            }
+            else if (lbl2 != null)
+            {
+                ViewBag.ErrorMsg = lbl2;
+            }
+            else
+            {
+                ViewBag.SuccessMsg = "";
+                ViewBag.ErrorMsg = "";
+            }
+
             int userId= 1;
             int ownerId = 2;
             if (userId==1)
@@ -42,6 +56,7 @@ namespace BankLoanSystem.Controllers.ManageUser
 
                 if (permissionString.Count == 1) {
 
+                    
                     string permission = permissionString[0].rightsPermissionString;
 
                     string[] charactors = permission.Split(',');
@@ -59,13 +74,16 @@ namespace BankLoanSystem.Controllers.ManageUser
                             }
                             obj.editorId = userId;
                             obj.userId = ownerId;
+                            
                         }
                     }
                 }
                 else {
 
                 }
-                var ok = rights;
+                ViewBag.userId = userId;
+                ViewBag.ownerId = ownerId;
+
                 return View(rights);
             }
             else
@@ -108,10 +126,13 @@ namespace BankLoanSystem.Controllers.ManageUser
 
             if (returnAccess.postNewRights(returnRight))
             {
-                return RedirectToAction("EditRights", "EditRights");
+                ViewBag.SuccessMsg = "Succesfully Updated";
+                return RedirectToAction("EditRights", "EditRights", new { lbl1 = ViewBag.SuccessMsg });
+                
             }
             else {
-                return RedirectToAction("editUser", "ManageUsers");
+                ViewBag.ErrorMsg = "Sorry, rights can't update";
+                return RedirectToAction("EditRights", "EditRights", new { lbl2 = ViewBag.ErrorMsg });
             }
 
             
