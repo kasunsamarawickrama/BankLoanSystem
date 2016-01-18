@@ -23,8 +23,12 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// <returns>Return view</returns>
 
         // GET: CreateUser
-        public ActionResult Create(int id, string type)
+        public ActionResult Create()
         {
+            if (Session["id"] == null)
+                return RedirectToAction("UserLogin", "Login");
+            int id = (int) Session["id"];
+            string type = (string) Session["type"];
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
