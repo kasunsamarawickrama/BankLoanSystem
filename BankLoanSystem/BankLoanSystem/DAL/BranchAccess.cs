@@ -188,8 +188,14 @@ namespace BankLoanSystem.DAL
         {
             try
             {
+                string branchCode = "";
                 int latestBranchId = getLatestBranchId(companyCode);
-                string branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
+                
+                if ((latestBranchId>=0)&&(latestBranchId < 9))
+                {
+                    branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
+                }
+                branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
                 return branchCode;
             }
             
@@ -224,8 +230,8 @@ namespace BankLoanSystem.DAL
 
                         while (reader.Read())
                         {
-                            
-                            topId = int.Parse(reader["branch_id"].ToString());
+                           
+                                topId = int.Parse(reader["branch_id"].ToString());
 
                         }
                         return topId;

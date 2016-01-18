@@ -233,8 +233,7 @@ namespace BankLoanSystem.DAL
                             }
                             DateTime day = DateTime.Parse(reader["created_date"].ToString());
                             dtl.created_date = day.ToShortDateString();
-                            dtl.modified_date = DateTime.Parse(reader["modified_date"].ToString());
-                           
+                            
                             dtl.role_name = reader["role_name"].ToString();
                             dtl.branch_name = reader["branch_name"].ToString();
 

@@ -49,14 +49,14 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 if (reslt)
                 {
                     ViewBag.SuccessMsg = "Branch is successfully added";
-                    return RedirectToAction("CreateBranch", "CreateBranch");
+                    //return RedirectToAction("CreateBranch", "CreateBranch");
                 }
                 else
                 {
                     ViewBag.ErrorMsg = "Failed to add branch";
-                    return View();
+                   
                 }
-                
+                return View();
             }
 
         }
