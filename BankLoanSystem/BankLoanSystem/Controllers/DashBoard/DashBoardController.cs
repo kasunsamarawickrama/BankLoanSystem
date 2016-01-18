@@ -20,21 +20,23 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// </summary>
         /// <param name="id">userid fromlogin page</param>
         /// <returns></returns>
-        public ActionResult UserDashBoard(Int32? id)
+        public ActionResult UserDashBoard()
         {
+            var id = (int)Session["userId"];
+
             var dashBoardModel = new Models.DashBoard();
 
             var newDashDAL = new DashBoardAccess();
-            if (!id.HasValue)
+            if (id <= 0)
             {
                 return RedirectToAction("UserLogin", "Login");
             }
-            if (id.HasValue) {
+            if (id >0) {
 
                 ///get level id by userid
-                int userLevelId = newDashDAL.GetUserLevelByUserId((int)id);
+                int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
-                dashBoardModel.userId = (int)id;
+                dashBoardModel.userId = id;
 
                 if (userLevelId == 1) {
 
@@ -67,17 +69,18 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// emplyee dashboard view
         /// </summary>
         /// <returns></returns>
-        public ActionResult EmployeeDashBoard(Int32? id)
+        public ActionResult EmployeeDashBoard()
         {
+            var id = (int)Session["userId"];
             var dashBoardModel = new Models.DashBoard();
 
-            if (!id.HasValue)
+            if (id <=0)
             {
                 return RedirectToAction("EmployeeLogin", "Login");
             }
             else
             {
-                dashBoardModel.userId = id.Value;
+                dashBoardModel.userId = id;
                 return View(dashBoardModel);
             }
 
@@ -102,9 +105,13 @@ namespace BankLoanSystem.Controllers.DashBoard
             if (type > 0)
             {
                 ///send parameters to next page 
-                return RedirectToAction("UserList", "UserManagement", new { typeval = type , idval = id });
+                Session["type"] = type;
+                Session["id"] = id;
+
+                return RedirectToAction("UserList", "UserManagement");
             }
             else {
+                Session["id"] = id;
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }
         }
