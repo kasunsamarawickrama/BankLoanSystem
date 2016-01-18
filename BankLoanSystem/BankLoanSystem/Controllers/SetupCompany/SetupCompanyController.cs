@@ -35,9 +35,10 @@ namespace BankLoanSystem.Controllers.SetupCompany
 
             //generate company code 
             GeneratesCode gc = new GeneratesCode();
-            gc.GenerateCompanyCode(company.CompanyName);
+            company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
 
-            return RedirectToAction("CreateFirstSuperUser", "CreateUser", new {model = company});
+            TempData["Company"] = company;
+            return RedirectToAction("CreateBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
         }
 
         /// <summary>
