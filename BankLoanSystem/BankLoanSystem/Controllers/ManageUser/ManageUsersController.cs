@@ -16,6 +16,18 @@ namespace BankLoanSystem.Controllers
             return View();
         }
 
+        public ActionResult editRights(User user)
+        {
+            int currentUserId = 1;
+            int editUserId = 3;
+
+            Session["userId"] = currentUserId;
+            Session["editUserId"] = editUserId;
+
+            return RedirectToAction("EditRights","EditRights");
+
+        }
+
         /// <summary>
         /// CreatedBy : MAM. IRFAN
         /// CreatedDate: 2016/01/13
@@ -83,10 +95,6 @@ namespace BankLoanSystem.Controllers
                 isUpdate = (new UserAccess()).updateUserDetails(editUserId, user.UneditUserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now, user.Password);
             }
 
-
-
-
-
             if (isUpdate)
                 ViewBag.SuccessMsg = "Data Successfully Updated";
             else {
@@ -105,8 +113,6 @@ namespace BankLoanSystem.Controllers
                 branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
 
             }
-
-
             ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", user.BranchId);
 
 
