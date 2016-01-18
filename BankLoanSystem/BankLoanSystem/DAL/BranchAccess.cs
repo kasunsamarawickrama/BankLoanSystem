@@ -103,13 +103,13 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = branch.BranchCreatedDate;
                         cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = branch.BranchCompany;
                         con.Open();
-                        cmd.ExecuteNonQuery();
+                        
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
                         returnParameter.Direction = ParameterDirection.ReturnValue;
-
                         cmd.ExecuteNonQuery();
+
                         int countVal = (int)returnParameter.Value;
 
                         if (countVal == 1)
