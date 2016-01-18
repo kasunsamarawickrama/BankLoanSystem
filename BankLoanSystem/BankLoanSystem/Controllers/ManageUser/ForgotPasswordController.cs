@@ -174,7 +174,10 @@ namespace BankLoanSystem.Controllers.ManageUser
                 return new HttpStatusCodeResult(404);
             }
             Session.Abandon();
-            return RedirectToAction("UserLogin", "Login");
+
+            
+            string success = "Your Password Sucessfully Updated";
+            return RedirectToAction("UserLogin", "Login",new { lbl3 = success });
         }
 
 
