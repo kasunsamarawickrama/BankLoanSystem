@@ -13,7 +13,7 @@ namespace BankLoanSystem.Models
     /// </summary>
     public class Right
     {
-        public int rightId { get; set; }
+        public string rightId { get; set; }
 
         [Display(Name = "Add")]
         public bool active { get; set; }
