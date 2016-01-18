@@ -48,9 +48,15 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 bool reslt = br.insertBranchDetails(branch, id);
                 if (reslt)
                 {
-                    return RedirectToAction("UserDashBoard", "DashBoard");
+                    ViewBag.SuccessMsg = "Branch is successfully added";
+                    return RedirectToAction("CreateBranch", "CreateBranch");
                 }
-                return View();
+                else
+                {
+                    ViewBag.ErrorMsg = "Failed to add branch";
+                    return View();
+                }
+                
             }
 
         }

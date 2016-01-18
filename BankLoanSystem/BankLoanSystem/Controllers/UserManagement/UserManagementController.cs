@@ -46,13 +46,18 @@ namespace BankLoanSystem.Controllers
                 bool ret = obj1.deleteUser(id);
                 if (ret)
                 {
-                    return RedirectToAction("UserList","UserManagement",new { typeval= roleId, idval = lId });
+                    ViewBag.SuccessMsg = "User is successfully deleted";
+                    
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Failed to delete user";
                 }
 
             }
-           
-                return View();
-           
+
+            return RedirectToAction("UserList", "UserManagement", new { typeval = roleId, idval = lId });
+
 
         }
 
