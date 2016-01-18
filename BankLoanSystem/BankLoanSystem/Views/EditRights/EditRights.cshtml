@@ -9,7 +9,9 @@
     <div class="form-horizontal">
         
         <hr /><p>All &nbsp</p>
-        @Html.CheckBox("All", false)
+        @Html.CheckBox("All", new { @id="CheckAll" })
+
+        
         <table class="dl-horizontal">
 
            
@@ -20,7 +22,8 @@
                         @Html.HiddenFor(x => x[i].rightId)
                         @Html.HiddenFor(x => x[i].userId )
                         @Html.HiddenFor(x => x[i].editorId )
-                        @Html.CheckBoxFor(x => x[i].active ) &nbsp &nbsp &nbsp
+                        @Html.CheckBoxFor(x => x[i].active,  new { @class = "All" }) &nbsp &nbsp &nbsp
+
                     </td>
                     <td>
                         @Html.DisplayFor(x => x[i].description)
@@ -41,3 +44,22 @@
     </div>
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#CheckAll').on('change', function () {
+            if ($(this).is(':checked')) {
+                //alert('checked');
+                $('.All').prop('checked', true);
+
+            }
+            else {
+                //alert('unchecked');
+                $('.All').prop('checked', false);
+            }
+        });
+    });
+</script>

@@ -16,9 +16,10 @@ namespace BankLoanSystem.Controllers.ManageUser
             return View();
         }
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/16
-        /// Updated    : 2016/01/17
+        /// Updated by   : kasun Samarawickrama
+        /// Updated Date : 2016/01/18
         /// 
         /// Edit User Rights
         /// </summary>
@@ -43,7 +44,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
 
             int userId= 1;
-            int ownerId = 2;
+            int ownerId = 4;
             if (userId==1)
             {
                 var access = new UserRightsAccess();
@@ -54,32 +55,50 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count == 1) {
+                if (permissionString.Count == 1  ) {
 
-                    
+                   
                     string permission = permissionString[0].rightsPermissionString;
+                    if (permission != "")
+                    {
+                        string[] charactors = permission.Split(',');
 
-                    string[] charactors = permission.Split(',');
+                        List<int> intArray = new List<int>();
 
-                    int[] intArray = new int[charactors.Length];
-                    for (int i=0; i < charactors.Length; i++) {
-                        intArray[i] = int.Parse(charactors[i]);
-                    }
-
-                    foreach (var chr in intArray) {
-                        foreach (var obj in rights)
+                        foreach (var charactor in charactors)
                         {
-                            if (obj.rightId == chr) {
-                                obj.active = true;
+                            intArray.Add(int.Parse(charactor));
+                        }
+
+                        foreach (var chr in intArray)
+                        {
+                            foreach (var obj in rights)
+                            {
+                                if (obj.rightId == chr)
+                                {
+                                    obj.active = true;
+                                }
+                                obj.editorId = userId;
+                                obj.userId = ownerId;
+
                             }
-                            obj.editorId = userId;
-                            obj.userId = ownerId;
-                            
                         }
                     }
-                }
-                else {
+                    else {
+                        foreach (var obj in rights)
+                        {
+                              
+                            obj.editorId = userId;
+                            obj.userId = ownerId;
 
+                        }
+                        
+                    }
+                    
+                }
+                else if (permissionString.Count != 1)
+                {
+                    return RedirectToAction("editUser", "ManageUsers");
                 }
                 ViewBag.userId = userId;
                 ViewBag.ownerId = ownerId;
@@ -91,8 +110,9 @@ namespace BankLoanSystem.Controllers.ManageUser
                 return RedirectToAction("editUser", "ManageUsers");
             }                
         }
+ 
         /// <summary>
-        ///  CreatedBy : Kasun Smarawickrama
+        ///  CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/17
         /// 
         /// Updating the User Right String for a user Id
