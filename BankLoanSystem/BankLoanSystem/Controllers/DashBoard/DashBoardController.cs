@@ -71,7 +71,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns></returns>
         public ActionResult EmployeeDashBoard()
         {
-            var id = (int)Session["userId"];
+            var id = (int)Session["employeeId"];
             var dashBoardModel = new Models.DashBoard();
 
             if (id <=0)
@@ -102,6 +102,25 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns>return view with type</returns>
         public ActionResult SearchUsers(int type , int id)
         {
+            if (type==5)
+            {
+                Session["type"] = "";
+                Session["id"] = id;
+
+                return RedirectToAction("Create", "CreateUser");
+            }
+            else if (type == 6)
+            {
+                Session["type"] = "CompanyEmployee";
+                Session["id"] = id;
+
+                return RedirectToAction("CreateBranch", "CreateBranch");
+            }
+            else if(type == 7)
+            {
+                Session["type"] = "CompanyEmployee";
+                return RedirectToAction("Setup", "SetupCompany");
+            } 
             if (type > 0)
             {
                 ///send parameters to next page 
@@ -110,6 +129,7 @@ namespace BankLoanSystem.Controllers.DashBoard
 
                 return RedirectToAction("UserList", "UserManagement");
             }
+
             else {
                 Session["id"] = id;
                 return RedirectToAction("UserDashBoard", "DashBoard");

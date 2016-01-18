@@ -13,8 +13,9 @@ namespace BankLoanSystem.Controllers.CreateBranch
         private static string _type = "";
         private static Company _company = null;
         // GET: CreateBranch
-        public ActionResult CreateBranch(string type)
+        public ActionResult CreateBranch()
         {
+            var type = (string) Session["type"];
             if (type == "CompanyEmployee")
             {
                 ViewBag.Type = "CompanyEmployee";
@@ -25,11 +26,10 @@ namespace BankLoanSystem.Controllers.CreateBranch
         }
         [HttpPost]
         [ActionName("CreateBranch")]
-        public ActionResult CreateBranchPost(Branch branch, int id)
+        public ActionResult CreateBranchPost(Branch branch)
         {
             if (_type == "CompanyEmployee")
-            {
-                
+            {      
 
 
                 CompanyBranchModel comBra = new CompanyBranchModel();
@@ -43,7 +43,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
             }
             else
             {
-                //int id = 2;
+                int id = (int)Session["id"];
                 BranchAccess br = new BranchAccess();
                 bool reslt = br.insertBranchDetails(branch, id);
                 if (reslt)

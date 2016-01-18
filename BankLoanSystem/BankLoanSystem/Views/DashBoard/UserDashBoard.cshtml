@@ -19,12 +19,12 @@
     {
         <div class="form-horizontal">
 
-            @Html.ActionLink("Create User", "Create", "CreateUser", new { id = Model.userId, type = "" }, null)
+            @Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { id = Model.userId, type = 5 }, null)
         </div>
     }
     if (Model.levelId == 1)
     {
-        @Html.ActionLink("Create Branch", "CreateBranch", "CreateBranch", new { id = Model.userId, type = "" }, null)
+        @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { id = Model.userId, type = 6 }, null)
     }
 
     <br/>

@@ -9,8 +9,9 @@ namespace BankLoanSystem.Controllers.SetupCompany
     public class SetupCompanyController : Controller
     {
         // GET: SetupCompany
-        public ActionResult Setup(int id, string type)
+        public ActionResult Setup()
         {
+            var type = (string)Session["type"];
             //if (type == "CompanyEmployee")
             //{
                     
