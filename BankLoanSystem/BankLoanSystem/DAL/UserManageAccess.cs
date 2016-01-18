@@ -15,7 +15,7 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:13/1/2016
-        /// Description:This method is created for retrieving user_id,user_name,password of system users
+        /// Description:This method is created for retrieving user_name and created person of system users
         /// </summary>
         /// <param name="userType"></param>
         /// <returns>userLogin object</returns>
@@ -53,14 +53,32 @@ namespace BankLoanSystem.DAL
                             
                             user.createdName = getUserNameById(user.createdBy);
                             user.roleId = int.Parse(reader["role_id"].ToString());
-                            if ((user.createdByRole == userRole) && (userRole == user.roleId))
+                            
+                             if ((userRole == 1) && (levelId == 1) && (user.createdBy != userId))
                             {
                                 user.isEdit = false;
                             }
-                            else 
+                            else if ((userRole == 1) && (levelId == 1) && (user.createdBy == userId))
                             {
                                 user.isEdit = true;
                             }
+                            else if ((userRole == 2) && (levelId==1))
+                            {
+                                user.isEdit = false;
+                            }
+                            else if ((userRole == 2) && (levelId == 2)&&(user.createdBy!=userId))
+                            {
+                                user.isEdit = false;
+                            }
+                            else if ((userRole == 2) && (levelId == 2) && (user.createdBy == userId))
+                            {
+                                user.isEdit = true;
+                            }
+                            else if (levelId == 3)
+                            {
+                                user.isEdit = true;
+                            }
+                            
                             UserList.Add(user);
                         }
 
@@ -79,7 +97,13 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
-
+        /// <summary>
+        /// Created By: Piyumi
+        /// Date:1/18/2016
+        /// Description: delete user details of a selected row
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>true/false</returns>
         public bool deleteUser(int id)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -93,7 +117,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
                         
                         con.Open();
-                        cmd.ExecuteNonQuery();
+                        
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
