@@ -154,6 +154,7 @@
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\CompanyAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
+    <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="DAL\RoleAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyType.cs" />
     <Compile Include="Models\DashBoard.cs" />
+    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\Right.cs" />
@@ -199,6 +201,8 @@
     <Content Include="Views\UserManagement\Details.cshtml" />
     <Content Include="Views\UserManagement\UserList.cshtml" />
     <Content Include="Views\CreateBranch\CreateBranch.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
+    <Content Include="Views\EditRights\EditRights.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
