@@ -23,12 +23,17 @@ namespace BankLoanSystem.Controllers.DashBoard
         public ActionResult UserDashBoard()
         {
             ViewBag.login = false;
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             var id = (int)Session["userId"];
 
             var dashBoardModel = new Models.DashBoard();
 
             var newDashDAL = new DashBoardAccess();
-            if (id <= 0)
+
+            if (id <= 0 )
             {
                 return RedirectToAction("UserLogin", "Login");
             }
@@ -95,7 +100,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// Manage User Profiles 
         /// </summary>
         /// <param name="type">search users type
-        /// type 1 =super admin
+        /// index 1 =super admin
         /// type 2 = admin
         /// type 3 = user
         /// type 4 = profile
@@ -103,13 +108,11 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns>return view with type</returns>
         public ActionResult SearchUsers(int index)
         {
-
-
             if (index == 1)
             {
-                Session["type"] = "CompanyEmployee";
+                Session["type"] = "";
 
-                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
+                return RedirectToAction("Detailsset", "UserManagement");
             }
 
             else if (index == 2)
@@ -125,7 +128,7 @@ namespace BankLoanSystem.Controllers.DashBoard
                 return RedirectToAction("CreateBranch", "CreateBranch");
             }
 
-            if (index == 4 || index == 5 || index == 6)
+            else if (index == 4 || index == 5 || index == 6)
             {
                 if (index == 4)
                 {
@@ -144,7 +147,12 @@ namespace BankLoanSystem.Controllers.DashBoard
 
                 return RedirectToAction("UserList", "UserManagement");
             }
+            else if (index == 7)
+            {
+                Session["type"] = "CompanyEmployee";
 
+                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
+            }
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }
