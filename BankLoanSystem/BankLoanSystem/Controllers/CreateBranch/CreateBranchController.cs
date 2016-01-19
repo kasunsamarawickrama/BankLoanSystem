@@ -11,7 +11,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
     public class CreateBranchController : Controller
     {
         private static string _type = "";
-        private static Company _company = null;
+        private static UserCompanyModel _userCompany = null;
         // GET: CreateBranch
         public ActionResult CreateBranch()
         {
@@ -20,7 +20,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
             {
                 ViewBag.Type = "CompanyEmployee";
                 _type = "CompanyEmployee";
-                _company = (Company)TempData["Company"];
+                _userCompany = (UserCompanyModel)TempData["UserCompany"];
             }
             return View();
         }
@@ -29,17 +29,21 @@ namespace BankLoanSystem.Controllers.CreateBranch
         public ActionResult CreateBranchPost(Branch branch)
         {
             if (_type == "CompanyEmployee")
-            {      
-
-
-                CompanyBranchModel comBra = new CompanyBranchModel();
-                comBra.Company = _company;
-                comBra.MainBranch = branch;
-
+            {
                 BranchAccess ba = new BranchAccess();
-                comBra.MainBranch.BranchCode = ba.createBranchCode(comBra.Company.CompanyCode);
-                TempData["CompanyMainBranch"] = comBra;
-                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
+                branch.BranchCode = ba.createBranchCode(_userCompany.Company.CompanyCode);
+                CompanyAccess ca = new CompanyAccess();
+                if (ca.SetupCompany(_userCompany, branch))
+                {
+                    ViewBag.SuccessMsg = "Company is successfully setup";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.SuccessMsg = "Failed to setup company";
+                    return RedirectToAction("CreateFirstSuperUser", "CreateUser"); ;
+                }
+                
             }
             else
             {
