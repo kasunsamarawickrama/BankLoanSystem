@@ -176,12 +176,25 @@ namespace BankLoanSystem.Controllers
             
             List<UserLogin> details;
 
-            int typeval;
-
+            string typevalue;
+            int typeval = 0;
 
             try
             {
-                typeval = (int)Session["searchtype"];
+                typevalue = (string)Session["searchtype"];
+
+                if (typevalue == "SuperAdmin") {
+                    typeval = 1;
+                }
+                else if (typevalue == "Admin")
+                {
+                    typeval = 2;
+                }
+                else if (typevalue == "User")
+                {
+                    typeval = 3;
+                }
+
                 details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
             }
             catch (Exception)
