@@ -91,9 +91,10 @@
 
                 <input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-default" />
 
-
-                &nbsp;&nbsp;&nbsp; 
+                @if (!ViewBag.isSame) { 
+                 
                 @Html.ActionLink("Edit Rights ->>", "EditRights", "UserManagement", null,null)
+                }
 
             </div>
 

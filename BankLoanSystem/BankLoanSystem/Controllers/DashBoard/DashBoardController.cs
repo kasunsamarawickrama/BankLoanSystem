@@ -104,26 +104,27 @@ namespace BankLoanSystem.Controllers.DashBoard
         {
             if (type==5)
             {
-                Session["type"] = "";
+                Session["type"] = type;
                 Session["id"] = id;
 
                 return RedirectToAction("Create", "CreateUser");
             }
             else if (type == 6)
             {
-                Session["type"] = "";
+                Session["type"] = type;
                 Session["id"] = id;
 
                 return RedirectToAction("CreateBranch", "CreateBranch");
             }
             else if(type == 7)
             {
-                Session["type"] = "CompanyEmployee";
+                Session["type"] = type;
                 return RedirectToAction("CreateFirstSuperUser", "CreateUser");
             } 
             if (type > 0)
             {
                 ///send parameters to next page 
+                
                 Session["type"] = type;
                 Session["id"] = id;
 

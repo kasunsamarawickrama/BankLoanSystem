@@ -40,7 +40,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult Detailsset(int id)
         {
             TempData["rowId"] = id;
-
+           
             return RedirectToAction("Details", "UserManagement");
         }
 
@@ -62,22 +62,35 @@ namespace BankLoanSystem.Controllers
         public ActionResult Details()
         {
             int id;
+            int logId;
             try
             {
                 id = (int)TempData["rowId"];
+                logId = (int)Session["userId"];
+                UserManageAccess obj1 = new UserManageAccess();
+                if (id != 0)
+                {
+                    var ret = obj1.getUserById(id);
+                    
+                    if (id == logId)
+                    {
+                        ViewBag.userId = ret.userId;
+                        Session["editId"] = id;
+                    }
+                    else
+                    {
+                        ViewBag.userId = 0;
+                    }
+                    return View(ret);
+                }
+                else { return View(); }
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(404);
             }
-            UserManageAccess obj1 = new UserManageAccess();
-            if (id != 0)
-            {
-                var ret = obj1.getUserById(id);
-                return View(ret);
-            }
-            else { return View(); }
-
+           
+            
 
         }
 
@@ -116,14 +129,38 @@ namespace BankLoanSystem.Controllers
             {
                 return new HttpStatusCodeResult(404);
             }
-            if (currentUserId == editUserId) { ViewBag.isSame = true; }
+
+            int companyId;
+            User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);
+            companyId = editUser.Company_Id;
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
+
+            // insert all branches into selectedlist
+            List<SelectListItem> branchSelectLists = new List<SelectListItem>();
+            foreach (Branch branch in branchesLists)
+            {
+                branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
+
+            }
+
+            ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);
+
+
+
+            if (currentUserId == editUserId) { ViewBag.isSame = true;
+
+                return View(editUser);
+            }
             else { ViewBag.isSame = false; }
 
 
-            int companyId;
+            
             List<UserLogin> details;
 
             int typeval;
+
+
             try
             {
                 typeval = (int)Session["type"];
@@ -151,20 +188,7 @@ namespace BankLoanSystem.Controllers
                 return new HttpStatusCodeResult(404);
             }
 
-           User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
-            companyId = editUser.Company_Id;
-            // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
-
-            // insert all branches into selectedlist
-            List<SelectListItem> branchSelectLists = new List<SelectListItem>();
-            foreach (Branch branch in branchesLists)
-            {
-                branchSelectLists.Add(new SelectListItem() { Text = branch.BranchName, Value = branch.BranchId.ToString() });
-
-            }
-
-            ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);
+          
 
 
             TempData["editUserId"] = editUserId;
@@ -272,7 +296,7 @@ namespace BankLoanSystem.Controllers
             int lId = (int)TempData["logId"];
             int roleId = (int)TempData["roleId"];
             DashBoardAccess db = new DashBoardAccess();
-            //int role = db.GetUserLevelByUserId(lId);
+            
             UserManageAccess obj1 = new UserManageAccess();
             if (id != 0)
             {
