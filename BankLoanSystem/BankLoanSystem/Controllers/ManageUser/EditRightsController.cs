@@ -29,7 +29,7 @@ namespace BankLoanSystem.Controllers.ManageUser
         public ActionResult EditRights(string lbl1, string lbl2)
 
         {
-
+            ViewBag.login = false;
             if (lbl1 != null) {
                 ViewBag.SuccessMsg = lbl1;
             }

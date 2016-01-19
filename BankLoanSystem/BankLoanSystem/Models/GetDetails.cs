@@ -8,25 +8,26 @@ namespace BankLoanLocal.Models
 {
     public class GetDetails
     {
+        public int userId { get; set; }
         [Display(Name = "First Name")]
-        public string first_name { get; set; }
+        public string firstName { get; set; }
         [Display(Name = "Last Name")]
-        public string last_name { get; set; }
+        public string lastName { get; set; }
         [Display(Name = "Email")]
         public string email { get; set; }
         [Display(Name = "Phone Number")]
-        public string phone_no { get; set; }
+        public string phoneNo { get; set; }
         [Display(Name = "Status")]
         public string status { get; set; }
         [Display(Name = "Created Date")]
-        public string created_date { get; set; }
+        public string createdDate { get; set; }
         [Display(Name = "Modified Date")]
-        public DateTime modified_date { get; set; }
+        public DateTime modifiedDate { get; set; }
         [Display(Name = "Is Delete")]
-        public bool is_delete { get; set; }
+        public bool isDelete { get; set; }
         [Display(Name = "Role")]
-        public string role_name { get; set; }
+        public string roleName { get; set; }
         [Display(Name = "Branch")]
-        public string branch_name { get; set; }
+        public string branchName { get; set; }
     }
 }

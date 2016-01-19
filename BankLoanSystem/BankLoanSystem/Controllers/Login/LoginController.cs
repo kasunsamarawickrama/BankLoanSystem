@@ -19,6 +19,7 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult UserLogin(string lbl, string lbl3)
         {
+            ViewBag.login = true;
             if (lbl3 != null)
             {
                 ViewBag.SuccessMsg = lbl3;
@@ -37,7 +38,7 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// employee login view
@@ -57,7 +58,7 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// User Login Controller

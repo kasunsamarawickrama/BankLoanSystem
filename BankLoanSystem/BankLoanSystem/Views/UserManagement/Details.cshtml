@@ -11,18 +11,18 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.first_name)
+            @Html.DisplayNameFor(model => model.firstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.first_name)
+            @Html.DisplayFor(model => model.firstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.last_name)
+            @Html.DisplayNameFor(model => model.lastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.last_name)
+            @Html.DisplayFor(model => model.lastName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.email)
@@ -32,11 +32,11 @@
             @Html.DisplayFor(model => model.email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.phone_no)
+            @Html.DisplayNameFor(model => model.phoneNo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.phone_no)
+            @Html.DisplayFor(model => model.phoneNo)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.status)
@@ -46,27 +46,27 @@
             @Html.DisplayFor(model => model.status)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.created_date)
+            @Html.DisplayNameFor(model => model.createdDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.created_date)
+            @Html.DisplayFor(model => model.createdDate)
         </dd>
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.role_name)
+            @Html.DisplayNameFor(model => model.roleName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.role_name)
+            @Html.DisplayFor(model => model.roleName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.branch_name)
+            @Html.DisplayNameFor(model => model.branchName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.branch_name)
+            @Html.DisplayFor(model => model.branchName)
         </dd>
 
 
@@ -75,7 +75,20 @@
 
     </dl>
 </div>
-<p>
+@if (ViewBag.userId != 0)
+{
+    <p>
 
-    @Html.ActionLink("Back to List", "UserList")
-</p>
+        @Html.ActionLink("Edit Profile", "editUserSet", new { editId = ViewBag.userId })
+    </p>
+}
+else
+{
+    <p>
+
+        @Html.ActionLink("Back to List", "UserList")
+    </p>
+}
+
+
+

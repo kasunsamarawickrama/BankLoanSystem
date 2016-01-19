@@ -1,0 +1,123 @@
+﻿@model BankLoanSystem.Models.UserCompanyModel
+
+@{
+    ViewBag.Title = "CreateBranchFirstBranch";
+}
+
+<h2>Create Branch</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Same detail as company", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.CheckBox("Previous", new { @id = "Previous" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchName, new { htmlAttributes = new { @class = "form-control", @id = "branchName" } })
+
+                @Html.ValidationMessageFor(model => model.Branch.BranchName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchAddress, new { htmlAttributes = new { @class = "form-control", @id = "branchAddress" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchState, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchState, new { htmlAttributes = new { @class = "form-control", @id = "branchState" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchState, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchCity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchCity, new { htmlAttributes = new { @class = "form-control", @id = "branchCity" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchCity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchZip, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchZip, new { htmlAttributes = new { @class = "form-control", @id = "branchZip" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchZip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchEmail, new { htmlAttributes = new { @class = "form-control", @id = "branchEmail" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchPhoneNum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchPhoneNum, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchPhoneNum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Branch.BranchFax, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Branch.BranchFax, new { htmlAttributes = new { @class = "form-control", @id = "branchFax" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchFax, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#Previous').on('change', function () {
+            if ($(this).is(':checked')) {
+                var model = @Html.Raw(Json.Encode(Model));
+                document.getElementById("branchName").value = model.Company.City;
+                document.getElementById("branchAddress").value = model.Company.CompanyAddress;
+                document.getElementById("branchState").value = model.Company.State;
+                document.getElementById("branchCity").value = model.Company.City;
+                document.getElementById("branchZip").value = model.Company.Zip;
+                document.getElementById("branchEmail").value = model.Company.Email;
+                document.getElementById("branchPhoneNum").value = model.Company.PhoneNum;
+                document.getElementById("branchFax").value = model.Company.Fax;
+            }
+            else {
+                document.getElementById("branchName").value = "";
+                document.getElementById("branchAddress").value = "";
+                document.getElementById("branchState").value = "";
+                document.getElementById("branchCity").value = "";
+                document.getElementById("branchZip").value = "";
+                document.getElementById("branchEmail").value = "";
+                document.getElementById("branchPhoneNum").value = "";
+                document.getElementById("branchFax").value = "";
+            }
+        });
+    });
+</script>

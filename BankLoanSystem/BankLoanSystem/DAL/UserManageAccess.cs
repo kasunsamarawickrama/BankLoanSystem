@@ -62,6 +62,10 @@ namespace BankLoanSystem.DAL
                             {
                                 user.isEdit = true;
                             }
+                            else if ((userRole == 1) && (levelId == 2))
+                            {
+                                user.isEdit = true;
+                            }
                             else if ((userRole == 2) && (levelId==1))
                             {
                                 user.isEdit = false;
@@ -74,7 +78,7 @@ namespace BankLoanSystem.DAL
                             {
                                 user.isEdit = true;
                             }
-                            else if (levelId == 3)
+                            else if (((userRole == 1) && (levelId == 3))||((userRole == 2) && (levelId == 3)))
                             {
                                 user.isEdit = true;
                             }
@@ -225,11 +229,11 @@ namespace BankLoanSystem.DAL
 
                         while (reader.Read())
                         {
-
-                            dtl.first_name = reader["first_name"].ToString();
-                            dtl.last_name = reader["last_name"].ToString();
+                            dtl.userId= int.Parse(reader["user_id"].ToString());
+                            dtl.firstName = reader["first_name"].ToString();
+                            dtl.lastName = reader["last_name"].ToString();
                             dtl.email = reader["email"].ToString();
-                            dtl.phone_no = reader["phone_no"].ToString();
+                            dtl.phoneNo = reader["phone_no"].ToString();
                             if (bool.Parse(reader["status"].ToString())) {
 
                                 dtl.status = "Active";
@@ -239,10 +243,10 @@ namespace BankLoanSystem.DAL
                                 dtl.status = "Not Active";
                             }
                             DateTime day = DateTime.Parse(reader["created_date"].ToString());
-                            dtl.created_date = day.ToShortDateString();
+                            dtl.createdDate = day.ToShortDateString();
                             
-                            dtl.role_name = reader["role_name"].ToString();
-                            dtl.branch_name = reader["branch_name"].ToString();
+                            dtl.roleName = reader["role_name"].ToString();
+                            dtl.branchName = reader["branch_name"].ToString();
 
                         }
 

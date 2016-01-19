@@ -38,7 +38,7 @@ namespace BankLoanSystem.Controllers.SetupCompany
             userCom.Company = company;
 
             TempData["UserCompany"] = userCom;
-            return RedirectToAction("CreateBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
+            return RedirectToAction("CreateBranchFirstBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
         }
 
         /// <summary>
