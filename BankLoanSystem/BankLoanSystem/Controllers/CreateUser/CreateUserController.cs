@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/17
-        /// 
+        /// EditedDate:2016/01/19
         /// Create first super admin view
         /// 
         /// argument: None
@@ -155,26 +155,29 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpGet]
         public ActionResult CreateFirstSuperUser()
         {
-            CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
-            _comBranchModel = companyBranchModel;
+            //CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
+            //_comBranchModel = companyBranchModel;
 
             return View();
         }
 
         /// <summary>
-        /// CreatedBy : Kanishka SHM
+        /// CreatedBy :  Kanishka SHM
         /// CreatedDate: 2016/01/18
-        /// 
+        /// EditedDate:  2016/01/19
         /// Create first super admin
         /// 
         /// argument: user(User)
         /// 
         /// </summary>
         /// <returns>Return to view create first super admin</returns>
+        [HttpPost]
         public ActionResult CreateFirstSuperUser(User user)
         {
-            CompanyAccess ca = new CompanyAccess();
-            ca.SetupCompany(_comBranchModel, user);
+            //CompanyAccess ca = new CompanyAccess();
+            //ca.SetupCompany(_comBranchModel, user);
+            TempData["User"] = user;
+            return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
             return View();
         }
     }

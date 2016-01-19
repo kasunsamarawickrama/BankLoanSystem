@@ -13,6 +13,10 @@ namespace BankLoanSystem.Controllers.CreateBranch
         private static string _type = "";
         private static Company _company = null;
         // GET: CreateBranch
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult CreateBranch()
         {
             var type = (string) Session["type"];
@@ -24,6 +28,11 @@ namespace BankLoanSystem.Controllers.CreateBranch
             }
             return View();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="branch"></param>
+        /// <returns></returns>
         [HttpPost]
         [ActionName("CreateBranch")]
         public ActionResult CreateBranchPost(Branch branch)
