@@ -13,8 +13,18 @@ namespace BankLoanSystem.Controllers
         // GET: UserManagement
         public ActionResult UserList()
         {
-            int idval = (int)Session["id"];
-            int typeval = (int)Session["type"];
+
+            int idval;
+            int typeval;
+            try
+            {
+                idval = (int)Session["id"];
+                typeval = (int)Session["type"];
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404);
+            }
             UserManageAccess obj1 = new UserManageAccess();
             int role = obj1.getUserRole(idval);
             if ((typeval > 0) && (idval > 0))
@@ -51,7 +61,15 @@ namespace BankLoanSystem.Controllers
         }
         public ActionResult Details()
         {
-            int id = (int)TempData["rowId"];
+            int id;
+            try
+            {
+                id = (int)TempData["rowId"];
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404);
+            }
             UserManageAccess obj1 = new UserManageAccess();
             if (id != 0)
             {
