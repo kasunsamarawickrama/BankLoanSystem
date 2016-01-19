@@ -101,39 +101,51 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// type 4 = profile
         /// </param>
         /// <returns>return view with type</returns>
-        public ActionResult SearchUsers(int type , int id)
+        public ActionResult SearchUsers(int index)
         {
-            if (type==5)
+
+
+            if (index == 1)
             {
-                Session["type"] = type;
-                Session["id"] = id;
+                Session["type"] = "CompanyEmployee";
+
+                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
+            }
+
+            else if (index == 2)
+            {
+                Session["type"] = "";
 
                 return RedirectToAction("Create", "CreateUser");
             }
-            else if (type == 6)
+            else if (index == 3)
             {
-                Session["type"] = type;
-                Session["id"] = id;
+                Session["type"] = "";
 
                 return RedirectToAction("CreateBranch", "CreateBranch");
             }
-            else if(type == 7)
+
+            if (index == 4 || index == 5 || index == 6)
             {
-                Session["type"] = type;
-                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
-            } 
-            if (type > 0)
-            {
-                ///send parameters to next page 
-                
-                Session["type"] = type;
-                Session["id"] = id;
+                if (index == 4)
+                {
+
+                    Session["searchType"] = "SuperAdmin";
+                }
+                else if (index == 5)
+                {
+
+                    Session["searchType"] = "Admin";
+                }
+                else
+                {
+                    Session["searchType"] = "User";
+                }
 
                 return RedirectToAction("UserList", "UserManagement");
             }
 
             else {
-                Session["id"] = id;
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }
         }
