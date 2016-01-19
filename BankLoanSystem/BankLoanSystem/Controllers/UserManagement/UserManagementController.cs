@@ -167,7 +167,6 @@ namespace BankLoanSystem.Controllers
             ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);
 
 
-            TempData["userId"] = currentUserId;
             TempData["editUserId"] = editUserId;
             return View(editUser);
         }
@@ -181,11 +180,10 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult editRights(User user)
         {
-            int currentUserId =(int) TempData["userId"];
+            int currentUserId =(int) Session["userId"];
             int editUserId = (int)TempData["editUserId"];
 
-            TempData["userId"] = currentUserId;
-            TempData["editUserId"] = editUserId;
+            Session["editUserIds"] = editUserId;
 
             return RedirectToAction("EditRights", "EditRights");
 
