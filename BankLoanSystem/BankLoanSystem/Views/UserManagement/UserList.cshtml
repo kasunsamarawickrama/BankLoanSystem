@@ -38,7 +38,7 @@
                 <td>
                     @Html.ActionLink("Edit", "editUserSet", new { editId = item.userId }) |
                     @Html.ActionLink("Details", "Detailsset", new { id = item.userId }) |
-                    @Html.ActionLink("Delete", "PrevDelete", new { id = item.userId, lId = item.loginId, item.roleId }, new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                    @Html.ActionLink("Delete", "PrevDelete", new { id = item.userId, lId = item.loginId, item.roleId }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" })
                 </td>
             }
             else {
