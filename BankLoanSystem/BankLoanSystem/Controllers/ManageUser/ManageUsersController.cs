@@ -28,8 +28,8 @@ namespace BankLoanSystem.Controllers
             int currentUserId = 1;
             int editUserId = 3;
 
-            Session["userId"] = currentUserId;
-            Session["editUserId"] = editUserId;
+            TempData["userId"] = currentUserId;
+            TempData["editUserId"] = editUserId;
 
             return RedirectToAction("EditRights","EditRights");
 

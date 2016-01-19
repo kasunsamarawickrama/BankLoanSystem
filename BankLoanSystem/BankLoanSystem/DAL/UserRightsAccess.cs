@@ -38,7 +38,7 @@ namespace BankLoanSystem.DAL
                         while (reader.Read())
                         {
                             Right right = new Right();
-                            right.rightId = reader["id"].ToString();
+                            right.rightId = reader["right_id"].ToString();
                             right.active = false;
                             right.description = reader["description"].ToString();
 

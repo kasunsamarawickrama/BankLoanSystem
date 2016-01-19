@@ -43,9 +43,10 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ViewBag.ErrorMsg = "";
             }
 
-            var userId= (int)Session["userId"];
-            int ownerId = (int)Session["editUserId"];
+            int userId = (int)TempData["userId"];
+            int ownerId = (int)TempData["editUserId"];
 
+            var userId2 = (int)TempData["userId"];
             if (userId > 0)
             {
                 var access = new UserRightsAccess();
