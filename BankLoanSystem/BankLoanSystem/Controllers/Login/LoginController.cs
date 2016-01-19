@@ -46,6 +46,7 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult EmployeeLogin(string lbl)
         {
+            ViewBag.login = true;
             if (lbl != null)
             {
                 var loginlbl = new UserLogin();

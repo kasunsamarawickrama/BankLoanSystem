@@ -77,6 +77,11 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns></returns>
         public ActionResult EmployeeDashBoard()
         {
+
+            if (Session["employeeId"] == null)
+            {
+                return RedirectToAction("EmployeeLogin", "Login");
+            }
             var id = (int)Session["employeeId"];
             var dashBoardModel = new Models.DashBoard();
 
