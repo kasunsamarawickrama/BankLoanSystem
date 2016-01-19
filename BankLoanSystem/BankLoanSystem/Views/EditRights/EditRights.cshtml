@@ -7,22 +7,22 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        
-        <hr /><p>All &nbsp</p>
-        @Html.CheckBox("All", new { @id="CheckAll" })
 
-        
+        <hr /><p>All &nbsp</p>
+        @Html.CheckBox("All", new { @id = "CheckAll" })
+
+
         <table class="dl-horizontal">
 
-           
-            @for (var i=0; i< Model.Count;i++ )
+
+            @for (var i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
                         @Html.HiddenFor(x => x[i].rightId)
-                        @Html.HiddenFor(x => x[i].userId )
-                        @Html.HiddenFor(x => x[i].editorId )
-                        @Html.CheckBoxFor(x => x[i].active,  new { @class = "All" }) &nbsp &nbsp &nbsp
+                        @Html.HiddenFor(x => x[i].userId)
+                        @Html.HiddenFor(x => x[i].editorId)
+                        @Html.CheckBoxFor(x => x[i].active, new { @class = "All" }) &nbsp &nbsp &nbsp
 
                     </td>
                     <td>
@@ -36,7 +36,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Update" class="btn btn-default" />
 
-                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "ManageUsers", new { userId = ViewBag.userId , editProfileOwnerId= ViewBag.ownerId })'" class="btn btn-default" />
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-default" />
             </div>
 
 
@@ -45,7 +45,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Profile", "editUser", "ManageUsers")
+    @Html.ActionLink("Back to Profile", "editUser", "UserManagement")
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

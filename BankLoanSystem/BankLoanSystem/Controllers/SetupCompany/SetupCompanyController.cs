@@ -11,6 +11,8 @@ namespace BankLoanSystem.Controllers.SetupCompany
         // GET: SetupCompany
         public ActionResult Setup()
         {
+            if(Session["type"] == null)
+                return RedirectToAction("UserLogin", "Login");
             var type = (string)Session["type"];
             //if (type == "CompanyEmployee")
             //{

@@ -43,9 +43,10 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ViewBag.ErrorMsg = "";
             }
 
-            var userId= (int)Session["userId"];
-            int ownerId = (int)Session["editUserId"];
+            int userId = (int)TempData["userId"];
+            int ownerId = (int)TempData["editUserId"];
 
+            var userId2 = (int)TempData["userId"];
             if (userId > 0)
             {
                 var access = new UserRightsAccess();
@@ -56,7 +57,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count == 1  ) {
+                if (permissionString.Count <= 1  ) {
 
                    
                     string permission = permissionString[0].rightsPermissionString;
@@ -99,7 +100,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 }
                 else if (permissionString.Count != 1)
                 {
-                    return RedirectToAction("editUser", "ManageUsers");
+                    return RedirectToAction("editUser", "UserManagement");
                 }
                 ViewBag.userId = userId;
                 ViewBag.ownerId = ownerId;
@@ -108,7 +109,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
             else
             {
-                return RedirectToAction("editUser", "ManageUsers");
+                return RedirectToAction("editUser", "UserManagement");
             }                
         }
  

@@ -149,7 +149,6 @@
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
-    <Compile Include="Controllers\ManageUser\ManageUsersController.cs" />
     <Compile Include="Controllers\SetupCompany\SetupCompanyController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
@@ -195,7 +194,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\ManageUsers\editUser.cshtml" />
+    <Content Include="Views\UserManagement\editUser.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\CreateUser\Create.cshtml" />
     <Content Include="Views\SetupCompany\Setup.cshtml" />
@@ -203,9 +202,9 @@
     <Content Include="Views\UserManagement\Details.cshtml" />
     <Content Include="Views\UserManagement\UserList.cshtml" />
     <Content Include="Views\CreateBranch\CreateBranch.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
     <Content Include="Views\UserManagement\Delete.cshtml" />
-    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

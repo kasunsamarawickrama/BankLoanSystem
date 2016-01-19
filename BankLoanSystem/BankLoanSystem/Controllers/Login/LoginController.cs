@@ -17,8 +17,12 @@ namespace BankLoanSystem.Controllers
         /// user login view
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserLogin(string lbl)
+        public ActionResult UserLogin(string lbl, string lbl3)
         {
+            if (lbl3 != null)
+            {
+                ViewBag.SuccessMsg = lbl3;
+            }
             if (lbl != null)
             {
                 var loginlbl = new UserLogin();
@@ -30,7 +34,6 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = "";
                 return View();
             }
-            
         }
 
         /// <summary>
