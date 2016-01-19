@@ -101,49 +101,39 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// type 4 = profile
         /// </param>
         /// <returns>return view with type</returns>
-        public ActionResult SearchUsers(int index)
+        public ActionResult SearchUsers(int type , int id)
         {
-
-
-            if (index == 1)
+            if (type==5)
             {
-                Session["type"] = "CompanyEmployee";
-
-                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
-            }
-
-            else if (index == 2)
-            {
-                Session["type"] = "";
+                Session["type"] = type;
+                Session["id"] = id;
 
                 return RedirectToAction("Create", "CreateUser");
             }
-            else if (index == 3)
+            else if (type == 6)
             {
-                Session["type"] = "";
+                Session["type"] = type;
+                Session["id"] = id;
 
                 return RedirectToAction("CreateBranch", "CreateBranch");
             }
-            
-            if (index == 4 || index == 5 || index == 6)
+            else if(type == 7)
             {
-                if (index == 4) {
-
-                    Session["searchType"] = "SuperAdmin";
-                }
-                else if (index == 5) {
-
-                    Session["searchType"] = "Admin";
-                }
-                else
-                {
-                    Session["searchType"] = "User";
-                }
+                Session["type"] = type;
+                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
+            } 
+            if (type > 0)
+            {
+                ///send parameters to next page 
+                
+                Session["type"] = type;
+                Session["id"] = id;
 
                 return RedirectToAction("UserList", "UserManagement");
             }
 
             else {
+                Session["id"] = id;
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }
         }

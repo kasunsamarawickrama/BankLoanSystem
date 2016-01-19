@@ -4,5 +4,6 @@
     {
         public User User { get; set; }
         public Company Company { get; set; }
+        public Branch Branch { get; set; }
     }
 }

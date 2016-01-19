@@ -206,6 +206,9 @@
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
     <Content Include="Views\UserManagement\Delete.cshtml" />
+    <Content Include="Views\ManageUsers\editUser.cshtml" />
+    <Content Include="Views\CreateBranch\CreateBranchFirstBranch.cshtml" />
+    <Content Include="Views\CreateUser\ConfirmAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -227,7 +230,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57318</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
