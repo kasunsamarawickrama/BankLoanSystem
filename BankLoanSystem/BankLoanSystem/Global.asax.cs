@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 
 namespace BankLoanSystem
 {
@@ -17,40 +18,43 @@ namespace BankLoanSystem
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
-        protected void Application_Session_Start(object sender, EventArgs e)
+        protected void Session_Start()
+        {
+
+
+        }
+        protected void Application_BeginRequest(object sender, EventArgs e)
         {
             //Check If it is a new session or not , if not then do the further checks
-            if (Request.Cookies["ASP.NET_SessionId"] != null || Request.Cookies["ASP.NET_SessionId"].Value.Length != 0)
+            if (Request.Cookies["ASP.NET_SessionId"] != null && Request.Cookies["ASP.NET_SessionId"].Value != null && Request.Cookies["ASP.NET_SessionId"].Value.Length != 0)
             {
                 string newSessionID = Request.Cookies["ASP.NET_SessionID"].Value;
                 //Check the valid length of your Generated Session ID
                 if (newSessionID.Length <= 24)
                 {
                     //Log the attack details here
-                    
                     Response.Cookies["TriedTohack"].Value = "True";
-                    
                     throw new HttpException("Invalid Request");
                 }
 
+
                 //Genrate Hash key for this User,Browser and machine and match with the Entered NewSessionID
-                if (!GenerateHashKey().Substring(0,24).Equals(newSessionID.Substring(0,24)))
+                if (GenerateHashKey() != newSessionID.Substring(24))
                 {
                     //Log the attack details here
-                    
                     Response.Cookies["TriedTohack"].Value = "True";
-
                     throw new HttpException("Invalid Request");
                 }
 
                 //Use the default one so application will work as usual//ASP.NET_SessionId
                 Request.Cookies["ASP.NET_SessionId"].Value = Request.Cookies["ASP.NET_SessionId"].Value.Substring(0, 24);
-                return;
             }
 
         }
 
-        protected void Application_Session_End(object sender, EventArgs e)
+
+
+        protected void Application_EndRequest(object sender, EventArgs e)
         {
             //Pass the custom Session ID to the browser.
             if (Response.Cookies["ASP.NET_SessionId"] != null)
@@ -59,6 +63,7 @@ namespace BankLoanSystem
             }
 
         }
+
 
         private string GenerateHashKey()
         {
