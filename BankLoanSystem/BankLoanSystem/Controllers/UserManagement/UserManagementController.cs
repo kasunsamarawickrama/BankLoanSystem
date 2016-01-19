@@ -121,10 +121,21 @@ namespace BankLoanSystem.Controllers
 
 
             int companyId;
+            List<UserLogin> details;
 
-            int typeval = (int)Session["type"];
+            int typeval;
+            try
+            {
+                typeval = (int)Session["type"];
+                details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+            
 
-            List<UserLogin> details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
+            
 
             bool isEditable = false;
             foreach (UserLogin user in details)
