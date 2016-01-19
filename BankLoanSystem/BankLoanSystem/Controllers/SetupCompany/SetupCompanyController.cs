@@ -8,6 +8,8 @@ namespace BankLoanSystem.Controllers.SetupCompany
 {
     public class SetupCompanyController : Controller
     {
+        private static User _user = null;
+
         // GET: SetupCompany
         public ActionResult Setup()
         {
@@ -16,8 +18,9 @@ namespace BankLoanSystem.Controllers.SetupCompany
             var type = (string)Session["type"];
             //if (type == "CompanyEmployee")
             //{
-                    
+
             //}
+            _user = (User) TempData["User"];
             CompanyAccess ca = new CompanyAccess();
             List<CompanyType> ctList = ca.GetAllCompanyType();
             ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
@@ -27,20 +30,14 @@ namespace BankLoanSystem.Controllers.SetupCompany
         [HttpPost]
         public ActionResult Setup(Company company)
         {
-            //if (type == "CompanyEmployee")
-            //{
-
-            //}
-            //CompanyAccess ca = new CompanyAccess();
-            //List<CompanyType> ctList = ca.GetAllCompanyType();
-            //ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
-            //return View();
-
-            //generate company code 
             GeneratesCode gc = new GeneratesCode();
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
 
-            TempData["Company"] = company;
+            UserCompanyModel userCom = new UserCompanyModel();
+            userCom.User = _user;
+            userCom.Company = company;
+
+            TempData["UserCompany"] = userCom;
             return RedirectToAction("CreateBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
         }
 

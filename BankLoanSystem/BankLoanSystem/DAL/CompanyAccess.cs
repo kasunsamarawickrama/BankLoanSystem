@@ -114,11 +114,11 @@ namespace BankLoanSystem.DAL
         /// 
         /// insert company, insert main branch, insert first super admin 
         /// 
-        /// argument : companyBranchModel (CompanyBranchModel), user (User)
+        /// argument : userCompany (UserCompanyModel), branch (Branch)
         /// 
         /// </summary>
         /// <returns>true/false</returns>
-        public void SetupCompany(CompanyBranchModel companyBranchModel, User user)
+        public bool SetupCompany(UserCompanyModel userCompany, Branch branch)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -131,21 +131,21 @@ namespace BankLoanSystem.DAL
                         CommandType = CommandType.StoredProcedure,
                         Connection = con
                     };
-                    com1.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = companyBranchModel.Company.CompanyName;
-                    com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = companyBranchModel.Company.CompanyCode;
+                    com1.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
+                    com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@company_address", SqlDbType.NVarChar).Value =
-                        companyBranchModel.Company.CompanyAddress;
-                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = companyBranchModel.Company.State;
-                    com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = companyBranchModel.Company.City;
-                    com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = companyBranchModel.Company.Zip;
-                    com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = companyBranchModel.Company.Email;
-                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = companyBranchModel.Company.PhoneNum;
-                    com1.Parameters.Add("@fax", SqlDbType.NVarChar).Value = companyBranchModel.Company.Fax;
+                        userCompany.Company.CompanyAddress;
+                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.State;
+                    com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
+                    com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
+                    com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
+                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum;
+                    com1.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
                     com1.Parameters.Add("@website_url", SqlDbType.NVarChar).Value =
-                        companyBranchModel.Company.WebsiteUrl;
+                        userCompany.Company.WebsiteUrl;
                     com1.Parameters.Add("@created_by", SqlDbType.Int).Value = 0;
                     com1.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
-                    com1.Parameters.Add("@company_type", SqlDbType.Int).Value = companyBranchModel.Company.TypeId;
+                    com1.Parameters.Add("@company_type", SqlDbType.Int).Value = userCompany.Company.TypeId;
                     com1.Parameters.Add("@first_super_admin_id", SqlDbType.Int).Value = 0;
                     con.Open();
                     com1.ExecuteNonQuery();
@@ -154,7 +154,7 @@ namespace BankLoanSystem.DAL
                     //get company id
                     var command = new SqlCommand("spGetCompanyIdByCompanyName", con) { CommandType = CommandType.StoredProcedure };
                     con.Open();
-                    command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = companyBranchModel.Company.CompanyName;
+                    command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -163,23 +163,24 @@ namespace BankLoanSystem.DAL
                     con.Close();
 
                     //Insert branch
-                    var com2 = new SqlCommand("spInsertBranch", con) {
+                    var com2 = new SqlCommand("spInsertBranch", con)
+                    {
                         CommandType = CommandType.StoredProcedure,
                         Connection = con
                     };
                     com2.Parameters.Add("@user_id", SqlDbType.Int).Value = 0;
                     com2.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value =
-                        companyBranchModel.MainBranch.BranchCode;
+                        branch.BranchCode;
                     com2.Parameters.Add("@branch_name", SqlDbType.NVarChar).Value =
-                        companyBranchModel.MainBranch.BranchName;
+                        branch.BranchName;
                     com2.Parameters.Add("@branch_address", SqlDbType.NVarChar).Value =
-                        companyBranchModel.MainBranch.BranchAddress;
-                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchState;
-                    com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchCity;
-                    com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchZip;
-                    com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchEmail;
-                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchPhoneNum;
-                    com2.Parameters.Add("@fax", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchFax;
+                        branch.BranchAddress;
+                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = branch.BranchState;
+                    com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = branch.BranchCity;
+                    com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = branch.BranchZip;
+                    com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = branch.BranchEmail;
+                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = branch.BranchPhoneNum;
+                    com2.Parameters.Add("@fax", SqlDbType.NVarChar).Value = branch.BranchFax;
                     com2.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
                     com2.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
                     con.Open();
@@ -189,7 +190,7 @@ namespace BankLoanSystem.DAL
                     //get branch id by branch code 
                     command = new SqlCommand("spGetBranchIdByBranchCode", con) { CommandType = CommandType.StoredProcedure };
                     con.Open();
-                    command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchCode;
+                    command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = branch.BranchCode;
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -204,13 +205,13 @@ namespace BankLoanSystem.DAL
                         Connection = con
                     };
 
-                    com3.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
-                    com3.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
-                    com3.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
-                    com3.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = user.LastName;
-                    com3.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
-                    com3.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
-                    com3.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
+                    com3.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName;
+                    com3.Parameters.Add("@password", SqlDbType.NVarChar).Value = userCompany.User.Password;
+                    com3.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = userCompany.User.FirstName;
+                    com3.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = userCompany.User.LastName;
+                    com3.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.User.Email;
+                    com3.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = userCompany.User.PhoneNumber;
+                    com3.Parameters.Add("@status", SqlDbType.Bit).Value = userCompany.User.Status;
                     com3.Parameters.Add("@is_delete", SqlDbType.Bit).Value = 0;
                     com3.Parameters.Add("@created_by", SqlDbType.Int).Value = 0;
                     com3.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
@@ -221,9 +222,9 @@ namespace BankLoanSystem.DAL
                     con.Close();
 
                     //Get first super admin id
-                    command = new SqlCommand("spGetUserIdByUserName", con) { CommandType = CommandType.StoredProcedure};
+                    command = new SqlCommand("spGetUserIdByUserName", con) { CommandType = CommandType.StoredProcedure };
                     con.Open();
-                    command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
+                    command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName;
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -236,19 +237,19 @@ namespace BankLoanSystem.DAL
                     {
                         command = new SqlCommand("spUpdateCompanySuperAdmin", con) { CommandType = CommandType.StoredProcedure };
                         command.Parameters.Add("@user_id", SqlDbType.Int).Value = superAdminId;
-                        command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = companyBranchModel.Company.CompanyName;
+                        command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
                         con.Open();
                         command.ExecuteNonQuery();
                         con.Close();
                     }
-                    
+
                     //update branch , company id and created by id 
                     if (companyId != 0)
                     {
                         command = new SqlCommand("spUpdateBranchCompanyId", con) { CommandType = CommandType.StoredProcedure };
                         command.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
                         command.Parameters.Add("@created_by", SqlDbType.Int).Value = superAdminId;
-                        command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = companyBranchModel.MainBranch.BranchCode;
+                        command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = branch.BranchCode;
                         con.Open();
                         command.ExecuteNonQuery();
                         con.Close();
@@ -264,14 +265,17 @@ namespace BankLoanSystem.DAL
                         command.ExecuteNonQuery();
                         con.Close();
                     }
-
+                    return true;
                 }
                 catch (SqlException sEx)
                 {
-                    throw sEx;
+                    //throw sEx;
+                    return false;
+                    
                 }
             }
         }
+
 
 
         public void SetupCompanyRollback(CompanyBranchModel companyBranchModel, User user)

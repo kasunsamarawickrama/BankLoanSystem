@@ -119,7 +119,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             else if(type == 7)
             {
                 Session["type"] = "CompanyEmployee";
-                return RedirectToAction("Setup", "SetupCompany");
+                return RedirectToAction("CreateFirstSuperUser", "CreateUser");
             } 
             if (type > 0)
             {

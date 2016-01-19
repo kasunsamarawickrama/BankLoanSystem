@@ -9,7 +9,8 @@ namespace BankLoanSystem.Controllers.CreateUser
     public class CreateUserController : Controller
     {
         private static int _createById;
-        private static CompanyBranchModel _comBranchModel = null;
+        private static int _companyId;
+        private static int _curUserRoleId;
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -27,8 +28,8 @@ namespace BankLoanSystem.Controllers.CreateUser
         {
             if (Session["id"] == null)
                 return RedirectToAction("UserLogin", "Login");
+
             int id = (int) Session["id"];
-            string type = (string) Session["type"];
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
@@ -48,7 +49,8 @@ namespace BankLoanSystem.Controllers.CreateUser
                 tempRoleList.Add(tempRole);
             }
             _createById = curUser.UserId;
-
+            _companyId = curUser.Company_Id;
+            _curUserRoleId = curUser.RoleId;
             //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
@@ -96,16 +98,12 @@ namespace BankLoanSystem.Controllers.CreateUser
                 ViewBag.ErrorMsg = "Failed to insert!";
             }
 
-            //Hard corded
-            int companyId = 2;
-            int currUserRoleType = 1;
-
             //Restrict to create above user role 
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
 
-            for (int i = roleList[currUserRoleType - 1].RoleId; i <= roleList.Count && currUserRoleType != 3; i++)
+            for (int i = roleList[_curUserRoleId - 1].RoleId; i <= roleList.Count && _curUserRoleId != 3; i++)
             {
                 UserRole tempRole = new UserRole()
                 {
@@ -119,7 +117,7 @@ namespace BankLoanSystem.Controllers.CreateUser
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
             // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(_companyId);
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
@@ -155,6 +153,8 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpGet]
         public ActionResult CreateFirstSuperUser()
         {
+            if (Session["type"] == null)
+                return RedirectToAction("UserLogin", "Login");
             //CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
             //_comBranchModel = companyBranchModel;
 
@@ -174,11 +174,8 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpPost]
         public ActionResult CreateFirstSuperUser(User user)
         {
-            //CompanyAccess ca = new CompanyAccess();
-            //ca.SetupCompany(_comBranchModel, user);
             TempData["User"] = user;
             return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
-            return View();
         }
     }
 }
