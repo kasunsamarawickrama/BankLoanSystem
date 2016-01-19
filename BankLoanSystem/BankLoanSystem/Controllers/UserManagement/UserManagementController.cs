@@ -288,8 +288,9 @@ namespace BankLoanSystem.Controllers
                 }
 
             }
-
-            return RedirectToAction("UserList", "UserManagement", new { typeval = roleId, idval = lId });
+            Session["id"] = lId;
+            Session["type"] = roleId;
+            return RedirectToAction("UserList", "UserManagement");
 
 
         }
