@@ -25,30 +25,42 @@ namespace BankLoanSystem
         }
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            //Check If it is a new session or not , if not then do the further checks
-            if (Request.Cookies["ASP.NET_SessionId"] != null && Request.Cookies["ASP.NET_SessionId"].Value != null && Request.Cookies["ASP.NET_SessionId"].Value.Length != 0)
-            {
-                string newSessionID = Request.Cookies["ASP.NET_SessionID"].Value;
-                //Check the valid length of your Generated Session ID
-                if (newSessionID.Length <= 24)
-                {
-                    //Log the attack details here
-                    Response.Cookies["TriedTohack"].Value = "True";
-                    throw new HttpException("Invalid Request");
-                }
+            ////Check If it is a new session or not , if not then do the further checks
+            //if (Request.Cookies["ASP.NET_SessionId"] != null && Request.Cookies["ASP.NET_SessionId"].Value != null && Request.Cookies["ASP.NET_SessionId"].Value.Length != 0)
+            //{
+            //    string newSessionID = Request.Cookies["ASP.NET_SessionID"].Value;
+            //    //Check the valid length of your Generated Session ID
+            //    if (newSessionID.Length <= 24)
+            //    {
+            //        //Log the attack details here
+            //        Response.Cookies["TriedTohack"].Value = "True";
+            //       SessionIDManager manager = new SessionIDManager();
+
+           
+            //string newID = manager.CreateSessionID(Context);
+            //bool redirected = false;
+            //bool isAdded = false;
+            //manager.SaveSessionID(Context, newID, out redirected, out isAdded);
+            //return;
+            //    }
 
 
-                //Genrate Hash key for this User,Browser and machine and match with the Entered NewSessionID
-                if (GenerateHashKey() != newSessionID.Substring(24))
-                {
-                    //Log the attack details here
-                    Response.Cookies["TriedTohack"].Value = "True";
-                    throw new HttpException("Invalid Request");
-                }
+            //    //Genrate Hash key for this User,Browser and machine and match with the Entered NewSessionID
+            //    if (GenerateHashKey() != newSessionID.Substring(24))
+            //    {
+            //        //Log the attack details here
+            //        Response.Cookies["TriedTohack"].Value = "True";
+            //        SessionIDManager manager = new SessionIDManager();
+            //string newID = manager.CreateSessionID(Context);
+            //bool redirected = false;
+            //bool isAdded = false;
+            //manager.SaveSessionID(Context, newID, out redirected, out isAdded);
+            //return;
+            //    }
 
-                //Use the default one so application will work as usual//ASP.NET_SessionId
-                Request.Cookies["ASP.NET_SessionId"].Value = Request.Cookies["ASP.NET_SessionId"].Value.Substring(0, 24);
-            }
+            //    //Use the default one so application will work as usual//ASP.NET_SessionId
+            //    Request.Cookies["ASP.NET_SessionId"].Value = Request.Cookies["ASP.NET_SessionId"].Value.Substring(0, 24);
+            //}
 
         }
 
@@ -56,11 +68,11 @@ namespace BankLoanSystem
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
-            //Pass the custom Session ID to the browser.
-            if (Response.Cookies["ASP.NET_SessionId"] != null)
-            {
-                Response.Cookies["ASP.NET_SessionId"].Value = Request.Cookies["ASP.NET_SessionId"].Value + GenerateHashKey();
-            }
+            ////Pass the custom Session ID to the browser.
+            //if (Response.Cookies["ASP.NET_SessionId"] != null)
+            //{
+            //    Response.Cookies["ASP.NET_SessionId"].Value = Request.Cookies["ASP.NET_SessionId"].Value + GenerateHashKey();
+            //}
 
         }
 
