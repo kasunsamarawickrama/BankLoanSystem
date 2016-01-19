@@ -44,7 +44,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
 
             int userId = (int)Session["userId"];
-            int ownerId = (int)TempData["editUserId"];
+            int ownerId = (int)Session["editUserIds"];
 
             if (userId > 0)
             {
@@ -56,7 +56,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count <= 1  && permissionString!=null) {
+                if (permissionString.Count == 1 ) {
 
                    
                     string permission = permissionString[0].rightsPermissionString;
@@ -97,7 +97,19 @@ namespace BankLoanSystem.Controllers.ManageUser
                     }
                     
                 }
-                else if (permissionString.Count != 1)
+
+                else if(permissionString.Count == 0)
+                {
+                    foreach (var obj in rights)
+                    {
+
+                        obj.editorId = userId;
+                        obj.userId = ownerId;
+
+                    }
+
+                }
+                else 
                 {
                     return RedirectToAction("editUser", "UserManagement");
                 }
