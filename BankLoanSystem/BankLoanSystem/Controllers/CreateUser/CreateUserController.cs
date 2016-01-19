@@ -51,7 +51,6 @@ namespace BankLoanSystem.Controllers.CreateUser
             _createById = curUser.UserId;
             _companyId = curUser.Company_Id;
             _curUserRoleId = curUser.RoleId;
-            //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
 
@@ -86,12 +85,22 @@ namespace BankLoanSystem.Controllers.CreateUser
         {
             user.CreatedBy = _createById;
             user.IsDelete = false;
+            user.Status = false;
             UserAccess ua = new UserAccess();
             int res = ua.InsertUser(user);
 
             if (res == 1)
             {
                 ViewBag.SuccessMsg = "Data Successfully inserted!";
+                int userId = (new UserAccess()).getUserId(user.Email);
+                string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                              "<br /><br /> User name: " + user.UserName +
+                                    "<br /> Password : <b>" + user.Password +
+                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "'>here</a> to activate your account." +
+                              "<br /><br/> Thanks,<br /> Admin.";
+
+                Email email = new Email(user.Email);
+                email.SendMail(body, "Account details");
             }
             else
             {
@@ -113,7 +122,6 @@ namespace BankLoanSystem.Controllers.CreateUser
                 tempRoleList.Add(tempRole);
             }
 
-            //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
             // get all branches
@@ -155,8 +163,6 @@ namespace BankLoanSystem.Controllers.CreateUser
         {
             if (Session["type"] == null)
                 return RedirectToAction("UserLogin", "Login");
-            //CompanyBranchModel companyBranchModel = (CompanyBranchModel) TempData["CompanyMainBranch"];
-            //_comBranchModel = companyBranchModel;
 
             return View();
         }
@@ -176,6 +182,26 @@ namespace BankLoanSystem.Controllers.CreateUser
         {
             TempData["User"] = user;
             return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
+        }
+
+        /// <summary>
+        /// CreatedBy :  Kanishka SHM
+        /// CreatedDate: 2016/01/19
+        /// activated account
+        /// 
+        /// argument: userId(int)
+        /// 
+        /// </summary>
+        /// <returns>Return to view create first super admin</returns>
+        public ActionResult ConfirmAccount(int userId)
+        {
+            UserAccess ua = new UserAccess();
+            if(ua.UpdateUserSatus(userId) == 1)
+                return View();
+            else
+            {
+                return null;
+            }
         }
     }
 }

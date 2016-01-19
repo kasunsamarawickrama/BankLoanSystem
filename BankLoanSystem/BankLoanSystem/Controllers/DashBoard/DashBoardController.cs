@@ -22,6 +22,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns></returns>
         public ActionResult UserDashBoard()
         {
+            ViewBag.login = false;
             var id = (int)Session["userId"];
 
             var dashBoardModel = new Models.DashBoard();

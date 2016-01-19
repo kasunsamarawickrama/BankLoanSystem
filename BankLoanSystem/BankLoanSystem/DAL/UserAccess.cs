@@ -26,7 +26,9 @@ namespace BankLoanSystem.DAL
         {
 
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
@@ -47,10 +49,10 @@ namespace BankLoanSystem.DAL
                             user.LastName = reader["last_name"].ToString();
                             user.Email = reader["email"].ToString();
                             user.PhoneNumber = reader["phone_no"].ToString();
-                            user.Status = (bool)reader["status"];
-                            user.CreatedDate = (DateTime)reader["created_date"];
+                            user.Status = (bool) reader["status"];
+                            user.CreatedDate = (DateTime) reader["created_date"];
 
-                            user.IsDelete = (bool)reader["is_delete"];
+                            user.IsDelete = (bool) reader["is_delete"];
                             user.CreatedBy = int.Parse(reader["created_by"].ToString());
                             user.BranchId = int.Parse(reader["branch_id"].ToString());
                             user.RoleId = int.Parse(reader["role_id"].ToString());
@@ -92,10 +94,13 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>User object</returns>
 
-        public bool updateUserDetails(int userId, string userName, string firstName, string lastName, string email, string phone, bool isActive, int branchId, DateTime modifiedDate, string password)
+        public bool updateUserDetails(int userId, string userName, string firstName, string lastName, string email,
+            string phone, bool isActive, int branchId, DateTime modifiedDate, string password)
         {
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
@@ -120,7 +125,7 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        int countVal = (int)returnParameter.Value;
+                        int countVal = (int) returnParameter.Value;
 
                         if (countVal == 1)
                         {
@@ -164,9 +169,12 @@ namespace BankLoanSystem.DAL
         /// <returns>User object</returns>
 
 
-        public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email, string phone, DateTime modifiedDate, string password)
+        public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email,
+            string phone, DateTime modifiedDate, string password)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
@@ -189,7 +197,7 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        int countVal = (int)returnParameter.Value;
+                        int countVal = (int) returnParameter.Value;
 
                         if (countVal == 1)
                         {
@@ -230,9 +238,10 @@ namespace BankLoanSystem.DAL
         /// <returns>true/false</returns>
         public bool IsUniqueUserName(string userName)
         {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            using (
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
-                var command = new SqlCommand("spIsUniqueUserName", con) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("spIsUniqueUserName", con) {CommandType = CommandType.StoredProcedure};
                 command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
                 con.Open();
 
@@ -266,7 +275,7 @@ namespace BankLoanSystem.DAL
                     new SqlConnection(
                         ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
-                var command = new SqlCommand("spInsertUser", con) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("spInsertUser", con) {CommandType = CommandType.StoredProcedure};
                 command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
                 command.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
                 command.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
@@ -299,7 +308,9 @@ namespace BankLoanSystem.DAL
         {
 
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
@@ -339,5 +350,44 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/19
+        /// 
+        /// activated user account 
+        /// 
+        /// argument : userId (int)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
+        public int UpdateUserSatus(int userId)
+        {
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spUpdateUserStatus", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+
+                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    command.ExecuteNonQuery();
+                    int res = (int)returnParameter.Value;
+                    return (int) returnParameter.Value;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+
+        }
     }
 }
