@@ -57,7 +57,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count == 1  ) {
+                if (permissionString.Count <= 1  ) {
 
                    
                     string permission = permissionString[0].rightsPermissionString;
@@ -100,7 +100,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 }
                 else if (permissionString.Count != 1)
                 {
-                    return RedirectToAction("editUser", "ManageUsers");
+                    return RedirectToAction("editUser", "UserManagement");
                 }
                 ViewBag.userId = userId;
                 ViewBag.ownerId = ownerId;
@@ -109,7 +109,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
             else
             {
-                return RedirectToAction("editUser", "ManageUsers");
+                return RedirectToAction("editUser", "UserManagement");
             }                
         }
  
