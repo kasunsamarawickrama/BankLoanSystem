@@ -38,7 +38,7 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// employee login view
@@ -58,7 +58,7 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
         /// 
         /// User Login Controller
