@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ActionLink("My Profile", "Detailsset", "UserManagement", new {type = 4, id = Model.userId}, null)
+        @Html.ActionLink("My Profile", "Detailsset", "UserManagement", new { index = 1 }, null)
     </div>
 
     <br/>
@@ -19,34 +19,36 @@
     {
         <div class="form-horizontal">
 
-            @Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { id = Model.userId, type = 5 }, null)
+            @Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)
         </div>
     }
     if (Model.levelId == 1)
     {
-        @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { id = Model.userId, type = 6 }, null)
+        <div class="form-horizontal">
+            @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)
+        </div>
     }
 
-    <br/>
+    <br />
 
     if (Model.levelId == 1)
     {
-        <div class="form-horizontal">
+    <div class="form-horizontal">
 
-            @Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { type = 1, id = Model.userId }, null)
-        </div>
+        @Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, null)
+    </div>
     }
     if (Model.levelId == 1 || Model.levelId == 2)
     {
-        <div class="form-horizontal">
-            @Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { type = 2, id = Model.userId }, null)
-        </div>
+    <div class="form-horizontal">
+        @Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, null)
+    </div>
     }
     if (Model.levelId == 1 || Model.levelId == 2)
     {
-        <div class="form-horizontal">
-            @Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { type = 3, id = Model.userId }, null)
-        </div>
+    <div class="form-horizontal">
+        @Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, null)
+    </div>
     }
-   
-}
+
+    }

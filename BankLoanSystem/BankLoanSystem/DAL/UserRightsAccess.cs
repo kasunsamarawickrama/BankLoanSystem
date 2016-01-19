@@ -92,7 +92,7 @@ namespace BankLoanSystem.DAL
                         {
                             Right right = new Right();
                             right.userId = int.Parse(reader["user_id"].ToString());
-                            right.rightsPermissionString = reader["rights_id"].ToString();
+                            right.rightsPermissionString = reader["right_id"].ToString();
 
                             RightsLists.Add(right);
 
