@@ -142,7 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -165,7 +164,6 @@
     </Compile>
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Company.cs" />
-    <Compile Include="Models\CompanyBranchModel.cs" />
     <Compile Include="Models\CompanyType.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\Email.cs" />
@@ -194,7 +192,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\ManageUsers\editUser.cshtml" />
+    <Content Include="Views\UserManagement\editUser.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\CreateUser\Create.cshtml" />
     <Content Include="Views\SetupCompany\Setup.cshtml" />
@@ -202,9 +200,9 @@
     <Content Include="Views\UserManagement\Details.cshtml" />
     <Content Include="Views\UserManagement\UserList.cshtml" />
     <Content Include="Views\CreateBranch\CreateBranch.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
     <Content Include="Views\UserManagement\Delete.cshtml" />
-    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -214,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
