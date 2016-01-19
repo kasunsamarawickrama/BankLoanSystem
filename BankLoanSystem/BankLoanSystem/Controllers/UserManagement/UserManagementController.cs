@@ -149,6 +149,7 @@ namespace BankLoanSystem.Controllers
 
 
             if (currentUserId == editUserId) { ViewBag.isSame = true;
+                TempData["rowId"]= editUserId;
 
                 return View(editUser);
             }

@@ -94,6 +94,12 @@
                 @if (!ViewBag.isSame) { 
                  
                 @Html.ActionLink("Edit Rights ->>", "EditRights", "UserManagement", null,null)
+                @Html.ActionLink("Back to List", "UserList")
+                }
+
+                @if (ViewBag.isSame)
+                {
+                    @Html.ActionLink("Back to List", "Details")
                 }
 
             </div>
@@ -105,7 +111,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "UserList")
+    
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
