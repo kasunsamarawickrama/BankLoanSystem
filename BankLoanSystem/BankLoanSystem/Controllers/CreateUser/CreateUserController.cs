@@ -177,6 +177,5 @@ namespace BankLoanSystem.Controllers.CreateUser
             ca.SetupCompany(_comBranchModel, user);
             return View();
         }
-
     }
 }

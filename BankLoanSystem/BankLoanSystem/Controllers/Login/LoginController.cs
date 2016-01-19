@@ -17,8 +17,12 @@ namespace BankLoanSystem.Controllers
         /// user login view
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserLogin(string lbl)
+        public ActionResult UserLogin(string lbl, string lbl3)
         {
+            if (lbl3 != null)
+            {
+                ViewBag.SuccessMsg = lbl3;
+            }
             if (lbl != null)
             {
                 var loginlbl = new UserLogin();
@@ -30,7 +34,6 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = "";
                 return View();
             }
-            
         }
 
         /// <summary>
@@ -95,8 +98,7 @@ namespace BankLoanSystem.Controllers
 
             if (userId > 0)
             {
-                Session["employeeId"] = userId;
-                return RedirectToAction("EmployeeDashBoard", "DashBoard");
+                return RedirectToAction("EmployeeDashBoard", "DashBoard", new { id = userId });
             }
             else {
                 return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect username or password" });
