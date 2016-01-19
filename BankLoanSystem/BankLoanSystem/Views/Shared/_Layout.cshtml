@@ -8,6 +8,15 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/message.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <style>
+    .logoutLblPos{
+       position:fixed;
+       right:400px;
+       top:75px;
+       color: black; 
+       cursor: pointer;    
+    }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,6 +36,11 @@
     </div>
 
     <div class="container body-content">
+        @if (ViewBag.login == false)
+        {
+            <a class="logoutLblPos" value="logout" onclick="logout()">logout</a>
+        }
+        
         <label id="successLabel">@ViewBag.SuccessMsg</label>
         <label id="errorLabel">@ViewBag.ErrorMsg</label>
         @RenderBody()
@@ -40,5 +54,17 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        function logout() {
+
+            if (confirm("Do you really want to logout?")) {   
+                window.location.href = "/Login/UserLogin/";
+            }
+            else {
+                return false;
+            }
+    };
+    </script>
 </body>
 </html>
