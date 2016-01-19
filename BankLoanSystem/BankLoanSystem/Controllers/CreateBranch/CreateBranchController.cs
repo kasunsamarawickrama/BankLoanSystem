@@ -19,15 +19,9 @@ namespace BankLoanSystem.Controllers.CreateBranch
         /// <returns></returns>
         public ActionResult CreateBranch()
         {
-            var type = (string) Session["type"];
-            if (type == "CompanyEmployee")
-            {
-                ViewBag.Type = "CompanyEmployee";
-                _type = "CompanyEmployee";
-                _userCompany = (UserCompanyModel)TempData["UserCompany"];
-            }
             return View();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -37,12 +31,52 @@ namespace BankLoanSystem.Controllers.CreateBranch
         [ActionName("CreateBranch")]
         public ActionResult CreateBranchPost(Branch branch)
         {
+            ViewBag.Type = "";
+            int id = (int) Session["id"];
+            BranchAccess br = new BranchAccess();
+            bool reslt = br.insertBranchDetails(branch, id);
+            if (reslt)
+            {
+                ViewBag.SuccessMsg = "Branch is successfully added";
+                //return RedirectToAction("CreateBranch", "CreateBranch");
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to add branch";
+
+            }
+            return View();
+
+        }
+
+
+        public ActionResult CreateBranchFirstBranch()
+        {
+            var type = (string) Session["type"];
+            if (type == "CompanyEmployee")
+            {
+                ViewBag.Type = "CompanyEmployee";
+                _type = "CompanyEmployee";
+                
+                _userCompany = (UserCompanyModel) TempData["UserCompany"];
+                _userCompany.Branch = new Branch();
+            }
+            else
+                ViewBag.Type = "";
+            return View(_userCompany);
+        }
+
+        [HttpPost]
+        public ActionResult CreateBranchFirstBranch(UserCompanyModel userCompany)
+        {
             if (_type == "CompanyEmployee")
             {
+                ViewBag.Type = "CompanyEmployee";
                 BranchAccess ba = new BranchAccess();
-                branch.BranchCode = ba.createBranchCode(_userCompany.Company.CompanyCode);
+                userCompany.Branch.BranchCode = ba.createBranchCode(_userCompany.Company.CompanyCode);
+                _userCompany.Branch = userCompany.Branch;
                 CompanyAccess ca = new CompanyAccess();
-                if (ca.SetupCompany(_userCompany, branch))
+                if (ca.SetupCompany(_userCompany))
                 {
                     ViewBag.SuccessMsg = "Company is successfully setup";
                     return View();
@@ -50,28 +84,11 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 else
                 {
                     ViewBag.SuccessMsg = "Failed to setup company";
-                    return RedirectToAction("CreateFirstSuperUser", "CreateUser"); ;
+                    return RedirectToAction("CreateFirstSuperUser", "CreateUser");
                 }
-                
-            }
-            else
-            {
-                int id = (int)Session["id"];
-                BranchAccess br = new BranchAccess();
-                bool reslt = br.insertBranchDetails(branch, id);
-                if (reslt)
-                {
-                    ViewBag.SuccessMsg = "Branch is successfully added";
-                    //return RedirectToAction("CreateBranch", "CreateBranch");
-                }
-                else
-                {
-                    ViewBag.ErrorMsg = "Failed to add branch";
-                   
-                }
-                return View();
-            }
 
+            }
+            return View();
         }
     }
 }
