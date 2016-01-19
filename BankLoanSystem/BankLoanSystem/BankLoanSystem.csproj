@@ -206,8 +206,7 @@
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
     <Content Include="Views\UserManagement\Delete.cshtml" />
-    <Content Include="Views\CreateBranch\CreateBranchFirstBranch.cshtml" />
-    <Content Include="Views\CreateUser\ConfirmAccount.cshtml" />
+    <Content Include="Views\ManageUsers\editUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -217,7 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

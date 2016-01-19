@@ -62,6 +62,10 @@ namespace BankLoanSystem.DAL
                             {
                                 user.isEdit = true;
                             }
+                            else if ((userRole == 1) && (levelId == 2))
+                            {
+                                user.isEdit = true;
+                            }
                             else if ((userRole == 2) && (levelId==1))
                             {
                                 user.isEdit = false;
@@ -74,7 +78,7 @@ namespace BankLoanSystem.DAL
                             {
                                 user.isEdit = true;
                             }
-                            else if (levelId == 3)
+                            else if (((userRole == 1) && (levelId == 3))||((userRole == 2) && (levelId == 3)))
                             {
                                 user.isEdit = true;
                             }

@@ -19,6 +19,7 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult UserLogin(string lbl, string lbl3)
         {
+            ViewBag.login = true;
             if (lbl3 != null)
             {
                 ViewBag.SuccessMsg = lbl3;

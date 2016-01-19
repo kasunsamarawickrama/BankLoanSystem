@@ -44,7 +44,7 @@ namespace BankLoanSystem.DAL
                         {
                             Branch branch = new Branch();
                             branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString();
+                            branch.BranchName = reader["branch_name"].ToString() + " - " + reader["branch_code"].ToString();
                             branch.BranchCode = reader["branch_code"].ToString();
 
                             branchesLists.Add(branch);
