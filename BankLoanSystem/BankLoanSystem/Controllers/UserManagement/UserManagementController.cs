@@ -109,7 +109,7 @@ namespace BankLoanSystem.Controllers
 
             try
             {
-                currentUserId = 1; // current user id hard coded
+                currentUserId = int.Parse(Session["userId"].ToString());
                 editUserId = int.Parse(Session["editId"].ToString());
             }
             catch (Exception)
@@ -122,7 +122,25 @@ namespace BankLoanSystem.Controllers
 
             int companyId;
 
-            User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
+            int typeval = (int)Session["type"];
+
+            List<UserLogin> details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
+
+            bool isEditable = false;
+            foreach (UserLogin user in details)
+            {
+                if(user.userId == editUserId && user.isEdit == true)
+                {
+                    isEditable = true;
+                    break;
+                }
+            }
+            if (!isEditable)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+           User editUser = (new UserAccess()).retreiveUserByUserId(editUserId);     //-- edit User id is hard coded
             companyId = editUser.Company_Id;
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(companyId);
@@ -137,6 +155,9 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", editUser.BranchId);
 
+
+            TempData["userId"] = currentUserId;
+            TempData["editUserId"] = editUserId;
             return View(editUser);
         }
         /// <summary>
@@ -149,8 +170,8 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult editRights(User user)
         {
-            int currentUserId = 1;
-            int editUserId = 3;
+            int currentUserId =(int) TempData["userId"];
+            int editUserId = (int)TempData["editUserId"];
 
             TempData["userId"] = currentUserId;
             TempData["editUserId"] = editUserId;
@@ -178,7 +199,7 @@ namespace BankLoanSystem.Controllers
 
             try
             {
-                currentUserId = 1; // current user id hard coded
+                currentUserId = int.Parse(Session["userId"].ToString());
                 editUserId = int.Parse(Session["editId"].ToString());
             }
             catch (Exception)
