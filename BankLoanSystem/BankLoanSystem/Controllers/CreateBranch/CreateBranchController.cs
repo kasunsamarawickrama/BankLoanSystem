@@ -32,7 +32,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
         public ActionResult CreateBranchPost(Branch branch)
         {
             ViewBag.Type = "";
-            int id = (int) Session["id"];
+            int id = (int) Session["userId"];
             BranchAccess br = new BranchAccess();
             bool reslt = br.insertBranchDetails(branch, id);
             if (reslt)

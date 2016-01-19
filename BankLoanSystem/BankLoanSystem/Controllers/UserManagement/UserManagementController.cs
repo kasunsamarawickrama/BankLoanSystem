@@ -15,25 +15,42 @@ namespace BankLoanSystem.Controllers
         {
 
             int idval;
-            int typeval;
+            int typeval=0;
             try
             {
-                idval = (int)Session["id"];
-                typeval = (int)Session["type"];
+                idval = (int)Session["userId"];
+                
+                if ((string)Session["searchType"] == "SuperAdmin")
+                {
+                    typeval = 1;
+                }
+                else if((string)Session["searchType"]== "Admin")
+                {
+                    typeval = 2;
+                }
+                else if ((string)Session["searchType"] == "User")
+                {
+                    typeval = 3;
+                }
+
+                UserManageAccess obj1 = new UserManageAccess();
+                int role = obj1.getUserRole(idval);
+                if ((typeval > 0) && (idval > 0))
+                {
+
+                    var ret = obj1.getUserByType(typeval, idval);
+                    return View(ret);
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(404);
             }
-            UserManageAccess obj1 = new UserManageAccess();
-            int role = obj1.getUserRole(idval);
-            if ((typeval > 0) && (idval > 0))
-            {
-
-                var ret = obj1.getUserByType(typeval, idval);
-                return View(ret);
-            }
-            else { return View(); }
+           
 
         }
 
@@ -164,7 +181,7 @@ namespace BankLoanSystem.Controllers
 
             try
             {
-                typeval = (int)Session["type"];
+                typeval = (int)Session["searchtype"];
                 details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
             }
             catch (Exception)
@@ -294,8 +311,8 @@ namespace BankLoanSystem.Controllers
         public ActionResult Delete()
         {
             int id = (int)TempData["delRowId"];
-            int lId = (int)TempData["logId"];
-            int roleId = (int)TempData["roleId"];
+            //int lId = (int)TempData["logId"];
+            //int roleId = (int)TempData["roleId"];
             DashBoardAccess db = new DashBoardAccess();
             
             UserManageAccess obj1 = new UserManageAccess();
@@ -313,8 +330,7 @@ namespace BankLoanSystem.Controllers
                 }
 
             }
-            Session["id"] = lId;
-            Session["type"] = roleId;
+            
             return RedirectToAction("UserList", "UserManagement");
 
 
