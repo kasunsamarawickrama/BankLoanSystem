@@ -14,7 +14,7 @@ namespace BankLoanSystem.DAL
     {
 
         /// <summary>
-        /// CreatedBy : MAM. IRFAN
+        /// CreatedBy: MAM. IRFAN
         /// CreatedDate: 2016/01/16
         /// 
         /// Getting all branches
@@ -71,11 +71,12 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy: Piyumi
-        /// Date: 17/1/2016
-        /// Description:This method is created to insert branch details
+        /// CreatedDate: 2016/1/17
+        /// Insert branch details
         /// </summary>
-        /// <param name="branch"></param>
+        /// <param name="branch object"></param>
         /// <param name="id"></param>
+        /// <returns>true/false</returns>
         public bool insertBranchDetails(Branch branch, int id)
         {
             string companyCode = getCompanyCodeByUserId(id);
@@ -137,6 +138,13 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 2016/1/17
+        /// Get CompanyId By UserId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>compId</returns>
         public int getCompanyIdByUserId(int id)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -179,10 +187,10 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy:Piyumi
-        /// Date:1/17/2016
-        /// Description: This method is for creating a branch code for a company
+        /// CreatedDate:2016/1/17
+        /// Create a branch code for a company
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="companyCode"></param>
         /// <returns>branchCode</returns>
         public string createBranchCode(string companyCode)
         {
@@ -207,11 +215,11 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy:Piyumi
-        /// Date:1/17/2016
-        /// Description: This method is for retrieving branchId of a company
+        /// CreatedDate:2016/1/17
+        /// Get branchId of a company
         /// </summary>
-        /// <param name="companyId"></param>
-        /// <returns></returns>
+        /// <param name="companyCode"></param>
+        /// <returns>topId</returns>
         public int getLatestBranchId(string companyCode)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -254,11 +262,11 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy:Piyumi
-        /// Date:17/1/2016
-        /// Description:This method is created for retrieving companyId when userId is given
+        /// CreatedDate:17/1/2016
+        /// Get companyId by userId 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>companyId</returns>
+        /// <returns>BranchCompanyCode</returns>
         public string getCompanyCodeByUserId(int id)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
