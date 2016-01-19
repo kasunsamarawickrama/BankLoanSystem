@@ -89,11 +89,11 @@
 
                 <input type="submit" value="Update" class="btn btn-default" />
 
-                <input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "ManageUsers")'" class="btn btn-default" />
+                <input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-default" />
 
 
                 &nbsp;&nbsp;&nbsp; 
-                @Html.ActionLink("Edit Rights", "EditRights ->>", "EditRights",null,null)
+                @Html.ActionLink("Edit Rights ->>", "EditRights", "UserManagement", null,null)
 
             </div>
 
