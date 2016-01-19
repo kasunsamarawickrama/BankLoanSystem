@@ -14,8 +14,8 @@ namespace BankLoanSystem.DAL
     {
         /// <summary>
         /// CreatedBy:Piyumi
-        /// CreatedDate:13/1/2016
-        /// Description:This method is created for retrieving user_name and created person of system users
+        /// CreatedDate:2016/1/13
+        /// Retrieve user_name and created person of users
         /// </summary>
         /// <param name="userType"></param>
         /// <returns>userLogin object</returns>
@@ -98,9 +98,9 @@ namespace BankLoanSystem.DAL
             }
         }
         /// <summary>
-        /// Created By: Piyumi
-        /// Date:1/18/2016
-        /// Description: delete user details of a selected row
+        /// CreatedBy: Piyumi
+        /// CreatedDate:2016/1/18/
+        /// Delete user details of a selected user
         /// </summary>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
@@ -151,6 +151,13 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// Get userName by userId
+        /// </summary>
+        /// <param name="createdBy"></param>
+        /// <returns>userName</returns>
         public string getUserNameById(int createdBy)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -194,11 +201,11 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy:Piyumi
-        ///  CreatedDate:13/1/2016
-        /// Description:This method is created for retrieving user details of selected users
+        /// CreatedDate:2016/1/13
+        /// Get user details of a given user
         /// </summary>
         /// <param name="user_id"></param>
-        /// <returns></returns>
+        /// <returns>GetDetails Object</returns>
         public GetDetails getUserById(int user_id)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -255,8 +262,14 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// Get User Role By userId 
+        /// </summary>
+        /// <param name="idval"></param>
+        /// <returns>role</returns>
 
-       
 
         public int getUserRole(int idval)
         {

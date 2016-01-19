@@ -57,7 +57,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count <= 1  ) {
+                if (permissionString.Count <= 1  && permissionString!=null) {
 
                    
                     string permission = permissionString[0].rightsPermissionString;
