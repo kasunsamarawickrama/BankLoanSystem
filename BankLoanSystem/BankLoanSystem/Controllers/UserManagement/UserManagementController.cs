@@ -314,11 +314,10 @@ namespace BankLoanSystem.Controllers
             return View(user);
         }
 
-        public ActionResult PrevDelete(int id, int lId, int roleId)
+        public ActionResult PrevDelete(int id)
         {
             TempData["delRowId"] = id;
-            TempData["logId"] = lId;
-            TempData["roleId"] = roleId;
+            
             return RedirectToAction("Delete", "UserManagement");
         }
 
