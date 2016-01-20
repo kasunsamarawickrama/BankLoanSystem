@@ -10,6 +10,13 @@ namespace BankLoanSystem.Controllers.SetupCompany
     {
         private static User _user = null;
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// Create company view
+        /// </summary>
+        /// <returns></returns>
         // GET: SetupCompany
         public ActionResult Setup()
         {
@@ -27,9 +34,21 @@ namespace BankLoanSystem.Controllers.SetupCompany
             return View();
         }
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// Get company details
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Setup(Company company)
         {
+            //if (type == "CompanyEmployee")
+            //{
+
+            //}
+
             GeneratesCode gc = new GeneratesCode();
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
 

@@ -11,6 +11,7 @@ namespace BankLoanSystem.Controllers.CreateUser
         private static int _createById;
         private static int _companyId;
         private static int _curUserRoleId;
+        private static int _curBranchId;
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -60,7 +61,8 @@ namespace BankLoanSystem.Controllers.CreateUser
             //if current user is admin restrict to creat user for another branch
             if (ViewBag.CurrUserRoleType == 2)
             {
-                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName", curUser.BranchId);
+                //ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName", curUser.BranchId);
+                _curBranchId = curUser.BranchId;
             }
             else
             {
@@ -86,6 +88,11 @@ namespace BankLoanSystem.Controllers.CreateUser
             user.CreatedBy = _createById;
             user.IsDelete = false;
             user.Status = false;
+
+            if (_curUserRoleId == 2)
+            {
+                user.BranchId = _curBranchId;
+            }
             UserAccess ua = new UserAccess();
             int res = ua.InsertUser(user);
 

@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using BankLoanSystem.Models;
 
 namespace BankLoanSystem.DAL
 {
     public class RoleAccess
     {
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// Get all user role to list
+        /// 
+        /// argument : None
+        /// 
+        /// </summary>
+        /// <returns>List<UserRole></returns>
         public List<UserRole> GetAllUserRoles()
         {
             List<UserRole> userRoleList = new List<UserRole>();
