@@ -84,7 +84,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 }
                 else
                 {
-                    ViewBag.SuccessMsg = "Failed to setup company";
+                    ViewBag.ErrorMsg = "Failed to setup company";
                     return RedirectToAction("CreateFirstSuperUser", "CreateUser");
                 }
 
