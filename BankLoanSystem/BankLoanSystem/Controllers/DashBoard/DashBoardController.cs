@@ -43,21 +43,22 @@ namespace BankLoanSystem.Controllers.DashBoard
                 int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
                 dashBoardModel.userId = id;
-
+                dashBoardModel.userName = (new UserAccess()).retreiveUserByUserId(id).UserName;
+                dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
                 if (userLevelId == 1) {
 
                     dashBoardModel.levelId = 1;
-                    return View(dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
 
                 } else if (userLevelId == 2) {
 
                     dashBoardModel.levelId = 2;
-                    return View(dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
 
                 } else if (userLevelId == 3) {
 
                     dashBoardModel.levelId = 3;
-                    return View(dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
                 }
                 else {
                     return RedirectToAction("UserLogin", "Login");
