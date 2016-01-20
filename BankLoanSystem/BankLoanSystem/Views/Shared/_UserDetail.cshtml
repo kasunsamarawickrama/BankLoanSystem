@@ -26,7 +26,7 @@
 <li class="active">
     <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Activities</span> <span class="fa arrow"></span></a>
     <ul class="nav nav-second-level collapse in">
-        <li class="active">@Html.ActionLink("My Profile", "Detailsset", "UserManagement", new { index = 1 }, null)</li>
+        <li class="active">@Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, null)</li>
 
         @if (@Model.levelId == 1 || @Model.levelId == 2)
         {
