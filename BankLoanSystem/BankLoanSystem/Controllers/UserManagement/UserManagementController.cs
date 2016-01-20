@@ -56,7 +56,7 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult Detailsset(int id)
         {
-            TempData["rowId"] = id;
+            Session["rowId"] = id;
            
             return RedirectToAction("Details", "UserManagement");
         }
@@ -83,7 +83,7 @@ namespace BankLoanSystem.Controllers
             int logId;
             try
             {
-                id = (int)TempData["rowId"];
+                id = (int)Session["rowId"];
                 logId = (int)Session["userId"];
                 UserManageAccess obj1 = new UserManageAccess();
                 if (id != 0)
@@ -167,7 +167,7 @@ namespace BankLoanSystem.Controllers
 
 
             if (currentUserId == editUserId) { ViewBag.isSame = true;
-                TempData["rowId"]= editUserId;
+                Session["rowId"]= editUserId;
 
                 return View(editUser);
             }
@@ -220,10 +220,10 @@ namespace BankLoanSystem.Controllers
                 return new HttpStatusCodeResult(404);
             }
 
-          
 
 
-            TempData["editUserId"] = editUserId;
+
+            Session["editUserId"] = editUserId;
             return View(editUser);
         }
         /// <summary>
@@ -237,7 +237,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult editRights(User user)
         {
             int currentUserId =(int) Session["userId"];
-            int editUserId = (int)TempData["editUserId"];
+            int editUserId = (int)Session["editUserId"];
 
             Session["editUserIds"] = editUserId;
 
@@ -314,11 +314,10 @@ namespace BankLoanSystem.Controllers
             return View(user);
         }
 
-        public ActionResult PrevDelete(int id, int lId, int roleId)
+        public ActionResult PrevDelete(int id)
         {
             TempData["delRowId"] = id;
-            TempData["logId"] = lId;
-            TempData["roleId"] = roleId;
+            
             return RedirectToAction("Delete", "UserManagement");
         }
 
