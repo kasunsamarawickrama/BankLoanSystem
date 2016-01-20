@@ -5,7 +5,7 @@
         <span>
             <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
         </span>
-        <a data-toggle="dropdown" class="dropdown-toggle" href="http://webapplayers.com/inspinia_admin-v2.4/dashboard_3.html#">
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <span class="clear">
                 <span class="block m-t-xs">
                     <strong class="font-bold">@Model.userName</strong>
@@ -16,7 +16,7 @@
         <ul class="dropdown-menu animated fadeInRight m-t-xs">
             
             <li class="divider"></li>
-            <li><a href="http://webapplayers.com/inspinia_admin-v2.4/login.html">Logout</a></li>
+            <li>@Html.ActionLink("Log out", "UserLogin","Login",null,null)</li>
         </ul>
     </div>
     <div class="logo-element">
