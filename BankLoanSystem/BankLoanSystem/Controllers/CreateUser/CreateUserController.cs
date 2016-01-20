@@ -89,10 +89,22 @@ namespace BankLoanSystem.Controllers.CreateUser
             user.IsDelete = false;
             user.Status = false;
 
+            //Set admin branch to new user 
             if (_curUserRoleId == 2)
             {
                 user.BranchId = _curBranchId;
             }
+
+            //Check role is selected
+            if (user.RoleId == 0)
+                user.RoleId = 1;
+
+            //Check branch is selected
+            if (_curUserRoleId == 1 && user.BranchId == 0)
+            {
+                user.BranchId = _curBranchId;
+            }
+
             UserAccess ua = new UserAccess();
             int res = ua.InsertUser(user);
 
@@ -108,35 +120,38 @@ namespace BankLoanSystem.Controllers.CreateUser
 
                 Email email = new Email(user.Email);
                 email.SendMail(body, "Account details");
+
+                Session["editUserIds"] = userId;
+                return RedirectToAction("SetRights", "EditRights");
             }
             else
             {
                 ViewBag.ErrorMsg = "Failed to insert!";
-            }
 
-            //Restrict to create above user role 
-            RoleAccess ra = new RoleAccess();
-            List<UserRole> roleList = ra.GetAllUserRoles();
-            List<UserRole> tempRoleList = new List<UserRole>();
+                //Restrict to create above user role 
+                RoleAccess ra = new RoleAccess();
+                List<UserRole> roleList = ra.GetAllUserRoles();
+                List<UserRole> tempRoleList = new List<UserRole>();
 
-            for (int i = roleList[_curUserRoleId - 1].RoleId; i <= roleList.Count && _curUserRoleId != 3; i++)
-            {
-                UserRole tempRole = new UserRole()
+                for (int i = roleList[_curUserRoleId - 1].RoleId; i <= roleList.Count && _curUserRoleId != 3; i++)
                 {
-                    RoleId = roleList[i - 1].RoleId,
-                    RoleName = roleList[i - 1].RoleName
-                };
-                tempRoleList.Add(tempRole);
+                    UserRole tempRole = new UserRole()
+                    {
+                        RoleId = roleList[i - 1].RoleId,
+                        RoleName = roleList[i - 1].RoleName
+                    };
+                    tempRoleList.Add(tempRole);
+                }
+
+                ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+
+                // get all branches
+                List<Branch> branchesLists = (new BranchAccess()).getBranches(_companyId);
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+
+                return View();
             }
-
-            ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
-
-            // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(_companyId);
-            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-
-
-            return View();
         }
 
         /// <summary>
