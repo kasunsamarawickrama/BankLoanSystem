@@ -67,7 +67,7 @@
             <div class="form-group">
                 @Html.ChqLabelFor(model => model.BranchId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("BranchId", null, "Select the branch", htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownList("BranchId", null, "Select the branch", htmlAttributes: new { @class = "form-control" ,id="BranchId"})
                     @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -76,7 +76,7 @@
         <div class="form-group">
             @Html.ChqLabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RoleId", null, "Select the role", htmlAttributes: new { @class = "form-control", @id = "RoleId" })
+                @Html.DropDownList("RoleId", null, "Select the role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
                 @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
             </div>
         </div>
@@ -85,7 +85,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default"/>
 
-                <input type="button" value="Reset" class="btn btn-default" onclick="location.href='@Url.Action("Create", "CreateUser")'" />
+                <input type="button" value="Reset" class="btn btn-default" onclick="location.href='@Url.Action("Create", "CreateUser")' " />
             </div>
         </div>
     </div>
@@ -104,7 +104,18 @@
         
         var selectedValue = $('#RoleId').selectedIndex();
         if (selectedValue == 0) {
-            
+            model.RoleId
+            var model = @Html.Raw(Json.Encode(Model));
+            document.getElementById("RoleId").value = model.RoleId;
+            alert(model.RoleId);
+        } else {
+        }
+    });
+    $(function () {
+
+        var selectedValue = $('#BranchId').selectedIndex();
+        if (selectedValue == 0) {
+            model.RoleId
         } else {
         }
     });
