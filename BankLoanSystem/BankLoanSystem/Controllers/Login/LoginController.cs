@@ -76,7 +76,8 @@ namespace BankLoanSystem.Controllers
             if (userId > 0)
             {
                 Session["userId"] = userId;
-                return RedirectToAction("UserDashBoard", "DashBoard");
+                TempData["rowId"] = userId;
+                return RedirectToAction("Details", "UserManagement");
             }
             else {
 

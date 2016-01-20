@@ -314,5 +314,54 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// CreatedBy:irfan
+        /// CreatedDate:2016/1/20
+        /// Get User Role By userId 
+        /// </summary>
+        /// <param name="idval"></param>
+        /// <returns>role name</returns>
+
+
+        public string getUserRoleName(int idval)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetUserRole", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = idval;
+
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        string role = "";
+
+                        while (reader.Read())
+                        {
+
+                            role = reader["role_name"].ToString();
+
+                        }
+
+                        return role;
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }
