@@ -4,11 +4,19 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+@if (ViewBag.userId != 0)
+{
+    <h2>My Profile</h2>
+}
+else
+{
+    <h2>User Details</h2>
+}
+
+
 
 <div>
-    <h4>user</h4>
-    <hr />
+  
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.firstName)
@@ -81,10 +89,7 @@
 
         @Html.ActionLink("Edit Profile", "editUserSet", new { editId = ViewBag.userId })
     </p>
-    <p>
 
-        @Html.ActionLink("Back to Dashboard", "UserDashBoard", "DashBoard", null, null)
-    </p>
 }
 else
 {
