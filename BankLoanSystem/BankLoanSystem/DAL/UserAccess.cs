@@ -389,5 +389,65 @@ namespace BankLoanSystem.DAL
             }
 
         }
+
+
+        /// <summary>
+        /// CreatedBy : MAM. IRFAN
+        /// CreatedDate: 2016/01/20
+        /// 
+        /// get Company Employee Details  userName, password
+        /// 
+        /// argument : user_id (int)
+        /// 
+        /// </summary>
+        /// <returns>Company EMployee Name</returns>
+
+
+        public string getCompanyEmployeeName(int userId)
+        {
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetCompanyEmployeeDetails", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@system_admin_id", SqlDbType.Int).Value = userId;
+                        
+
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        string employeeName = "";
+
+                        while (reader.Read())
+                        {
+                            employeeName = reader["user_name"].ToString();
+                        }
+
+
+                        return employeeName;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+        }
     }
 }
