@@ -117,7 +117,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             if (index == 1)
             {
                 Session["type"] = "";
-                TempData["rowId"] = (int)Session["userId"];
+                Session["rowId"] = (int)Session["userId"];
                 return RedirectToAction("Details", "UserManagement");
             }
 
