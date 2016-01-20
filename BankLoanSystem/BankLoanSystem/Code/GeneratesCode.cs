@@ -5,6 +5,16 @@ namespace BankLoanSystem.Code
 {
     public class GeneratesCode
     {
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// generate company code
+        /// 
+        /// argument: companyName(string)
+        /// 
+        /// </summary>
+        /// <returns>companyCode(string)</returns>
         public string GenerateCompanyCode(string companyName)
         {
             var prefix = companyName.Substring(0, 3).ToUpper();
