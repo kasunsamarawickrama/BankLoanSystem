@@ -203,7 +203,11 @@ namespace BankLoanSystem.DAL
                 {
                     branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
                 }
-                branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
+                else
+                {
+                    branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
+                }
+                
                 return branchCode;
             }
             
