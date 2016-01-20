@@ -107,7 +107,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             if (isSuccuss)
             {
 
-                Session["userId"] = userId;
+                Session["fUserId"] = userId;
                 return RedirectToAction("ResetPassword");
             }
             return new HttpStatusCodeResult(404);
@@ -122,19 +122,12 @@ namespace BankLoanSystem.Controllers.ManageUser
         /// </summary>
         /// <returns></returns>
 
-        public ActionResult ResetPassword()
+        public ActionResult ResetPassword(string message)
         {
-
-            // check the session exists allo otherwise don't
-
-            int userId;
-            try
+            if (message != null)
             {
-                userId = int.Parse(Session["userId"].ToString());
-            }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(404);
+                ViewBag.message = message;
+                Session.Abandon();
             }
 
             return View();
@@ -158,7 +151,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             int userId;
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                userId = int.Parse(Session["fUserId"].ToString());
             }
             catch (Exception)
             {
@@ -172,11 +165,10 @@ namespace BankLoanSystem.Controllers.ManageUser
             {
                 return new HttpStatusCodeResult(404);
             }
-            Session.Abandon();
 
-            
-            string success = "Your Password Sucessfully Updated";
-            return RedirectToAction("UserLogin", "Login",new { lbl3 = success });
+            ViewBag.message = "Your Password Sucessfully Updated";
+
+            return RedirectToAction("ResetPassword", new { message = ViewBag.message });
         }
 
 
