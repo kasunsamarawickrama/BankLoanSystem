@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\GeneratesCode.cs" />
+    <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -206,9 +207,9 @@
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\EditRights\EditRights.cshtml" />
     <Content Include="Views\UserManagement\Delete.cshtml" />
-   
     <Content Include="Views\CreateBranch\CreateBranchFirstBranch.cshtml" />
     <Content Include="Views\CreateUser\ConfirmAccount.cshtml" />
+    <Content Include="Views\EditRights\SetRights.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
