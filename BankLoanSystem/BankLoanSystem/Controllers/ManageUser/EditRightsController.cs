@@ -42,7 +42,14 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ViewBag.SuccessMsg = "";
                 ViewBag.ErrorMsg = "";
             }
-
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+            if (Session["editUserIds"] == null)
+            {
+                return RedirectToAction("editUser", "UserManagement");
+            }
             int userId = (int)Session["userId"];
             int ownerId = (int)Session["editUserIds"];
 
@@ -160,17 +167,12 @@ namespace BankLoanSystem.Controllers.ManageUser
             if (returnAccess.postNewRights(returnRight))
             {
                 ViewBag.SuccessMsg = "Succesfully Updated";
-                return RedirectToAction("EditRights", "EditRights", new { lbl1 = ViewBag.SuccessMsg });
-                
+                return RedirectToAction("EditRights", "EditRights", new { lbl1 = ViewBag.SuccessMsg });             
             }
             else {
                 ViewBag.ErrorMsg = "Sorry, rights can't update";
                 return RedirectToAction("EditRights", "EditRights", new { lbl2 = ViewBag.ErrorMsg });
-            }
-
-            
-        }
-
-       
+            }          
+        }      
     }
 }
