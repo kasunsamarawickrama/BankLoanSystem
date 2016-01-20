@@ -86,7 +86,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             var id = (int)Session["employeeId"];
             
             var dashBoardModel = new Models.DashBoard();
-            dashBoardModel.userName = "Company Employee";
+            dashBoardModel.userName =(new UserAccess().getCompanyEmployeeName(id));
             if (id <=0)
             {
                 return RedirectToAction("EmployeeLogin", "Login");
