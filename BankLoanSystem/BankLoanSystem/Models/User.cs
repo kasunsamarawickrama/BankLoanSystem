@@ -38,7 +38,7 @@ namespace BankLoanSystem.Models
         public string Email { get; set; }
 
         [Required]
-        [Phone]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Fax format is not valid.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
@@ -77,8 +77,6 @@ namespace BankLoanSystem.Models
         public int RoleId { get; set; }
 
         public int Company_Id { get; set; }
-
-
     }
 
 
