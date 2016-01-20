@@ -1,0 +1,70 @@
+﻿@model IList<BankLoanSystem.Models.Right>
+
+<h2>Set Rights</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr /><p>All &nbsp</p>
+        @Html.CheckBox("All", new { @id = "CheckAll" })
+
+
+        <table class="dl-horizontal">
+
+
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(x => x[i].rightId)
+                        @Html.HiddenFor(x => x[i].userId)
+                        @Html.HiddenFor(x => x[i].editorId)
+                        @Html.CheckBoxFor(x => x[i].active, new { @class = "All" }) &nbsp &nbsp &nbsp
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x[i].description)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Set" class="btn btn-default" />
+
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("Create", "CreateUser")'" class="btn btn-default" />
+            </div>
+
+
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Create New User", "Create", "CreateUser")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#CheckAll').on('change', function () {
+            if ($(this).is(':checked')) {
+                //alert('checked');
+                $('.All').prop('checked', true);
+
+            }
+            else {
+                //alert('unchecked');
+                $('.All').prop('checked', false);
+            }
+        });
+    });
+</script>
+
