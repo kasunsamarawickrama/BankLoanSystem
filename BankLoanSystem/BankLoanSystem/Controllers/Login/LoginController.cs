@@ -102,7 +102,7 @@ namespace BankLoanSystem.Controllers
             if (userId > 0)
             {
                 Session["employeeId"] = userId;
-                return RedirectToAction("EmployeeDashBoard", "DashBoard");
+                return RedirectToAction("EmployeeDetail", "DashBoard");
             }
             else {
                 return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect username or password" });

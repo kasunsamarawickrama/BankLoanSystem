@@ -84,8 +84,9 @@ namespace BankLoanSystem.Controllers.DashBoard
                 return RedirectToAction("EmployeeLogin", "Login");
             }
             var id = (int)Session["employeeId"];
+            
             var dashBoardModel = new Models.DashBoard();
-
+            dashBoardModel.userName =(new UserAccess().getCompanyEmployeeName(id));
             if (id <=0)
             {
                 return RedirectToAction("EmployeeLogin", "Login");
@@ -93,7 +94,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             else
             {
                 dashBoardModel.userId = id;
-                return View(dashBoardModel);
+                return PartialView("~/Views/Shared/_EmployeeDetail.cshtml",dashBoardModel);
             }
 
 
@@ -162,6 +163,10 @@ namespace BankLoanSystem.Controllers.DashBoard
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }
+        }
+
+        public ActionResult EmployeeDetail() {
+            return View();
         }
     }
 }
