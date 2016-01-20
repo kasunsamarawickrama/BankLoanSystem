@@ -30,7 +30,7 @@ namespace BankLoanSystem.Controllers.CreateUser
             if (Session["userId"] == null)
                 return RedirectToAction("UserLogin", "Login");
 
-            int id = (int) Session["userId"];
+            int id = (int)Session["userId"];
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
@@ -40,14 +40,23 @@ namespace BankLoanSystem.Controllers.CreateUser
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
 
-            for (int i = roleList[ViewBag.CurrUserRoleType - 1].RoleId; i <= roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            //if current user is first super admin he can create aditional super admin
+            if (curUser.UserId == curUser.CreatedBy)
             {
-                UserRole tempRole = new UserRole()
+                //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
+                tempRoleList = roleList;
+            }
+            else
+            {
+                for (int i = 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
                 {
-                    RoleId = roleList[i - 1].RoleId,
-                    RoleName = roleList[i - 1].RoleName
-                };
-                tempRoleList.Add(tempRole);
+                    UserRole tempRole = new UserRole()
+                    {
+                        RoleId = roleList[i].RoleId,
+                        RoleName = roleList[i].RoleName
+                    };
+                    tempRoleList.Add(tempRole);
+                }
             }
             _createById = curUser.UserId;
             _companyId = curUser.Company_Id;
@@ -97,7 +106,7 @@ namespace BankLoanSystem.Controllers.CreateUser
 
             //Check role is selected
             if (user.RoleId == 0)
-                user.RoleId = 1;
+                user.RoleId = 2;
 
             //Check branch is selected
             if (_curUserRoleId == 1 && user.BranchId == 0)
@@ -218,8 +227,11 @@ namespace BankLoanSystem.Controllers.CreateUser
         public ActionResult ConfirmAccount(int userId)
         {
             UserAccess ua = new UserAccess();
-            if(ua.UpdateUserSatus(userId) == 1)
+            if (ua.UpdateUserSatus(userId) == 1)
+            {
+                Session["userId"] = userId;
                 return View();
+            }
             else
             {
                 return null;

@@ -271,7 +271,7 @@ namespace BankLoanSystem.DAL
                 {
                     //throw sEx;
                     return false;
-                    
+
                 }
             }
         }
@@ -289,7 +289,157 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns></returns>
-        public void SetupCompanyRollback(UserCompanyModel userCompany)
+        public bool SetupCompanyRollback(UserCompanyModel userCompany)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                int companyId = 0, branchId = 0, superAdminId = 0;
+                try
+                {
+                    var com1 = new SqlCommand("spSetupCompany", con)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                    };
+                    com1.Parameters.Add("@c_company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
+                    com1.Parameters.Add("@c_company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
+                    com1.Parameters.Add("@c_company_address", SqlDbType.NVarChar).Value =
+                        userCompany.Company.CompanyAddress;
+                    com1.Parameters.Add("@c_state", SqlDbType.NVarChar).Value = userCompany.Company.State;
+                    com1.Parameters.Add("@c_city", SqlDbType.NVarChar).Value = userCompany.Company.City;
+                    com1.Parameters.Add("@c_zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
+                    com1.Parameters.Add("@c_email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
+                    com1.Parameters.Add("@c_phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum;
+                    com1.Parameters.Add("@c_fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
+                    com1.Parameters.Add("@c_website_url", SqlDbType.NVarChar).Value =
+                        userCompany.Company.WebsiteUrl;
+                    com1.Parameters.Add("@c_created_by", SqlDbType.Int).Value = 0;
+                    com1.Parameters.Add("@c_created_date", SqlDbType.DateTime).Value = DateTime.Now;
+                    com1.Parameters.Add("@c_company_type", SqlDbType.Int).Value = userCompany.Company.TypeId;
+                    com1.Parameters.Add("@c_first_super_admin_id", SqlDbType.Int).Value = 0;
+
+                    com1.Parameters.Add("@b_user_id", SqlDbType.Int).Value = 0;
+                    com1.Parameters.Add("@b_branch_code", SqlDbType.NVarChar).Value =
+                        userCompany.Branch.BranchCode;
+                    com1.Parameters.Add("@b_branch_name", SqlDbType.NVarChar).Value =
+                        userCompany.Branch.BranchName;
+                    com1.Parameters.Add("@b_branch_address", SqlDbType.NVarChar).Value =
+                        userCompany.Branch.BranchAddress;
+                    com1.Parameters.Add("@b_state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
+                    com1.Parameters.Add("@b_city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
+                    com1.Parameters.Add("@b_zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
+                    com1.Parameters.Add("@b_email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
+                    com1.Parameters.Add("@b_phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum;
+                    com1.Parameters.Add("@b_fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
+                    com1.Parameters.Add("@b_company_id", SqlDbType.Int).Value = 0;
+                    com1.Parameters.Add("@b_created_date", SqlDbType.DateTime).Value = DateTime.Now;
+
+                    com1.Parameters.Add("@u_user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName;
+                    com1.Parameters.Add("@u_password", SqlDbType.NVarChar).Value = userCompany.User.Password;
+                    com1.Parameters.Add("@u_first_name", SqlDbType.NVarChar).Value = userCompany.User.FirstName;
+                    com1.Parameters.Add("@u_last_name", SqlDbType.NVarChar).Value = userCompany.User.LastName;
+                    com1.Parameters.Add("@u_email", SqlDbType.NVarChar).Value = userCompany.User.Email;
+                    com1.Parameters.Add("@u_phone_no", SqlDbType.NVarChar).Value = userCompany.User.PhoneNumber;
+                    com1.Parameters.Add("@u_status", SqlDbType.Bit).Value = userCompany.User.Status;
+                    com1.Parameters.Add("@u_is_delete", SqlDbType.Bit).Value = 0;
+                    com1.Parameters.Add("@u_created_by", SqlDbType.Int).Value = 0;
+                    com1.Parameters.Add("@u_create_Date", SqlDbType.DateTime).Value = DateTime.Now;
+                    com1.Parameters.Add("@u_branch_id", SqlDbType.Int).Value = 0;
+                    com1.Parameters.Add("@u_role_id", SqlDbType.Int).Value = 1;
+                    con.Open();
+                    SqlParameter returnParameter = com1.Parameters.Add("@return", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    com1.ExecuteNonQuery();
+
+                    int returnVal = (int)returnParameter.Value;
+
+                    con.Close();
+
+                    if (returnVal == 1)
+                    {
+                        //get company id
+                        var command = new SqlCommand("spGetCompanyIdByCompanyName", con) { CommandType = CommandType.StoredProcedure };
+                        con.Open();
+                        command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                                companyId = Convert.ToInt32(reader["company_id"]);
+                        }
+                        con.Close();
+
+                        //get branch id by branch code 
+                        command = new SqlCommand("spGetBranchIdByBranchCode", con) { CommandType = CommandType.StoredProcedure };
+                        con.Open();
+                        command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCode;
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                                branchId = Convert.ToInt32(reader["branch_id"]);
+                        }
+                        con.Close();
+
+                        //Get first super admin id
+                        command = new SqlCommand("spGetUserIdByUserName", con) { CommandType = CommandType.StoredProcedure };
+                        con.Open();
+                        command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName;
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                                superAdminId = Convert.ToInt32(reader["user_id"]);
+                        }
+                        con.Close();
+
+                        //update company super admin
+                        if (superAdminId != 0)
+                        {
+                            command = new SqlCommand("spUpdateCompanySuperAdmin", con) { CommandType = CommandType.StoredProcedure };
+                            command.Parameters.Add("@user_id", SqlDbType.Int).Value = superAdminId;
+                            command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
+                            con.Open();
+                            command.ExecuteNonQuery();
+                            con.Close();
+                        }
+
+                        //update branch , company id and created by id 
+                        if (companyId != 0)
+                        {
+                            command = new SqlCommand("spUpdateBranchCompanyId", con) { CommandType = CommandType.StoredProcedure };
+                            command.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
+                            command.Parameters.Add("@created_by", SqlDbType.Int).Value = superAdminId;
+                            command.Parameters.Add("@branch_code", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCode;
+                            con.Open();
+                            command.ExecuteNonQuery();
+                            con.Close();
+                        }
+
+                        //update user branch id 
+                        if (branchId != 0)
+                        {
+                            command = new SqlCommand("spUpdateUserCreatedById", con) { CommandType = CommandType.StoredProcedure };
+                            command.Parameters.Add("@created_by", SqlDbType.Int).Value = superAdminId;
+                            command.Parameters.Add("@user_id", SqlDbType.Int).Value = superAdminId;
+                            con.Open();
+                            command.ExecuteNonQuery();
+                            con.Close();
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (SqlException sEx)
+                {
+                    //throw sEx;
+                    return false;
+                }
+            }
+        }
+
+
+
+        public bool SetupCompanyRollbackXxx(UserCompanyModel userCompany)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -298,8 +448,6 @@ namespace BankLoanSystem.DAL
                 SqlTransaction tran = con.BeginTransaction();
                 try
                 {
-                   
-
                     //Insert company
                     var com1 = new SqlCommand("spInsertCompany", con)
                     {
@@ -353,7 +501,7 @@ namespace BankLoanSystem.DAL
                     var com3 = new SqlCommand("spInsertUser", con)
                     {
                         CommandType = CommandType.StoredProcedure,
-                        Connection = con, 
+                        Connection = con,
                         Transaction = tran
                     };
 
@@ -438,11 +586,13 @@ namespace BankLoanSystem.DAL
                         con.Close();
                     }
                     tran.Commit();
+                    return true;
                 }
                 catch (SqlException sEx)
                 {
                     tran.Rollback();
-                    throw sEx;
+                    //throw sEx;
+                    return false;
                 }
             }
         }
