@@ -53,7 +53,7 @@ namespace BankLoanSystem.Controllers.CreateUser
             _companyId = curUser.Company_Id;
             _curUserRoleId = curUser.RoleId;
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
-
+            _curBranchId = curUser.BranchId;
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
