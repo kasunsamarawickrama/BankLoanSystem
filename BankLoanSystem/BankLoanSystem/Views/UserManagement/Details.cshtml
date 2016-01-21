@@ -6,7 +6,17 @@
 
 @if (ViewBag.userId != 0)
 {
-    <h2>My Profile</h2>
+    <p>
+        <button type="button" class="pull-right text-right">
+            <span class="glyphicon glyphicon-pencil"></span>
+
+            @Html.ActionLink("Edit", "editUserSet", new { editId = ViewBag.userId })
+            
+            </button>
+            </p>
+
+            <h1 class="m-b-xs">My Profile</h1>
+
 }
 else
 {
@@ -17,10 +27,10 @@ else
 <ul class="list-group clear-list m-t">
     <li class="list-group-item fist-item">
         <span class="pull-right">
-            
+
             @Html.DisplayFor(model => model.firstName)
         </span>
-         @Html.DisplayNameFor(model => model.firstName)
+        @Html.DisplayNameFor(model => model.firstName)
     </li>
     <li class="list-group-item">
         <span class="pull-right">
@@ -32,7 +42,7 @@ else
         <span class="pull-right">
             @Html.DisplayFor(model => model.email)
         </span>
-         @Html.DisplayNameFor(model => model.email)
+        @Html.DisplayNameFor(model => model.email)
     </li>
     <li class="list-group-item">
         <span class="pull-right">
@@ -44,14 +54,14 @@ else
         <span class="pull-right">
             @Html.DisplayFor(model => model.status)
         </span>
-         @Html.DisplayNameFor(model => model.status)
+        @Html.DisplayNameFor(model => model.status)
     </li>
 
     <li class="list-group-item">
         <span class="pull-right">
             @Html.DisplayFor(model => model.createdDate)
         </span>
-          @Html.DisplayNameFor(model => model.createdDate)
+        @Html.DisplayNameFor(model => model.createdDate)
     </li>
 
     <li class="list-group-item">
@@ -63,23 +73,16 @@ else
 
     <li class="list-group-item">
         <span class="pull-right">
-           @Html.DisplayFor(model => model.branchName)
+            @Html.DisplayFor(model => model.branchName)
         </span>
-         @Html.DisplayNameFor(model => model.branchName)
+        @Html.DisplayNameFor(model => model.branchName)
     </li>
 </ul>
 
 
 
-@if (ViewBag.userId != 0)
-{
-    <p>
 
-        @Html.ActionLink("Edit Profile", "editUserSet", new { editId = ViewBag.userId })
-    </p>
-
-}
-else
+@if (ViewBag.userId == 0)
 {
     <p>
 
