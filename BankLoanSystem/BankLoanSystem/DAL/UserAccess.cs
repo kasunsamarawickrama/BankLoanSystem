@@ -390,8 +390,16 @@ namespace BankLoanSystem.DAL
             }
 
         }
-        
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/21
+        /// 
+        /// Insert new created user to user_activation table
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="activationCode"></param>
+        /// <returns></returns>
         public int InsertUserActivation(int userId, string activationCode)
         {
             using (

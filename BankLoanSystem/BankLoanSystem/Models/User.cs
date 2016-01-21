@@ -39,7 +39,7 @@ namespace BankLoanSystem.Models
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Phon number is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Phone number is not valid.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
