@@ -24,6 +24,10 @@ namespace BankLoanSystem.Controllers
 
             int idval;
             int typeval=0;
+            if(Session["userId"] == null || Session["userId"].ToString() == "")
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             try
             {
                 idval = (int)Session["userId"];
@@ -106,6 +110,10 @@ namespace BankLoanSystem.Controllers
         {
             int id;
             int logId;
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             try
             {
                 id = (int)Session["rowId"];
