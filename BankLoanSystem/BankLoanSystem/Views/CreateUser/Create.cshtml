@@ -1,10 +1,10 @@
 ﻿@model BankLoanSystem.Models.User
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create User";
 }
 
-<h2>Create</h2>
+<h2>Create User</h2>
 
 
 
@@ -15,48 +15,66 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+            
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+            
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+           
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+            
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+           
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2" >
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+            
+            <div class="col-sm-10">
                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
             </div>
@@ -65,8 +83,11 @@
         @if (ViewBag.CurrUserRoleType != 2)
         {
             <div class="form-group">
-                @Html.ChqLabelFor(model => model.BranchId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class = "control-label col-sm-2">
+                    @Html.LabelFor(model => model.BranchId, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+               
+                <div class="col-sm-10">
                     @Html.DropDownListFor(model => model.BranchId, null, "Select the branch", htmlAttributes: new { @class = "form-control" ,id="BranchId"})
                     @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
                 </div>
@@ -74,21 +95,34 @@
         }
 
         <div class="form-group">
-            @Html.ChqLabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class = "control-label col-sm-2" >
+                @Html.LabelFor(model => model.RoleId, htmlAttributes: new { })<span style="color:red">*</span>
+            </div>
+            
+            <div class="col-sm-10">
                 @Html.DropDownListFor(model => model.RoleId, null, "Select the role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
                 @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default"/>
+            <div>
 
-                <input type="button" value="Clear" class="btn btn-default" onclick="location.href='@Url.Action("Create", "CreateUser")' " />
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="submit" value="Create" class="btn btn-primary m-b" style="float:left" />
+                        </li>
+
+                        <li>
+                            <input type="button" value="Clear" class="btn btn-primary m-b" onclick="location.href='@Url.Action("Create", "CreateUser")' " style="float:left; margin-left:10px" />
+                        </li>
+                        </ul>
+</nav>
             </div>
+</div>
         </div>
-    </div>
+    
 }
 
 <div>
