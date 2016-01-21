@@ -123,16 +123,22 @@ namespace BankLoanSystem.Controllers.CreateUser
 
             string newSalt = PasswordEncryption.RandomString();
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+
+            //Insert user
             int res = ua.InsertUser(user);
 
+            //Insert new user to user activation table
+            string activationCode = Guid.NewGuid().ToString();
+            int userId = (new UserAccess()).getUserId(user.Email);
+            res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
                 ViewBag.SuccessMsg = "Data Successfully inserted!";
-                int userId = (new UserAccess()).getUserId(user.Email);
+                
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "'>here</a> to activate your account." +
+                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(user.Email);
@@ -143,7 +149,7 @@ namespace BankLoanSystem.Controllers.CreateUser
             }
             else
             {
-                ViewBag.ErrorMsg = "Failed to insert!";
+                ViewBag.ErrorMsg = "Failed to create user!";
 
                 //Restrict to create above user role 
                 RoleAccess ra = new RoleAccess();
@@ -227,26 +233,26 @@ namespace BankLoanSystem.Controllers.CreateUser
             return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
         }
 
-        /// <summary>
-        /// CreatedBy :  Kanishka SHM
-        /// CreatedDate: 2016/01/19
-        /// activated account
+        ///// <summary>
+        ///// CreatedBy :  Kanishka SHM
+        ///// CreatedDate: 2016/01/19
+        ///// activated account
         /// 
-        /// argument: userId(int)
-        /// 
-        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="activationCode"></param>
         /// <returns>Return to view create first super admin</returns>
-        public ActionResult ConfirmAccount(int userId)
+        public ActionResult ConfirmAccount(int userId, string activationCode)
         {
             UserAccess ua = new UserAccess();
-            if (ua.UpdateUserSatus(userId) == 1)
+            if (ua.UpdateUserSatus(userId, activationCode) == 1)
             {
                 Session["userId"] = userId;
                 return View();
             }
             else
             {
-                return null;
+                ViewBag.ErrorMsg = "Failed to activate your account!";
+                return RedirectToAction("ErrorPage", "ErrorPage");
             }
         }
     }

@@ -360,7 +360,7 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>true/false</returns>
-        public int UpdateUserSatus(int userId)
+        public int UpdateUserSatus(int userId, string activationCode)
         {
             using (
                 SqlConnection con =
@@ -370,14 +370,15 @@ namespace BankLoanSystem.DAL
                 {
                     var command = new SqlCommand("spUpdateUserStatus", con);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@activation_code", activationCode);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
 
                     con.Open();
                     command.ExecuteNonQuery();
 
-                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-                    command.ExecuteNonQuery();
                     int res = (int)returnParameter.Value;
                     return (int) returnParameter.Value;
                 }
@@ -385,6 +386,37 @@ namespace BankLoanSystem.DAL
                 {
                     throw ex;
 
+                }
+            }
+
+        }
+        
+
+        public int InsertUserActivation(int userId, string activationCode)
+        {
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spInsertUserActivation", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@activation_code", activationCode);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+
+                    int res = (int)returnParameter.Value;
+                    return (int)returnParameter.Value;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
 

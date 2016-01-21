@@ -18,6 +18,7 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "User Name")]
         [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
+        [StringLength(30, ErrorMessage = "Name cannot be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
         public string UserName { get; set; }
 
         [Required]
@@ -43,7 +44,7 @@ namespace BankLoanSystem.Models
         public string PhoneNumber { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
