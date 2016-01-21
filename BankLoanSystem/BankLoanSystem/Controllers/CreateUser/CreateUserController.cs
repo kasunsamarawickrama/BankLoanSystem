@@ -253,7 +253,7 @@ namespace BankLoanSystem.Controllers.CreateUser
             {
                 Session["userId"] = userId;
                 ViewBag.IsError = 1;
-                ViewBag.ErrorMsg = "Failed to activate your account!";
+                ViewBag.SuccessMsg = "You have already activated your acount.";
                 return View();
             }
         }
