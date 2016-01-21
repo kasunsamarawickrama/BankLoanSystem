@@ -19,6 +19,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "User Name")]
         [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
         [StringLength(30, ErrorMessage = "Name cannot be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Name can't be start with !*@#$%^&*()_+-= and any number.")]
         public string UserName { get; set; }
 
         [Required]
