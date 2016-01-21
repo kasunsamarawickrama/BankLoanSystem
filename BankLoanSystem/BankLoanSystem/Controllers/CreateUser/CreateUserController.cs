@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
+using BankLoanSystem.Code;
+using System.Text;
 
 namespace BankLoanSystem.Controllers.CreateUser
 {
@@ -113,8 +116,12 @@ namespace BankLoanSystem.Controllers.CreateUser
             {
                 user.BranchId = _curBranchId;
             }
+            string passwordTemp = user.Password;
 
             UserAccess ua = new UserAccess();
+
+            string newSalt = PasswordEncryption.RandomString();
+            user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
             int res = ua.InsertUser(user);
 
             if (res == 1)
@@ -123,7 +130,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 int userId = (new UserAccess()).getUserId(user.Email);
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
-                                    "<br /> Password : <b>" + user.Password +
+                                    "<br /> Password : <b>" + passwordTemp +
                               "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "'>here</a> to activate your account." +
                               "<br /><br/> Thanks,<br /> Admin.";
 
@@ -211,6 +218,10 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpPost]
         public ActionResult CreateFirstSuperUser(User user)
         {
+            //user.Password = PasswordEncryption.encryptPassword(user.Password);
+
+            string newSalt = PasswordEncryption.RandomString();
+            user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
             TempData["User"] = user;
             return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
         }
