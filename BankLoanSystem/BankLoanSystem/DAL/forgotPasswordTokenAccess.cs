@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using BankLoanSystem.Models;
+using BankLoanSystem.Code;
 
 namespace BankLoanSystem.DAL
 {
@@ -143,6 +144,10 @@ namespace BankLoanSystem.DAL
         /// <returns>true : success, false : fail</returns>
         public bool resetPassword(int userId, ResetPassword resetPasswordModel)
         {
+
+
+            string newSalt = PasswordEncryption.RandomString();
+            resetPasswordModel.Password = PasswordEncryption.encryptPassword(resetPasswordModel.Password, newSalt);
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
