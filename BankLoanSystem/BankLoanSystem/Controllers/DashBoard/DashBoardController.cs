@@ -23,10 +23,12 @@ namespace BankLoanSystem.Controllers.DashBoard
         public ActionResult UserDashBoard()
         {
             ViewBag.login = false;
+
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");
             }
+
             var id = (int)Session["userId"];
 
             var dashBoardModel = new Models.DashBoard();
@@ -115,6 +117,13 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// <returns>return view with type</returns>
         public ActionResult SearchUsers(int index)
         {
+
+
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
             if (index == 1)
             {
                 Session["type"] = "";
@@ -166,6 +175,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         }
 
         public ActionResult EmployeeDetail() {
+
             return View();
         }
     }
