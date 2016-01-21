@@ -7,7 +7,7 @@
 @if (ViewBag.userId != 0)
 {
     <p>
-        <button type="button" class="pull-right text-right" onclick="@Url.Action("Edit", "editUserSet",new { editId = ViewBag.userId })">
+        <button type="button" class="pull-right text-right" onclick="location.href='@Url.Action("editUserSet","UserManagement",new { editId = ViewBag.userId })'">
             <span class="glyphicon glyphicon-pencil"></span>
 
             @Html.ActionLink("Edit", "editUserSet", new { editId = ViewBag.userId })
