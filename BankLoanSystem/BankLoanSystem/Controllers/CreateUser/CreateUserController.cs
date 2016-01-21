@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 email.SendMail(body, "Account details");
 
                 Session["editUserIds"] = userId;
-                return RedirectToAction("SetRights", "EditRights");
+                return RedirectToAction("SetRights", "EditRights", new {@lbl1 = ViewBag.SuccessMsg });
             }
             else
             {
