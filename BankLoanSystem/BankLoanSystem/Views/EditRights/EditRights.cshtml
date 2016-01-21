@@ -1,6 +1,6 @@
 ﻿@model IList<BankLoanSystem.Models.Right>
 
-<h2>EditRights</h2>
+<h2>Edit User Rights</h2>
 
 
 @using (Html.BeginForm())
@@ -9,23 +9,23 @@
 
     <div class="form-horizontal">
 
-     
-       
+
+
 
 
         <table class="dl-horizontal">
-            <tr>
+            <tr class="checkbox">
                 <td>
-                    @Html.CheckBox("All", new { @id = "CheckAll" })
+                    @Html.CheckBox("All", new { @id = "CheckAll" }) &nbsp &nbsp &nbsp
                 </td>
                 <td>
-                    <labe>Check All</labe>
+                    Check All
                 </td>
             </tr>
 
             @for (var i = 0; i < Model.Count; i++)
             {
-                <tr>
+                <tr class="checkbox">
                     <td>
                         @Html.HiddenFor(x => x[i].rightId)
                         @Html.HiddenFor(x => x[i].userId)
@@ -41,10 +41,17 @@
         </table>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Update" class="btn btn-default" />
+            <div>
 
-                <input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-default" />
+                <nav>
+                    <ul class="pager">
+                        @*<input type="submit" value="Update" class="btn btn-default" />*@
+                        <li><input type="submit" value="Update"  class="btn btn-primary m-b" /></li>
+
+                        <li><input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-primary m-b" /></li>
+
+                        </ul>
+                        </nav>
             </div>
 
 
