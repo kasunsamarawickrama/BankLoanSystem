@@ -35,14 +35,17 @@ namespace BankLoanSystem.Controllers
                 if ((string)Session["searchType"] == "SuperAdmin")
                 {
                     typeval = 1;
+                    ViewBag.Manage = "Manage SuperAdmins";
                 }
                 else if((string)Session["searchType"]== "Admin")
                 {
                     typeval = 2;
+                    ViewBag.Manage = "Manage Admins";
                 }
                 else if ((string)Session["searchType"] == "User")
                 {
                     typeval = 3;
+                    ViewBag.Manage = "Manage Users";
                 }
 
                 UserManageAccess obj1 = new UserManageAccess();
@@ -51,6 +54,7 @@ namespace BankLoanSystem.Controllers
                 {
 
                     var ret = obj1.getUserByType(typeval, idval);
+                    ViewBag.noList = ret.Count;
                     return View(ret);
                 }
                 else
