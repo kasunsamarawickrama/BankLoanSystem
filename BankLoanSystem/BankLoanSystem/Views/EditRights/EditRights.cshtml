@@ -2,18 +2,26 @@
 
 <h2>EditRights</h2>
 
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
 
-        <hr /><p>All &nbsp</p>
-        @Html.CheckBox("All", new { @id = "CheckAll" })
+     
+       
 
 
         <table class="dl-horizontal">
-
+            <tr>
+                <td>
+                    @Html.CheckBox("All", new { @id = "CheckAll" })
+                </td>
+                <td>
+                    <labe>Check All</labe>
+                </td>
+            </tr>
 
             @for (var i = 0; i < Model.Count; i++)
             {
@@ -67,3 +75,4 @@
         });
     });
 </script>
+
