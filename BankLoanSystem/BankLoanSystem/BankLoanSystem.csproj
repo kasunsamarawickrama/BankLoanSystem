@@ -180,6 +180,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
+    <Compile Include="Code\PasswordEncryption.cs" />
+    <Compile Include="Code\PasswordHash.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -273,7 +275,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57318</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

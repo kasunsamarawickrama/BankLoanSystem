@@ -8,7 +8,11 @@ namespace BankLoanSystem.Models
 {
     public class Branch
     {
-       
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate:2016/1/17
+        /// 
+        /// </summary>
         public int BranchId { get; set; }
 
         [Display(Name = "Name")]
