@@ -10,7 +10,15 @@ namespace BankLoanSystem.Controllers
 {
     public class UserManagementController : Controller
     {
-        // GET: UserManagement
+        /// <summary>
+        /// CreatedBy : piyumi
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// Showing user list of selected user role
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult UserList()
         {
 
@@ -53,7 +61,15 @@ namespace BankLoanSystem.Controllers
            
 
         }
-
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// get selected rowId
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult Detailsset(int id)
         {
             Session["rowId"] = id;
@@ -76,7 +92,16 @@ namespace BankLoanSystem.Controllers
             return View();
 
         }
-       
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// Showing details of selected user
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult Details()
         {
             int id;
@@ -314,6 +339,15 @@ namespace BankLoanSystem.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// get selected rowId to delete
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult PrevDelete(int id)
         {
             TempData["delRowId"] = id;
@@ -321,11 +355,19 @@ namespace BankLoanSystem.Controllers
             return RedirectToAction("Delete", "UserManagement");
         }
 
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/01/18
+        /// 
+        /// delete selected user
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult Delete()
         {
             int id = (int)TempData["delRowId"];
-            //int lId = (int)TempData["logId"];
-            //int roleId = (int)TempData["roleId"];
+            
             DashBoardAccess db = new DashBoardAccess();
             
             UserManageAccess obj1 = new UserManageAccess();
