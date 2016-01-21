@@ -7,6 +7,7 @@ using BankLoanSystem.Models;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using BankLoanSystem.Code;
 
 
 namespace BankLoanSystem.DAL
@@ -35,17 +36,43 @@ namespace BankLoanSystem.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.Add("@userName", SqlDbType.VarChar).Value = username;
-                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+
 
                         con.Open();
                         cmd.ExecuteNonQuery();
-                        SqlParameter returnParameter = cmd.Parameters.Add("@ReturnValue", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
+                        //SqlParameter idOut = cmd.Parameters.Add("@IdOut", SqlDbType.Int);
+                        //SqlParameter passwordOut = cmd.Parameters.Add("@PasswordOut", SqlDbType.VarChar);
+                        //idOut.Direction = ParameterDirection.ReturnValue;
+                        //passwordOut.Direction = ParameterDirection.ReturnValue;
+                        //cmd.ExecuteNonQuery();
+                        int idOut = 0;
+                        string passwordOut = "";
+                        var reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            idOut = Convert.ToInt32(reader["user_id"]);
+                            passwordOut = reader["password"].ToString();
+                        }
 
-                        int userId = (int)returnParameter.Value;
 
-                        return userId;
+                        int idFromDB = (int)idOut;
+                        string passwordFromDB = (string)passwordOut;
+
+                        char[] delimiter = { ':' };
+
+                        string[] split = passwordFromDB.Split(delimiter);
+
+
+
+                        string passwordEncripted = PasswordEncryption.encryptPassword(password, split[1]);
+
+                        if (string.Compare(passwordEncripted, passwordOut) == 0)
+                        {
+                            return idFromDB;
+                        }
+                        else {
+                            return -1;
+                        }
                     }
                 }
 
@@ -71,7 +98,7 @@ namespace BankLoanSystem.DAL
         /// <returns>employeeid</returns>
         public int CheckEmployeeLogin(string username, string password)
         {
-
+          
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
@@ -81,17 +108,42 @@ namespace BankLoanSystem.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.Add("@userName", SqlDbType.VarChar).Value = username;
-                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+                        
 
                         con.Open();
                         cmd.ExecuteNonQuery();
-                        SqlParameter returnParameter = cmd.Parameters.Add("@ReturnValue", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
+                        //SqlParameter idOut = cmd.Parameters.Add("@IdOut", SqlDbType.Int);
+                        //SqlParameter passwordOut = cmd.Parameters.Add("@PasswordOut", SqlDbType.VarChar);
+                        //idOut.Direction = ParameterDirection.ReturnValue;
+                        //passwordOut.Direction = ParameterDirection.ReturnValue;
+                        //cmd.ExecuteNonQuery();
+                        int idOut = 0;
+                        string passwordOut = "";
+                        var reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            idOut = Convert.ToInt32(reader["system_admin_id"]);
+                            passwordOut = reader["password"].ToString();
+                        }
 
-                        int userId = (int)returnParameter.Value;
 
-                        return userId;
+                        int idFromDB = (int)idOut;
+                        string passwordFromDB = (string)passwordOut;
+
+                        //char[] delimiter = { ':' };
+
+                        //string[] split = passwordFromDB.Split(delimiter);
+
+                        //string passwordEncripted = PasswordEncryption.encryptPassword(password,split[1]);
+
+                        if (string.Compare(password, password) == 0)
+                        {
+                            return idFromDB;
+                        }
+                        else {
+                            return -1;
+                        }
+
                     }
                 }
 
