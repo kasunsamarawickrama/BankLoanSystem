@@ -249,10 +249,10 @@
     <Content Include="Views\CreateUser\ConfirmAccount.cshtml" />
     <Content Include="Views\Shared\_login.cshtml" />
     <Content Include="Views\Shared\_UserDetail.cshtml" />
-    <Content Include="Views\EditRights\SetRights.cshtml" />
-    <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
-    <Content Include="Views\Shared\_EmployeeDetail.cshtml" />
     <Content Include="Views\DashBoard\EmployeeDetail.cshtml" />
+    <Content Include="Views\EditRights\SetRights.cshtml" />
+    <Content Include="Views\Shared\_EmployeeDetail.cshtml" />
+    <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -262,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -274,7 +275,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57318</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

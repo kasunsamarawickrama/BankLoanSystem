@@ -30,10 +30,11 @@ namespace BankLoanSystem.Controllers.CreateUser
         // GET: CreateUser
         public ActionResult Create()
         {
-            if (Session["userId"] == null)
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
-            int id = (int)Session["userId"];
+            //int id = (int)Session["userId"];
+            int id = Convert.ToInt32(Session["userId"].ToString());
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(id);
             ViewBag.CurrUserRoleType = curUser.RoleId;
