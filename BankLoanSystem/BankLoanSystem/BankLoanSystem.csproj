@@ -181,7 +181,6 @@
     <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Code\PasswordEncryption.cs" />
-    <Compile Include="Code\PasswordHash.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -227,8 +226,6 @@
     </Content>
     <Content Include="Views\Login\EmployeeLogin.cshtml" />
     <Content Include="Views\Login\UserLogin.cshtml" />
-    <Content Include="Views\DashBoard\EmployeeDashBoard.cshtml" />
-    <Content Include="Views\DashBoard\UserDashBoard.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
