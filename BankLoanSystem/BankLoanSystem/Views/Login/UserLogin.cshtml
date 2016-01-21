@@ -44,6 +44,11 @@
 
         <small> @Html.ActionLink("Forgot Password?", "Index", "ForgotPassword")</small>
 
+        
+
+        <p class="text-muted text-center"><small>Are you a Company employee?</small></p>
+        @Html.ActionLink("Login as Company Employee", "EmployeeLogin", "Login",null,new { @class = "btn btn-sm btn-white btn-block" })
+
 
 }
 
