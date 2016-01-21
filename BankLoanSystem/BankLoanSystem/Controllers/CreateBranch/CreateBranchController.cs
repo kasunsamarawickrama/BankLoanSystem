@@ -23,7 +23,9 @@ namespace BankLoanSystem.Controllers.CreateBranch
         }
 
         /// <summary>
-        /// 
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// insert branch details
         /// </summary>
         /// <param name="branch"></param>
         /// <returns></returns>
@@ -32,6 +34,11 @@ namespace BankLoanSystem.Controllers.CreateBranch
         public ActionResult CreateBranchPost(Branch branch)
         {
             ViewBag.Type = "";
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
             int id = (int)Session["userId"];
             BranchAccess br = new BranchAccess();
             bool reslt = br.insertBranchDetails(branch, id);
@@ -49,7 +56,12 @@ namespace BankLoanSystem.Controllers.CreateBranch
 
         }
 
-
+        /// <summary>
+        /// CreatedBy: Kanishka
+        /// CreatedDate:2016/1/18
+        /// insert first branch details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult CreateBranchFirstBranch()
         {
             var type = (string)Session["type"];
@@ -66,6 +78,13 @@ namespace BankLoanSystem.Controllers.CreateBranch
             return View(_userCompany);
         }
 
+        /// <summary>
+        /// CreatedBy: Kanishka
+        /// CreatedDate:2016/1/18
+        /// 
+        /// </summary>
+        /// <param name="userCompany"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CreateBranchFirstBranch(UserCompanyModel userCompany)
         {

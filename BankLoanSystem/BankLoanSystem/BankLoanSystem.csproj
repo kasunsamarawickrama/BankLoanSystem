@@ -180,6 +180,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
+    <Compile Include="Code\PasswordEncryption.cs" />
+    <Compile Include="Code\PasswordHash.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -249,8 +251,8 @@
     <Content Include="Views\Shared\_UserDetail.cshtml" />
     <Content Include="Views\EditRights\SetRights.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
-    <Content Include="Views\DashBoard\EmployeeDetail.cshtml" />
     <Content Include="Views\Shared\_EmployeeDetail.cshtml" />
+    <Content Include="Views\DashBoard\EmployeeDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
