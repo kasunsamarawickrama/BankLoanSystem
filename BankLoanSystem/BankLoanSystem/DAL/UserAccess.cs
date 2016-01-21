@@ -95,7 +95,7 @@ namespace BankLoanSystem.DAL
         /// <returns>User object</returns>
 
         public bool updateUserDetails(int userId, string userName, string firstName, string lastName, string email,
-            string phone, bool isActive, int branchId, DateTime modifiedDate, string password)
+            string phone, bool isActive, int branchId, DateTime modifiedDate)
         {
 
             using (
@@ -117,7 +117,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@status", SqlDbType.Bit).Value = isActive;
                         cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
                         cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = modifiedDate;
-                        cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
+                        
 
                         con.Open();
 
@@ -170,7 +170,7 @@ namespace BankLoanSystem.DAL
 
 
         public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email,
-            string phone, DateTime modifiedDate, string password)
+            string phone, DateTime modifiedDate)
         {
             using (
                 SqlConnection con =
@@ -189,7 +189,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
                         cmd.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = phone;
                         cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = modifiedDate;
-                        cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
+                        
 
                         con.Open();
 

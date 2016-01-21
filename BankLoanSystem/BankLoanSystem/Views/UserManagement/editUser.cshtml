@@ -5,6 +5,22 @@
 }
 
 
+@if (!ViewBag.isSame)
+{
+    <p>
+        <button type="button" class="pull-right text-right" onclick="location.href='@Url.Action("EditRights","UserManagement")'">
+            <span class="glyphicon glyphicon-pencil"></span>
+
+            @Html.ActionLink("Edit Rights", "EditRights", "UserManagement", null, null)
+
+        </button>
+    </p>
+
+            <h1 class="m-b-xs">My Profile</h1>
+
+}
+
+
 
 @using (Html.BeginForm())
 {
@@ -85,11 +101,6 @@
 
                         @if (!ViewBag.isSame)
                         {
-
-                            <li>
-
-                                @Html.ActionLink("Edit Rights ->>", "EditRights", "UserManagement", null, null)
-                            </li>
                             <li>
                                 @Html.ActionLink("Back to List", "UserList")
 
