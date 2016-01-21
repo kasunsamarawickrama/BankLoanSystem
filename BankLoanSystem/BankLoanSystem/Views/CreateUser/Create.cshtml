@@ -88,7 +88,7 @@
                 </div>
                
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(model => model.BranchId, null, "Select the branch", htmlAttributes: new { @class = "form-control" ,id="BranchId"})
+                    @Html.DropDownListFor(model => model.BranchId, null, "Select branch", htmlAttributes: new { @class = "form-control" ,id="BranchId"})
                     @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -100,7 +100,7 @@
             </div>
             
             <div class="col-sm-10">
-                @Html.DropDownListFor(model => model.RoleId, null, "Select the role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
+                @Html.DropDownListFor(model => model.RoleId, null, "Select role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
                 @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
             </div>
         </div>
@@ -114,14 +114,10 @@
                             <input type="submit" value="Create" class="btn btn-primary m-b" style="float:left" />
                         </li>
 
-                        <li>
-                            <input type="button" value="Clear" class="btn btn-primary m-b" onclick="location.href='@Url.Action("Create", "CreateUser")' " style="float:left; margin-left:10px" />
-                        </li>
-                        </ul>
-</nav>
+                <input type="button" value="Clear" class="btn btn-default" onclick="location.href='@Url.Action("Create", "CreateUser")' " />
             </div>
-</div>
         </div>
+    </div>
     
 }
 
@@ -133,7 +129,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(function () {
         
         var selectedValue = $('#RoleId').selectedIndex();
@@ -153,4 +149,4 @@
         } else {
         }
     });
-</script>
+</script>*@
