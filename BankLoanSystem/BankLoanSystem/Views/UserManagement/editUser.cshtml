@@ -16,7 +16,7 @@
         </button>
     </p>
 
-            <h1 class="m-b-xs">My Profile</h1>
+            <h1 class="m-b-xs"></h1>
 
 }
 
@@ -99,12 +99,13 @@
                 <nav>
                     <ul class="pager">
 
-                        @if (!ViewBag.isSame)
-                        {
-                            <li>
-                                @Html.ActionLink("Back to List", "UserList")
+                                                @if (!ViewBag.isSame)
+                                                {
+                                                        
+                                                    <li><input type="button" value="Back to List" onclick="location.href='@Url.Action("UserList")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
 
-                            </li>
+
+                                                    
 
 
                         }
