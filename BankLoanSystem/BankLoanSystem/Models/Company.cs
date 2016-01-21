@@ -11,6 +11,8 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Company Name")]
         [Remote("IsCompanyNameExists", "SetupCompany", ErrorMessage = "Company Name already in use")]
+        [StringLength(30, ErrorMessage = "Company name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Company name can't be start with !*@#$%^&*()_+-= and any number.")]
         public string CompanyName { get; set; }
 
         public string CompanyCode { get; set; }
