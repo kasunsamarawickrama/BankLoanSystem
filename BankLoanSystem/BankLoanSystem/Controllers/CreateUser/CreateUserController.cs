@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 email.SendMail(body, "Account details");
 
                 Session["editUserIds"] = userId;
-                return RedirectToAction("SetRights", "EditRights");
+                return RedirectToAction("SetRights", "EditRights", new {@lbl1 = ViewBag.SuccessMsg });
             }
             else
             {
@@ -251,8 +251,10 @@ namespace BankLoanSystem.Controllers.CreateUser
             }
             else
             {
+                Session["userId"] = userId;
+                ViewBag.IsError = 1;
                 ViewBag.ErrorMsg = "Failed to activate your account!";
-                return RedirectToAction("ErrorPage", "ErrorPage");
+                return View();
             }
         }
     }

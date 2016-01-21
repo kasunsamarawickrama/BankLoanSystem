@@ -62,7 +62,11 @@ namespace BankLoanSystem.DAL
 
                         string[] split = passwordFromDB.Split(delimiter);
 
+                        var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
 
+                        if (passwordFromDB == null ||( checkCharHave == false)) {
+                            return -1;
+                        }
 
                         string passwordEncripted = PasswordEncryption.encryptPassword(password, split[1]);
 
