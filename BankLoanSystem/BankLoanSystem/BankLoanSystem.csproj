@@ -185,6 +185,7 @@
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
+    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
@@ -253,6 +254,7 @@
     <Content Include="Views\EditRights\SetRights.cshtml" />
     <Content Include="Views\Shared\_EmployeeDetail.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
+    <Content Include="Views\ErrorPage\ErrorPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
