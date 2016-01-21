@@ -14,75 +14,63 @@ else
 }
 
 
-
-<div>
-  
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.firstName)
-        </dt>
-
-        <dd>
+<ul class="list-group clear-list m-t">
+    <li class="list-group-item fist-item">
+        <span class="pull-right">
+            
             @Html.DisplayFor(model => model.firstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.lastName)
-        </dt>
-
-        <dd>
+        </span>
+         @Html.DisplayNameFor(model => model.firstName)
+    </li>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.lastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
-
-        <dd>
+        </span>
+        @Html.DisplayNameFor(model => model.lastName)
+    </li>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.phoneNo)
-        </dt>
-
-        <dd>
+        </span>
+         </span>@Html.DisplayNameFor(model => model.email)
+    </li>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.phoneNo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.status)
-        </dt>
-
-        <dd>
+        </span>
+        @Html.DisplayNameFor(model => model.phoneNo)
+    </li>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.createdDate)
-        </dt>
+        </span>
+         @Html.DisplayNameFor(model => model.status)
+    </li>
 
-        <dd>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.createdDate)
-        </dd>
+        </span>
+         </span> @Html.DisplayNameFor(model => model.createdDate)
+    </li>
 
-
-        <dt>
-            @Html.DisplayNameFor(model => model.roleName)
-        </dt>
-
-        <dd>
+    <li class="list-group-item">
+        <span class="pull-right">
             @Html.DisplayFor(model => model.roleName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.branchName)
-        </dt>
+        </span>
+        </span>@Html.DisplayNameFor(model => model.roleName)
+    </li>
 
-        <dd>
-            @Html.DisplayFor(model => model.branchName)
-        </dd>
+    <li class="list-group-item">
+        <span class="pull-right">
+           @Html.DisplayFor(model => model.branchName)
+        </span>
+         @Html.DisplayNameFor(model => model.branchName)
+    </li>
+</ul>
 
 
 
-
-
-    </dl>
-</div>
 @if (ViewBag.userId != 0)
 {
     <p>

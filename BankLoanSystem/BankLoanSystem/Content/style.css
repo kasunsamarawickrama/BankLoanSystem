@@ -3186,7 +3186,7 @@ body.tour-open .animated {
 }
 .sidebar-content .wrapper,
 .wrapper.sidebar-content {
-  padding-right: 230px !important;
+  /*padding-right: 230px !important;*/
 }
 .body-small .sidebar-content .wrapper,
 .body-small .wrapper.sidebar-content {
@@ -3308,6 +3308,9 @@ body {
 html,
 body {
   height: 100%;
+  margin-left:auto;
+  margin-right:auto;
+  width:980px;
 }
 body.full-height-layout #wrapper,
 body.full-height-layout #page-wrapper {
@@ -8232,4 +8235,8 @@ body.md-skin {
 }
 #errorLabel{
     color:orangered;
+}
+
+.container {
+    width: 500px;
 }
