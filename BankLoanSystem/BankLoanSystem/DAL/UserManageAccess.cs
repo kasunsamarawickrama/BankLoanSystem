@@ -54,31 +54,20 @@ namespace BankLoanSystem.DAL
                             user.createdName = getUserNameById(user.createdBy);
                             user.roleId = int.Parse(reader["role_id"].ToString());
                             
-                             if ((userRole == 1) && (levelId == 1) && (user.createdBy != userId))
-                            {
-                                user.isEdit = false;
-                            }
-                            else if ((userRole == 1) && (levelId == 1) && (user.createdBy == userId))
+                             if (userRole == 1)
                             {
                                 user.isEdit = true;
                             }
-                            else if ((userRole == 1) && (levelId == 2))
-                            {
-                                user.isEdit = true;
-                            }
+                           
                             else if ((userRole == 2) && (levelId==1))
                             {
                                 user.isEdit = false;
                             }
-                            else if ((userRole == 2) && (levelId == 2)&&(user.createdBy!=userId))
-                            {
-                                user.isEdit = false;
-                            }
-                            else if ((userRole == 2) && (levelId == 2) && (user.createdBy == userId))
+                            else if ((userRole == 2) && (levelId == 2))
                             {
                                 user.isEdit = true;
                             }
-                            else if (((userRole == 1) && (levelId == 3))||((userRole == 2) && (levelId == 3)))
+                            else if ((userRole == 2) && (levelId == 3))
                             {
                                 user.isEdit = true;
                             }
