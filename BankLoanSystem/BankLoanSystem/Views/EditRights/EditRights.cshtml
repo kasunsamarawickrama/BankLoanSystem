@@ -46,6 +46,7 @@
                 <nav>
                     <ul class="pager">
                         @*<input type="submit" value="Update" class="btn btn-default" />*@
+                        <li><input type="button" value="Back to Profile" onclick="location.href='@Url.Action( "editUser", "UserManagement")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
                         <li><input type="submit" value="Update"  class="btn btn-primary m-b" /></li>
 
                         <li><input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-primary m-b" /></li>
@@ -59,9 +60,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to Profile", "editUser", "UserManagement")
-</div>
+
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
