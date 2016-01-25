@@ -231,6 +231,7 @@ namespace BankLoanSystem.Controllers
                 else if (typevalue == "User")
                 {
                     typeval = 3;
+                    ViewBag.Manage = "Manage Users";
                 }
 
                 details = (new UserManageAccess()).getUserByType(typeval, currentUserId);
@@ -402,5 +403,55 @@ namespace BankLoanSystem.Controllers
 
 
         }
-    }
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 2016/01/25
+        /// 
+        /// to view the change Password model
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public ActionResult ChangePassword()
+        {
+            
+
+            return View();
+        }
+
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 2016/01/25
+        /// 
+        /// update the password model
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult ChangePassword(ResetPassword resetPasswordModel)
+        {
+            int userId = int.Parse(Session["editId"].ToString());
+            bool isSuccess = (new forgotPasswordTokenAccess()).resetPassword(userId, resetPasswordModel);
+
+            if (!isSuccess)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            ViewBag.message = "Password Sucessfully Changed";
+
+            return View();
+        }
+
+       
+        
+             
+        }
+
+
+
+
 }
