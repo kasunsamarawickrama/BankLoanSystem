@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "ConfirmAccount";
+    Layout = "~/Views/Shared/_login.cshtml";
 }
 
 @if (@ViewBag.IsError != 1)
@@ -9,7 +10,7 @@
 
     <p>Your account has been activated</p>
     <br/>
-    <text>Click & nbsp;    </text>
+    <text>Click &nbsp;    </text>
     @Html.ActionLink("Here", "UserLogin", "Login")
     <text> &nbsp; to login.    </text>
 }

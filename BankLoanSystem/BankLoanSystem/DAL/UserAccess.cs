@@ -259,6 +259,37 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/24
+        /// 
+        /// Check 
+        /// 
+        /// argument : email (string)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
+        public bool IsUniqueEmail(string email)
+        {
+            using (
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spIsUniqueEmail", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+                con.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/16
         /// 
         /// Insert User details

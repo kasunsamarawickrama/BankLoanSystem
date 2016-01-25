@@ -40,10 +40,10 @@ namespace BankLoanSystem.Models
             try
             {
 
-                MailAddress toAddress = new MailAddress(email, "To Name");
+                MailAddress toAddress = new MailAddress(email, this.email);
                 
                 SmtpClient smtp = new SmtpClient();
-                MailAddress fromAddress = new MailAddress(((NetworkCredential)smtp.Credentials).UserName, "From Name");
+                MailAddress fromAddress = new MailAddress(((NetworkCredential)smtp.Credentials).UserName, "TFN");
                 using (MailMessage message = new MailMessage()
                 {
                     Subject = subject,

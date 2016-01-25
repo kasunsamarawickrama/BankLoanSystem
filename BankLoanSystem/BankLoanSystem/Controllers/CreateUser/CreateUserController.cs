@@ -123,6 +123,7 @@ namespace BankLoanSystem.Controllers.CreateUser
 
             string newSalt = PasswordEncryption.RandomString();
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+            user.Email = user.NewEmail;
 
             //Insert user
             int res = ua.InsertUser(user);
@@ -195,6 +196,22 @@ namespace BankLoanSystem.Controllers.CreateUser
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Check weather user name already exist
+        /// 
+        /// argument: userName(string)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public JsonResult IsEmailExists(string newEmail)
+        {
+            //check user name is already exist.  
+            return Json((new UserAccess()).IsUniqueEmail(newEmail), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/17
         /// EditedDate:2016/01/19
         /// Create first super admin view
@@ -229,6 +246,7 @@ namespace BankLoanSystem.Controllers.CreateUser
 
             string newSalt = PasswordEncryption.RandomString();
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+            user.Email = user.NewEmail;
             TempData["User"] = user;
             return RedirectToAction("Setup", "SetupCompany", new { id = 0, type = "CompanyEmployee" });
         }
@@ -246,12 +264,10 @@ namespace BankLoanSystem.Controllers.CreateUser
             UserAccess ua = new UserAccess();
             if (ua.UpdateUserSatus(userId, activationCode) == 1)
             {
-                Session["userId"] = userId;
                 return View();
             }
             else
             {
-                Session["userId"] = userId;
                 ViewBag.IsError = 1;
                 ViewBag.SuccessMsg = "You have already activated your acount.";
                 return View();

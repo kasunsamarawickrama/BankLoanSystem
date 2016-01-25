@@ -37,6 +37,12 @@ namespace BankLoanSystem.Models
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        [Remote("IsEmailExists", "CreateUser", ErrorMessage = "Email already in use")]
+        public string NewEmail { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
@@ -49,6 +55,11 @@ namespace BankLoanSystem.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
+        [System.ComponentModel.DataAnnotations.Compare("Password")]
+        public string ConfirmPassword { get; set; }
 
         [Required]
         [Display(Name = "IsActive")]
