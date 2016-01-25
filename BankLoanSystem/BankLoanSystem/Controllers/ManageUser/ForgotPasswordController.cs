@@ -107,7 +107,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             if (isSuccuss)
             {
 
-                Session["editId"] = userId;
+                Session["forgotId"] = userId;
                 return RedirectToAction("ResetPassword");
             }
             return new HttpStatusCodeResult(404);
@@ -151,7 +151,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             int userId;
             try
             {
-                userId = int.Parse(Session["editId"].ToString());
+                userId = int.Parse(Session["forgotId"].ToString());
             }
             catch (Exception)
             {
