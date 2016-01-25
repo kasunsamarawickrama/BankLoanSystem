@@ -254,6 +254,7 @@
     <Content Include="Views\ErrorPage\ErrorPage.cshtml" />
     <Content Include="Views\DashBoard\EmployeeDashBoard.cshtml" />
     <Content Include="Views\DashBoard\UserDashBoard.cshtml" />
+    <Content Include="Views\UserManagement\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -263,7 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
