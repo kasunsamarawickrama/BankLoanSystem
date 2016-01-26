@@ -48,6 +48,35 @@ namespace BankLoanSystem.DAL
         }
 
 
+        public List<State> GetAllStates()
+        {
+            List<State> stateList = new List<State>();
+
+            using (
+                var con =
+                    new SqlConnection(
+                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spGetAllCompanyType", con) { CommandType = CommandType.StoredProcedure };
+                con.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        State state = new State()
+                        {
+                            StateId = Convert.ToInt32(reader["company_type_id"]),
+                            StateName = reader["company_type_name"].ToString()
+                        };
+                        stateList.Add(state);
+                    }
+                }
+            }
+
+            return stateList;
+        }
+
+
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/17
@@ -134,7 +163,7 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
                     com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@company_address", SqlDbType.NVarChar).Value =
-                        userCompany.Company.CompanyAddress;
+                        userCompany.Company.CompanyAddress1;
                     com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.State;
                     com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
