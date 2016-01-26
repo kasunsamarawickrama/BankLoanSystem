@@ -71,7 +71,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 Email email = new Email(forgotPassword.Email);
 
 
-                int isSuccess = email.SendMail("Hi " + userName + "! <br><br>We recieved a request to reset your password.<br><br> Click here to Reset Your password : <a href='http://localhost:57318/ForgotPassword/ConfirmAccount?userId=" + userId + "&token=" + forgotPassword.token + "'>Link</a><br> If you don't want to change your password, you can ignore this email.<br><br> Thanks,<br> The Futunet Net Team", "Account - Help (Reset Your Password)");
+                int isSuccess = email.SendMail("Hi " + userName + " ! <br><br>We recieved a request to reset your password.<br><br> Click here to Reset Your password : <a href='http://localhost:57318/ForgotPassword/ConfirmAccount?userId=" + userId + "&token=" + forgotPassword.token + "'>Link</a><br> If you don't want to change your password, you can ignore this email.<br><br> Thanks,<br> The Futunet Net Team", "Account - Help (Reset Your Password)");
                 if (isSuccess == 0)
                 {
                     ViewBag.errorMsg = "Sending Mail Failed";
@@ -107,7 +107,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             if (isSuccuss)
             {
 
-                Session["editId"] = userId;
+                Session["forgotId"] = userId;
                 return RedirectToAction("ResetPassword");
             }
             return new HttpStatusCodeResult(404);
@@ -151,7 +151,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             int userId;
             try
             {
-                userId = int.Parse(Session["editId"].ToString());
+                userId = int.Parse(Session["forgotId"].ToString());
             }
             catch (Exception)
             {

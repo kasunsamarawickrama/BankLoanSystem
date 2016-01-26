@@ -28,11 +28,16 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// <returns>Return view</returns>
 
         // GET: CreateUser
-        public ActionResult Create()
+        public ActionResult Create(string lbls)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
+
+            if(lbls != null)
+            {
+                ViewBag.SuccessMsg = "User Successfully Created";
+            }
             //int id = (int)Session["userId"];
             int id = Convert.ToInt32(Session["userId"].ToString());
             UserAccess ua = new UserAccess();
@@ -98,6 +103,9 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpPost]
         public ActionResult Create(User user)
         {
+
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
             user.CreatedBy = _createById;
             user.IsDelete = false;
             user.Status = false;
@@ -145,7 +153,20 @@ namespace BankLoanSystem.Controllers.CreateUser
                 Email email = new Email(user.Email);
                 email.SendMail(body, "Account details");
 
+                
+                // check the user as superadmin or admin..
+                if (user.RoleId == 1 || user.RoleId == 2)
+                {
+                    ViewBag.SuccessMsg = "User Successfully Created";
+                    
+
+                   
+                    return RedirectToAction("create",new { lbls = ViewBag.SuccessMsg });
+                }
+
                 Session["editUserIds"] = userId;
+
+
                 return RedirectToAction("SetRights", "EditRights", new {@lbl1 = ViewBag.SuccessMsg });
             }
             else
