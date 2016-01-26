@@ -22,9 +22,13 @@ namespace BankLoanSystem.Models
         [Display(Name = "Code")]
         public string BranchCode { get; set; }
 
-        [Display(Name = "Address")]
+        [Display(Name = "Street Address 1")]
         [Required(ErrorMessage = "Branch Address Required!")]
-        public string BranchAddress { get; set; }
+        public string BranchAddress1 { get; set; }
+
+        [Display(Name = "Street Address 2")]
+        public string BranchAddress2 { get; set; }
+
 
         [Display(Name = "State")]
         [Required(ErrorMessage = "Branch State Required!")]
@@ -38,24 +42,33 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Branch Zip Code Required!")]
         public string BranchZip { get; set; }
 
-        [Required(ErrorMessage = "Email Required!")]
+
         [EmailAddress]
         [Display(Name = "Email")]
         public string BranchEmail { get; set; }
 
-        
+
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Phone Number 1")]
         [Required(ErrorMessage = "Phone Number Required!")]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-        public string BranchPhoneNum { get; set; }
+        public string BranchPhoneNum1 { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number 2")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string BranchPhoneNum2 { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number 3")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string BranchPhoneNum3 { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Fax Number")]
-        [Required(ErrorMessage = "Fax Number Required!")]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Fax format is not valid.")]
         public string BranchFax { get; set; }
-        
+
         public int BranchCreatedBy { get; set; }
         public DateTime BranchCreatedDate { get; set; }
         public int BranchCompany { get; set; }
