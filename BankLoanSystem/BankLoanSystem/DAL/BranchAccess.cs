@@ -94,12 +94,23 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
                         cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = branch.BranchCode;
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = branch.BranchName;
-                        cmd.Parameters.Add("@branch_address", SqlDbType.VarChar).Value = branch.BranchAddress1;
+                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = branch.BranchAddress1;
+                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = branch.BranchAddress2;
                         cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = branch.BranchState;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = branch.BranchCity;
+                        if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
+                        {
+                            branch.BranchZip = branch.ZipPre + "-" + branch.Extention;
+                        }
+                        else
+                        {
+                            branch.BranchZip = branch.ZipPre;
+                        }
                         cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = branch.BranchZip;
                         cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = branch.BranchEmail;
-                        cmd.Parameters.Add("@phone_num", SqlDbType.VarChar).Value = branch.BranchPhoneNum1;
+                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = branch.BranchPhoneNum1;
+                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = branch.BranchPhoneNum2;
+                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = branch.BranchPhoneNum3;
                         cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = branch.BranchFax;
                         cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = branch.BranchCreatedDate;
                         cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = branch.BranchCompany;
@@ -166,7 +177,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
                         cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchState;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
-                        if (userCompany3.MainBranch.Extention != null)
+                        if ((userCompany3.MainBranch.Extention != null)&& (userCompany3.MainBranch.Extention.ToString()!=""))
                         {
                             userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre + "-" + userCompany3.MainBranch.Extention;
                         }
