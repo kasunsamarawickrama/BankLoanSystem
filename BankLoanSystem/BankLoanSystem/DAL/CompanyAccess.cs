@@ -168,7 +168,7 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
-                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum;
+                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum1;
                     com1.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
                     com1.Parameters.Add("@website_url", SqlDbType.NVarChar).Value =
                         userCompany.Company.WebsiteUrl;
@@ -332,12 +332,12 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@c_company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
                     com1.Parameters.Add("@c_company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@c_company_address", SqlDbType.NVarChar).Value =
-                        userCompany.Company.CompanyAddress;
+                        userCompany.Company.CompanyAddress1;
                     com1.Parameters.Add("@c_state", SqlDbType.NVarChar).Value = userCompany.Company.State;
                     com1.Parameters.Add("@c_city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@c_zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@c_email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
-                    com1.Parameters.Add("@c_phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum;
+                    com1.Parameters.Add("@c_phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum1;
                     com1.Parameters.Add("@c_fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
                     com1.Parameters.Add("@c_website_url", SqlDbType.NVarChar).Value =
                         userCompany.Company.WebsiteUrl;
@@ -487,12 +487,12 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
                     com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@company_address", SqlDbType.NVarChar).Value =
-                        userCompany.Company.CompanyAddress;
+                        userCompany.Company.CompanyAddress1;
                     com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.State;
                     com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
-                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum;
+                    com1.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum1;
                     com1.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
                     com1.Parameters.Add("@website_url", SqlDbType.NVarChar).Value =
                         userCompany.Company.WebsiteUrl;
