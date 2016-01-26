@@ -26,7 +26,7 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "State")]
-        public int State { get; set; }
+        public int StateId { get; set; }
 
         [Required]
         [Display(Name = "City")]
@@ -37,10 +37,11 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Zip")]
+        [RegularExpression("^[0-9]{5}", ErrorMessage = "Zip code must have 5 digits.")]
         public string ZipPre { get; set; }
 
         [Display(Name = "Extention")]
-        [RegularExpression("^[0-9]{2}")]
+        [RegularExpression("^[0-9]{4}", ErrorMessage = "Extension needs 4 digits.")]
         public string Extention { get; set; }
 
         [Required]
@@ -75,6 +76,10 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Company Type")]
         public int TypeId { get; set; }
+
+        [Required]
+        [Display(Name = "Company Status Active?")]
+        public bool CompanyStatus { get; set; }
 
         //[Required]
         //[Display(Name = "IsActive")]

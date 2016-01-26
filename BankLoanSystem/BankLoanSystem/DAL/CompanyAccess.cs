@@ -57,7 +57,7 @@ namespace BankLoanSystem.DAL
                     new SqlConnection(
                         ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
-                var command = new SqlCommand("spGetAllCompanyType", con) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("spGetState", con) { CommandType = CommandType.StoredProcedure };
                 con.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -65,8 +65,8 @@ namespace BankLoanSystem.DAL
                     {
                         State state = new State()
                         {
-                            StateId = Convert.ToInt32(reader["company_type_id"]),
-                            StateName = reader["company_type_name"].ToString()
+                            StateId = Convert.ToInt32(reader["state_id"]),
+                            StateName = reader["state_name"].ToString()
                         };
                         stateList.Add(state);
                     }
@@ -139,6 +139,54 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 01/26/2016
+        /// 
+        /// Insert company in setup process 
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public bool InsertCompany(Company company)
+        {
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spInsertCompany", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@company_name", company.CompanyName ?? "");
+                    command.Parameters.AddWithValue("@company_code", company.CompanyCode ?? "");
+                    command.Parameters.AddWithValue("@company_address_1", company.CompanyAddress1 ?? "");
+                    command.Parameters.AddWithValue("@company_address_2", company.CompanyAddress2 ?? "");
+                    command.Parameters.AddWithValue("@stateId", company.StateId);
+                    command.Parameters.AddWithValue("@city", company.City ?? "");
+                    command.Parameters.AddWithValue("@zip", company.Zip ?? "");
+                    command.Parameters.AddWithValue("@email", company.Email ?? "");
+                    command.Parameters.AddWithValue("@phone_num_1", company.PhoneNum1 ?? "");
+                    command.Parameters.AddWithValue("@phone_num_2", company.PhoneNum2 ?? "");
+                    command.Parameters.AddWithValue("@phone_num_3", company.PhoneNum3 ?? "");
+                    command.Parameters.AddWithValue("@fax", company.Fax ?? "");
+                    command.Parameters.AddWithValue("@website_url", company.WebsiteUrl ?? "");
+                    command.Parameters.AddWithValue("@created_by", company.CreatedBy);
+                    command.Parameters.AddWithValue("@created_date", DateTime.Now);
+                    command.Parameters.AddWithValue("@company_type", company.TypeId);
+                    command.Parameters.AddWithValue("@first_super_admin_id", company.FirstSuperAdminId);
+                    command.Parameters.AddWithValue("@company_status", company.CompanyStatus);
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/18
         /// EditedDate: 2016/01/19
         /// insert company, insert main branch, insert first super admin 
@@ -164,7 +212,7 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@company_address", SqlDbType.NVarChar).Value =
                         userCompany.Company.CompanyAddress1;
-                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.State;
+                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.StateId;
                     com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
@@ -203,12 +251,12 @@ namespace BankLoanSystem.DAL
                     com2.Parameters.Add("@branch_name", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchName;
                     com2.Parameters.Add("@branch_address", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchAddress;
+                        userCompany.Branch.BranchAddress1;
                     com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
                     com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
-                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum;
+                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1;
                     com2.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
                     com2.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
                     com2.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
@@ -333,7 +381,7 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@c_company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@c_company_address", SqlDbType.NVarChar).Value =
                         userCompany.Company.CompanyAddress1;
-                    com1.Parameters.Add("@c_state", SqlDbType.NVarChar).Value = userCompany.Company.State;
+                    com1.Parameters.Add("@c_state", SqlDbType.NVarChar).Value = userCompany.Company.StateId;
                     com1.Parameters.Add("@c_city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@c_zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@c_email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
@@ -352,12 +400,12 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@b_branch_name", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchName;
                     com1.Parameters.Add("@b_branch_address", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchAddress;
+                        userCompany.Branch.BranchAddress1;
                     com1.Parameters.Add("@b_state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
                     com1.Parameters.Add("@b_city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com1.Parameters.Add("@b_zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com1.Parameters.Add("@b_email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
-                    com1.Parameters.Add("@b_phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum;
+                    com1.Parameters.Add("@b_phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1;
                     com1.Parameters.Add("@b_fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
                     com1.Parameters.Add("@b_company_id", SqlDbType.Int).Value = 0;
                     com1.Parameters.Add("@b_created_date", SqlDbType.DateTime).Value = DateTime.Now;
@@ -488,7 +536,7 @@ namespace BankLoanSystem.DAL
                     com1.Parameters.Add("@company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
                     com1.Parameters.Add("@company_address", SqlDbType.NVarChar).Value =
                         userCompany.Company.CompanyAddress1;
-                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.State;
+                    com1.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Company.StateId;
                     com1.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Company.City;
                     com1.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
                     com1.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
@@ -515,12 +563,12 @@ namespace BankLoanSystem.DAL
                     com2.Parameters.Add("@branch_name", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchName;
                     com2.Parameters.Add("@branch_address", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchAddress;
+                        userCompany.Branch.BranchAddress1;
                     com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
                     com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
-                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum;
+                    com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1;
                     com2.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
                     com2.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
                     com2.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
