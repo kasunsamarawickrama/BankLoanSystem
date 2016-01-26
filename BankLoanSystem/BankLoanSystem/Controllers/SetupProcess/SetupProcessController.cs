@@ -97,11 +97,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step2()
         {
             //Session["userId"] = 4;
-           int userId = 10;
-            //if ((Session["userId"]!=null)&& (Session["userId"].ToString()!=""))
-            if(userId>0)
+           //int userId = 68;
+            if ((Session["userId"]!=null)&& (Session["userId"].ToString()!=""))
+            //if(userId>0)
             {
-                //int userId = (int)Session["userId"];
+                int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
                 int reslt = cs.getStepNumberByUserId(userId);
                 if (reslt == 1)
@@ -144,9 +144,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = 68;
             BranchAccess ba = new BranchAccess();
 
-            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            userCompany.MainBranch = userCompany2.MainBranch;
-            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
+            //userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            //userCompany.MainBranch = userCompany2.MainBranch;
+            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             if (reslt)
             {
                 StepAccess sa = new StepAccess();

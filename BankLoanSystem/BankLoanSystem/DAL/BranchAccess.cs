@@ -148,7 +148,7 @@ namespace BankLoanSystem.DAL
         public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
             string companyCode = getCompanyCodeByUserId(id);
-            //branch.BranchCode = createBranchCode(companyCode);
+            userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
             userCompany3.MainBranch.BranchCompany = getCompanyIdByUserId(id);
             userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))

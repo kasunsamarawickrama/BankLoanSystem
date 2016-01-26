@@ -55,7 +55,7 @@ namespace BankLoanSystem.Controllers.SetupCompany
             GeneratesCode gc = new GeneratesCode();
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
 
-            BranchCompanyModel userCom = new BranchCompanyModel();
+            UserCompanyModel userCom = new UserCompanyModel();
             userCom.User = _user;
             userCom.Company = company;
 
