@@ -197,6 +197,7 @@
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="DAL\RoleAccess.cs" />
+    <Compile Include="DAL\StepAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
@@ -257,6 +258,8 @@
     <Content Include="Views\DashBoard\EmployeeDashBoard.cshtml" />
     <Content Include="Views\DashBoard\UserDashBoard.cshtml" />
     <Content Include="Views\UserManagement\ChangePassword.cshtml" />
+    <Content Include="Views\SetupProcess\Step3.cshtml" />
+    <Content Include="Views\SetupProcess\Step2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -266,7 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SetupProcess\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

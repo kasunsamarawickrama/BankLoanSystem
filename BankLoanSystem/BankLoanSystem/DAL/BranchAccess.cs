@@ -137,6 +137,85 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 2016/1/26
+        /// Insert branch details
+        /// </summary>
+        /// <param name="branch object"></param>
+        /// <param name="id"></param>
+        /// <returns>true/false</returns>
+        public bool insertFirstBranchDetails(UserCompanyModel userCompany3, int id)
+        {
+            string companyCode = getCompanyCodeByUserId(id);
+            //branch.BranchCode = createBranchCode(companyCode);
+            userCompany3.Branch.BranchCompany = getCompanyIdByUserId(id);
+            userCompany3.Branch.BranchCreatedDate = DateTime.Now;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spInsertBranch", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCode;
+                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.Branch.BranchName;
+                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.Branch.BranchAddress1;
+                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.Branch.BranchAddress2;
+                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = userCompany3.Branch.BranchState;
+                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCity;
+                        if (userCompany3.Branch.Extention != null)
+                        {
+                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre + "-" + userCompany3.Branch.Extention;
+                        }
+                        else
+                        {
+                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre
+                        }
+                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = userCompany3.Branch.BranchZip;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = userCompany3.Branch.BranchEmail;
+                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum1;
+                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum2;
+                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum3;
+                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = userCompany3.Branch.BranchFax;
+                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = userCompany3.Branch.BranchCreatedDate;
+                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCompany;
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
 
         /// <summary>
         /// CreatedBy: Piyumi
