@@ -64,21 +64,23 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (ca.InsertCompany(company))
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
+                TempData["step1"] = company;
+                return RedirectToAction("Step2");
             }
             else
             {
                 ViewBag.ErrorMsg = "Failed to Setup company.";
+
+                // Get company types to list
+                List<CompanyType> ctList = ca.GetAllCompanyType();
+                ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+
+                //Get states to list
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                return View();
             }
-
-            // Get company types to list
-            List<CompanyType> ctList = ca.GetAllCompanyType();
-            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
-
-            //Get states to list
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            return View();
         }
 
 
@@ -107,7 +109,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 3...
 
-            if(lbls != null && lbls.Equals("User Successfully Created"))
+            if (lbls != null && lbls.Equals("User Successfully Created"))
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
 
@@ -117,7 +119,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(userId);
 
-            
+
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
 
@@ -178,7 +180,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
-                
+
 
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
@@ -190,13 +192,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 email.SendMail(body, "Account details");
 
 
-                
-                    ViewBag.SuccessMsg = "User Successfully Created";
+
+                ViewBag.SuccessMsg = "User Successfully Created";
 
 
-                    // update user step to 3
-                    return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
-                
+                // update user step to 3
+                return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
+
             }
             else
             {
