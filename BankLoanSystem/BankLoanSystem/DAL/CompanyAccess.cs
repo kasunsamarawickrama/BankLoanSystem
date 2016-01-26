@@ -156,9 +156,29 @@ namespace BankLoanSystem.DAL
                 {
                     var command = new SqlCommand("spInsertCompany", con);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("", userId);
-
+                    command.Parameters.AddWithValue("@user_id", userId);
                     con.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            company.CompanyName = reader[""].ToString();
+                            company.CompanyCode = reader[""].ToString();
+                            company.CompanyAddress1 = reader[""].ToString();
+                            company.CompanyAddress2 = reader[""].ToString();
+                            company.StateId = Convert.ToInt32(reader[""]);
+                            company.City = reader[""].ToString();
+                            company.Zip = reader[""].ToString();
+                            company.ZipPre = reader[""].ToString();
+                            company.Extention = reader[""].ToString();
+                            company.PhoneNum1 = reader[""].ToString();
+                            company.PhoneNum2 = reader[""].ToString();
+                            company.PhoneNum3 = reader[""].ToString();
+                            company.CompanyName = reader[""].ToString();
+                            company.CompanyName = reader[""].ToString();
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
