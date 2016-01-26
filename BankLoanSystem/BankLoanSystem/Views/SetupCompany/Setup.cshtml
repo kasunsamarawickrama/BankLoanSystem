@@ -59,12 +59,12 @@
 
         <div class="form-group">
             <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.State, htmlAttributes: new { })<span style="color:red">*</span>
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color:red">*</span>
             </div>
            
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.StateId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
             </div>
         </div>
 

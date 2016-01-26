@@ -42,6 +42,14 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Branch Zip Code Required!")]
         public string BranchZip { get; set; }
 
+        [Required]
+        [Display(Name = "Zip")]
+        public string ZipPre { get; set; }
+
+        [Display(Name = "Extention")]
+        [RegularExpression("^[0-9]{2}")]
+        public string Extention { get; set; }
+
 
         [EmailAddress]
         [Display(Name = "Email")]
