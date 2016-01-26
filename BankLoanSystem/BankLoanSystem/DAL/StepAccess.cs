@@ -18,15 +18,15 @@ namespace BankLoanSystem.DAL
         /// 
         /// Get Step Nomber By UserId
         /// </summary>
-        /// <returns>step nomber</returns>
+        /// <returns>step number</returns>
         /// 
-        public int GetStepNumberByUserId(int userId)
+        public int getStepNumberByUserId(int userId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
                 {
-                    var command = new SqlCommand("spGetStepNomberByUserId", con);
+                    var command = new SqlCommand("spGetStepNumberByUserId", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@user_id", userId);
 
@@ -50,17 +50,17 @@ namespace BankLoanSystem.DAL
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/01/26
         /// 
-        /// Update Step Nomber By UserId
+        /// Update Step Number By UserId
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool UpdateStepNomberByUserId(int userId, int stepNomber)
+        public bool updateStepNomberByUserId(int userId, int stepNomber)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
                 {
-                    var command = new SqlCommand("spUpdateStepNomberByUserId", con);
+                    var command = new SqlCommand("spUpdateStepNumberByUserId", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@step_id", stepNomber);
