@@ -172,7 +172,7 @@ namespace BankLoanSystem.DAL
                         }
                         else
                         {
-                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre
+                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre;
                         }
                         cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = userCompany3.Branch.BranchZip;
                         cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = userCompany3.Branch.BranchEmail;
