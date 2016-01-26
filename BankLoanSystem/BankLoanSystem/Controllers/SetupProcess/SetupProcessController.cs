@@ -97,7 +97,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             // take firstsuperadmin userid....
-            int userId = 68;
+            StepAccess sa = new StepAccess();
+            int userId = int.Parse(Session["userId"].ToString());
+            
+
 
             // check he is a super admin or not
             if ((new UserManageAccess()).getUserRole(userId) != 1)
@@ -106,7 +109,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check if   step is 3...
-            StepAccess sa = new StepAccess();
+            
             if(sa.getStepNumberByUserId(userId) != 3 && sa.getStepNumberByUserId(userId) != 4)
             {
                 return new HttpStatusCodeResult(404);
@@ -156,12 +159,26 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step3(User user)
         {
 
-            //if (Session["userId"] == null || Session["userId"].ToString() == "")
-            //    return RedirectToAction("UserLogin", "Login");
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
 
-            //int currentUser = int.Parse(Session["userId"].ToString());
+            
+            
 
-            int currentUser = 68; // user id is hardcoded here
+            int currentUser = int.Parse(Session["userId"].ToString());
+            // check he is a super admin or not
+            if ((new UserManageAccess()).getUserRole(currentUser) != 1)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            // check if   step is 3...
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(currentUser) != 3 && sa.getStepNumberByUserId(currentUser) != 4)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
             user.CreatedBy = currentUser;
             user.IsDelete = false;
             user.Status = false;
@@ -199,7 +216,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.SuccessMsg = "User Successfully Created";
 
 
-                    // update user step to 3
+                    
                     return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
                 
             }
