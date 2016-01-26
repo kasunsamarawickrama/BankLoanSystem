@@ -31,6 +31,9 @@ namespace BankLoanSystem.Controllers.SetupCompany
             CompanyAccess ca = new CompanyAccess();
             List<CompanyType> ctList = ca.GetAllCompanyType();
             ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+
+
+
             return View();
         }
 
