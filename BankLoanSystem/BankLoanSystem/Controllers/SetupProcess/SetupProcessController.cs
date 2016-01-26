@@ -310,5 +310,84 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
 
+        // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/26
+        /// 
+        /// to show the loan view
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Step6()
+        {
+            
+
+            int userId = int.Parse(Session["userId"].ToString());
+            
+            // check he is super admin or admin
+            if (new UserManageAccess().getUserRole(userId) > 2)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            // check if   step is 6...
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) != 6)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            
+
+            return View();
+
+        }
+
+        // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/26
+        /// 
+        /// update the loan
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionName("Step6")]
+        public ActionResult Step6_Post()
+        {
+            int userId = int.Parse(Session["userId"].ToString());
+            
+            
+            // check he is super admin or admin
+            if (new UserManageAccess().getUserRole(userId) > 2)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            // check if   step is 6...
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) != 6)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            sa.updateStepNumberByUserId(userId, 7);
+
+            return RedirectToAction("Detailsset", "UserManagement" ,new { id  = userId });
+
+        }
+
+
+
+
     }
+
+
 }
+
