@@ -11,9 +11,73 @@ namespace BankLoanSystem.Controllers.SetupProcess
 {
     public class SetupProcessController : Controller
     {
-        // GET: SetupProcess
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/26
+        /// As the initial super admin I should able to create company
+        /// in the setup proccess
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Step1()
         {
+            Session["userId"] = 10;
+
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            CompanyAccess ca = new CompanyAccess();
+
+            // Get company types to list
+            List<CompanyType> ctList = ca.GetAllCompanyType();
+            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            return View();
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/26
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step1(Company company)
+        {
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            GeneratesCode gc = new GeneratesCode();
+            company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+
+            company.Zip = company.ZipPre;
+            if (company.Extention != null)
+                company.Zip += "-" + company.Extention;
+
+            company.CreatedBy = company.FirstSuperAdminId = Convert.ToInt32(Session["userId"]);
+
+            CompanyAccess ca = new CompanyAccess();
+
+            if (ca.InsertCompany(company))
+            {
+                ViewBag.SuccessMsg = "Company Successfully setup.";
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to Setup company.";
+            }
+
+            // Get company types to list
+            List<CompanyType> ctList = ca.GetAllCompanyType();
+            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
             return View();
         }
 
