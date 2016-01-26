@@ -11,6 +11,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 {
     public class SetupProcessController : Controller
     {
+        private static UserCompanyModel userCompany = null;
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -81,19 +82,81 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return View();
         }
 
+/// <summary>
+/// CreatedBy:Piyumi
+/// CreatedDate:2016/1/26
+/// Get first branch details
+/// </summary>
+/// <returns></returns>
+        public ActionResult Step2()
+        {
+            //Session["userId"] = 4;
+            int userId = 4;
+            if (userId > 0)
+            {
+                //int userId = (int)Session["userId"];
+                StepAccess cs = new StepAccess();
+                int reslt = cs.getStepNumberByUserId(userId);
+                if (reslt == 1)
+                {
+                    userCompany = (UserCompanyModel)TempData["UserCompany"];
+                    userCompany.Branch = new Branch();
+                    return View(userCompany);
 
-        // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+            else {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+
+
+
+        }
+
+        //Post Branch
         /// <summary>
-        /// CreatedBy : Irfan MAM
-        /// CreatedDate: 2016/01/26
-        /// 
-        /// to create Users
-        /// 
-        /// 
-        /// 
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/26
+        /// insert branch details
         /// </summary>
+        /// <param name="userCompany2"></param>
         /// <returns></returns>
-        public ActionResult Step3(string lbls)
+        [HttpPost]
+        public ActionResult CreateFirstBranch(UserCompanyModel userCompany2)
+        {
+            int userId = (int)Session["userId"];
+            BranchAccess ba = new BranchAccess();
+            userCompany2.Branch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            userCompany.Branch = userCompany2.Branch;
+            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
+            if (reslt)
+            {
+                ViewBag.SuccessMsg = "First Branch is created successfully";
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to create first branch";
+            }
+            return View();
+        }
+   
+// GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
+/// <summary>
+/// CreatedBy : Irfan MAM
+/// CreatedDate: 2016/01/26
+/// 
+/// to create Users
+/// 
+/// 
+/// 
+/// </summary>
+/// <returns></returns>
+    public ActionResult Step3(string lbls)
         {
 
             // take firstsuperadmin userid....
