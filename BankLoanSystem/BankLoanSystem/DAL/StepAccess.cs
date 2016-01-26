@@ -54,7 +54,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool updateStepNomberByUserId(int userId, int stepNomber)
+        public bool updateStepNumberByUserId(int userId, int stepNomber)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
