@@ -89,7 +89,7 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = userId;
 
                 var step = new StepAccess();
-                int stepNo = step.GetStepNomberByUserId(userId);
+                int stepNo = step.GetStepNumberByUserId(userId);
 
                 if (stepNo == 1) {
                     return RedirectToAction("Setup", "SetupCompany");

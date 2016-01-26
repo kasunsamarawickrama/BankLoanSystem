@@ -20,7 +20,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>step nomber</returns>
         /// 
-        public int GetStepNomberByUserId(int userId)
+        public int GetStepNumberByUserId(int userId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
