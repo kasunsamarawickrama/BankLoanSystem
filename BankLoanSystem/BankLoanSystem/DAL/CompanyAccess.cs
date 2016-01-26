@@ -145,6 +145,38 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="company"></param>
         /// <returns></returns>
+        public Company GetCompanyDetailsByFirstSpUserId(int userId)
+        {
+            Company company = new Company();
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spInsertCompany", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("", userId);
+
+                    con.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return company;
+        }
+
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 01/26/2016
+        /// 
+        /// Insert company in setup process 
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
         public bool InsertCompany(Company company)
         {
             using (
@@ -184,6 +216,7 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
 
         /// <summary>
         /// CreatedBy : Kanishka SHM

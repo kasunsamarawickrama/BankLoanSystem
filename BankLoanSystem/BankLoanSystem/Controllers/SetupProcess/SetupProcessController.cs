@@ -21,8 +21,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step1()
         {
-            Session["userId"] = 10;
-
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
@@ -65,12 +63,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (ca.InsertCompany(company))
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
-                TempData["step1"] = company;
+
+                //If succeed update step table to step2 
+                StepAccess sa = new StepAccess();
+                sa.updateStepNumberByUserId(company.FirstSuperAdminId, 2);
+
+                //Send company detail to step 2
+                CompanyBranchModel comBranch = new CompanyBranchModel();
+                comBranch.Company = company; 
+
+                TempData["Company"] = comBranch.Company;
                 return RedirectToAction("Step2");
             }
-            else
-            {
-                ViewBag.ErrorMsg = "Failed to Setup company.";
+            ViewBag.ErrorMsg = "Failed to Setup company.";
 
             // Get company types to list
             List<CompanyType> ctList = ca.GetAllCompanyType();
@@ -81,7 +86,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
             return View();
-        }
         }
 
 /// <summary>

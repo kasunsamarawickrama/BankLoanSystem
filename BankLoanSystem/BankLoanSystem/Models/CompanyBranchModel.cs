@@ -3,6 +3,6 @@
     public class CompanyBranchModel
     {
         public Company Company { get; set; }
-        public Branch MainBranch { get; set; }
+        public Branch Branch { get; set; }
     }
 }
