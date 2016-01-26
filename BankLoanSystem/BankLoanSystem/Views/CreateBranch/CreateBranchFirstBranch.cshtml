@@ -37,12 +37,22 @@
 
         <div class="form-group">
             <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.Branch.BranchAddress, htmlAttributes: new { })<span style="color:red">*</span>
+                @Html.LabelFor(model => model.Branch.BranchAddress1, htmlAttributes: new { })<span style="color:red">*</span>
             </div>
             
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.Branch.BranchAddress, new { htmlAttributes = new { @class = "form-control", @id = "branchAddress" } })
-                @Html.ValidationMessageFor(model => model.Branch.BranchAddress, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Branch.BranchAddress1, new { htmlAttributes = new { @class = "form-control", @id = "branchAddress1" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchAddress1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Branch.BranchAddress2, htmlAttributes: new { })
+            </div>
+
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Branch.BranchAddress2, new { htmlAttributes = new { @class = "form-control", @id = "branchAddress2" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchAddress2, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -69,19 +79,20 @@
         </div>
 
         <div class="form-group">
-            <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.Branch.BranchZip, htmlAttributes: new { })<span style="color:red">*</span>
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Branch.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-           
+
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.Branch.BranchZip, new { htmlAttributes = new { @class = "form-control", @id = "branchZip" } })
-                @Html.ValidationMessageFor(model => model.Branch.BranchZip, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Branch.ZipPre, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre" } }) -
+                @Html.EditorFor(model => model.Branch.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten" } })
+                @Html.ValidationMessageFor(model => model.Branch.ZipPre, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.Branch.BranchEmail, htmlAttributes: new { })<span style="color:red">*</span>
+                @Html.LabelFor(model => model.Branch.BranchEmail, htmlAttributes: new { })
             </div>
             
             <div class="col-sm-10">
@@ -92,15 +103,36 @@
 
         <div class="form-group">
             <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.Branch.BranchPhoneNum, htmlAttributes: new { })<span style="color:red">*</span>
+                @Html.LabelFor(model => model.Branch.BranchPhoneNum1, htmlAttributes: new { })<span style="color:red">*</span>
             </div>
            
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.Branch.BranchPhoneNum, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum" } })
-                @Html.ValidationMessageFor(model => model.Branch.BranchPhoneNum, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Branch.BranchPhoneNum1, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum1" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchPhoneNum1, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Branch.BranchPhoneNum2, htmlAttributes: new { })
+            </div>
+
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Branch.BranchPhoneNum2, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum2" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchPhoneNum2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Branch.BranchPhoneNum3, htmlAttributes: new { })
+            </div>
+
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Branch.BranchPhoneNum3, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum3" } })
+                @Html.ValidationMessageFor(model => model.Branch.BranchPhoneNum3, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             <div class = "control-label col-sm-2" >
                 @Html.LabelFor(model => model.Branch.BranchFax, htmlAttributes: new { })
@@ -137,22 +169,30 @@
             if ($(this).is(':checked')) {
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.Company.City;
-                document.getElementById("branchAddress").value = model.Company.CompanyAddress;
+                document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
+                document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
                 document.getElementById("branchState").value = model.Company.State;
                 document.getElementById("branchCity").value = model.Company.City;
-                document.getElementById("branchZip").value = model.Company.Zip;
+                document.getElementById("branchZipPre").value = model.Company.ZipPre;
+                document.getElementById("branchZipExten").value = model.Company.Extension;
                 document.getElementById("branchEmail").value = model.Company.Email;
-                document.getElementById("branchPhoneNum").value = model.Company.PhoneNum;
+                document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
+                document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
+                document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
                 document.getElementById("branchFax").value = model.Company.Fax;
             }
             else {
                 document.getElementById("branchName").value = "";
-                document.getElementById("branchAddress").value = "";
+                document.getElementById("branchAddress1").value = "";
+                document.getElementById("branchAddress2").value = "";
                 document.getElementById("branchState").value = "";
                 document.getElementById("branchCity").value = "";
-                document.getElementById("branchZip").value = "";
+                document.getElementById("branchZipPre").value = "";
+                document.getElementById("branchZipExten").value = "";
                 document.getElementById("branchEmail").value = "";
-                document.getElementById("branchPhoneNum").value = "";
+                document.getElementById("branchPhoneNum1").value = "";
+                document.getElementById("branchPhoneNum2").value = "";
+                document.getElementById("branchPhoneNum3").value = "";
                 document.getElementById("branchFax").value = "";
             }
         });
