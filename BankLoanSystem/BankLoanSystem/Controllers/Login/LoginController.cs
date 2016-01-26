@@ -89,30 +89,30 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = userId;
 
                 var step = new StepAccess();
-                int stepNo = step.GetStepNomberByUserId(userId);
+                int stepNo = step.getStepNumberByUserId(userId);
 
                 if (stepNo == 1) {
-                    return RedirectToAction("Setup", "SetupCompany");
+                    return RedirectToAction("Step1", "SetupProcess");
                 }
                 else if (stepNo == 2)
                 {
-                    return RedirectToAction("CreateBranchFirstBranch", "CreateBranch");
+                    return RedirectToAction("Step2", "SetupProcess");
                 }
                 else if (stepNo == 3)
                 {
-                    return RedirectToAction("Create", "CreateUser");
+                    return RedirectToAction("Step3", "SetupProcess");
                 }
                 else if (stepNo == 4)
                 {
-                    return RedirectToAction("Setup", "SetupCompany");
+                    return RedirectToAction("Step4", "SetupProcess");
                 }
                 else if (stepNo == 5)
                 {
-                    return RedirectToAction("CreateBranch", "CreateBranch");
+                    return RedirectToAction("Step5", "SetupProcess");
                 }
                 else if (stepNo == 6)
                 {
-                    return RedirectToAction("SetupLoan", "SetupLoan");
+                    return RedirectToAction("Step6", "SetupProcess");
                 }
                 else {
                     Session["rowId"] = userId;
