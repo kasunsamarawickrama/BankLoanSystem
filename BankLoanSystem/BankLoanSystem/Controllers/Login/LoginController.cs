@@ -63,6 +63,17 @@ namespace BankLoanSystem.Controllers
         /// CreatedDate: 2016/01/14
         /// 
         /// User Login Controller
+        /// 
+        /// Updated: kasun
+        /// Reason : to add step processes
+        /// 
+        /// step1 => company setup -> type 1
+        /// step2 => create branch
+        /// step3 => create Admin/user
+        /// step4 => company setup -> type 2
+        /// step5 => create branch
+        /// step6 => loan setup
+        /// 
         /// </summary>
         /// <param name="user">login user details</param>
         /// <returns>rederect to user dashboard</returns>
@@ -76,8 +87,38 @@ namespace BankLoanSystem.Controllers
             if (userId > 0)
             {
                 Session["userId"] = userId;
-                Session["rowId"] = userId;
-                return RedirectToAction("Details", "UserManagement");
+
+                var step = new StepAccess();
+                int stepNo = step.GetStepNomberByUserId(userId);
+
+                if (stepNo == 1) {
+                    return RedirectToAction("Setup", "SetupCompany");
+                }
+                else if (stepNo == 2)
+                {
+                    return RedirectToAction("CreateBranchFirstBranch", "CreateBranch");
+                }
+                else if (stepNo == 3)
+                {
+                    return RedirectToAction("Create", "CreateUser");
+                }
+                else if (stepNo == 4)
+                {
+                    return RedirectToAction("Setup", "SetupCompany");
+                }
+                else if (stepNo == 5)
+                {
+                    return RedirectToAction("CreateBranch", "CreateBranch");
+                }
+                else if (stepNo == 6)
+                {
+                    return RedirectToAction("SetupLoan", "SetupLoan");
+                }
+                else {
+                    Session["rowId"] = userId;
+                    return RedirectToAction("Details", "UserManagement");
+                }
+                
             }
             else {
 
