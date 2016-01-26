@@ -145,12 +145,12 @@ namespace BankLoanSystem.DAL
         /// <param name="branch object"></param>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
-        public bool insertFirstBranchDetails(UserCompanyModel userCompany3, int id)
+        public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
             string companyCode = getCompanyCodeByUserId(id);
             //branch.BranchCode = createBranchCode(companyCode);
-            userCompany3.Branch.BranchCompany = getCompanyIdByUserId(id);
-            userCompany3.Branch.BranchCreatedDate = DateTime.Now;
+            userCompany3.MainBranch.BranchCompany = getCompanyIdByUserId(id);
+            userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
@@ -160,28 +160,28 @@ namespace BankLoanSystem.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCode;
-                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.Branch.BranchName;
-                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.Branch.BranchAddress1;
-                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.Branch.BranchAddress2;
-                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = userCompany3.Branch.BranchState;
-                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCity;
-                        if (userCompany3.Branch.Extention != null)
+                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCode;
+                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchName;
+                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress1;
+                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
+                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchState;
+                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
+                        if (userCompany3.MainBranch.Extention != null)
                         {
-                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre + "-" + userCompany3.Branch.Extention;
+                            userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre + "-" + userCompany3.MainBranch.Extention;
                         }
                         else
                         {
-                            userCompany3.Branch.BranchZip = userCompany3.Branch.ZipPre;
+                            userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre;
                         }
-                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = userCompany3.Branch.BranchZip;
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = userCompany3.Branch.BranchEmail;
-                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum1;
-                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum2;
-                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = userCompany3.Branch.BranchPhoneNum3;
-                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = userCompany3.Branch.BranchFax;
-                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = userCompany3.Branch.BranchCreatedDate;
-                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = userCompany3.Branch.BranchCompany;
+                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchZip;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchEmail;
+                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum1;
+                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum2;
+                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum3;
+                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchFax;
+                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = userCompany3.MainBranch.BranchCreatedDate;
+                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCompany;
                         con.Open();
 
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);

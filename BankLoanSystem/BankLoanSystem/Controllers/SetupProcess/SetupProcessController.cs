@@ -11,7 +11,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 {
     public class SetupProcessController : Controller
     {
-        private static UserCompanyModel userCompany = null;
+        private static CompanyBranchModel userCompany = null;
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -97,16 +97,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step2()
         {
             //Session["userId"] = 4;
-            int userId = 4;
-            if (userId > 0)
+           int userId = 10;
+            //if ((Session["userId"]!=null)&& (Session["userId"].ToString()!=""))
+            if(userId>0)
             {
                 //int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
                 int reslt = cs.getStepNumberByUserId(userId);
                 if (reslt == 1)
                 {
-                    userCompany = (UserCompanyModel)TempData["UserCompany"];
-                    userCompany.Branch = new Branch();
+                if((TempData["UserCompany"]!=null)&&(TempData["UserCompany"].ToString()!=""))
+                 {
+                        userCompany = (CompanyBranchModel)TempData["UserCompany"];
+                        userCompany.MainBranch = new Branch();
+                    }
+                    
                     return View(userCompany);
 
                 }
@@ -133,16 +138,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="userCompany2"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateFirstBranch(UserCompanyModel userCompany2)
+        public ActionResult Step2(CompanyBranchModel userCompany2)
         {
-            int userId = (int)Session["userId"];
+            //int userId = (int)Session["userId"];
+            int userId = 68;
             BranchAccess ba = new BranchAccess();
-            userCompany2.Branch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            userCompany.Branch = userCompany2.Branch;
+
+            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            userCompany.MainBranch = userCompany2.MainBranch;
             bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
             if (reslt)
             {
-                ViewBag.SuccessMsg = "First Branch is created successfully";
+                StepAccess sa = new StepAccess();
+                if(sa.updateStepNumberByUserId(userId,2)) 
+                {
+                    return RedirectToAction("Step3");
+                    //ViewBag.SuccessMsg = "First Branch is created successfully";
+                }
+                
             }
             else
             {

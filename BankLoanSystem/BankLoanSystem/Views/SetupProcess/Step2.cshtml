@@ -1,4 +1,4 @@
-﻿@model BankLoanSystem.Models.UserCompanyModel
+﻿@model BankLoanSystem.Models.CompanyBranchModel
 
 @{
     ViewBag.Title = "Step2";
@@ -152,8 +152,8 @@
                 <nav>
                     <ul class="pager">
 
-                        <li><input type="submit" value="Create" class="btn btn-primary m-b" style="float:left" /></li>
-                        <li><input type="button" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("CreateBranch", "CreateBranch")'" /></li>
+                        <li><input type="button" value="Clear" class="btn btn-primary m-b" style="float:left" /></li>
+                        <li><input type="submit" value="Next" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("CreateBranch", "CreateBranch")'" /></li>
                     </ul>
                 </nav>
 
