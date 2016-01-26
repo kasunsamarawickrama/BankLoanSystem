@@ -103,6 +103,9 @@ namespace BankLoanSystem.Controllers.CreateUser
         [HttpPost]
         public ActionResult Create(User user)
         {
+
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
             user.CreatedBy = _createById;
             user.IsDelete = false;
             user.Status = false;

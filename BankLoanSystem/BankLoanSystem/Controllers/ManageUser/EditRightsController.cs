@@ -143,7 +143,14 @@ namespace BankLoanSystem.Controllers.ManageUser
         [HttpPost]
         public ActionResult EditRights(IList<Right> rightList )
         {
-            
+            int userId = (int)Session["userId"];
+            int ownerId = (int)Session["editUserIds"];
+            UserManageAccess uma = new UserManageAccess();
+            // not allow to edit rights for admin and superadmin... not allow user to use this page
+            if (uma.getUserRole(ownerId) < 3 || uma.getUserRole(userId) == 3)
+            {
+                return new HttpStatusCodeResult(404);
+            }
             List<string> returnIntArray = new List<string>();
 
             for (int i=0; i< rightList.Count;)
@@ -211,6 +218,13 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
             int userId = (int)Session["userId"];
             int ownerId = (int)Session["editUserIds"];
+
+            UserManageAccess uma = new UserManageAccess();
+            // not allow to edit rights for admin and superadmin... not allow user to use this page
+            if (uma.getUserRole(ownerId) < 3 || uma.getUserRole(userId)==3)
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             if (userId > 0)
             {
@@ -321,6 +335,15 @@ namespace BankLoanSystem.Controllers.ManageUser
 
             returnRight.userId = rightList[0].userId;
             returnRight.editorId = rightList[0].editorId;
+
+
+            
+            UserManageAccess uma = new UserManageAccess();
+            // not allow to edit rights for admin and superadmin... not allow user to use this page
+            if (uma.getUserRole(returnRight.userId) < 3 || uma.getUserRole(returnRight.editorId) == 3)
+            {
+                return new HttpStatusCodeResult(404);
+            }
             returnRight.rightsPermissionString = resultRightIdString;
 
             var returnAccess = new UserRightsAccess();
