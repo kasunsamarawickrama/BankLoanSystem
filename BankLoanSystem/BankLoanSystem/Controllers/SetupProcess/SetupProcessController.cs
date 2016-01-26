@@ -106,11 +106,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check if   step is 3...
+            StepAccess sa = new StepAccess();
+            if(sa.getStepNumberByUserId(userId) != 3 && sa.getStepNumberByUserId(userId) != 4)
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             if(lbls != null && lbls.Equals("User Successfully Created"))
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
-
+                sa.updateStepNumberByUserId(userId,4);
                 return View();
             }
 
@@ -221,6 +226,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return View();
             }
         }
+
 
     }
 }
