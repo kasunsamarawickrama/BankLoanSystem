@@ -88,7 +88,7 @@ namespace BankLoanSystem.Controllers
             if (userId > 0)
             {
                 ///check wether the company setup is ongoing 
-                if (step.checkUserLoginWhileCompanySetup(userId))
+                if (1==1)
                 {
 
                     Session["userId"] = userId;
