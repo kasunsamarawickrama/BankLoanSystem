@@ -12,6 +12,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
     public class SetupProcessController : Controller
     {
         private static CompanyBranchModel userCompany = null;
+        private static CompanyBranchModel userNonRegCompany = null;
         public static string CompanyType = "Lender";
 
         /// <summary>
@@ -471,7 +472,119 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return View();
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Get Lender/Dealer branch details
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Step5()
+        {
 
+            //int userId = 68;
+            if ((Session["userId"] != null) && (Session["userId"].ToString() != ""))
+            //if (userId > 0)
+            {
+                int userId = (int)Session["userId"];
+                BranchAccess ba = new BranchAccess();
+                int compType = ba.getCompanyTypeByUserId(userId);
+                if (compType == 1)
+                {
+                    ViewBag.compType = "Create Dealer Branch";
+                }
+                else if (compType == 2)
+                {
+                    ViewBag.compType = "Create Lender Branch";
+                }
+                else
+                {
+                    ViewBag.compType = "";
+                }
+                StepAccess cs = new StepAccess();
+                int reslt = cs.getStepNumberByUserId(userId);
+                if (reslt == 5)
+                {
+                    if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+                    {
+                        userNonRegCompany = new CompanyBranchModel();
+
+                        userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
+                        userNonRegCompany.MainBranch = new Branch();
+                        if (userNonRegCompany.Company.Extension == null)
+                            userNonRegCompany.Company.Extension = "";
+                    }
+                    //Get states to list
+                    CompanyAccess ca = new CompanyAccess();
+                    List<State> stateList = ca.GetAllStates();
+                    ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+
+                    return View(userNonRegCompany);
+
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+
+
+
+
+
+            }
+
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Insert Non registered branch details
+        /// </summary>
+        /// <param name="nonRegBranch"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step5(CompanyBranchModel nonRegBranch)
+        {
+            int userId = (int)Session["userId"];
+            //int userId = 68;
+            BranchAccess ba = new BranchAccess();
+
+            
+            int compType = ba.getCompanyTypeByUserId(userId);
+            
+            
+            nonRegBranch.MainBranch.StateId = nonRegBranch.StateId;
+            nonRegBranch.MainBranch.BranchCode = ba.createBranchCode(userNonRegCompany.Company.CompanyCode);
+            userNonRegCompany.MainBranch = nonRegBranch.MainBranch;
+            bool reslt = ba.insertNonRegBranchDetails(userNonRegCompany, userId);
+            if (reslt)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 6))
+                {
+                    if (compType == 1)
+                    {
+                        ViewBag.SuccessMsg = "Create A Dealer Branch Successfully";
+                    }
+                    else if (compType == 2)
+                    {
+                        ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
+                    }
+                    return RedirectToAction("Step6");
+                    //ViewBag.SuccessMsg = "First Branch is created successfully";
+                }
+
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to create branch";
+            }
+            return View();
+
+        }
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
         /// <summary>
         /// CreatedBy : Irfan MAM

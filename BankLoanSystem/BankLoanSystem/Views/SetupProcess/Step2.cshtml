@@ -162,6 +162,7 @@
                             @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten" } })
                             @Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" })
                         </div>
+                        <div style="float:right;margin-top:20px;"><span> - </span></div>
                         <div class="col-xs-4">
                             @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre" } })
                             @Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" })

@@ -22,7 +22,8 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns> a list contain all branches</returns>
         /// 
-        public List<Branch> getBranches(int companyId) {
+        public List<Branch> getBranches(int companyId)
+        {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -38,7 +39,7 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
 
                         List<Branch> branchesLists = new List<Branch>();
-                        
+
 
                         while (reader.Read())
                         {
@@ -115,7 +116,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = branch.BranchCreatedDate;
                         cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = branch.BranchCompany;
                         con.Open();
-                        
+
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
@@ -177,7 +178,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
                         cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
-                        if ((userCompany3.MainBranch.Extention != null)&& (userCompany3.MainBranch.Extention.ToString()!=""))
+                        if ((userCompany3.MainBranch.Extention != null) && (userCompany3.MainBranch.Extention.ToString() != ""))
                         {
                             userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre + "-" + userCompany3.MainBranch.Extention;
                         }
@@ -234,7 +235,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>compId</returns>
-        public int getCompanyIdByCompanyCode(string  compCode)
+        public int getCompanyIdByCompanyCode(string compCode)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -273,7 +274,52 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// get company Id by company code
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>compId</returns>
+        public int getNonRegCompanyIdByCompanyCode(string compCode)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetNonRegCompanyIdByCompanyCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
+                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = compCode;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        int compId = 0;
+
+                        while (reader.Read())
+                        {
+
+                            compId = int.Parse(reader["company_id"].ToString());
+
+                        }
+                        return compId;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/27
@@ -284,9 +330,9 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
         {
-            string companyCode = getCompanyCodeByUserId(userId);
-            nonRegBranch.MainBranch.BranchCode = createBranchCode(companyCode);
-            nonRegBranch.MainBranch.BranchCompany = getCompanyIdByUserId(userId);
+            string companyCode = nonRegBranch.Company.CompanyCode;
+            //nonRegBranch.MainBranch.BranchCode = createBranchCode(companyCode);
+            nonRegBranch.MainBranch.BranchCompany = getNonRegCompanyIdByCompanyCode(companyCode);
             nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -414,8 +460,8 @@ namespace BankLoanSystem.DAL
             {
                 string branchCode = "";
                 int latestBranchId = getLatestBranchId(companyCode);
-                
-                if ((latestBranchId>=0)&&(latestBranchId < 9))
+
+                if ((latestBranchId >= 0) && (latestBranchId < 9))
                 {
                     branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
                 }
@@ -423,11 +469,11 @@ namespace BankLoanSystem.DAL
                 {
                     branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
                 }
-                
+
                 return branchCode;
             }
-            
-            catch(Exception ex)
+
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -454,12 +500,12 @@ namespace BankLoanSystem.DAL
 
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
-                        int topId =0;
+                        int topId = 0;
 
                         while (reader.Read())
                         {
-                           
-                                topId = int.Parse(reader["branch_id"].ToString());
+
+                            topId = int.Parse(reader["branch_id"].ToString());
 
                         }
                         return topId;
@@ -492,49 +538,49 @@ namespace BankLoanSystem.DAL
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
-            {
-                using (SqlCommand cmd = new SqlCommand("spGetCompanyCodeByUserId", con))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand cmd = new SqlCommand("spGetCompanyCodeByUserId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
 
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    Branch branch = new Branch();
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        Branch branch = new Branch();
 
                         while (reader.Read())
-                    {
-                        
-                        branch.BranchCompanyCode = reader["company_code"].ToString();
-                       
+                        {
+
+                            branch.BranchCompanyCode = reader["company_code"].ToString();
+
+                        }
+                        return branch.BranchCompanyCode;
+
                     }
-                    return branch.BranchCompanyCode;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
 
                 }
-            }
-
-
-            catch (Exception ex)
-            {
-                throw ex;
-
-            }
-            finally
-            {
-                con.Close();
+                finally
+                {
+                    con.Close();
+                }
             }
         }
-    }
-    /// <summary>
-    /// CreatedBy:piyumi
-    /// CreatedDate:2016/1/27
-    /// update branch id when first branch is created
-    /// </summary>
-    /// <param name=""></param>
-    /// <returns></returns>
-    public bool updateUserBranchId(CompanyBranchModel nonRegBranch,int userId) 
-    {
+        /// <summary>
+        /// CreatedBy:piyumi
+        /// CreatedDate:2016/1/27
+        /// update branch id when first branch is created
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public bool updateUserBranchId(CompanyBranchModel nonRegBranch, int userId)
+        {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
@@ -545,7 +591,7 @@ namespace BankLoanSystem.DAL
 
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
                         cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
-                        
+
                         con.Open();
 
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
@@ -580,5 +626,53 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Get company type of a given user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int getCompanyTypeByUserId(int userId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetCompanyTypeByUserId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.VarChar).Value = userId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        int compType = 0;
+
+                        while (reader.Read())
+                        {
+
+                            compType = int.Parse(reader["company_type"].ToString());
+
+                        }
+                        return compType;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
     }
 }
