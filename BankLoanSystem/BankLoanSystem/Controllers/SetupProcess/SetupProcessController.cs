@@ -114,12 +114,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int reslt = cs.getStepNumberByUserId(userId);
                 if (reslt == 2)
                 {
-                if((TempData["Company"] !=null)&&(TempData["Company"].ToString()!=""))
-                 {
-                        userCompany = (CompanyBranchModel)TempData["Company"];
+                    if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
+                    {
+                        userCompany = (CompanyBranchModel) TempData["Company"];
                         userCompany.MainBranch = new Branch();
+                        if (userCompany.Company.Extention == null)
+                            userCompany.Company.Extention = "";
                     }
-                    
+
+                    //Get states to list
+                    CompanyAccess ca = new CompanyAccess();
+                    List<State> stateList = ca.GetAllStates();
+                    ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
                     return View(userCompany);
 
                 }

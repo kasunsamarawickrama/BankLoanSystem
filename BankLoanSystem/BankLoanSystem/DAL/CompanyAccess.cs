@@ -303,7 +303,7 @@ namespace BankLoanSystem.DAL
                         userCompany.Branch.BranchName;
                     com2.Parameters.Add("@branch_address", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchAddress1;
-                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
+                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.StateId;
                     com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
@@ -452,7 +452,7 @@ namespace BankLoanSystem.DAL
                         userCompany.Branch.BranchName;
                     com1.Parameters.Add("@b_branch_address", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchAddress1;
-                    com1.Parameters.Add("@b_state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
+                    com1.Parameters.Add("@b_state", SqlDbType.NVarChar).Value = userCompany.Branch.StateId;
                     com1.Parameters.Add("@b_city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com1.Parameters.Add("@b_zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com1.Parameters.Add("@b_email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
@@ -615,7 +615,7 @@ namespace BankLoanSystem.DAL
                         userCompany.Branch.BranchName;
                     com2.Parameters.Add("@branch_address", SqlDbType.NVarChar).Value =
                         userCompany.Branch.BranchAddress1;
-                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.BranchState;
+                    com2.Parameters.Add("@state", SqlDbType.NVarChar).Value = userCompany.Branch.StateId;
                     com2.Parameters.Add("@city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
                     com2.Parameters.Add("@zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
                     com2.Parameters.Add("@email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
