@@ -11,7 +11,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
     public class CreateBranchController : Controller
     {
         private static string _type = "";
-        private static CompanyBranchModel _userCompany = null;
+        private static UserCompanyModel _userCompany = null;
         // GET: CreateBranch
         /// <summary>
         /// 
@@ -70,7 +70,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 ViewBag.Type = "CompanyEmployee";
                 _type = "CompanyEmployee";
 
-                _userCompany = (BranchCompanyModel)TempData["UserCompany"];
+                _userCompany = (UserCompanyModel)TempData["UserCompany"];
                 _userCompany.Branch = new Branch();
             }
             else
@@ -86,7 +86,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
         /// <param name="userCompany"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateBranchFirstBranch(BranchCompanyModel userCompany)
+        public ActionResult CreateBranchFirstBranch(UserCompanyModel userCompany)
         {
             if (_type == "CompanyEmployee")
             {

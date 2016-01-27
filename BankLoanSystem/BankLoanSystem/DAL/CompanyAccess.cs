@@ -246,7 +246,7 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>true/false</returns>
-        public bool SetupCompany(BranchCompanyModel userCompany)
+        public bool SetupCompany(UserCompanyModel userCompany)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -417,7 +417,7 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SetupCompanyRollback(BranchCompanyModel userCompany)
+        public bool SetupCompanyRollback(UserCompanyModel userCompany)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -567,7 +567,7 @@ namespace BankLoanSystem.DAL
 
 
 
-        public bool SetupCompanyRollbackXxx(BranchCompanyModel userCompany)
+        public bool SetupCompanyRollbackXxx(UserCompanyModel userCompany)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
