@@ -11,7 +11,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
     public class CreateBranchController : Controller
     {
         private static string _type = "";
-        private static BranchCompanyModel _userCompany = null;
+        private static CompanyBranchModel _userCompany = null;
         // GET: CreateBranch
         /// <summary>
         /// 

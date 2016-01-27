@@ -109,7 +109,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if((TempData["UserCompany"]!=null)&&(TempData["UserCompany"].ToString()!=""))
                  {
                         userCompany = (CompanyBranchModel)TempData["UserCompany"];
-                        userCompany.MainBranch = new Branch();
+                        userCompany.Branch = new Branch();
                     }
                     
                     return View(userCompany);
@@ -144,8 +144,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = 68;
             BranchAccess ba = new BranchAccess();
 
-            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            userCompany.MainBranch = userCompany2.MainBranch;
+            userCompany2.Branch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            userCompany.Branch  = userCompany2.Branch;
             bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
             if (reslt)
             {
