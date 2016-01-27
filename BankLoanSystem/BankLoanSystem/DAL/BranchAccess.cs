@@ -158,9 +158,9 @@ namespace BankLoanSystem.DAL
         /// <returns>true/false</returns>
         public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
-            string companyCode = getCompanyCodeByUserId(id);
+            string companyCode = userCompany3.Company.CompanyCode;
             userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
-            userCompany3.MainBranch.BranchCompany = getCompanyIdByUserId(id);
+            userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
             userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -227,6 +227,53 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// get company Id by company code
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>compId</returns>
+        public int getCompanyIdByCompanyCode(string  compCode)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetCompanyIdByCompanyCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = compCode;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        int compId = 0;
+
+                        while (reader.Read())
+                        {
+
+                            compId = int.Parse(reader["company_id"].ToString());
+
+                        }
+                        return compId;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/27
@@ -479,5 +526,59 @@ namespace BankLoanSystem.DAL
             }
         }
     }
+    /// <summary>
+    /// CreatedBy:piyumi
+    /// CreatedDate:2016/1/27
+    /// update branch id when first branch is created
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public bool updateUserBranchId(CompanyBranchModel nonRegBranch,int userId) 
+    {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spUpdateBranchId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
+                        
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }

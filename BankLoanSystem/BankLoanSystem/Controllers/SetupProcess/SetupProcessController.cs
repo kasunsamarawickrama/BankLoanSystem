@@ -12,7 +12,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
     public class SetupProcessController : Controller
     {
         private static CompanyBranchModel userCompany = null;
-        public static string CompanyType = "Lender";
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -73,8 +72,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
-                CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
-
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
                 sa.updateStepNumberByUserId(company.FirstSuperAdminId, 2);
@@ -119,6 +116,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
                     {
+                        userCompany = new CompanyBranchModel();
                         userCompany = (CompanyBranchModel) TempData["Company"];
                         userCompany.MainBranch = new Branch();
                         if (userCompany.Company.Extension == null)
@@ -161,18 +159,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = (int)Session["userId"];
             //int userId = 68;
             BranchAccess ba = new BranchAccess();
-
-
-            //userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            //userCompany.MainBranch = userCompany2.MainBranch;
-            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            userCompany.MainBranch = userCompany2.MainBranch;
+            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
             if (reslt)
             {
                 StepAccess sa = new StepAccess();
-                if(sa.updateStepNumberByUserId(userId,2)) 
+                if(sa.updateStepNumberByUserId(userId,3)) 
                 {
-                    return RedirectToAction("Step3");
-                    //ViewBag.SuccessMsg = "First Branch is created successfully";
+                    bool reslt2 = ba.updateUserBranchId(userCompany2,userId);
+                    if(reslt2) 
+                    {
+                        return RedirectToAction("Step3");
+                    }
+                    
+                    
                 }
                 
             }
@@ -301,6 +303,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
+                
+
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
@@ -341,87 +345,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
-        }
-
-        /// <summary>
-        /// CreatedBy : Kanishka SHM
-        /// CreatedDate: 2016/01/27
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Step4()
-        {
-
-            //if (Session["userId"] == null || Session["userId"].ToString() == "")
-            //    return RedirectToAction("UserLogin", "Login");
-
-            //int userId = Convert.ToInt32(Session["userId"]);
-
-            //StepAccess sa = new StepAccess();
-            //if (sa.getStepNumberByUserId(userId) == 4)
-            //{
-            
-
-            ViewBag.ThisCompanyType = (CompanyType == "Lender") ? "Dealer" : "Lender";
-
-            //Get states to list
-            CompanyAccess ca = new CompanyAccess();
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            return View();
-            
-            
-            //}
-
-            //return RedirectToAction("UserLogin", "Login");
-        }
-
-        /// <summary>
-        /// CreatedBy : Kanishka SHM
-        /// CreatedDate: 2016/01/27
-        /// </summary>
-        /// <param name="nonRegCom"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Step4(Company nonRegCom)
-        {
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
-
-            GeneratesCode gc = new GeneratesCode();
-            nonRegCom.CompanyCode = gc.GenerateCompanyCode(nonRegCom.CompanyName);
-
-            nonRegCom.Zip = nonRegCom.ZipPre;
-            if (nonRegCom.Extension != null)
-                nonRegCom.Zip += "-" + nonRegCom.Extension;
-
-            nonRegCom.CreatedBy = Convert.ToInt32(Session["userId"]);
-            nonRegCom.TypeId = (CompanyType == "Lender") ? 2 : 1;
-
-            CompanyAccess ca = new CompanyAccess();
-
-            if (ca.InsertNonRegisteredCompany(nonRegCom))
-            {
-                ViewBag.SuccessMsg = ((CompanyType == "Lender") ? "Dealer" : "Lender") + " Successfully created.";
-
-                //If succeed update step table to step2 
-                StepAccess sa = new StepAccess();
-                sa.updateStepNumberByUserId(nonRegCom.FirstSuperAdminId, 5);
-
-                //Send company detail to step 2
-                CompanyBranchModel comBranch = new CompanyBranchModel();
-                comBranch.Company = nonRegCom;
-
-                TempData["NonRegCompany"] = comBranch.Company;
-                return RedirectToAction("Step5");
-            }
-            ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
-
-            //Get states to list
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            return View();
         }
 
 

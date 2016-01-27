@@ -35,7 +35,7 @@
             <li>
                 @*@Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)*@
 
-                @Ajax.ActionLink("Create User", "Create", "CreateUser", null, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" }, null)
+                @Ajax.ActionLink("Create User", "Create", "CreateUser", null, new AjaxOptions { OnFailure= "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" }, null)
             </li>
 
         }

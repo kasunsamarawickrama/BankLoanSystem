@@ -10,6 +10,8 @@
 
 @using (Ajax.BeginForm("Create","CreateUser", new AjaxOptions()
 {
+    
+    OnFailure = "handleError",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
     UpdateTargetId = "changeContainer"
@@ -157,4 +159,6 @@
     $('#clear').click(function () {
         document.getElementById("form").reset();
     });
+
+
 </script>

@@ -10,5 +10,6 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name ="State")]
         public int StateId { get; set; }
+
     }
 }
