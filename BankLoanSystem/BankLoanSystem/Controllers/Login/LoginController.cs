@@ -96,6 +96,11 @@ namespace BankLoanSystem.Controllers
                 }
                 else if (stepNo == 2)
                 {
+                    CompanyAccess ca = new CompanyAccess();
+                    Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
+                    CompanyBranchModel comBranch = new CompanyBranchModel();
+                    comBranch.Company = company;
+                    TempData["Company"] = comBranch.Company;
                     return RedirectToAction("Step2", "SetupProcess");
                 }
                 else if (stepNo == 3)
