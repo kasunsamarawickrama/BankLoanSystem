@@ -8,12 +8,18 @@
 
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("Create","CreateUser", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer"
+}, new {id = "form" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <label id="successLabel">@ViewBag.SuccessMsg</label>
         <div class="form-group">
             <div class = "control-label col-sm-2">
                 @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
@@ -125,7 +131,11 @@
                             <input type="submit" value="Create" class="btn btn-primary m-b" style="float:left" />
                         </li>
 
-                <input type="button" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("Create", "CreateUser")' " />
+                        <li>
+                            <input id="clear" type="button" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px"  />
+                            
+                        </li>
+</nav>
             </div>
         </div>
     </div>
@@ -140,24 +150,10 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@*<script type="text/javascript">
-    $(function () {
-        
-        var selectedValue = $('#RoleId').selectedIndex();
-        if (selectedValue == 0) {
-            model.RoleId
-            var model = @Html.Raw(Json.Encode(Model));
-            document.getElementById("RoleId").value = model.RoleId;
-            alert(model.RoleId);
-        } else {
-        }
-    });
-    $(function () {
+<script>
 
-        var selectedValue = $('#BranchId').selectedIndex();
-        if (selectedValue == 0) {
-            model.RoleId
-        } else {
-        }
+
+    $('#clear').click(function () {
+        document.getElementById("form").reset();
     });
-</script>*@
+</script>

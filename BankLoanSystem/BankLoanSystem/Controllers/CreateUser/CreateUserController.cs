@@ -30,8 +30,8 @@ namespace BankLoanSystem.Controllers.CreateUser
         // GET: CreateUser
         public ActionResult Create(string lbls)
         {
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+            //if (Session["userId"] == null || Session["userId"].ToString() == "")
+                //return RedirectToAction("UserLogin", "Login");
 
 
             if(lbls != null)
@@ -87,7 +87,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
             }
 
-            return View();
+            return PartialView("Create"); 
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
-                return View();
+                return PartialView();
             }
         }
 
