@@ -96,7 +96,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = branch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = branch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = branch.BranchAddress2;
-                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = branch.BranchState;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.BranchStateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = branch.BranchCity;
                         if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
                         {
@@ -175,7 +175,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchState;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.BranchStateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
                         if ((userCompany3.MainBranch.Extention != null)&& (userCompany3.MainBranch.Extention.ToString()!=""))
                         {
@@ -193,6 +193,85 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchFax;
                         cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = userCompany3.MainBranch.BranchCreatedDate;
                         cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCompany;
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Insert non registered branch
+        /// </summary>
+        /// <param name="nonRegBranch"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
+        {
+            string companyCode = getCompanyCodeByUserId(userId);
+            nonRegBranch.MainBranch.BranchCode = createBranchCode(companyCode);
+            nonRegBranch.MainBranch.BranchCompany = getCompanyIdByUserId(userId);
+            nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spInsertNonRegisteredBranch", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
+                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchName;
+                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress1;
+                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress2;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.BranchStateId;
+                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCity;
+                        if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
+                        {
+                            nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre + "-" + nonRegBranch.MainBranch.Extention;
+                        }
+                        else
+                        {
+                            nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre;
+                        }
+                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchZip;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchEmail;
+                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum1;
+                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum2;
+                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum3;
+                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchFax;
+                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = nonRegBranch.MainBranch.BranchCreatedDate;
+                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCompany;
                         con.Open();
 
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
