@@ -14,9 +14,9 @@
         </a>
 
         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-            
+
             <li class="divider"></li>
-            <li>@Html.ActionLink("Log out", "UserLogin","Login",null,null)</li>
+            <li>@Html.ActionLink("Log out", "UserLogin", "Login", null, null)</li>
         </ul>
     </div>
     <div class="logo-element">
@@ -32,45 +32,47 @@
         {
 
 
-        <li>
-            @Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)
-        </li>
+            <li>
+                @*@Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)*@
+
+                @Ajax.ActionLink("Create User", "Create", "CreateUser", null, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" }, null)
+            </li>
 
         }
 
         @if (@Model.levelId == 1)
         {
-        <li>
-            @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)
-        </li>
+            <li>
+
+                @*@Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" }, null)*@
+                @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)
+            </li>
         }
 
         @if (@Model.levelId == 1)
         {
 
-        <li>
-            @Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, null)
-        </li>
+            <li>
+                @Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, null)
+            </li>
         }
 
         @if (@Model.levelId == 1 || @Model.levelId == 2)
         {
-        <li>
-            @Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, null)
-        </li>
+            <li>
+                @Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, null)
+            </li>
         }
 
         @if (@Model.levelId == 1 || @Model.levelId == 2)
         {
-        <li>
-            @Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, null)
-        </li>
+            <li>
+                @Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, null)
+            </li>
         }
 
     </ul>
 </li>
-
-
 
 
 
