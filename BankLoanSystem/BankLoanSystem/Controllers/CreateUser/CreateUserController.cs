@@ -30,9 +30,7 @@ namespace BankLoanSystem.Controllers.CreateUser
         // GET: CreateUser
         public ActionResult Create(string lbls)
         {
-            //if (Session["userId"] == null || Session["userId"].ToString() == "")
-            //return RedirectToAction("UserLogin", "Login");
-
+            
             int.Parse(Session["userId"].ToString());
 
             if (lbls != null)
