@@ -87,10 +87,10 @@ namespace BankLoanSystem.Controllers
 
             if (userId > 0)
             {
-                ///check wether the company setup is ongoing 
+                //check wether the company setup is ongoing 
 
                 Session["userId"] = userId;
-                ///get the step nomber if the user is in company setup process
+                //get the step nomber if the user is in company setup process
                 int stepNo = step.getStepNumberByUserId(userId);
 
                 if (stepNo == 1)
@@ -99,8 +99,15 @@ namespace BankLoanSystem.Controllers
                 }
                 else if (stepNo == 2)
                 {
+                    //Get company details if branch same as company
                     CompanyAccess ca = new CompanyAccess();
                     Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
+
+                    string[] zipWithExtention = company.Zip.Split('-');
+
+                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >=2 && zipWithExtention[1] != null) company.Extention = zipWithExtention[1];
+
                     CompanyBranchModel comBranch = new CompanyBranchModel();
                     comBranch.Company = company;
                     TempData["Company"] = comBranch;
