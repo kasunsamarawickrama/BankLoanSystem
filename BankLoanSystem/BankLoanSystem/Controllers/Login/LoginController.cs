@@ -100,7 +100,7 @@ namespace BankLoanSystem.Controllers
                     Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
                     CompanyBranchModel comBranch = new CompanyBranchModel();
                     comBranch.Company = company;
-                    TempData["Company"] = comBranch.Company;
+                    TempData["Company"] = comBranch;
                     return RedirectToAction("Step2", "SetupProcess");
                 }
                 else if (stepNo == 3)

@@ -29,8 +29,9 @@
                 @Html.LabelFor(model => model.MainBranch.BranchName, htmlAttributes: new { })<span style="color:red">*</span>
             </div>
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control", @id = "branchName" } })
-                @Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new { @class = "text-danger" })
+                @Model.Company.City
+                @Html.EditorFor(model => model.MainBranch.BranchName, new {htmlAttributes = new {@class = "form-control", @id = "branchName"}})
+                @Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new {@class = "text-danger"})
             </div>
         </div>
 

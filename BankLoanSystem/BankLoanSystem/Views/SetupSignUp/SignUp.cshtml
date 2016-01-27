@@ -1,0 +1,122 @@
+﻿@model BankLoanSystem.Models.User
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_login.cshtml";
+}
+
+<link href="~/Content/steps.css" rel="stylesheet" />
+
+<div class="main-container">
+    <div class="row">
+        <div class="container body-content">
+            <h2>Sign up</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.UserName, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.UserName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.LastName, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.NewEmail, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.NewEmail, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.NewEmail, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new {})<span style="color: red">*</span>
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.ConfirmPassword, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div>
+
+                            <nav>
+                                <ul class="pager">
+                                    <li>
+                                        <input type="button" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("Step1")' " />
+                                    </li>
+
+                                    <li>
+                                        <input type="submit" value="Sign-up" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

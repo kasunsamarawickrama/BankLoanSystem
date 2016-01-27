@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
     <Compile Include="Controllers\SetupCompany\SetupCompanyController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupProcessController.cs" />
+    <Compile Include="Controllers\SetupProcess\SetupSignUpController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\CompanyAccess.cs" />
@@ -263,7 +264,7 @@
     <Content Include="Views\SetupProcess\Step6.cshtml" />
     <Content Include="Views\SetupProcess\Step1.cshtml" />
     <Content Include="Views\SetupProcess\Step2.cshtml" />
-    <Content Include="Views\SetupProcess\Step1.cshtml" />
+    <Content Include="Views\SetupSignUp\SignUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

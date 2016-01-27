@@ -154,7 +154,7 @@ namespace BankLoanSystem.DAL
             {
                 try
                 {
-                    var command = new SqlCommand("spInsertCompany", con);
+                    var command = new SqlCommand("spGetCompanyDetailsBySUserId", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@user_id", userId);
                     con.Open();

@@ -24,17 +24,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
-            CompanyAccess ca = new CompanyAccess();
+            int userId = Convert.ToInt32(Session["userId"]);
 
-            // Get company types to list
-            List<CompanyType> ctList = ca.GetAllCompanyType();
-            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) == 1)
+            {
+                CompanyAccess ca = new CompanyAccess();
 
-            //Get states to list
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                // Get company types to list
+                List<CompanyType> ctList = ca.GetAllCompanyType();
+                ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
 
-            return View();
+                //Get states to list
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                return View();
+            }
+
+            return RedirectToAction("UserLogin", "Login");
         }
 
         /// <summary>
@@ -104,11 +112,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
                 int reslt = cs.getStepNumberByUserId(userId);
-                if (reslt == 1)
+                if (reslt == 2)
                 {
-                if((TempData["UserCompany"]!=null)&&(TempData["UserCompany"].ToString()!=""))
+                if((TempData["Company"] !=null)&&(TempData["Company"].ToString()!=""))
                  {
-                        userCompany = (CompanyBranchModel)TempData["UserCompany"];
+                        userCompany = (CompanyBranchModel)TempData["Company"];
                         userCompany.MainBranch = new Branch();
                     }
                     
@@ -140,8 +148,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step2(CompanyBranchModel userCompany2)
         {
-            //int userId = (int)Session["userId"];
-            int userId = 68;
+            int userId = (int)Session["userId"];
+            //int userId = 68;
             BranchAccess ba = new BranchAccess();
 
             //userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
