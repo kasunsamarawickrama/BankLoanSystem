@@ -145,11 +145,11 @@
 
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.MainBranch.StateId, htmlAttributes: new { })<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
                             @Html.DropDownList("StateId", null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                            @Html.ValidationMessageFor(model => model.MainBranch.StateId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                         </div>
                     </div>
 

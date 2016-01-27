@@ -106,7 +106,7 @@ namespace BankLoanSystem.Controllers
                     string[] zipWithExtention = company.Zip.Split('-');
 
                     if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >=2 && zipWithExtention[1] != null) company.Extention = zipWithExtention[1];
+                    if (zipWithExtention.Count() >=2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
                     CompanyBranchModel comBranch = new CompanyBranchModel();
                     comBranch.Company = company;

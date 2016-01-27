@@ -96,7 +96,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = branch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = branch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = branch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = branch.BranchCity;
                         if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
                         {
@@ -158,9 +158,9 @@ namespace BankLoanSystem.DAL
         /// <returns>true/false</returns>
         public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
-            string companyCode = getCompanyCodeByUserId(id);
+            string companyCode = userCompany3.Company.CompanyCode;
             userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
-            userCompany3.MainBranch.BranchCompany = getCompanyIdByUserId(id);
+            userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
             userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -175,7 +175,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
                         if ((userCompany3.MainBranch.Extention != null)&& (userCompany3.MainBranch.Extention.ToString()!=""))
                         {
@@ -230,6 +230,53 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/27
+        /// get company Id by company code
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>compId</returns>
+        public int getCompanyIdByCompanyCode(string  compCode)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetCompanyIdByCompanyCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = compCode;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        int compId = 0;
+
+                        while (reader.Read())
+                        {
+
+                            compId = int.Parse(reader["company_id"].ToString());
+
+                        }
+                        return compId;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
         /// Insert non registered branch
         /// </summary>
         /// <param name="nonRegBranch"></param>
@@ -254,7 +301,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCity;
                         if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
                         {
@@ -479,5 +526,59 @@ namespace BankLoanSystem.DAL
             }
         }
     }
+    /// <summary>
+    /// CreatedBy:piyumi
+    /// CreatedDate:2016/1/27
+    /// update branch id when first branch is created
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public bool updateUserBranchId(CompanyBranchModel nonRegBranch,int userId) 
+    {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spUpdateBranchId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
+                        
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+
+                        if (countVal == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }

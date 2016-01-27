@@ -42,7 +42,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Extention")]
         [RegularExpression("^[0-9]{4}", ErrorMessage = "Extension needs 4 digits.")]
-        public string Extention { get; set; }
+        public string Extension { get; set; }
 
         [Required]
         [Phone]

@@ -61,8 +61,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
 
             company.Zip = company.ZipPre;
-            if (company.Extention != null)
-                company.Zip += "-" + company.Extention;
+            if (company.Extension != null)
+                company.Zip += "-" + company.Extension;
 
             company.CreatedBy = company.FirstSuperAdminId = Convert.ToInt32(Session["userId"]);
 
@@ -116,10 +116,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
                     {
+                        userCompany = new CompanyBranchModel();
                         userCompany = (CompanyBranchModel) TempData["Company"];
                         userCompany.MainBranch = new Branch();
-                        if (userCompany.Company.Extention == null)
-                            userCompany.Company.Extention = "";
+                        if (userCompany.Company.Extension == null)
+                            userCompany.Company.Extension = "";
                     }
 
                     //Get states to list
@@ -158,17 +159,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = (int)Session["userId"];
             //int userId = 68;
             BranchAccess ba = new BranchAccess();
-
-            //userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            //userCompany.MainBranch = userCompany2.MainBranch;
-            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+            userCompany.MainBranch = userCompany2.MainBranch;
+            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
             if (reslt)
             {
                 StepAccess sa = new StepAccess();
-                if(sa.updateStepNumberByUserId(userId,2)) 
+                if(sa.updateStepNumberByUserId(userId,3)) 
                 {
-                    return RedirectToAction("Step3");
-                    //ViewBag.SuccessMsg = "First Branch is created successfully";
+                    bool reslt2 = ba.updateUserBranchId(userCompany2,userId);
+                    if(reslt2) 
+                    {
+                        return RedirectToAction("Step3");
+                    }
+                    
+                    
                 }
                 
             }

@@ -47,7 +47,7 @@ namespace BankLoanSystem.Models
         public string ZipPre { get; set; }
 
         [Display(Name = "Extention")]
-        [RegularExpression("^[0-9]{2}")]
+        [RegularExpression("^[0-9]{4}")]
         public string Extention { get; set; }
 
 
