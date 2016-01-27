@@ -96,7 +96,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = branch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = branch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = branch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = branch.BranchCity;
                         if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
                         {
@@ -175,7 +175,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
                         if ((userCompany3.MainBranch.Extention != null)&& (userCompany3.MainBranch.Extention.ToString()!=""))
                         {
@@ -254,7 +254,7 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchName;
                         cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress1;
                         cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.BranchStateId;
+                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.StateId;
                         cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCity;
                         if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
                         {

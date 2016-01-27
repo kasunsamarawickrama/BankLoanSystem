@@ -773,5 +773,53 @@ namespace BankLoanSystem.DAL
             }
         }
 
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 01/27/2016
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Company GetNonRegCompanyDetailsByUserId(int userId)
+        {
+            Company company = new Company();
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spGetNonRegCompanyDetailsByUserId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    con.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            company.CompanyName = reader["company_name"].ToString();
+                            company.CompanyCode = reader["company_code"].ToString();
+                            company.CompanyAddress1 = reader["company_address_1"].ToString();
+                            company.CompanyAddress2 = reader["company_address_2"].ToString();
+                            company.StateId = Convert.ToInt32(reader["stateId"]);
+                            company.City = reader["city"].ToString();
+                            company.Zip = reader["zip"].ToString();
+                            company.Email = reader["email"].ToString();
+                            company.PhoneNum1 = reader["phone_num_1"].ToString();
+                            company.PhoneNum2 = reader["phone_num_2"].ToString();
+                            company.PhoneNum3 = reader["phone_num_3"].ToString();
+                            company.Fax = reader["fax"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return company;
+        }
+
     }
 }

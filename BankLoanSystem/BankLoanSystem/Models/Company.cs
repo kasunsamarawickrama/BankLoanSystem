@@ -40,9 +40,9 @@ namespace BankLoanSystem.Models
         [RegularExpression("^[0-9]{5}", ErrorMessage = "Zip code must have 5 digits.")]
         public string ZipPre { get; set; }
 
-        [Display(Name = "Extention")]
+        [Display(Name = "Extension")]
         [RegularExpression("^[0-9]{4}", ErrorMessage = "Extension needs 4 digits.")]
-        public string Extention { get; set; }
+        public string Extension { get; set; }
 
         [Required]
         [Phone]
