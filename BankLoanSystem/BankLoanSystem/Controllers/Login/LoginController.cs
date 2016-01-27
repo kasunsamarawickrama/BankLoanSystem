@@ -88,50 +88,51 @@ namespace BankLoanSystem.Controllers
             if (userId > 0)
             {
                 ///check wether the company setup is ongoing 
-                if (1==1)
+
+                Session["userId"] = userId;
+                ///get the step nomber if the user is in company setup process
+                int stepNo = step.getStepNumberByUserId(userId);
+
+                if (stepNo == 1)
                 {
-
-                    Session["userId"] = userId;
-                    ///get the step nomber if the user is in company setup process
-                    int stepNo = step.getStepNumberByUserId(userId);
-
-                    if (stepNo == 1)
+                    return RedirectToAction("Step1", "SetupProcess");
+                }
+                else if (stepNo == 2)
+                {
+                    CompanyAccess ca = new CompanyAccess();
+                    Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
+                    CompanyBranchModel comBranch = new CompanyBranchModel();
+                    comBranch.Company = company;
+                    TempData["Company"] = comBranch;
+                    return RedirectToAction("Step2", "SetupProcess");
+                }
+                else if (stepNo == 3)
+                {
+                    return RedirectToAction("Step3", "SetupProcess");
+                }
+                else if (stepNo == 4)
+                {
+                    return RedirectToAction("Step4", "SetupProcess");
+                }
+                else if (stepNo == 5)
+                {
+                    return RedirectToAction("Step5", "SetupProcess");
+                }
+                else if (stepNo == 6)
+                {
+                    return RedirectToAction("Step6", "SetupProcess");
+                }
+                else {
+                    if (step.checkUserLoginWhileCompanySetup(userId))
                     {
-                        return RedirectToAction("Step1", "SetupProcess");
-                    }
-                    else if (stepNo == 2)
-                    {
-                        CompanyAccess ca = new CompanyAccess();
-                        Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
-                        CompanyBranchModel comBranch = new CompanyBranchModel();
-                        comBranch.Company = company;
-                        TempData["Company"] = comBranch;
-                        return RedirectToAction("Step2", "SetupProcess");
-                    }
-                    else if (stepNo == 3)
-                    {
-                        return RedirectToAction("Step3", "SetupProcess");
-                    }
-                    else if (stepNo == 4)
-                    {
-                        return RedirectToAction("Step4", "SetupProcess");
-                    }
-                    else if (stepNo == 5)
-                    {
-                        return RedirectToAction("Step5", "SetupProcess");
-                    }
-                    else if (stepNo == 6)
-                    {
-                        return RedirectToAction("Step6", "SetupProcess");
-                    }
-                    else {
                         Session["rowId"] = userId;
                         return RedirectToAction("Details", "UserManagement");
                     }
+                    else {
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
+                    }  
                 }
-                else {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
-                }
+                
                 
             }
             else {
