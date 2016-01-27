@@ -725,5 +725,53 @@ namespace BankLoanSystem.DAL
             }
         }
 
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 01/27/2016
+        /// 
+        /// Insert company in setup process 
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public bool InsertNonRegisteredCompany(Company company)
+        {
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    var command = new SqlCommand("spInsertNonRegisteredCompany", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@company_name", company.CompanyName ?? "");
+                    command.Parameters.AddWithValue("@company_code", company.CompanyCode ?? "");
+                    command.Parameters.AddWithValue("@company_address_1", company.CompanyAddress1 ?? "");
+                    command.Parameters.AddWithValue("@company_address_2", company.CompanyAddress2 ?? "");
+                    command.Parameters.AddWithValue("@stateId", company.StateId);
+                    command.Parameters.AddWithValue("@city", company.City ?? "");
+                    command.Parameters.AddWithValue("@zip", company.Zip ?? "");
+                    command.Parameters.AddWithValue("@email", company.Email ?? "");
+                    command.Parameters.AddWithValue("@phone_num_1", company.PhoneNum1 ?? "");
+                    command.Parameters.AddWithValue("@phone_num_2", company.PhoneNum2 ?? "");
+                    command.Parameters.AddWithValue("@phone_num_3", company.PhoneNum3 ?? "");
+                    command.Parameters.AddWithValue("@fax", company.Fax ?? "");
+                    command.Parameters.AddWithValue("@website_url", company.WebsiteUrl ?? "");
+                    command.Parameters.AddWithValue("@created_by", company.CreatedBy);
+                    command.Parameters.AddWithValue("@created_date", DateTime.Now);
+                    command.Parameters.AddWithValue("@company_type", company.TypeId);
+                    
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
     }
 }

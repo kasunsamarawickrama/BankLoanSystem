@@ -85,5 +85,45 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/01/27
+        /// 
+        /// check the User Login While Company Setup is ongoing by super Admin
+        /// </summary>
+        /// <returns>update true/false</returns>
+        /// 
+        public bool checkUserLoginWhileCompanySetup(int userId)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    var command = new SqlCommand("spCheckUserLoginWhileCompanySetup", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    if ((int)returnParameter.Value == 1)
+                    {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
     }
 }
