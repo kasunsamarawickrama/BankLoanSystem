@@ -30,11 +30,10 @@ namespace BankLoanSystem.Controllers.CreateUser
         // GET: CreateUser
         public ActionResult Create(string lbls)
         {
-            //if (Session["userId"] == null || Session["userId"].ToString() == "")
-                //return RedirectToAction("UserLogin", "Login");
+            
+            int.Parse(Session["userId"].ToString());
 
-
-            if(lbls != null)
+            if (lbls != null)
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
             }
@@ -104,8 +103,10 @@ namespace BankLoanSystem.Controllers.CreateUser
         public ActionResult Create(User user)
         {
 
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+            
+            int.Parse(Session["userId"].ToString());
+
+
             user.CreatedBy = _createById;
             user.IsDelete = false;
             user.Status = false;
@@ -195,7 +196,7 @@ namespace BankLoanSystem.Controllers.CreateUser
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
-                return PartialView();
+                return PartialView("Create");
             }
         }
 
