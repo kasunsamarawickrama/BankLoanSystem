@@ -57,13 +57,12 @@
         </div>
 
         <div class="form-group">
-            <div class = "control-label col-sm-2">
-                @Html.LabelFor(model => model.Branch.BranchState, htmlAttributes: new { })<span style="color:red">*</span>
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-           
-            <div class="col-sm-10">
-                @Html.EditorFor(model => model.Branch.BranchState, new { htmlAttributes = new { @class = "form-control", @id = "branchState" } })
-                @Html.ValidationMessageFor(model => model.Branch.BranchState, "", new { @class = "text-danger" })
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", @id = "StateId" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -163,6 +162,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+
 <script type="text/javascript">
     $(function () {
         $('#Previous').on('change', function () {
@@ -171,7 +171,44 @@
                 document.getElementById("branchName").value = model.Company.City;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
                 document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
-                document.getElementById("branchState").value = model.Company.State;
+                document.getElementById("StateId").value = model.Company.StateId;
+                document.getElementById("branchCity").value = model.Company.City;
+                document.getElementById("branchZipPre").value = model.Company.ZipPre;
+                document.getElementById("branchZipExten").value = model.Company.Extension;
+                document.getElementById("branchEmail").value = model.Company.Email;
+                document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
+                document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
+                document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
+                document.getElementById("branchFax").value = model.Company.Fax;
+            }
+            else {
+                document.getElementById("branchName").value = "";
+                document.getElementById("branchAddress1").value = "";
+                document.getElementById("branchAddress2").value = "";
+                document.getElementById("StateId").value = "";
+                document.getElementById("branchCity").value = "";
+                document.getElementById("branchZipPre").value = "";
+                document.getElementById("branchZipExten").value = "";
+                document.getElementById("branchEmail").value = "";
+                document.getElementById("branchPhoneNum1").value = "";
+                document.getElementById("branchPhoneNum2").value = "";
+                document.getElementById("branchPhoneNum3").value = "";
+                document.getElementById("branchFax").value = "";
+            }
+        });
+    });
+</script>
+
+
+@*<script type="text/javascript">
+    $(function () {
+        $('#Previous').on('change', function () {
+            if ($(this).is(':checked')) {
+                var model = @Html.Raw(Json.Encode(Model));
+                document.getElementById("branchName").value = model.Company.City;
+                document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
+                document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
+                document.getElementById("branchState").value = model.Company.StateId;
                 document.getElementById("branchCity").value = model.Company.City;
                 document.getElementById("branchZipPre").value = model.Company.ZipPre;
                 document.getElementById("branchZipExten").value = model.Company.Extension;
@@ -197,4 +234,4 @@
             }
         });
     });
-</script>
+</script>*@

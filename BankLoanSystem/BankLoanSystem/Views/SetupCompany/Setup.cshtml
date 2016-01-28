@@ -63,20 +63,35 @@
             </div>
            
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.StateId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.StateId, null, "Select state", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.ZipPre, htmlAttributes: new {})<span style="color: red">*</span>
             </div>
 
             <div class="col-sm-10">
                 @Html.EditorFor(model => model.ZipPre, new {htmlAttributes = new {@class = "form-control"}}) -
-                @Html.EditorFor(model => model.Extention, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.EditorFor(model => model.Extension, new {htmlAttributes = new {@class = "form-control"}})
                 @Html.ValidationMessageFor(model => model.ZipPre, "", new {@class = "text-danger"})
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-4">
+                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xs-4">
+                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -93,7 +108,7 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new {})<span style="color: red">*</span>
+                @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new {})
             </div>
 
             <div class="col-sm-10">
@@ -104,7 +119,7 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.PhoneNum3, htmlAttributes: new {})<span style="color: red">*</span>
+                @Html.LabelFor(model => model.PhoneNum3, htmlAttributes: new {})
             </div>
 
             <div class="col-sm-10">
@@ -126,7 +141,7 @@
 
         <div class="form-group">
             <div class = "control-label col-sm-2" >
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { })<span style="color:red">*</span>
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { })
             </div>
            
             <div class="col-sm-10">
@@ -152,7 +167,7 @@
             </div>
             
             <div class="col-sm-10">
-                @Html.DropDownList("TypeId", null, "Select the Company type", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.TypeId, null, "Select Company type", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -169,10 +184,6 @@
         </div>
     </div>
 }
-
-@*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

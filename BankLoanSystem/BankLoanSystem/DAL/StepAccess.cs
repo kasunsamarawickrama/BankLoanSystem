@@ -94,7 +94,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool checkUserLoginWhileCompanySetup(int userId)
+        public int checkUserLoginWhileCompanySetup(int userId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -109,14 +109,8 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value == 1)
-                    {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-
+                    return (int)returnParameter.Value;
+                  
                 }
                 catch (Exception ex)
                 {
