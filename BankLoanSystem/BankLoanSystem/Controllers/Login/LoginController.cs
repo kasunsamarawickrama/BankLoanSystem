@@ -123,6 +123,19 @@ namespace BankLoanSystem.Controllers
                 }
                 else if (stepNo == 5)
                 {
+                    //
+                    CompanyAccess ca = new CompanyAccess();
+                    Company company = ca.GetNonRegCompanyDetailsByUserId(userId);
+
+                    string[] zipWithExtention = company.Zip.Split('-');
+
+                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                    CompanyBranchModel comBranch = new CompanyBranchModel();
+                    comBranch.Company = company;
+                    TempData["NonRegCompany"] = comBranch;
+
                     return RedirectToAction("Step5", "SetupProcess");
                 }
                 else if (stepNo == 6)

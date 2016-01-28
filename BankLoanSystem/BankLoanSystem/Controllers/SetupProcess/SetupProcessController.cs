@@ -12,6 +12,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
     public class SetupProcessController : Controller
     {
         private static CompanyBranchModel userCompany = null;
+        private static CompanyBranchModel userNonRegCompany = null;
+        public static string CompanyType = "Lender";
+
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -71,6 +74,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (ca.InsertCompany(company))
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
+
+                CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
@@ -384,6 +389,202 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
         }
 
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/27
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Step4()
+        {
+
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            int userId = Convert.ToInt32(Session["userId"]);
+
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) == 4 || sa.getStepNumberByUserId(userId) == 3)
+            {
+
+
+                ViewBag.ThisCompanyType = (CompanyType == "Lender") ? "Dealer" : "Lender";
+
+                //Get states to list
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                return View();
+
+
+            }
+
+            return RedirectToAction("UserLogin", "Login");
+    }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/27
+        /// </summary>
+        /// <param name="nonRegCom"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step4(Company nonRegCom)
+        {
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            GeneratesCode gc = new GeneratesCode();
+            nonRegCom.CompanyCode = gc.GenerateCompanyCode(nonRegCom.CompanyName);
+
+            nonRegCom.Zip = nonRegCom.ZipPre;
+            if (nonRegCom.Extension != null)
+                nonRegCom.Zip += "-" + nonRegCom.Extension;
+
+            int userId = Convert.ToInt32(Session["userId"]);
+            nonRegCom.CreatedBy = Convert.ToInt32(Session["userId"]);
+            nonRegCom.TypeId = (CompanyType == "Lender") ? 2 : 1;
+
+            CompanyAccess ca = new CompanyAccess();
+
+            if (ca.InsertNonRegisteredCompany(nonRegCom))
+            {
+                ViewBag.SuccessMsg = ((CompanyType == "Lender") ? "Dealer" : "Lender") + " Successfully created.";
+
+                //If succeed update step table to step2 
+                StepAccess sa = new StepAccess();
+                sa.updateStepNumberByUserId(userId, 5);
+
+                //Send company detail to step 2
+                CompanyBranchModel comBranch = new CompanyBranchModel();
+                comBranch.Company = nonRegCom;
+
+                TempData["NonRegCompany"] = comBranch.Company;
+                return RedirectToAction("Step5");
+            }
+            ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            return View();
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Get Lender/Dealer branch details
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Step5()
+        {
+
+            //int userId = 68;
+            if ((Session["userId"] != null) && (Session["userId"].ToString() != ""))
+            //if (userId > 0)
+            {
+                int userId = (int)Session["userId"];
+                BranchAccess ba = new BranchAccess();
+                int compType = ba.getCompanyTypeByUserId(userId);
+                if (compType == 1)
+                {
+                    ViewBag.compType = "Create Dealer Branch";
+                }
+                else if (compType == 2)
+                {
+                    ViewBag.compType = "Create Lender Branch";
+                }
+                else
+                {
+                    ViewBag.compType = "";
+                }
+                StepAccess cs = new StepAccess();
+                int reslt = cs.getStepNumberByUserId(userId);
+                if (reslt == 5)
+                {
+                    if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+                    {
+                        userNonRegCompany = new CompanyBranchModel();
+
+                        userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
+                        userNonRegCompany.MainBranch = new Branch();
+                        if (userNonRegCompany.Company.Extension == null)
+                            userNonRegCompany.Company.Extension = "";
+                    }
+                    //Get states to list
+                    CompanyAccess ca = new CompanyAccess();
+                    List<State> stateList = ca.GetAllStates();
+                    ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+
+                    return View(userNonRegCompany);
+
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+
+
+
+
+
+            }
+
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Insert Non registered branch details
+        /// </summary>
+        /// <param name="nonRegBranch"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step5(CompanyBranchModel nonRegBranch)
+        {
+            int userId = (int)Session["userId"];
+            //int userId = 68;
+            BranchAccess ba = new BranchAccess();
+
+            
+            int compType = ba.getCompanyTypeByUserId(userId);
+            
+            
+            nonRegBranch.MainBranch.StateId = nonRegBranch.StateId;
+            nonRegBranch.MainBranch.BranchCode = ba.createBranchCode(userNonRegCompany.Company.CompanyCode);
+            userNonRegCompany.MainBranch = nonRegBranch.MainBranch;
+            bool reslt = ba.insertNonRegBranchDetails(userNonRegCompany, userId);
+            if (reslt)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 6))
+                {
+                    if (compType == 1)
+                    {
+                        ViewBag.SuccessMsg = "Create A Dealer Branch Successfully";
+                    }
+                    else if (compType == 2)
+                    {
+                        ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
+                    }
+                    return RedirectToAction("Step6");
+                    //ViewBag.SuccessMsg = "First Branch is created successfully";
+                }
+
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to create branch";
+            }
+            return View();
+
+        }
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
         /// <summary>
         /// CreatedBy : Irfan MAM
