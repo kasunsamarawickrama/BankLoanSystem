@@ -428,45 +428,55 @@ namespace BankLoanSystem.DAL
                     {
                         CommandType = CommandType.StoredProcedure,
                     };
-                    com1.Parameters.Add("@c_company_name", SqlDbType.NVarChar).Value = userCompany.Company.CompanyName;
-                    com1.Parameters.Add("@c_company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode;
-                    com1.Parameters.Add("@c_company_address", SqlDbType.NVarChar).Value =
-                        userCompany.Company.CompanyAddress1;
-                    com1.Parameters.Add("@c_state", SqlDbType.NVarChar).Value = userCompany.Company.StateId;
-                    com1.Parameters.Add("@c_city", SqlDbType.NVarChar).Value = userCompany.Company.City;
-                    com1.Parameters.Add("@c_zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip;
-                    com1.Parameters.Add("@c_email", SqlDbType.NVarChar).Value = userCompany.Company.Email;
-                    com1.Parameters.Add("@c_phone_num", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum1;
-                    com1.Parameters.Add("@c_fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax;
+                    com1.Parameters.Add("@c_company_name", SqlDbType.NVarChar).Value =
+                        userCompany.Company.CompanyName ?? "";
+                    com1.Parameters.Add("@c_company_code", SqlDbType.NVarChar).Value = userCompany.Company.CompanyCode ?? "";
+                    com1.Parameters.Add("@c_company_address_1", SqlDbType.NVarChar).Value =
+                        userCompany.Company.CompanyAddress1 ?? "";
+                    com1.Parameters.Add("@c_company_address_2", SqlDbType.NVarChar).Value =
+                        userCompany.Company.CompanyAddress2 ?? "";
+                    com1.Parameters.Add("@c_stateId", SqlDbType.Int).Value = userCompany.Company.StateId;
+                    com1.Parameters.Add("@c_city", SqlDbType.NVarChar).Value = userCompany.Company.City ?? "";
+                    com1.Parameters.Add("@c_zip", SqlDbType.NVarChar).Value = userCompany.Company.Zip ?? "";
+                    com1.Parameters.Add("@c_email", SqlDbType.NVarChar).Value = userCompany.Company.Email ?? "";
+                    com1.Parameters.Add("@c_phone_num_1", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum1 ?? "";
+                    com1.Parameters.Add("@c_phone_num_2", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum2 ?? "";
+                    com1.Parameters.Add("@c_phone_num_3", SqlDbType.NVarChar).Value = userCompany.Company.PhoneNum3 ?? "";
+                    com1.Parameters.Add("@c_fax", SqlDbType.NVarChar).Value = userCompany.Company.Fax ?? "";
                     com1.Parameters.Add("@c_website_url", SqlDbType.NVarChar).Value =
-                        userCompany.Company.WebsiteUrl;
+                        userCompany.Company.WebsiteUrl ?? "";
                     com1.Parameters.Add("@c_created_by", SqlDbType.Int).Value = 0;
                     com1.Parameters.Add("@c_created_date", SqlDbType.DateTime).Value = DateTime.Now;
                     com1.Parameters.Add("@c_company_type", SqlDbType.Int).Value = userCompany.Company.TypeId;
                     com1.Parameters.Add("@c_first_super_admin_id", SqlDbType.Int).Value = 0;
+                    com1.Parameters.AddWithValue("@c_company_status", true);
 
                     com1.Parameters.Add("@b_user_id", SqlDbType.Int).Value = 0;
                     com1.Parameters.Add("@b_branch_code", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchCode;
+                        userCompany.Branch.BranchCode ?? "";
                     com1.Parameters.Add("@b_branch_name", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchName;
-                    com1.Parameters.Add("@b_branch_address", SqlDbType.NVarChar).Value =
-                        userCompany.Branch.BranchAddress1;
-                    com1.Parameters.Add("@b_state", SqlDbType.NVarChar).Value = userCompany.Branch.StateId;
-                    com1.Parameters.Add("@b_city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity;
-                    com1.Parameters.Add("@b_zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip;
-                    com1.Parameters.Add("@b_email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail;
-                    com1.Parameters.Add("@b_phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1;
-                    com1.Parameters.Add("@b_fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
+                        userCompany.Branch.BranchName ?? "";
+                    com1.Parameters.Add("@b_branch_address_1", SqlDbType.NVarChar).Value =
+                        userCompany.Branch.BranchAddress1 ?? "";
+                    com1.Parameters.Add("@b_branch_address_2", SqlDbType.NVarChar).Value =
+                        userCompany.Branch.BranchAddress2 ?? "";
+                    com1.Parameters.Add("@b_state_id", SqlDbType.Int).Value = userCompany.Branch.StateId;
+                    com1.Parameters.Add("@b_city", SqlDbType.NVarChar).Value = userCompany.Branch.BranchCity ?? "";
+                    com1.Parameters.Add("@b_zip", SqlDbType.NVarChar).Value = userCompany.Branch.BranchZip ?? "";
+                    com1.Parameters.Add("@b_email", SqlDbType.NVarChar).Value = userCompany.Branch.BranchEmail ?? "";
+                    com1.Parameters.Add("@b_phone_num_1", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1 ?? "";
+                    com1.Parameters.Add("@b_phone_num_2", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum2 ?? "";
+                    com1.Parameters.Add("@b_phone_num_3", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum3 ?? "";
+                    com1.Parameters.Add("@b_fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax ?? "";
                     com1.Parameters.Add("@b_company_id", SqlDbType.Int).Value = 0;
                     com1.Parameters.Add("@b_created_date", SqlDbType.DateTime).Value = DateTime.Now;
 
-                    com1.Parameters.Add("@u_user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName;
-                    com1.Parameters.Add("@u_password", SqlDbType.NVarChar).Value = userCompany.User.Password;
-                    com1.Parameters.Add("@u_first_name", SqlDbType.NVarChar).Value = userCompany.User.FirstName;
-                    com1.Parameters.Add("@u_last_name", SqlDbType.NVarChar).Value = userCompany.User.LastName;
-                    com1.Parameters.Add("@u_email", SqlDbType.NVarChar).Value = userCompany.User.Email;
-                    com1.Parameters.Add("@u_phone_no", SqlDbType.NVarChar).Value = userCompany.User.PhoneNumber;
+                    com1.Parameters.Add("@u_user_name", SqlDbType.NVarChar).Value = userCompany.User.UserName ?? "";
+                    com1.Parameters.Add("@u_password", SqlDbType.NVarChar).Value = userCompany.User.Password ?? "";
+                    com1.Parameters.Add("@u_first_name", SqlDbType.NVarChar).Value = userCompany.User.FirstName ?? "";
+                    com1.Parameters.Add("@u_last_name", SqlDbType.NVarChar).Value = userCompany.User.LastName ?? "";
+                    com1.Parameters.Add("@u_email", SqlDbType.NVarChar).Value = userCompany.User.Email ?? "";
+                    com1.Parameters.Add("@u_phone_no", SqlDbType.NVarChar).Value = userCompany.User.PhoneNumber ?? "";
                     com1.Parameters.Add("@u_status", SqlDbType.Bit).Value = userCompany.User.Status;
                     com1.Parameters.Add("@u_is_delete", SqlDbType.Bit).Value = 0;
                     com1.Parameters.Add("@u_created_by", SqlDbType.Int).Value = 0;
@@ -559,7 +569,6 @@ namespace BankLoanSystem.DAL
                 }
                 catch (SqlException sEx)
                 {
-                    //throw sEx;
                     return false;
                 }
             }

@@ -70,12 +70,24 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 ViewBag.Type = "CompanyEmployee";
                 _type = "CompanyEmployee";
 
-                _userCompany = (UserCompanyModel)TempData["UserCompany"];
+                if (TempData["UserCompany"] == null) return RedirectToAction("EmployeeLogin", "Login");
+
+                CompanyAccess ca = new CompanyAccess();
+                //Get states to list
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                _userCompany = (UserCompanyModel) TempData["UserCompany"];
                 _userCompany.Branch = new Branch();
+
+                return View(_userCompany);
             }
             else
+            {
                 ViewBag.Type = "";
-            return View(_userCompany);
+                return RedirectToAction("EmployeeLogin", "Login");
+            }
+            
         }
 
         /// <summary>
@@ -94,6 +106,7 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 BranchAccess ba = new BranchAccess();
                 userCompany.Branch.BranchCode = ba.createBranchCode(_userCompany.Company.CompanyCode);
                 _userCompany.Branch = userCompany.Branch;
+                _userCompany.Branch.StateId = userCompany.StateId;
                 CompanyAccess ca = new CompanyAccess();
                 //if (ca.SetupCompany(_userCompany))
                 if (ca.SetupCompanyRollback(_userCompany))

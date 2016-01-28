@@ -20,15 +20,20 @@ namespace BankLoanSystem.Controllers.SetupCompany
         // GET: SetupCompany
         public ActionResult Setup()
         {
-            if(Session["type"] == null)
+            if (Session["type"] == null)
                 return RedirectToAction("UserLogin", "Login");
             var type = (string)Session["type"];
             //if (type == "CompanyEmployee")
             //{
 
             //}
-            _user = (User) TempData["User"];
+
             CompanyAccess ca = new CompanyAccess();
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            _user = (User) TempData["User"];
             List<CompanyType> ctList = ca.GetAllCompanyType();
             ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
 
@@ -47,6 +52,9 @@ namespace BankLoanSystem.Controllers.SetupCompany
         [HttpPost]
         public ActionResult Setup(Company company)
         {
+            if (Session["type"] == null)
+                return RedirectToAction("UserLogin", "Login");
+
             //if (type == "CompanyEmployee")
             //{
 
@@ -57,10 +65,15 @@ namespace BankLoanSystem.Controllers.SetupCompany
 
             UserCompanyModel userCom = new UserCompanyModel();
             userCom.User = _user;
+
+            company.Zip = company.ZipPre;
+            if (company.Extension != null)
+                company.Zip += "-" + company.Extension;
+
             userCom.Company = company;
 
             TempData["UserCompany"] = userCom;
-            return RedirectToAction("CreateBranchFirstBranch", "CreateBranch", new {id = 0, type = "CompanyEmployee"});
+            return RedirectToAction("CreateBranchFirstBranch", "CreateBranch", new { id = 0, type = "CompanyEmployee" });
         }
 
         /// <summary>
