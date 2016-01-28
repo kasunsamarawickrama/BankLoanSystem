@@ -8,7 +8,8 @@
     OnFailure = "handleError",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer"
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
 }, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -93,12 +94,14 @@
     $(function () {
         $('#Create').click(function () {
 
-
+            $('#loadingDiv').show();
             $.ajax({
                 url: '@Url.Action("Create", "CreateUser")',
                 type: 'GET',
                 
+                
                 success: function (partialView) {
+                    $('#loadingDiv').hide();
                     $('#changeContainer').html(partialView);
                     $('#changeContainer').show();
                 }
