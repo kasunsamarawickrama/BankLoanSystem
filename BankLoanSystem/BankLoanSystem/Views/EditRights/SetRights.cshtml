@@ -2,17 +2,26 @@
 
 <h2>Set Rights</h2>
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("SetRights", "EditRights", new AjaxOptions()
+{
+
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <label id="successLabel">@ViewBag.SuccessMsg</label>
+        <label id="errorLabel">@ViewBag.ErrorMsg</label>
 
         <hr /><p>All &nbsp</p>
         @Html.CheckBox("All", new { @id = "CheckAll" })
 
 
-        <table class="dl-horizontal">
+        <table class="dl-horizontal"> 
 
 
             @for (var i = 0; i < Model.Count; i++)
@@ -36,9 +45,16 @@
             <div>
                 <nav>
                     <ul class="pager">
-                        <li><input type="button" value="Create New User" onclick="location.href='@Url.Action("Create", "CreateUser")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
+                        <li><input type="button" id="Create" value="Create New User" class="btn btn-primary btn-white m-b" style="float:left" /></li>
                         <li><input type="submit" value="Set" class="btn btn-primary m-b"/></li>
-                        <li><input type="button" value="Cancel" onclick="location.href='@Url.Action("Create", "CreateUser")'" class="btn btn-primary m-b"  /></li>
+                        @*<li>@Ajax.ActionLink("Cancel", "Create", "CreateUser", null, new AjaxOptions()
+                       {
+
+                           OnFailure = "handleError",
+                           HttpMethod = "POST",
+                           InsertionMode = InsertionMode.Replace,
+                           UpdateTargetId = "changeContainer"
+                       }, new { @class = "btn btn-primary m-b" })<input id="Cancel" type="button" value="Cancel" onclick="location.href=''" class="btn btn-primary m-b" /></li>*@
                     </ul>
                 </nav>
                 
@@ -71,5 +87,24 @@
             }
         });
     });
+
+
+
+    $(function () {
+        $('#Create').click(function () {
+
+
+            $.ajax({
+                url: '@Url.Action("Create", "CreateUser")',
+                type: 'GET',
+                
+                success: function (partialView) {
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+
 </script>
 
