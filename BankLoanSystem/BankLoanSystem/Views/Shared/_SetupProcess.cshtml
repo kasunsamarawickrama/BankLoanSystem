@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - TFN Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/message.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/animate.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/steps.css" rel="stylesheet" />
+
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        function progress(step) {
+
+
+            var percent = (step / 6) * 100;
+
+            $('.progress-bar').css({ width: percent + '%' });
+            $('.progress-bar').text("Step " + step + " of 6");
+           // $(".progress-bar").css("width", percent + "%").attr("aria-valuenow", percent);
+           // $(".progress-completed").text(Math.floor(percent) + "%");
+
+        }
+
+    </script>
+
+    
+
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+
+<body class="green-bg" style="padding-top:unset">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div class="main-container">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="progress" id="progress1">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="6" style="width: 0%;">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                @RenderBody()
+            </div>
+                <p class="m-t"> <small>The Future Net Customized Solution © 2016</small> </p>
+            </div>
+    </div>
+    <script type="text/javascript">
+    // common clear function
+
+    $('#clear').click(function () {
+    document.getElementsByTagName("form")[0].reset();
+    });
+    </script>
+
+</body>
+
+</html>
+

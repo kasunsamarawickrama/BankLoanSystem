@@ -34,6 +34,10 @@ namespace BankLoanSystem.Models
         [Display(Name = "State")]
         public int StateId { get; set; }
 
+        [Required]
+        [Display(Name = "State")]
+        public int StateId2 { get; set; }
+
         [Display(Name = "City")]
         [Required(ErrorMessage = "Branch City Required!")]
         public string BranchCity { get; set; }

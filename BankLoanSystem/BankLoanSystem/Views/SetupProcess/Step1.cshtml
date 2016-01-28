@@ -2,67 +2,28 @@
 
 @{
     ViewBag.Title = "Step1";
-    Layout = "~/Views/Shared/_login.cshtml";
+    Layout = "~/Views/Shared/_SetupProcess.cshtml";
 }
 
-<link href="~/Content/steps.css" rel="stylesheet" />
+@*<style type="text/css">
+     .progress-bar {
+        animation-fill-mode: forwards;
+        animation-name: step2;
+        animation-duration: 4s;
+        animation-delay:2s;
+    }
 
-<div class="main-container">
-    <div class="container">
+
+</style>*@
+
+<script>
+    progress(1);
+   
+    
+</script>
 
 
-        <div class="row bs-wizard" style="border-bottom:0;">
 
-            <div class="col-xs-2 bs-wizard-step active">
-                <div class="text-center bs-wizard-stepnum">Step 1</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-
-            </div>
-
-            <div class="col-xs-2 bs-wizard-step disabled">
-                <!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Step 2</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-
-            </div>
-
-            <div class="col-xs-2 bs-wizard-step disabled">
-                <!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Step 3</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-                <span class="bs-wizard-dot"></span>
-            </div>
-
-            <div class="col-xs-2 bs-wizard-step disabled">
-                <!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Step 4</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-                <span class="bs-wizard-dot"></span>
-            </div>
-
-            <div class="col-xs-2 bs-wizard-step disabled">
-                <!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Step 5</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-                <span class="bs-wizard-dot"></span>
-            </div>
-
-            <div class="col-xs-2 bs-wizard-step disabled">
-                <!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Step 6</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <span class="bs-wizard-dot"></span>
-                <span class="bs-wizard-dot"></span>
-            </div>
-
-        </div>
-
-    </div>
 
     <div class="row">
         <div class="container body-content">
@@ -140,12 +101,13 @@
                             @Html.LabelFor(model => model.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
 
-                        <div class="col-xs-4">
-                            @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-xs-4" style="width:32.2%">
+                            @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control", placeholder = "Extension" } })
                             @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })
                         </div>
+                        <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
                         <div class="col-xs-4">
-                            @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control" , placeholder = "Zip Code" } })
                             @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -222,11 +184,11 @@
 
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.CompanyStatus, htmlAttributes: new {})<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.CompanyStatus, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
-                            @Html.EditorFor(model => model.CompanyStatus, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.CompanyStatus, "", new {@class = "text-danger"})
+                            @Html.EditorFor(model => model.CompanyStatus, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CompanyStatus, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -235,12 +197,14 @@
                         <div>
                             <nav>
                                 <ul class="pager">
+
                                     <li>
-                                        <input type="button" value="Clear" class="btn btn-primary m-b" style="float: left; margin-left: 10px" onclick="location.href = '@Url.Action("Step1")' "/>
+                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                     </li>
                                     <li>
-                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
+                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
                                     </li>
+                                   
                                 </ul>
                             </nav>
                         </div>
@@ -251,4 +215,4 @@
             }
         </div>
     </div>
-</div>
+    

@@ -204,10 +204,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             // take firstsuperadmin userid....
+            int userId;
             StepAccess sa = new StepAccess();
-            int userId = int.Parse(Session["userId"].ToString());
+            try { 
+            userId = int.Parse(Session["userId"].ToString());
 
-
+            }
+            catch (Exception )
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             // check he is a super admin or not
             if ((new UserManageAccess()).getUserRole(userId) != 1)
@@ -379,7 +385,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 6...
             StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(userId) != 6)
+            int stepNo = sa.getStepNumberByUserId(userId);
+            if (stepNo < 0)
+            {
+                stepNo = sa.checkUserLoginWhileCompanySetup(userId);
+            }
+
+            if (stepNo != 6)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -405,7 +417,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = Convert.ToInt32(Session["userId"]);
 
             StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(userId) == 4 || sa.getStepNumberByUserId(userId) == 3)
+            int stepNo = sa.getStepNumberByUserId(userId);
+            if (stepNo < 0)
+            {
+                stepNo = sa.checkUserLoginWhileCompanySetup(userId);
+            }
+            if (stepNo == 4 || stepNo == 3)
             {
                 BranchAccess ba = new BranchAccess();
                 int comType = ba.getCompanyTypeByUserId(userId);
@@ -502,8 +519,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.compType = "";
                 }
                 StepAccess cs = new StepAccess();
-                int reslt = cs.getStepNumberByUserId(userId);
-                if (reslt == 5)
+                int stepNo = cs.getStepNumberByUserId(userId);
+                if (stepNo < 0)
+                {
+                    stepNo = cs.checkUserLoginWhileCompanySetup(userId);
+                }
+               
+                if (stepNo == 5)
                 {
                     if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
                     {
