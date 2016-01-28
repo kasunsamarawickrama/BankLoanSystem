@@ -85,7 +85,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyBranchModel comBranch = new CompanyBranchModel();
                 comBranch.Company = company; 
 
-                TempData["Company"] = comBranch.Company;
+                TempData["Company"] = comBranch;
                 return RedirectToAction("Step2");
             }
             ViewBag.ErrorMsg = "Failed to Setup company.";
@@ -123,6 +123,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         userCompany = new CompanyBranchModel();
                         userCompany = (CompanyBranchModel) TempData["Company"];
+
+                        CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
+
                         userCompany.MainBranch = new Branch();
                         if (userCompany.Company.Extension == null)
                             userCompany.Company.Extension = "";
@@ -144,10 +147,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else {
                 return RedirectToAction("UserLogin", "Login");
             }
-
-
-
-
         }
 
         //Post Branch
@@ -287,6 +286,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return new HttpStatusCodeResult(404);
             }
 
+
+
             user.CreatedBy = currentUser;
             user.IsDelete = false;
             user.Status = false;
@@ -406,9 +407,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             StepAccess sa = new StepAccess();
             if (sa.getStepNumberByUserId(userId) == 4 || sa.getStepNumberByUserId(userId) == 3)
             {
-
-
-                ViewBag.ThisCompanyType = (CompanyType == "Lender") ? "Dealer" : "Lender";
+                BranchAccess ba = new BranchAccess();
+                int comType = ba.getCompanyTypeByUserId(userId);
+                ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
                 //Get states to list
                 CompanyAccess ca = new CompanyAccess();
@@ -460,7 +461,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyBranchModel comBranch = new CompanyBranchModel();
                 comBranch.Company = nonRegCom;
 
-                TempData["NonRegCompany"] = comBranch.Company;
+                TempData["NonRegCompany"] = comBranch;
                 return RedirectToAction("Step5");
             }
             ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";

@@ -45,15 +45,15 @@ namespace BankLoanSystem.Models
         public string Extension { get; set; }
 
         [Required]
-        [Phone]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [Display(Name = "Phone Number1")]
         public string PhoneNum1 { get; set; }
 
-        [Phone]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [Display(Name = "Phone Number2")]
         public string PhoneNum2 { get; set; }
 
-        [Phone]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [Display(Name = "Phone Number3")]
         public string PhoneNum3 { get; set; }
 
