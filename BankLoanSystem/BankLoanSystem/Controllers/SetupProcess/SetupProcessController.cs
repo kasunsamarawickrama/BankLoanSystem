@@ -204,10 +204,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             // take firstsuperadmin userid....
+            int userId;
             StepAccess sa = new StepAccess();
-            int userId = int.Parse(Session["userId"].ToString());
+            try { 
+            userId = int.Parse(Session["userId"].ToString());
 
-
+            }
+            catch (Exception )
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             // check he is a super admin or not
             if ((new UserManageAccess()).getUserRole(userId) != 1)
