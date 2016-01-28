@@ -376,9 +376,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             
 
             int userId = int.Parse(Session["userId"].ToString());
-            UserManageAccess uma = new UserManageAccess();
+            
             // check he is super admin or admin
-            if (uma.getUserRole(userId) > 2)
+            if (new UserManageAccess().getUserRole(userId) > 2)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -386,19 +386,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check if   step is 6...
             StepAccess sa = new StepAccess();
 
-            // if super admin check
-
-            if (uma.getUserRole(userId) ==3){
-                if (sa.getStepNumberByUserId(userId) != 6)
-                {
-                    return new HttpStatusCodeResult(404);
-                }
-            }
-            else if (uma.getUserRole(userId) == 2)
-            {
-                //check the superadmin and get step number
-            }
             
+            if (sa.getStepNumberByUserId(userId) != 6)
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             
 
