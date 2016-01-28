@@ -92,7 +92,9 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = userId;
                 //get the step nomber if the user is in company setup process
                 int stepNo = step.getStepNumberByUserId(userId);
-
+                if (stepNo < 0) {
+                    stepNo = step.checkUserLoginWhileCompanySetup(userId);
+                }
                 if (stepNo == 1)
                 {
                     return RedirectToAction("Step1", "SetupProcess");
@@ -142,15 +144,13 @@ namespace BankLoanSystem.Controllers
                 {
                     return RedirectToAction("Step6", "SetupProcess");
                 }
+                else if (stepNo == 0)
+                {
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
+                }
                 else {
-                    if (step.checkUserLoginWhileCompanySetup(userId))
-                    {
-                        Session["rowId"] = userId;
-                        return RedirectToAction("Details", "UserManagement");
-                    }
-                    else {
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
-                    }  
+                    Session["rowId"] = userId;
+                    return RedirectToAction("Details", "UserManagement");
                 }
                 
                 
