@@ -19,6 +19,10 @@ namespace BankLoanSystem.Controllers.CreateBranch
         /// <returns></returns>
         public ActionResult CreateBranch()
         {
+            //Get states to list
+            CompanyAccess ca = new CompanyAccess();
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
             return View();
         }
 
@@ -40,8 +44,14 @@ namespace BankLoanSystem.Controllers.CreateBranch
             }
 
             int id = (int)Session["userId"];
+            //branch.StateId = branch.StateId2;
             BranchAccess br = new BranchAccess();
             bool reslt = br.insertBranchDetails(branch, id);
+
+            CompanyAccess ca = new CompanyAccess();
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
             if (reslt)
             {
                 ViewBag.SuccessMsg = "Branch is successfully added";
