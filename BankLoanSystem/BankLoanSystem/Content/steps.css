@@ -17,3 +17,54 @@
     padding-top: 40px;
 
 }
+
+@keyframes step1 {
+    from   {width: 5%;}
+    to  {width: 16%;}
+ 
+}
+
+@keyframes step2 {
+    from   {width: 16%;}
+    to  {width: 33%;}
+ 
+}
+
+@keyframes step3 {
+    from   {width: 33%;}
+    to  {width: 50%;}
+ 
+}
+
+@keyframes step4 {
+    from   {width: 33%;}
+    to  {width: 50%;}
+ 
+}
+
+@keyframes step5 {
+    from   {width: 50%;}
+    to  {width: 66%;}
+ 
+}
+
+@keyframes step6 {
+    from   {width: 66%;}
+    to  {width: 83%;}
+ 
+}
+
+@keyframes step7 {
+    from   {width: 83%;}
+    to  {width: 100%;}
+ 
+}
+
+.progress{
+    background-color:#9AE2D4;
+}
+
+
+
+
+
