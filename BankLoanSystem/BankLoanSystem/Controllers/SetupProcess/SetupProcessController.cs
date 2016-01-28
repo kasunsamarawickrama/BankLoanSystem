@@ -85,7 +85,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyBranchModel comBranch = new CompanyBranchModel();
                 comBranch.Company = company; 
 
-                TempData["Company"] = comBranch.Company;
+                TempData["Company"] = comBranch;
                 return RedirectToAction("Step2");
             }
             ViewBag.ErrorMsg = "Failed to Setup company.";
@@ -460,7 +460,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyBranchModel comBranch = new CompanyBranchModel();
                 comBranch.Company = nonRegCom;
 
-                TempData["NonRegCompany"] = comBranch.Company;
+                TempData["NonRegCompany"] = comBranch;
                 return RedirectToAction("Step5");
             }
             ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
