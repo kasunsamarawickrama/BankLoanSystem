@@ -12,6 +12,7 @@
     <link href="~/Content/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/animate.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/steps.css" rel="stylesheet" />
 
     <!-- Mainly scripts -->
     <script src="~/Scripts/jquery-2.1.1.js"></script>
@@ -35,6 +36,8 @@
         }
 
     </script>
+
+    
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
@@ -61,8 +64,13 @@
                 <p class="m-t"> <small>The Future Net Customized Solution © 2016</small> </p>
             </div>
     </div>
+    <script type="text/javascript">
+    // common clear function
 
-    
+    $('#clear').click(function () {
+    document.getElementsByTagName("form")[0].reset();
+    });
+    </script>
 
 </body>
 
