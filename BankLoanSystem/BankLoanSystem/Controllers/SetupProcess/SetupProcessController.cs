@@ -641,7 +641,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             sa.updateStepNumberByUserId(userId, 7);
 
-            return RedirectToAction("Detailsset", "UserManagement" ,new { id  = userId });
+            Session["rowId"] = userId;
+            return RedirectToAction("UserDetails", "UserManagement");
 
         }
 
