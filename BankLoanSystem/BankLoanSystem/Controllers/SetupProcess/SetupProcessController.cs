@@ -422,7 +422,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 stepNo = sa.checkUserLoginWhileCompanySetup(userId);
             }
-            if (stepNo == 4 || stepNo == 3)
+            if (stepNo == 4 || stepNo == 3 || stepNo == 5)
             {
                 BranchAccess ba = new BranchAccess();
                 int comType = ba.getCompanyTypeByUserId(userId);
