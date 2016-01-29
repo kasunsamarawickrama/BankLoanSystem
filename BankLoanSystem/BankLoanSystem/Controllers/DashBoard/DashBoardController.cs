@@ -121,7 +121,7 @@ namespace BankLoanSystem.Controllers.DashBoard
 
             if (Session["userId"] == null)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404);
             }
 
             if (index == 1)

@@ -44,8 +44,8 @@
         {
             <li>
 
-                @*@Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" }, null)*@
-                @Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)
+                @Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" , LoadingElementId = "loadingDiv" }, null)
+                @*@Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)*@
             </li>
         }
 

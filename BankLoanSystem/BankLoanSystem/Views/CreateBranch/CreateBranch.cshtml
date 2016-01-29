@@ -6,7 +6,15 @@
 
 <h2>CreateBranch</h2>
 
-@using (Html.BeginForm()) 
+@using (Ajax.BeginForm("CreateBranch", "CreateBranch", new AjaxOptions()
+{
+
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
     
@@ -14,6 +22,7 @@
         
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <label id="successLabel">@ViewBag.SuccessMsg</label>
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.BranchName, htmlAttributes: new { })<span style="color:red">*</span>
@@ -75,16 +84,17 @@
                 @Html.LabelFor(model => model.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
 
-            <div class="col-xs-4">
-                @Html.EditorFor(model => model.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten" } })
+            <div class="col-xs-4" style="width:32.2%">
+                @Html.EditorFor(model => model.Extention, new { htmlAttributes = new { @class = "form-control", placeholder = "Extension", @id = "branchZipExten" } })
                 @Html.ValidationMessageFor(model => model.Extention, "", new { @class = "text-danger" })
             </div>
-            <div style="float:right;margin-top:20px;"><span> - </span></div>
+            <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
             <div class="col-xs-4">
-                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre" } })
+                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control", placeholder = "Zip Code" , @id = "branchZipPre" } })
                 @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             <div class = "control-label col-sm-2">
@@ -95,7 +105,7 @@
                 @Html.EditorFor(model => model.BranchEmail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchEmail, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div> 
 
         <div class="form-group">
             <div class = "control-label col-sm-2">
@@ -146,7 +156,7 @@
                     <ul class="pager">
 
                         <li><input type="submit" value="Create" class="btn btn-primary m-b" style="float:left" /></li>
-                        <li><input type="button" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("CreateBranch", "CreateBranch")'" /></li>
+                        <li><input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" /></li>
                     </ul>
                 </nav>
                 
@@ -158,6 +168,16 @@
     </div>
        
 }
+
+<script>
+
+
+    $('#clear').click(function () {
+        document.getElementById("form").reset();
+    });
+
+
+</script>
 
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

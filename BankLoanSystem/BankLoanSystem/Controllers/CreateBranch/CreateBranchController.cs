@@ -17,13 +17,18 @@ namespace BankLoanSystem.Controllers.CreateBranch
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateBranch()
+        public ActionResult CreateBranch(int success = 0)
         {
+
+            if(success == 1)
+            {
+                ViewBag.SuccessMsg = "Branch is successfully added";
+            }
             //Get states to list
             CompanyAccess ca = new CompanyAccess();
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-            return View();
+            return PartialView();
         }
 
         /// <summary>
@@ -55,15 +60,15 @@ namespace BankLoanSystem.Controllers.CreateBranch
             if (reslt)
             {
                 ViewBag.SuccessMsg = "Branch is successfully added";
-                //return RedirectToAction("CreateBranch", "CreateBranch");
+                return RedirectToAction("CreateBranch", "CreateBranch", new {success = 1 });
+                //branch = new Branch();
+                //return PartialView(branch);
             }
             else
             {
                 ViewBag.ErrorMsg = "Failed to add branch";
-
+                return PartialView();
             }
-            return View();
-
         }
 
         /// <summary>
