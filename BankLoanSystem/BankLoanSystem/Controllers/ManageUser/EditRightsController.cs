@@ -123,7 +123,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ViewBag.userId = userId;
                 ViewBag.ownerId = ownerId;
 
-                return View(rights);
+                return PartialView(rights);
             }
             else
             {

@@ -7,11 +7,12 @@
 
 @if (ViewBag.Manage != null && ViewBag.Manage.ToString().Contains("Users"))
 {
+    <h3>Update User Profile</h3>
     <p>
-        <button type="button" class="pull-right text-right" onclick="location.href='@Url.Action("EditRights","UserManagement")'">
-            <span class="glyphicon glyphicon-pencil"></span>
+        <button type="button" id="editRights" class="pull-right text-right">
+            <span class="glyphicon glyphicon-pencil"> </span>
 
-            @Html.ActionLink("Edit Rights", "EditRights", "UserManagement", null, null)
+            <span>Edit Rights</span>
 
         </button>
     </p>
@@ -22,14 +23,24 @@
 
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("editUser", "UserManagement", new AjaxOptions()
+{
+
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
-
+  
     <div class="form-horizontal">
 
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <label id="successLabel">@ViewBag.SuccessMsg</label>
+        <label id="errorLabel">@ViewBag.ErrorMsg</label>
         <div class="form-group">
             @Html.LabelFor(model => model.UneditUserName, htmlAttributes: new { @class = "col-sm-2 control-label" })<br/>
             <div class="col-sm-10">
@@ -102,7 +113,7 @@
                                                 @if (!ViewBag.isSame)
                                                 {
                                                         
-                                                    <li><input type="button" value="Back to List" onclick="location.href='@Url.Action("UserList")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
+                                                    <li><input type="button" id="backToList" value="Back to List" class="btn btn-primary btn-white m-b" style="float:left" /></li>
 
 
                                                     
@@ -115,7 +126,7 @@
 
                            
                                     @*<li> @Html.ActionLink("Back to Profile", "Details",null, new {  @class="btn btn-primary m-b"})</li>*@
-                                    <li><input type="button" value="Back to Profile" onclick="location.href='@Url.Action("Details")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
+                                    <li><input type="button" value="Back to Profile" id="backToProfile" class="btn btn-primary btn-white m-b" style="float:left" /></li>
 
 
 
@@ -123,22 +134,13 @@
 
                         <li><input type="submit" value="Update" class="btn btn-primary m-b" /></li>
 
-                        <li><input type="button" value="Reset" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-primary m-b" /></li>
+                        <li><input type="button" id="clear" value="Reset" class="btn btn-primary m-b" /></li>
 
-                        <li><input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "UserManagement")'" class="btn btn-primary m-b" /></li>
+                        <li><input type="button" id="ChangePassword" value="Change Password" class="btn btn-primary m-b" /></li>
                     </ul>
                 </nav>
 
             </div>
-
-
-
-
-
-
-
-
-
 
 
         </div>
@@ -153,3 +155,83 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+                $('#clear').click(function () {
+                    document.getElementById("form").reset();
+                });
+
+
+                $(function () {
+                    $('#editRights').click(function () {
+
+                        $('#loadingDiv').show();
+                        $.ajax({
+                            url: '@Url.Action("EditRights", "UserManagement")',
+                            type: 'GET',
+
+
+                            success: function (partialView) {
+                                $('#loadingDiv').hide();
+                                $('#changeContainer').html(partialView);
+                                $('#changeContainer').show();
+                            }
+                        });
+                    });
+                });
+
+    $(function () {
+        $('#ChangePassword').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("ChangePassword", "UserManagement")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $('#backToList').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("UserList")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $('#backToProfile').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("Details")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+
+</script>

@@ -150,7 +150,7 @@ namespace BankLoanSystem.Controllers
                 }
                 else {
                     Session["rowId"] = userId;
-                    return RedirectToAction("Details", "UserManagement");
+                    return RedirectToAction("UserDetails", "UserManagement");
                 }
                 
                 

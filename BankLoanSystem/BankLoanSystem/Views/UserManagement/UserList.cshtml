@@ -44,15 +44,21 @@
                             @if (item.isEdit)
                             {
                                 <td>
-                                    @Html.ActionLink("Edit", "editUserSet", new { editId = item.userId }) |
-                                    @Html.ActionLink("Details", "Detailsset", new { id = item.userId }) |
-                                    @Html.ActionLink("Delete", "PrevDelete", new { id = item.userId }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" })
+                                    @*@Html.ActionLink("Edit", "editUserSet", new { editId = item.userId }) |
+    @Html.ActionLink("Details", "Detailsset", new { id = item.userId }) |*@
+                                    @*@Html.ActionLink("Delete", "PrevDelete", new { id = item.userId }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" })*@
+
+                                    @Ajax.ActionLink("Edit", "editUserSet", new { editId = item.userId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }) |
+                                    
+                                    @Ajax.ActionLink("Details", "Detailsset", new { id = item.userId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }) |
+                                    @Ajax.ActionLink("Delete", "PrevDelete", new { id = item.userId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" })
                                 </td>
                             }
                             else {
                                 <td>
 
-                                    @Html.ActionLink("Details", "Detailsset", new { id = item.userId })
+                                    @*@Html.ActionLink("Details", "Detailsset", new { id = item.userId })*@
+                                    @Ajax.ActionLink("Details", "Detailsset", new { id = item.userId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" })
 
                                 </td>
                             }

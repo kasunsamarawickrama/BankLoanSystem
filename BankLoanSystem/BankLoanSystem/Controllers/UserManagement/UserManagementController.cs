@@ -55,11 +55,11 @@ namespace BankLoanSystem.Controllers
 
                     var ret = obj1.getUserByType(typeval, idval);
                     ViewBag.noList = ret.Count;
-                    return View(ret);
+                    return PartialView(ret);
                 }
                 else
                 {
-                    return View();
+                    return PartialView();
                 }
             }
             catch (Exception)
@@ -136,9 +136,9 @@ namespace BankLoanSystem.Controllers
                     {
                         ViewBag.userId = 0;
                     }
-                    return View(ret);
+                    return PartialView(ret);
                 }
-                else { return View(); }
+                else { return PartialView(); }
             }
             catch (Exception)
             {
@@ -147,6 +147,24 @@ namespace BankLoanSystem.Controllers
            
             
 
+        }
+
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 2016/01/13
+        /// 
+        /// Showing details of selected user
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public ActionResult UserDetails()
+        {
+            Session["rowId"] = int.Parse(Session["userId"].ToString());
+
+
+            return View();
         }
 
 
@@ -206,7 +224,7 @@ namespace BankLoanSystem.Controllers
             if (currentUserId == editUserId) { ViewBag.isSame = true;
                 Session["rowId"]= editUserId;
 
-                return View(editUser);
+                return PartialView(editUser);
             }
             else { ViewBag.isSame = false; }
 
@@ -262,7 +280,7 @@ namespace BankLoanSystem.Controllers
 
 
             Session["editUserId"] = editUserId;
-            return View(editUser);
+            return PartialView(editUser);
         }
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
@@ -300,6 +318,10 @@ namespace BankLoanSystem.Controllers
             int currentUserId;
             int editUserId;
 
+            string typevalue;
+
+            
+
             try
             {
                 currentUserId = int.Parse(Session["userId"].ToString());
@@ -319,6 +341,13 @@ namespace BankLoanSystem.Controllers
             else
             {   // Update the data into database
                 ViewBag.isSame = false;
+                typevalue = (string)Session["searchtype"];
+
+                if (typevalue == "User")
+                {
+
+                    ViewBag.Manage = "Manage Users";
+                }
                 isUpdate = (new UserAccess()).updateUserDetails(editUserId, user.UneditUserName, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Status, user.BranchId, DateTime.Now);
             }
 
@@ -349,7 +378,7 @@ namespace BankLoanSystem.Controllers
             ViewBag.BranchId = new SelectList(branchSelectLists, "Value", "Text", user.BranchId);
 
 
-            return View(user);
+            return PartialView(user);
         }
 
         /// <summary>
@@ -417,7 +446,7 @@ namespace BankLoanSystem.Controllers
         {
             
 
-            return View();
+            return PartialView();
         }
 
 
@@ -443,7 +472,7 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.message = "Password Sucessfully Changed";
 
-            return View();
+            return PartialView();
         }
 
        

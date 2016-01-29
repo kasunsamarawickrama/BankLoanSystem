@@ -3,15 +3,57 @@
 @{
     ViewBag.Title = "Details";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $('#editProfile').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("editUserSet", "UserManagement", new { editId = ViewBag.userId })',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $('#backToList').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("UserList")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
+        });
+    });
+</script>
+
 
 @if (ViewBag.userId != 0)
 {
+
+   
+
     <p>
-        <button type="button" class="pull-right text-right" onclick="location.href='@Url.Action("editUserSet","UserManagement",new { editId = ViewBag.userId })'">
+        <button type="button" id="editProfile" class="pull-right text-right">
             <span class="glyphicon glyphicon-pencil"></span>
 
-            @Html.ActionLink("Edit", "editUserSet", new { editId = ViewBag.userId })
-            
+            <span>Edit</span>
             </button>
             </p>
 
@@ -84,11 +126,18 @@ else
 
 @if (ViewBag.userId == 0)
 {
-    <p>
+    
+        <div class="form-group">
+            <div>
 
-        @Html.ActionLink("Back to List", "UserList")
-    </p>
+                <nav>
+                    <ul class="pager">
+                        <li><input type="button" id="backToList" value="Back to List" class="btn btn-primary btn-white m-b" style="float:left" /></li>
+                        @*@Html.ActionLink("Back to List", "UserList")*@
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+   
 }
-
-
 

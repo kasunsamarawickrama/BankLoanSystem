@@ -3,10 +3,18 @@
 <h2>Edit User Rights</h2>
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("EditRights", "EditRights", new AjaxOptions()
+{
+
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
-
+    <label id="successLabel">@ViewBag.SuccessMsg</label>
     <div class="form-horizontal">
 
 
@@ -46,10 +54,10 @@
                 <nav>
                     <ul class="pager">
                         @*<input type="submit" value="Update" class="btn btn-default" />*@
-                        <li><input type="button" value="Back to Profile" onclick="location.href='@Url.Action( "editUser", "UserManagement")'" class="btn btn-primary btn-white m-b" style="float:left" /></li>
+                        <li><input type="button" id="backToProfile" value="Back to Profile" class="btn btn-primary btn-white m-b" style="float:left" /></li>
                         <li><input type="submit" value="Update"  class="btn btn-primary m-b" /></li>
 
-                        <li><input type="button" value="Cancel" onclick="location.href='@Url.Action("editUser", "UserManagement")'" class="btn btn-primary m-b" /></li>
+                        
 
                         </ul>
                         </nav>
@@ -78,6 +86,24 @@
                 //alert('unchecked');
                 $('.All').prop('checked', false);
             }
+        });
+    });
+
+    $(function () {
+        $('#backToProfile').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("editUser", "UserManagement")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                }
+            });
         });
     });
 </script>
