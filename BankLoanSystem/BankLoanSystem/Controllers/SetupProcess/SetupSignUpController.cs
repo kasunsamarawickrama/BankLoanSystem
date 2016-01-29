@@ -27,7 +27,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             user.Status = true;
 
             UserAccess ua = new UserAccess();
-            if (ua.InsertUser(user) == 1)
+            if (ua.InsertUser(user) >= 1)
             {
                 ViewBag.SuccessMsg = "Your profile Successfully created.";
 
