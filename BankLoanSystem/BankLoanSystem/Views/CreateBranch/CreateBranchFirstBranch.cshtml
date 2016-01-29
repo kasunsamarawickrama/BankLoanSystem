@@ -88,6 +88,7 @@
                 @Html.EditorFor(model => model.Branch.Extention, new {htmlAttributes = new {@class = "form-control", @id = "branchZipExten" } })
                 @Html.ValidationMessageFor(model => model.Branch.Extention, "", new {@class = "text-danger"})
             </div>
+            <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
             <div class="col-xs-4">
                 @Html.EditorFor(model => model.Branch.ZipPre, new {htmlAttributes = new {@class = "form-control", @id = "branchZipPre" } })
                 @Html.ValidationMessageFor(model => model.Branch.ZipPre, "", new {@class = "text-danger"})
