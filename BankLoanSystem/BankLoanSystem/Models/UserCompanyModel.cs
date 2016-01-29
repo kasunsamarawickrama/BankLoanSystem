@@ -9,6 +9,7 @@ namespace BankLoanSystem.Models
         public Branch Branch { get; set; }
 
         [Required]
+        [Display(Name = "State")]
         public int StateId { get; set; }
     }
 }

@@ -129,6 +129,8 @@ namespace BankLoanSystem.Controllers
                     CompanyAccess ca = new CompanyAccess();
                     Company company = ca.GetNonRegCompanyDetailsByUserId(userId);
 
+                    if(string.IsNullOrEmpty(company.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
+
                     string[] zipWithExtention = company.Zip.Split('-');
 
                     if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
