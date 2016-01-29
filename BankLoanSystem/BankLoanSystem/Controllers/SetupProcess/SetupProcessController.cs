@@ -68,7 +68,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 company.Zip += "-" + company.Extension;
 
             company.CreatedBy = company.FirstSuperAdminId = Convert.ToInt32(Session["userId"]);
-
+            company.CompanyStatus = true;
             CompanyAccess ca = new CompanyAccess();
 
             if (ca.InsertCompany(company))
