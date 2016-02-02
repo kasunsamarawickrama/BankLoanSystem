@@ -459,8 +459,10 @@ namespace BankLoanSystem.DAL
             try
             {
                 string branchCode = "";
-                int latestBranchId = getLatestBranchId(companyCode);
-
+               // int latestBranchId = getLatestBranchCode(companyCode);
+                string latestBranchCode = getLatestBranchCode(companyCode);
+                string[] s = latestBranchCode.Split('_');
+                int latestBranchId = int.Parse(s[1]);
                 if ((latestBranchId >= 0) && (latestBranchId < 9))
                 {
                     branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
@@ -482,11 +484,44 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/17
+        /// Create a branch code for a company
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <returns>branchCode</returns>
+        public string createNonRegBranchCode(string companyCode)
+        {
+            try
+            {
+                string branchCode = "";
+                string latestBranchCode = getLatestNonRegBranchCode(companyCode);
+                string[] s = latestBranchCode.Split('_');
+                int latestBranchId = int.Parse(s[1]);
+
+                if ((latestBranchId >= 0) && (latestBranchId < 9))
+                {
+                    branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
+                }
+                else
+                {
+                    branchCode = companyCode + "_" + (latestBranchId + 1).ToString();
+                }
+
+                return branchCode;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
         /// Get branchId of a company
         /// </summary>
         /// <param name="companyCode"></param>
         /// <returns>topId</returns>
-        public int getLatestBranchId(string companyCode)
+        public string getLatestBranchCode(string companyCode)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -500,12 +535,12 @@ namespace BankLoanSystem.DAL
 
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
-                        int topId = 0;
+                        string topId = "";
 
                         while (reader.Read())
                         {
 
-                            topId = int.Parse(reader["branch_id"].ToString());
+                            topId = reader["branch_code"].ToString();
 
                         }
                         return topId;
@@ -526,6 +561,52 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// Get branchId of a company
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <returns>topId</returns>
+        public string getLatestNonRegBranchCode(string companyCode)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetTopNonRegBranchIdByCompanyCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        string topId = "";
+
+                        while (reader.Read())
+                        {
+
+                            topId = reader["branch_code"].ToString();
+
+                        }
+                        return topId;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:17/1/2016

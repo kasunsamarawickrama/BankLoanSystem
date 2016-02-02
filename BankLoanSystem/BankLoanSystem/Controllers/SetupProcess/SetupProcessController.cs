@@ -580,7 +580,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             
             
             nonRegBranch.MainBranch.StateId = nonRegBranch.StateId;
-            nonRegBranch.MainBranch.BranchCode = ba.createBranchCode(userNonRegCompany.Company.CompanyCode);
+            nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(userNonRegCompany.Company.CompanyCode);
             userNonRegCompany.MainBranch = nonRegBranch.MainBranch;
             bool reslt = ba.insertNonRegBranchDetails(userNonRegCompany, userId);
             if (reslt)
@@ -605,6 +605,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.ErrorMsg = "Failed to create branch";
             }
+
+            //Get states to list
+            CompanyAccess ca = new CompanyAccess();
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
             return View();
 
         }
