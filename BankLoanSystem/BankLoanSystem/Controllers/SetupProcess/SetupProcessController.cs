@@ -136,7 +136,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             company.CompanyStatus = true;
             CompanyAccess ca = new CompanyAccess();
 
-            if (ca.InsertCompany(company))
+            if (ca.InsertCompany(company, ""))
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
