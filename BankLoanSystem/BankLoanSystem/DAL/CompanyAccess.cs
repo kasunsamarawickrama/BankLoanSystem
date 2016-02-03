@@ -175,6 +175,8 @@ namespace BankLoanSystem.DAL
                             company.PhoneNum2 = reader["phone_num_2"].ToString();
                             company.PhoneNum3 = reader["phone_num_3"].ToString();
                             company.Fax = reader["fax"].ToString();
+                            company.WebsiteUrl = reader["website_url"].ToString();
+                            company.TypeId = Convert.ToInt32(reader["company_type"]);
                         }
                     }
                 }
@@ -195,7 +197,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="company"></param>
         /// <returns></returns>
-        public bool InsertCompany(Company company)
+        public bool InsertCompany(Company company, string type)
         {
             using (
                 SqlConnection con =
@@ -223,6 +225,7 @@ namespace BankLoanSystem.DAL
                     command.Parameters.AddWithValue("@company_type", company.TypeId);
                     command.Parameters.AddWithValue("@first_super_admin_id", company.FirstSuperAdminId);
                     command.Parameters.AddWithValue("@company_status", company.CompanyStatus);
+                    command.Parameters.AddWithValue("@transaction_type", type);
 
                     con.Open();
                     command.ExecuteNonQuery();
@@ -234,7 +237,6 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
-
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
