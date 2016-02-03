@@ -15,6 +15,71 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static CompanyBranchModel userNonRegCompany = null;
         public static string CompanyType = "Lender";
 
+
+
+        public ActionResult Index(int stepNo)
+        {
+            int userId;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            ViewBag.Step = stepNo;
+            if (stepNo == 2)
+            {
+                //Get company details if branch same as company
+                CompanyAccess ca = new CompanyAccess();
+                Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
+
+                string[] zipWithExtention = company.Zip.Split('-');
+
+                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                CompanyBranchModel comBranch = new CompanyBranchModel();
+                comBranch.Company = company;
+                TempData["Company"] = comBranch;
+                return View();
+            }
+            
+            else if (stepNo == 5)
+            {
+                //
+                CompanyAccess ca = new CompanyAccess();
+                Company company = ca.GetNonRegCompanyDetailsByUserId(userId);
+
+                if (string.IsNullOrEmpty(company.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
+
+                string[] zipWithExtention = company.Zip.Split('-');
+
+                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                CompanyBranchModel comBranch = new CompanyBranchModel();
+                comBranch.Company = company;
+                TempData["NonRegCompany"] = comBranch;
+
+                return View();
+            }
+            else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
+            {
+                return View();
+            }
+
+            else if (stepNo == 0)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
+            }
+            else {
+                Session["rowId"] = userId;
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+        }
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -42,7 +107,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-                return View();
+                return PartialView();
             }
 
             return RedirectToAction("UserLogin", "Login");
@@ -58,7 +123,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step1(Company company)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                new HttpStatusCodeResult(404);
 
             GeneratesCode gc = new GeneratesCode();
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
@@ -98,7 +163,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            return View();
+            return PartialView();
         }
 
 /// <summary>
@@ -136,7 +201,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     List<State> stateList = ca.GetAllStates();
                     ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-                    return View(userCompany);
+                    return PartialView(userCompany);
 
                 }
                 else
@@ -186,7 +251,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.ErrorMsg = "Failed to create first branch";
             }
-            return View();
+            return PartialView();
         }
    
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
@@ -232,7 +297,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
                 sa.updateStepNumberByUserId(userId,4);
-                return View();
+                return PartialView();
             }
 
             UserAccess ua = new UserAccess();
@@ -253,7 +318,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
-            return View();
+            return PartialView();
         }
 
 
@@ -355,7 +420,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
-                return View();
+                return PartialView();
             }
         }
 
@@ -398,7 +463,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             
 
-            return View();
+            return PartialView();
 
         }
 
@@ -433,7 +498,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-                return View();
+                return PartialView();
 
 
             }
@@ -487,7 +552,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            return View();
+            return PartialView();
         }
 
         /// <summary>
@@ -542,7 +607,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
 
-                    return View(userNonRegCompany);
+                    return PartialView(userNonRegCompany);
 
                 }
                 else
@@ -610,7 +675,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             CompanyAccess ca = new CompanyAccess();
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-            return View();
+            return PartialView();
 
         }
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
@@ -649,6 +714,51 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Session["rowId"] = userId;
             return RedirectToAction("UserDetails", "UserManagement");
 
+        }
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/02/02
+        /// 
+        /// Setup dashboard view
+        /// </summary>
+        /// <param name></param>
+        /// <returns></returns>
+        public ActionResult SetupDashBoard()
+        {
+            ViewBag.login = false;
+
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            var id = (int)Session["userId"];
+
+            var dashBoardModel = new Models.DashBoard();
+
+            var newDashDAL = new DashBoardAccess();
+
+            if (id <= 0)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+            else
+            {
+
+                ///get level id by userid
+                int userLevelId = newDashDAL.GetUserLevelByUserId(id);
+
+                dashBoardModel.userId = id;
+                dashBoardModel.userName = (new UserAccess()).retreiveUserByUserId(id).UserName;
+                dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
+                dashBoardModel.levelId = userLevelId;
+                return PartialView(dashBoardModel);
+
+                
+                
+            }
+            
         }
 
 

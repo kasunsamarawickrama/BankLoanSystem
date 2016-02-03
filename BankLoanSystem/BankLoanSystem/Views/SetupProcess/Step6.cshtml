@@ -1,16 +1,19 @@
 ﻿
 @{
     ViewBag.Title = "Step6";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
-<script>
+@*<script>
     progress(6);
 
 
-</script>
+</script>*@
 
 
     <div class="row">
@@ -25,7 +28,14 @@
 
             
 
-                @using (Html.BeginForm())
+                @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
+                {
+
+                    OnFailure = "handleError",
+                    HttpMethod = "POST",
+                    
+                    LoadingElementId = "loadingDiv"
+                }, new { id = "form" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -72,16 +82,8 @@
 
 
 
-
-
-
-
-
-
-
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-
+<script>
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>

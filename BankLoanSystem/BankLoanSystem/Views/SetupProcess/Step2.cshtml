@@ -3,23 +3,34 @@
 @{
 
     ViewBag.Title = "Step2";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    
 }
 
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script>
+@*<script>
     progress(2);
 
 
-</script>
+</script>*@
 
 
     <div class="row">
         <div class="container body-content">
             <h2>Create Branch</h2>
 
-            @using (Html.BeginForm())
+            @using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
+            {
+
+                OnFailure = "handleError",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
             {
 
                 @Html.AntiForgeryToken()
@@ -186,9 +197,6 @@
     </div>
 
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
 <script type="text/javascript">
@@ -225,4 +233,10 @@
             }
         });
     });
+
+   
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+
 </script>

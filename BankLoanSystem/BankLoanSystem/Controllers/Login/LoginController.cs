@@ -95,65 +95,8 @@ namespace BankLoanSystem.Controllers
                 if (stepNo < 0) {
                     stepNo = step.checkUserLoginWhileCompanySetup(userId);
                 }
-                if (stepNo == 1)
-                {
-                    return RedirectToAction("Step1", "SetupProcess");
-                }
-                else if (stepNo == 2)
-                {
-                    //Get company details if branch same as company
-                    CompanyAccess ca = new CompanyAccess();
-                    Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
 
-                    string[] zipWithExtention = company.Zip.Split('-');
-
-                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >=2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
-
-                    CompanyBranchModel comBranch = new CompanyBranchModel();
-                    comBranch.Company = company;
-                    TempData["Company"] = comBranch;
-                    return RedirectToAction("Step2", "SetupProcess");
-                }
-                else if (stepNo == 3)
-                {
-                    return RedirectToAction("Step3", "SetupProcess");
-                }
-                else if (stepNo == 4)
-                {
-                    return RedirectToAction("Step4", "SetupProcess");
-                }
-                else if (stepNo == 5)
-                {
-                    //
-                    CompanyAccess ca = new CompanyAccess();
-                    Company company = ca.GetNonRegCompanyDetailsByUserId(userId);
-
-                    if(string.IsNullOrEmpty(company.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
-
-                    string[] zipWithExtention = company.Zip.Split('-');
-
-                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
-
-                    CompanyBranchModel comBranch = new CompanyBranchModel();
-                    comBranch.Company = company;
-                    TempData["NonRegCompany"] = comBranch;
-
-                    return RedirectToAction("Step5", "SetupProcess");
-                }
-                else if (stepNo == 6)
-                {
-                    return RedirectToAction("Step6", "SetupProcess");
-                }
-                else if (stepNo == 0)
-                {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
-                }
-                else {
-                    Session["rowId"] = userId;
-                    return RedirectToAction("UserDetails", "UserManagement");
-                }
+                return RedirectToAction("Index","SetupProcess",new {stepNo = stepNo });
                 
                 
             }
