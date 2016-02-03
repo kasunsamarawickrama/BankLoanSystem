@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
     <Compile Include="Controllers\SetupCompany\SetupCompanyController.cs" />
+    <Compile Include="Controllers\SetupProcessTestController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupProcessController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupSignUpController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
@@ -270,6 +271,10 @@
     <Content Include="Views\Shared\_SetupProcess.cshtml" />
     <Content Include="Views\SetupProcess\Step5.cshtml" />
     <Content Include="Views\UserManagement\UserDetails.cshtml" />
+    <Content Include="Views\SetupProcessTest\Step1.cshtml" />
+    <Content Include="Views\SetupProcessTest\Step2.cshtml" />
+    <Content Include="Views\SetupProcess\Index.cshtml" />
+    <Content Include="Views\SetupProcess\SetupDashBoard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -279,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
