@@ -101,12 +101,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return View();
         }
 
-/// <summary>
-/// CreatedBy:Piyumi
-/// CreatedDate:2016/1/26
-/// Get first branch details
-/// </summary>
-/// <returns></returns>
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/26
+        /// Get first branch details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Step2()
         {
             //Session["userId"] = 4;
@@ -127,8 +127,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
 
                         userCompany.MainBranch = new Branch();
+                        ViewBag.BranchIndex = 0;
+
                         if (userCompany.Company.Extension == null)
                             userCompany.Company.Extension = "";
+                        //get all branches for this company
+                        IList<Branch> branches = cs.getBranchesByCompanyCode(userCompany.Company.CompanyCode);
+                        userCompany.SubBranches = branches;
                     }
 
                     //Get states to list
