@@ -77,14 +77,17 @@ namespace BankLoanSystem.Controllers.ManageUser
                         {
                             intArray.Add(charactor);
                         }
-
+                        foreach (var obj in rights)
+                        {
+                            obj.active = true;
+                        }
                         foreach (var chr in intArray)
                         {
                             foreach (var obj in rights)
                             {
                                 if (string.Compare(obj.rightId, chr) == 0)
                                 {
-                                    obj.active = true;
+                                    obj.active = false;
                                 }
                                 obj.editorId = userId;
                                 obj.userId = ownerId;
@@ -155,7 +158,7 @@ namespace BankLoanSystem.Controllers.ManageUser
 
             for (int i=0; i< rightList.Count;)
             {
-                if (rightList[i].active == true)
+                if (rightList[i].active == false)
                 {
                     returnIntArray.Add(rightList[i].rightId);
                 }
@@ -251,14 +254,17 @@ namespace BankLoanSystem.Controllers.ManageUser
                         {
                             intArray.Add(charactor);
                         }
-
+                        foreach (var obj in rights)
+                        {
+                            obj.active = true;
+                        }
                         foreach (var chr in intArray)
                         {
                             foreach (var obj in rights)
                             {
                                 if (string.Compare(obj.rightId, chr) == 0)
                                 {
-                                    obj.active = true;
+                                    obj.active = false;
                                 }
                                 obj.editorId = userId;
                                 obj.userId = ownerId;
@@ -323,7 +329,7 @@ namespace BankLoanSystem.Controllers.ManageUser
 
             for (int i = 0; i < rightList.Count;)
             {
-                if (rightList[i].active == true)
+                if (rightList[i].active == false)
                 {
                     returnIntArray.Add(rightList[i].rightId);
                 }
