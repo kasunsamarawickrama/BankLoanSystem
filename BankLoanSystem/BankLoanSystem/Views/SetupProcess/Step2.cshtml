@@ -37,13 +37,26 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <table>
+                            <tr>
+                                <td class="control-label col-sm-2">
+                                    @Html.Label("Branch Name")
+                                </td>
+                                <td class="control-label col-sm-2">
+                                    @Html.Label("Branch Address1")
+                                </td>
+
+                            </tr>
+                            
                             @for (var i = 0; i < Model.SubBranches.Count; i++)
                             {
                                 <tr>
                                     <td class="control-label col-sm-2">
-                                        @Html.DisplayFor(x => x.SubBranches[i].BranchName )
-                                        @Html.DisplayFor(x => x.SubBranches[i].BranchAddress1 )
+                                        @Html.DisplayFor(x => x.SubBranches[i].BranchName)
                                     </td>
+                                    <td class="control-label col-sm-2">
+                                        @Html.DisplayFor(x => x.SubBranches[i].BranchAddress1)
+                                    </td>
+
                                     <td class="control-label col-sm-2">
                                         <a onclick="EditBranch(@i)" id="branchIndex">Edit</a>
                                     </td>
