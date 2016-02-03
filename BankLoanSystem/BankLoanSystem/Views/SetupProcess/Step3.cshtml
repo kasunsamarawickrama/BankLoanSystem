@@ -1,15 +1,17 @@
 ﻿@model BankLoanSystem.Models.User
 @{
     ViewBag.Title = "Step3";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-
-<script>
+@*<script>
     progress(3);
 
 
-</script>
+</script>*@
    
 
 
@@ -32,23 +34,72 @@
 
 
                                 <li>
-                                    <input type="button" value="Create a New User" class="btn btn-primary m-b" style="float:left;margin-left:10px" onclick="location.href='@Url.Action("Step3")' " />
+                                    <input type="button" id="createNewUser" value="Create a New User" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
                                 </li>
 
                                 <li>
-                                    <input type="button" value="Next" class="btn btn-primary m-b" style="float:right;margin-left:10px" onclick="location.href='@Url.Action("Step4")' " />
+                                    <input type="button" id="step4" value="Next" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 </div>
+                <script>
+                    $(function () {
+                        $('#createNewUser').click(function () {
+
+                            $('#loadingDiv').show();
+                            $.ajax({
+                                url: '@Url.Action("Step3")',
+                                type: 'GET',
+
+
+                                success: function (partialView) {
+                                    $('#loadingDiv').hide();
+                                    $('#changeContainer').html(partialView);
+                                    $('#changeContainer').show();
+                                }
+                            });
+                        });
+
+
+                    });
+
+                     $(function () {
+                         $('#step4').click(function () {
+
+                                $('#loadingDiv').show();
+                                $.ajax({
+                                    url: '@Url.Action("Step4")',
+                                    type: 'GET',
+
+
+                                    success: function (partialView) {
+                                        $('#loadingDiv').hide();
+                                        $('#changeContainer').html(partialView);
+                                        $('#changeContainer').show();
+                                    }
+                                });
+                            });
+                     });
+
+
+                </script>
 
 
             }
 
             else {
 
-                using (Html.BeginForm())
+                using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+                {
+
+                    OnFailure = "handleError",
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "changeContainer",
+                    LoadingElementId = "loadingDiv"
+                }, new { id = "form" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -168,7 +219,7 @@
                                         </li>
 
                                         <li>
-                                            <input type="button" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" onclick="location.href='@Url.Action("Step4")' " />
+                                            <input type="button" id="skip" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
                                         </li>
 
                                         <li>
@@ -179,7 +230,7 @@
                             </div>
                         </div>
                     </div>
-
+                   
                 }
 
                 <div>
@@ -193,11 +244,35 @@
     </div>
 
 
-    
 
 
-                    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-                    <script src="~/Scripts/jquery.validate.min.js"></script>
-                    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                 
+
+<script>
+
+  $(function () {
+                            $('#skip').click(function () {
+
+                                $('#loadingDiv').show();
+                                $.ajax({
+                                    url: '@Url.Action("Step4")',
+                                    type: 'GET',
+
+
+                                    success: function (partialView) {
+                                        $('#loadingDiv').hide();
+                                        $('#changeContainer').html(partialView);
+                                        $('#changeContainer').show();
+                                    }
+                                });
+                            });
+  });
+
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+
+</script>
+
 
 

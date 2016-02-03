@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+}
+
+@if(ViewBag.Step == 1){
+
+    Html.RenderAction("Step1", "SetupProcess");
+
+}
+else if (ViewBag.Step == 2)
+{
+
+    Html.RenderAction("Step2", "SetupProcess");
+
+}
+else if (ViewBag.Step == 3)
+{
+
+    Html.RenderAction("Step3", "SetupProcess");
+
+}
+else if (ViewBag.Step == 4)
+{
+
+    Html.RenderAction("Step4", "SetupProcess");
+
+}
+else if (ViewBag.Step == 5)
+{
+
+    Html.RenderAction("Step5", "SetupProcess");
+
+}
+else if (ViewBag.Step == 6)
+{
+
+    Html.RenderAction("Step6", "SetupProcess");
+
+}

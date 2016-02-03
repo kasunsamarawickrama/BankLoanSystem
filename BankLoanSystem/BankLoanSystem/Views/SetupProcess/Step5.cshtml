@@ -3,17 +3,21 @@
 @{
 
     ViewBag.Title = "Step5";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    
 }
 
 
 
-<script>
+@*<script>
     progress(5);
 
 
-</script>
+</script>*@
    
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 
     <div class="row">
         <div class="container body-content">
@@ -28,7 +32,15 @@
             @ViewBag.ErrorMsg
             }
 
-            @using (Html.BeginForm())
+            @using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
+            {
+
+                OnFailure = "handleError",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
             {
 
             @Html.AntiForgeryToken()
@@ -197,10 +209,6 @@
 
 
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
 
 <script type="text/javascript">
     $(function () {
@@ -236,5 +244,11 @@
             }
         });
     });
+
+   
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+
 </script>
 

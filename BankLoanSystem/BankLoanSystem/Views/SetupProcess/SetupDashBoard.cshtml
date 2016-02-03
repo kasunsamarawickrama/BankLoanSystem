@@ -1,0 +1,95 @@
+﻿@model BankLoanSystem.Models.DashBoard
+@{
+    ViewBag.Title = "SetupDashBoard";
+}
+
+<li class="nav-header">
+    <div class="dropdown profile-element">
+        <span>
+            <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+        </span>
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <span class="clear">
+                <span class="block m-t-xs">
+                    <strong class="font-bold">@Model.userName</strong>
+                </span> <span class="text-muted text-xs block">@Model.roleName<b class="caret"></b></span>
+            </span>
+        </a>
+
+        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+
+            <li class="divider"></li>
+            <li>@Html.ActionLink("Log out", "UserLogin", "Login", null, null)</li>
+        </ul>
+    </div>
+    <div class="logo-element">
+        TFN
+    </div>
+</li>
+<li class="active">
+    <a href="#"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> <span class="nav-label">Company Setup</span> <span class="caret arrow" style="margin-top: 5px;"></span></a>
+    <ul class="nav nav-second-level collapse in">
+        <li class="active">
+            @Ajax.ActionLink("Setup 1", "Step1", "SetupProcess", null, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+            @*<a href="#">Setup 1</a>*@
+        </li>
+
+
+            <li>
+                @*<a href="#">Setup 2</a>*@
+
+                @Ajax.ActionLink("Setup 2", "Step2", "SetupProcess", null, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+            </li>
+
+
+            <li>
+
+                @Ajax.ActionLink("Setup 3",  "Step3", "SetupProcess", null, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                @*<a href="#">Setup 3</a>*@
+            </li>
+
+
+ 
+            <li>
+                @Ajax.ActionLink("Setup 4", "Step4", "SetupProcess", null, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                @*<a href="#">Setup 4</a>*@
+            </li>
+
+
+
+            <li>
+                @Ajax.ActionLink("Setup 5", "Step5", "SetupProcess", null, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                @*<a href="#">Setup 5</a>*@
+            </li>
+
+
+    </ul>
+</li>
+
+<li>
+    <a href="#"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  <span class="nav-label">Loan Setup</span><span class="caret arrow" style="margin-top: 5px;"></span></a>
+    <ul class="nav nav-second-level collapse">
+        <li><a href="#">Setup 1</a></li>
+        <li><a href="#">Setup 2</a></li>
+        <li><a href="#">Setup 3</a></li>
+        <li><a href="#">Setup 4</a></li>
+        <li><a href="#">Setup 5</a></li>
+        <li><a href="#">Setup 6</a></li>
+
+    </ul>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -462,12 +462,14 @@ namespace BankLoanSystem.DAL
                // int latestBranchId = getLatestBranchCode(companyCode);
                 string latestBranchCode = getLatestBranchCode(companyCode);
                 int latestBranchId = 0;
+
                 if (latestBranchCode != "")
                 {
                     string[] s = latestBranchCode.Split('_');
                     latestBranchId = int.Parse(s[1]);
                 }
-               
+                
+                
                 if ((latestBranchId >= 0) && (latestBranchId < 9))
                 {
                     branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();

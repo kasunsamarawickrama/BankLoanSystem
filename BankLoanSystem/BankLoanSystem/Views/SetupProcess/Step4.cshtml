@@ -2,16 +2,16 @@
 
 @{
     ViewBag.Title = "Step4";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    
 }
 
 
 
-<script>
+@*<script>
     progress(4);
 
 
-</script>
+</script>*@
     
 
     <div class="row">
@@ -27,7 +27,15 @@
                 @ViewBag.ErrorMsg
             }
 
-            @using (Html.BeginForm())
+            @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
+            {
+
+                OnFailure = "handleError",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
             {
                 @Html.AntiForgeryToken()
 
@@ -187,3 +195,8 @@
     </div>
 
 
+<script>
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>
