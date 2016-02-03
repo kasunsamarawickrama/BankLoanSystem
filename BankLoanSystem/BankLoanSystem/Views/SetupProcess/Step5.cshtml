@@ -34,7 +34,7 @@
 
             @using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
             {
-
+                OnSuccess = "Progress(6)",
                 OnFailure = "handleError",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,

@@ -12,6 +12,9 @@
 
 
 </script>*@
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     
 
     <div class="row">
@@ -29,7 +32,7 @@
 
             @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
             {
-
+                OnSuccess = "Progress(5)",
                 OnFailure = "handleError",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,

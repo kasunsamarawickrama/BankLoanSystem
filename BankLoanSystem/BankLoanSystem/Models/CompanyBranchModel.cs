@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankLoanSystem.Models
 {
@@ -6,10 +7,11 @@ namespace BankLoanSystem.Models
     {
         public Company Company { get; set; }
         public Branch MainBranch { get; set; }
-
+        public IList<Branch> SubBranches { get; set; }
         [Required]
         [Display(Name ="State")]
         public int StateId { get; set; }
 
     }
+ 
 }

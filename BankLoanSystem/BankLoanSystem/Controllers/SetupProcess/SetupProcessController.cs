@@ -17,16 +17,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-        public ActionResult Index(int stepNo)
+        public ActionResult Index()
         {
+
+            int stepNo;
             int userId;
             try
             {
+                stepNo = int.Parse(Session["stepNo"].ToString());
                 userId = int.Parse(Session["userId"].ToString());
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404,"Your Session Expired");
             }
 
             ViewBag.Step = stepNo;
@@ -95,7 +98,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = Convert.ToInt32(Session["userId"]);
 
             StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(userId) == 1)
+            if (sa.getStepNumberByUserId(userId) >= 1)
             {
                 CompanyAccess ca = new CompanyAccess();
 
@@ -123,7 +126,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step1(Company company)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             GeneratesCode gc = new GeneratesCode();
             company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
@@ -153,25 +156,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TempData["Company"] = comBranch;
                 return RedirectToAction("Step2");
             }
-            ViewBag.ErrorMsg = "Failed to Setup company.";
+            
 
-            // Get company types to list
-            List<CompanyType> ctList = ca.GetAllCompanyType();
-            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
-
-            //Get states to list
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            return PartialView();
+            return new HttpStatusCodeResult(404, "Failed to Setup company.");
         }
 
-/// <summary>
-/// CreatedBy:Piyumi
-/// CreatedDate:2016/1/26
-/// Get first branch details
-/// </summary>
-/// <returns></returns>
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/26
+        /// Get first branch details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Step2()
         {
             //Session["userId"] = 4;
@@ -182,7 +177,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
                 int reslt = cs.getStepNumberByUserId(userId);
-                if (reslt == 2)
+                if (reslt >= 2)
                 {
                     if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
                     {
@@ -192,8 +187,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
 
                         userCompany.MainBranch = new Branch();
+                        ViewBag.BranchIndex = 0;
+
                         if (userCompany.Company.Extension == null)
                             userCompany.Company.Extension = "";
+                        //get all branches for this company
+                        IList<Branch> branches = cs.getBranchesByCompanyCode(userCompany.Company.CompanyCode);
+                        userCompany.SubBranches = branches;
                     }
 
                     //Get states to list
@@ -206,11 +206,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return RedirectToAction("UserLogin", "Login");
+                    return new HttpStatusCodeResult(404, "Your Session is Expired");
                 }
             }
             else {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
         }
 
@@ -249,7 +249,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                ViewBag.ErrorMsg = "Failed to create first branch";
+                
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
             return PartialView();
         }
@@ -288,7 +289,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 3...
             
-            if(sa.getStepNumberByUserId(userId) != 3 && sa.getStepNumberByUserId(userId) != 4)
+            if(sa.getStepNumberByUserId(userId) < 3)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -352,7 +353,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 3...
             StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(currentUser) != 3 && sa.getStepNumberByUserId(currentUser) != 4)
+            if (sa.getStepNumberByUserId(currentUser) < 3)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -456,9 +457,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = sa.checkUserLoginWhileCompanySetup(userId);
             }
 
-            if (stepNo != 6)
+            if (stepNo < 6)
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404,"You are not allowed");
             }
 
             
@@ -487,7 +488,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 stepNo = sa.checkUserLoginWhileCompanySetup(userId);
             }
-            if (stepNo == 4 || stepNo == 3 || stepNo == 5)
+            if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
                 int comType = ba.getCompanyTypeByUserId(userId);
@@ -503,8 +504,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             }
 
-            return RedirectToAction("UserLogin", "Login");
-    }
+            return new HttpStatusCodeResult(404, "You are not allowed");
+        }
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -548,11 +549,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
 
-            //Get states to list
-            List<State> stateList = ca.GetAllStates();
-            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            return PartialView();
+            return new HttpStatusCodeResult(404, ViewBag.ErrorMsg);
         }
 
         /// <summary>
@@ -590,7 +587,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     stepNo = cs.checkUserLoginWhileCompanySetup(userId);
                 }
                
-                if (stepNo == 5)
+                if (stepNo >= 5)
                 {
                     if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
                     {
@@ -612,7 +609,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return RedirectToAction("UserLogin", "Login");
+                    return new HttpStatusCodeResult(404, "Your Session is Expired");
                 }
 
 

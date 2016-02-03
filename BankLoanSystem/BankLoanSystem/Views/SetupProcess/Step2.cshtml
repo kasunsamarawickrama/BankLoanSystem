@@ -24,7 +24,7 @@
 
             @using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
             {
-
+                OnSuccess = "Progress(3)",
                 OnFailure = "handleError",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -34,10 +34,34 @@
             {
 
                 @Html.AntiForgeryToken()
-
                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <table>
+                            @for (var i = 0; i < Model.SubBranches.Count; i++)
+                            {
+                                <tr>
+                                    <td class="control-label col-sm-2">
+                                        @Html.DisplayFor(x => x.SubBranches[i].BranchName )
+                                        @Html.DisplayFor(x => x.SubBranches[i].BranchAddress1 )
+                                    </td>
+                                    <td class="control-label col-sm-2">
+                                        <a onclick="EditBranch(@i)" id="branchIndex">Edit</a>
+                                    </td>
+                                    <td class="control-label col-sm-2">
+                                        <a>Delete</a>
+                                    </td>
+                                </tr> 
+                            }
+                        </table>
+                    </div>
+                    <div class="progress">
+                        
+                    </div>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            <a onclick="CreateNewBranch()">create new branch</a>
+                        </div>
                         <div class="control-label col-sm-2">
                             @Html.Label("Same details as company", htmlAttributes: new { })
                         </div>
@@ -48,7 +72,7 @@
                     </div>
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.MainBranch.BranchName, htmlAttributes: new { })<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.MainBranch.BranchName)<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
                             @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control", @id = "branchName" } })
@@ -82,12 +106,12 @@
 
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.MainBranch.BranchCity, htmlAttributes: new {})<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.MainBranch.BranchCity, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
 
                         <div class="col-xs-8">
-                            @Html.EditorFor(model => model.MainBranch.BranchCity, new {htmlAttributes = new {@class = "form-control", @id = "branchCity"}})
-                            @Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new {@class = "text-danger"})
+                            @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control", @id = "branchCity" } })
+                            @Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" })
 
                         </div>
                     </div>
@@ -104,16 +128,16 @@
 
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.MainBranch.ZipPre, htmlAttributes: new {})<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.MainBranch.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
 
                         <div class="col-xs-4" style="width:32.2%">
-                            @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten" , placeholder = "Extension" } })
+                            @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Extension" } })
                             @Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" })
                         </div>
                         <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
                         <div class="col-xs-4">
-                            @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre" , placeholder = "Zip Code" } })
+                            @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Zip Code" } })
                             @Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -182,9 +206,9 @@
                                         <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                     </li>
                                     <li>
-                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px"  />
+                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                     </li>
-                                   
+
                                 </ul>
                             </nav>
                         </div>
@@ -239,4 +263,42 @@
         document.getElementsByTagName("form")[0].reset();
     });
 
+</script>
+
+
+<script type="text/javascript">
+    function EditBranch(index) {
+      
+        var model = @Html.Raw(Json.Encode(Model));
+        console.log(model);
+        console.log(index);
+        document.getElementById("branchName").value = model.SubBranches[index].BranchName;
+        document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
+        document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
+        document.getElementById("StateId").value = model.SubBranches[index].StateId;
+        document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
+        document.getElementById("branchZipPre").value = model.SubBranches[index].BranchZip;
+        document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
+        document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
+        document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
+        document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
+        document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
+        document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
+           
+    };
+
+    function CreateNewBranch(){
+        document.getElementById("branchName").value = "";
+        document.getElementById("branchAddress1").value = "";
+        document.getElementById("branchAddress2").value = "";
+        document.getElementById("StateId").value = "";
+        document.getElementById("branchCity").value = "";
+        document.getElementById("branchZipPre").value = "";
+        document.getElementById("branchZipExten").value = "";
+        document.getElementById("branchEmail").value = "";
+        document.getElementById("branchPhoneNum1").value = "";
+        document.getElementById("branchPhoneNum2").value = "";
+        document.getElementById("branchPhoneNum3").value = "";
+        document.getElementById("branchFax").value = "";
+    }
 </script>

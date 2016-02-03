@@ -95,8 +95,8 @@ namespace BankLoanSystem.Controllers
                 if (stepNo < 0) {
                     stepNo = step.checkUserLoginWhileCompanySetup(userId);
                 }
-
-                return RedirectToAction("Index","SetupProcess",new {stepNo = stepNo });
+                Session["stepNo"] = stepNo;
+                return RedirectToAction("Index","SetupProcess");
                 
                 
             }

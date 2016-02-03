@@ -2,7 +2,10 @@
 @{
     Layout = "~/Views/Shared/_SetupProcess.cshtml";
 }
+<script>
 
+    Progress(@ViewBag.Step);
+</script>
 @if(ViewBag.Step == 1){
 
     Html.RenderAction("Step1", "SetupProcess");
