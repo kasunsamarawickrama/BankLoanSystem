@@ -14,10 +14,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static CompanyBranchModel userCompany = null;
         private static CompanyBranchModel userNonRegCompany = null;
         public static string CompanyType = "Lender";
+        private static string _comCode;
+        private static string _branchCode;
+        private static int _isEdit;
 
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
+
         {
 
             int stepNo;
@@ -29,7 +35,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404,"Your Session Expired");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
             }
 
             ViewBag.Step = stepNo;
@@ -49,7 +55,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TempData["Company"] = comBranch;
                 return View();
             }
-            
+
             else if (stepNo == 5)
             {
                 //
@@ -78,11 +84,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
             }
-            else {
+            else
+            {
                 Session["rowId"] = userId;
                 return RedirectToAction("UserDetails", "UserManagement");
             }
         }
+
+
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/01/26
@@ -90,27 +99,46 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// in the setup proccess
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step1()
+        public ActionResult Step1(int? edit)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
             int userId = Convert.ToInt32(Session["userId"]);
 
+            CompanyAccess ca = new CompanyAccess();
+            // Get company types to list
+            List<CompanyType> ctList = ca.GetAllCompanyType();
+            ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
             StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(userId) >= 1)
+            if (sa.getStepNumberByUserId(userId) >= 1 && edit != 1)
             {
-                CompanyAccess ca = new CompanyAccess();
-
-                // Get company types to list
-                List<CompanyType> ctList = ca.GetAllCompanyType();
-                ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
-
-                //Get states to list
-                List<State> stateList = ca.GetAllStates();
-                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
                 return PartialView();
+            }
+
+            if (edit == 1)
+            {
+                if (!string.IsNullOrEmpty(Session["userId"].ToString()))
+                {
+                    userId = Convert.ToInt32(Session["userId"]);
+                    Company preCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
+
+                    string[] zipWithExtention = preCompany.Zip.Split('-');
+
+                    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+
+                    _comCode = preCompany.CompanyCode;
+                    ViewBag.Edit = "Yes";
+                    _isEdit = 1;
+
+                    return PartialView(preCompany);
+                }
             }
 
             return RedirectToAction("UserLogin", "Login");
@@ -128,8 +156,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Your Session Expired");
 
-            GeneratesCode gc = new GeneratesCode();
-            company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+            string type;
+            if (_isEdit != 1)
+            {
+                GeneratesCode gc = new GeneratesCode();
+                _comCode = company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+                type = "INSERT";
+            }
+            else
+            {
+                company.CompanyCode = _comCode;
+                type = "UPDATE";
+                _isEdit = 0;
+            }
 
             company.Zip = company.ZipPre;
             if (company.Extension != null)
@@ -139,7 +178,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             company.CompanyStatus = true;
             CompanyAccess ca = new CompanyAccess();
 
-            if (ca.InsertCompany(company, ""))
+            if (ca.InsertCompany(company, type))
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
@@ -151,12 +190,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //Send company detail to step 2
                 CompanyBranchModel comBranch = new CompanyBranchModel();
-                comBranch.Company = company; 
+                comBranch.Company = company;
 
                 TempData["Company"] = comBranch;
                 return RedirectToAction("Step2");
             }
-            
+
 
             return new HttpStatusCodeResult(404, "Failed to Setup company.");
         }
@@ -167,37 +206,46 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Get first branch details
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step2()
+        public ActionResult Step2(int? edit)
         {
-            //Session["userId"] = 4;
-           //int userId = 68;
-            if ((Session["userId"]!=null)&& (Session["userId"].ToString()!=""))
+            if ((Session["userId"] != null) && (Session["userId"].ToString() != ""))
             //if(userId>0)
             {
                 int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
+
                 int reslt = cs.getStepNumberByUserId(userId);
                 if (reslt >= 2)
                 {
+                    userCompany = new CompanyBranchModel();
                     if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
                     {
-                        userCompany = new CompanyBranchModel();
-                        userCompany = (CompanyBranchModel) TempData["Company"];
+                        userCompany = (CompanyBranchModel)TempData["Company"];
 
                         CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
 
-                        userCompany.MainBranch = new Branch();
-                        ViewBag.BranchIndex = 0;
-
                         if (userCompany.Company.Extension == null)
                             userCompany.Company.Extension = "";
-                        //get all branches for this company
-                        IList<Branch> branches = cs.getBranchesByCompanyCode(userCompany.Company.CompanyCode);
-                        userCompany.SubBranches = branches;
                     }
 
-                    //Get states to list
+                    if (edit == 1)
+                    {
+                        _isEdit = 1;
+                    }
+
+                    userCompany.MainBranch = new Branch();
+                    ViewBag.BranchIndex = 0;
+
+                    //Get company details by user id
+                    userId = Convert.ToInt32(Session["userId"]);
                     CompanyAccess ca = new CompanyAccess();
+                    Company preCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
+                    userCompany.Company = preCompany;
+                    IList<Branch> branches = cs.getBranchesByCompanyCode(preCompany.CompanyCode);
+                    userCompany.SubBranches = branches;
+                    int count = userCompany.SubBranches.Count();
+
+                    //Get states to list
                     List<State> stateList = ca.GetAllStates();
                     ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
@@ -209,7 +257,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "Your Session is Expired");
                 }
             }
-            else {
+            else
+            {
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
         }
@@ -223,38 +272,41 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="userCompany2"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Step2(CompanyBranchModel userCompany2)
+        public ActionResult Step2(CompanyBranchModel userCompany2, string branchCode)
         {
             int userId = (int)Session["userId"];
-            //int userId = 68;
-            BranchAccess ba = new BranchAccess();
+
+            userCompany2.Company = userCompany.Company;
             userCompany2.MainBranch.StateId = userCompany2.StateId;
-            userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-            userCompany.MainBranch = userCompany2.MainBranch;
-            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
+
+            BranchAccess ba = new BranchAccess();
+            if (string.IsNullOrEmpty(userCompany2.MainBranch.BranchCode))
+            {
+                _branchCode = userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
+                userCompany.MainBranch = userCompany2.MainBranch;
+            }
+
+            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             if (reslt)
             {
                 StepAccess sa = new StepAccess();
-                if(sa.updateStepNumberByUserId(userId,3)) 
+                if (sa.updateStepNumberByUserId(userId, 3))
                 {
-                    bool reslt2 = ba.updateUserBranchId(userCompany2,userId);
-                    if(reslt2) 
+                    bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
+                    if (reslt2)
                     {
                         return RedirectToAction("Step3");
                     }
-                    
-                    
                 }
-                
             }
             else
             {
-                
+
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
             return PartialView();
         }
-   
+
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -272,11 +324,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // take firstsuperadmin userid....
             int userId;
             StepAccess sa = new StepAccess();
-            try { 
-            userId = int.Parse(Session["userId"].ToString());
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -288,8 +341,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check if   step is 3...
-            
-            if(sa.getStepNumberByUserId(userId) < 3)
+
+            if (sa.getStepNumberByUserId(userId) < 3)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -297,14 +350,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (lbls != null && lbls.Equals("User Successfully Created"))
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
-                sa.updateStepNumberByUserId(userId,4);
+                sa.updateStepNumberByUserId(userId, 4);
                 return PartialView();
             }
 
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(userId);
 
-            
+
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
 
@@ -341,8 +394,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
-            
-            
+
+
 
             int currentUser = int.Parse(Session["userId"].ToString());
             // check he is a super admin or not
@@ -381,7 +434,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
-                
+
 
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
@@ -393,13 +446,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 email.SendMail(body, "Account details");
 
 
-                
-                    ViewBag.SuccessMsg = "User Successfully Created";
+
+                ViewBag.SuccessMsg = "User Successfully Created";
 
 
-                    
-                    return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
-                
+
+                return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
+
             }
             else
             {
@@ -439,10 +492,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step6()
         {
-            
+
 
             int userId = int.Parse(Session["userId"].ToString());
-            
+
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
             {
@@ -459,10 +512,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (stepNo < 6)
             {
-                return new HttpStatusCodeResult(404,"You are not allowed");
+                return new HttpStatusCodeResult(404, "You are not allowed");
             }
 
-            
+
 
             return PartialView();
 
@@ -586,7 +639,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     stepNo = cs.checkUserLoginWhileCompanySetup(userId);
                 }
-               
+
                 if (stepNo >= 5)
                 {
                     if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
@@ -637,10 +690,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //int userId = 68;
             BranchAccess ba = new BranchAccess();
 
-            
+
             int compType = ba.getCompanyTypeByUserId(userId);
-            
-            
+
+
             nonRegBranch.MainBranch.StateId = nonRegBranch.StateId;
             nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(userNonRegCompany.Company.CompanyCode);
             userNonRegCompany.MainBranch = nonRegBranch.MainBranch;
@@ -691,8 +744,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6_Post()
         {
             int userId = int.Parse(Session["userId"].ToString());
-            
-            
+
+
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
             {
@@ -752,10 +805,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 dashBoardModel.levelId = userLevelId;
                 return PartialView(dashBoardModel);
 
-                
-                
+
+
             }
-            
+
         }
 
 
