@@ -58,8 +58,12 @@
                                     $('#loadingDiv').hide();
                                     $('#changeContainer').html(partialView);
                                     $('#changeContainer').show();
-                                }
-                            });
+                                },
+
+                                error: function (request, status, error) {
+                                    handleErrorMsg(request.responseText);
+                                
+                            }
                         });
 
 
@@ -79,6 +83,10 @@
                                         $('#changeContainer').html(partialView);
                                         $('#changeContainer').show();
                                         Progress(4);
+                                    },
+                                    error: function (request, status, error) {
+                                        handleErrorMsg(request.responseText);
+                                
                                     }
                                 });
                             });
@@ -95,7 +103,7 @@
                 using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
                 {
 
-                    OnFailure = "handleError",
+                    OnFailure = "handleErrorMsg",
                     HttpMethod = "POST",
                     InsertionMode = InsertionMode.Replace,
                     UpdateTargetId = "changeContainer",
@@ -265,6 +273,10 @@
                                         $('#changeContainer').html(partialView);
                                         $('#changeContainer').show();
                                         Progress(4);
+                                    },
+                                    error: function (request, status, error) {
+                                        handleErrorMsg(request.responseText);
+                                
                                     }
                                 });
                             });

@@ -33,7 +33,7 @@
             @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
             {
                 OnSuccess = "Progress(5)",
-                OnFailure = "handleError",
+                OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "changeContainer",

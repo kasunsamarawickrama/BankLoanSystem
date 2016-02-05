@@ -31,7 +31,7 @@
                 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
                 {
 
-                    OnFailure = "handleError",
+                    OnFailure = "handleErrorMsg",
                     HttpMethod = "POST",
                     
                     LoadingElementId = "loadingDiv"
