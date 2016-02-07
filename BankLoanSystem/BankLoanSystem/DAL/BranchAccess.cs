@@ -149,18 +149,20 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
         /// <summary>
         /// CreatedBy: Piyumi
         /// CreatedDate: 2016/1/26
         /// Insert branch details
         /// </summary>
         /// <param name="branch object"></param>
+        /// <param name="userCompany3"></param>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
         public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
             string companyCode = userCompany3.Company.CompanyCode;
-            userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
+            //userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
             userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
             userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -204,7 +206,7 @@ namespace BankLoanSystem.DAL
 
                         int countVal = (int)returnParameter.Value;
 
-                        if (countVal == 1)
+                        if (countVal >= 1)
                         {
                             return true;
                         }

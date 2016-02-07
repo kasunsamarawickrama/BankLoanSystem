@@ -226,7 +226,9 @@
                                         <li>
                                             <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px"  />
                                         </li>
-
+                                        <li>
+                                            <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
+                                        </li>
                                         <li>
                                             <input type="button" id="skip" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
                                         </li>
@@ -255,12 +257,12 @@
 
 
 
-                 
+
 
 <script>
 
-  $(function () {
-                            $('#skip').click(function () {
+                        $(function() {
+                            $('#skip').click(function() {
 
                                 $('#loadingDiv').show();
                                 $.ajax({
@@ -268,24 +270,48 @@
                                     type: 'GET',
 
 
-                                    success: function (partialView) {
+                                    success: function(partialView) {
                                         $('#loadingDiv').hide();
                                         $('#changeContainer').html(partialView);
                                         $('#changeContainer').show();
                                         Progress(4);
                                     },
-                                    error: function (request, status, error) {
+                                    error: function(request, status, error) {
                                         handleErrorMsg(request.responseText);
-                                
+
                                     }
                                 });
                             });
-  });
+                        });
 
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
+                        $('#clear').click(function() {
+                            document.getElementsByTagName("form")[0].reset();
+                        });
+                        </script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#btnPreStep3').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step2", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1},
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
     });
-
 </script>
 
 
