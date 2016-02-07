@@ -9,6 +9,9 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 
 <div class="row">
@@ -49,7 +52,7 @@
                                 Selected = true
                             });
                         }
-                        @Html.DropDownListFor(model => model.AdvanceId, listItems ,new { onChange = "changetextbox();" })
+                        @Html.DropDownListFor(model => model.AdvanceId, listItems ,new {@id="dropDownAdvance" , onChange = "changeDropDownValueAdvance();" })
                         @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -57,16 +60,16 @@
                 <div class="form-group">
                     
                     <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = " Amount" } })
+                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " Amount" } })
                         @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                     </div>
                    
                     <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                        @Html.EditorFor(model => model.AdvanceDue, new { htmlAttributes = new { @class = "form-control", @id = "advanceDue", placeholder = "Due" } })
                         @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                        @Html.EditorFor(model => model.AdvanceReminder, new { htmlAttributes = new { @class = "form-control", @id = "advanceReminder", placeholder = "Reminder" } })
                         @Html.ValidationMessageFor(model => model.AdvanceReminder, "", new { @class = "text-danger" })
                     </div>
                    
@@ -91,7 +94,7 @@
                                 Selected = true
                             });
                         }
-                        @Html.DropDownListFor(model => model.MonthlyLoanId, listItems2)
+                        @Html.DropDownListFor(model => model.MonthlyLoanId, listItems2, new { @id = "dropDownLoan", onChange = "changeDropDownValueLoan();" })
                         @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -99,16 +102,16 @@
                     <div class="form-group">
                        
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Amount" } })
+                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
                         </div>
                       
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                            @Html.EditorFor(model => model.MonthlyLoanDue, new { htmlAttributes = new { @class = "form-control", @id = "loanDue", placeholder = "Due" } })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
                         </div> 
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                            @Html.EditorFor(model => model.MonthlyLoanReminder, new { htmlAttributes = new { @class = "form-control", @id = "loanReminder", placeholder = "Reminder" } })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanReminder, "", new { @class = "text-danger" })
                         </div>
                         
@@ -133,7 +136,7 @@
                                     Selected = true
                                 });
                             }
-                            @Html.DropDownListFor(model => model.LotInspectionId, listItems3)
+                            @Html.DropDownListFor(model => model.LotInspectionId, listItems3, new { @id = "dropDownLot", onChange = "changeDropDownValueLot();" })
                             @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -141,16 +144,16 @@
                     <div class="form-group">
                       
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Amount" } })
+                            @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "Amount" } })
                             @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
                         </div>
                        
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                            @Html.EditorFor(model => model.LotInspectionDue, new { htmlAttributes = new { @class = "form-control", @id = "lotDue", placeholder = "Due" } })
                             @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                            @Html.EditorFor(model => model.LotInspectionReminder, new { htmlAttributes = new { @class = "form-control", @id = "lotReminder", placeholder = "Reminder" } })
                             @Html.ValidationMessageFor(model => model.LotInspectionReminder, "", new { @class = "text-danger" })
                         </div>
                                             
@@ -178,13 +181,97 @@
 
 
 <script type="text/javascript">
-function changetextbox()
+$(function () {
+    $("#advanceDue").datepicker();
+    $("#loanDue").datepicker();
+    $("#lotDue").datepicker();
+});
+window.onload = function () {
+    changeDropDownValueAdvance();
+    changeDropDownValueLoan();
+    changeDropDownValueLot();
+
+};
+function changeDropDownValueAdvance()
 {
-    alert("ok");
-   // if (document.getElementById("mfi_4_a_i").value === "noy") {
-    document.getElementById("branchZipExten").disable = 'true';
-   // } else {
-        document.getElementById("sdd").disable='false';
-   // }
+    var drop1 = document.getElementById("dropDownAdvance").value;
+    if (drop1 == 0) {
+        document.getElementById("advanceAmount").value = "";
+        document.getElementById("advanceDue").value = "";
+        document.getElementById("advanceReminder").value = "";
+        document.getElementById("advanceAmount").readOnly = true;
+        document.getElementById("advanceDue").readOnly = true;
+        document.getElementById("advanceReminder").readOnly = true;
+    }
+    else {
+        document.getElementById("advanceAmount").readOnly = false;
+        document.getElementById("advanceDue").readOnly = false;
+        document.getElementById("advanceReminder").readOnly = false;
+    }
 }
+function changeDropDownValueLoan()
+{
+    var drop2 = document.getElementById("dropDownLoan").value;
+    if (drop2 == 0) {
+        document.getElementById("loanAmount").value = "";
+        document.getElementById("loanDue").value = "";
+        document.getElementById("loanReminder").value = "";
+        document.getElementById("loanAmount").readOnly = true;
+        document.getElementById("loanDue").readOnly = true;
+        document.getElementById("loanReminder").readOnly = true;
+    }
+    else {
+        document.getElementById("loanAmount").readOnly = false;
+        document.getElementById("loanDue").readOnly = false;
+        document.getElementById("loanReminder").readOnly = false;
+    }
+}
+function changeDropDownValueLot()
+{
+    var drop3 = document.getElementById("dropDownLot").value;
+    if (drop3 == 0) {
+        document.getElementById("lotAmount").value = "";
+        document.getElementById("lotDue").value = "";
+        document.getElementById("lotReminder").value = "";
+        document.getElementById("lotAmount").readOnly = true;
+        document.getElementById("lotDue").readOnly = true;
+        document.getElementById("lotReminder").readOnly = true;
+    }
+    else {
+        document.getElementById("lotAmount").readOnly = false;
+        document.getElementById("lotDue").readOnly = false;
+        document.getElementById("lotReminder").readOnly = false;
+    }
+}
+$('#clear').click(function () {
+    document.getElementById("form").reset();
+    changeDropDownValueAdvance();
+    changeDropDownValueLoan();
+    changeDropDownValueLot();
+});
+$("#advanceDue").datepicker({
+    onSelect: function (dateText) {
+        var drop1 = document.getElementById("dropDownAdvance").value;
+        if (drop1 == 0) {
+            document.getElementById("advanceDue").value = "";
+        }
+    }
+});
+$("#loanDue").datepicker({
+    onSelect: function (dateText) {
+        var drop2 = document.getElementById("dropDownLoan").value;
+        if (drop2 == 0) {
+            document.getElementById("loanDue").value = "";
+        }
+    }
+});
+$("#lotDue").datepicker({
+    onSelect: function (dateText) {
+        var drop3 = document.getElementById("dropDownLot").value;
+        if (drop3 == 0) {
+            document.getElementById("lotDue").value = "";
+        }
+    }
+});
+
 </script>
