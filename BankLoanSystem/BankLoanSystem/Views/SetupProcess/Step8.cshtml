@@ -1,0 +1,190 @@
+﻿@model BankLoanSystem.Models.Fees
+@{
+    ViewBag.Title = "Step8";
+    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+}
+
+<h2>Step8</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div class="row">
+    <div class="container body-content">
+        <h2>Fees</h2>
+
+        @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
+            {
+                OnFailure = "handleErrorMsg",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
+            {
+
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+              
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })
+                    </div>
+                    <div class="col-xs-8 no">
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Yes",
+                                Value = "1"
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "No",
+                                Value = "0",
+                                Selected = true
+                            });
+                        }
+                        @Html.DropDownListFor(model => model.AdvanceId, listItems ,new { onChange = "changetextbox();" })
+                        @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    
+                    <div class="col-xs-8 no">
+                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = " Amount" } })
+                        @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
+                    </div>
+                   
+                    <div class="col-xs-8 no">
+                        @Html.EditorFor(model => model.AdvanceDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                        @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-8 no">
+                        @Html.EditorFor(model => model.AdvanceReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                        @Html.ValidationMessageFor(model => model.AdvanceReminder, "", new { @class = "text-danger" })
+                    </div>
+                   
+                </div>
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })
+                    </div>
+                    <div class="col-xs-8 no">
+                        @{
+                            List<SelectListItem> listItems2 = new List<SelectListItem>();
+                            listItems2.Add(new SelectListItem
+                            {
+                                Text = "Yes",
+                                Value = "1"
+                            });
+                            listItems2.Add(new SelectListItem
+                            {
+                                Text = "No",
+                                Value = "0",
+                                Selected = true
+                            });
+                        }
+                        @Html.DropDownListFor(model => model.MonthlyLoanId, listItems2)
+                        @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                       
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Amount" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
+                        </div>
+                      
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
+                        </div> 
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanReminder, "", new { @class = "text-danger" })
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @{
+                                List<SelectListItem> listItems3 = new List<SelectListItem>();
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "Yes",
+                                    Value = "1"
+                                });
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "No",
+                                    Value = "0",
+                                    Selected = true
+                                });
+                            }
+                            @Html.DropDownListFor(model => model.LotInspectionId, listItems3)
+                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Amount" } })
+                            @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
+                        </div>
+                       
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.LotInspectionDue, new { htmlAttributes = new { @class = "form-control", @id = "branchZipPre", placeholder = "Due" } })
+                            @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.LotInspectionReminder, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Reminder" } })
+                            @Html.ValidationMessageFor(model => model.LotInspectionReminder, "", new { @class = "text-danger" })
+                        </div>
+                                            
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <nav>
+                                <ul class="pager">
+                                    <li>
+                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                    </li>
+                                    <li>
+                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                    </li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+function changetextbox()
+{
+    alert("ok");
+   // if (document.getElementById("mfi_4_a_i").value === "noy") {
+    document.getElementById("branchZipExten").disable = 'true';
+   // } else {
+        document.getElementById("sdd").disable='false';
+   // }
+}
+</script>
