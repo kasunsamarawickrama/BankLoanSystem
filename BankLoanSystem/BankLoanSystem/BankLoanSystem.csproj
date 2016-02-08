@@ -123,11 +123,14 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\jquery.gritter.css" />
     <Content Include="Content\message.css" />
+    <Content Include="Content\pikaday.css" />
     <Content Include="Content\screen_preview.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\steps.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\theme.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\triangle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\a1.jpg" />
@@ -140,6 +143,7 @@
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile_small.jpg" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\small_loading.gif" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\analytics.js" />
@@ -172,6 +176,7 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\peity-demo.js" />
+    <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\sparkline-demo.js" />
     <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -216,6 +221,7 @@
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
+    <Compile Include="Models\LoanSetupStep1.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
