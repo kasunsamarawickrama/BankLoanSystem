@@ -177,5 +177,47 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        public void InsertFeesDetails(Fees fees)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spInsertFeesDetails", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add("@advance_fee_amount", SqlDbType.NVarChar).Value = fees.AdvanceAmount;
+                        //command.Parameters.Add("@advance_payment_due_method", SqlDbType.NVarChar).Value = fees;
+                        command.Parameters.Add("@advance_payment_due_date", SqlDbType.DateTime).Value = fees.AdvanceDue;
+
+                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.NVarChar).Value = fees.MonthlyLoanAmount;
+                        //command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees;
+                        command.Parameters.Add("@monthly_loan_payment_due_date", SqlDbType.DateTime).Value = fees.MonthlyLoanDue;
+
+                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.NVarChar).Value = fees.LotInspectionAmount;
+                        //command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees;
+                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.DateTime).Value = fees.LotInspectionDue;
+
+                        command.Parameters.Add("@auto_remind_dealer_email", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
+                        command.Parameters.Add("@delaer_remind_period", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
+                        command.Parameters.Add("@auto_remind_lender_email", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
+                        command.Parameters.Add("@lender_remind_period", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
+                        command.Parameters.Add("@loan_id", SqlDbType.Int).Value = fees.LoanId;
+                        con.Open();
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+           
+        }
+
     }
 }

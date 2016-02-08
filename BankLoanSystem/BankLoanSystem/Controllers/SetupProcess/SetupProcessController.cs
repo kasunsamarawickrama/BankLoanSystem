@@ -942,6 +942,28 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// CreatedBy :kasun samarawickrama
+        /// CreatedDate: 2016/08/02
+        /// 
+        /// loan fees section step
+        /// 
+        /// return: step8 view
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Step8()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Step8(Fees fees)
+        {
+
+
+
+
+            return View();
+        }
 
 
 
