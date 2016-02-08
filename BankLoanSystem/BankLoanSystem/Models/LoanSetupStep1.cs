@@ -19,7 +19,7 @@ namespace BankLoanSystem.Models
 
         [Required]
         [RegularExpression(@"^[^<>@#$'{}!*?~;`%""]*$", ErrorMessage = "Invalid Character")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Minimum 3 and Maximum 30 characters required")]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "Minimum 5 and Maximum 30 characters required")]
         //[Remote("IsLoanNumberExists", "SetupProcess", ErrorMessage = "Loan Number already in use")]
         [Display(Name = "Loan Number")]
         [Remote("IsLoanNumberExists", "SetupProcess",
