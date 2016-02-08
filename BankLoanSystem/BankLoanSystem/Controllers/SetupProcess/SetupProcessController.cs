@@ -958,10 +958,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
-
-
-
-
+            StepAccess step = new StepAccess();
+            fees.LoanId = 1;
+            step.InsertFeesDetails(fees);
             return View();
         }
 

@@ -105,7 +105,15 @@
                             @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.AdvanceLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                            @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.AdvanceDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.AdvanceDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
                             @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
                         </div>
                        
@@ -143,8 +151,16 @@
                             @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmail, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.EditorFor(model => model.MonthlyLoanLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmailRemindPeriod, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email " } })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                         </div>
 
                     </div>
@@ -196,7 +212,15 @@
                             @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.LotInspectionLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -297,6 +321,8 @@ function changeDropDownValueAdvance()
         document.getElementById("advanceDueDate").disabled = true;
         document.getElementById("advanceLenderEmail").readOnly = true;
         document.getElementById("advanceDealerEmail").readOnly = true;
+        document.getElementById("advanceLenderEmailRemindPeriod").readOnly = true;
+        document.getElementById("advanceDealerEmailRemindPeriod").readOnly = true;
         document.getElementById("radioDayAdvance").disabled = true;
         document.getElementById("radioMonthAdvance").disabled = true;
 
@@ -311,6 +337,8 @@ function changeDropDownValueAdvance()
         }
         document.getElementById("advanceLenderEmail").readOnly = false;
         document.getElementById("advanceDealerEmail").readOnly = false;
+        document.getElementById("advanceLenderEmailRemindPeriod").readOnly = false;
+        document.getElementById("advanceDealerEmailRemindPeriod").readOnly = false;
     }
 }
 function changeDropDownValueLoan()
@@ -326,6 +354,8 @@ function changeDropDownValueLoan()
         document.getElementById("loanDue").disabled = true;
         document.getElementById("loanLenderEmail").readOnly = true;
         document.getElementById("loanDealerEmail").readOnly = true;
+        document.getElementById("loanLenderEmailRemindPeriod").readOnly = true;
+        document.getElementById("loanDealerEmailRemindPeriod").readOnly = true;
         document.getElementById("radioDayLoan").disabled = true;
         document.getElementById("radioMonthLoan").disabled = true;
     }
@@ -339,6 +369,8 @@ function changeDropDownValueLoan()
         }
         document.getElementById("loanLenderEmail").readOnly = false;
         document.getElementById("loanDealerEmail").readOnly = false;
+        document.getElementById("loanLenderEmailRemindPeriod").readOnly = false;
+        document.getElementById("loanDealerEmailRemindPeriod").readOnly = false;
     }
 }
 function changeDropDownValueLot()
@@ -349,16 +381,22 @@ function changeDropDownValueLot()
         document.getElementById("lotDue").value = "";
         document.getElementById("lotLenderEmail").value = "";
         document.getElementById("lotDealerEmail").value = "";
+        document.getElementById("lotLenderEmail").value = "";
+        document.getElementById("lotDealerEmail").value = "";
         document.getElementById("lotAmount").readOnly = true;
         document.getElementById("lotDue").disabled = true;
         document.getElementById("lotLenderEmail").readOnly = true;
         document.getElementById("lotDealerEmail").readOnly = true;
+        document.getElementById("lotLenderEmailRemindPeriod").readOnly = true;
+        document.getElementById("lotDealerEmailRemindPeriod").readOnly = true;
     }
     else {
         document.getElementById("lotAmount").readOnly = false;
         document.getElementById("lotDue").disabled = false;
         document.getElementById("lotLenderEmail").readOnly = false;
         document.getElementById("lotDealerEmail").readOnly = false;
+        document.getElementById("lotLenderEmailRemindPeriod").readOnly = false;
+        document.getElementById("lotDealerEmailRemindPeriod").readOnly = false;
     }
 }
 $('#clear').click(function () {
