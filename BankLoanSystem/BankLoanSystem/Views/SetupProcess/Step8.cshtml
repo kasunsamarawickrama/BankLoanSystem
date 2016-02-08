@@ -127,6 +127,10 @@
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
+                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "Day", false) Day
+                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "End of the month", false) End of the month
+                        </div>
+                        <div class="col-xs-8 no">
                             @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "loanDueDate", placeholder = "Due Date" })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
                         </div>

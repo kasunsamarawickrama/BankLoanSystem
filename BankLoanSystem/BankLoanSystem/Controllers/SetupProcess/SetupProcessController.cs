@@ -816,7 +816,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             return View();
         }
+        [HttpPost]
+        public ActionResult Step8(Fees fees)
+        {
 
+
+
+
+            return View();
+        }
 
 
 

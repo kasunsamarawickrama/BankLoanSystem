@@ -22,6 +22,7 @@ namespace BankLoanSystem.Models
         public int MonthlyLoanId { get; set; }
         public string MonthlyLoanAmount { get; set; }
         public string MonthlyLoanDue { get; set; }
+        public string MonthlyLoanRadio { get; set; }
         public string MonthlyLoanDueDate { get; set; }
         public string MonthlyLoanLenderEmail { get; set; }
         public string MonthlyLoanDealerEmail { get; set; }
