@@ -38,11 +38,14 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Loan Amount")]
-        public string loanAmount { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c2}")]
+        public decimal loanAmount { get; set; }
 
         [Required]
         [Display(Name = "Advance Percentage")]
-        public string advancePercentage { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Count must be a natural number")]
+        [Range(1, 100, ErrorMessage = "Percentage must be between 1 and 100")]
+        public int advancePercentage { get; set; }
 
         [Required]
         [Display(Name = "Payment Method")]

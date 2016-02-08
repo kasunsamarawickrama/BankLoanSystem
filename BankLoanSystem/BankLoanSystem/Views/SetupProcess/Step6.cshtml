@@ -6,76 +6,84 @@
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
 <link href="~/Content/triangle.css" rel="stylesheet" />
+
+
+
+@if (ViewBag.userroleName != "Admin")
+{
+    <script>
+        $("#loanNumber").attr("disabled", "disabled");
+
+        function GetNonRegisteredBranches(_regBranchId) {
+            if (_regBranchId == 0) {
+                $("#loanNumber").attr("disabled", "disabled");
+                return;
+            }
+            $('#loadingSpan').show();
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $("#ddlcity").html(procemessage).show();
+            var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
+
+            $.ajax({
+                url: url,
+                data: { regBranchId: _regBranchId },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Select Branch</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#NonRegisteredBranchId").html(markup).show();
+                    $('#loadingSpan').hide();
+                    $("#loanNumber").removeAttr("disabled");
+                },
+                error: function (reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+
+        }
+    </script>
+}
+
+
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/scripts/moment.js"></script>
+
 <script>
-   
 
-    function GetNonRegisteredBranches(_regBranchId) {
-        if (_regBranchId == 0) {
-            $("#loanNumber").attr("disabled", "disabled");
-            return ;
-        }
-        $('#loadingSpan').show();
-        var procemessage = "<option value='0'> Please wait...</option>";
-        $("#ddlcity").html(procemessage).show();
-        var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
-
-        $.ajax({
-            url: url,
-            data: { regBranchId: _regBranchId },
-            cache: false,
-            type: "POST",
-            success: function (data) {
-                var markup = "<option value='0'>Select Branch</option>";
-                for (var x = 0; x < data.length; x++) {
-                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                }
-                $("#NonRegisteredBranchId").html(markup).show();
-                $('#loadingSpan').hide();
-                $("#loanNumber").removeAttr("disabled");
-            },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
-            }
-        });
-
-    }
-
-
-
-
-    var startDate,
-        endDate,
-        updateStartDate = function() {
-            startPicker.setStartRange(startDate);
-            endPicker.setStartRange(startDate);
-            endPicker.setMinDate(startDate);
-        },
+           var startDate,
+               endDate,
+               updateStartDate = function() {
+               startPicker.setStartRange(startDate);
+               endPicker.setStartRange(startDate);
+               endPicker.setMinDate(startDate);
+           },
         updateEndDate = function() {
-            startPicker.setEndRange(endDate);
-            startPicker.setMaxDate(endDate);
-            endPicker.setEndRange(endDate);
-        },
+               startPicker.setEndRange(endDate);
+               startPicker.setMaxDate(endDate);
+               endPicker.setEndRange(endDate);
+           },
         startPicker = new Pikaday({
             field: document.getElementById('startDate'),
             format: 'l',
-            
+
             onSelect: function() {
                 startDate = this.getDate();
-                updateStartDate();
-            }
-        }),
+           updateStartDate();
+       }
+   }),
         endPicker = new Pikaday({
-            field: document.getElementById('maturityDate'),
+   field: document.getElementById('maturityDate'),
             format: 'l',
             
             onSelect: function() {
-                endDate = this.getDate();
-                updateEndDate();
-            }
-        }),
+           endDate = this.getDate();
+           updateEndDate();
+       }
+   }),
         _startDate = startPicker.getDate(),
         _endDate = endPicker.getDate();
 
@@ -88,6 +96,45 @@
             endDate = _endDate;
             updateEndDate();
         }
+
+
+        //function changeToTwoDecimal(number) {
+        //    var val = $.trim(number);
+        //    if (val.indexOf(',') > -1) {
+        //        val = val.replace(',', '.');
+        //    }
+        //    var num = parseFloat(val);
+        //    var num = num.toFixed(2);
+        //    if (isNaN(num)) {
+        //        num = '';
+        //    }
+        //    $(this).val(num);
+        //}
+
+
+
+        $(function () {
+
+            $('#loanAmount').blur(function () {
+                
+                var val = $.trim($(this).val());
+
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
+                }
+
+                
+                $(this).val(num);
+            });
+
+        });
+
+       
 </script>
 
 
@@ -149,16 +196,22 @@
 
         <div class="form-group">
 
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { })<span style="color:red"> *</span>
+                </div>
 
-            @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { @class = "control-label col-sm-2" })
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control" ,@id = "loanNumber"} })
-                @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber"  } })
+                    @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.startDate, htmlAttributes: new { @class = "control-label col-sm-2" })
+
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.startDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+           
             <div class="col-xs-8">
                 @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
@@ -166,7 +219,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { @class = "control-label col-sm-2" })
+
+            <div class="control-label col-sm-2">
+               @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+            
             <div class="col-xs-8">
                 @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control" , @id = "maturityDate" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
@@ -174,25 +231,37 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { @class = "control-label col-sm-2" })
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+            
+            
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control",@id= "loanAmount" } })
                 @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
             </div>
+            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { @class = "control-label col-sm-2" })
-            <div class="col-xs-8">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+           
+            <div class="col-xs-4" style="float:left;margin-left: 28px;">
                 @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
             </div>
+            <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { @class = "control-label col-sm-2" })
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new {  })<span style="color:red"> *</span>
+            </div>
+            
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.paymentMethod, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "Select a Payment Method",  htmlAttributes : new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })
             </div>
         </div>
