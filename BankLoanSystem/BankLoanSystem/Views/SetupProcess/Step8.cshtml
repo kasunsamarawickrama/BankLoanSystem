@@ -9,10 +9,10 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
 
 <div class="row">
     <div class="container body-content">
@@ -29,133 +29,169 @@
             {
 
             @Html.AntiForgeryToken()
-            <div class="form-horizontal">
+            <div class="form-horizontal" >
                 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-              
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8 no">
-                        @{
-                            List<SelectListItem> listItems = new List<SelectListItem>();
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Yes",
-                                Value = "1"
-                            });
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "No",
-                                Value = "0",
-                                Selected = true
-                            });
-                        }
-                        @Html.DropDownListFor(model => model.AdvanceId, listItems ,new {@id="dropDownAdvance" , onChange = "changeDropDownValueAdvance();" })
-                        @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    
-                    <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " Amount" } })
-                        @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
-                    </div>
-                   
-                    <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceDue, new { htmlAttributes = new { @class = "form-control", @id = "advanceDue", placeholder = "Due" } })
-                        @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-xs-8 no">
-                        @Html.EditorFor(model => model.AdvanceReminder, new { htmlAttributes = new { @class = "form-control", @id = "advanceReminder", placeholder = "Reminder" } })
-                        @Html.ValidationMessageFor(model => model.AdvanceReminder, "", new { @class = "text-danger" })
-                    </div>
-                   
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8 no">
-                        @{
-                            List<SelectListItem> listItems2 = new List<SelectListItem>();
-                            listItems2.Add(new SelectListItem
-                            {
-                                Text = "Yes",
-                                Value = "1"
-                            });
-                            listItems2.Add(new SelectListItem
-                            {
-                                Text = "No",
-                                Value = "0",
-                                Selected = true
-                            });
-                        }
-                        @Html.DropDownListFor(model => model.MonthlyLoanId, listItems2, new { @id = "dropDownLoan", onChange = "changeDropDownValueLoan();" })
-                        @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                    <div class="form-group">
-                       
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
-                        </div>
-                      
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanDue, new { htmlAttributes = new { @class = "form-control", @id = "loanDue", placeholder = "Due" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
-                        </div> 
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanReminder, new { htmlAttributes = new { @class = "form-control", @id = "loanReminder", placeholder = "Reminder" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanReminder, "", new { @class = "text-danger" })
-                        </div>
-                        
-                    </div>
-
+                <div id="accordion"  >
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })
-                        </div>
-                        <div class="col-xs-8 no">
+                            @Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })
                             @{
-                                List<SelectListItem> listItems3 = new List<SelectListItem>();
-                                listItems3.Add(new SelectListItem
+                                List<SelectListItem> listItems = new List<SelectListItem>();
+                                listItems.Add(new SelectListItem
                                 {
                                     Text = "Yes",
                                     Value = "1"
                                 });
-                                listItems3.Add(new SelectListItem
+                                listItems.Add(new SelectListItem
                                 {
                                     Text = "No",
                                     Value = "0",
                                     Selected = true
                                 });
                             }
-                            @Html.DropDownListFor(model => model.LotInspectionId, listItems3, new { @id = "dropDownLot", onChange = "changeDropDownValueLot();" })
-                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.AdvanceId, listItems, new { @id = "dropDownAdvance", onChange = "changeDropDownValueAdvance();" })
+                            @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
-                      
+
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " Amount" } })
+                            @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-xs-8 no">
+                            @{
+                                List<SelectListItem> listItems2 = new List<SelectListItem>();
+                                listItems2.Add(new SelectListItem
+                                {
+                                    Text = "Time of Advance",
+                                    Value = "1"
+                                });
+                                listItems2.Add(new SelectListItem
+                                {
+                                    Text = "Once a Month",
+                                    Value = "2"
+                                });
+                                listItems2.Add(new SelectListItem
+                                {
+                                    Text = "Vehicle Payoff",
+                                    Value = "3"
+                                });
+
+                            }
+                            @Html.DropDownListFor(model => model.AdvanceDue, listItems2, "-- select due type --", new { @id = "advanceDue", @class = "form-control", onChange = "changeDropDownValueDueAdvance();" })
+                            @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @{
+                                List<SelectListItem> listItems4 = new List<SelectListItem>();
+                                for (var i=1 ;i < 29;i++) {
+                                    listItems4.Add(new SelectListItem{ Text = i.ToString(), Value = i.ToString() });
+                                }
+
+                            }
+                           @Html.DropDownListFor(model => model.AdvanceDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "advanceDueDate", placeholder = "Due Date" })
+                           @Html.ValidationMessageFor(model => model.AdvanceDueDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.AdvanceLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmail", placeholder = "Lender Email" } })
+                            @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.AdvanceDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+                       
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })
+                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItems, new { @id = "dropDownLoan", onChange = "changeDropDownValueLoan();" })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-xs-8 no">
+                            @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems2, "-- select due type --", new { @id = "loanDue", @class = "form-control", onChange = "changeDropDownValueDueLoan();" })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "loanDueDate", placeholder = "Due Date" })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmail", placeholder = "Lender Email" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })
+                            @Html.DropDownListFor(model => model.LotInspectionId, listItems, new { @id = "dropDownLot", onChange = "changeDropDownValueLot();" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
+                        </div>
+                     </div>
+                    <div class="form-group">
+
                         <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "Amount" } })
                             @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
                         </div>
-                       
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionDue, new { htmlAttributes = new { @class = "form-control", @id = "lotDue", placeholder = "Due" } })
+
+                        <div class="col-xs-8 no" >
+                            @{
+                                List<SelectListItem> listItems3 = new List<SelectListItem>();
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "Monthly",
+                                    Value = "1"
+                                });
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "Quaterly",
+                                    Value = "2"
+                                });
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "Annually",
+                                    Value = "3"
+                                });
+                                listItems3.Add(new SelectListItem
+                                {
+                                    Text = "Random",
+                                    Value = "4"
+                                });
+
+                            }
+                            @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "", @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionReminder, new { htmlAttributes = new { @class = "form-control", @id = "lotReminder", placeholder = "Reminder" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionReminder, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.LotInspectionLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmail", placeholder = "Lender Email" } })
+                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
                         </div>
+                        <div class="col-xs-8 no">
+                            @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                                             
                     </div>
 
@@ -182,31 +218,55 @@
 
 <script type="text/javascript">
 $(function () {
-    $("#advanceDue").datepicker();
-    $("#loanDue").datepicker();
-    $("#lotDue").datepicker();
+    $("#accordion").accordion();
 });
+
 window.onload = function () {
     changeDropDownValueAdvance();
     changeDropDownValueLoan();
     changeDropDownValueLot();
 
 };
+
+function changeDropDownValueDueAdvance() {
+    if (document.getElementById("advanceDue").value == "2") {
+        document.getElementById("advanceDueDate").disabled = false;
+    }
+    else {
+        document.getElementById("advanceDueDate").disabled = true;
+    }
+}
+function changeDropDownValueDueLoan() {
+    if (document.getElementById("advanceDue").value == "2") {
+        document.getElementById("advanceDueDate").disabled = false;
+    }
+    else {
+        document.getElementById("advanceDueDate").disabled = true;
+    }
+}
 function changeDropDownValueAdvance()
 {
     var drop1 = document.getElementById("dropDownAdvance").value;
     if (drop1 == 0) {
         document.getElementById("advanceAmount").value = "";
         document.getElementById("advanceDue").value = "";
-        document.getElementById("advanceReminder").value = "";
+        document.getElementById("advanceDueDate").value = "";
+        document.getElementById("advanceLenderEmail").value = "";
+        document.getElementById("advanceDealerEmail").value = "";
         document.getElementById("advanceAmount").readOnly = true;
-        document.getElementById("advanceDue").readOnly = true;
-        document.getElementById("advanceReminder").readOnly = true;
+        document.getElementById("advanceDue").disabled = true;
+        document.getElementById("advanceDueDate").disabled = true;
+        document.getElementById("advanceLenderEmail").readOnly = true;
+        document.getElementById("advanceDealerEmail").readOnly = true;
     }
     else {
         document.getElementById("advanceAmount").readOnly = false;
-        document.getElementById("advanceDue").readOnly = false;
-        document.getElementById("advanceReminder").readOnly = false;
+        document.getElementById("advanceDue").disabled = false;
+        if (document.getElementById("advanceDue").value == "2") {
+            document.getElementById("advanceDueDate").disabled = false;
+        }
+        document.getElementById("advanceLenderEmail").readOnly = false;
+        document.getElementById("advanceDealerEmail").readOnly = false;
     }
 }
 function changeDropDownValueLoan()
@@ -215,15 +275,22 @@ function changeDropDownValueLoan()
     if (drop2 == 0) {
         document.getElementById("loanAmount").value = "";
         document.getElementById("loanDue").value = "";
-        document.getElementById("loanReminder").value = "";
+        document.getElementById("loanDueDate").disabled = true;
+        document.getElementById("loanLenderEmail").value = "";
+        document.getElementById("loanDealerEmail").value = "";
         document.getElementById("loanAmount").readOnly = true;
-        document.getElementById("loanDue").readOnly = true;
-        document.getElementById("loanReminder").readOnly = true;
+        document.getElementById("loanDue").disabled = true;
+        document.getElementById("loanLenderEmail").readOnly = true;
+        document.getElementById("loanDealerEmail").readOnly = true;
     }
     else {
         document.getElementById("loanAmount").readOnly = false;
-        document.getElementById("loanDue").readOnly = false;
-        document.getElementById("loanReminder").readOnly = false;
+        document.getElementById("loanDue").disabled = false;
+        if (document.getElementById("loanDue").value == "2") {
+            document.getElementById("loanDueDate").disabled = false;
+        }
+        document.getElementById("loanLenderEmail").readOnly = false;
+        document.getElementById("loanDealerEmail").readOnly = false;
     }
 }
 function changeDropDownValueLot()
@@ -232,15 +299,18 @@ function changeDropDownValueLot()
     if (drop3 == 0) {
         document.getElementById("lotAmount").value = "";
         document.getElementById("lotDue").value = "";
-        document.getElementById("lotReminder").value = "";
+        document.getElementById("lotLenderEmail").value = "";
+        document.getElementById("lotDealerEmail").value = "";
         document.getElementById("lotAmount").readOnly = true;
-        document.getElementById("lotDue").readOnly = true;
-        document.getElementById("lotReminder").readOnly = true;
+        document.getElementById("lotDue").disabled = true;
+        document.getElementById("lotLenderEmail").readOnly = true;
+        document.getElementById("lotDealerEmail").readOnly = true;
     }
     else {
         document.getElementById("lotAmount").readOnly = false;
-        document.getElementById("lotDue").readOnly = false;
-        document.getElementById("lotReminder").readOnly = false;
+        document.getElementById("lotDue").disabled = false;
+        document.getElementById("lotLenderEmail").readOnly = false;
+        document.getElementById("lotDealerEmail").readOnly = false;
     }
 }
 $('#clear').click(function () {
@@ -249,29 +319,6 @@ $('#clear').click(function () {
     changeDropDownValueLoan();
     changeDropDownValueLot();
 });
-$("#advanceDue").datepicker({
-    onSelect: function (dateText) {
-        var drop1 = document.getElementById("dropDownAdvance").value;
-        if (drop1 == 0) {
-            document.getElementById("advanceDue").value = "";
-        }
-    }
-});
-$("#loanDue").datepicker({
-    onSelect: function (dateText) {
-        var drop2 = document.getElementById("dropDownLoan").value;
-        if (drop2 == 0) {
-            document.getElementById("loanDue").value = "";
-        }
-    }
-});
-$("#lotDue").datepicker({
-    onSelect: function (dateText) {
-        var drop3 = document.getElementById("dropDownLot").value;
-        if (drop3 == 0) {
-            document.getElementById("lotDue").value = "";
-        }
-    }
-});
+
 
 </script>
