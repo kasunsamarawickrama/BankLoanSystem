@@ -543,6 +543,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
                 List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
 
+            List<string> paymentMethods = new List<string>();
+            paymentMethods.Add("Auto Deduct/Deposit");
+            paymentMethods.Add("Invoice/Check");
+            ViewBag.paymentMethods = paymentMethods;
+
             if (userrole == 2)
             {
                 

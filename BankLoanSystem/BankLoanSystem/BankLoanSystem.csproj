@@ -175,6 +175,7 @@
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\moment.js" />
     <Content Include="scripts\peity-demo.js" />
     <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\sparkline-demo.js" />
@@ -220,7 +221,6 @@
     <Compile Include="Models\CompanyType.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\Email.cs" />
-    <Compile Include="Models\Fees.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
@@ -283,7 +283,6 @@
     <Content Include="Views\SetupProcessTest\Step1.cshtml" />
     <Content Include="Views\SetupProcessTest\Step2.cshtml" />
     <Content Include="Views\SetupProcess\Index.cshtml" />
-    <Content Include="Views\SetupProcess\Step8.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
