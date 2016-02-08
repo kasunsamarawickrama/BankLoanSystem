@@ -75,7 +75,7 @@
 <li>
     <a href="#"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  <span class="nav-label">Loan Setup</span><span class="caret arrow" style="margin-top: 5px;"></span></a>
     <ul class="nav nav-second-level collapse">
-        <li><a href="#">Setup 1</a></li>
+        <li>@Ajax.ActionLink("Setup 1", "Step6", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" },null @*new { @class = "tab 6" }*@)</li>
         <li><a href="#">Setup 2</a></li>
         <li>
             @Ajax.ActionLink("Setup 3", "Step8", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 6" })
