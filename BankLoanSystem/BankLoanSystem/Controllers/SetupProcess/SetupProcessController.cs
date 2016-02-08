@@ -439,12 +439,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step6()
         {
+            int userId;
+            try {
+               userId = int.Parse(Session["userId"].ToString());
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
+            }
+            UserAccess ua = new UserAccess();
+            User curUser = ua.retreiveUserByUserId(userId);
             
+            UserManageAccess uma = new UserManageAccess();
+            int userrole = curUser.RoleId;
 
-            int userId = int.Parse(Session["userId"].ToString());
-            
             // check he is super admin or admin
-            if (new UserManageAccess().getUserRole(userId) > 2)
+            if (userrole == 3)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -457,12 +467,72 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = sa.checkUserLoginWhileCompanySetup(userId);
             }
 
-            if (stepNo < 6)
+            if (stepNo < 1) //hardcoded to 1 instead of 6 
             {
-                return new HttpStatusCodeResult(404,"You are not allowed");
+                return new HttpStatusCodeResult(404, "You are not allowed");
             }
 
+
+
+            ViewBag.userroleName = uma.getUserRoleName(userId);
+ 
+            BranchAccess ba = new BranchAccess();
+
             
+            int comType = ba.getCompanyTypeByUserId(userId);
+            ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
+
+            
+            
+            
+                // retrive registered branches
+
+                List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+                List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+
+            if (userrole == 2)
+            {
+                
+                foreach (Branch branch in RegisteredBranchLists)
+                {
+                    if (branch.BranchId == curUser.BranchId)
+                    {
+                        var newList = new List<Branch>();
+                        newList.Add(branch);
+                        ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", curUser.BranchId);
+                    }
+                }
+                var newNonRegList = new List<Branch>();
+                foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                {
+                    if (branch.BranchId == curUser.BranchId)
+                    {
+
+                        newNonRegList.Add(branch);
+                        
+                    }
+                }
+                //ViewBag.RegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName", curUser.BranchId);
+
+
+                //ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "BranchId", "BranchName");
+                ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
+            }
+            else
+            {
+                ViewBag.RegisteredBranchId = new SelectList(RegisteredBranchLists, "BranchId", "BranchName");
+                ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "BranchId", "BranchName");
+            }
+            
+
+
+
+
+            
+
+            
+
+            // if user is a lender admin, lender branch name only
 
             return PartialView();
 
@@ -756,6 +826,37 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 
             }
             
+        }
+
+
+        //Action result for ajax call
+        [HttpPost]
+        public ActionResult getNonRegBranchesByRegBranchId(int regBranchId)
+        {
+            int userId;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
+            }
+            UserAccess ua = new UserAccess();
+            User curUser = ua.retreiveUserByUserId(userId);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+            List<NonRegBranch> newNonRegList = new List<NonRegBranch>();
+            
+            foreach(NonRegBranch nonRegBranch in NonRegisteredBranchLists)
+            {
+                if(nonRegBranch.BranchId == regBranchId)
+                {
+                    newNonRegList.Add(nonRegBranch);
+                }
+            }
+            SelectList NonRegisteredBranches = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
+            
+            return Json(NonRegisteredBranches);
         }
 
 

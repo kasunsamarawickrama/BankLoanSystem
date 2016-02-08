@@ -87,4 +87,9 @@ namespace BankLoanSystem.Models
         public int BranchCompany { get; set; }
         public string BranchCompanyCode { get; set; }
     }
-}
+
+    public class NonRegBranch : Branch
+    {
+        public int NonRegBranchId { get; set; }
+    }
+    }
