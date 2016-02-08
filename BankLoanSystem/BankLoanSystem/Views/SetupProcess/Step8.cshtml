@@ -86,6 +86,10 @@
                             @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
+                            @Html.RadioButtonFor(model => model.AdvanceRadio, "day", new { id = "radioDayAdvance", onChange = "changeRadioValueAdvance();" }) Day
+                            @Html.RadioButtonFor(model => model.AdvanceRadio, "month", new { id = "radioMonthAdvance", onChange = "changeRadioValueAdvance();" }) End of the month
+                        </div>
+                        <div class="col-xs-8 no">
                             @{
                                 List<SelectListItem> listItems4 = new List<SelectListItem>();
                                 for (var i=1 ;i < 29;i++) {
@@ -127,11 +131,11 @@
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
-                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "Day", false) Day
-                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "End of the month", false) End of the month
+                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "day", new { id = "radioDayLoan", onChange = "changeRadioValueLoan();" }) Day
+                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "month", new { id = "radioMonthLoan", onChange = "changeRadioValueLoan();" }) End of the month
                         </div>
                         <div class="col-xs-8 no">
-                            @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "loanDueDate", placeholder = "Due Date" })
+                            @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "loanDueDate"})
                             @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
@@ -224,6 +228,25 @@
 $(function () {
     $("#accordion").accordion();
 });
+function changeRadioValueLoan() {
+    if (document.getElementById("radioDayLoan").checked == true) {
+        document.getElementById("loanDueDate").disabled = false;
+
+    }
+    else {
+        document.getElementById("loanDueDate").value = "";
+        document.getElementById("loanDueDate").disabled = true;
+    }
+}
+function changeRadioValueAdvance() {
+    if (document.getElementById("radioDayAdvance").checked == true) {
+        document.getElementById("advanceDueDate").disabled = false;
+    }
+    else {
+        document.getElementById("advanceDueDate").value = "";
+        document.getElementById("advanceDueDate").disabled = true;
+    }
+}
 
 window.onload = function () {
     changeDropDownValueAdvance();
@@ -233,19 +256,31 @@ window.onload = function () {
 };
 
 function changeDropDownValueDueAdvance() {
+
     if (document.getElementById("advanceDue").value == "2") {
-        document.getElementById("advanceDueDate").disabled = false;
+        document.getElementById("radioDayAdvance").disabled = false;
+        document.getElementById("radioMonthAdvance").disabled = false;
+        changeRadioValueAdvance();
+
     }
     else {
         document.getElementById("advanceDueDate").disabled = true;
+        document.getElementById("radioDayAdvance").disabled = true;
+        document.getElementById("radioMonthAdvance").disabled = true;
     }
 }
 function changeDropDownValueDueLoan() {
-    if (document.getElementById("advanceDue").value == "2") {
-        document.getElementById("advanceDueDate").disabled = false;
+
+    if (document.getElementById("loanDue").value == "2") {
+        document.getElementById("radioDayLoan").disabled = false;
+        document.getElementById("radioMonthLoan").disabled = false;
+        changeRadioValueLoan();
     }
     else {
-        document.getElementById("advanceDueDate").disabled = true;
+ 
+        document.getElementById("loanDueDate").disabled = true;
+        document.getElementById("radioDayLoan").disabled = true;
+        document.getElementById("radioMonthLoan").disabled = true;
     }
 }
 function changeDropDownValueAdvance()
@@ -262,12 +297,17 @@ function changeDropDownValueAdvance()
         document.getElementById("advanceDueDate").disabled = true;
         document.getElementById("advanceLenderEmail").readOnly = true;
         document.getElementById("advanceDealerEmail").readOnly = true;
+        document.getElementById("radioDayAdvance").disabled = true;
+        document.getElementById("radioMonthAdvance").disabled = true;
+
     }
     else {
         document.getElementById("advanceAmount").readOnly = false;
         document.getElementById("advanceDue").disabled = false;
         if (document.getElementById("advanceDue").value == "2") {
-            document.getElementById("advanceDueDate").disabled = false;
+            document.getElementById("radioDayAdvance").disabled = false;
+            document.getElementById("radioMonthAdvance").disabled = false;
+            changeRadioValueAdvance();
         }
         document.getElementById("advanceLenderEmail").readOnly = false;
         document.getElementById("advanceDealerEmail").readOnly = false;
@@ -286,12 +326,16 @@ function changeDropDownValueLoan()
         document.getElementById("loanDue").disabled = true;
         document.getElementById("loanLenderEmail").readOnly = true;
         document.getElementById("loanDealerEmail").readOnly = true;
+        document.getElementById("radioDayLoan").disabled = true;
+        document.getElementById("radioMonthLoan").disabled = true;
     }
     else {
         document.getElementById("loanAmount").readOnly = false;
         document.getElementById("loanDue").disabled = false;
         if (document.getElementById("loanDue").value == "2") {
-            document.getElementById("loanDueDate").disabled = false;
+            document.getElementById("radioDayLoan").disabled = false;
+            document.getElementById("radioMonthLoan").disabled = false;
+            changeRadioValueLoan();
         }
         document.getElementById("loanLenderEmail").readOnly = false;
         document.getElementById("loanDealerEmail").readOnly = false;

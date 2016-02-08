@@ -15,6 +15,7 @@ namespace BankLoanSystem.Models
         public string AdvanceAmount { get; set; }
         public string AdvanceDue { get; set; }
         public string AdvanceDueDate { get; set; }
+        public string AdvanceRadio { get; set; }
         public string AdvanceLenderEmail { get; set; }
         public string AdvanceDealerEmail { get; set; }
 
