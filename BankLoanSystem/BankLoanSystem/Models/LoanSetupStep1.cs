@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace BankLoanSystem.Models
 {
@@ -17,7 +18,14 @@ namespace BankLoanSystem.Models
         public int RegisteredBranchId { get; set; }
 
         [Required]
+        [RegularExpression(@"^[^<>@#$'{}!*?~;`%""]*$", ErrorMessage = "Invalid Character")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Minimum 3 and Maximum 30 characters required")]
+        //[Remote("IsLoanNumberExists", "SetupProcess", ErrorMessage = "Loan Number already in use")]
         [Display(Name = "Loan Number")]
+        [Remote("IsLoanNumberExists", "SetupProcess",
+        AdditionalFields = "RegisteredBranchId",
+        HttpMethod = "POST",
+        ErrorMessage = "Loan Number already in use")]
         public string loanNumber { get; set; }
 
         [Required]

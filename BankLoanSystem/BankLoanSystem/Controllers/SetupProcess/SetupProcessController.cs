@@ -878,11 +878,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 
 
             }
-                
-            }
-            
 
-        //Action result for ajax call
+        }
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/08/02
+        /// /Action result for ajax call
+        /// filtering all non reg branches by reg branch
+        /// 
+        /// argument: regBranchId(int)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+
         [HttpPost]
         public ActionResult getNonRegBranchesByRegBranchId(int regBranchId)
         {
@@ -910,6 +919,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             SelectList NonRegisteredBranches = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
             
             return Json(NonRegisteredBranches);
+        }
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/08/02
+        /// 
+        /// Check whether loan number already exist
+        /// 
+        /// argument: loanNumber(string)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public JsonResult IsLoanNumberExists(string loanNumber,int RegisteredBranchId)
+        {
+            //check user name is already exist.  
+            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);
         }
 
 
