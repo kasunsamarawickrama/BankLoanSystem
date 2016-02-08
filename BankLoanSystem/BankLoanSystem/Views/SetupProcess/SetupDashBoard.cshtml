@@ -68,6 +68,7 @@
             </li>
 
 
+       
     </ul>
 </li>
 
@@ -76,7 +77,10 @@
     <ul class="nav nav-second-level collapse">
         <li>@Ajax.ActionLink("Setup 1", "Step6", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" },null @*new { @class = "tab 6" }*@)</li>
         <li><a href="#">Setup 2</a></li>
-        <li><a href="#">Setup 3</a></li>
+        <li>
+            @Ajax.ActionLink("Setup 3", "Step8", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 6" })
+            @*<a href="#">Setup 5</a>*@
+        </li>
         <li><a href="#">Setup 4</a></li>
         <li><a href="#">Setup 5</a></li>
         <li><a href="#">Setup 6</a></li>

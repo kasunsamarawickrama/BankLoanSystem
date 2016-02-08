@@ -6,7 +6,6 @@
     
 }
 
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -76,13 +75,15 @@
                             <a onclick="CreateNewBranch()">create new branch</a>
                         </div>
                         <div class="control-label col-sm-2">
-                            @Html.Label("Same details as company", htmlAttributes: new { })
+                            @Html.Label("Same details as company", htmlAttributes: new {})
                         </div>
                         <div class="control-label col-sm-2">
-                            @Html.CheckBox("Previous", new { @id = "Previous" })
+                            @Html.CheckBox("Previous", new {@id = "Previous"})
                         </div>
 
                     </div>
+                    @*@Html.HiddenFor(model => model.MainBranch.BranchCode, new { htmlAttributes = new { @class = "form-control", @id = "branchCode" } })*@
+                    @Html.EditorFor(model => model.MainBranch.BranchCode, new { htmlAttributes = new { @class = "form-control", @id = "branchCode" } })
                     <div class="form-group">
                         <div class="control-label col-sm-2">
                             @Html.LabelFor(model => model.MainBranch.BranchName)<span style="color: red">*</span>
@@ -216,8 +217,13 @@
                             <nav>
                                 <ul class="pager">
                                     <li>
-                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
                                     </li>
+
+                                    <li>
+                                        <input type="button" value="Back" name="subBack" id="btnPreStep2" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
+                                    </li>
+
                                     <li>
                                         <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                     </li>
@@ -278,10 +284,34 @@
 
 </script>
 
+<script type="text/javascript">
+    $(function () {
+        $('#btnPreStep2').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step1", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1},
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                    
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+                                
+                }
+            });
+        });
+    });
+</script>
 
 <script type="text/javascript">
     function EditBranch(index) {
-      
+
         var model = @Html.Raw(Json.Encode(Model));
         console.log(model);
         console.log(index);
@@ -297,7 +327,8 @@
         document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
         document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
         document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
-           
+        document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
+
     };
 
     function CreateNewBranch(){
@@ -313,5 +344,6 @@
         document.getElementById("branchPhoneNum2").value = "";
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
+        document.getElementById("branchCode").value = "";
     }
 </script>

@@ -196,6 +196,7 @@ namespace BankLoanSystem.DAL
         /// Insert company in setup process 
         /// </summary>
         /// <param name="company"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public bool InsertCompany(Company company, string type)
         {
