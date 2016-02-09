@@ -92,4 +92,4 @@ namespace BankLoanSystem.Models
     {
         public int NonRegBranchId { get; set; }
     }
-    }
+}

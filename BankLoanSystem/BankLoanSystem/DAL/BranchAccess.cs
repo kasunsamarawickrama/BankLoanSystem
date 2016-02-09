@@ -332,9 +332,6 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
         {
-            string companyCode = nonRegBranch.Company.CompanyCode;
-            //nonRegBranch.MainBranch.BranchCode = createBranchCode(companyCode);
-            nonRegBranch.MainBranch.BranchCompany = getNonRegCompanyIdByCompanyCode(companyCode);
             nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -871,6 +868,23 @@ namespace BankLoanSystem.DAL
                             branch.BranchName = reader["branch_name"].ToString() + " - " + reader["branch_code"].ToString();
                             branch.BranchCode = reader["branch_code"].ToString();
                             branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
+                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
+                            branch.StateId = Convert.ToInt32(reader["state_id"].ToString());
+                            branch.BranchCity = reader["city"].ToString();
+                            branch.BranchZip = reader["zip"].ToString();
+
+                            string[] zipWithExtention = branch.BranchZip.Split('-');
+
+                            if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+
+                            branch.BranchEmail = reader["email"].ToString();
+                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
+                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
+                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
+                            branch.BranchFax = reader["fax"].ToString();
+                            branch.BranchCompany = Convert.ToInt32(reader["company_id"]);
                             branchesLists.Add(branch);
 
                         }

@@ -42,12 +42,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             ViewBag.Step = stepNo;
+            //Get company details if branch same as company
+            CompanyAccess ca = new CompanyAccess();
+            Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
             if (stepNo == 2)
             {
-                //Get company details if branch same as company
-                CompanyAccess ca = new CompanyAccess();
-                Company company = ca.GetCompanyDetailsByFirstSpUserId(userId);
-
                 string[] zipWithExtention = company.Zip.Split('-');
 
                 if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
@@ -61,19 +60,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             else if (stepNo == 5)
             {
-                //
-                CompanyAccess ca = new CompanyAccess();
-                Company company = ca.GetNonRegCompanyDetailsByUserId(userId);
+                Company nonRegCompany = ca.GetNonRegCompanyDetailsByRegCompanyId(company.CompanyId);
 
-                if (string.IsNullOrEmpty(company.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
+                if (string.IsNullOrEmpty(nonRegCompany.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
 
-                string[] zipWithExtention = company.Zip.Split('-');
+                string[] zipWithExtention = nonRegCompany.Zip.Split('-');
 
-                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                if (zipWithExtention[0] != null) nonRegCompany.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) nonRegCompany.Extension = zipWithExtention[1];
 
                 CompanyBranchModel comBranch = new CompanyBranchModel();
-                comBranch.Company = company;
+                comBranch.Company = nonRegCompany;
                 TempData["NonRegCompany"] = comBranch;
 
                 return View();
@@ -110,6 +107,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = Convert.ToInt32(Session["userId"]);
 
             CompanyAccess ca = new CompanyAccess();
+
+            // check he is a super admin or admin
+            UserManageAccess uma = new UserManageAccess();
+            int roleId = uma.getUserRole(userId);
+
+            if (roleId != 1)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
             // Get company types to list
             List<CompanyType> ctList = ca.GetAllCompanyType();
             ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");
@@ -215,6 +222,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //if(userId>0)
             {
                 int userId = (int)Session["userId"];
+
+                // check he is a super admin or admin
+                UserManageAccess uma = new UserManageAccess();
+                int roleId = uma.getUserRole(userId);
+
+                if (roleId != 1)
+                {
+                    return new HttpStatusCodeResult(404);
+                }
+
                 StepAccess cs = new StepAccess();
 
                 int reslt = cs.getStepNumberByUserId(userId);
@@ -406,7 +423,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
 
-            
+
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
             //return PartialView(userViewModel);
@@ -529,7 +546,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             string newSalt = PasswordEncryption.RandomString();
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
-            
+
             user.Email = user.NewEmail;
 
             CompanyAccess ca = new CompanyAccess();
@@ -706,8 +723,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6()
         {
             int userId;
-            try {
-               userId = int.Parse(Session["userId"].ToString());
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
             }
             catch (Exception)
             {
@@ -741,20 +759,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             ViewBag.userroleName = uma.getUserRoleName(userId);
- 
+
             BranchAccess ba = new BranchAccess();
 
-            
+
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
 
-            
-            
-            
-                // retrive registered branches
 
-                List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-                List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+
+
+            // retrive registered branches
+
+            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
 
             List<string> paymentMethods = new List<string>();
             paymentMethods.Add("Auto Deduct/Deposit");
@@ -763,7 +781,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (userrole == 2)
             {
-                
+
                 foreach (Branch branch in RegisteredBranchLists)
                 {
                     if (branch.BranchId == curUser.BranchId)
@@ -780,7 +798,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
 
                         newNonRegList.Add(branch);
-                        
+
                     }
                 }
                 //ViewBag.RegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName", curUser.BranchId);
@@ -795,13 +813,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "BranchId", "BranchName");
             }
 
-            
 
 
 
-            
 
-            
+
+
+
 
             // if user is a lender admin, lender branch name only
 
@@ -875,7 +893,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (string.IsNullOrEmpty(companyCode))
             {
-            GeneratesCode gc = new GeneratesCode();
+                GeneratesCode gc = new GeneratesCode();
                 nonRegComModel.Company.CompanyCode = gc.GenerateNonRegCompanyCode(nonRegComModel.Company.CompanyName);
             }
 
@@ -984,6 +1002,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
                     nonRegCompanyBranch.CompanyBranch = userNonRegCompany;
+
+
+                    //Get all non registered branches by company id
+
+                    List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
+                    nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
                     return PartialView(nonRegCompanyBranch);
 
                 }
@@ -1007,35 +1032,43 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [HttpPost]
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
-        public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch)
+        public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
             int userId = (int)Session["userId"];
             //int userId = 68;
             BranchAccess ba = new BranchAccess();
-
+            CompanyAccess ca = new CompanyAccess();
 
             int compType = ba.getCompanyTypeByUserId(userId);
 
 
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
-            nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(userNonRegCompany.Company.CompanyCode);
-            userNonRegCompany.MainBranch = nonRegBranch.MainBranch;
+
+            nonRegBranch.MainBranch.BranchCode = branchCode;
+
+            if (string.IsNullOrEmpty(branchCode))
+            {
+                Company company = ca.GetNonRegCompanyByCompanyId(nonRegCompanyBranch.NonRegCompanyId);
+                nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+            }
+
+            nonRegBranch.MainBranch = nonRegBranch.MainBranch;
 
             //Get created branch id
             UserManageAccess uma = new UserManageAccess();
             //userNonRegCompany.MainBranch.BranchCreatedBy = uma.getUserById(userId).BranchId;
-            userNonRegCompany.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
-            userNonRegCompany.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
+            nonRegBranch.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
+            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
 
             //Set admin branch to new user 
             if (_curUserRoleId == 2)
             {
-                userNonRegCompany.MainBranch.BranchCreatedBy = _curBranchId;
+                nonRegBranch.MainBranch.BranchCreatedBy = _curBranchId;
             }
 
-            bool reslt = ba.insertNonRegBranchDetails(userNonRegCompany, userId);
+            bool reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
             if (reslt)
             {
                 StepAccess sa = new StepAccess();
@@ -1060,7 +1093,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             //Get states to list
-            CompanyAccess ca = new CompanyAccess();
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
             return PartialView();
@@ -1176,16 +1208,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             User curUser = ua.retreiveUserByUserId(userId);
             List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
             List<NonRegBranch> newNonRegList = new List<NonRegBranch>();
-            
-            foreach(NonRegBranch nonRegBranch in NonRegisteredBranchLists)
+
+            foreach (NonRegBranch nonRegBranch in NonRegisteredBranchLists)
             {
-                if(nonRegBranch.BranchId == regBranchId)
+                if (nonRegBranch.BranchId == regBranchId)
                 {
                     newNonRegList.Add(nonRegBranch);
                 }
             }
             SelectList NonRegisteredBranches = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
-            
+
             return Json(NonRegisteredBranches);
         }
 
@@ -1199,7 +1231,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
-        public JsonResult IsLoanNumberExists(string loanNumber,int RegisteredBranchId)
+        public JsonResult IsLoanNumberExists(string loanNumber, int RegisteredBranchId)
         {
             //check user name is already exist.  
             return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);

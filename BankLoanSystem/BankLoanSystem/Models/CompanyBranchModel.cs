@@ -22,6 +22,8 @@ namespace BankLoanSystem.Models
         [Display(Name = "State")]
         public int StateId { get; set; }
 
+        public List<NonRegBranch> NonRegBranches { get; set; }
+
         [Required]
         [Display(Name = "Branch")]
         public int RegBranchId { get; set; }
