@@ -47,47 +47,53 @@
                     {*@
 
                 <div class="form-group">
-                    <table>
-                        <tr>
-                            <td class="control-label col-sm-2">
-                                @Html.Label("Company Name")
-                            </td>
-                            <td class="control-label col-sm-2">
-                                @Html.Label("Company Address1")
-                            </td>
-
-                        </tr>
-
-                        @for (var i = 0; i < Model.Companies.Count; i++)
-                        {
+                    @if (Model.Companies.Count > 0)
+                    {
+                        <table>
                             <tr>
                                 <td class="control-label col-sm-2">
-                                    @Html.DisplayFor(x => x.Companies[i].CompanyName)
+                                    @Html.Label("Company Name")
                                 </td>
                                 <td class="control-label col-sm-2">
-                                    @Html.DisplayFor(x => x.Companies[i].CompanyAddress1)
+                                    @Html.Label("Company Address1")
                                 </td>
 
-                                <td class="control-label col-sm-2">
-                                    <a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a>
-                                </td>
-                                <td class="control-label col-sm-2">
-                                    <a>Delete</a>
-                                </td>
                             </tr>
-                        }
-                    </table>
+
+                            @for (var i = 0; i < Model.Companies.Count; i++)
+                            {
+                                <tr>
+                                    <td class="control-label col-sm-2">
+                                        @Html.DisplayFor(x => x.Companies[i].CompanyName)
+                                    </td>
+                                    <td class="control-label col-sm-2">
+                                        @Html.DisplayFor(x => x.Companies[i].CompanyAddress1)
+                                    </td>
+
+                                    <td class="control-label col-sm-2">
+                                        <a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a>
+                                    </td>
+                                    <td class="control-label col-sm-2">
+                                        <a>Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
                 </div>
 
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        <a onclick="CreateNewCompany()">create new branch</a>
+                @if (Model.Companies.Count > 0)
+                {
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            <a onclick="CreateNewCompany()">create new branch</a>
+                        </div>
                     </div>
-                </div>
+                }
 
                 <input id="companyCode" name="companyCode" type="hidden" value="" />
                 <div class="form-group">
