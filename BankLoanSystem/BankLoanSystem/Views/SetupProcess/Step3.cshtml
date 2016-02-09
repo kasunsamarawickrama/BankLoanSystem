@@ -45,8 +45,8 @@
                     </div>
                 </div>
                 <script>
-                    $(function () {
-                        $('#createNewUser').click(function () {
+                    $(function() {
+                        $('#createNewUser').click(function() {
 
                             $('#loadingDiv').show();
                             $.ajax({
@@ -54,23 +54,23 @@
                                 type: 'GET',
 
 
-                                success: function (partialView) {
+                                success: function(partialView) {
                                     $('#loadingDiv').hide();
                                     $('#changeContainer').html(partialView);
                                     $('#changeContainer').show();
                                 },
 
-                                error: function (request, status, error) {
+                                error: function(request, status, error) {
                                     handleErrorMsg(request.responseText);
-                                
-                            }
+
+                                }
+                            });
+
+
                         });
 
-
-                    });
-
-                     $(function () {
-                         $('#step4').click(function () {
+                        $(function() {
+                            $('#step4').click(function() {
 
                                 $('#loadingDiv').show();
                                 $.ajax({
@@ -78,20 +78,20 @@
                                     type: 'GET',
 
 
-                                    success: function (partialView) {
+                                    success: function(partialView) {
                                         $('#loadingDiv').hide();
                                         $('#changeContainer').html(partialView);
                                         $('#changeContainer').show();
                                         Progress(4);
                                     },
-                                    error: function (request, status, error) {
+                                    error: function(request, status, error) {
                                         handleErrorMsg(request.responseText);
-                                
+
                                     }
                                 });
                             });
-                     });
-
+                        });
+                    });
 
                 </script>
 
@@ -316,3 +316,36 @@
 
 
 
+@*<script type="text/javascript">
+        function editUser(index) {
+
+            var model = @Html.Raw(Json.Encode(Model));
+            console.log(model);
+            console.log(index);
+
+            document.getElementById("EditableUserName").value = model.Users[index].UserName;
+            //document.getElementById("password").value = model.Users[index].Password;
+            //document.getElementById("confirmPassword").value = model.Users[index].ConfirmPassword;
+            document.getElementById("firstName").value = model.Users[index].FirstName;
+            document.getElementById("lastName").value = model.Users[index].LastName;
+            document.getElementById("EditableEmail").value = model.Users[index].NewEmail;
+            document.getElementById("phone").value = model.Users[index].PhoneNumber;
+            document.getElementById("BranchId").value = model.Users[index].BranchId;
+            document.getElementById("RoleId").value = model.Users[index].RoleId;
+            document.getElementById("editUserId").value = model.Users[index].UserId;
+        };
+
+        function CreateNewUser(){
+            document.getElementById("EditableUserName").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("confirmPassword").value = "";
+            document.getElementById("firstName").value = "";
+            document.getElementById("lastName").value = "";
+            document.getElementById("EditableEmail").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("BranchId").value = "";
+            document.getElementById("RoleId").value = "";
+            document.getElementById("editUserId").value = "";
+        }
+
+    </script>*@

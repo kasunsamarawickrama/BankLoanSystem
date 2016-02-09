@@ -82,8 +82,9 @@
                         </div>
 
                     </div>
-                    @*@Html.HiddenFor(model => model.MainBranch.BranchCode, new { htmlAttributes = new { @class = "form-control", @id = "branchCode" } })*@
-                    @Html.EditorFor(model => model.MainBranch.BranchCode, new { htmlAttributes = new { @class = "form-control", @id = "branchCode" } })
+
+                    @*this for keep branch code*@
+                    <input id="branchCode" name="branchCode" type="hidden" value="" />
                     <div class="form-group">
                         <div class="control-label col-sm-2">
                             @Html.LabelFor(model => model.MainBranch.BranchName)<span style="color: red">*</span>
@@ -320,7 +321,7 @@
         document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
         document.getElementById("StateId").value = model.SubBranches[index].StateId;
         document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
-        document.getElementById("branchZipPre").value = model.SubBranches[index].BranchZip;
+        document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
         document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
         document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
         document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;

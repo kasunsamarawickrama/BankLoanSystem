@@ -29,5 +29,7 @@ namespace BankLoanLocal.Models
         public string roleName { get; set; }
         [Display(Name = "Branch")]
         public string branchName { get; set; }
+
+        public int BranchId { get; set; }
     }
 }

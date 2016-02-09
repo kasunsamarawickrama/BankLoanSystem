@@ -58,7 +58,9 @@
                                             <input type="submit" value="Next" class="btn btn-primary m-b" style="float:right" />
                                         </li>
 
-                                        
+                                        <li>
+                                            <input type="button" value="Back" name="subBack" id="btnPreStep6" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
+                                        </li>
 
                                         
                                     </ul>
@@ -79,7 +81,30 @@
 
     </div>
 
+<script type="text/javascript">
+    $(function () {
+        $('#btnPreStep6').click(function () {
 
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step5", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1},
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
+    });
+</script>
 
 
 <script>

@@ -13,5 +13,21 @@ namespace BankLoanSystem.Models
         public int StateId { get; set; }
 
     }
- 
+
+    public class NonRegCompanyBranchModel
+    {
+        public CompanyBranchModel CompanyBranch { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public int StateId { get; set; }
+
+        [Required]
+        [Display(Name = "Branch")]
+        public int RegBranchId { get; set; }
+
+        [Required]
+        [Display(Name = "Company")]
+        public int NonRegCompanyId { get; set; }
+    }
 }

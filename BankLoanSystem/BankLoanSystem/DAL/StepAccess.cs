@@ -70,12 +70,13 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value ==1) {
-                        return true ;
-                    }
-                    else {
-                        return false;
-                    }
+                    //if ((int)returnParameter.Value >=1) {
+                    //    return true ;
+                    //}
+                    //else {
+                    //    return false;
+                    //}
+                    return true;
 
                 }
                 catch (Exception ex)
@@ -111,64 +112,6 @@ namespace BankLoanSystem.DAL
                     command.ExecuteNonQuery();
                     return (int)returnParameter.Value;
                   
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-            }
-        }
-        
-        /// <summary>
-        /// CreatedBy : kasun Samarawickrama
-        /// CreatedDate: 2016/02/03
-        /// 
-        /// get Branchs by company code 
-        /// </summary>
-        /// <returns>branches list</returns>
-        /// 
-        public IList<Branch> getBranchesByCompanyCode(string companyCode)
-        {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetBranchesByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<Branch> branchesLists = new List<Branch>();
-
-
-                        while (reader.Read())
-                        {
-                            Branch branch = new Branch();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
-                            branch.StateId = int.Parse(reader["state_id"].ToString());
-                            branch.BranchCity = reader["city"].ToString();
-                            branch.BranchZip = reader["zip"].ToString();
-                            branch.BranchEmail = reader["email"].ToString();
-                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
-                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
-                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
-                            branch.BranchFax = reader["fax"].ToString();
-                            branchesLists.Add(branch);
-
-                        }
-                        return branchesLists;
-
-                    }
-
                 }
                 catch (Exception ex)
                 {
