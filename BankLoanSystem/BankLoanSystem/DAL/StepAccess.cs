@@ -120,5 +120,113 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/02/03
+        /// 
+        /// get Branchs by company code 
+        /// </summary>
+        /// <returns>branches list</returns>
+        /// 
+        public IList<Branch> getBranchesByCompanyCode(string companyCode)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetBranchesByCompanyCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        List<Branch> branchesLists = new List<Branch>();
+
+
+                        while (reader.Read())
+                        {
+                            Branch branch = new Branch();
+                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branch.BranchName = reader["branch_name"].ToString();
+                            branch.BranchCode = reader["branch_code"].ToString();
+                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
+                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
+                            branch.StateId = int.Parse(reader["state_id"].ToString());
+                            branch.BranchCity = reader["city"].ToString();
+                            branch.BranchZip = reader["zip"].ToString();
+                            branch.BranchEmail = reader["email"].ToString();
+                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
+                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
+                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
+                            branch.BranchFax = reader["fax"].ToString();
+                            branchesLists.Add(branch);
+
+                        }
+                        return branchesLists;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
+
+        public void InsertFeesDetails(Fees fees)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spInsertFeesDetails", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add("@advance_fee_amount", SqlDbType.Float).Value = fees.AdvanceAmount;
+                        command.Parameters.Add("@advance_payment_due_method", SqlDbType.NVarChar).Value = fees.AdvanceDue;
+                        command.Parameters.Add("@advance_payment_due_date", SqlDbType.NVarChar).Value = fees.AdvanceDueDate;
+                        command.Parameters.Add("@advance_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmail;
+                        command.Parameters.Add("@advance_delaer_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmailRemindPeriod;
+                        command.Parameters.Add("@advance_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmail;
+                        command.Parameters.Add("@advance_lender_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmailRemindPeriod;
+
+                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.Float).Value = fees.MonthlyLoanAmount;
+                        command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees.MonthlyLoanDue;
+                        command.Parameters.Add("@monthly_loan_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
+                        command.Parameters.Add("@monthly_loan_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmail;
+                        command.Parameters.Add("@monthly_loan_delaer_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmailRemindPeriod;
+                        command.Parameters.Add("@monthly_loan_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmail;
+                        command.Parameters.Add("@monthly_loan_lender_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmailRemindPeriod;
+
+                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.Float).Value = fees.LotInspectionAmount;
+                        command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees.LotInspectionDue;
+                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
+                        command.Parameters.Add("@lot_inspection_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmail;
+                        command.Parameters.Add("@lot_inspection_delaer_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmailRemindPeriod;
+                        command.Parameters.Add("@lot_inspection_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmail;
+                        command.Parameters.Add("@lot_inspection_lender_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmailRemindPeriod;
+
+                        command.Parameters.Add("@loan_id", SqlDbType.Int).Value = fees.LoanId;
+                        con.Open();
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+           
+        }
+
     }
 }

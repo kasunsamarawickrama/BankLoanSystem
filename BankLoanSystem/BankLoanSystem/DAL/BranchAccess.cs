@@ -835,5 +835,63 @@ namespace BankLoanSystem.DAL
         }
 
 
+        /// <summary>
+        /// CreatedBy: MAM. IRFAN
+        /// CreatedDate: 2016/02/05
+        /// 
+        /// Getting all non reistered company branches by Registered company id
+        /// 
+        /// </summary>
+        /// <returns> a list contain all branches</returns>
+        /// 
+        public List<NonRegBranch> getNonRegBranches(int companyId)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchesByCompanyId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@companyId", SqlDbType.Int).Value = companyId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        List<NonRegBranch> branchesLists = new List<NonRegBranch>();
+
+
+                        while (reader.Read())
+                        {
+                            NonRegBranch branch = new NonRegBranch();
+                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
+                            
+                            branch.BranchName = reader["branch_name"].ToString() + " - " + reader["branch_code"].ToString();
+                            branch.BranchCode = reader["branch_code"].ToString();
+                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branchesLists.Add(branch);
+
+                        }
+                        return branchesLists;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+        }
+
     }
 }

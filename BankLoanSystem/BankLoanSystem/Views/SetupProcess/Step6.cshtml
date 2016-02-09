@@ -1,114 +1,318 @@
-﻿
-@{
-    ViewBag.Title = "Step6";
-    
-}
-
+﻿@model BankLoanSystem.Models.LoanSetupStep1
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-
-@*<script>
-    progress(6);
-
-
-</script>*@
-
-
-    <div class="row">
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
 
 
 
-        <div class="container body-content">
+@if (ViewBag.userroleName != "Admin")
+{
+    <script>
+        $("#loanNumber").attr("disabled", "disabled");
 
-            <h2>Loan Setup</h2>
+        function GetNonRegisteredBranches(_regBranchId) {
+            if (_regBranchId == 0) {
+                $("#loanNumber").attr("disabled", "disabled");
+                return;
+            }
+            $('#loadingSpan').show();
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $("#ddlcity").html(procemessage).show();
+            var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
 
+            $.ajax({
+                url: url,
+                data: { regBranchId: _regBranchId },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Select Branch</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#NonRegisteredBranchId").html(markup).show();
+                    $('#loadingSpan').hide();
+                    $("#loanNumber").removeAttr("disabled");
+                },
+                error: function (reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+
+        }
+    </script>
+}
+
+
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/scripts/moment.js"></script>
+
+<script>
+
+           var startDate,
+               endDate,
+               updateStartDate = function() {
+               startPicker.setStartRange(startDate);
+               endPicker.setStartRange(startDate);
+               endPicker.setMinDate(startDate);
+           },
+        updateEndDate = function() {
+               startPicker.setEndRange(endDate);
+               startPicker.setMaxDate(endDate);
+               endPicker.setEndRange(endDate);
+           },
+        startPicker = new Pikaday({
+            field: document.getElementById('startDate'),
+            format: 'l',
+
+            onSelect: function() {
+                startDate = this.getDate();
+           updateStartDate();
+       }
+   }),
+        endPicker = new Pikaday({
+   field: document.getElementById('maturityDate'),
+            format: 'l',
             
+            onSelect: function() {
+           endDate = this.getDate();
+           updateEndDate();
+       }
+   }),
+        _startDate = startPicker.getDate(),
+        _endDate = endPicker.getDate();
 
-            
+        if (_startDate) {
+            startDate = _startDate;
+            updateStartDate();
+        }
 
-                @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
-                {
+        if (_endDate) {
+            endDate = _endDate;
+            updateEndDate();
+        }
 
-                    OnFailure = "handleErrorMsg",
-                    HttpMethod = "POST",
-                    
-                    LoadingElementId = "loadingDiv"
-                }, new { id = "form" }))
-                {
-                    @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                       
-                        
-                        
-                       
-                           
-                        
+        //function changeToTwoDecimal(number) {
+        //    var val = $.trim(number);
+        //    if (val.indexOf(',') > -1) {
+        //        val = val.replace(',', '.');
+        //    }
+        //    var num = parseFloat(val);
+        //    var num = num.toFixed(2);
+        //    if (isNaN(num)) {
+        //        num = '';
+        //    }
+        //    $(this).val(num);
+        //}
 
-                       
 
-                        <div class="form-group">
-                            <div>
 
-                                <nav>
-                                    <ul class="pager">
-                                        <li>
-                                            <input type="submit" value="Next" class="btn btn-primary m-b" style="float:right" />
-                                        </li>
+        $(function () {
 
-                                        <li>
-                                            <input type="button" value="Back" name="subBack" id="btnPreStep6" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
-                                        </li>
+            $('#loanAmount').blur(function () {
+                
+                var val = $.trim($(this).val());
 
-                                        
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
                 }
 
-                <div>
+                
+                $(this).val(num);
+            });
 
-                </div>
+        });
 
-            
+       
+</script>
+
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>LoanSetupStep1</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                
+                @*@Html.LabelFor(model => model.RegisteredBranchId)*@
+                <label for="RegisteredBranchId">@ViewBag.ThisCompanyType Branch</label>
+                <span style="color:red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+
+                @if (ViewBag.userroleName == "Admin")
+                {
+                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" ,@style = "disabled:disabled" })
+                }
+                else {
+                @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                
+                @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
+
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @*@Html.LabelFor(model => model.nonRegisteredBranchId, htmlAttributes: new { })*@
+                
+                @if(ViewBag.ThisCompanyType =="Lender"){
+                <label for="RegisteredBranchId">Dealer Branch</label>
+                }else{
+                <label for="RegisteredBranchId">Lender Branch</label>
+                }
+                <span style="color:red">*</span>
+            </div>
+
+            <span id="loadingSpan" style="display:none">
+
+                <img src="~/Images/small_loading.gif" />
+            </span>
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
+                @Html.ValidationMessageFor(model => model.nonRegisteredBranchId, "", new { @class = "text-danger" })
+            </div>
         </div>
 
 
+        <div class="form-group">
+
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { })<span style="color:red"> *</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber"  } })
+                    @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        <div class="form-group">
+
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.startDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+           
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate" } })
+                @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="control-label col-sm-2">
+               @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+            
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control" , @id = "maturityDate" } })
+                @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+            
+            
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control",@id= "loanAmount" } })
+                @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
+            </div>
+            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+           
+            <div class="col-xs-4" style="float:left;margin-left: 28px;">
+                @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
+            </div>
+            <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new {  })<span style="color:red"> *</span>
+            </div>
+            
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "Select a Payment Method",  htmlAttributes : new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
     </div>
-
-<script type="text/javascript">
-    $(function () {
-        $('#btnPreStep6').click(function () {
-
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step5", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1},
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-
-                },
-                error: function (request, status, error) {
-                    handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
-</script>
+}
 
 
-<script>
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
-    });
-</script>
+
+
+
+
+<style type="text/css">
+    .webGrid {
+        margin: 4px;
+        border-collapse: collapse;
+        width: 500px;
+        font-family: Tahoma;
+        font-size: small;
+    }
+
+    .grid-header {
+        background-color: #990000;
+        font-weight: bold;
+        color: White !important;
+    }
+
+    .webGrid th a {
+        color: White;
+        text-decoration: none;
+    }
+
+    .webGrid th, .webGrid td {
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    .alt {
+        background-color: #F4EFEF;
+    }
+
+    .webGrid th a:hover {
+        text-decoration: underline;
+    }
+
+    .to-the-right {
+        text-align: right;
+    }
+</style>
