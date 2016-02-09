@@ -92,5 +92,22 @@ namespace BankLoanSystem.Models
         public int Company_Id { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public class UserListViewModel
+    {
+        public User User { get; set; }
 
+        [Required]
+        [Display(Name = "User name")]
+        public string EditableUserName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string EditableEmail { get; set; }[Required]
+        public int BranchId { get; set; }
+        public int RoleId { get; set; }
+        public List<User> Users { get; set; }
+    }
 }

@@ -236,6 +236,7 @@ namespace BankLoanSystem.DAL
                             
                             dtl.roleName = reader["role_name"].ToString();
                             dtl.branchName = reader["branch_name"].ToString();
+                            dtl.BranchId = Convert.ToInt32(reader["branch_id"]);
 
                         }
 

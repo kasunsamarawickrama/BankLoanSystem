@@ -70,12 +70,13 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value ==1) {
-                        return true ;
-                    }
-                    else {
-                        return false;
-                    }
+                    //if ((int)returnParameter.Value >=1) {
+                    //    return true ;
+                    //}
+                    //else {
+                    //    return false;
+                    //}
+                    return true;
 
                 }
                 catch (Exception ex)

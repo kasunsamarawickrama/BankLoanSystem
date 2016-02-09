@@ -306,21 +306,31 @@ namespace BankLoanSystem.DAL
                     new SqlConnection(
                         ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
-                var command = new SqlCommand("spInsertUser", con) {CommandType = CommandType.StoredProcedure};
-                command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
-                command.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
-                command.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
-                command.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = user.LastName;
-                command.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
-                command.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
-                command.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
-                command.Parameters.Add("@is_delete", SqlDbType.Bit).Value = user.IsDelete;
-                command.Parameters.Add("@created_by", SqlDbType.Int).Value = user.CreatedBy;
-                command.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
-                command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
-                command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
-                con.Open();
-                return command.ExecuteNonQuery();
+                try
+                {
+                    var command = new SqlCommand("spInsertUser", con) {CommandType = CommandType.StoredProcedure};
+                    command.Parameters.Add("@user_Id", SqlDbType.NVarChar).Value = user.UserId;
+                    command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
+                    command.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
+                    command.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
+                    command.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = user.LastName;
+                    command.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
+                    command.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
+                    command.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
+                    command.Parameters.Add("@is_delete", SqlDbType.Bit).Value = user.IsDelete;
+                    command.Parameters.Add("@created_by", SqlDbType.Int).Value = user.CreatedBy;
+                    command.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
+                    command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
+                    command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
+                    command.Parameters.Add("@Company_id", SqlDbType.Int).Value = user.Company_Id;
+                    con.Open();
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
             }
         }
 
@@ -520,5 +530,61 @@ namespace BankLoanSystem.DAL
             }
 
         }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/02/08
+        /// 
+        /// Get Users by user role
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <param name="curUserRoleId"></param>
+        /// <returns></returns>
+        public List<User> GetUserList(int companyId, int curUserRoleId)
+        {
+            List<User> users = new List<User>(); 
+
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+
+                try
+                {
+                    var command = new SqlCommand("spGetUsersbyCompany", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@company_id", companyId);
+
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            User user = new User();
+                            user.UserId = Convert.ToInt32(reader["user_id"]);
+                            user.UserName = reader["user_name"].ToString();
+                            user.Password = reader["password"].ToString();
+                            user.FirstName = reader["first_name"].ToString();
+                            user.LastName = reader["last_name"].ToString();
+                            user.NewEmail = reader["email"].ToString();
+                            user.PhoneNumber = reader["phone_no"].ToString();
+                            user.BranchId = Convert.ToInt32(reader["branch_id"]);
+                            user.RoleId = Convert.ToInt32(reader["role_id"]);
+
+                            users.Add(user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+
+            return users;
+        } 
+
+
     }
 }
