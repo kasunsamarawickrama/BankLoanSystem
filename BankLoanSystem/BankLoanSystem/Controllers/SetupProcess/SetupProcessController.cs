@@ -1115,7 +1115,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
-            //Session["userId"] = 2;
+            Session["userId"] = 2;
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");
@@ -1216,15 +1216,75 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step8()
         {
-            return View();
+            LoanSetupAccess loan = new LoanSetupAccess();
+            //Session["userId"] = 2;
+            var userId = (int)Session["userId"];
+            Fees fee = new Fees();
+            fee.LoanId = loan.getLoanIdByUserId(userId);
+            //fee.LoanId = 1;
+            if (fee.LoanId >0) {
+                var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
+                fee.MonthlyLoanLenderEmail = email;
+                fee.MonthlyLoanDealerEmail = email;
+                fee.LotInspectionLenderEmail = email;
+                fee.MonthlyLoanDealerEmail = email;
+                fee.AdvanceLenderEmail = email;
+                fee.AdvanceDealerEmail = email;
+
+                return View(fee);
+            }
+            else {
+                return RedirectToAction("Step7");
+            }
         }
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
             StepAccess step = new StepAccess();
-            fees.LoanId = 1;
-            step.InsertFeesDetails(fees);
-            return View();
+
+            
+            if (fees.AdvanceDue == "Vehicle Payoff")
+            {
+                fees.AdvanceDueDate = "28";
+            }
+            if (fees.MonthlyLoanDue == "Vehicle Payoff")
+            {
+                fees.MonthlyLoanDueDate = "28";
+            }
+            if (fees.AdvanceDue == "Time of Advance")
+            {
+                fees.AdvanceDueDate = "28";
+            }
+            if (fees.MonthlyLoanDue == "Time of Advance")
+            {
+                fees.MonthlyLoanDueDate = "28";
+            }
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceDueDate == null)
+            {
+                fees.AdvanceDueDate = "28";
+            }
+            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanDueDate == null)
+            {
+                fees.MonthlyLoanDueDate = "28";
+            }
+            if (step.InsertFeesDetails(fees))
+            {
+                Session["userId"] = 2;
+                var userId = (int)Session["userId"];
+                if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
+                {
+                    return RedirectToAction("Step9");
+                }
+                else
+                {
+                    return RedirectToAction("Step8");
+                }
+                
+            }
+            else
+            {
+                return RedirectToAction("Step8");
+            }
         }
 
 
