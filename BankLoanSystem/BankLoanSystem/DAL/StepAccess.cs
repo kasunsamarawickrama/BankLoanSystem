@@ -89,6 +89,50 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/01/26
+        /// 
+        /// Update Step Number By UserId parameter 3 
+        /// 
+        /// this function will call after 6th process
+        /// </summary>
+        /// <returns>update true/false</returns>
+        /// 
+        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    var command = new SqlCommand("spUpdateStepNumberByUserId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@step_id", stepNumber);
+                    command.Parameters.AddWithValue("@loan_id", loanNumber);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    if ((int)returnParameter.Value == 1)
+                    {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/01/27
         /// 
         /// check the User Login While Company Setup is ongoing by super Admin
@@ -179,7 +223,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        public void InsertFeesDetails(Fees fees)
+        public bool InsertFeesDetails(Fees fees)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -214,8 +258,19 @@ namespace BankLoanSystem.DAL
                         command.Parameters.Add("@lot_inspection_lender_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmailRemindPeriod;
 
                         command.Parameters.Add("@loan_id", SqlDbType.Int).Value = fees.LoanId;
+
+                        SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+
                         con.Open();
                         command.ExecuteNonQuery();
+                        if ((int)returnParameter.Value == 1)
+                        {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
                     }
 
                 }
