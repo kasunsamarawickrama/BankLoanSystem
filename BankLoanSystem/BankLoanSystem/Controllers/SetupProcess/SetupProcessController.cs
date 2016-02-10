@@ -1284,7 +1284,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             listdates.Add(new SelectListItem
             {
                 Text = "End of the month",
-                Value = "end"
+                Value = "End of the month"
             });
 
 
@@ -1375,10 +1375,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // if()
             int reslt = ia.insertInterestDetails(interest);
 
-            if (reslt >= 1)
+            if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, loanId, 8))
+                if (sa.updateStepNumberByUserId(userId, 8, loanId))
                 {
                     return RedirectToAction("Step8");
                 }
@@ -1387,10 +1387,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
             }
-            else if (reslt == 0)
-            {
-                return RedirectToAction("Step8");
-            }
+            
             else
             {
                 return new HttpStatusCodeResult(404, "error message");
@@ -1628,7 +1625,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // if()
             int reslt = ta.insertTitleDetails(title);
 
-            if (reslt >= 1)
+            if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 10, loanId))
@@ -1640,10 +1637,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
             }
-            else if (reslt == 0)
-            {
-                return RedirectToAction("Step10");
-            }
+            
             else
             {
                 return new HttpStatusCodeResult(404, "error message");

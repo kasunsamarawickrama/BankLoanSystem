@@ -14,7 +14,7 @@
 <div class="row">
     <div class="container body-content">
 
-        <h2>LoanSetup Step2 - Interest</h2>
+        <h2>Step 2 - Interest</h2>
         @using (Ajax.BeginForm("Step7", "Interest", new AjaxOptions()
             {
                 OnSuccess = "Progress(6)",
@@ -33,7 +33,7 @@
 
 
                 <div class="form-group">
-                    <div class="control-label col-sm-2">
+                    <div class="control-label col-sm-2" style="margin-top:10px">
                         @Html.LabelFor(model => model.InterestRate, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
@@ -53,10 +53,17 @@
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "once a month", new { id = "onceMonth" }) Once a month
                     </div>
-                    <div class="col-xs-8">
-                        @Html.DropDownList("PaidDate", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "paidDate" })
+                    <div id="paidDateDiv" class="col-xs-8">
+                        <div class="col-xs-8">
+                            @Html.DropDownList("PaidDate", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "paidDate" })
 
+                        </div>
+                        <div class="col-xs-4" style="margin-top:15px">
+                            @Html.Label("Select Date", htmlAttributes: new { @style = "font-weight:normal" })
+                        </div>
+                        
                     </div>
+                    
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
                     </div>
@@ -80,7 +87,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="control-label col-sm-2">
+                    <div class="control-label col-sm-2" style="margin-top:10px">
                         @Html.LabelFor(model => model.AccrualMethodId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-8">
@@ -131,7 +138,7 @@
 
 
                         <div class="form-group">
-                            <div class="control-label col-sm-2">
+                            <div class="control-label col-sm-2" style="margin-left:15px">
                                 @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })
 
                             </div>
@@ -266,11 +273,11 @@
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
             $('#onceMonth').click(function () {
-                $('#paidDate').show();
+                $('#paidDateDiv').show();
             });
 
             $('#payOff').click(function () {
-                $('#paidDate').hide();
+                $('#paidDateDiv').hide();
             });
             
             if($('#NeedReminder').prop('checked')==true){
@@ -303,7 +310,7 @@
         $.fn.loadFunc = function(){
             //alert('You have successfully ');
             $('#autoRemind').hide();
-            $('#paidDate').hide();
+            $('#paidDateDiv').hide();
             $('#NeedReminder').change(function () {
 
                 if (this.checked) {
@@ -323,11 +330,11 @@
             });
 
             $('#onceMonth').click(function () {
-                $('#paidDate').show();
+                $('#paidDateDiv').show();
             });
 
             $('#payOff').click(function () {
-                $('#paidDate').hide();
+                $('#paidDateDiv').hide();
             });
         }
         if(@ViewBag.Edit ==1){

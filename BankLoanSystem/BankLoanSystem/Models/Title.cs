@@ -9,7 +9,7 @@ namespace BankLoanSystem.Models
     public class Title
     {
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email Address")]
         public string RemindEmail { get; set; }
 
         [Display(Name = "Physically required")]

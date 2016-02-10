@@ -13,7 +13,7 @@
 <div class="row">
     <div class="container body-content">
 
-        <h2>LoanSetup Step4 - Title</h2>
+        <h2>Step 4 - Title</h2>
         @using (Ajax.BeginForm("Step9", "Interest", new AjaxOptions()
             {
                 OnSuccess = "Progress(6)",
@@ -46,7 +46,7 @@
                 </div>
                 <div id="needTrack">
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-2" style="margin-top:10px">
                             @Html.Label("Title Accepted Method", htmlAttributes: new { })
 
                         </div>
@@ -54,7 +54,7 @@
                             @Html.DropDownList("TitleAcceptMethod", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
 
                         </div>
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-2" style="margin-top:15px">
                             @Html.Label("Time limit to track", htmlAttributes: new { })
 
                         </div>
@@ -63,7 +63,7 @@
                             @Html.DropDownList("ReceivedTimeLimit", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
 
                         </div>
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-2" style="margin-top:20px">
                             @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { })
 
                         </div>
@@ -100,29 +100,36 @@
                 <div id="needReceipt">
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.Label("How do you need receipt or invoice?", htmlAttributes: new { })
+                            @Html.Label("How do you need receipt or invoice?", htmlAttributes: new {})
 
                         </div>
-                        <div class="col-xs-8">
-                            @Html.LabelFor(model => model.NeedPyhsical, htmlAttributes: new { })
-
                         </div>
-                        <div class="col-xs-4">
+                        <div class="form-group">
+                            <div class="control-label col-sm-2">
+                                
+                                @Html.CheckBoxFor(model => model.NeedPyhsical, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+                                @Html.ValidationMessageFor(model => model.NeedPyhsical, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="control-label col-sm-2">
+                                @Html.LabelFor(model => model.NeedPyhsical, htmlAttributes: new { @style = "font-weight:normal" })
 
-                            @Html.CheckBoxFor(model => model.NeedPyhsical, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
-                            @Html.ValidationMessageFor(model => model.NeedPyhsical, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                        <div class="col-xs-8">
-                            @Html.LabelFor(model => model.NeedScanCopy, htmlAttributes: new { })
+                        <div class="form-group">
+                            <div class="control-label col-sm-2">
 
+                                @Html.CheckBoxFor(model => model.NeedScanCopy, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+                                @Html.ValidationMessageFor(model => model.NeedScanCopy, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="control-label col-sm-2">
+                                @Html.LabelFor(model => model.NeedScanCopy, htmlAttributes: new { @style = "font-weight:normal" })
+
+                            </div>
                         </div>
-                        <div class="col-xs-4">
+                        
+                        
 
-                            @Html.CheckBoxFor(model => model.NeedScanCopy, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
-                            @Html.ValidationMessageFor(model => model.NeedScanCopy, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
+                    
                 </div>
 
 
@@ -143,7 +150,7 @@
                                     <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                 </li>
                                 <li>
-                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
                                 </li>
 
                             </ul>
@@ -157,8 +164,18 @@
     </div>
 </div>
 
+<script>
+    $('#clear').click(function () {
+        
+        document.getElementsByTagName("form")[0].reset();
+        
+    });
+</script>
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
+
+       
+
         $.fn.loadFunc = function () {
            
             $('#needTrack').hide();
@@ -189,6 +206,12 @@
                     $('#needReceipt').hide();
                 }
 
+            });
+
+            $('#clear').click(function () {
+        
+                document.getElementsByTagName("form")[0].reset();
+        
             });
         }
 
@@ -241,6 +264,12 @@
 
             });
 
+            $('#clear').click(function () {
+        
+                document.getElementsByTagName("form")[0].reset();
+        
+            });
+
         }
 
         if(@ViewBag.Edit ==1){
@@ -255,9 +284,7 @@
 
     });
 
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
-    });
+   
 
     //Back Button
     $(function () {
