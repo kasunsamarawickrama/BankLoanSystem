@@ -1168,7 +1168,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
-            Session["userId"] = 2;
+           
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");
