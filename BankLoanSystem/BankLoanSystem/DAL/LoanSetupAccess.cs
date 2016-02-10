@@ -11,7 +11,12 @@ namespace BankLoanSystem.DAL
 {
     public class LoanSetupAccess
     {
-
+        /// <summary>
+        /// CreatedBy:Irfan MAM
+        /// CreatedDate:2016/2/9
+        /// check the loan number is unique for a branch
+        /// </summary>
+        /// <returns>true or false</returns>
         public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId)
         {
 
@@ -35,6 +40,13 @@ namespace BankLoanSystem.DAL
             return true;
 
         }
+
+        /// <summary>
+        /// CreatedBy:Irfan MAM
+        /// CreatedDate:2016/2/9
+        /// getting all unit types
+        /// </summary>
+        /// <returns>IList<UnitType></returns>
 
         internal IList<UnitType> getAllUnitTypes()
         {
