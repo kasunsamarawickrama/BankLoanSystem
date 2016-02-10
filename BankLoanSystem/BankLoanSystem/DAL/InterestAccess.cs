@@ -147,15 +147,16 @@ namespace BankLoanSystem.DAL
                         {
                             obj1 = new Interest();
                             obj1.InterestRate = Double.Parse(reader["interest_rate"].ToString());
-                            if ((reader["paid_date"].ToString().Length <= 1) || (reader["paid_date"].ToString().Contains("end")))
-                            {
-                                obj1.option = "once a month";
-                                obj1.PaidDate = reader["paid_date"].ToString();
-                            }
-                            else
+                            if ((reader["paid_date"].ToString().Contains("payoff")))
                             {
                                 obj1.option = "payoff";
                                 obj1.PaidDate = "payoff";
+                            }
+                            else
+                            {
+                               
+                                obj1.option = "once a month";
+                                obj1.PaidDate = reader["paid_date"].ToString();
                             }
 
                             obj1.PaymentPeriod = reader["payment_period"].ToString();
