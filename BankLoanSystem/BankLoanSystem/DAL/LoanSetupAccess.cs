@@ -140,6 +140,102 @@ namespace BankLoanSystem.DAL
         }
         
         /// <summary>
+        /// Created By: kasun Smarawickrama
+        /// Date : 10/2/2012
+        /// 
+        /// check the loan inserted values to advance,lot,monthly loan fee tables.
+        /// </summary>
+        /// <param name="loanId">loan id</param>
+        /// <returns>fees Details</returns>
+        /// 
+        public Fees checkLoanIsInFeesTables(int loanId)
+        {
+            Fees fees = new Fees();
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInAdvanceFeeTable", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read()) {                          
+                            fees.AdvanceAmount = float.Parse(reader["advance_fee_amount"].ToString());
+                            fees.AdvanceNeedReceipt = bool.Parse(reader["receipt"].ToString());
+                            fees.AdvanceDue = reader["payment_due_method"].ToString();
+                            fees.AdvanceDueDate = reader["payment_due_date"].ToString();
+                            fees.AdvanceDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.AdvanceDealerEmailRemindPeriod = reader["delaer_remind_period"].ToString();
+                            fees.AdvanceLenderEmail = reader["auto_remind_lender_email"].ToString();
+                            fees.AdvanceLenderEmailRemindPeriod = reader["lender_remind_period"].ToString();
+                            
+                        }
+                        reader.Close();
+                    }
+                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInMonthlyLoanFeeTable", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            fees.MonthlyLoanAmount = float.Parse(reader["monthly_loan_fee_amount"].ToString());
+                            fees.MonthlyLoanNeedReceipt = bool.Parse(reader["receipt"].ToString());
+                            fees.MonthlyLoanDue = reader["payment_due_method"].ToString();
+                            fees.MonthlyLoanDueDate = reader["payment_due_date"].ToString();
+                            fees.MonthlyLoanDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.MonthlyLoanDealerEmailRemindPeriod = reader["delaer_remind_period"].ToString();
+                            fees.MonthlyLoanLenderEmail = reader["auto_remind_lender_email"].ToString();
+                            fees.MonthlyLoanLenderEmailRemindPeriod = reader["lender_remind_period"].ToString();
+
+                        }
+                        reader.Close();
+                    }
+                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInLotInspectionFeeTable", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            fees.LotInspectionAmount = float.Parse(reader["lot_inspection_amount"].ToString());
+                            fees.LotInspectionNeedReceipt = bool.Parse(reader["receipt"].ToString());
+                            fees.LotInspectionDue = reader["payment_due_method"].ToString();
+                            fees.LotInspectionDueDate = reader["payment_due_date"].ToString();
+                            fees.LotInspectionDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.LotInspectionDealerEmailRemindPeriod = reader["delaer_remind_period"].ToString();
+                            fees.LotInspectionLenderEmail = reader["auto_remind_lender_email"].ToString();
+                            fees.LotInspectionLenderEmailRemindPeriod = reader["lender_remind_period"].ToString();
+
+                        }
+                        reader.Close();
+                    }
+
+                    return fees;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+        /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/8
         /// get auto remind email from loan table
