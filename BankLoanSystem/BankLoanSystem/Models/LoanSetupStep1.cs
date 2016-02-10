@@ -85,7 +85,7 @@ namespace BankLoanSystem.Models
         }
 
         [Required]
-        [Display(Name = "How many days prior to the maturity date the renewal remindar should be sent")]
+        [Display(Name = "How many days prior to the maturity date the renewal reminder should be sent")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Auto Reminder Period must be a natural number")]
         public int autoReminderPeriod { get; set; }
 

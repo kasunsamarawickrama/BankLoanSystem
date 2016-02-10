@@ -139,21 +139,7 @@
             <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
         </div>
         
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
-
-
-
-            </div>
-
-            <div class="col-xs-10">
-                @Html.LabelFor(m => m.isEditAllowable)
-            </div>
-        </div>
         
-         
-
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { })<span style="color:red"> *</span>
@@ -210,19 +196,34 @@
         </div>
 
         <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
+
+
+
+            </div>
+
+            <div class="col-xs-11">
+                @Html.LabelFor(m => m.isEditAllowable)
+            </div>
+        </div>
+
+
+        <div class="form-group">
             <div class="control-label col-sm-2" >
                 @Html.CheckBox("auto reminder", false, htmlAttributes: new { @onchange = "javascript:showAutoReminderEmail(this.checked)" })
 
 
-                @Html.Label("Do you want auto reminder for renewal")
+                
             </div>
 
-            <div class="col-xs-8">
-                
+            <div class="col-xs-11" style="margin-top: 8px;">
+                @Html.Label("Do you want auto reminder for renewal")
             </div>
         </div>
 
         
+
         <div id="AutoReminderEmail" style="display:none">
             <div class="form-group">
                 <div class="control-label col-sm-2">
