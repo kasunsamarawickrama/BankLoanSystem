@@ -81,19 +81,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
-            else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
-            {
-                return View();
-            }
-
+         
             else if (stepNo == 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
             }
             else
             {
-                Session["rowId"] = userId;
-                return RedirectToAction("UserDetails", "UserManagement");
+                
+                return View();
             }
         }
 
@@ -1164,7 +1160,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
-            Session["userId"] = 2;
+            //Session["userId"] = 2;
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");

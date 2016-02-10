@@ -51,7 +51,7 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Advance Percentage")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Count must be a natural number")]
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Advance Percentage must be a natural number")]
         [Range(1, 100, ErrorMessage = "Percentage must be between 1 and 100")]
         public int advancePercentage { get; set; }
 
@@ -70,6 +70,28 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Select Unit Types")]
         public IList<UnitType> allUnitTypes
+        {
+            get; set;
+
+        }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Auto Reminder Email")]
+        public string autoReminderEmail
+        {
+            get; set;
+
+        }
+
+        [Required]
+        [Display(Name = "How many days prior to the maturity date the renewal remindar should be sent")]
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Auto Reminder Period must be a natural number")]
+        public int autoReminderPeriod { get; set; }
+
+        [Required]
+        [Display(Name = "Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage")]
+        public bool isEditAllowable
         {
             get; set;
 
