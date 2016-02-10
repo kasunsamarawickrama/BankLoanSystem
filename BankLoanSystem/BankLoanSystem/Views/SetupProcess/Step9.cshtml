@@ -1,0 +1,258 @@
+﻿@model BankLoanSystem.Models.Title
+@{
+    ViewBag.Title = "Step9";
+    
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+<div class="row">
+    <div class="container body-content">
+
+        <h2>LoanSetup Step4 - Title</h2>
+        @using (Ajax.BeginForm("Step9", "Interest", new AjaxOptions()
+            {
+                OnSuccess = "Progress(6)",
+                OnFailure = "handleErrorMsg",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
+            {
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.Label("Do you need title to be tracked?", htmlAttributes: new { })
+
+                    </div>
+
+                    <div class="control-label col-sm-2">
+
+                        @Html.CheckBox("IsTitleTrack", new { htmlAttributes = new { @id = "IsTitleTrack", Value = false } })
+                       
+
+                    </div>
+                </div>
+                <div id="needTrack">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.Label("Title Accepted Method", htmlAttributes: new { })
+
+                        </div>
+                        <div class="col-xs-8">
+                            @Html.DropDownList("TitleAcceptMethod", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+
+                        </div>
+                        <div class="control-label col-sm-2">
+                            @Html.Label("Time limit to track", htmlAttributes: new { })
+
+                        </div>
+
+                        <div class="col-xs-8">
+                            @Html.DropDownList("ReceivedTimeLimit", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+
+                        </div>
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { })
+
+                        </div>
+                        @if (ViewBag.Edit == 1)
+                        {
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.RemindEmail, "DefaultEmail", new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.Label("Do you need receipt or invoice for advance?", htmlAttributes: new { })
+
+                    </div>
+
+                    <div class="control-label col-sm-2">
+
+                        @Html.CheckBox("IsReceipRequired", new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+
+                    </div>
+                </div>
+                <div id="needReceipt">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.Label("How do you need receipt or invoice?", htmlAttributes: new { })
+
+                        </div>
+                        <div class="col-xs-8">
+                            @Html.LabelFor(model => model.NeedPyhsical, htmlAttributes: new { })
+
+                        </div>
+                        <div class="col-xs-4">
+
+                            @Html.CheckBoxFor(model => model.NeedPyhsical, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+                            @Html.ValidationMessageFor(model => model.NeedPyhsical, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-8">
+                            @Html.LabelFor(model => model.NeedScanCopy, htmlAttributes: new { })
+
+                        </div>
+                        <div class="col-xs-4">
+
+                            @Html.CheckBoxFor(model => model.NeedScanCopy, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+                            @Html.ValidationMessageFor(model => model.NeedScanCopy, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div>
+                        <nav>
+                            <ul class="pager">
+                                <li>
+                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $.fn.loadFunc = function () {
+            alert("iiiii");
+            $('#needTrack').hide();
+            $('#needReceipt').hide();
+
+            $('#IsTitleTrack').change(function () {
+
+                if (this.checked)
+                {
+
+                    $('#needTrack').show();
+
+                }
+
+                else
+                {
+                $('#needTrack').hide();
+                }
+
+            });
+            $('#IsReceipRequired').change(function () {
+
+                if (this.checked) {
+                    $('#needReceipt').show();
+                }
+
+                else {
+                    $('#needReceipt').hide();
+                }
+
+            });
+        }
+
+        $.fn.editFunc = function()
+        {
+            if($('#IsTitleTrack').prop('checked')==true){
+
+                $('#needTrack').show();
+            }
+            else {
+
+                $('#needTrack').hide();
+
+            }
+
+            if($('#IsReceipRequired').prop('checked')==true){
+
+                $('#needReceipt').show();
+            }
+            else {
+
+                $('#needReceipt').hide();
+
+            }
+            //alert('You have successfully defined the function!');
+            $('#IsTitleTrack').change(function () {
+
+                if ((this.checked)) {
+                    //alert('You have successfully defined the function!');
+                    $('#needTrack').show();
+
+                }
+
+                else {
+
+                    $('#needTrack').hide();
+
+                }
+
+            });
+            $('#IsReceipRequired').change(function () {
+
+                if (this.checked) {
+                    $('#needReceipt').show();
+                }
+
+                else {
+                    $('#needReceipt').hide();
+                }
+
+            });
+
+        }
+
+        if(@ViewBag.Edit ==1){
+
+            $.fn.editFunc();
+        }
+
+        else if(@ViewBag.Edit !=1){
+
+            $.fn.loadFunc();
+        }
+
+    });
+</script>
+
