@@ -75,6 +75,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
+            else if (stepNo == 8)
+            {
+                return RedirectToAction("Step8", "SetupProcess");
+            }
             else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
             {
                 return View();
@@ -1254,7 +1258,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Fees fee = new Fees();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //fee.LoanId = 1;
-            if (fee.LoanId >0) {
+            if (fee.LoanId > 0) {
                 var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
                 fee.MonthlyLoanLenderEmail = email;
                 fee.MonthlyLoanDealerEmail = email;
@@ -1269,11 +1273,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("Step7");
             }
         }
+        /// <summary>
+        /// CreatedBy :kasun samarawickrama
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// loan fees section step post method
+        /// 
+        /// return: step8 view 
+        /// </summary>
+        /// <param name="fees"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
             StepAccess step = new StepAccess();
-
             
             if (fees.AdvanceDue == "Vehicle Payoff")
             {
@@ -1301,7 +1314,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             if (step.InsertFeesDetails(fees))
             {
-                Session["userId"] = 2;
+                //Session["userId"] = 2;
                 var userId = (int)Session["userId"];
                 if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
                 {
@@ -1310,19 +1323,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else
                 {
                     return RedirectToAction("Step8");
-                }
-                
+                }                
             }
             else
             {
                 return RedirectToAction("Step8");
             }
         }
-
-
-
     }
-
-
 }
 
