@@ -138,7 +138,8 @@
             </div>
             <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
         </div>
-
+        
+        
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { })<span style="color:red"> *</span>
@@ -194,8 +195,61 @@
 
         </div>
 
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
 
 
+
+            </div>
+
+            <div class="col-xs-11">
+                @Html.LabelFor(m => m.isEditAllowable)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="control-label col-sm-2" >
+                @Html.CheckBox("auto reminder", false, htmlAttributes: new { @onchange = "javascript:showAutoReminderEmail(this.checked)" })
+
+
+                
+            </div>
+
+            <div class="col-xs-11" style="margin-top: 8px;">
+                @Html.Label("Do you want auto reminder for renewal")
+            </div>
+        </div>
+
+        
+
+        <div id="AutoReminderEmail" style="display:none">
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.autoReminderPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
+                </div>
+
+                <div class="col-xs-4" style="float:right;margin-left: 28px;">
+                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.autoReminderPeriod, "", new { @class = "text-danger" })
+                </div>
+               
+            </div>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.autoReminderEmail, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.autoReminderEmail, new { htmlAttributes = new { @class = "form-control", @id = "AutoEmail" } })
+                    @Html.ValidationMessageFor(model => model.autoReminderEmail, "", new { @class = "text-danger", @id = "errorAutoEmail" })
+                </div>
+            </div>
+
+        </div>
+
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -351,9 +405,27 @@
                 $("#radio-" + value).hide();
                 $("#radioStyle-" + value).hide();
 
-}
+            }
+            
 
-}
+        }
+
+        function showAutoReminderEmail(checked) {
+            if (checked) {
+                $("#AutoReminderEmail").show();
+                
+
+
+
+
+            } else {
+                $("#AutoEmail").val("");
+                $("#AutoReminderEmail").hide();
+                
+                $("#errorAutoEmail").text("");
+            }
+
+        }
 
 
 </script>

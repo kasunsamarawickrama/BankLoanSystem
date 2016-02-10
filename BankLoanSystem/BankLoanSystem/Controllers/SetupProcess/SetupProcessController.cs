@@ -96,8 +96,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                Session["rowId"] = userId;
-                return RedirectToAction("UserDetails", "UserManagement");
+               
+                return View();
             }
         }
 
@@ -1257,6 +1257,143 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/8
+        /// Get Interest Deatils If Exists
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <returns></returns>
+        // GET: Interest
+        public ActionResult Step7(int? edit)
+        {
+            int uId = int.Parse(Session["userId"].ToString());
+            //int uId = 4;
+            List<SelectListItem> listdates = new List<SelectListItem>();
+            for (int i = 1; i <= 28; i++)
+            {
+                listdates.Add(new SelectListItem
+                {
+                    Text = i.ToString(),
+                    Value = i.ToString()
+                });
+            }
+
+            listdates.Add(new SelectListItem
+            {
+                Text = "End of the month",
+                Value = "End of the month"
+            });
+
+
+            InterestAccess ia = new InterestAccess();
+            //get Accrual Methods
+            List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
+
+            if (uId > 0)
+            {
+                LoanSetupAccess la = new LoanSetupAccess();
+                int loanId = la.getLoanIdByUserId(uId);
+                //int loanId = 1;
+                if (loanId > 0)
+                {
+                    var intrst = ia.getInterestDetails(loanId);
+                    if (intrst != null)
+                    {
+
+                        ViewBag.Edit = 1;
+                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrst.AccrualMethodId);
+                        
+                        if (intrst.option != "once a month")
+                        {
+                            ViewBag.Option = true;
+                        }
+                        else
+                        {
+                            ViewBag.Option = false;
+                        }
+                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrst.PaidDate);
+                        ViewBag.DefaultEmail = intrst.AutoRemindEmail;
+                        return PartialView(intrst);
+                    }
+
+                    else
+                    {
+                        ViewBag.Edit = 0;
+                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
+                        string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
+                        if (!string.IsNullOrEmpty(defaultEmail))
+                        {
+                            ViewBag.DefaultEmail = defaultEmail;
+                        }
+                        return PartialView();
+                    }
+                }
+
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/8
+        /// Post Interest Deatils 
+        /// </summary>
+        /// <param name="interest"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step7(Interest interest)
+        {
+
+            int userId = int.Parse(Session["userId"].ToString());
+            //int loanId = 1;
+            if (interest.option == "payoff")
+            {
+                interest.PaidDate = interest.option;
+            }
+
+            InterestAccess ia = new InterestAccess();
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByUserId(userId);
+            if (!interest.NeedReminder)
+            {
+                interest.AutoRemindEmail = null;
+            }
+            interest.LoanId = loanId;
+            // if()
+            int reslt = ia.insertInterestDetails(interest);
+
+            if (reslt >= 0)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 8, loanId))
+                {
+                    return RedirectToAction("Step8");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+            
+        }
+
         /// <summary>
         /// CreatedBy :kasun samarawickrama
         /// CreatedDate: 2016/08/02
@@ -1358,6 +1495,164 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/9
+        /// Get Title Deatils If Exists
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <returns></returns>
+        // GET: Interest
+        public ActionResult Step9(int? edit)
+        {
+            int uId = int.Parse(Session["userId"].ToString());
+            //Accept Methods
+            List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title present to advance",
+                Value = "title present to advance"
+            });
+
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "scanned title adequate",
+                Value = "scanned title adequate"
+            });
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title can arrive at any time",
+                Value = "title can arrive at any time"
+            });
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title can arrive within a set time",
+                Value = "title can arrive within a set time"
+            });
+
+
+            //Time Limit Options
+            List<SelectListItem> timeLimitList = new List<SelectListItem>();
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "at advance date",
+                Value = "at advance date"
+            });
+
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "with in 7 days",
+                Value = "with in 7 days"
+            });
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "at any time",
+                Value = "at any time"
+            });
+            if (uId > 0)
+            {
+                LoanSetupAccess la = new LoanSetupAccess();
+                TitleAccess ta = new TitleAccess();
+                int loanId = la.getLoanIdByUserId(uId);
+                //int loanId = 1;
+                if (loanId > 0)
+                {
+                    var title = ta.getTitleDetails(loanId);
+                    if (title != null)
+                    {
+
+                        ViewBag.Edit = 1;
+                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", title.TitleAcceptMethod);
+                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", title.ReceivedTimeLimit);
+
+                        ViewBag.DefaultEmail = title.RemindEmail;
+                        return PartialView(title);
+                    }
+
+                    else
+                    {
+                        ViewBag.Edit = 0;
+                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
+                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
+
+                        string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
+                        if (!string.IsNullOrEmpty(defaultEmail))
+                        {
+                            ViewBag.DefaultEmail = defaultEmail;
+                        }
+                        return PartialView();
+                    }
+                }
+
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/9
+        /// Post Title Deatils
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step9(Title title)
+        {
+            int userId = int.Parse(Session["userId"].ToString());
+            //int loanId = 1;
+
+            if (title.NeedPyhsical && title.NeedScanCopy)
+            {
+                title.ReceiptRequiredMethod = "physically and scan copy";
+            }
+            else if (title.NeedPyhsical)
+            {
+                title.ReceiptRequiredMethod = "physically";
+            }
+            else if (title.NeedScanCopy)
+            {
+                title.ReceiptRequiredMethod = "scan copy";
+            }
+            TitleAccess ta = new TitleAccess();
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByUserId(userId);
+            title.LoanId = loanId;
+            // if()
+            int reslt = ta.insertTitleDetails(title);
+
+            if (reslt >= 0)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 10, loanId))
+                {
+                    return RedirectToAction("Step10");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+        }
         /// <summary>
         /// CreatedBy : Irfan MAM
         /// CreatedDate: 2016/09/02
