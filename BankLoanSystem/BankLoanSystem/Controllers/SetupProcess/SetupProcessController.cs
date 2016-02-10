@@ -22,9 +22,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static int _curUserRoleId;
 
         /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/27
+        /// Calling the default view for all step number pages
+        /// Redirect to Appropriate controller using step number
+        /// 
+        /// 
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the view</returns>
         public ActionResult Index()
 
         {
@@ -74,6 +80,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TempData["NonRegCompany"] = comBranch;
 
                 return View();
+            }
+            else if (stepNo == 8)
+            {
+                return RedirectToAction("Step8", "SetupProcess");
             }
             else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
             {
@@ -779,6 +789,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             paymentMethods.Add("Invoice/Check");
             ViewBag.paymentMethods = paymentMethods;
 
+            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+            loanSetupStep1.startDate = DateTime.Today;
+            loanSetupStep1.maturityDate = DateTime.Today;
+
+
+
             if (userrole == 2)
             {
 
@@ -819,11 +835,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-
+            loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
             // if user is a lender admin, lender branch name only
 
-            return PartialView();
+            return PartialView(loanSetupStep1);
 
         }
 
@@ -1111,10 +1127,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [HttpPost]
         [ActionName("Step6")]
-        public ActionResult Step6_Post()
+        public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
 
+
+            if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
+            {
+                return new HttpStatusCodeResult(404, "Select Atleast One Unit Type");
+            }
 
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
@@ -1394,7 +1415,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Fees fee = new Fees();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //fee.LoanId = 1;
-            if (fee.LoanId >0) {
+            if (fee.LoanId > 0) {
                 var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
                 fee.MonthlyLoanLenderEmail = email;
                 fee.MonthlyLoanDealerEmail = email;
@@ -1409,12 +1430,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("Step7");
             }
         }
+        /// <summary>
+        /// CreatedBy :kasun samarawickrama
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// loan fees section step post method
+        /// 
+        /// return: step8 view 
+        /// </summary>
+        /// <param name="fees"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
             StepAccess step = new StepAccess();
 
-            
             if (fees.AdvanceDue == "Vehicle Payoff")
             {
                 fees.AdvanceDueDate = "28";
@@ -1441,7 +1471,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             if (step.InsertFeesDetails(fees))
             {
-                Session["userId"] = 2;
+                //Session["userId"] = 2;
                 var userId = (int)Session["userId"];
                 if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
                 {
@@ -1451,7 +1481,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return RedirectToAction("Step8");
                 }
-                
             }
             else
             {
@@ -1610,7 +1639,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return new HttpStatusCodeResult(404, "error message");
                 }
-            }
+        }
             else if(reslt == 0)
             {
                 return RedirectToAction("Step10");
@@ -1619,12 +1648,33 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return new HttpStatusCodeResult(404, "error message");
             }
-            
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check whether atleast one unit type selected or not
+        /// 
+        /// argument: allUnitTypes(IList<UnitType>)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public bool IsAtleastOneSelectUnitType(IList<UnitType> allUnitTypes)
+        {
+            //check user name is already exist.  
+            foreach (UnitType unitType in allUnitTypes)
+            {
+                if (unitType.isSelected == true)
+                {
+                    return true;
+
+    }
+            }
+            return false;
         }
 
 
-    }
 
-
+}
 }
 
