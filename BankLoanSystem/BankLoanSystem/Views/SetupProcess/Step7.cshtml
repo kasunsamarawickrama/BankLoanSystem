@@ -37,11 +37,11 @@
                         @Html.LabelFor(model => model.InterestRate, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
-                    <div class="col-xs-8">
+                    <div class="col-xs-4" style="float:left;margin-left: 80px;">
                         @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
                     </div>
-
+                    <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
                 </div>
 
 
@@ -53,20 +53,22 @@
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "once a month", new { id = "onceMonth" }) Once a month
                     </div>
-                    <div id="paidDateDiv" class="col-xs-8">
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
+                    </div>
+                    <div id="paidDateDiv">
+                        <div class="control-label col-sm-2" style="margin-top:25px">
+                            @Html.Label("Select Paid Date", htmlAttributes: new { })<span style="color: red">*</span>
+                        </div>
                         <div class="col-xs-8">
                             @Html.DropDownList("PaidDate", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "paidDate" })
 
                         </div>
-                        <div class="col-xs-4" style="margin-top:15px">
-                            @Html.Label("Select Date", htmlAttributes: new { @style = "font-weight:normal" })
-                        </div>
+                        
                         
                     </div>
                     
-                    <div class="col-xs-8">
-                        @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
-                    </div>
+                   
 
                     @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
 
