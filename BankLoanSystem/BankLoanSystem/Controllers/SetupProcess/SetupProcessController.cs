@@ -548,6 +548,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             paymentMethods.Add("Invoice/Check");
             ViewBag.paymentMethods = paymentMethods;
 
+            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+            loanSetupStep1.startDate = DateTime.Today;
+            loanSetupStep1.maturityDate = DateTime.Today;
+
+
+
             if (userrole == 2)
             {
                 
@@ -582,17 +588,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "BranchId", "BranchName");
             }
 
-            
 
 
 
-            
 
-            
+
+
+            loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
             // if user is a lender admin, lender branch name only
 
-            return PartialView();
+            return PartialView(loanSetupStep1);
 
         }
 
@@ -816,11 +822,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [HttpPost]
         [ActionName("Step6")]
-        public ActionResult Step6_Post()
+        public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
-            
-            
+
+
+            if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
+            {
+                return new HttpStatusCodeResult(404,"Select Atleast One Unit Type");
+            }
+
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
             {
@@ -940,6 +951,30 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             //check user name is already exist.  
             return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check whether atleast one unit type selected or not
+        /// 
+        /// argument: allUnitTypes(IList<UnitType>)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public bool IsAtleastOneSelectUnitType(IList<UnitType> allUnitTypes)
+        {
+            //check user name is already exist.  
+            foreach (UnitType unitType in allUnitTypes)
+            {
+                if (unitType.isSelected == true)
+                {
+                    return true;
+                   
+                }
+            }
+            return false;
         }
 
         /// <summary>

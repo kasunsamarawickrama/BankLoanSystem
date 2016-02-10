@@ -6,7 +6,10 @@
 
     Progress(@ViewBag.Step);
 </script>
-@if(ViewBag.Step == 1){
+@{ 
+    Html.RenderAction("Step6", "SetupProcess");
+}
+@*@if(ViewBag.Step == 1){
 
     Html.RenderAction("Step1", "SetupProcess");
 
@@ -40,4 +43,4 @@ else if (ViewBag.Step == 6)
 
     Html.RenderAction("Step6", "SetupProcess");
 
-}
+}*@

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankLoanSystem.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace BankLoanSystem.Models
 {
     public class LoanSetupStep1
     {
+        //public IList<UnitType> _allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
+
         [Required]
         [Display(Name = "NonRegistered Branch")]
         public int nonRegisteredBranchId { get; set; }
@@ -30,15 +33,20 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Start Date")]
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime startDate { get; set; }
 
         [Required]
         [Display(Name = "Maturity Date")]
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}",  ApplyFormatInEditMode = true)]
         public DateTime maturityDate { get; set; }
 
         [Required]
         [Display(Name = "Loan Amount")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c2}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C}")]
+        //[DataType()]
         public decimal loanAmount { get; set; }
 
         [Required]
@@ -53,7 +61,19 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Unit Types")]
-        public IList<UnitType> unitTypes { get; set; }
+        public IList<UnitType> selectedUnitTypes { get; set; }
+
+        [Required(ErrorMessage = "Default Unit type is required")]
+        [Display(Name = "Make Default")]
+        public int defaultUnitType { get; set; }
+
+        [Required]
+        [Display(Name = "Select Unit Types")]
+        public IList<UnitType> allUnitTypes
+        {
+            get; set;
+
+        }
     }
 
     public class UnitType
@@ -62,6 +82,8 @@ namespace BankLoanSystem.Models
         public int unitTypeId { get; set; }
 
         public string unitTypeName { get; set; }
+
+        public bool isSelected { get; set; }
     }
 
 }
