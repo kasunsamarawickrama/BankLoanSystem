@@ -1639,8 +1639,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return new HttpStatusCodeResult(404, "error message");
                 }
-        }
-            else if(reslt == 0)
+            }
+            else if (reslt == 0)
             {
                 return RedirectToAction("Step10");
             }
@@ -1648,7 +1648,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return new HttpStatusCodeResult(404, "error message");
             }
-
+        }
         /// <summary>
         /// CreatedBy : Irfan MAM
         /// CreatedDate: 2016/09/02
