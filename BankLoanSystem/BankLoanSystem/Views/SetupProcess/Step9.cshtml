@@ -51,9 +51,14 @@
 
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownList("TitleAcceptMethod", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+                            @Html.DropDownList("TitleAcceptMethod", null, "-- Select Accepted Method --", htmlAttributes: new { @class = "form-control", @id = "acceptMethod" })
 
                         </div>
+                        <div class="col-xs-8" id="ScannTitle">
+                            @Html.Label("Upload Title", htmlAttributes: new { })
+
+                        </div>
+                        
                         <div class="control-label col-sm-2" style="margin-top:15px">
                             @Html.Label("Time limit to track", htmlAttributes: new { })
 
@@ -63,6 +68,8 @@
                             @Html.DropDownList("ReceivedTimeLimit", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
 
                         </div>
+                            
+
                         <div class="control-label col-sm-2" style="margin-top:20px">
                             @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { })
 
@@ -159,6 +166,7 @@
                 </div>
 
             </div>
+               
 
         }
     </div>
@@ -180,6 +188,7 @@
            
             $('#needTrack').hide();
             $('#needReceipt').hide();
+            $('#ScannTitle').hide();
 
             $('#IsTitleTrack').change(function () {
 
@@ -196,6 +205,15 @@
                 }
 
             });
+            $('#TitleAcceptMethod').change(function() {
+                alert($(this).val());
+            });
+            //if($('#TitleAcceptMethod:selected').val()=="scanned title adequate"){
+            //    $('#ScannTitle').show();
+            //}
+            //else{
+            //    $('#ScannTitle').hide();
+            //}
             $('#IsReceipRequired').change(function () {
 
                 if (this.checked) {
@@ -217,6 +235,17 @@
 
         $.fn.editFunc = function()
         {
+            $('#ScannTitle').hide();
+            $('#TitleAcceptMethod').change(function() {
+                alert($(this).val());
+            });
+            //if($('#TitleAcceptMethod:selected').text()=="scanned title adequate"){
+            //    alert("hiii");
+            //    $('#ScannTitle').show();
+            //}
+            //else{
+            //    $('#ScannTitle').hide();
+            //}
             if($('#IsTitleTrack').prop('checked')==true){
 
                 $('#needTrack').show();

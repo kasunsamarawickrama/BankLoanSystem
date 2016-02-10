@@ -50,25 +50,8 @@ namespace BankLoanSystem.DAL
         /// <returns>countval</returns>
         public int insertInterestDetails(Interest interest)
         {
-            string rate = null;
-            if (!interest.InterestRate.ToString().Contains("."))
-            {
-                rate = interest.InterestRate.ToString() + ".000";
-
-            }
-            else if (interest.InterestRate.ToString().Contains("."))
-            {
-                string[] ratearr = interest.InterestRate.ToString().Split('.');
-                if (ratearr[1].Length == 1)
-                {
-                    rate = interest.InterestRate.ToString() + "00";
-                }
-                else if (ratearr[1].Length == 2)
-                {
-                    rate = interest.InterestRate.ToString() + "0";
-                }
-            }
-            interest.InterestRate = Double.Parse(rate);
+           
+            //interest.InterestRate = Double.Parse(rate);
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
@@ -146,7 +129,7 @@ namespace BankLoanSystem.DAL
                         while (reader.Read())
                         {
                             obj1 = new Interest();
-                            obj1.InterestRate = Double.Parse(reader["interest_rate"].ToString());
+                            obj1.InterestRate = Math.Round(Double.Parse(reader["interest_rate"].ToString()),3);
                             if ((reader["paid_date"].ToString().Contains("payoff")))
                             {
                                 obj1.option = "payoff";

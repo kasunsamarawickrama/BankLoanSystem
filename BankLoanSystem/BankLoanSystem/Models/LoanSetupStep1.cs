@@ -44,6 +44,19 @@ namespace BankLoanSystem.Models
         public DateTime maturityDate { get; set; }
 
         [Required]
+        [Display(Name = "Pay Off Period")]
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Pay Off Period must be a natural number")]
+        [Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
+        AdditionalFields = "startDate,maturityDate,payOffPeriodType",
+        HttpMethod = "POST",
+        ErrorMessage = "Invalid")]
+        public int payOffPeriod { get; set; }
+
+        [Required]
+        [Display(Name = "Pay Off Period Type")]
+        public int payOffPeriodType { get; set; }
+
+        [Required]
         [Display(Name = "Loan Amount")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C}")]
         //[DataType()]

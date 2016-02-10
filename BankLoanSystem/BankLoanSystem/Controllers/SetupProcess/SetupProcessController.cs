@@ -81,13 +81,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
-            
+
             else if (stepNo == 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
             }
             else
-            {             
+            {
                 return View();
             }
         }
@@ -1677,6 +1677,44 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
 
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check the payoff period which are between the start date and maturity date
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public JsonResult CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
+        {
+            if (payOffPeriodType == 0) {
+                int totalDays = (int)(maturityDate - startDate).TotalDays;
+                if (payOffPeriod <= totalDays) {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+                  }
+            else {
+
+                int diffMonths = (maturityDate.Month + maturityDate.Year * 12) - (startDate.Month + startDate.Year * 12);
+                if (payOffPeriod <= diffMonths)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+           
+        }
 
     }
 }
