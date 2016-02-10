@@ -1168,7 +1168,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
-            Session["userId"] = 2;
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");
@@ -1262,25 +1261,36 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// CreatedBy :kasun samarawickrama
         /// CreatedDate: 2016/08/02
         /// 
-        /// loan fees section step
+        /// loan fees section -step 8
         /// 
         /// return: step8 view
         /// </summary>
         /// <returns></returns>
         public ActionResult Step8()
         {
-            LoanSetupAccess loan = new LoanSetupAccess();
-            //Session["userId"] = 2;
+            Session["userId"] = 2;
             var userId = (int)Session["userId"];
+
+            BranchAccess branch = new BranchAccess();
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            companyType = 1;
+            if (companyType == 1)
+            {
+                ViewBag.isLender = true;
+            }
+            else {
+                ViewBag.isLender = false;
+            }
+            LoanSetupAccess loan = new LoanSetupAccess();
             Fees fee = new Fees();
             fee.LoanId = loan.getLoanIdByUserId(userId);
-            //fee.LoanId = 1;
+
             if (fee.LoanId > 0) {
                 var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
                 fee.MonthlyLoanLenderEmail = email;
                 fee.MonthlyLoanDealerEmail = email;
                 fee.LotInspectionLenderEmail = email;
-                fee.MonthlyLoanDealerEmail = email;
+                fee.LotInspectionDealerEmail = email;
                 fee.AdvanceLenderEmail = email;
                 fee.AdvanceDealerEmail = email;
 
@@ -1307,27 +1317,27 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (fees.AdvanceDue == "Vehicle Payoff")
             {
-                fees.AdvanceDueDate = "28";
+                fees.AdvanceDueDate = "VP";
             }
             if (fees.MonthlyLoanDue == "Vehicle Payoff")
             {
-                fees.MonthlyLoanDueDate = "28";
+                fees.MonthlyLoanDueDate = "VP";
             }
             if (fees.AdvanceDue == "Time of Advance")
             {
-                fees.AdvanceDueDate = "28";
+                fees.AdvanceDueDate = "TOA";
             }
             if (fees.MonthlyLoanDue == "Time of Advance")
             {
-                fees.MonthlyLoanDueDate = "28";
+                fees.MonthlyLoanDueDate = "TOA";
             }
-            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceDueDate == null)
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio =="month")
             {
-                fees.AdvanceDueDate = "28";
+                fees.AdvanceDueDate = "EOM";
             }
-            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanDueDate == null)
+            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanRadio == "month")
             {
-                fees.MonthlyLoanDueDate = "28";
+                fees.MonthlyLoanDueDate = "EOM";
             }
             if (step.InsertFeesDetails(fees))
             {
