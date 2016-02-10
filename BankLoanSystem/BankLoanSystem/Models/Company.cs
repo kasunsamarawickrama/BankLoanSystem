@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -6,6 +7,7 @@ namespace BankLoanSystem.Models
 {
     public class Company
     {
+        private string _companyAddress1;
         public int CompanyId { get; set; }
 
         [Required]
@@ -19,7 +21,11 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Street Address1")]
-        public string CompanyAddress1 { get; set; }
+        public string CompanyAddress1
+        {
+            get { return _companyAddress1; }
+            set { _companyAddress1 = value; }
+        }
 
         [Display(Name = "Street Address2")]
         public string CompanyAddress2 { get; set; }
@@ -87,5 +93,18 @@ namespace BankLoanSystem.Models
 
         public int FirstSuperAdminId { get; set; }
         public int FirstSuperAdminName { get; set; }
+        public int CreatedByCompany { get; set; }
     }
+
+
+    public class CompanyViewModel
+    {
+        public Company Company { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public int StateId { get; set; }
+        public List<Company> Companies { get; set; }
+    }
+
 }

@@ -70,8 +70,53 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value ==1) {
-                        return true ;
+                    //if ((int)returnParameter.Value >=1) {
+                    //    return true ;
+                    //}
+                    //else {
+                    //    return false;
+                    //}
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/01/26
+        /// 
+        /// Update Step Number By UserId parameter 3 
+        /// 
+        /// this function will call after 6th process
+        /// </summary>
+        /// <returns>update true/false</returns>
+        /// 
+        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    var command = new SqlCommand("spUpdateStepNumberByUserId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@step_id", stepNumber);
+                    command.Parameters.AddWithValue("@loan_id", loanNumber);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    if ((int)returnParameter.Value == 1)
+                    {
+                        return true;
                     }
                     else {
                         return false;
@@ -178,7 +223,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        public void InsertFeesDetails(Fees fees)
+        public bool InsertFeesDetails(Fees fees)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -188,25 +233,44 @@ namespace BankLoanSystem.DAL
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.Add("@advance_fee_amount", SqlDbType.NVarChar).Value = fees.AdvanceAmount;
-                        //command.Parameters.Add("@advance_payment_due_method", SqlDbType.NVarChar).Value = fees;
-                        command.Parameters.Add("@advance_payment_due_date", SqlDbType.DateTime).Value = fees.AdvanceDue;
+                        command.Parameters.Add("@advance_fee_amount", SqlDbType.Float).Value = fees.AdvanceAmount;
+                        command.Parameters.Add("@advance_payment_due_method", SqlDbType.NVarChar).Value = fees.AdvanceDue;
+                        command.Parameters.Add("@advance_payment_due_date", SqlDbType.NVarChar).Value = fees.AdvanceDueDate;
+                        command.Parameters.Add("@advance_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmail;
+                        command.Parameters.Add("@advance_delaer_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmailRemindPeriod;
+                        command.Parameters.Add("@advance_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmail;
+                        command.Parameters.Add("@advance_lender_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmailRemindPeriod;
 
-                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.NVarChar).Value = fees.MonthlyLoanAmount;
-                        //command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees;
-                        command.Parameters.Add("@monthly_loan_payment_due_date", SqlDbType.DateTime).Value = fees.MonthlyLoanDue;
+                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.Float).Value = fees.MonthlyLoanAmount;
+                        command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees.MonthlyLoanDue;
+                        command.Parameters.Add("@monthly_loan_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
+                        command.Parameters.Add("@monthly_loan_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmail;
+                        command.Parameters.Add("@monthly_loan_delaer_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmailRemindPeriod;
+                        command.Parameters.Add("@monthly_loan_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmail;
+                        command.Parameters.Add("@monthly_loan_lender_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmailRemindPeriod;
 
-                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.NVarChar).Value = fees.LotInspectionAmount;
-                        //command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees;
-                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.DateTime).Value = fees.LotInspectionDue;
+                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.Float).Value = fees.LotInspectionAmount;
+                        command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees.LotInspectionDue;
+                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
+                        command.Parameters.Add("@lot_inspection_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmail;
+                        command.Parameters.Add("@lot_inspection_delaer_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmailRemindPeriod;
+                        command.Parameters.Add("@lot_inspection_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmail;
+                        command.Parameters.Add("@lot_inspection_lender_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmailRemindPeriod;
 
-                        command.Parameters.Add("@auto_remind_dealer_email", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
-                        command.Parameters.Add("@delaer_remind_period", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
-                        command.Parameters.Add("@auto_remind_lender_email", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
-                        command.Parameters.Add("@lender_remind_period", SqlDbType.NVarChar).Value = "kasun2030@gmail.com";
                         command.Parameters.Add("@loan_id", SqlDbType.Int).Value = fees.LoanId;
+
+                        SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+
                         con.Open();
                         command.ExecuteNonQuery();
+                        if ((int)returnParameter.Value == 1)
+                        {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
                     }
 
                 }

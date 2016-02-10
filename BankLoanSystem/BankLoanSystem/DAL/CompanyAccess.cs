@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BankLoanSystem.Models;
 
 namespace BankLoanSystem.DAL
@@ -139,6 +140,36 @@ namespace BankLoanSystem.DAL
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/02/08
+        /// 
+        /// Get latest company code to create next company code
+        /// 
+        /// argument : companyName (string)
+        /// 
+        /// </summary>
+        /// <returns>true/false</returns>
+        public string GetLatestNonRegCompanyCode(string prefix)
+        {
+            string latestCompanyCode = "";
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                var command = new SqlCommand("spGetNonRegCompanyCodebyCode", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@company_code_prefix", SqlDbType.NVarChar).Value = prefix;
+                con.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        latestCompanyCode = reader["company_code"].ToString();
+                    }
+                }
+            }
+            return latestCompanyCode;
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
         /// CreatedDate: 01/26/2016
         /// 
         /// Get company details
@@ -163,6 +194,7 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
+                            company.CompanyId = Convert.ToInt32(reader["company_Id"]);
                             company.CompanyName = reader["company_name"].ToString();
                             company.CompanyCode = reader["company_code"].ToString();
                             company.CompanyAddress1 = reader["company_address_1"].ToString();
@@ -170,6 +202,12 @@ namespace BankLoanSystem.DAL
                             company.StateId = Convert.ToInt32(reader["stateId"]);
                             company.City = reader["city"].ToString();
                             company.Zip = reader["zip"].ToString();
+
+                            string[] zipWithExtention = company.Zip.Split('-');
+
+                            if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
                             company.Email = reader["email"].ToString();
                             company.PhoneNum1 = reader["phone_num_1"].ToString();
                             company.PhoneNum2 = reader["phone_num_2"].ToString();
@@ -772,7 +810,8 @@ namespace BankLoanSystem.DAL
                     command.Parameters.AddWithValue("@created_by", company.CreatedBy);
                     command.Parameters.AddWithValue("@created_date", DateTime.Now);
                     command.Parameters.AddWithValue("@company_type", company.TypeId);
-                    
+                    command.Parameters.AddWithValue("@reg_company_id", company.CreatedByCompany);
+
 
                     con.Open();
                     command.ExecuteNonQuery();
@@ -790,9 +829,9 @@ namespace BankLoanSystem.DAL
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 01/27/2016
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="regCompanyId"></param>
         /// <returns></returns>
-        public Company GetNonRegCompanyDetailsByUserId(int userId)
+        public Company GetNonRegCompanyDetailsByRegCompanyId(int regCompanyId)
         {
             Company company = new Company();
             using (
@@ -801,9 +840,9 @@ namespace BankLoanSystem.DAL
             {
                 try
                 {
-                    var command = new SqlCommand("spGetNonRegCompanyDetailsByUserId", con);
+                    var command = new SqlCommand("spGetNonRegCompanyDetailsByRegCompanyId", con);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@reg_company_id", regCompanyId);
                     con.Open();
 
                     using (var reader = command.ExecuteReader())
@@ -831,6 +870,111 @@ namespace BankLoanSystem.DAL
                 }
             }
             return company;
+        }
+
+
+        public List<Company> GetCompanyByCreayedCompany(int createdByComId)
+        {
+            List<Company> nonRegCompanies = new List<Company>();
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    //
+                    var command = new SqlCommand("spGetNonRegCompanyByCreatedCompany", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@reg_company_id", createdByComId);
+                    con.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Company company = new Company();
+                            company.CompanyId = Convert.ToInt32(reader["company_id"]);
+                            company.CompanyName = reader["company_name"].ToString();
+                            company.CompanyCode = reader["company_code"].ToString();
+                            company.CompanyAddress1 = reader["company_address_1"].ToString();
+                            company.CompanyAddress2 = reader["company_address_2"].ToString();
+                            company.StateId = Convert.ToInt32(reader["stateId"]);
+                            company.City = reader["city"].ToString();
+                            company.Zip = reader["zip"].ToString();
+
+                            string[] zipWithExtention = company.Zip.Split('-');
+
+                            if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                            company.Email = reader["email"].ToString();
+                            company.PhoneNum1 = reader["phone_num_1"].ToString();
+                            company.PhoneNum2 = reader["phone_num_2"].ToString();
+                            company.PhoneNum3 = reader["phone_num_3"].ToString();
+                            company.Fax = reader["fax"].ToString();
+
+                            nonRegCompanies.Add(company);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return nonRegCompanies;
+        }
+
+
+        public Company GetNonRegCompanyByCompanyId(int companyId)
+        {
+            Company nonRegCompany = new Company();
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    //
+                    var command = new SqlCommand("spGetNonRegCompanyByCompanyId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@company_id", companyId);
+                    con.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nonRegCompany.CompanyId = Convert.ToInt32(reader["company_id"]);
+                            nonRegCompany.CompanyName = reader["company_name"].ToString();
+                            nonRegCompany.CompanyCode = reader["company_code"].ToString();
+                            nonRegCompany.CompanyAddress1 = reader["company_address_1"].ToString();
+                            nonRegCompany.CompanyAddress2 = reader["company_address_2"].ToString();
+                            nonRegCompany.StateId = Convert.ToInt32(reader["stateId"]);
+                            nonRegCompany.City = reader["city"].ToString();
+                            nonRegCompany.Zip = reader["zip"].ToString();
+
+                            string[] zipWithExtention = nonRegCompany.Zip.Split('-');
+
+                            if (zipWithExtention[0] != null) nonRegCompany.ZipPre = zipWithExtention[0];
+                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) nonRegCompany.Extension = zipWithExtention[1];
+
+                            nonRegCompany.Email = reader["email"].ToString();
+                            nonRegCompany.PhoneNum1 = reader["phone_num_1"].ToString();
+                            nonRegCompany.PhoneNum2 = reader["phone_num_2"].ToString();
+                            nonRegCompany.PhoneNum3 = reader["phone_num_3"].ToString();
+                            nonRegCompany.Fax = reader["fax"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return nonRegCompany;
         }
 
     }
