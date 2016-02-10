@@ -39,6 +39,7 @@ namespace BankLoanSystem.Models
         public float LotInspectionAmount { get; set; }
         public bool LotInspectionNeedReceipt { get; set; }
         public string LotInspectionDue { get; set; }
+        public string LotInspectionDueDate { get; set; }
         public string LotInspectionLenderEmail { get; set; }
         public string LotInspectionDealerEmail { get; set; }
         public string LotInspectionLenderEmailRemindPeriod { get; set; }

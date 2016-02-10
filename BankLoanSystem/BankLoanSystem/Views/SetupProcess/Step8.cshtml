@@ -1,7 +1,6 @@
 ﻿@model BankLoanSystem.Models.Fees
 @{
     ViewBag.Title = "Step8";
-    
 }
 
 <h2>Step8</h2>
@@ -334,13 +333,24 @@ function changeRadioValueAdvance() {
 }
 
 window.onload = function () {
+    document.getElementById("dropDownAdvance").value = 1;
     changeDropDownValueAdvance();
     changeDropDownValueLoan();
     changeDropDownValueLot();
     document.getElementById("radioDayAdvance").checked = true;
     document.getElementById("radioDayLoan").checked = true;
+    
 
 };
+function partialLoad() {
+    document.getElementById("dropDownAdvance").value = 1;
+    changeDropDownValueAdvance();
+    changeDropDownValueLoan();
+    changeDropDownValueLot();
+    document.getElementById("radioDayAdvance").checked = true;
+    document.getElementById("radioDayLoan").checked = true;
+   
+}
 
 function changeDropDownValueDueAdvance() {
 

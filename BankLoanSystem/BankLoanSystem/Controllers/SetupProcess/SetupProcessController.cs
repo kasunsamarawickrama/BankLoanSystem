@@ -81,22 +81,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
-            else if (stepNo == 8)
-            {
-                return RedirectToAction("Step8", "SetupProcess");
-            }
-            else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
-            {
-                return View();
-            }
-
+            
             else if (stepNo == 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Company Setup is on going Please Contact Admin" });
             }
             else
-            {
-               
+            {             
                 return View();
             }
         }
@@ -1405,11 +1396,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step8()
         {
-            Session["userId"] = 2;
+            //Session["userId"] = 2;
             var userId = (int)Session["userId"];
 
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
+ 
             companyType = 1;
             if (companyType == 1)
             {
@@ -1418,11 +1410,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else {
                 ViewBag.isLender = false;
             }
+            Fees fee = new Fees(); 
             LoanSetupAccess loan = new LoanSetupAccess();
-            Fees fee = new Fees();
             fee.LoanId = loan.getLoanIdByUserId(userId);
+            //check the loan is in a update
+            Fees feeUpdate = new Fees();
+            if (loan.checkLoanIsInFeesTables(fee.LoanId) != null) {
+                feeUpdate = loan.checkLoanIsInFeesTables(fee.LoanId);
+            }
+            
+            feeUpdate.LoanId = fee.LoanId;
 
-            if (fee.LoanId > 0) {
+            if (feeUpdate.LoanId > 0) {
                 var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
                 fee.MonthlyLoanLenderEmail = email;
                 fee.MonthlyLoanDealerEmail = email;
@@ -1431,7 +1430,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 fee.AdvanceLenderEmail = email;
                 fee.AdvanceDealerEmail = email;
 
-                return View(fee);
+                return PartialView(feeUpdate);
             }
             else {
                 return RedirectToAction("Step7");
