@@ -22,9 +22,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static int _curUserRoleId;
 
         /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/27
+        /// Calling the default view for all step number pages
+        /// Redirect to Appropriate controller using step number
+        /// 
+        /// 
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the view</returns>
         public ActionResult Index()
 
         {
@@ -779,6 +785,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             paymentMethods.Add("Invoice/Check");
             ViewBag.paymentMethods = paymentMethods;
 
+            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+            loanSetupStep1.startDate = DateTime.Today;
+            loanSetupStep1.maturityDate = DateTime.Today;
+
+
+
             if (userrole == 2)
             {
 
@@ -819,11 +831,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-
+            loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
             // if user is a lender admin, lender branch name only
 
-            return PartialView();
+            return PartialView(loanSetupStep1);
 
         }
 
@@ -1111,10 +1123,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [HttpPost]
         [ActionName("Step6")]
-        public ActionResult Step6_Post()
+        public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
 
+
+            if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
+            {
+                return new HttpStatusCodeResult(404, "Select Atleast One Unit Type");
+            }
 
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
@@ -1317,6 +1334,30 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("Step8");
             }
+        }
+
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check whether atleast one unit type selected or not
+        /// 
+        /// argument: allUnitTypes(IList<UnitType>)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public bool IsAtleastOneSelectUnitType(IList<UnitType> allUnitTypes)
+        {
+            //check user name is already exist.  
+            foreach (UnitType unitType in allUnitTypes)
+            {
+                if (unitType.isSelected == true)
+                {
+                    return true;
+
+                }
+            }
+            return false;
         }
 
 
