@@ -12,12 +12,12 @@ namespace BankLoanSystem.Models
     {
         //public IList<UnitType> _allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
-        [Required]
+        [Required(ErrorMessage = "Branch is required")]
         [Display(Name = "NonRegistered Branch")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
         public int nonRegisteredBranchId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Branch is required")]
         [Display(Name = "Registered Branch")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
         public int RegisteredBranchId { get; set; }
