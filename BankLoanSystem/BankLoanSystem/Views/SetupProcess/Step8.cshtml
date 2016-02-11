@@ -333,7 +333,74 @@
     }
 
     window.onload = function () {
-       
+        var isEdit = '@ViewBag.isEdit';
+        var model = @Html.Raw(Json.Encode(Model));
+               
+        if(isEdit == "editable"){
+
+            if (model.AdvanceAmount > 0) {
+                document.getElementById("radioDayAdvance").checked = true;
+                document.getElementById("dropDownAdvance").value = "1";
+
+                if (model.AdvanceDueDate == "VP") {
+                    document.getElementById("advanceDue").value = "Vehicle Payoff";
+                    document.getElementById("radioDayAdvance").disabled = true;
+                    document.getElementById("radioMonthAdvance").disabled = true;
+                }
+                else if (model.AdvanceDueDate == "TOA") {
+                    document.getElementById("advanceDue").value = "Time of Advance";
+                    document.getElementById("radioDayAdvance").disabled = true;
+                    document.getElementById("radioMonthAdvance").disabled = true;
+                }
+                else{
+                   
+                    document.getElementById("radioDayAdvance").disabled = false;
+                    document.getElementById("radioMonthAdvance").disabled = false;
+                    if(model.AdvanceDueDate == "EOM"){
+                        document.getElementById("radioMonthAdvance").checked = true;
+                    }else{
+                        document.getElementById("radioDayAdvance").checked = true;
+                    }
+                }
+            }
+            if(model.AdvanceAmount <= 0){
+                changeDropDownValueAdvance();
+            }
+            if (model.MonthlyLoanAmount > 0) {
+                document.getElementById("dropDownLoan").value = "1";
+                document.getElementById("radioDayLoan").checked = true;
+                if (model.MonthlyLoanDueDate == "VP") {
+                    document.getElementById("loanDue").value = "Vehicle Payoff";
+                    document.getElementById("radioDayLoan").disabled = true;
+                    document.getElementById("radioMonthLoan").disabled = true;
+                }
+                else if (model.MonthlyLoanDueDate == "TOA") {
+                    document.getElementById("loanDue").value = "Time of Advance";
+                    document.getElementById("radioDayLoan").disabled = true;
+                    document.getElementById("radioMonthLoan").disabled = true;
+                }
+                else{
+                   
+                    document.getElementById("radioDayLoan").disabled = false;
+                    document.getElementById("radioMonthLoan").disabled = false;
+                    if(model.MonthlyLoanDueDate == "EOM"){
+                        document.getElementById("radioMonthLoan").checked = true;
+                    }else{
+                        document.getElementById("radioDayLoan").checked = true;
+                    }
+                }
+            }
+            if(model.MonthlyLoanAmount <= 0){
+                changeDropDownValueLoan();
+            }
+            if (model.LotInspectionAmount > 0) {
+                document.getElementById("dropDownLot").value = "1";
+            }
+            if(model.LotInspectionAmount <= 0){
+                changeDropDownValueLot();
+            }
+        }
+        
     };
     function partialLoad() {
         var isEdit = '@ViewBag.isEdit';
