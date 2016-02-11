@@ -254,7 +254,7 @@ namespace BankLoanSystem.DAL
                         command.Parameters.Add("@lot_inspection_amount", SqlDbType.Float).Value = fees.LotInspectionAmount;
                         command.Parameters.Add("@lot_inspection_receipt", SqlDbType.Bit).Value = fees.LotInspectionNeedReceipt;
                         command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees.LotInspectionDue;
-                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
+                        command.Parameters.Add("@lot_payment_due_date", SqlDbType.NVarChar).Value = "9";//fees.MonthlyLoanDueDate;
                         command.Parameters.Add("@lot_inspection_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmail;
                         command.Parameters.Add("@lot_inspection_delaer_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmailRemindPeriod;
                         command.Parameters.Add("@lot_inspection_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmail;

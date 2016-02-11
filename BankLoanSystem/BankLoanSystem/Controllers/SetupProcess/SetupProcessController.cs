@@ -1397,11 +1397,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step8()
         {
             //Session["userId"] = 2;
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             var userId = (int)Session["userId"];
 
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
- 
+
             companyType = 1;
             if (companyType == 1)
             {
@@ -1410,30 +1414,41 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else {
                 ViewBag.isLender = false;
             }
-            Fees fee = new Fees(); 
+            Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //check the loan is in a update
-            Fees feeUpdate = new Fees();
-            if (loan.checkLoanIsInFeesTables(fee.LoanId) != null) {
-                feeUpdate = loan.checkLoanIsInFeesTables(fee.LoanId);
-            }
-            
-            feeUpdate.LoanId = fee.LoanId;
 
-            if (feeUpdate.LoanId > 0) {
-                var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
-                fee.MonthlyLoanLenderEmail = email;
-                fee.MonthlyLoanDealerEmail = email;
-                fee.LotInspectionLenderEmail = email;
-                fee.LotInspectionDealerEmail = email;
-                fee.AdvanceLenderEmail = email;
-                fee.AdvanceDealerEmail = email;
+            var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
 
-                return PartialView(feeUpdate);
+            if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
+            {
+                ViewBag.isEdit = "editable";
+                Session["isEdit"] = true;
+                hasLoan.LoanId = fee.LoanId;
+                return PartialView(hasLoan);
             }
             else {
-                return RedirectToAction("Step7");
+                ViewBag.isEdit = "notEditable";
+            
+                Fees feeUpdate = new Fees();
+                feeUpdate.LoanId = fee.LoanId;
+
+                if (feeUpdate.LoanId > 0)
+                {
+                    var email = loan.getAutoRemindEmailByLoanId(feeUpdate.LoanId);
+                    feeUpdate.MonthlyLoanLenderEmail = email;
+                    feeUpdate.MonthlyLoanDealerEmail = email;
+                    feeUpdate.LotInspectionLenderEmail = email;
+                    feeUpdate.LotInspectionDealerEmail = email;
+                    feeUpdate.AdvanceLenderEmail = email;
+                    feeUpdate.AdvanceDealerEmail = email;
+
+                    return PartialView(feeUpdate);
+                }
+                else {
+                    return RedirectToAction("Step7");
+                }
             }
         }
         /// <summary>
@@ -1479,13 +1494,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 //Session["userId"] = 2;
                 var userId = (int)Session["userId"];
-                if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
+
+                if ((bool)Session["isEdit"] == true) {
+                    return RedirectToAction("Step9");
+                }
+                else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
                 {
                     return RedirectToAction("Step9");
                 }
                 else
                 {
-                    return RedirectToAction("Step8");
+                    return RedirectToAction("Step9");
                 }
             }
             else
