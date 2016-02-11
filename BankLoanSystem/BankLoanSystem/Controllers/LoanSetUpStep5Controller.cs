@@ -101,7 +101,8 @@ namespace BankLoanSystem.Controllers
                     break;
 
                 case "Next":
-                    //ViewBag.ErrorMsg = "Next Clicked";
+                    TempData["objmodel"] = objmodel;
+                    return RedirectToAction("Create");
                     break;
             }
             return View(objmodel);
@@ -116,43 +117,113 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult Create(int? edit)
         {
-            Session["userId"] = 1;
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
-
-            int userId = Convert.ToInt32(Session["userId"]);
-
-
-            //ViewBag.TypeId = new SelectList(ctList, "TypeId", "TypeName");//
-
-            StepAccess sa = new StepAccess();
-            if (sa.getStepNumberByUserId(userId) >= 1 && edit != 1)
+            if ((TempData["objmodel"] != null) && (TempData["objmodel"].ToString() != ""))
             {
-                return PartialView();
-            }
+                CurtailmentModel curtailmentModel = new CurtailmentModel();
 
-            if (edit == 1)
-            {
-                if (!string.IsNullOrEmpty(Session["userId"].ToString()))
+                curtailmentModel = (CurtailmentModel)TempData["objmodel"];
+
+                Session["userId"] = 2;
+                if (Session["userId"] == null || Session["userId"].ToString() == "")
+                    return RedirectToAction("UserLogin", "Login");
+
+                int userId = Convert.ToInt32(Session["userId"]);
+
+                StepAccess sa = new StepAccess();
+                if (sa.getStepNumberByUserId(userId) >= 1 && edit != 1)
                 {
-                    userId = Convert.ToInt32(Session["userId"]);
-                    Company preCompany = new Company();//ca.GetCompanyDetailsByFirstSpUserId(userId);
+                    string type;
+                    if (_isEdit != 1)
+                    {
+                        type = "INSERT";
+                    }
+                    else
+                    {
+                        type = "UPDATE";
+                        _isEdit = 0;
+                    }
 
-                    //string[] zipWithExtention = preCompany.Zip.Split('-');
+                    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+                    // Get company types to list
+                    List<Curtailment> lstCurtailment = new List<Curtailment>();
+                    foreach (Curtailment curtailment in curtailmentModel.InfoModel)
+                    {
+                        if (curtailment.Percentage != 0 && curtailment.TimePeriod != "")
+                        {
+                            curtailment.LoanId = 1;
+                            lstCurtailment.Add(curtailment);
+                        }
+                    }
 
-                    //if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                    //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+                    if (curtailmentAccess.InsertCurtailment(lstCurtailment, type) == 1)
+                    {
+                        ViewBag.SuccessMsg = "Curtailment Details added successfully";
 
-                    //_comCode = preCompany.CompanyCode;
-                    // ViewBag.Edit = "Yes";
-                    //_isEdit = 1;
+                        //If succeed update step table to step2 
+                        //StepAccess sa = new StepAccess();
+                        //sa.updateStepNumberByUserId(int.Parse(Session["userId"].ToString()), 5);
 
-                    return PartialView(preCompany);
+                        //Send company detail to NEXT step
+                        //CompanyBranchModel comBranch = new CompanyBranchModel();
+                        //comBranch.Company = curtailment;
+
+                        //TempData["Company"] = comBranch;
+                        //return View(curtailmentModel);
+                    }
+                    else
+                    {
+                        ViewBag.SuccessMsg = "Curtailment Details updated successfully";
+                    }
+                    //return PartialView();
+                }
+
+                if (edit == 1)
+                {
+                    if (!string.IsNullOrEmpty(Session["userId"].ToString()))
+                    {
+                        userId = Convert.ToInt32(Session["userId"]);
+                        Company preCompany = new Company();//ca.GetCompanyDetailsByFirstSpUserId(userId);
+
+                        //string[] zipWithExtention = preCompany.Zip.Split('-');
+
+                        //if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+                        //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+
+                        //_comCode = preCompany.CompanyCode;
+                        // ViewBag.Edit = "Yes";
+                        //_isEdit = 1;
+
+                        return PartialView(preCompany);
+                    }
                 }
             }
-
             return RedirectToAction("UserLogin", "Login");
         }
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2/09/2016
+        /// </summary>
+        /// <param name="curtailment"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        public ActionResult Fetch()
+        {
+
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return new HttpStatusCodeResult(404, "Your Session Expired");
+
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            // Get company types to list
+            List<Curtailment> lstCurtailment = curtailmentAccess.retreiveCurtailmentByLoanId(1);
+
+            CurtailmentModel obj = new CurtailmentModel();
+            obj.InfoModel = lstCurtailment;
+            ViewData["objmodel"] = obj;
+            return View(obj);
+
+        }
+
 
         /// <summary>
         /// CreatedBy : Nadeeka
