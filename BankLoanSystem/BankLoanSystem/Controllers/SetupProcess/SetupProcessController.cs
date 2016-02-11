@@ -1582,6 +1582,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 LoanSetupAccess la = new LoanSetupAccess();
                 TitleAccess ta = new TitleAccess();
+                Title titl = new Title();
                 int loanId = la.getLoanIdByUserId(uId);
                 //int loanId = 1;
                 if (loanId > 0)
@@ -1605,11 +1606,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
 
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
-                        if (!string.IsNullOrEmpty(defaultEmail))
-                        {
-                            ViewBag.DefaultEmail = defaultEmail;
-                        }
-                        return PartialView();
+
+                        titl.RemindEmail = defaultEmail;
+                        
+                        return PartialView(titl);
                     }
                 }
 

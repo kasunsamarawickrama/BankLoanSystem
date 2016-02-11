@@ -94,7 +94,7 @@
                         else
                         {
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.RemindEmail, "DefaultEmail", new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
                                 @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
                             </div>
                         }
@@ -209,14 +209,14 @@
             $('#needTrack').hide();
             $('#needReceipt').hide();
             $('#ScannTitle').hide();
-
+           
             $('#IsTitleTrack').change(function () {
 
                 if (this.checked)
                 {
 
                     $('#needTrack').show();
-
+                    
                 }
 
                 else
@@ -225,7 +225,7 @@
                 }
 
             });
-           
+
             $('#IsReceipRequired').change(function () {
 
                 if (this.checked) {
@@ -244,7 +244,7 @@
         {
             $('#ScannTitle').hide();
 
-           
+
             if($('#IsTitleTrack').prop('checked')==true){
 
                 $('#needTrack').show();
