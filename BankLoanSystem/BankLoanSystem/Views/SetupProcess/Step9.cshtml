@@ -51,13 +51,23 @@
 
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownList("TitleAcceptMethod", null, "-- Select Accepted Method --", htmlAttributes: new { @class = "form-control", @id = "acceptMethod" })
+                            @Html.DropDownList("TitleAcceptMethod", null, "-- Select Accepted Method --", htmlAttributes: new { @class = "form-control", @id = "acceptMethod", @onchange = "passvalue(this);" })
 
                         </div>
-                        <div class="col-xs-8" id="ScannTitle">
-                            @Html.Label("Upload Title", htmlAttributes: new { })
+                       <div class="form-group" id="ScannTitle">
+                           <div class="control-label col-sm-2" style="margin-left:15px;margin-top:20px">
+                               @Html.Label("Upload Title", htmlAttributes: new { })
 
-                        </div>
+                           </div>
+                           <div class = "col-xs-8">
+                               <input type="file" name="file" id="file" style="margin-top:20px"/>
+                               
+                           </div>
+                           <div class = "col-xs-8">
+                               <input type="submit" value="Upload Title" class="btn btn-primary m-b" />
+                           </div>
+                       </div>
+                        
                         
                         <div class="control-label col-sm-2" style="margin-top:15px">
                             @Html.Label("Time limit to track", htmlAttributes: new { })
@@ -180,12 +190,23 @@
     });
 </script>
 <script language="javascript" type="text/javascript">
+   
+    function passvalue(e){
+        if(e.value == "scanned title adequate"){
+            $('#ScannTitle').show();
+            //alert(e.value);
+
+        }
+    }
+</script>
+    
+<script language="javascript" type="text/javascript">
     $(document).ready(function () {
 
-       
+
 
         $.fn.loadFunc = function () {
-           
+
             $('#needTrack').hide();
             $('#needReceipt').hide();
             $('#ScannTitle').hide();
@@ -205,9 +226,13 @@
                 }
 
             });
-            $('#TitleAcceptMethod').change(function() {
-                alert($(this).val());
-            });
+            //$('#TitleAcceptMethod').change(function() {
+            //    alert($(this).val());
+            //});
+
+            //var c = document.getElementById("acceptMethod");
+            ////var strUser = c.options[e.selectedIndex].value;
+            //alert(strUser.va);
             //if($('#TitleAcceptMethod:selected').val()=="scanned title adequate"){
             //    $('#ScannTitle').show();
             //}
@@ -227,19 +252,17 @@
             });
 
             $('#clear').click(function () {
-        
+
                 document.getElementsByTagName("form")[0].reset();
-        
+
             });
         }
 
         $.fn.editFunc = function()
         {
             $('#ScannTitle').hide();
-            $('#TitleAcceptMethod').change(function() {
-                alert($(this).val());
-            });
-            //if($('#TitleAcceptMethod:selected').text()=="scanned title adequate"){
+
+            //if($('#TitleAcceptMethod option:selected').text()=="scanned title adequate"){
             //    alert("hiii");
             //    $('#ScannTitle').show();
             //}
@@ -294,9 +317,9 @@
             });
 
             $('#clear').click(function () {
-        
+
                 document.getElementsByTagName("form")[0].reset();
-        
+
             });
 
         }
@@ -313,7 +336,7 @@
 
     });
 
-   
+
 
     //Back Button
     $(function () {

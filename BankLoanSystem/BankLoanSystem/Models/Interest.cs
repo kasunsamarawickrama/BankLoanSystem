@@ -40,7 +40,7 @@ namespace BankLoanSystem.Models
         public String AutoRemindEmail { get; set; }
 
 
-        public String RemindPeriod { get; set; }
+        public int RemindPeriod { get; set; }
 
         [Display(Name = "Accrual Method")]
         public int AccrualMethodId { get; set; }
