@@ -283,6 +283,22 @@
                             @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
+                            Due Date
+                        </div>
+                        <div class="col-xs-8 no">
+                            @{
+                                List<SelectListItem> listItems7 = new List<SelectListItem>();
+                                for (var i = 1; i < 29; i++)
+                                {
+                                    listItems7.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                }
+
+                            }
+                            @Html.DropDownListFor(model => model.LotInspectionDueDate, listItems7, "-- select a date --", new { @class = "form-control", @id = "lotDueDate" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionDueDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-xs-8 no">
                             Lender email
                         </div>
                         <div class="col-xs-8 no">
@@ -371,11 +387,13 @@
 
                 if (model.AdvanceDueDate == "VP") {
                     document.getElementById("advanceDue").value = "Vehicle Payoff";
+                    document.getElementById("advanceDueDate").disabled = true;
                     document.getElementById("radioDayAdvance").disabled = true;
                     document.getElementById("radioMonthAdvance").disabled = true;
                 }
                 else if (model.AdvanceDueDate == "TOA") {
                     document.getElementById("advanceDue").value = "Time of Advance";
+                    document.getElementById("advanceDueDate").disabled = true;
                     document.getElementById("radioDayAdvance").disabled = true;
                     document.getElementById("radioMonthAdvance").disabled = true;
                 }
@@ -398,11 +416,13 @@
                 document.getElementById("radioDayLoan").checked = true;
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
+                    document.getElementById("loanDueDate").disabled = true;
                     document.getElementById("radioDayLoan").disabled = true;
                     document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
+                    document.getElementById("loanDueDate").disabled = true;
                     document.getElementById("radioDayLoan").disabled = true;
                     document.getElementById("radioMonthLoan").disabled = true;
                 }
@@ -441,11 +461,13 @@
 
                 if (model.AdvanceDueDate == "VP") {
                     document.getElementById("advanceDue").value = "Vehicle Payoff";
+                    document.getElementById("advanceDueDate").disabled = true;
                     document.getElementById("radioDayAdvance").disabled = true;
                     document.getElementById("radioMonthAdvance").disabled = true;
                 }
                 else if (model.AdvanceDueDate == "TOA") {
                     document.getElementById("advanceDue").value = "Time of Advance";
+                    document.getElementById("advanceDueDate").disabled = true;
                     document.getElementById("radioDayAdvance").disabled = true;
                     document.getElementById("radioMonthAdvance").disabled = true;
                 }
@@ -464,15 +486,18 @@
                 changeDropDownValueAdvance();
             }
             if (model.MonthlyLoanAmount > 0) {
+                document.getElementById("radioDayAdvance").checked = true;
                 document.getElementById("dropDownLoan").value = "1";
                 document.getElementById("radioDayLoan").checked = true;
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
+                    document.getElementById("loanDueDate").disabled = true;
                     document.getElementById("radioDayLoan").disabled = true;
                     document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
+                    document.getElementById("loanDueDate").disabled = true;
                     document.getElementById("radioDayLoan").disabled = true;
                     document.getElementById("radioMonthLoan").disabled = true;
                 }
@@ -599,9 +624,11 @@
         if (drop3 == "0") {
             document.getElementById("lotAmount").value = 0;
             document.getElementById("lotDue").value = "";
+            document.getElementById("lotDueDate").value = "";
             document.getElementById("lotAmount").readOnly = true;
             document.getElementById("lotInspectionNeedReceipt").disabled = true;
             document.getElementById("lotDue").disabled = true;
+            document.getElementById("lotDueDate").disabled = true;
             document.getElementById("lotLenderEmail").readOnly = true;
             document.getElementById("lotDealerEmail").readOnly = true;
             document.getElementById("lotLenderEmailRemindPeriod").readOnly = true;
@@ -611,6 +638,7 @@
             document.getElementById("lotAmount").readOnly = false;
             document.getElementById("lotInspectionNeedReceipt").disabled = false;
             document.getElementById("lotDue").disabled = false;
+            document.getElementById("lotDueDate").disabled = false;
             document.getElementById("lotLenderEmail").readOnly = false;
             document.getElementById("lotDealerEmail").readOnly = false;
             document.getElementById("lotLenderEmailRemindPeriod").readOnly = false;
