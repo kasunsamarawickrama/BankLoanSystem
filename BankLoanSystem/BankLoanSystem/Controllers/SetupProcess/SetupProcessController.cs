@@ -1279,6 +1279,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             InterestAccess ia = new InterestAccess();
+            Interest intrstObj = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
 
@@ -1315,11 +1316,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
                         ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
-                        if (!string.IsNullOrEmpty(defaultEmail))
-                        {
-                            ViewBag.DefaultEmail = defaultEmail;
-                        }
-                        return PartialView();
+                        intrstObj.AutoRemindEmail = defaultEmail;
+                        return PartialView(intrstObj);
                     }
                 }
 
