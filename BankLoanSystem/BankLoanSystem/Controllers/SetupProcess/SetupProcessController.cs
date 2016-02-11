@@ -1136,20 +1136,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 6...
             StepAccess sa = new StepAccess();
-            //if (sa.getStepNumberByUserId(userId) != 6)
-            //{
-            //    return new HttpStatusCodeResult(404);
-            //}
-
-            LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
-
-
-            int loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1);
+            if (sa.getStepNumberByUserId(userId) != 6)
+            {
+                return new HttpStatusCodeResult(404);
+            }
 
             sa.updateStepNumberByUserId(userId, 7);
 
             Session["rowId"] = userId;
-            return new HttpStatusCodeResult(404, "Data Sucessfully Inserted");
+            return RedirectToAction("UserDetails", "UserManagement");
 
         }
 
@@ -1501,6 +1496,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 var userId = (int)Session["userId"];
 
                 if ((bool)Session["isEdit"] == true) {
+                    Session["isEdit"] = false;
                     return RedirectToAction("Step9");
                 }
                 else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
