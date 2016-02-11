@@ -14,7 +14,7 @@
     <div class="container body-content">
 
         <h2>Step 4 - Title</h2>
-        @using (Ajax.BeginForm("Step9", "Interest", new AjaxOptions()
+        @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
             {
                 OnSuccess = "Progress(6)",
                 OnFailure = "handleErrorMsg",
@@ -167,7 +167,7 @@
                                     <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                 </li>
                                 <li>
-                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" onclick="clearFunction()"/>
                                 </li>
 
                             </ul>
@@ -182,13 +182,7 @@
     </div>
 </div>
 
-<script>
-    $('#clear').click(function () {
-        
-        document.getElementsByTagName("form")[0].reset();
-        
-    });
-</script>
+
 <script language="javascript" type="text/javascript">
    
     function passvalue(e){
@@ -199,8 +193,13 @@
         }
     }
 </script>
-    
 <script language="javascript" type="text/javascript">
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>    
+<script language="javascript" type="text/javascript">
+
     $(document).ready(function () {
 
 
@@ -226,19 +225,7 @@
                 }
 
             });
-            //$('#TitleAcceptMethod').change(function() {
-            //    alert($(this).val());
-            //});
-
-            //var c = document.getElementById("acceptMethod");
-            ////var strUser = c.options[e.selectedIndex].value;
-            //alert(strUser.va);
-            //if($('#TitleAcceptMethod:selected').val()=="scanned title adequate"){
-            //    $('#ScannTitle').show();
-            //}
-            //else{
-            //    $('#ScannTitle').hide();
-            //}
+           
             $('#IsReceipRequired').change(function () {
 
                 if (this.checked) {
@@ -251,24 +238,13 @@
 
             });
 
-            $('#clear').click(function () {
-
-                document.getElementsByTagName("form")[0].reset();
-
-            });
         }
 
         $.fn.editFunc = function()
         {
             $('#ScannTitle').hide();
 
-            //if($('#TitleAcceptMethod option:selected').text()=="scanned title adequate"){
-            //    alert("hiii");
-            //    $('#ScannTitle').show();
-            //}
-            //else{
-            //    $('#ScannTitle').hide();
-            //}
+           
             if($('#IsTitleTrack').prop('checked')==true){
 
                 $('#needTrack').show();

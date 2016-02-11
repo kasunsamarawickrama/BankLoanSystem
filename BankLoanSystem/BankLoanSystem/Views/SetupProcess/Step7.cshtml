@@ -15,7 +15,7 @@
     <div class="container body-content">
 
         <h2>Step 2 - Interest</h2>
-        @using (Ajax.BeginForm("Step7", "Interest", new AjaxOptions()
+        @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
             {
                 OnSuccess = "Progress(6)",
                 OnFailure = "handleErrorMsg",
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="col-xs-4" style="float:left;margin-left: 80px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "focusFunction()" } })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -265,15 +265,22 @@
         });
     });
 
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
-    });
+   
 </script>
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $("#clear").click(function(){
+            
+            document.getElementById("form")[0].reset();
+           
+        }
+        );          
+      
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
+           
             $('#onceMonth').click(function () {
                 $('#paidDateDiv').show();
             });
