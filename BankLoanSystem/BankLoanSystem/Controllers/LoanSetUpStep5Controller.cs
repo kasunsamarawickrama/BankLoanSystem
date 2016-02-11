@@ -2,20 +2,13 @@
 using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BankLoanSystem.Controllers
 {
     public class LoanSetUpStep5Controller : Controller
     {
-        private static int _createById;
         private static int _isEdit;
-        //private static float totalPercentage = 0;
-        private static string _timeBase;
-        private static int _timePeriod;
         private static float _remaininPrecentage;
 
         private static LoanSetupStep1 _loan;
@@ -36,6 +29,7 @@ namespace BankLoanSystem.Controllers
 
             CurtailmentModel obj = new CurtailmentModel();
             obj.RemainingPercentage = _loan.advancePercentage;
+            _remaininPrecentage = _loan.advancePercentage;
             obj.InfoModel = new List<Curtailment>();
 
             obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
@@ -53,7 +47,6 @@ namespace BankLoanSystem.Controllers
             switch (submit)
             {
                 case "Add Row":
-
                     float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
                     float totalPercentage = 0;
 
@@ -62,12 +55,15 @@ namespace BankLoanSystem.Controllers
 
                     int curId = 1;
                     for (int i = 0; i < objmodel.InfoModel.Count; i++)
-                    {   Curtailment curtailment = objmodel.InfoModel[i];
+                    {
+                        
+                        Curtailment curtailment = objmodel.InfoModel[i];
                         if (i == 0)
                         {
                             if (objmodel.InfoModel[i].TimePeriod > payTime)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                objmodel.RemainingPercentage = _remaininPrecentage;
                                 return View(objmodel);
                             }
                         }
@@ -76,6 +72,7 @@ namespace BankLoanSystem.Controllers
                             if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                objmodel.RemainingPercentage = _remaininPrecentage;
                                 return View(objmodel);
                             }
                         }
@@ -86,7 +83,7 @@ namespace BankLoanSystem.Controllers
                         curId++;
                     }
                     objmodel.RemainingPercentage = payPercentage - totalPercentage;
-
+                    _remaininPrecentage = objmodel.RemainingPercentage;
                     if (objmodel.RemainingPercentage >= 0 && objmodel.RemainingTime <= payTime)
                     {
                         if(objmodel.RemainingPercentage != 0 && objmodel.RemainingTime != payTime)
@@ -109,75 +106,6 @@ namespace BankLoanSystem.Controllers
             }
             return View(objmodel);
         }
-
-        public JsonResult CalculateTimePeriod(int timePeriod)
-        {
-            bool res = false;
-
-            int noOfDays = (int)(_loan.maturityDate - _loan.startDate).TotalDays;
-            if (Convert.ToInt32(timePeriod) < noOfDays) res = true;
-
-            return Json(res, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult CheckPrecentage(float percentage, string cal)
-        {
-            //bool res = percentage < _remaininPrecentage;
-            //return Json(res, JsonRequestBehavior.AllowGet);
-
-            float payPercentage = cal == "Full Payment" ? _loan.advancePercentage : 100;
-            float totalPercentage = 0;
-            int curId = 1;
-            foreach (Curtailment curtailment in _gCurtailment.InfoModel)
-            {
-                totalPercentage += curtailment.Percentage;
-                curtailment.CurtailmentId = curId;
-                curId++;
-            }
-            _remaininPrecentage = _gCurtailment.RemainingPercentage = payPercentage - totalPercentage;
-
-            CurtailmentModel temp = new CurtailmentModel();
-
-            if (_gCurtailment.RemainingPercentage > 0)
-            {
-                for (int i = 0; i < curId; i++)
-                {
-                    temp.InfoModel.Add(new Curtailment { CurtailmentId = i+1 });
-                }
-                
-                //_gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = _gCurtailment.InfoModel.Count + 1 });
-            }
-            else
-            {
-                ViewBag.ErrorMsg = "Invalid percentage's found!";
-            }
-            return PartialView("Step5", _gCurtailment);
-        }
-
-        /// <summary>
-        /// CreatedBy : Kanishka SHM
-        /// CreatedDate: 2016/01/16
-        /// 
-        /// Check weather user name already exist
-        /// 
-        /// argument: userName(string)
-        /// 
-        /// </summary>
-        /// <returns>Return JsonResult</returns>
-        public JsonResult KeepCalculationBaseInfo(string calculationBase)
-        {
-            var res = calculationBase;
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
-        //public void KeepTimeBaseType(string timeBase)
-
-        public JsonResult KeepTimeBaseType(string timeBase)
-        {
-            _timeBase = timeBase;
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
 
         /// <summary>
         /// CreatedBy : Nadeeka
