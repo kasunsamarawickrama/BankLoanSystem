@@ -907,5 +907,53 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/02/11
+        /// Get Branch by branch Id
+        /// </summary>
+        /// <param name="branch Id"></param>
+        /// <returns></returns>
+        public Branch getBranchByBranchId(int branchId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetBranchByBranchId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@branch_id", SqlDbType.VarChar).Value = branchId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        Branch branch = new Branch();
+                        
+
+                        while (reader.Read())
+                        {
+
+                            branch.BranchCode = reader["branch_code"].ToString();
+
+                        }
+                        return branch;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
     }
 }

@@ -146,6 +146,8 @@
 
             </div>
 
+        
+
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
@@ -227,31 +229,78 @@
 
         </div>
 
+
+       
+            @{
+                List<SelectListItem> yesOrNoList = new List<SelectListItem>();
+                yesOrNoList.Add(new SelectListItem
+                {
+                    Text = "Yes",
+                    Value = "true"
+                });
+                yesOrNoList.Add(new SelectListItem
+                {
+                    Text = "No",
+                    Value = "false",
+                    Selected = true
+                });
+            }
+    
+
+
         <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-
-
-            </div>
-
-            <div class="col-xs-11">
                 @Html.LabelFor(m => m.isEditAllowable)
+
             </div>
+            <div class="control-label col-sm-2">
+                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
+                
+               @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control" })
+
+            </div>
+
+            
         </div>
 
+        <div class="form-group">
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
+
+                @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })
+
+            </div>
+            <div class="control-label col-sm-2">
+                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
+
+                @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
+
+
+
+
+            </div>
+
+
+        </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2" >
-                @Html.CheckBox("auto reminder", false, htmlAttributes: new { @onchange = "javascript:showAutoReminderEmail(this.checked)" })
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
 
+               @Html.Label("Do you want auto reminder for renewal")
 
+            </div>
+            <div class="control-label col-sm-2">
+               
+
+                @Html.DropDownList("auto reminder", yesOrNoList, htmlAttributes: new { @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
                 
+
+
+
             </div>
 
-            <div class="col-xs-11" style="margin-top: 8px;">
-                @Html.Label("Do you want auto reminder for renewal")
-            </div>
+
         </div>
 
         
@@ -263,7 +312,7 @@
                 </div>
 
                 <div class="col-xs-4" style="float:right;margin-left: 28px;">
-                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new {@id= "emailPeriod", @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.autoReminderPeriod, "", new { @class = "text-danger" })
                 </div>
                
@@ -444,8 +493,8 @@
 
         }
 
-        function showAutoReminderEmail(checked) {
-            if (checked) {
+        function showAutoReminderEmail(value) {
+            if (value == "true") {
                 $("#AutoReminderEmail").show();
                 
 
@@ -455,7 +504,7 @@
             } else {
                 $("#AutoEmail").val("");
                 $("#AutoReminderEmail").hide();
-                
+                $("#emailPeriod").val("0");
                 $("#errorAutoEmail").text("");
             }
 
