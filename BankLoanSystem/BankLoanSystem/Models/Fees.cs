@@ -12,6 +12,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Advance")]
         public int AdvanceId { get; set; }
+        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
         public double AdvanceAmount { get; set; }
         public bool AdvanceNeedReceipt { get; set; }
         public string AdvanceDue { get; set; }
@@ -24,6 +25,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Monthly Loan")]
         public int MonthlyLoanId { get; set; }
+        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
         public double MonthlyLoanAmount { get; set; }
         public bool MonthlyLoanNeedReceipt { get; set; }
         public string MonthlyLoanDue { get; set; }
@@ -36,6 +38,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Lot Inspection")]
         public int LotInspectionId { get; set; }
+        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
         public double LotInspectionAmount { get; set; }
         public bool LotInspectionNeedReceipt { get; set; }
         public string LotInspectionDue { get; set; }

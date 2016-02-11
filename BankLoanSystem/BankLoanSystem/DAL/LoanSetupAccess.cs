@@ -170,9 +170,15 @@ namespace BankLoanSystem.DAL
                             fees.AdvanceDue = reader["payment_due_method"].ToString();
                             fees.AdvanceDueDate = reader["payment_due_date"].ToString();
                             fees.AdvanceDealerEmail = reader["auto_remind_dealer_email"].ToString();
-                            fees.AdvanceDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                            if (reader["delaer_remind_period"] != System.DBNull.Value)
+                            {
+                                fees.AdvanceDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                            }
                             fees.AdvanceLenderEmail = reader["auto_remind_lender_email"].ToString();
-                            fees.AdvanceLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                            if (reader["lender_remind_period"] != System.DBNull.Value)
+                            {
+                                fees.AdvanceLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                            }
                             
                         }
                         reader.Close();
@@ -191,9 +197,15 @@ namespace BankLoanSystem.DAL
                             fees.MonthlyLoanDue = reader["payment_due_method"].ToString();
                             fees.MonthlyLoanDueDate = reader["payment_due_date"].ToString();
                             fees.MonthlyLoanDealerEmail = reader["auto_remind_dealer_email"].ToString();
-                            fees.MonthlyLoanDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                            if (reader["delaer_remind_period"] != System.DBNull.Value)
+                            {
+                                fees.MonthlyLoanDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                            }
                             fees.MonthlyLoanLenderEmail = reader["auto_remind_lender_email"].ToString();
-                            fees.MonthlyLoanLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                            if (reader["lender_remind_period"] != System.DBNull.Value)
+                            {
+                                fees.MonthlyLoanLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                            }
 
                         }
                         reader.Close();
@@ -286,84 +298,6 @@ namespace BankLoanSystem.DAL
                 finally
                 {
                     con.Close();
-                }
-            }
-        }
-
-        internal int insertLoanStepOne(LoanSetupStep1 loanSetupStep1)
-        {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spInsertLoanStepOne", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        command.Parameters.Add("@advance", SqlDbType.Float).Value = loanSetupStep1.advancePercentage;
-                        // command.Parameters.Add("@advance_receipt", SqlDbType.Bit).Value = loanSetupStep1.allUnitTypes;
-                        command.Parameters.Add("@auto_remind_email", SqlDbType.NVarChar).Value = loanSetupStep1.autoReminderEmail;
-                        command.Parameters.Add("@auto_remind_period", SqlDbType.Int).Value = loanSetupStep1.autoReminderPeriod;
-                        command.Parameters.Add("@default_unit_type", SqlDbType.Int).Value = loanSetupStep1.defaultUnitType;
-                        command.Parameters.Add("@is_edit_allowable", SqlDbType.Bit).Value = loanSetupStep1.isEditAllowable;
-                        command.Parameters.Add("@is_interest_calculate", SqlDbType.Bit).Value = loanSetupStep1.isInterestCalculate;
-                        command.Parameters.Add("@loan_amount", SqlDbType.Float).Value = loanSetupStep1.loanAmount;
-
-                        command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanSetupStep1.loanNumber;
-                        command.Parameters.Add("@maturity_date", SqlDbType.DateTime).Value = loanSetupStep1.maturityDate;
-                        command.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = loanSetupStep1.nonRegisteredBranchId;
-                        command.Parameters.Add("@payment_method", SqlDbType.NVarChar).Value = loanSetupStep1.paymentMethod;
-                        command.Parameters.Add("@pay_off_period", SqlDbType.Int).Value = loanSetupStep1.payOffPeriod;
-                        command.Parameters.Add("@pay_off_type", SqlDbType.Char).Value = ((loanSetupStep1.payOffPeriodType == 0) ? 'd':'m');
-                        command.Parameters.Add("@loan_code", SqlDbType.NVarChar).Value = (new BranchAccess()).getBranchByBranchId(loanSetupStep1.RegisteredBranchId).BranchCode + "-" + loanSetupStep1.loanNumber;
-                        //command.Parameters.Add("@monthly_loan_lender_remind_period", SqlDbType.NVarChar).Value = loanSetupStep1.selectedUnitTypes;
-
-                        command.Parameters.Add("@start_date", SqlDbType.DateTime).Value = loanSetupStep1.startDate;
-                        command.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
-
-                        command.Parameters.Add("@loan_status", SqlDbType.Bit).Value = false;
-                        command.Parameters.Add("@is_delete", SqlDbType.Bit).Value = false;
-                        SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        con.Open();
-                        command.ExecuteNonQuery();
-                        int loanId = (int)returnParameter.Value;
-
-                        if(loanId== 0)
-                        {
-                            return (int)returnParameter.Value;
-                        }
-                        else
-                        {
-                            foreach(UnitType UnitType in loanSetupStep1.allUnitTypes)
-                            {
-                                if(UnitType.isSelected == true) { 
-                                using (SqlCommand cmd = new SqlCommand("spInsertLoanUniType", con))
-                                {
-                                        cmd.CommandType = CommandType.StoredProcedure;
-
-                                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                                        cmd.Parameters.Add("@unit_type_id", SqlDbType.Int).Value = UnitType.unitTypeId;
-                                        cmd.ExecuteNonQuery();
-
-                                    }
-                                }
-
-
-                            }
-
-                            return (int)returnParameter.Value;
-                        }
-                        
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
                 }
             }
         }
