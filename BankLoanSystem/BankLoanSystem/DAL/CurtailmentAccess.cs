@@ -47,10 +47,10 @@ namespace BankLoanSystem.DAL
                             Curtailment curtailment = new Curtailment();
                             curtailment.CurtailmentId = int.Parse(reader["curtailment_id"].ToString());
                             curtailment.LoanId = int.Parse(reader["loan_id"].ToString());
-                            //curtailment.TimePeriod = reader["percentage"].ToString();
+                            curtailment.TimePeriod = reader["percentage"].ToString();
                             curtailment.Percentage = float.Parse(reader["email"].ToString());
                             lstCurtailment.Add(curtailment);
-                            
+
                         }
                         return lstCurtailment;
 
@@ -87,7 +87,7 @@ namespace BankLoanSystem.DAL
         public bool updateUserDetails(int curtailmentId, string timePeriod, float percentage)
         {
 
-            using ( SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
                 {
@@ -97,7 +97,7 @@ namespace BankLoanSystem.DAL
 
                         cmd.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailmentId;
                         cmd.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = timePeriod;
-                        cmd.Parameters.Add("@percentage", SqlDbType.Float).Value = percentage;                      
+                        cmd.Parameters.Add("@percentage", SqlDbType.Float).Value = percentage;
 
                         con.Open();
 
@@ -105,7 +105,7 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        int countVal = (int) returnParameter.Value;
+                        int countVal = (int)returnParameter.Value;
 
                         if (countVal == 1)
                         {
@@ -147,27 +147,6 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>1</returns>
-
-        public int InsertCurtailment(List<Curtailment> lstCurtailment, string type)
-        {
-            using ( var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spInsertCurtailment", con) {CommandType = CommandType.StoredProcedure};
-                int flag = 0;
-                foreach (Curtailment curtailment in lstCurtailment)
-                {
-
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = curtailment.LoanId;
-                    command.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailment.CurtailmentId;
-                    command.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = curtailment.TimePeriod;
-                    command.Parameters.Add("@percentage", SqlDbType.Float).Value = curtailment.Percentage;
-                    command.Parameters.AddWithValue("@transaction_type", type);
-                    con.Open();
-                    flag = command.ExecuteNonQuery();
-                }
-                return flag;
-            }           
-        }
 
         public LoanSetupStep1 GetLoanDetailsByLoanId(int loanId)
         {
