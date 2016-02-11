@@ -47,7 +47,7 @@ namespace BankLoanSystem.DAL
                             Curtailment curtailment = new Curtailment();
                             curtailment.CurtailmentId = int.Parse(reader["curtailment_id"].ToString());
                             curtailment.LoanId = int.Parse(reader["loan_id"].ToString());
-                            curtailment.TimePeriod = reader["percentage"].ToString();
+                            curtailment.TimePeriod = Convert.ToInt16(reader["percentage"].ToString());
                             curtailment.Percentage = float.Parse(reader["email"].ToString());
                             lstCurtailment.Add(curtailment);
 
@@ -185,5 +185,58 @@ namespace BankLoanSystem.DAL
             return loan;
         }
 
+
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/02/09
+        /// 
+        /// Insert curtailment details
+        /// 
+        /// argument : curtailment list
+        /// 
+        /// </summary>
+        /// <returns>1</returns>
+
+        public int InsertCurtailment(List<Curtailment> lstCurtailment, string type)
+        {
+            int flag = 0;
+            int delFlag = 0;
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                con.Open();
+
+                var commandDelete = new SqlCommand("spDeleteCurtailment", con) { CommandType = CommandType.StoredProcedure };
+                commandDelete.Parameters.Add("@loan_id", SqlDbType.Int).Value = lstCurtailment[0].LoanId;
+
+                SqlParameter returnDelParameter = commandDelete.Parameters.Add("@return", SqlDbType.Int);
+                returnDelParameter.Direction = ParameterDirection.ReturnValue;
+                commandDelete.ExecuteNonQuery();
+
+                delFlag = (int)returnDelParameter.Value;
+
+                var command = new SqlCommand("spInsertCurtailment", con) { CommandType = CommandType.StoredProcedure };
+
+                foreach (Curtailment curtailment in lstCurtailment)
+                {
+                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = curtailment.LoanId;
+                    command.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailment.CurtailmentId;
+                    command.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = curtailment.TimePeriod;
+                    command.Parameters.Add("@percentage", SqlDbType.Float).Value = curtailment.Percentage;
+                    //command.Parameters.AddWithValue("@transaction_type", type);
+
+
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    command.ExecuteNonQuery();
+
+                    flag = (int)returnParameter.Value;
+
+                    command.Parameters.Clear();
+                }
+            }
+            if (delFlag == 2) flag = delFlag;
+            return flag; ;
+        }
     }
 }
