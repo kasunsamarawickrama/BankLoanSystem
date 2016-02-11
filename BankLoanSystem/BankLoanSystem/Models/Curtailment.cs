@@ -29,13 +29,12 @@ namespace BankLoanSystem.Models
         [Display(Name = "Curtailment Id")]
         public int CurtailmentId { get; set; }
 
-        
-        [RegularExpression("^[1-9][0-9]*$")]
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "Invalid")]
         public int TimePeriod { get; set; }
 
         [Display(Name = "Percentage")]
         [Required]
-        [Range(typeof(float), "0.001", "100")]
+        [Range(typeof(float), "0.001", "100", ErrorMessage = "Invalid")]
         public float Percentage { get; set; }       
 
         public int LoanId { get; set; }
