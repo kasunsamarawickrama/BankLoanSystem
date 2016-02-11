@@ -28,7 +28,6 @@ namespace BankLoanSystem.Models
         
         [Display(Name = "Curtailment Id")]
         public int CurtailmentId { get; set; }
-
         
         [RegularExpression("^[1-9][0-9]*$")]
         public int TimePeriod { get; set; }

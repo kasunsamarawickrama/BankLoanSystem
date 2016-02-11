@@ -148,7 +148,7 @@ namespace BankLoanSystem.Controllers
                     List<Curtailment> lstCurtailment = new List<Curtailment>();
                     foreach (Curtailment curtailment in curtailmentModel.InfoModel)
                     {
-                        if (curtailment.Percentage != 0 && curtailment.TimePeriod != "")
+                        if (curtailment.Percentage != 0 && curtailment.TimePeriod != 0)
                         {
                             curtailment.LoanId = 1;
                             lstCurtailment.Add(curtailment);

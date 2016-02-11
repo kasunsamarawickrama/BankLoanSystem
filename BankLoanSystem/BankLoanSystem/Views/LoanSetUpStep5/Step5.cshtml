@@ -216,16 +216,3 @@
         });
     });
 </script>
-<script type="text/javascript">
-    function AddNewRow(a) {
-        @*//@onchange = "AddNewRow(" + @a + ")"*@
-        var model = @Html.Raw(Json.Encode(Model));
-        var val = document.getElementById("percentage").value; // model.InfoModel[a].Percentage;
-        model.InfoModel.count = 2;
-        alert(val);
-
-    }
-    function PercentageOnChange(a) {
-        alert(a);
-    }
-</script>
