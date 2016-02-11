@@ -1,0 +1,353 @@
+﻿@model BankLoanSystem.Models.Interest
+
+@{
+    ViewBag.Title = "Step7";
+    
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+<div class="row">
+    <div class="container body-content">
+
+        <h2>Step 2 - Interest</h2>
+        @using (Ajax.BeginForm("Step7", "Interest", new AjaxOptions()
+            {
+                OnSuccess = "Progress(6)",
+                OnFailure = "handleErrorMsg",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))
+            {
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="margin-top:10px">
+                        @Html.LabelFor(model => model.InterestRate, htmlAttributes: new { })<span style="color: red">*</span>
+                    </div>
+
+                    <div class="col-xs-4" style="float:left;margin-left: 80px;">
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "focusFunction()" } })
+                        @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
+                    </div>
+                    <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
+                    </div>
+
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.option, "once a month", new { id = "onceMonth" }) Once a month
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
+                    </div>
+                    <div id="paidDateDiv">
+                        <div class="control-label col-sm-2" style="margin-top:25px">
+                            @Html.Label("Select Paid Date", htmlAttributes: new { })<span style="color: red">*</span>
+                        </div>
+                        <div class="col-xs-8">
+                            @Html.DropDownList("PaidDate", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "paidDate" })
+
+                        </div>
+                        
+                        
+                    </div>
+                    
+                   
+
+                    @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.LabelFor(model => model.PaymentPeriod, htmlAttributes: new { })<span style="color: red">*</span>
+                    </div>
+
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.PaymentPeriod, "accumulated in prior month", false) Interest accumulated in prior month
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.PaymentPeriod, "payment date to payment date", false) Interest from payment date to payment date
+                    </div>
+                    @Html.ValidationMessageFor(model => model.PaymentPeriod, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2" style="margin-top:10px">
+                        @Html.LabelFor(model => model.AccrualMethodId, htmlAttributes: new { })<span style="color: red">*</span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.DropDownList("AccrualMethodId", null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId" })
+                        @Html.ValidationMessageFor(model => model.AccrualMethodId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
+
+                    </div>
+
+                    <div class="control-label col-sm-2">
+                        @*@if (ViewBag.CheckBoxVal == true)
+                        {
+                            @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = true } })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = false } })
+                        }*@
+                        @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = false } })
+                    </div>
+                </div>
+                <div id="autoRemind">
+                    <div class="form-group">
+                        <div class="control-label col-sm-2">
+                            @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })
+
+                        </div>
+
+                        @if (ViewBag.Edit == 1)
+                {
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.AutoRemindEmail, "DefaultEmail", new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-left:15px">
+                                @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })
+
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod" } })
+                                @Html.ValidationMessageFor(model => model.RemindPeriod, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div>
+                        <nav>
+                            <ul class="pager">
+                                <li>
+                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    // Except only numbers and dot (.) for interest rate textbox
+    function onlyDotsAndNumbers(event) {
+        var charCode = (event.which) ? event.which : event.keyCode
+        if (charCode == 46) {
+            return true;
+        }
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function focusFunction() {
+
+        //interest rate
+        var x = document.getElementById("interest").value;
+
+        var arr = x.toString().split(".");
+
+        if (arr.length==1) {
+
+
+            var y = x.toString() + ".000";
+            //alert(y);
+            document.getElementById("interest").value = y;
+           // return x;
+        }
+
+        else if (arr.length == 2) {
+           // alert(arr[1].length);
+            if (arr[1].length == 1) {
+
+                var z = arr[1] + "00";
+
+                var z1 = arr[0] + "." + z;
+
+                document.getElementById("interest").value = z1;
+                //return x;
+            }
+            else if (arr[1].length == 2) {
+
+                var z = arr[1] + "0";
+
+                var z1 = arr[0] + "." + z;
+
+                document.getElementById("interest").value = z1;
+                //return x;
+            }
+
+        }
+    }
+
+
+    //Back Button
+    $(function () {
+        $('#backStep7').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("Step6", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
+    });
+
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.fn.editFunc = function(){
+            //alert('You have successfully defined the function!');
+            $('#onceMonth').click(function () {
+                $('#paidDateDiv').show();
+            });
+
+            $('#payOff').click(function () {
+                $('#paidDateDiv').hide();
+            });
+            
+            if($('#NeedReminder').prop('checked')==true){
+
+                $('#autoRemind').show();
+            }
+            else {
+
+                $('#autoRemind').hide();
+
+            }
+            //alert('You have successfully defined the function!');
+            $('#NeedReminder').change(function () {
+
+                if ((this.checked)) {
+                    //alert('You have successfully defined the function!');
+                    $('#autoRemind').show();
+
+                     }
+
+                else {
+
+                    $('#autoRemind').hide();
+
+                }
+
+            });
+
+        }
+        $.fn.loadFunc = function(){
+            //alert('You have successfully ');
+            $('#autoRemind').hide();
+            $('#paidDateDiv').hide();
+            $('#NeedReminder').change(function () {
+
+                if (this.checked) {
+
+
+                    $('#autoRemind').show();
+
+
+                }
+
+                else {
+
+                    $('#autoRemind').hide();
+
+                }
+
+            });
+
+            $('#onceMonth').click(function () {
+                $('#paidDateDiv').show();
+            });
+
+            $('#payOff').click(function () {
+                $('#paidDateDiv').hide();
+            });
+        }
+        if(@ViewBag.Edit ==1){
+
+            $.fn.editFunc();
+        }
+
+        else if(@ViewBag.Edit !=1){
+
+            $.fn.loadFunc();
+        }
+
+    });
+</script>

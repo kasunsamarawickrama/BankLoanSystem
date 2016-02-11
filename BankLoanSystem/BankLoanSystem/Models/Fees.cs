@@ -13,6 +13,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Advance")]
         public int AdvanceId { get; set; }
         public float AdvanceAmount { get; set; }
+        public bool AdvanceNeedReceipt { get; set; }
         public string AdvanceDue { get; set; }
         public string AdvanceDueDate { get; set; }
         public string AdvanceRadio { get; set; }
@@ -24,6 +25,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Monthly Loan")]
         public int MonthlyLoanId { get; set; }
         public float MonthlyLoanAmount { get; set; }
+        public bool MonthlyLoanNeedReceipt { get; set; }
         public string MonthlyLoanDue { get; set; }
         public string MonthlyLoanRadio { get; set; }
         public string MonthlyLoanDueDate { get; set; }
@@ -35,7 +37,9 @@ namespace BankLoanSystem.Models
         [Display(Name = "Lot Inspection")]
         public int LotInspectionId { get; set; }
         public float LotInspectionAmount { get; set; }
+        public bool LotInspectionNeedReceipt { get; set; }
         public string LotInspectionDue { get; set; }
+        public string LotInspectionDueDate { get; set; }
         public string LotInspectionLenderEmail { get; set; }
         public string LotInspectionDealerEmail { get; set; }
         public string LotInspectionLenderEmailRemindPeriod { get; set; }

@@ -3,146 +3,20 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<link href="~/Content/pikaday.css" rel="stylesheet" />
-<link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
 
 
-
-@if (ViewBag.userroleName != "Admin")
+@using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    <script>
-        $("#loanNumber").attr("disabled", "disabled");
-
-        function GetNonRegisteredBranches(_regBranchId) {
-            if (_regBranchId == 0) {
-                $("#loanNumber").attr("disabled", "disabled");
-                return;
-            }
-            $('#loadingSpan').show();
-            var procemessage = "<option value='0'> Please wait...</option>";
-            $("#ddlcity").html(procemessage).show();
-            var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
-
-            $.ajax({
-                url: url,
-                data: { regBranchId: _regBranchId },
-                cache: false,
-                type: "POST",
-                success: function (data) {
-                    var markup = "<option value='0'>Select Branch</option>";
-                    for (var x = 0; x < data.length; x++) {
-                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                    }
-                    $("#NonRegisteredBranchId").html(markup).show();
-                    $('#loadingSpan').hide();
-                    $("#loanNumber").removeAttr("disabled");
-                },
-                error: function (reponse) {
-                    $('#loadingSpan').hide();
-                    alert("error : " + reponse);
-                }
-            });
-
-        }
-    </script>
-}
-
-
-<script src="~/scripts/pikaday.js"></script>
-<script src="~/scripts/moment.js"></script>
-
-<script>
-
-           var startDate,
-               endDate,
-               updateStartDate = function() {
-               startPicker.setStartRange(startDate);
-               endPicker.setStartRange(startDate);
-               endPicker.setMinDate(startDate);
-           },
-        updateEndDate = function() {
-               startPicker.setEndRange(endDate);
-               startPicker.setMaxDate(endDate);
-               endPicker.setEndRange(endDate);
-           },
-        startPicker = new Pikaday({
-            field: document.getElementById('startDate'),
-            format: 'l',
-
-            onSelect: function() {
-                startDate = this.getDate();
-           updateStartDate();
-       }
-   }),
-        endPicker = new Pikaday({
-   field: document.getElementById('maturityDate'),
-            format: 'l',
-            
-            onSelect: function() {
-           endDate = this.getDate();
-           updateEndDate();
-       }
-   }),
-        _startDate = startPicker.getDate(),
-        _endDate = endPicker.getDate();
-
-        if (_startDate) {
-            startDate = _startDate;
-            updateStartDate();
-        }
-
-        if (_endDate) {
-            endDate = _endDate;
-            updateEndDate();
-        }
-
-
-        //function changeToTwoDecimal(number) {
-        //    var val = $.trim(number);
-        //    if (val.indexOf(',') > -1) {
-        //        val = val.replace(',', '.');
-        //    }
-        //    var num = parseFloat(val);
-        //    var num = num.toFixed(2);
-        //    if (isNaN(num)) {
-        //        num = '';
-        //    }
-        //    $(this).val(num);
-        //}
-
-
-
-        $(function () {
-
-            $('#loanAmount').blur(function () {
-                
-                var val = $.trim($(this).val());
-
-                if (val.indexOf(',') > -1) {
-                    val = val.replace(',', '');
-                }
-                var num = parseFloat(val);
-                var num = num.toFixed(2);
-                if (isNaN(num)) {
-                    num = '';
-                }
-
-                
-                $(this).val(num);
-            });
-
-        });
-
-       
-</script>
-
-
-
-@using (Html.BeginForm()) 
+    OnSuccess = "Progress(6)",
+    OnFailure = "handleErrorMsg",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>LoanSetupStep1</h4>
         <hr />
@@ -150,7 +24,7 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                
+
                 @*@Html.LabelFor(model => model.RegisteredBranchId)*@
                 <label for="RegisteredBranchId">@ViewBag.ThisCompanyType Branch</label>
                 <span style="color:red">*</span>
@@ -160,12 +34,12 @@
 
                 @if (ViewBag.userroleName == "Admin")
                 {
-                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" ,@style = "disabled:disabled" })
+                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @style = "disabled:disabled" })
                 }
                 else {
-                @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
-                
-                @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+
+                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
 
                 }
             </div>
@@ -174,11 +48,13 @@
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @*@Html.LabelFor(model => model.nonRegisteredBranchId, htmlAttributes: new { })*@
-                
-                @if(ViewBag.ThisCompanyType =="Lender"){
-                <label for="RegisteredBranchId">Dealer Branch</label>
-                }else{
-                <label for="RegisteredBranchId">Lender Branch</label>
+
+                @if (ViewBag.ThisCompanyType == "Lender")
+                {
+                    <label for="RegisteredBranchId">Dealer Branch</label>
+                }
+                else {
+                    <label for="RegisteredBranchId">Lender Branch</label>
                 }
                 <span style="color:red">*</span>
             </div>
@@ -198,20 +74,21 @@
 
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { })<span style="color:red"> *</span>
-                </div>
-
-                <div class="col-xs-8">
-                    @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber"  } })
-                    @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
-                </div>
             </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber" } })
+                @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
 
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.startDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-           
+
+
             <div class="col-xs-8">
                 @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
@@ -221,23 +98,62 @@
         <div class="form-group">
 
             <div class="control-label col-sm-2">
-               @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-            
+
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control" , @id = "maturityDate" } })
+                @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.payOffPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Months",
+                    Value = "1"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Days",
+                    Value = "0",
+                    Selected = true
+                });
+            }
+           
+            <div class="col-xs-3" style="float:left;margin-left: 65px;">
+
+                
+                
+                @Html.DropDownListFor(model => model.payOffPeriodType, listItems, htmlAttributes: new { @class = "form-control",onchange = "setPayOffPeriod()" })
+                @Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" })
+
+
+               
+            </div>
+            <div class="col-xs-4" style="float:left">
+                    @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" , @id= "payOffPeriod" } })
+                    @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })
+                </div>
+
+
+
+
+            </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-            
-            
+
+
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control",@id= "loanAmount" } })
+                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount" } })
                 @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
             </div>
             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -247,24 +163,125 @@
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-           
+
             <div class="col-xs-4" style="float:left;margin-left: 28px;">
                 @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
             </div>
             <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
         </div>
-
+        
+        
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new {  })<span style="color:red"> *</span>
+                @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-            
+
             <div class="col-xs-8">
-                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "Select a Payment Method",  htmlAttributes : new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "Select a Payment Method", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })
             </div>
         </div>
+
+
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.allUnitTypes, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+
+
+
+            <div class="col-xs-8" style="margin-top: 20px;">
+
+                @for (int i = 0; i < Model.allUnitTypes.Count; i++)
+                {
+                    @*<div class="col-xs-4">
+                            <input type="checkbox" name="SelectedSources" value="@item.unitTypeId">@item.unitTypeName
+                        </div>*@
+                    <div class="col-xs-7">
+                        @Html.HiddenFor(m => m.allUnitTypes[i].unitTypeId)
+                        @Html.CheckBoxFor(m => m.allUnitTypes[i].isSelected, htmlAttributes: new { @onchange = "javascript:showDefaultUnitOption(this.checked," + i + ")" })
+                        @Html.LabelFor(m => m.allUnitTypes[i].unitTypeName, Model.allUnitTypes[i].unitTypeName)
+
+                        <div class="col-xs-5">
+                            <div class="btn btn-warning option" style="display:none;float:right;" id="radioStyle-@i">
+                                @Html.RadioButtonFor(model => model.defaultUnitType, Model.allUnitTypes[i].unitTypeId, htmlAttributes: new { @style = "display:none;", @id = "radio-" + i }) Make Default
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                }
+
+
+
+
+                @Html.ValidationMessageFor(model => model.defaultUnitType, "", new { @class = "text-danger" })
+            </div>
+            @*@Html.DropDownListFor(model => model.GetunitTypes(),null, "Select a Payment Method", htmlAttributes: new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.GetunitTypes(), "", new { @class = "text-danger" })*@
+
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
+
+
+
+            </div>
+
+            <div class="col-xs-11">
+                @Html.LabelFor(m => m.isEditAllowable)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="control-label col-sm-2" >
+                @Html.CheckBox("auto reminder", false, htmlAttributes: new { @onchange = "javascript:showAutoReminderEmail(this.checked)" })
+
+
+                
+            </div>
+
+            <div class="col-xs-11" style="margin-top: 8px;">
+                @Html.Label("Do you want auto reminder for renewal")
+            </div>
+        </div>
+
+        
+
+        <div id="AutoReminderEmail" style="display:none">
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.autoReminderPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
+                </div>
+
+                <div class="col-xs-4" style="float:right;margin-left: 28px;">
+                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.autoReminderPeriod, "", new { @class = "text-danger" })
+                </div>
+               
+            </div>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.autoReminderEmail, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.autoReminderEmail, new { htmlAttributes = new { @class = "form-control", @id = "AutoEmail" } })
+                    @Html.ValidationMessageFor(model => model.autoReminderEmail, "", new { @class = "text-danger", @id = "errorAutoEmail" })
+                </div>
+            </div>
+
+        </div>
+
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -316,3 +333,177 @@
         text-align: right;
     }
 </style>
+
+
+
+
+<script>
+
+
+           var startDate,
+               endDate,
+               updateStartDate = function() {
+               startPicker.setStartRange(startDate);
+               endPicker.setStartRange(startDate);
+               endPicker.setMinDate(startDate);
+           },
+        updateEndDate = function() {
+               startPicker.setEndRange(endDate);
+               startPicker.setMaxDate(endDate);
+               endPicker.setEndRange(endDate);
+           },
+        startPicker = new Pikaday({
+            field: document.getElementById('startDate'),
+            format: 'l',
+
+
+            onSelect: function() {
+                startDate = this.getDate();
+                $("#payOffPeriod").val("0");
+                updateStartDate();
+
+       }
+   }),
+        endPicker = new Pikaday({
+   field: document.getElementById('maturityDate'),
+            format: 'l',
+
+            onSelect: function() {
+                endDate = this.getDate();
+                $("#payOffPeriod").val("0");
+           updateEndDate();
+       }
+   }),
+        _startDate = startPicker.getDate(),
+        _endDate = endPicker.getDate();
+
+        if (_startDate) {
+            startDate = _startDate;
+            updateStartDate();
+        }
+
+        if (_endDate) {
+            endDate = _endDate;
+            updateEndDate();
+        }
+
+
+        //function changeToTwoDecimal(number) {
+        //    var val = $.trim(number);
+        //    if (val.indexOf(',') > -1) {
+        //        val = val.replace(',', '.');
+        //    }
+        //    var num = parseFloat(val);
+        //    var num = num.toFixed(2);
+        //    if (isNaN(num)) {
+        //        num = '';
+        //    }
+        //    $(this).val(num);
+        //}
+
+
+
+        $(function () {
+
+            $('#loanAmount').blur(function () {
+
+                var val = $.trim($(this).val());
+
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+                //if (val.indexOf('$') > -1) {
+                //    val = val.replace('$', '');
+                //}
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
+                }
+
+
+                $(this).val( num);
+            });
+
+        });
+
+        function showDefaultUnitOption(checked,value) {
+            if (checked) {
+                $("#radioStyle-" + value).show();
+                $("#radio-" + value).show();
+
+
+
+            } else {
+                $("#radio-" + value).prop("checked", false);
+                $("#radio-" + value).hide();
+                $("#radioStyle-" + value).hide();
+
+            }
+            
+
+        }
+
+        function showAutoReminderEmail(checked) {
+            if (checked) {
+                $("#AutoReminderEmail").show();
+                
+
+
+
+
+            } else {
+                $("#AutoEmail").val("");
+                $("#AutoReminderEmail").hide();
+                
+                $("#errorAutoEmail").text("");
+            }
+
+        }
+
+        function setPayOffPeriod() {
+            
+            $("#payOffPeriod").val("0");
+}
+
+
+</script>
+
+@if (ViewBag.userroleName != "Admin")
+{
+    <script>
+        $("#loanNumber").attr("disabled", "disabled");
+
+        function GetNonRegisteredBranches(_regBranchId) {
+            if (_regBranchId == 0) {
+                $("#loanNumber").attr("disabled", "disabled");
+                return;
+            }
+            $('#loadingSpan').show();
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $("#ddlcity").html(procemessage).show();
+            var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
+
+            $.ajax({
+                url: url,
+                data: { regBranchId: _regBranchId },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Select Branch</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#NonRegisteredBranchId").html(markup).show();
+                    $('#loadingSpan').hide();
+                    $("#loanNumber").removeAttr("disabled");
+                },
+                error: function (reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+
+        }
+    </script>
+}

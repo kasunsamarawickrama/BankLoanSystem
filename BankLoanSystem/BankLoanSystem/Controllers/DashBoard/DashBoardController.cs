@@ -169,6 +169,7 @@ namespace BankLoanSystem.Controllers.DashBoard
 
                 return RedirectToAction("CreateFirstSuperUser", "CreateUser");
             }
+
             else {
                 return RedirectToAction("UserDashBoard", "DashBoard");
             }

@@ -22,9 +22,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static int _curUserRoleId;
 
         /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/27
+        /// Calling the default view for all step number pages
+        /// Redirect to Appropriate controller using step number
+        /// 
+        /// 
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the view</returns>
         public ActionResult Index()
 
         {
@@ -75,10 +81,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View();
             }
-            else if (stepNo == 6 || stepNo == 1 || stepNo == 3 || stepNo == 4)
-            {
-                return View();
-            }
 
             else if (stepNo == 0)
             {
@@ -86,8 +88,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                Session["rowId"] = userId;
-                return RedirectToAction("UserDetails", "UserManagement");
+                return View();
             }
         }
 
@@ -779,6 +780,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             paymentMethods.Add("Invoice/Check");
             ViewBag.paymentMethods = paymentMethods;
 
+            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+            loanSetupStep1.startDate = DateTime.Today;
+            loanSetupStep1.maturityDate = DateTime.Today;
+
+
+
             if (userrole == 2)
             {
 
@@ -819,11 +826,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-
+            loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
             // if user is a lender admin, lender branch name only
 
-            return PartialView();
+            return PartialView(loanSetupStep1);
 
         }
 
@@ -1111,10 +1118,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [HttpPost]
         [ActionName("Step6")]
-        public ActionResult Step6_Post()
+        public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
 
+
+            if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
+            {
+                return new HttpStatusCodeResult(404, "Select Atleast One Unit Type");
+            }
 
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
@@ -1147,7 +1159,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
-            //Session["userId"] = 2;
             if (Session["userId"] == null)
             {
                 return RedirectToAction("UserLogin", "Login");
@@ -1237,32 +1248,474 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId), JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/8
+        /// Get Interest Deatils If Exists
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <returns></returns>
+        // GET: Interest
+        public ActionResult Step7(int? edit)
+        {
+            int uId = int.Parse(Session["userId"].ToString());
+            //int uId = 4;
+            List<SelectListItem> listdates = new List<SelectListItem>();
+            for (int i = 1; i <= 28; i++)
+            {
+                listdates.Add(new SelectListItem
+                {
+                    Text = i.ToString(),
+                    Value = i.ToString()
+                });
+            }
+
+            listdates.Add(new SelectListItem
+            {
+                Text = "End of the month",
+                Value = "End of the month"
+            });
+
+
+            InterestAccess ia = new InterestAccess();
+            //get Accrual Methods
+            List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
+
+            if (uId > 0)
+            {
+                LoanSetupAccess la = new LoanSetupAccess();
+                int loanId = la.getLoanIdByUserId(uId);
+                //int loanId = 1;
+                if (loanId > 0)
+                {
+                    var intrst = ia.getInterestDetails(loanId);
+                    if (intrst != null)
+                    {
+
+                        ViewBag.Edit = 1;
+                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrst.AccrualMethodId);
+                        
+                        if (intrst.option != "once a month")
+                        {
+                            ViewBag.Option = true;
+                        }
+                        else
+                        {
+                            ViewBag.Option = false;
+                        }
+                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrst.PaidDate);
+                        ViewBag.DefaultEmail = intrst.AutoRemindEmail;
+                        return PartialView(intrst);
+                    }
+
+                    else
+                    {
+                        ViewBag.Edit = 0;
+                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
+                        string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
+                        if (!string.IsNullOrEmpty(defaultEmail))
+                        {
+                            ViewBag.DefaultEmail = defaultEmail;
+                        }
+                        return PartialView();
+                    }
+                }
+
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/8
+        /// Post Interest Deatils 
+        /// </summary>
+        /// <param name="interest"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step7(Interest interest)
+        {
+
+            int userId = int.Parse(Session["userId"].ToString());
+            //int loanId = 1;
+            if (interest.option == "payoff")
+            {
+                interest.PaidDate = interest.option;
+            }
+
+            InterestAccess ia = new InterestAccess();
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByUserId(userId);
+            if (!interest.NeedReminder)
+            {
+                interest.AutoRemindEmail = null;
+            }
+            interest.LoanId = loanId;
+            // if()
+            int reslt = ia.insertInterestDetails(interest);
+
+            if (reslt >= 0)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 8, loanId))
+                {
+                    return RedirectToAction("Step8");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+            
+        }
+
         /// <summary>
         /// CreatedBy :kasun samarawickrama
         /// CreatedDate: 2016/08/02
         /// 
-        /// loan fees section step
+        /// loan fees section -step 8
         /// 
         /// return: step8 view
         /// </summary>
         /// <returns></returns>
         public ActionResult Step8()
         {
-            return View();
+            //Session["userId"] = 2;
+            var userId = (int)Session["userId"];
+
+            BranchAccess branch = new BranchAccess();
+            int companyType = branch.getCompanyTypeByUserId(userId);
+ 
+            companyType = 1;
+            if (companyType == 1)
+            {
+                ViewBag.isLender = true;
+            }
+            else {
+                ViewBag.isLender = false;
+            }
+            Fees fee = new Fees(); 
+            LoanSetupAccess loan = new LoanSetupAccess();
+            fee.LoanId = loan.getLoanIdByUserId(userId);
+            //check the loan is in a update
+            Fees feeUpdate = new Fees();
+            if (loan.checkLoanIsInFeesTables(fee.LoanId) != null) {
+                feeUpdate = loan.checkLoanIsInFeesTables(fee.LoanId);
+            }
+            
+            feeUpdate.LoanId = fee.LoanId;
+
+            if (feeUpdate.LoanId > 0) {
+                var email = loan.getAutoRemindEmailByLoanId(fee.LoanId);
+                fee.MonthlyLoanLenderEmail = email;
+                fee.MonthlyLoanDealerEmail = email;
+                fee.LotInspectionLenderEmail = email;
+                fee.LotInspectionDealerEmail = email;
+                fee.AdvanceLenderEmail = email;
+                fee.AdvanceDealerEmail = email;
+
+                return PartialView(feeUpdate);
+            }
+            else {
+                return RedirectToAction("Step7");
+            }
         }
+        /// <summary>
+        /// CreatedBy :kasun samarawickrama
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// loan fees section step post method
+        /// 
+        /// return: step8 view 
+        /// </summary>
+        /// <param name="fees"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
             StepAccess step = new StepAccess();
-            fees.LoanId = 1;
-            step.InsertFeesDetails(fees);
-            return View();
+
+            if (fees.AdvanceDue == "Vehicle Payoff")
+            {
+                fees.AdvanceDueDate = "VP";
+            }
+            if (fees.MonthlyLoanDue == "Vehicle Payoff")
+            {
+                fees.MonthlyLoanDueDate = "VP";
+            }
+            if (fees.AdvanceDue == "Time of Advance")
+            {
+                fees.AdvanceDueDate = "TOA";
+            }
+            if (fees.MonthlyLoanDue == "Time of Advance")
+            {
+                fees.MonthlyLoanDueDate = "TOA";
+            }
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio =="month")
+            {
+                fees.AdvanceDueDate = "EOM";
+            }
+            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanRadio == "month")
+            {
+                fees.MonthlyLoanDueDate = "EOM";
+            }
+            if (step.InsertFeesDetails(fees))
+            {
+                //Session["userId"] = 2;
+                var userId = (int)Session["userId"];
+                if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
+                {
+                    return RedirectToAction("Step9");
+                }
+                else
+                {
+                    return RedirectToAction("Step8");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Step8");
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/9
+        /// Get Title Deatils If Exists
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <returns></returns>
+        // GET: Interest
+        public ActionResult Step9(int? edit)
+        {
+            int uId = int.Parse(Session["userId"].ToString());
+            //Accept Methods
+            List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title present to advance",
+                Value = "title present to advance"
+            });
+
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "scanned title adequate",
+                Value = "scanned title adequate"
+            });
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title can arrive at any time",
+                Value = "title can arrive at any time"
+            });
+
+            acceptMethodsList.Add(new SelectListItem
+            {
+                Text = "title can arrive within a set time",
+                Value = "title can arrive within a set time"
+            });
+
+
+            //Time Limit Options
+            List<SelectListItem> timeLimitList = new List<SelectListItem>();
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "at advance date",
+                Value = "at advance date"
+            });
+
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "with in 7 days",
+                Value = "with in 7 days"
+            });
+
+            timeLimitList.Add(new SelectListItem
+            {
+                Text = "at any time",
+                Value = "at any time"
+            });
+            if (uId > 0)
+            {
+                LoanSetupAccess la = new LoanSetupAccess();
+                TitleAccess ta = new TitleAccess();
+                int loanId = la.getLoanIdByUserId(uId);
+                //int loanId = 1;
+                if (loanId > 0)
+                {
+                    var title = ta.getTitleDetails(loanId);
+                    if (title != null)
+                    {
+
+                        ViewBag.Edit = 1;
+                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", title.TitleAcceptMethod);
+                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", title.ReceivedTimeLimit);
+
+                        ViewBag.DefaultEmail = title.RemindEmail;
+                        return PartialView(title);
+                    }
+
+                    else
+                    {
+                        ViewBag.Edit = 0;
+                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
+                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
+
+                        string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
+                        if (!string.IsNullOrEmpty(defaultEmail))
+                        {
+                            ViewBag.DefaultEmail = defaultEmail;
+                        }
+                        return PartialView();
+                    }
+                }
+
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/9
+        /// Post Title Deatils
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Step9(Title title)
+        {
+            int userId = int.Parse(Session["userId"].ToString());
+            //int loanId = 1;
+
+            if (title.NeedPyhsical && title.NeedScanCopy)
+            {
+                title.ReceiptRequiredMethod = "physically and scan copy";
+            }
+            else if (title.NeedPyhsical)
+            {
+                title.ReceiptRequiredMethod = "physically";
+            }
+            else if (title.NeedScanCopy)
+            {
+                title.ReceiptRequiredMethod = "scan copy";
+            }
+            TitleAccess ta = new TitleAccess();
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByUserId(userId);
+            title.LoanId = loanId;
+            // if()
+            int reslt = ta.insertTitleDetails(title);
+
+            if (reslt >= 0)
+            {
+                StepAccess sa = new StepAccess();
+                if (sa.updateStepNumberByUserId(userId, 10, loanId))
+                {
+                    return RedirectToAction("Step10");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+            }
+            
+            else
+            {
+                return new HttpStatusCodeResult(404, "error message");
+            }
+        }
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check whether atleast one unit type selected or not
+        /// 
+        /// argument: allUnitTypes(IList<UnitType>)
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public bool IsAtleastOneSelectUnitType(IList<UnitType> allUnitTypes)
+        {
+            //check user name is already exist.  
+            foreach (UnitType unitType in allUnitTypes)
+            {
+                if (unitType.isSelected == true)
+                {
+                    return true;
+
+                }
+            }
+            return false;
         }
 
 
 
+        /// <summary>
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/09/02
+        /// 
+        /// Check the payoff period which are between the start date and maturity date
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>Return JsonResult</returns>
+        public JsonResult CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
+        {
+            if (payOffPeriodType == 0) {
+                int totalDays = (int)(maturityDate - startDate).TotalDays;
+                if (payOffPeriod <= totalDays) {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+                  }
+            else {
+
+                int diffMonths = (maturityDate.Month + maturityDate.Year * 12) - (startDate.Month + startDate.Year * 12);
+                if (payOffPeriod <= diffMonths)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+           
+        }
+
     }
-
-
 }
 

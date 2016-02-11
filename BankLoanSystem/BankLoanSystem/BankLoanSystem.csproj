@@ -121,6 +121,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery.gritter.css" />
     <Content Include="Content\message.css" />
     <Content Include="Content\pikaday.css" />
@@ -143,6 +144,7 @@
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile_small.jpg" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\small_loading.gif" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\analytics.js" />
@@ -174,7 +176,9 @@
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\moment.js" />
     <Content Include="scripts\peity-demo.js" />
+    <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\sparkline-demo.js" />
     <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -204,16 +208,19 @@
     <Compile Include="DAL\CurtailmentAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
+    <Compile Include="DAL\InterestAccess.cs" />
     <Compile Include="DAL\LoanSetupAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="DAL\RoleAccess.cs" />
     <Compile Include="DAL\StepAccess.cs" />
+    <Compile Include="DAL\TitleAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccrualMethods.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyBranchModel.cs" />
@@ -224,9 +231,11 @@
     <Compile Include="Models\Fees.cs" />
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
+    <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
+    <Compile Include="Models\Title.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
@@ -285,7 +294,8 @@
     <Content Include="Views\SetupProcessTest\Step2.cshtml" />
     <Content Include="Views\SetupProcess\Index.cshtml" />
     <Content Include="Views\SetupProcess\Step8.cshtml" />
-    <Content Include="Views\LoanSetUpStep5\Step5.cshtml" />
+    <Content Include="Views\SetupProcess\Step7.cshtml" />
+    <Content Include="Views\SetupProcess\Step9.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
