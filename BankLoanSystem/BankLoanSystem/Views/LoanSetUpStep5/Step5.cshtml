@@ -1,0 +1,218 @@
+﻿@model BankLoanSystem.Models.CurtailmentModel
+@{
+    ViewBag.Title = "Step5";
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="row">
+
+
+
+    <div class="container body-content">
+        <h2>Step5</h2>
+
+
+        <h4>Curtailment</h4>
+        <hr />
+        <script type="text/javascript">
+            function ValidateData() {
+                if ($(".validateID").attr('value') == "0" || $(".validateID").attr('value') == "") {
+                    alert("Enter valide ID ");
+                    return false;
+                }
+                else if ($(".validateName").attr('value') == "") {
+                    alert(" Enter name of employee.");
+                    return false;
+                }
+                else if ($(".validateContact").attr('value') == "") {
+                    alert("Enter Contact number of Employee.");
+                    return false;
+                }
+                else if ($(".validateAddress").attr('value') == "") {
+                    alert("Enter address of employee.");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+
+
+
+        @*@using (Ajax.BeginForm("Step5", "LoanSetUpStep5", new AjaxOptions()
+            {
+
+                OnFailure = "handleError",
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "changeContainer",
+                LoadingElementId = "loadingDiv"
+            }, new { id = "form" }))*@
+        @using (Html.BeginForm("Step5", "LoanSetUpStep5"))
+
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <input type="hidden" id="cal" name="cal" />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment" }) Full payment
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance Fee", new { @id = "radioAdvance" }) Advance Fee
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TimeBase, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.RadioButtonFor(m => m.TimeBase, "Month", new { @id = "rdMonth" }) Month
+                            @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "radioDayAdvance" }) Days
+                            <br />
+                            @Html.ValidationMessageFor(model => model.TimeBase, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                @*@{
+                        var grid = new WebGrid(Model.InfoModel);
+                    }
+
+                    @grid.GetHtml();*@
+
+                <div class="form-group">
+                    <div style="text-align: center;">
+                        <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 20%;">
+                            <tr style="font-weight: bold; background-color: darkgray; height: 20px;">
+                                <td>Curtailment Id</td>
+                                <td>Time Period</td>
+                                <td>
+                                    Percentage(%)
+                                </td>
+
+                            </tr>
+                            @for (int a = 0; a < Model.InfoModel.Count; a++)
+                            {
+                                <tr>
+                                    <td style="width: 20%;">@Model.InfoModel[a].CurtailmentId</td>
+                                    <td style="width: 20%;">@Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, new {  })@Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })</td>
+                                    <td style="width: 20%;">
+                                        @*@Html.TextBoxFor(m => m.InfoModel[a].Percentage, new { @onchange = "PercentageOnChange(" + @a + ")", @Name = "percentage" })*@
+                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, new {}) 
+                                        @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new {@class = "text-danger"})
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="control-label col-sm-2">
+                    <input type="submit" value="Add Row" name="submit" title="Add New Data" />
+                    @if (Model.InfoModel.Count >= 1)
+                    {
+                        <span style="background-color: yellow">
+                            Remaining Percentage: @Model.RemainingPercentage
+                        </span>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+
+                    <nav>
+                        <ul class="pager">
+
+
+                            <li>
+                                <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
+                            </li>
+                            <li>
+                                <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
+                            </li>
+                            <li>
+                                <input type="button" id="skip" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
+                            </li>
+
+                            @if(ViewBag.ErrorMsg == "" && Model.RemainingPercentage == 0)
+                            {
+                                <li>
+                                    <input type="submit" value="Next" name="submit" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px"/>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+
+
+
+
+        }
+
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#btnPreStep3').click(function () {
+            alert('aaaa');
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("Step5", "LoanSetUpStep5")',
+                type: 'GET',
+                data: { edit: 1 },
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
+    });
+
+    $('#clear').click(function () {
+        alert('hi');
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#rdFullPayment').change(function () {
+            if ($(this).is(':checked')) {
+                //alert("Full Payment");
+                document.getElementById("cal").value = "Full Payment";
+            }
+        });
+        $('#radioAdvance').change(function () {
+            if ($(this).is(':checked')) {
+                //alert("Advance");
+                document.getElementById("cal").value = "Advance";
+            }
+        });
+    });
+</script>

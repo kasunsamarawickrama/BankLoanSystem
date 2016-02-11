@@ -66,7 +66,7 @@ namespace BankLoanSystem.DAL
 
                         cmd.Parameters.Add("@auto_remind_email", SqlDbType.VarChar).Value = interest.AutoRemindEmail;
 
-                        cmd.Parameters.Add("@auto_remind_period", SqlDbType.VarChar).Value = interest.RemindPeriod;
+                        cmd.Parameters.Add("@auto_remind_period", SqlDbType.Int).Value = interest.RemindPeriod;
 
 
                         cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = interest.LoanId;
@@ -149,7 +149,7 @@ namespace BankLoanSystem.DAL
                             {
                                 obj1.NeedReminder = true;
                             }
-                            obj1.RemindPeriod = reader["auto_remind_period"].ToString();
+                            obj1.RemindPeriod = int.Parse(reader["auto_remind_period"].ToString());
                             obj1.LoanId = int.Parse(reader["loan_id"].ToString());
 
 

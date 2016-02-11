@@ -194,6 +194,7 @@
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
+    <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
     <Compile Include="Controllers\ManageUser\ForgotPasswordController.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\CompanyAccess.cs" />
+    <Compile Include="DAL\CurtailmentAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\InterestAccess.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyBranchModel.cs" />
     <Compile Include="Models\CompanyType.cs" />
+    <Compile Include="Models\Curtailment.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Fees.cs" />
