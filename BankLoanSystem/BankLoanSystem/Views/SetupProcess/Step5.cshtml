@@ -110,7 +110,7 @@
                             @Html.LabelFor(model => model.RegBranchId, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownListFor(model => model.RegBranchId, null, "Select branch", new { htmlAttributes = new { @class = "form-control", @id = "RegBranchId" } })
+                            @Html.DropDownListFor(model => model.RegBranchId, null, "Select branch", htmlAttributes : new { @class = "form-control", id = "RegBranchId" } )
                             @Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                         @Html.LabelFor(model => model.NonRegCompanyId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-8">
-                        @Html.DropDownListFor(model => model.NonRegCompanyId, null, "Select non registered comapny", new { htmlAttributes = new { @class = "form-control", @id = "NonRegCompanyId" } })
+                        @Html.DropDownListFor(model => model.NonRegCompanyId, null, "Select non registered comapny", htmlAttributes : new { @class = "form-control", @id = "NonRegCompanyId" })
                         @Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -175,7 +175,7 @@
                         @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-8">
-                        @Html.DropDownList("StateId", null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
+                        @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
                         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                     </div>
                 </div>

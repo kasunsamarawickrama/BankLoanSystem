@@ -24,7 +24,6 @@ namespace BankLoanSystem.DAL
         /// 
         public List<Branch> getBranches(int companyId)
         {
-
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try
@@ -865,7 +864,7 @@ namespace BankLoanSystem.DAL
                             NonRegBranch branch = new NonRegBranch();
                             branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
                             
-                            branch.BranchName = reader["branch_name"].ToString() + " - " + reader["branch_code"].ToString();
+                            branch.BranchName = reader["branch_name"].ToString();
                             branch.BranchCode = reader["branch_code"].ToString();
                             branch.BranchId = int.Parse(reader["branch_id"].ToString());
                             branch.BranchAddress1 = reader["branch_address_1"].ToString();
@@ -885,6 +884,7 @@ namespace BankLoanSystem.DAL
                             branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
                             branch.BranchFax = reader["fax"].ToString();
                             branch.BranchCompany = Convert.ToInt32(reader["company_id"]);
+                            //branch.BranchCreatedBy = 
                             branchesLists.Add(branch);
 
                         }
