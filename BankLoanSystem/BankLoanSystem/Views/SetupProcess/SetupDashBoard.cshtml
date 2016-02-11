@@ -30,7 +30,7 @@
     <a href="#"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> <span class="nav-label">Company Setup</span> <span class="caret arrow" style="margin-top: 5px;"></span></a>
     <ul class="nav nav-second-level collapse in">
         <li class="active">
-            @Ajax.ActionLink("Setup 1", "Step1", "SetupProcess", new {edit = 1}, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 1" })
+            @Ajax.ActionLink("Step 1", "Step1", "SetupProcess", new {edit = 1}, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 1" })
 
 
           
@@ -43,27 +43,27 @@
             <li>
                 @*<a href="#">Setup 2</a>*@
 
-                @Ajax.ActionLink("Setup 2", "Step2", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 2" })
+                @Ajax.ActionLink("Step 2", "Step2", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 2" })
             </li>
 
 
             <li>
 
-                @Ajax.ActionLink("Setup 3",  "Step3", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 3" })
+                @Ajax.ActionLink("Step 3",  "Step3", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 3" })
                 @*<a href="#">Setup 3</a>*@
             </li>
 
 
  
             <li>
-                @Ajax.ActionLink("Setup 4", "Step4", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 4" })
+                @Ajax.ActionLink("Step 4", "Step4", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 4" })
                 @*<a href="#">Setup 4</a>*@
             </li>
 
 
 
             <li>
-                @Ajax.ActionLink("Setup 5", "Step5", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 5" })
+                @Ajax.ActionLink("Step 5", "Step5", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 5" })
                 @*<a href="#">Setup 5</a>*@
             </li>
 
@@ -75,15 +75,15 @@
 <li>
     <a href="#"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  <span class="nav-label">Loan Setup</span><span class="caret arrow" style="margin-top: 5px;"></span></a>
     <ul class="nav nav-second-level collapse">
-        <li>@Ajax.ActionLink("Setup 1", "Step6", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" },null @*new { @class = "tab 6" }*@)</li>
+        <li>@Ajax.ActionLink("Step 1", "Step6", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" },null @*new { @class = "tab 6" }*@)</li>
         <li>@Ajax.ActionLink("Step 2", "Step7", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 7" })</li>
         <li>
-            @Ajax.ActionLink("Setup 3", "Step8", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv", OnSuccess = "partialLoad" }, new {})
+            @Ajax.ActionLink("Step 3", "Step8", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv", OnSuccess = "partialLoad" }, new {})
             @*<a href="#">Setup 5</a>*@
         </li>
         <li>@Ajax.ActionLink("Step 4", "Step9", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 9" })</li>
-        <li><a href="#">Setup 5</a></li>
-        <li><a href="#">Setup 6</a></li>
+        <li><a href="#">Step 5</a></li>
+        
 
     </ul>
 </li>

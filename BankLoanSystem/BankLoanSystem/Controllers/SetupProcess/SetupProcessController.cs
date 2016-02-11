@@ -1365,7 +1365,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // if()
             int reslt = ia.insertInterestDetails(interest);
 
-            if (reslt >= 0)
+            if (reslt >= 1)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 8, loanId))
@@ -1377,7 +1377,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
             }
-            
+            else if (reslt == 0)
+            {
+                return RedirectToAction("Step8");
+            }
             else
             {
                 return new HttpStatusCodeResult(404, "error message");
@@ -1651,13 +1654,23 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = la.getLoanIdByUserId(userId);
             title.LoanId = loanId;
-            // if()
-            int reslt = ta.insertTitleDetails(title);
 
-            if (reslt >= 0)
+            if (title.IsReceipRequired || title.IsTitleTrack)
             {
-                StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 10, loanId))
+                int reslt = ta.insertTitleDetails(title);
+                if (reslt >= 1)
+                {
+                    StepAccess sa = new StepAccess();
+                    if (sa.updateStepNumberByUserId(userId, 10, loanId))
+                    {
+                        return RedirectToAction("Step10");
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(404, "error message");
+                    }
+                }
+                else if (reslt == 0)
                 {
                     return RedirectToAction("Step10");
                 }
@@ -1666,11 +1679,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
             }
-            
             else
             {
-                return new HttpStatusCodeResult(404, "error message");
+                return RedirectToAction("Step10");
             }
+
+           
         }
         /// <summary>
         /// CreatedBy : Irfan MAM
