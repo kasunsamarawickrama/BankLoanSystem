@@ -1333,8 +1333,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step7(int? edit)
         {
             int uId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
-            //int branchId = 35;
+            //int branchId = int.Parse(Session["branchId"].ToString());
+            int branchId = 35;
             List<SelectListItem> listdates = new List<SelectListItem>();
             for (int i = 1; i <= 28; i++)
             {
@@ -1424,8 +1424,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             int userId = int.Parse(Session["userId"].ToString());
-           int branchId = int.Parse(Session["branchId"].ToString());
-            //int  branchId = 35;
+            //int branchId = int.Parse(Session["branchId"].ToString());
+            int  branchId = 35;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
