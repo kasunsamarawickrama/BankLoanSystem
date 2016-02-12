@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="col-xs-4" style="float:left;margin-left: 80px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "focusFunction()" } })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "return focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -133,7 +133,7 @@
                         else
                         {
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AutoRemindEmail, "DefaultEmail", new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@Value = ViewBag.Email } })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
                             </div>
                         }
@@ -200,11 +200,10 @@
         return true;
     }
 
-    function focusFunction() {
+    function focusFunction(x) {
 
         //interest rate
-        var x = document.getElementById("interest").value;
-
+       
         var arr = x.toString().split(".");
 
         if (arr.length==1) {
@@ -213,7 +212,7 @@
             var y = x.toString() + ".000";
             //alert(y);
             document.getElementById("interest").value = y;
-           // return x;
+           return y;
         }
 
         else if (arr.length == 2) {
@@ -234,7 +233,7 @@
                 var z1 = arr[0] + "." + z;
 
                 document.getElementById("interest").value = z1;
-                //return x;
+                return z1;
             }
 
         }
@@ -280,7 +279,8 @@
       
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
-           
+            
+            
             $('#onceMonth').click(function () {
                 $('#paidDateDiv').show();
             });
@@ -314,10 +314,22 @@
                 }
 
             });
+            $('#interest').focusout(function(){
+                var a = $('#interest').val().toString();
+                if(a!=""){
+                    focusFunction( a);
+                    
+                }
+                
+            
+            });
 
         }
         $.fn.loadFunc = function(){
             //alert('You have successfully ');
+           
+            //focusFunction();
+            
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
             $('#NeedReminder').change(function () {
@@ -345,6 +357,16 @@
             $('#payOff').click(function () {
                 $('#paidDateDiv').hide();
             });
+            $('#interest').focusout(function(){
+                var a = $('#interest').val().toString();
+                if(a!=""){
+                    focusFunction( a);
+                    
+                }
+                
+            
+            });
+           
         }
         if(@ViewBag.Edit ==1){
 
