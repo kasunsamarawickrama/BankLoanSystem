@@ -9,7 +9,7 @@
 
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    OnSuccess = "Progress(6)",
+    OnSuccess = "Progress(7)",
     OnFailure = "handleErrorMsg",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
@@ -547,7 +547,7 @@
             $("#payOffPeriod").val("0");
 }
 
-
+        $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
 </script>
 
 @if (ViewBag.userroleName != "Admin")

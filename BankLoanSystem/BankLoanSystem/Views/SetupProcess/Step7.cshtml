@@ -17,7 +17,7 @@
         <h2>Step 2 - Interest</h2>
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(6)",
+                OnSuccess = "Progress(8)",
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -379,4 +379,6 @@
         }
 
     });
+
+    $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
 </script>

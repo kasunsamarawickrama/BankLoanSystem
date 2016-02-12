@@ -1167,7 +1167,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
+            //int branchId = int.Parse(Session["branchId"].ToString());
 
             if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
             {
@@ -1190,7 +1190,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
 
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
+            int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
 
             if (loanId > 0) {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
@@ -1199,16 +1199,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 if(loanId > 0)
-                    sa.updateStepNumberByUserId(userId, 7, loanId, branchId);
+                    sa.updateStepNumberByUserId(userId, 7, loanId, loanSetupStep1.RegisteredBranchId);
             }
 
+            Session["branchId"] = loanSetupStep1.RegisteredBranchId;
             if (loanSetupStep1.isInterestCalculate)
             {
                 return RedirectToAction("step7");
             }
             else
             {
-                sa.updateStepNumberByUserId(userId, 8, loanId, branchId);
+                sa.updateStepNumberByUserId(userId, 8, loanId, loanSetupStep1.RegisteredBranchId);
                 return RedirectToAction("step8");
             }
 
