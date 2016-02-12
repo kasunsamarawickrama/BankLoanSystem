@@ -14,9 +14,9 @@
     <div class="container body-content">
 
         <h2>Step 4 - Title</h2>
-        @using (Ajax.BeginForm("Step9", "Interest", new AjaxOptions()
+        @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(6)",
+                OnSuccess = "Progress(10)",
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -75,7 +75,7 @@
                         </div>
 
                         <div class="col-xs-8">
-                            @Html.DropDownList("ReceivedTimeLimit", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+                            @Html.DropDownList("ReceivedTimeLimit", null, "-- Select Time Limit --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
 
                         </div>
                             
@@ -94,7 +94,7 @@
                         else
                         {
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.RemindEmail, "DefaultEmail", new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                                @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
                                 @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
                             </div>
                         }
@@ -167,7 +167,7 @@
                                     <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                 </li>
                                 <li>
-                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" onclick="clearFunction()"/>
                                 </li>
 
                             </ul>
@@ -182,13 +182,7 @@
     </div>
 </div>
 
-<script>
-    $('#clear').click(function () {
-        
-        document.getElementsByTagName("form")[0].reset();
-        
-    });
-</script>
+
 <script language="javascript" type="text/javascript">
    
     function passvalue(e){
@@ -199,8 +193,13 @@
         }
     }
 </script>
-    
 <script language="javascript" type="text/javascript">
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>    
+<script language="javascript" type="text/javascript">
+
     $(document).ready(function () {
 
 
@@ -210,14 +209,14 @@
             $('#needTrack').hide();
             $('#needReceipt').hide();
             $('#ScannTitle').hide();
-
+           
             $('#IsTitleTrack').change(function () {
 
                 if (this.checked)
                 {
 
                     $('#needTrack').show();
-
+                    
                 }
 
                 else
@@ -226,19 +225,7 @@
                 }
 
             });
-            //$('#TitleAcceptMethod').change(function() {
-            //    alert($(this).val());
-            //});
 
-            //var c = document.getElementById("acceptMethod");
-            ////var strUser = c.options[e.selectedIndex].value;
-            //alert(strUser.va);
-            //if($('#TitleAcceptMethod:selected').val()=="scanned title adequate"){
-            //    $('#ScannTitle').show();
-            //}
-            //else{
-            //    $('#ScannTitle').hide();
-            //}
             $('#IsReceipRequired').change(function () {
 
                 if (this.checked) {
@@ -251,24 +238,13 @@
 
             });
 
-            $('#clear').click(function () {
-
-                document.getElementsByTagName("form")[0].reset();
-
-            });
         }
 
         $.fn.editFunc = function()
         {
             $('#ScannTitle').hide();
 
-            //if($('#TitleAcceptMethod option:selected').text()=="scanned title adequate"){
-            //    alert("hiii");
-            //    $('#ScannTitle').show();
-            //}
-            //else{
-            //    $('#ScannTitle').hide();
-            //}
+
             if($('#IsTitleTrack').prop('checked')==true){
 
                 $('#needTrack').show();
@@ -361,5 +337,7 @@
             });
         });
     });
+
+    $(".tab.9").parent("li").addClass("active").siblings().removeClass('active');
 </script>
 

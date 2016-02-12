@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_SetupProcess.cshtml";
 }
 <script>
-
+    globalProgress(@ViewBag.Step);
     Progress(@ViewBag.Step);
 </script>
 
@@ -58,5 +58,11 @@ else if (ViewBag.Step == 9)
 {
 
     Html.RenderAction("Step9", "SetupProcess");
+
+}
+else if (ViewBag.Step == 10)
+{
+
+    Html.RenderAction("Step10", "SetupProcess");
 
 }

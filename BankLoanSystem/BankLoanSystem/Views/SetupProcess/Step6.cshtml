@@ -1,4 +1,6 @@
-﻿@model BankLoanSystem.Models.LoanSetupStep1
+﻿@using BankLoanSystem.Models
+
+@model BankLoanSystem.Models.LoanSetupStep1
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -7,7 +9,7 @@
 
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    OnSuccess = "Progress(6)",
+    OnSuccess = "Progress(7)",
     OnFailure = "handleErrorMsg",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
@@ -18,7 +20,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>LoanSetupStep1</h4>
+        <h4>Loan Setup Step1</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -146,6 +148,8 @@
 
             </div>
 
+        
+
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
@@ -227,31 +231,92 @@
 
         </div>
 
+
+       
+            @{
+                List<SelectListItem> yesOrNoList = new List<SelectListItem>();
+                yesOrNoList.Add(new SelectListItem
+                {
+                    Text = "Yes",
+                    Value = "true"
+                });
+                yesOrNoList.Add(new SelectListItem
+                {
+                    Text = "No",
+                    Value = "false",
+                    Selected = true
+                });
+
+                List<SelectListItem> yesOrNoList2 = yesOrNoList;
+                List<SelectListItem> yesOrNoList3 = new List<SelectListItem>();
+                yesOrNoList3.Add(new SelectListItem
+                {
+                    Text = "Yes",
+                    Value = "true"
+                });
+                yesOrNoList3.Add(new SelectListItem
+                {
+                    Text = "No",
+                    Value = "false",
+                    Selected = true
+                });
+            }
+    
+
+
         <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-
-
-            </div>
-
-            <div class="col-xs-11">
                 @Html.LabelFor(m => m.isEditAllowable)
+
             </div>
+            <div class="control-label col-sm-2">
+                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
+                
+               @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control" })
+
+            </div>
+
+            
         </div>
 
+        <div class="form-group">
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
+
+                @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })
+
+            </div>
+            <div class="control-label col-sm-2">
+                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
+
+                @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
+
+
+
+
+            </div>
+
+
+        </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2" >
-                @Html.CheckBox("auto reminder", false, htmlAttributes: new { @onchange = "javascript:showAutoReminderEmail(this.checked)" })
-
-
+            <div class="col-xs-9" style="margin-top: 18px;float:left">
                 
+               @Html.Label("Do you want auto reminder for renewal")
+
+            </div>
+            <div class="control-label col-sm-2">
+               
+
+                @Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
+                
+
+
+
             </div>
 
-            <div class="col-xs-11" style="margin-top: 8px;">
-                @Html.Label("Do you want auto reminder for renewal")
-            </div>
+
         </div>
 
         
@@ -263,7 +328,7 @@
                 </div>
 
                 <div class="col-xs-4" style="float:right;margin-left: 28px;">
-                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new {@id= "emailPeriod", @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.autoReminderPeriod, "", new { @class = "text-danger" })
                 </div>
                
@@ -284,13 +349,29 @@
         
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div>
+                <nav>
+                    <ul class="pager">
+
+                        <li>
+                            <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                        </li>
+                        <li>
+                            <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
 }
 
+<script>
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+    });
+</script>
 
 
 
@@ -444,8 +525,8 @@
 
         }
 
-        function showAutoReminderEmail(checked) {
-            if (checked) {
+        function showAutoReminderEmail(value) {
+            if (value == "true") {
                 $("#AutoReminderEmail").show();
                 
 
@@ -455,7 +536,7 @@
             } else {
                 $("#AutoEmail").val("");
                 $("#AutoReminderEmail").hide();
-                
+                $("#emailPeriod").val("0");
                 $("#errorAutoEmail").text("");
             }
 
@@ -466,7 +547,7 @@
             $("#payOffPeriod").val("0");
 }
 
-
+        $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
 </script>
 
 @if (ViewBag.userroleName != "Admin")
@@ -503,7 +584,37 @@
                     alert("error : " + reponse);
                 }
             });
+           
 
         }
     </script>
 }
+@{ 
+    if(Model.loanNumber != null)
+    {
+        <script>
+            $("#loanNumber").removeAttr("disabled");
+
+        </script>
+
+   
+    if (Model.autoReminderEmail != "")
+    {
+        <script>
+            $('#autoRem').val("true");
+            showAutoReminderEmail("true");
+        </script>
+    }
+
+    foreach (UnitType UnitType in (List<UnitType>)Model.selectedUnitTypes)
+    {
+        <script>
+            $("#radioStyle-@(UnitType.unitTypeId-1)").show();
+        $("#radio-@(UnitType.unitTypeId - 1)").show();
+
+        </script>
+        }
+    }
+
+}
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
