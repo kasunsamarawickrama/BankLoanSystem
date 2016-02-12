@@ -16,7 +16,7 @@
         <h2>Step 4 - Title</h2>
         @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(6)",
+                OnSuccess = "Progress(10)",
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -337,5 +337,7 @@
             });
         });
     });
+
+    $(".tab.9").parent("li").addClass("active").siblings().removeClass('active');
 </script>
 

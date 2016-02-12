@@ -16,14 +16,15 @@
         <h2>Fees</h2>
 
         @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
-            {
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
+        {
+            OnSuccess = "Progress(9)",
+            OnFailure = "handleErrorMsg",
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "changeContainer",
+            LoadingElementId = "loadingDiv"
+        }, new { id = "form" }))
+        {
 
             @Html.AntiForgeryToken()
             <div class="form-horizontal" style="margin-right: 0;margin-left: 0;">
@@ -654,5 +655,5 @@
         document.getElementById("radioDayLoan").checked = true;
     });
 
-
+    $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
 </script>

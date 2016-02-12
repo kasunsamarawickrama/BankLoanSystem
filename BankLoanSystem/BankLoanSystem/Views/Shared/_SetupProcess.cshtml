@@ -52,7 +52,13 @@
             
         }
 
+        function globalProgress(step) {
+            global = step;
+        }
+
         function Progress(step) {
+            if (global > step)
+                return;
             for (var i = 1; i <= step ; i++) {
                 var tab = ".tab." + i;
                 $(tab).children("span").remove();
@@ -64,6 +70,8 @@
                     $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
                 }
             }
+            
+            global = step;
 
         }
 
