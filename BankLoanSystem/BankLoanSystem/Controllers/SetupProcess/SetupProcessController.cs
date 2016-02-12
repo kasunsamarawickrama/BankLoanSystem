@@ -1167,7 +1167,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = int.Parse(Session["userId"].ToString());
-
+            //int branchId = int.Parse(Session["branchId"].ToString());
 
             if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
             {
@@ -1190,7 +1190,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
 
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByUserId(userId);
+            int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
 
             if (loanId > 0) {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
@@ -1199,16 +1199,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 if(loanId > 0)
-                    sa.updateStepNumberByUserId(userId, 7, loanId);
+                    sa.updateStepNumberByUserId(userId, 7, loanId, loanSetupStep1.RegisteredBranchId);
             }
 
+            Session["branchId"] = loanSetupStep1.RegisteredBranchId;
             if (loanSetupStep1.isInterestCalculate)
             {
                 return RedirectToAction("step7");
             }
             else
             {
-                sa.updateStepNumberByUserId(userId, 8, loanId);
+                sa.updateStepNumberByUserId(userId, 8, loanId, loanSetupStep1.RegisteredBranchId);
                 return RedirectToAction("step8");
             }
 
@@ -1332,7 +1333,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step7(int? edit)
         {
             int uId = int.Parse(Session["userId"].ToString());
-            //int uId = 4;
+            int branchId = int.Parse(Session["branchId"].ToString());
+            //int branchId = 35;
             List<SelectListItem> listdates = new List<SelectListItem>();
             for (int i = 1; i <= 28; i++)
             {
@@ -1351,22 +1353,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             InterestAccess ia = new InterestAccess();
-            Interest intrstObj = new Interest();
+            Interest intrst = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
 
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
-                int loanId = la.getLoanIdByUserId(uId);
+                int loanId = la.getLoanIdByBranchId(branchId);
+                
                 //int loanId = 1;
                 if (loanId > 0)
                 {
-                    var intrst = ia.getInterestDetails(loanId);
-                    if (intrst != null)
+                    //var intrst = ia.getInterestDetails(loanId);
+                    if (ia.getInterestDetails(loanId) != null)
                     {
 
                         ViewBag.Edit = 1;
+                        intrst = ia.getInterestDetails(loanId);
                         ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrst.AccrualMethodId);
                         
                         if (intrst.option != "once a month")
@@ -1388,11 +1392,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
                         ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
-                        intrstObj.AutoRemindEmail = defaultEmail;
-                        return PartialView(intrstObj);
+                        //intrst.AutoRemindEmail = defaultEmail;
+                        ViewBag.Email = defaultEmail;
+                        return PartialView();
                         }
-                    }
-
+                    //return PartialView();
+                }
+                
                 else
                 {
                     return new HttpStatusCodeResult(404, "error message");
@@ -1418,7 +1424,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             int userId = int.Parse(Session["userId"].ToString());
-            //int loanId = 1;
+           int branchId = int.Parse(Session["branchId"].ToString());
+            //int  branchId = 35;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
@@ -1426,7 +1433,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             InterestAccess ia = new InterestAccess();
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByUserId(userId);
+            int loanId = la.getLoanIdByBranchId(branchId);
             if (!interest.NeedReminder)
             {
                 interest.AutoRemindEmail = null;
@@ -1438,7 +1445,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 1)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 8, loanId))
+                if (sa.updateStepNumberByUserId(userId, 8, interest.LoanId, branchId))
                 {
                     return RedirectToAction("Step8");
                 }
@@ -1567,12 +1574,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 //Session["userId"] = 2;
                 var userId = (int)Session["userId"];
+                var branchId = (int)Session["branchId"];
 
                 if ((bool)Session["isEdit"] == true) {
                     Session["isEdit"] = false;
                     return RedirectToAction("Step9");
                 }
-                else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId))
+                else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
                 {
                     return RedirectToAction("Step9");
                 }
@@ -1598,6 +1606,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step9(int? edit)
         {
             int uId = int.Parse(Session["userId"].ToString());
+            int branchId = int.Parse(Session["branchId"].ToString());
             //Accept Methods
             List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
 
@@ -1652,21 +1661,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 LoanSetupAccess la = new LoanSetupAccess();
                 TitleAccess ta = new TitleAccess();
-                Title titl = new Title();
-                int loanId = la.getLoanIdByUserId(uId);
+                Title title = new Title();
+                int loanId = la.getLoanIdByBranchId(branchId);
                 //int loanId = 1;
                 if (loanId > 0)
                 {
-                    var title = ta.getTitleDetails(loanId);
-                    if (title != null)
+                    //var title = ta.getTitleDetails(loanId);
+                    if (ta.getTitleDetails(loanId) != null)
                     {
 
                         ViewBag.Edit = 1;
+                        title = ta.getTitleDetails(loanId);
                         ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", title.TitleAcceptMethod);
                         ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", title.ReceivedTimeLimit);
 
                         ViewBag.DefaultEmail = title.RemindEmail;
-                        return PartialView(title);
+                        //return PartialView(title);
                     }
 
                     else
@@ -1677,10 +1687,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
 
-                        titl.RemindEmail = defaultEmail;
-                        
-                        return PartialView(titl);
+                        title.RemindEmail = defaultEmail;
+                        title.LoanId = loanId;
+                        //return PartialView(titl);
                     }
+                    return PartialView(title);
                 }
 
                 else
@@ -1706,6 +1717,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step9(Title title)
         {
             int userId = int.Parse(Session["userId"].ToString());
+            int branchId = int.Parse(Session["branchId"].ToString());
             //int loanId = 1;
 
             if (title.NeedPyhsical && title.NeedScanCopy)
@@ -1722,7 +1734,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             TitleAccess ta = new TitleAccess();
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByUserId(userId);
+            int loanId = la.getLoanIdByBranchId(branchId);
             title.LoanId = loanId;
 
             if (title.IsReceipRequired || title.IsTitleTrack)
@@ -1731,7 +1743,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (reslt >= 1)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 10, loanId))
+                if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
                 {
                     return RedirectToAction("Step10");
                 }
