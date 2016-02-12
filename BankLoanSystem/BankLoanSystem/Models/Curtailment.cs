@@ -21,6 +21,16 @@ namespace BankLoanSystem.Models
         [Display(Name = "Curtailment Calculated By")]
         [Required]
         public string TimeBase { get; set; }
+
+        [Display(Name = "Month")]
+        public string Month { get; set; }
+
+        [Display(Name = "Activate Loan")]
+        public bool Activete
+        {
+            get; set;
+
+        }
     }
 
     public class Curtailment
