@@ -119,6 +119,7 @@ namespace BankLoanSystem.Models
             get; set;
 
         }
+
     }
 
     public class UnitType
