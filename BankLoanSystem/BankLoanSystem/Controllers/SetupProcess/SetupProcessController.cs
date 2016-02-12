@@ -1190,7 +1190,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
 
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
+            int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
 
             if (loanId > 0) {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
