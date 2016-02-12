@@ -123,8 +123,8 @@
 
                         </div>
 
-                        @if (ViewBag.Edit == 1)
-                {
+                        @if ((ViewBag.Edit == 1)&&(ViewBag.Email!="") && (ViewBag.Email != null))
+                        {
                             <div class="col-xs-8">
                                 @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
