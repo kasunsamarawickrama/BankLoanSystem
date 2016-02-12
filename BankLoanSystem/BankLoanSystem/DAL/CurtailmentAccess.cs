@@ -185,8 +185,6 @@ namespace BankLoanSystem.DAL
             return loan;
         }
 
-
-
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/02/09
