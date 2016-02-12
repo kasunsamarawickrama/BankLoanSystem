@@ -97,7 +97,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber)
+        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber,int branchId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -108,6 +108,7 @@ namespace BankLoanSystem.DAL
                     command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@step_id", stepNumber);
                     command.Parameters.AddWithValue("@loan_id", loanNumber);
+                    command.Parameters.AddWithValue("@branch_id", branchId);
 
                     SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
                     returnParameter.Direction = ParameterDirection.ReturnValue;
