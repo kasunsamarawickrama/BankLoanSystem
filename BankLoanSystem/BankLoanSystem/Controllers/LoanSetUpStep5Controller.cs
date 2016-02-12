@@ -17,7 +17,7 @@ namespace BankLoanSystem.Controllers
         // GET: LoanSetUpStep5
         public ActionResult Step5()
         {
-            Session["userId"] = 1;
+            Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
             int userId = Convert.ToInt32(Session["userId"]);
@@ -51,7 +51,7 @@ namespace BankLoanSystem.Controllers
             float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
             float totalPercentage = 0;
 
-            Session["userId"] = 1;
+            Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
@@ -131,10 +131,11 @@ namespace BankLoanSystem.Controllers
                         return View(objmodel);
                     }
 
-                case "Next":
-                    if (objmodel.TimeBase == "Month")
+                case "Create":
+                    bool loanActive = false; 
+                    if (objmodel.Activete !=null)
                     {
-                        
+                        loanActive = true;
                     }
                     for (int i = 0; i < objmodel.InfoModel.Count; i++)
                     {
@@ -201,13 +202,16 @@ namespace BankLoanSystem.Controllers
                         {
                             ViewBag.SuccessMsg = "Curtailment Details added successfully";
                             StepAccess stepAccess = new StepAccess();
+                           
                             stepAccess.updateStepNumberByUserId(userId, 11);
                         }
                         else
                         {
                             ViewBag.SuccessMsg = "Curtailment Details updated successfully";
                         }
-                       
+                        LoanSetupAccess loanAccess = new LoanSetupAccess();
+                        loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+
                     }
                     break;
             }

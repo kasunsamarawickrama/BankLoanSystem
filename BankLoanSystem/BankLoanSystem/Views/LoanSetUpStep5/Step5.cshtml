@@ -101,13 +101,13 @@
                         <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
                             <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
                                 <td style="width: 15%;"  height="30px">
-                                    <p id="cuId"></p>     </td>
+                                    <p id="cuId"> Curt#</p>     </td>
                                 <td style="width: 30%;" height="30px">
                                      <table>
                                             <tr>
                                                 <td width="30%">@*Time Period*@                                                  
-                                                        @*<p id="time"></p>*@      
-                                                @Html.LabelFor(m=>m.TimeBase, htmlAttributes: new { id = "time" })                                             
+                                                        <p id="time">Month</p>      
+                                                @*@Html.LabelFor(m=>m.TimeBase, htmlAttributes: new { id = "time" })*@                                             
                                                 </td>
                                                 <td></td>
                                             </tr>
@@ -117,7 +117,7 @@
                                     <table>
                                         <tr>
                                             <td width="30%">
-                                                <p id="pecentage"></p>      
+                                                <p id="pecentage">Percentage(%)</p>      
                                             </td>
                                             <td></td>
                                             <td></td>
@@ -196,8 +196,8 @@
                 </div>
 
 
-                <div >
-                   
+                <div class="form-group">
+
                     @if (Model.InfoModel.Count >= 1)
                     {
                         <span style="background-color: yellow">
@@ -205,7 +205,20 @@
                         </span>
                     }
                 </div>
-            </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <table width="100%">
+                        <tr>
+                            <td width="25%">@Html.LabelFor(model => model.Activete, htmlAttributes: new { })</td>
+                            <td width="60%">
+                                :  @Html.RadioButtonFor(m => m.Activete, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
+                                @Html.RadioButtonFor(m => m.Activete, "No", new { @id = "rdNo", @class = "Active" }) No
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
             <div class="form-group">
                 <div>
 
@@ -223,7 +236,7 @@
                             @*@if(ViewBag.ErrorMsg == "" && Model.RemainingPercentage == 0)
                             {*@
                                 <li>
-                                    <input type="submit" value="Next" name="submit" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px"/>
+                                    <input type="submit" value="Create" name="submit" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px"/>
                                 </li>
                             @*}*@
                         </ul>
@@ -310,8 +323,8 @@
 <script type="text/javascript">
     $('.TimeBase').change(function () {       
         var value = $(this).filter(':checked').val();
-        //$("#cuId").text("Curt# Id")
-        //$("#pecentage").text("Percentage(%)")
+        $("#cuId").text("Curt#")
+        $("#pecentage").text("Percentage(%)")
         if (value == "Month") {                
             $("#time").text(document.getElementById("rdMonth").value)  
         }
@@ -327,20 +340,20 @@
 
     });
 
-    $('input[name=submit]').click(function () {
-        var test = document.getElementById("rdMonth").value;
-        //alert(test);
-            var value = $(this).filter(':checked').val();
-            $("#cuId").text("Curt# Id")
-            $("#pecentage").text("Percentage(%)")
-            if (test == "Month") {                
-                $("#time").text(document.getElementById("rdMonth").value)  
-            }
-            else if (value == "Days") {
-                $("#time").text(document.getElementById("rdDay").value)
+    //$('input[name=submit]').click(function () {
+    //    var test = document.getElementById("rdMonth").value;
+    //    alert(test);
+    //        var value = $(this).filter(':checked').val();
+    //        $("#cuId").text("Curt# Id")
+    //        $("#pecentage").text("Percentage(%)")
+    //        if (test == "Month") {                
+    //            $("#time").text(document.getElementById("rdMonth").value)  
+    //        }
+    //        else if (value == "Days") {
+    //            $("#time").text(document.getElementById("rdDay").value)
                 
-            }
-        });
+    //        }
+    //    });
    
 
     
