@@ -105,13 +105,12 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    //if ((int)returnParameter.Value >=1) {
-                    //    return true ;
-                    //}
-                    //else {
-                    //    return false;
-                    //}
-                    return true;
+                    if ((int)returnParameter.Value >=1) {
+                        return true ;
+                    }
+                    else {
+                        return false;
+                    }
 
                 }
                 catch (Exception ex)
@@ -150,13 +149,13 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    //if ((int)returnParameter.Value == 1)
-                    //{
+                    if ((int)returnParameter.Value == 1)
+                    {
                         return true;
-                    //}
-                    //else {
-                    //    return false;
-                    //}
+                    }
+                    else {
+                        return false;
+                    }
 
                 }
                 catch (Exception ex)

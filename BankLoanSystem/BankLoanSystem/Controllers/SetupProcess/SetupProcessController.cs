@@ -1586,7 +1586,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return RedirectToAction("Step9");
+                    return RedirectToAction("Step8");
                 }
             }
             else
