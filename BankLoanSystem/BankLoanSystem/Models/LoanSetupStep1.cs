@@ -14,10 +14,12 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "NonRegistered Branch")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
         public int nonRegisteredBranchId { get; set; }
 
         [Required]
         [Display(Name = "Registered Branch")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
         public int RegisteredBranchId { get; set; }
 
         [Required]
@@ -105,6 +107,14 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage")]
         public bool isEditAllowable
+        {
+            get; set;
+
+        }
+
+        [Required]
+        [Display(Name = "Do you want to track the interest")]
+        public bool isInterestCalculate
         {
             get; set;
 
