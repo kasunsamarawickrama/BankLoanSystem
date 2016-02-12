@@ -201,7 +201,7 @@ namespace BankLoanSystem.Controllers
                         {
                             ViewBag.SuccessMsg = "Curtailment Details added successfully";
                             StepAccess stepAccess = new StepAccess();
-                            stepAccess.updateStepNumberByUserId(userId, 11, _loan.loanId);
+                            stepAccess.updateStepNumberByUserId(userId, 11);
                         }
                         else
                         {
