@@ -145,7 +145,50 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
-        
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/12
+        /// get loanId by branchId from step table
+        /// </summary>
+        /// <returns>loanId</returns>
+        public int getLoanIdByBranchId(int branchId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetLoanIdByBranchId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
+
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int loanId = (int)returnParameter.Value;
+
+                        return loanId;
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
         /// <summary>
         /// Created By: kasun Smarawickrama
         /// Date : 10/2/2012

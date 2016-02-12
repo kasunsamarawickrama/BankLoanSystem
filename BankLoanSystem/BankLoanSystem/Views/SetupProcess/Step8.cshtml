@@ -122,7 +122,7 @@
                             </div>
                             <div class="col-xs-8 no">
                                 @Html.EditorFor(model => model.AdvanceLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.AdvanceLenderEmailRemindPeriod, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-xs-8 no">
                                 Dealer email
@@ -136,7 +136,7 @@
                             </div>
                             <div class="col-xs-8 no">
                                 @Html.EditorFor(model => model.AdvanceDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.AdvanceDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                             </div>
 
                         </div>
@@ -310,21 +310,21 @@
                         </div>
                         <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.LotInspectionLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmailRemindPeriod, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
                             Dealer email
                         </div>
                         <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.LotInspectionDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionDealerEmail, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-8 no">
                             Dealer email remind period
                         </div>
                         <div class="col-xs-8 no">
                             @Html.EditorFor(model => model.LotInspectionDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                         </div>
                     </div>
                                             
