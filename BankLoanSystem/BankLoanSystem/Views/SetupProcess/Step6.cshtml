@@ -1,4 +1,6 @@
-﻿@model BankLoanSystem.Models.LoanSetupStep1
+﻿@using BankLoanSystem.Models
+
+@model BankLoanSystem.Models.LoanSetupStep1
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -244,6 +246,20 @@
                     Value = "false",
                     Selected = true
                 });
+
+                List<SelectListItem> yesOrNoList2 = yesOrNoList;
+                List<SelectListItem> yesOrNoList3 = new List<SelectListItem>();
+                yesOrNoList3.Add(new SelectListItem
+                {
+                    Text = "Yes",
+                    Value = "true"
+                });
+                yesOrNoList3.Add(new SelectListItem
+                {
+                    Text = "No",
+                    Value = "false",
+                    Selected = true
+                });
             }
     
 
@@ -273,7 +289,7 @@
             <div class="control-label col-sm-2">
                 @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
 
-                @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
 
 
@@ -286,14 +302,14 @@
 
         <div class="form-group">
             <div class="col-xs-9" style="margin-top: 18px;float:left">
-
+                
                @Html.Label("Do you want auto reminder for renewal")
 
             </div>
             <div class="control-label col-sm-2">
                
 
-                @Html.DropDownList("auto reminder", yesOrNoList, htmlAttributes: new { @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
+                @Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
                 
 
 
@@ -555,4 +571,32 @@
 
         }
     </script>
+}
+@{ 
+    if(Model.loanNumber != null)
+    {
+        <script>
+            $("#loanNumber").removeAttr("disabled");
+
+        </script>
+
+   
+    if (Model.autoReminderEmail != "")
+    {
+        <script>
+            $('#autoRem').val("true");
+            showAutoReminderEmail("true");
+        </script>
+    }
+
+    foreach (UnitType UnitType in (List<UnitType>)Model.selectedUnitTypes)
+    {
+        <script>
+            $("#radioStyle-@(UnitType.unitTypeId-1)").show();
+        $("#radio-@(UnitType.unitTypeId - 1)").show();
+
+        </script>
+        }
+    }
+
 }
