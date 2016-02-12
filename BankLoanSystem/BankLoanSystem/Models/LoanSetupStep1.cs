@@ -109,6 +109,8 @@ namespace BankLoanSystem.Models
             get; set;
 
         }
+
+        public int loanId { get; set; }
     }
 
     public class UnitType
