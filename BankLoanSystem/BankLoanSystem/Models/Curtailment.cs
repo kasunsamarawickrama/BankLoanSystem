@@ -18,7 +18,7 @@ namespace BankLoanSystem.Models
         [Required]
         public string CalculationBase { get; set; }
 
-        [Display(Name = "Time Period")]
+        [Display(Name = "Curtailment Calculated By")]
         [Required]
         public string TimeBase { get; set; }
     }
@@ -29,6 +29,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Curtailment Id")]
         public int CurtailmentId { get; set; }
 
+        [Display(Name ="Month")]
         [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "Invalid")]
         public int TimePeriod { get; set; }
 

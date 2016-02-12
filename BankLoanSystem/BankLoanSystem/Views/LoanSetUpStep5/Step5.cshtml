@@ -60,29 +60,36 @@
 
                 <input type="hidden" id="cal" name="cal" />
                 <div class="form-group">
-                    @Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment" }) Full payment
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance Fee", new { @id = "radioAdvance" }) Advance Fee
-                            <br />
-                            @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                    <table width="100%">
+                        <tr>
+                            <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                            <td width="60%">: @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment" }) Full payment
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance Fee", new { @id = "radioAdvance" }) Advance Fee</td>
+                        </tr>
+                    </table>
+                    <div >                   
+                        @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                    </div> 
+                    
+                    <table width="100%">
+                        <tr>
+                            <td width="25%">@Html.LabelFor(model => model.TimeBase, htmlAttributes: new { })</td>
+                            <td width="60%">
+                              :  @Html.RadioButtonFor(m => m.TimeBase, "Month", new { @id = "rdMonth", @class = "TimeBase" }) Month
+                            @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "rdDay", @class = "TimeBase" }) Days
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    @Html.ValidationMessageFor(model => model.TimeBase, "", new { @class = "text-danger" })
+                </div>                      
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TimeBase, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.RadioButtonFor(m => m.TimeBase, "Month", new { @id = "rdMonth" }) Month
-                            @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "radioDayAdvance" }) Days
-                            <br />
-                            @Html.ValidationMessageFor(model => model.TimeBase, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
+                <div class="form-group">                    
+                   
+                    
+                </div>               
+               <br />
                 @*@{
                         var grid = new WebGrid(Model.InfoModel);
                     }
@@ -91,37 +98,106 @@
 
                 <div class="form-group">
                     <div style="text-align: center;">
-                        <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 20%;">
-                            <tr style="font-weight: bold; background-color: darkgray; height: 20px;">
-                                <td>Curtailment Id</td>
-                                <td>Time Period</td>
-                                <td>
-                                    Percentage(%)
+                        <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
+                            <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
+                                <td style="width: 15%;"  height="30px">
+                                    <p id="cuId"></p>     </td>
+                                <td style="width: 30%;" height="30px">
+                                     <table>
+                                            <tr>
+                                                <td width="30%">@*Time Period*@                                                  
+                                                        @*<p id="time"></p>*@      
+                                                @Html.LabelFor(m=>m.TimeBase, htmlAttributes: new { id = "time" })                                             
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                      </table>
                                 </td>
+                                <td style="width: 50%;"  height="30px">
+                                    <table>
+                                        <tr>
+                                            <td width="30%">
+                                                <p id="pecentage"></p>      
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                   
+                                </td>
+
+
 
                             </tr>
                             @for (int a = 0; a < Model.InfoModel.Count; a++)
                             {
                                 <tr>
-                                    <td style="width: 20%;">@Model.InfoModel[a].CurtailmentId</td>
-                                    <td style="width: 20%;">@Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, new {  })@Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })</td>
-                                    <td style="width: 20%;">
-                                        @*@Html.TextBoxFor(m => m.InfoModel[a].Percentage, new { @onchange = "PercentageOnChange(" + @a + ")", @Name = "percentage" })*@
-                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, new {}) 
-                                        @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new {@class = "text-danger"})
+                                    <td style="width: 15%;">@Model.InfoModel[a].CurtailmentId</td>
+                                    <td style="width: 30%;" >
+                                        <table>
+                                            <tr>
+                                                <td>@Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, new { })</td>
+                                                <td>@Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })</td>
+                                            </tr>
+                                        </table>
                                     </td>
+                                    <td style="width: 50%;">
+                                       
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    @*@Html.TextBoxFor(m => m.InfoModel[a].Percentage, new { @onchange = "PercentageOnChange(" + @a + ")", @Name = "percentage" })*@
+                                                    @Html.TextBoxFor(m => m.InfoModel[a].Percentage, new { })
+                                                   
+                                                   
+                                                        @*<input type="submit" value="Add Row" name="submit" title="Add New Data" style="background: url(~/Images/small_loading.gif); width:100px; height:25px;" />*@
+                                                        @*<a href="#">
+                <img src="~/Images/small_loading.gif"></img>
+            </a>*@
+                                                        
+                                                   
 
+                                                </td>
+                                                <td>
+                                                    @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td>
+                                                    @if (a == Model.InfoModel.Count - 1)
+                                                    {
+                                                        <input type="submit" id="1" value="+" name="submit" title="Add New Row"   width:100px; height:25px; />
+                                                        <input type="submit" id="1" value="-" name="submit" title="Delete Last Row" class="cancel" width:100px; height:25px; />
+                                                        @*<input type="submit" id="1" value="Add Row" name="+" title="Add New Row" src="~/Images/addRow.png" width:100px; height:25px;/>
+                                                        <input type="submit" id="1" value="Delete Row" name="submit" title="Delete Last Row" class="cancel" src="~/Images/deleteRow.png" width:100px; height:25px; />*@
+                                                       
+
+                                                        @*<button type="submit" value="Delete Row" name="submit" title="Delete Last Row" class="cancel">
+                                                            <img src="~/Images/deleteRow.png" alt="test" />
+                                                            <br />
+                                                            Test
+                                                        </button>*@
+                                                    }
+                                                    @*@if (Model.InfoModel.Count > 2 && a == Model.InfoModel.Count - 1)
+                                                    {
+                                                        <input type="submit" id="1" value="Delete Row" name="submit" title="Delete Last Row" class="btn btn-primary m-b cancel" src="~/Images/deleteRow.png" width:100px; height:25px; />                                                       
+                                                    }*@
+                                            </td> 
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    
                                 </tr>
 
                             }
 
                         </table>
+                       
+                        
                     </div>
                 </div>
 
 
-                <div class="control-label col-sm-2">
-                    <input type="submit" value="Add Row" name="submit" title="Add New Data" />
+                <div >
+                   
                     @if (Model.InfoModel.Count >= 1)
                     {
                         <span style="background-color: yellow">
@@ -143,18 +219,19 @@
                             <li>
                                 <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
                             </li>
-                            <li>
-                                <input type="button" id="skip" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
-                            </li>
-
-                            @if(ViewBag.ErrorMsg == "" && Model.RemainingPercentage == 0)
-                            {
+                          
+                            @*@if(ViewBag.ErrorMsg == "" && Model.RemainingPercentage == 0)
+                            {*@
                                 <li>
                                     <input type="submit" value="Next" name="submit" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px"/>
                                 </li>
-                            }
+                            @*}*@
                         </ul>
                     </nav>
+
+
+
+
                 </div>
             </div>
 
@@ -228,4 +305,45 @@
     function PercentageOnChange(a) {
         alert(a);
     }
+</script>
+
+<script type="text/javascript">
+    $('.TimeBase').change(function () {       
+        var value = $(this).filter(':checked').val();
+        //$("#cuId").text("Curt# Id")
+        //$("#pecentage").text("Percentage(%)")
+        if (value == "Month") {                
+            $("#time").text(document.getElementById("rdMonth").value)  
+        }
+        else if (value == "Days") {
+            $("#time").text(document.getElementById("rdDay").value)
+                
+        }
+    });
+
+    $('#clear').click(function () {
+
+        document.getElementsByTagName("form")[0].reset();
+
+    });
+
+    $('input[name=submit]').click(function () {
+        var test = document.getElementById("rdMonth").value;
+        //alert(test);
+            var value = $(this).filter(':checked').val();
+            $("#cuId").text("Curt# Id")
+            $("#pecentage").text("Percentage(%)")
+            if (test == "Month") {                
+                $("#time").text(document.getElementById("rdMonth").value)  
+            }
+            else if (value == "Days") {
+                $("#time").text(document.getElementById("rdDay").value)
+                
+            }
+        });
+   
+
+    
+
+
 </script>
