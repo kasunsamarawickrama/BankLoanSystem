@@ -92,10 +92,19 @@ namespace BankLoanSystem.Controllers
                 Session["userId"] = userId;
                 //get the step nomber if the user is in company setup process
                 int stepNo = step.getStepNumberByUserId(userId);
+                
                 if (stepNo < 0) {
                     stepNo = step.checkUserLoginWhileCompanySetup(userId);
                 }
                 Session["stepNo"] = stepNo;
+                int branchId = step.getBranchIdByUserId(userId);
+                if (branchId > 0)
+                {
+                    Session["branchId"] = branchId;
+                }
+                else {
+                    Session["branchId"] = 0;
+                }
                 return RedirectToAction("Index","SetupProcess");
                 
                 
