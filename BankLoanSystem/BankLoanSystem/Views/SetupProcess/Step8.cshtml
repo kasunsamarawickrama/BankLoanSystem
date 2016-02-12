@@ -448,6 +448,14 @@
                 changeDropDownValueLot();
             }
         }
+        else{
+            document.getElementById("form").reset();
+            changeDropDownValueAdvance();
+            changeDropDownValueLoan();
+            changeDropDownValueLot();
+            document.getElementById("radioDayAdvance").checked = true;
+            document.getElementById("radioDayLoan").checked = true;
+        }
         
     };
     function partialLoad() {
@@ -520,9 +528,18 @@
                 document.getElementById("dropDownLot").value = "1";
             }
             if(model.LotInspectionAmount <= 0){
-            changeDropDownValueLot();
+                changeDropDownValueLot();
             }
         }
+        else{
+            document.getElementById("form").reset();
+            changeDropDownValueAdvance();
+            changeDropDownValueLoan();
+            changeDropDownValueLot();
+            document.getElementById("radioDayAdvance").checked = true;
+            document.getElementById("radioDayLoan").checked = true;
+        }
+
         
 
     }
