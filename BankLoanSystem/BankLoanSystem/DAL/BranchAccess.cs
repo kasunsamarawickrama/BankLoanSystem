@@ -935,6 +935,59 @@ namespace BankLoanSystem.DAL
                         {
 
                             branch.BranchCode = reader["branch_code"].ToString();
+                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branch.BranchName = reader["branch_name"].ToString();
+
+                        }
+                        return branch;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/02/11
+        /// Get Non Reg Branch by non reg branch Id
+        /// </summary>
+        /// <param name="branch Id"></param>
+        /// <returns></returns>
+        public NonRegBranch getNonRegBranchByNonRegBranchId(int nonRegBranchId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchByNonRegBranchId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = nonRegBranchId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        NonRegBranch branch = new NonRegBranch();
+
+
+                        while (reader.Read())
+                        {
+
+                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
+                            branch.BranchCode = reader["branch_code"].ToString();
+                            branch.BranchName = reader["branch_name"].ToString();
 
                         }
                         return branch;

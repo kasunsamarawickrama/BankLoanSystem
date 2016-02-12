@@ -17,15 +17,22 @@ namespace BankLoanSystem.DAL
         /// check the loan number is unique for a branch
         /// </summary>
         /// <returns>true or false</returns>
-        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId)
+        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, int userId)
         {
 
             using (
                 var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
+
+                
+                LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
+
+                LoanSetupAccess la = new LoanSetupAccess();
+                int loanId = la.getLoanIdByUserId(userId);
                 var command = new SqlCommand("spIsUniqueLoanNumberForBranch", con) { CommandType = CommandType.StoredProcedure };
                 command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanNumber;
                 command.Parameters.Add("@branch_id", SqlDbType.Int).Value = RegisteredBranchId;
+                command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
                 con.Open();
 
                 using (var reader = command.ExecuteReader())
@@ -285,7 +292,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        internal int insertLoanStepOne(LoanSetupStep1 loanSetupStep1)
+        internal int insertLoanStepOne(LoanSetupStep1 loanSetupStep1, int loanId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -294,7 +301,7 @@ namespace BankLoanSystem.DAL
                     using (SqlCommand command = new SqlCommand("spInsertLoanStepOne", con))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
+                        command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
                         command.Parameters.Add("@advance", SqlDbType.Float).Value = loanSetupStep1.advancePercentage;
                         // command.Parameters.Add("@advance_receipt", SqlDbType.Bit).Value = loanSetupStep1.allUnitTypes;
                         command.Parameters.Add("@auto_remind_email", SqlDbType.NVarChar).Value = loanSetupStep1.autoReminderEmail;
@@ -323,7 +330,7 @@ namespace BankLoanSystem.DAL
 
                         con.Open();
                         command.ExecuteNonQuery();
-                        int loanId = (int)returnParameter.Value;
+                        loanId = (int)returnParameter.Value;
 
                         if(loanId== 0)
                         {
@@ -362,5 +369,160 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
-    }
+
+        internal LoanSetupStep1 GetLoanStepOne(int loanId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetLoanStepOneByLoanId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+
+
+                        while (reader.Read())
+                        {
+
+                            loanSetupStep1.advancePercentage = int.Parse(reader["advance"].ToString());
+                            //loanSetupStep1.allUnitTypes
+                            loanSetupStep1.autoReminderEmail = reader["auto_remind_email"].ToString();
+                            loanSetupStep1.autoReminderPeriod = int.Parse(reader["auto_remind_period"].ToString());
+                            loanSetupStep1.defaultUnitType = int.Parse(reader["default_unit_type"].ToString());
+                            loanSetupStep1.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"].ToString());
+                            loanSetupStep1.isInterestCalculate = Convert.ToBoolean(reader["is_interest_calculate"].ToString());
+                            loanSetupStep1.loanAmount = Convert.ToDecimal(reader["loan_amount"].ToString());
+                            loanSetupStep1.loanNumber = reader["loan_number"].ToString();
+                            loanSetupStep1.maturityDate = Convert.ToDateTime(reader["maturity_date"].ToString());
+                            loanSetupStep1.nonRegisteredBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
+                            loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
+                            loanSetupStep1.payOffPeriod = int.Parse(reader["pay_off_period"].ToString());
+                            loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
+                            //loanSetupStep1.selectedUnitTypes
+                            loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
+
+
+
+
+
+
+
+                        }
+
+                        reader.Close();
+                        IList<UnitType> unittypes = new List<UnitType>();
+                        using (SqlCommand cmd2 = new SqlCommand("spGetLoanUnitTypesByLoanId", con))
+                        {
+                            cmd2.CommandType = CommandType.StoredProcedure;
+                            cmd2.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                            //con.Open();
+                            SqlDataReader reader2 = cmd2.ExecuteReader();
+
+
+
+
+                            while (reader2.Read())
+                            {
+                                UnitType unitType = new UnitType();
+
+                                unitType.unitTypeId = int.Parse(reader2["unit_type_id"].ToString());
+
+                                unittypes.Add(unitType);
+
+
+
+
+
+
+
+                            }
+
+                            loanSetupStep1.selectedUnitTypes = unittypes;
+
+                            return loanSetupStep1;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+
+
+
+
+        internal void getSelectedUnitTypes(int loanId, LoanSetupStep1 loanSetupStep1)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetLoanUnitTypesByLoanId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        
+                        
+
+                        while (reader.Read())
+                        {
+                            UnitType unitType = new UnitType();
+
+                            unitType.unitTypeId = int.Parse(reader["unit_type_id"].ToString());
+                            //loanSetupStep1.selectedUnitTypes.Add(unitType);
+
+
+
+
+
+
+
+                        }
+
+                        reader.Close();
+
+
+
+
+                       
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+
+            }
+
+        }
+
+
 }
+}
+
