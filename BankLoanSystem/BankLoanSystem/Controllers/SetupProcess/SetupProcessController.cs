@@ -1054,13 +1054,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
 
                     NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-                    nonRegCompanyBranch.CompanyBranch = userNonRegCompany;
-
 
                     //Get all non registered branches by company id
-
                     List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                     nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+                    List<NonRegBranch> adminBonRegBranches = new List<NonRegBranch>();
+                    if (curUser.RoleId == 2)
+                    {
+                        for (int i = 0; i < nonRegBranches.Count; i++)
+                        {
+                            if (curUser.BranchId == nonRegBranches[i].BranchId)
+                            {
+                                adminBonRegBranches.Add(nonRegBranches[i]);
+                            }
+                        }
+
+                        nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+                    }
 
                     return PartialView(nonRegCompanyBranch);
 
