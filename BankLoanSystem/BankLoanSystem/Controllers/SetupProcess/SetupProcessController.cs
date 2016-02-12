@@ -1054,13 +1054,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
 
                     NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-                    nonRegCompanyBranch.CompanyBranch = userNonRegCompany;
-
 
                     //Get all non registered branches by company id
-
                     List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                     nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+                    List<NonRegBranch> adminBonRegBranches = new List<NonRegBranch>();
+                    if (curUser.RoleId == 2)
+                    {
+                        for (int i = 0; i < nonRegBranches.Count; i++)
+                        {
+                            if (curUser.BranchId == nonRegBranches[i].BranchId)
+                            {
+                                adminBonRegBranches.Add(nonRegBranches[i]);
+                            }
+                        }
+
+                        nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+                    }
 
                     return PartialView(nonRegCompanyBranch);
 
@@ -1365,15 +1376,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //int loanId = 1;
                 if (loanId > 0)
                 {
-                    //var intrst = ia.getInterestDetails(loanId);
-                    if (ia.getInterestDetails(loanId) != null)
+                    var intrstobj = ia.getInterestDetails(loanId);
+                    if (intrstobj != null)
                     {
 
                         ViewBag.Edit = 1;
-                        intrst = ia.getInterestDetails(loanId);
-                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrst.AccrualMethodId);
+                        //intrst = ia.getInterestDetails(loanId);
+                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
                         
-                        if (intrst.option != "once a month")
+                        if (intrstobj.option != "once a month")
                         {
                             ViewBag.Option = true;
                         }
@@ -1381,9 +1392,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         {
                             ViewBag.Option = false;
                         }
-                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrst.PaidDate);
-                        ViewBag.DefaultEmail = intrst.AutoRemindEmail;
-                        return PartialView(intrst);
+                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
+                        //ViewBag.Email = intrst.AutoRemindEmail;
+                        return PartialView(intrstobj);
                     }
 
                     else
@@ -1392,8 +1403,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
                         ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
-                        //intrst.AutoRemindEmail = defaultEmail;
                         ViewBag.Email = defaultEmail;
+                        //intrst.AutoRemindEmail = defaultEmail;
+
                         return PartialView();
                         }
                     //return PartialView();
@@ -1663,20 +1675,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TitleAccess ta = new TitleAccess();
                 Title title = new Title();
                 int loanId = la.getLoanIdByBranchId(branchId);
+                
                 //int loanId = 1;
                 if (loanId > 0)
                 {
-                    //var title = ta.getTitleDetails(loanId);
-                    if (ta.getTitleDetails(loanId) != null)
+                    var titleObj = ta.getTitleDetails(loanId);
+                    if (titleObj != null)
                     {
 
                         ViewBag.Edit = 1;
-                        title = ta.getTitleDetails(loanId);
-                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", title.TitleAcceptMethod);
-                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", title.ReceivedTimeLimit);
+                        //title = ta.getTitleDetails(loanId);
+                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
+                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
 
-                        ViewBag.DefaultEmail = title.RemindEmail;
-                        //return PartialView(title);
+                        ViewBag.DefaultEmail = titleObj.RemindEmail;
+                        return PartialView(titleObj);
                     }
 
                     else
@@ -1687,11 +1700,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
 
-                        title.RemindEmail = defaultEmail;
-                        title.LoanId = loanId;
-                        //return PartialView(titl);
+                        ViewBag.Email = defaultEmail;
+                        //title.LoanId = loanId;
+                        return PartialView();
                     }
-                    return PartialView(title);
+                    //return PartialView(title);
                 }
 
                 else
