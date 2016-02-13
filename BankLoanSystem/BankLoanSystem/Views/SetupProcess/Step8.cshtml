@@ -6,13 +6,17 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/scripts/jquery-ui.js"></script>
-<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/scripts/jquery-ui.js"></script>
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
 
 <div class="row">
     <div class="container body-content">
-        <h2>Step 3 - Fees</h2>
+        <div class="form-group">
 
+            <div>
+                <h2>@Html.Label("Step 3 - Fees", htmlAttributes: new { })</h2>
+            </div>
+        </div>
         @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
         {
             OnSuccess = "Progress(9)",
@@ -25,15 +29,16 @@
         {
 
             @Html.AntiForgeryToken()
-            <div class="form-horizontal" style="margin-right: 0;margin-left: 0;">
-                
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div id="accordion"  >
+            <div class="form-horizontal">
 
-                    @Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })
-                    <div class="form-group" style="margin-right: 0;margin-left: 0;">
-                        
-                        <div class="control-label col-sm-2">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="margin-top:10px">
+                            <h3>@Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })</h3>
+                        </div>
+                        <div class="col-xs-8">
                             @{
                                 List<SelectListItem> listItems = new List<SelectListItem>();
                                 listItems.Add(new SelectListItem
@@ -48,27 +53,35 @@
                                     Selected = true
                                 });
                             }
-                            @Html.HiddenFor(model => model.LoanId )
-                            @Html.DropDownListFor(model => model.AdvanceId, listItems, new { @id = "dropDownAdvance", onChange = "changeDropDownValueAdvance();" })
+                            @Html.HiddenFor(model => model.LoanId)
+                            @Html.DropDownListFor(model => model.AdvanceId, listItems, new { @id = "dropDownAdvance", @class = "form-control col-sm-2", onChange = "changeDropDownValueAdvance();" })
                             @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
                         </div>
-                            <div class="col-xs-8 no">
-                            Amount
+                    </div>
+                    <div id="advance">
+                        <div class="form-group">
+
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { })
                             </div>
-                            <div class="col-xs-8 no">
+                            <div class="col-xs-8">
                                 @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " Amount" } })
                                 @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                             </div>
-                            @if (ViewBag.isLender == true)
-                            {
-                                <div class="col-xs-8 no">
-                                    @Html.CheckBoxFor(model => model.AdvanceNeedReceipt, new { htmlAttributes = new { @class = "form-control"}, @id = "advanceNeedReceipt" })  need recipt after advance paid
+                        </div>
+                        @if (ViewBag.isLender == true)
+                        {
+                            <div class="form-group">
+                                <div class="col-xs-8">
+                                    @Html.CheckBoxFor(model => model.AdvanceNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "advanceNeedReceipt" }) Need Reciept After Advance Paid
                                 </div>
-                            } 
-                            <div class="col-xs-8 no">
-                                Due
                             </div>
-                            <div class="col-xs-8 no">
+                        }
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.AdvanceDue, htmlAttributes: new { })
+                            </div>
+                            <div class="col-xs-8">
                                 @{
                                     List<SelectListItem> listItems2 = new List<SelectListItem>();
                                     listItems2.Add(new SelectListItem
@@ -91,360 +104,493 @@
                                 @Html.DropDownListFor(model => model.AdvanceDue, listItems2, "-- select due type --", new { @id = "advanceDue", @class = "form-control", onChange = "changeDropDownValueDueAdvance();" })
                                 @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })
                             </div>
-
-                            <div class="col-xs-8 no">
-                                @Html.RadioButtonFor(model => model.AdvanceRadio, "day", new { id = "radioDayAdvance", onChange = "changeRadioValueAdvance();" }) Day
-                                @Html.RadioButtonFor(model => model.AdvanceRadio, "month", new { id = "radioMonthAdvance", onChange = "changeRadioValueAdvance();" }) End of the month
+                        </div>
+                        <div id="monthAdvance">
+                            <div class="form-group">
+                                <div>
+                                    <div class="col-xs-8">
+                                        @Html.CheckBox("Month", new { htmlAttributes = new { @id = "endMonthAdvance", Value = false } })  End of Month
+                                    </div>
+                                </div>
                             </div>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.AdvanceDueDate, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @{
+                                        List<SelectListItem> listItems4 = new List<SelectListItem>();
+                                        for (var i = 1; i < 29; i++)
+                                        {
+                                            listItems4.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                        }
 
-                            <div class="col-xs-8 no">
-                                @{
-                                    List<SelectListItem> listItems4 = new List<SelectListItem>();
-                                    for (var i = 1; i < 29; i++)
-                                    {
-                                        listItems4.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                                     }
+                                    @Html.DropDownListFor(model => model.AdvanceDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "advanceDueDate" })
+                                    @Html.ValidationMessageFor(model => model.AdvanceDueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-sm-2">
+                                @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
+                            </div>
+                            <div class="control-label col-sm-2">
+                                @Html.CheckBox("NeedReminder", new { @id = "needReminderAdvance", htmlAttributes = new { Value = false } })
+                            </div>
+                        </div>
+                        <div id="remindEmailAdvance">
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.AdvanceLenderEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.AdvanceLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmail", placeholder = "Lender Email" } })
+                                    @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
 
-                                }
-                                @Html.DropDownListFor(model => model.AdvanceDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "advanceDueDate" })
-                                @Html.ValidationMessageFor(model => model.AdvanceDueDate, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-8 no">
-                                Lender email
-                            </div>
-                            <div class="col-xs-8 no">
-                                @Html.EditorFor(model => model.AdvanceLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmail", placeholder = "Lender Email" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceLenderEmail, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-8 no">
-                                Lender email remind period
-                            </div>
-                            <div class="col-xs-8 no">
-                                @Html.EditorFor(model => model.AdvanceLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceLenderEmailRemindPeriod, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-8 no">
-                                Dealer email
-                            </div>
-                            <div class="col-xs-8 no">
-                                @Html.EditorFor(model => model.AdvanceDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "Dealer Email" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-8 no">
-                                Dealer email remind period
-                            </div>
-                            <div class="col-xs-8 no">
-                                @Html.EditorFor(model => model.AdvanceDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceDealerEmailRemindPeriod, "", new { @class = "text-danger" })
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.AdvanceLenderEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.AdvanceLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.AdvanceLenderEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
                             </div>
 
-                        </div>
-                    @Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })
-                    <div class="form-group" style="margin-right: 0;margin-left: 0;">
-                        <div class="control-label col-sm-2">
-                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItems, new { @id = "dropDownLoan", onChange = "changeDropDownValueLoan();" })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
-                        </div> 
-                        <div class="col-xs-8 no">
-                        Amount
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
-                        </div>
-                        @if (ViewBag.isLender == true)
-                        {
-                            <div class="col-xs-8 no">
-                                @Html.CheckBoxFor(model => model.MonthlyLoanNeedReceipt, new { htmlAttributes = new { @class = "form-control"}, @id = "monthlyLoanNeedReceipt" })  need recipt after advance paid
+
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.AdvanceDealerEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.AdvanceDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "Dealer Email" } })
+                                    @Html.ValidationMessageFor(model => model.AdvanceDealerEmail, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        }                    
-                        <div class="col-xs-8 no">
-                            Due
-                        </div>
-                        <div class="col-xs-8 no">
-                            @{
-                                List<SelectListItem> listItems5 = new List<SelectListItem>();
-                                listItems5.Add(new SelectListItem
-                                {
-                                    Text = "Time of Advance",
-                                    Value = "Time of Advance"
-                                });
-                                listItems5.Add(new SelectListItem
-                                {
-                                    Text = "Once a Month",
-                                    Value = "Once a Month"
-                                });
-                                listItems5.Add(new SelectListItem
-                                {
-                                    Text = "Vehicle Payoff",
-                                    Value = "Vehicle Payoff"
-                                });
 
-                            }
-                            @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control", onChange = "changeDropDownValueDueLoan();" })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "day", new { id = "radioDayLoan", onChange = "changeRadioValueLoan();" }) Day
-                            @Html.RadioButtonFor(model => model.MonthlyLoanRadio, "month", new { id = "radioMonthLoan", onChange = "changeRadioValueLoan();" }) End of the month
-                        </div>
-                        <div class="col-xs-8 no">
-                            @{
-                                List<SelectListItem> listItems6 = new List<SelectListItem>();
-                                for (var i = 1; i < 29; i++)
-                                {
-                                    listItems6.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                }
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.AdvanceDealerEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.AdvanceDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.AdvanceDealerEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
 
-                            }
-                            @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems6, "-- select a date --", new { @class = "form-control", @id = "loanDueDate"})
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                        <div class="col-xs-8 no">
-                            Lender email
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmail", placeholder = "Lender Email" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmail, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Lender email remind period
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmailRemindPeriod, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Dealer email
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email " } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Dealer email remind period
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.MonthlyLoanDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmailRemindPeriod, "", new { @class = "text-danger" })
-                        </div>
-
                     </div>
-                    @Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })
-                    <div class="form-group" style="margin-right: 0;margin-left: 0;">
-                        <div class="control-label col-sm-2">
-                            
-                            @Html.DropDownListFor(model => model.LotInspectionId, listItems, new { @id = "dropDownLot", onChange = "changeDropDownValueLot();" })
+                    <hr>
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="margin-top:10px">
+                            <h3>@Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })</h3>
+                        </div>
+                        <div class="col-xs-8">
+                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItems, new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div id="loan">
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.MonthlyLoanAmount, htmlAttributes: new { })
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
+                                @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
+                            </div>
+                            @if (ViewBag.isLender == true)
+                            {
+
+                                <div class="col-xs-8">
+                                    @Html.CheckBoxFor(model => model.MonthlyLoanNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "monthlyLoanNeedReceipt" })  Need Reciept After Loan Paid
+                                </div>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
+                            </div>
+                            <div class="col-xs-8">
+                                @{
+                                    List<SelectListItem> listItems5 = new List<SelectListItem>();
+                                    listItems5.Add(new SelectListItem
+                                    {
+                                        Text = "Time of Advance",
+                                        Value = "Time of Advance"
+                                    });
+                                    listItems5.Add(new SelectListItem
+                                    {
+                                        Text = "Once a Month",
+                                        Value = "Once a Month"
+                                    });
+                                    listItems5.Add(new SelectListItem
+                                    {
+                                        Text = "Vehicle Payoff",
+                                        Value = "Vehicle Payoff"
+                                    });
+
+                                }
+                                @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control", onChange = "changeDropDownValueDueLoan();" })
+                                @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="monthLoan">
+                            <div class="form-group">
+                                <div>
+                                    <div class="col-xs-8">
+                                        @Html.CheckBox("Month", new { htmlAttributes = new { @id = "endMonthLoan", Value = false } })  End of Month
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.MonthlyLoanDueDate, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @{
+                                        List<SelectListItem> listItems6 = new List<SelectListItem>();
+                                        for (var i = 1; i < 29; i++)
+                                        {
+                                            listItems6.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                        }
+
+                                    }
+                                    @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems6, "-- select a date --", new { @class = "form-control", @id = "loanDueDate" })
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-sm-2">
+                                @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
+                            </div>
+                            <div class="control-label col-sm-2">
+                                @Html.CheckBox("NeedReminder", new { @id = "needReminderLoan", htmlAttributes = new { Value = false } })
+                            </div>
+                        </div>
+                        <div id="remindEmailLoan">
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.MonthlyLoanLenderEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.MonthlyLoanLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmail", placeholder = "Lender Email" } })
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.MonthlyLoanLenderEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.MonthlyLoanLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanLenderEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.MonthlyLoanDealerEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.MonthlyLoanDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email " } })
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.MonthlyLoanDealerEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.MonthlyLoanDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDealerEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" style="margin-top:10px">
+                            <h3>@Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })</h3>
+                        </div>
+                        <div class="col-xs-8">
+
+                            @Html.DropDownListFor(model => model.LotInspectionId, listItems, new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
                             @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-xs-8 no">
-                            Amount
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "Amount" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
+                    </div>
+                    <div id="lot">
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.LotInspectionAmount, htmlAttributes: new { })
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "Amount" } })
+                                @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         @if (ViewBag.isLender == true)
                         {
-                            <div class="col-xs-8 no">
-                                @Html.CheckBoxFor(model => model.LotInspectionNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "lotInspectionNeedReceipt" })  need recipt after advance paid
+                            <div class="form-group">
+                                <div class="col-xs-8">
+                                    @Html.CheckBoxFor(model => model.LotInspectionNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "lotInspectionNeedReceipt" })  Need Reciept After Lot Inspection Paid
+                                </div>
                             </div>
-                        }  
-                        <div class="col-xs-8 no">
-                            Due
-                        </div>
-                        <div class="col-xs-8 no" >
-                            @{
-                                List<SelectListItem> listItems3 = new List<SelectListItem>();
-                                listItems3.Add(new SelectListItem
-                                {
-                                    Text = "Monthly",
-                                    Value = "Monthly"
-                                });
-                                listItems3.Add(new SelectListItem
-                                {
-                                    Text = "Quaterly",
-                                    Value = "Quaterly"
-                                });
-                                listItems3.Add(new SelectListItem
-                                {
-                                    Text = "Annually",
-                                    Value = "Annually"
-                                });
-                                listItems3.Add(new SelectListItem
-                                {
-                                    Text = "Random",
-                                    Value = "Random"
-                                });
+                        }
 
-                            }
-                            @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Due Date
-                        </div>
-                        <div class="col-xs-8 no">
-                            @{
-                                List<SelectListItem> listItems7 = new List<SelectListItem>();
-                                for (var i = 1; i < 29; i++)
-                                {
-                                    listItems7.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+
+                        <div class="form-group">
+                            <div class="control-label col-sm-2" style="margin-top:10px">
+                                @Html.LabelFor(model => model.LotInspectionDue, htmlAttributes: new { })
+                            </div>
+                            <div class="col-xs-8">
+                                @{
+                                    List<SelectListItem> listItems3 = new List<SelectListItem>();
+                                    listItems3.Add(new SelectListItem
+                                    {
+                                        Text = "Monthly",
+                                        Value = "Monthly"
+                                    });
+                                    listItems3.Add(new SelectListItem
+                                    {
+                                        Text = "Quaterly",
+                                        Value = "Quaterly"
+                                    });
+                                    listItems3.Add(new SelectListItem
+                                    {
+                                        Text = "Annually",
+                                        Value = "Annually"
+                                    });
+                                    listItems3.Add(new SelectListItem
+                                    {
+                                        Text = "Random",
+                                        Value = "Random"
+                                    });
+
                                 }
+                                @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="monthLot">
+                            <div class="form-group">
+                                <div>
+                                    <div class="col-xs-8">
+                                        @Html.CheckBox("Month", new { htmlAttributes = new { @id = "endMonthLot", Value = false } })  End of Month
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.LotInspectionDueDate, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @{
+                                        List<SelectListItem> listItems7 = new List<SelectListItem>();
+                                        for (var i = 1; i < 29; i++)
+                                        {
+                                            listItems7.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                        }
 
-                            }
-                            @Html.DropDownListFor(model => model.LotInspectionDueDate, listItems7, "-- select a date --", new { @class = "form-control", @id = "lotDueDate" })
-                            @Html.ValidationMessageFor(model => model.LotInspectionDueDate, "", new { @class = "text-danger" })
+                                    }
+                                    @Html.DropDownListFor(model => model.LotInspectionDueDate, listItems7, "-- select a date --", new { @class = "form-control", @id = "lotDueDate" })
+                                    @Html.ValidationMessageFor(model => model.LotInspectionDueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <div class="control-label col-sm-2">
+                                @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
+                            </div>
+                            <div class="control-label col-sm-2">
+                                @Html.CheckBox("NeedReminder", new { @id = "needReminderLot", htmlAttributes = new { Value = false } })
+                            </div>
+                        </div>
+                        <div id="remindEmailLot">
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.LotInspectionLenderEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.LotInspectionLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmail", placeholder = "Lender Email" } })
+                                    @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.LotInspectionLenderEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.LotInspectionLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.LotInspectionLenderEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                        <div class="col-xs-8 no">
-                            Lender email
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionLenderEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmail", placeholder = "Lender Email" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmail, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Lender email remind period
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionLenderEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotLenderEmailRemindPeriod", placeholder = "Lender Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionLenderEmailRemindPeriod, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Dealer email
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionDealerEmail, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-xs-8 no">
-                            Dealer email remind period
-                        </div>
-                        <div class="col-xs-8 no">
-                            @Html.EditorFor(model => model.LotInspectionDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
-                            @Html.ValidationMessageFor(model => model.LotInspectionDealerEmailRemindPeriod, "", new { @class = "text-danger" })
+                            <div class="form-group">
+
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.LotInspectionDealerEmail, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.LotInspectionDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
+                                    @Html.ValidationMessageFor(model => model.LotInspectionDealerEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="control-label col-sm-2" style="margin-top:10px">
+                                    @Html.LabelFor(model => model.LotInspectionDealerEmailRemindPeriod, htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @Html.EditorFor(model => model.LotInspectionDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Dealer Email Remind Period" } })
+                                    @Html.ValidationMessageFor(model => model.LotInspectionDealerEmailRemindPeriod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
                     </div>
-                                            
-                    </div>
+                    <hr>
+                </div>
 
-                    <div class="form-group">
-                        <div>
-                            <nav>
-                                <ul class="pager">
-                                    <li>
-                                        <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                    </li>
-                                    <li>
-                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                    </li>
+                <div class="form-group">
+                    <div>
+                        <nav>
+                            <ul class="pager">
+                                <li>
+                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
 
-                                </ul>
-                            </nav>
-                        </div>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-        }
+            </div>
+                                        }
     </div>
 </div>
 
 
 <script type="text/javascript">
-    $(function () {
-        $("#accordion").accordion();
+    $('#needReminderAdvance').change(function () {
+
+        if ((this.checked)) {
+            $('#remindEmailAdvance').show("slow");
+        }
+        else {
+            $('#remindEmailAdvance').hide("slow");
+        }
+
     });
-    function changeRadioValueLoan() {
-        if (document.getElementById("radioDayLoan").checked == true) {
-            document.getElementById("loanDueDate").disabled = false;
+    $('#needReminderLoan').change(function () {
 
+        if ((this.checked)) {
+            $('#remindEmailLoan').show("slow");
         }
         else {
-            document.getElementById("loanDueDate").value = "";
-            document.getElementById("loanDueDate").disabled = true;
+            $('#remindEmailLoan').hide("slow");
         }
-    }
-    function changeRadioValueAdvance() {
-        if (document.getElementById("radioDayAdvance").checked == true) {
-            document.getElementById("advanceDueDate").disabled = false;
+
+    });
+    $('#needReminderLot').change(function () {
+
+        if ((this.checked)) {
+            $('#remindEmailLot').show("slow");
         }
         else {
-            document.getElementById("advanceDueDate").value = "";
-            document.getElementById("advanceDueDate").disabled = true;
+            $('#remindEmailLot').hide("slow");
         }
-    }
 
+    });
     window.onload = function () {
         var isEdit = '@ViewBag.isEdit';
         var model = @Html.Raw(Json.Encode(Model));
-               
+
         if(isEdit == "editable"){
 
             if (model.AdvanceAmount > 0) {
-                document.getElementById("radioDayAdvance").checked = true;
                 document.getElementById("dropDownAdvance").value = "1";
-
+                if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
+                    $("#remindEmailAdvance").show();
+                }
+                else{
+                    $("#remindEmailAdvance").hide();
+                }
                 if (model.AdvanceDueDate == "VP") {
                     document.getElementById("advanceDue").value = "Vehicle Payoff";
-                    document.getElementById("advanceDueDate").disabled = true;
-                    document.getElementById("radioDayAdvance").disabled = true;
-                    document.getElementById("radioMonthAdvance").disabled = true;
+                    $("#monthAdvance").hide();
                 }
                 else if (model.AdvanceDueDate == "TOA") {
                     document.getElementById("advanceDue").value = "Time of Advance";
-                    document.getElementById("advanceDueDate").disabled = true;
-                    document.getElementById("radioDayAdvance").disabled = true;
-                    document.getElementById("radioMonthAdvance").disabled = true;
+                    $("#monthAdvance").hide();
                 }
                 else{
-                   
-                    document.getElementById("radioDayAdvance").disabled = false;
-                    document.getElementById("radioMonthAdvance").disabled = false;
                     if(model.AdvanceDueDate == "EOM"){
-                        document.getElementById("radioMonthAdvance").checked = true;
-                        document.getElementById("advanceDueDate").disabled = true;
+                        $("#monthAdvance").show();
                     }else{
-                        document.getElementById("radioDayAdvance").checked = true;
+                        $("#monthAdvance").show();
                     }
                 }
             }
             if(model.AdvanceAmount <= 0){
+                document.getElementById("dropDownAdvance").value = "0";
                 changeDropDownValueAdvance();
             }
             if (model.MonthlyLoanAmount > 0) {
                 document.getElementById("dropDownLoan").value = "1";
-                document.getElementById("radioDayLoan").checked = true;
+                if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
+                    $("#remindEmailLoan").show();
+                }
+                else{
+                    $("#remindEmailLoan").hide();
+                }
+
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
-                    document.getElementById("loanDueDate").disabled = true;
-                    document.getElementById("radioDayLoan").disabled = true;
-                    document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
-                    document.getElementById("loanDueDate").disabled = true;
-                    document.getElementById("radioDayLoan").disabled = true;
-                    document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else{
-                   
-                    document.getElementById("radioDayLoan").disabled = false;
-                    document.getElementById("radioMonthLoan").disabled = false;
                     if(model.MonthlyLoanDueDate == "EOM"){
-                        document.getElementById("radioMonthLoan").checked = true;
-                        document.getElementById("loanDueDate").disabled = true;
-                    }else{
-                        document.getElementById("radioDayLoan").checked = true;
+                    }
+                    else{
                     }
                 }
             }
             if(model.MonthlyLoanAmount <= 0){
+                document.getElementById("dropDownLoan").value = "0";
                 changeDropDownValueLoan();
             }
             if (model.LotInspectionAmount > 0) {
                 document.getElementById("dropDownLot").value = "1";
+                if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
+                    $("#remindEmailLot").show();
+                }
+                else{
+                    $("#remindEmailLot").hide();
+                }
+                $("#monthLot").hide();
+                if(model.MonthlyLoanDueDate == "EOM"){
+                    $("#monthLot").show();
+
+                }
+                else{
+                    $("#monthLot").show();
+                }
             }
             if(model.LotInspectionAmount <= 0){
+                document.getElementById("dropDownLot").value = "0";
                 changeDropDownValueLot();
             }
         }
@@ -453,84 +599,100 @@
             changeDropDownValueAdvance();
             changeDropDownValueLoan();
             changeDropDownValueLot();
-            document.getElementById("radioDayAdvance").checked = true;
-            document.getElementById("radioDayLoan").checked = true;
         }
-        
+
+
+
     };
+
     function partialLoad() {
         var isEdit = '@ViewBag.isEdit';
         var model = @Html.Raw(Json.Encode(Model));
-               
+
         if(isEdit == "editable"){
 
             if (model.AdvanceAmount > 0) {
-                document.getElementById("radioDayAdvance").checked = true;
                 document.getElementById("dropDownAdvance").value = "1";
-
+                if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
+                    $("#remindEmailAdvance").show();
+                }
+                else{
+                    $("#remindEmailAdvance").hide();
+                }
                 if (model.AdvanceDueDate == "VP") {
                     document.getElementById("advanceDue").value = "Vehicle Payoff";
-                    document.getElementById("advanceDueDate").disabled = true;
-                    document.getElementById("radioDayAdvance").disabled = true;
-                    document.getElementById("radioMonthAdvance").disabled = true;
+                    $("#monthAdvance").hide();
                 }
                 else if (model.AdvanceDueDate == "TOA") {
                     document.getElementById("advanceDue").value = "Time of Advance";
-                    document.getElementById("advanceDueDate").disabled = true;
-                    document.getElementById("radioDayAdvance").disabled = true;
-                    document.getElementById("radioMonthAdvance").disabled = true;
+                    $("#monthAdvance").hide();
                 }
                 else{
-                   
-                    document.getElementById("radioDayAdvance").disabled = false;
-                    document.getElementById("radioMonthAdvance").disabled = false;
                     if(model.AdvanceDueDate == "EOM"){
-                        document.getElementById("radioMonthAdvance").checked = true;
-                        document.getElementById("advanceDueDate").disabled = true;
+                        $("#monthAdvance").show();
                     }else{
-                        document.getElementById("radioDayAdvance").checked = true;
+                        $("#monthAdvance").show();
                     }
                 }
             }
             if(model.AdvanceAmount <= 0){
-                changeDropDownValueAdvance();
+                document.getElementById("dropDownAdvance").value = "0";
+                document.getElementById("advanceAmount").value = "";
+                document.getElementById("advanceDue").value = "";
+                document.getElementById("advanceDueDate").value = "";
+                $('#advance').hide();
             }
             if (model.MonthlyLoanAmount > 0) {
-                document.getElementById("radioDayAdvance").checked = true;
                 document.getElementById("dropDownLoan").value = "1";
-                document.getElementById("radioDayLoan").checked = true;
+                if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
+                    $("#remindEmailLoan").show();
+                }
+                else{
+                    $("#remindEmailLoan").hide();
+                }
+
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
-                    document.getElementById("loanDueDate").disabled = true;
-                    document.getElementById("radioDayLoan").disabled = true;
-                    document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
-                    document.getElementById("loanDueDate").disabled = true;
-                    document.getElementById("radioDayLoan").disabled = true;
-                    document.getElementById("radioMonthLoan").disabled = true;
                 }
                 else{
-                   
-                    document.getElementById("radioDayLoan").disabled = false;
-                    document.getElementById("radioMonthLoan").disabled = false;
                     if(model.MonthlyLoanDueDate == "EOM"){
-                        document.getElementById("radioMonthLoan").checked = true;
-                        document.getElementById("loanDueDate").disabled = true;
-                    }else{
-                        document.getElementById("radioDayLoan").checked = true;
+                    }
+                    else{
                     }
                 }
             }
             if(model.MonthlyLoanAmount <= 0){
-                changeDropDownValueLoan();
+                document.getElementById("dropDownLoan").value = "0";
+                document.getElementById("loanAmount").value = "";
+                document.getElementById("loanDue").value = "";
+                document.getElementById("loanDueDate").value = "";
+                $('#loan').hide();
             }
             if (model.LotInspectionAmount > 0) {
                 document.getElementById("dropDownLot").value = "1";
+                if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
+                    $("#remindEmailLot").show();
+                }
+                else{
+                    $("#remindEmailLot").hide();
+                }
+                $("#monthLot").hide();
+                if(model.MonthlyLoanDueDate == "EOM"){
+                    $("#monthLot").show();
+                }
+                else{
+                    $("#monthLot").show();
+                }
             }
             if(model.LotInspectionAmount <= 0){
-                changeDropDownValueLot();
+                document.getElementById("dropDownLot").value = "0";
+                document.getElementById("lotAmount").value = "";
+                document.getElementById("lotDue").value = "";
+                document.getElementById("lotDueDate").value = "";
+                $('#lot').hide();
             }
         }
         else{
@@ -538,131 +700,69 @@
             changeDropDownValueAdvance();
             changeDropDownValueLoan();
             changeDropDownValueLot();
-            document.getElementById("radioDayAdvance").checked = true;
-            document.getElementById("radioDayLoan").checked = true;
         }
 
-        
+
 
     }
 
     function changeDropDownValueDueAdvance() {
 
         if (document.getElementById("advanceDue").value == "Once a Month") {
-            document.getElementById("radioDayAdvance").disabled = false;
-            document.getElementById("radioMonthAdvance").disabled = false;
-            changeRadioValueAdvance();
-
+            $("#monthAdvance").show("slow");
         }
         else {
-            document.getElementById("advanceDueDate").disabled = true;
-            document.getElementById("radioDayAdvance").disabled = true;
-            document.getElementById("radioMonthAdvance").disabled = true;
+            $("#monthAdvance").hide("slow");
         }
     }
     function changeDropDownValueDueLoan() {
 
         if (document.getElementById("loanDue").value == "Once a Month") {
-            document.getElementById("radioDayLoan").disabled = false;
-            document.getElementById("radioMonthLoan").disabled = false;
-            changeRadioValueLoan();
+            $("#monthLoan").show("slow");
         }
         else {
-
-            document.getElementById("loanDueDate").disabled = true;
-            document.getElementById("radioDayLoan").disabled = true;
-            document.getElementById("radioMonthLoan").disabled = true;
+            $("#monthLoan").hide("slow");
         }
     }
+
+
+
     function changeDropDownValueAdvance() {
         var drop1 = document.getElementById("dropDownAdvance").value;
         if (drop1 == "0") {
-            document.getElementById("advanceAmount").value = 0;
+            document.getElementById("advanceAmount").value = "";
             document.getElementById("advanceDue").value = "";
             document.getElementById("advanceDueDate").value = "";
-            document.getElementById("advanceAmount").readOnly = true;
-            document.getElementById("advanceNeedReceipt").disabled = true;
-            document.getElementById("advanceDue").disabled = true;
-            document.getElementById("advanceDueDate").disabled = true;
-            document.getElementById("advanceLenderEmail").readOnly = true;
-            document.getElementById("advanceDealerEmail").readOnly = true;
-            document.getElementById("advanceLenderEmailRemindPeriod").readOnly = true;
-            document.getElementById("advanceDealerEmailRemindPeriod").readOnly = true;
-            document.getElementById("radioDayAdvance").disabled = true;
-            document.getElementById("radioMonthAdvance").disabled = true;
+            $('#advance').hide("slow");
 
         }
         else {
-            document.getElementById("advanceAmount").readOnly = false;
-            document.getElementById("advanceNeedReceipt").disabled = false;
-            document.getElementById("advanceDueDate").disabled = false;
-            document.getElementById("advanceDue").disabled = false;
-            if (document.getElementById("advanceDue").value == "Once a Month") {
-                document.getElementById("radioDayAdvance").disabled = false;
-                document.getElementById("radioMonthAdvance").disabled = false;
-                changeRadioValueAdvance();
-            }
-            document.getElementById("advanceLenderEmail").readOnly = false;
-            document.getElementById("advanceDealerEmail").readOnly = false;
-            document.getElementById("advanceLenderEmailRemindPeriod").readOnly = false;
-            document.getElementById("advanceDealerEmailRemindPeriod").readOnly = false;
+            $('#advance').show("slow");
         }
     }
+
     function changeDropDownValueLoan() {
         var drop2 = document.getElementById("dropDownLoan").value;
-        if (drop2 =="0") { 
-            document.getElementById("loanAmount").value = 0;
+        if (drop2 =="0") {
+            document.getElementById("loanAmount").value = "";
             document.getElementById("loanDue").value = "";
-            document.getElementById("loanDueDate").disabled = true;
-            document.getElementById("loanAmount").readOnly = true;
-            document.getElementById("monthlyLoanNeedReceipt").disabled = true;
-            document.getElementById("loanDue").disabled = true;
-            document.getElementById("loanLenderEmail").readOnly = true;
-            document.getElementById("loanDealerEmail").readOnly = true;
-            document.getElementById("loanLenderEmailRemindPeriod").readOnly = true;
-            document.getElementById("loanDealerEmailRemindPeriod").readOnly = true;
-            document.getElementById("radioDayLoan").disabled = true;
-            document.getElementById("radioMonthLoan").disabled = true;
+            document.getElementById("loanDueDate").value = "";
+            $('#loan').hide("slow");
         }
         else {
-            document.getElementById("loanAmount").readOnly = false;
-            document.getElementById("monthlyLoanNeedReceipt").disabled = false;
-            document.getElementById("loanDue").disabled = false;
-            if (document.getElementById("loanDue").value == "Once a Month") {
-                document.getElementById("radioDayLoan").disabled = false;
-                document.getElementById("radioMonthLoan").disabled = false;
-                changeRadioValueLoan();
-            }
-            document.getElementById("loanLenderEmail").readOnly = false;
-            document.getElementById("loanDealerEmail").readOnly = false;
-            document.getElementById("loanLenderEmailRemindPeriod").readOnly = false;
-            document.getElementById("loanDealerEmailRemindPeriod").readOnly = false;
+            $('#loan').show("slow");
         }
     }
     function changeDropDownValueLot() {
         var drop3 = document.getElementById("dropDownLot").value;
         if (drop3 == "0") {
-            document.getElementById("lotAmount").value = 0;
+            document.getElementById("lotAmount").value = "";
             document.getElementById("lotDue").value = "";
             document.getElementById("lotDueDate").value = "";
-            document.getElementById("lotAmount").readOnly = true;
-            document.getElementById("lotInspectionNeedReceipt").disabled = true;
-            document.getElementById("lotDue").disabled = true;
-            document.getElementById("lotDueDate").disabled = true;
-            document.getElementById("lotLenderEmail").readOnly = true;
-            document.getElementById("lotDealerEmail").readOnly = true;
-            document.getElementById("lotLenderEmailRemindPeriod").readOnly = true;
-            document.getElementById("lotDealerEmailRemindPeriod").readOnly = true;
+            $('#lot').hide("slow");
         }
         else {
-            document.getElementById("lotAmount").readOnly = false;
-            document.getElementById("lotInspectionNeedReceipt").disabled = false;
-            document.getElementById("lotDue").disabled = false;
-            document.getElementById("lotDueDate").disabled = false;
-            document.getElementById("lotLenderEmail").readOnly = false;
-            document.getElementById("lotDealerEmail").readOnly = false;
-            document.getElementById("lotLenderEmailRemindPeriod").readOnly = false;
-            document.getElementById("lotDealerEmailRemindPeriod").readOnly = false;
+            $('#lot').show("slow");
         }
     }
     $('#clear').click(function () {
@@ -670,9 +770,125 @@
         changeDropDownValueAdvance();
         changeDropDownValueLoan();
         changeDropDownValueLot();
-        document.getElementById("radioDayAdvance").checked = true;
-        document.getElementById("radioDayLoan").checked = true;
+
     });
 
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
+
+    //function changeDropDownValueLoan() {
+    //    var drop2 = document.getElementById("dropDownLoan").value;
+    //    if (drop2 =="0") {
+    //        document.getElementById("loanAmount").value = 0;
+    //        document.getElementById("loanDue").value = "";
+    //        document.getElementById("loanDueDate").disabled = true;
+    //        document.getElementById("loanAmount").readOnly = true;
+    //        document.getElementById("monthlyLoanNeedReceipt").disabled = true;
+    //        document.getElementById("loanDue").disabled = true;
+    //        document.getElementById("loanLenderEmail").readOnly = true;
+    //        document.getElementById("loanDealerEmail").readOnly = true;
+    //        document.getElementById("loanLenderEmailRemindPeriod").readOnly = true;
+    //        document.getElementById("loanDealerEmailRemindPeriod").readOnly = true;
+    //        document.getElementById("radioDayLoan").disabled = true;
+    //        document.getElementById("radioMonthLoan").disabled = true;
+    //    }
+    //    else {
+    //        document.getElementById("loanAmount").readOnly = false;
+    //        document.getElementById("monthlyLoanNeedReceipt").disabled = false;
+    //        document.getElementById("loanDue").disabled = false;
+    //        if (document.getElementById("loanDue").value == "Once a Month") {
+    //            document.getElementById("radioDayLoan").disabled = false;
+    //            document.getElementById("radioMonthLoan").disabled = false;
+    //            changeRadioValueLoan();
+    //        }
+    //        document.getElementById("loanLenderEmail").readOnly = false;
+    //        document.getElementById("loanDealerEmail").readOnly = false;
+    //        document.getElementById("loanLenderEmailRemindPeriod").readOnly = false;
+    //        document.getElementById("loanDealerEmailRemindPeriod").readOnly = false;
+    //    }
+    //}
+
+
+
+      @*window.onload = function () {
+          var isEdit = '@ViewBag.isEdit';
+          var model = @Html.Raw(Json.Encode(Model));
+
+          if(isEdit == "editable"){
+
+              if (model.AdvanceAmount > 0) {
+                  document.getElementById("radioDayAdvance").checked = true;
+                  document.getElementById("dropDownAdvance").value = "1";
+
+                  if (model.AdvanceDueDate == "VP") {
+                      document.getElementById("advanceDue").value = "Vehicle Payoff";
+                      document.getElementById("advanceDueDate").disabled = true;
+                      document.getElementById("radioDayAdvance").disabled = true;
+                      document.getElementById("radioMonthAdvance").disabled = true;
+                  }
+                  else if (model.AdvanceDueDate == "TOA") {
+                      document.getElementById("advanceDue").value = "Time of Advance";
+                      document.getElementById("advanceDueDate").disabled = true;
+                      document.getElementById("radioDayAdvance").disabled = true;
+                      document.getElementById("radioMonthAdvance").disabled = true;
+                  }
+                  else{
+
+                      document.getElementById("radioDayAdvance").disabled = false;
+                      document.getElementById("radioMonthAdvance").disabled = false;
+                      if(model.AdvanceDueDate == "EOM"){
+                          document.getElementById("radioMonthAdvance").checked = true;
+                          document.getElementById("advanceDueDate").disabled = true;
+                      }else{
+                          document.getElementById("radioDayAdvance").checked = true;
+                      }
+                  }
+              }
+              if(model.AdvanceAmount <= 0){
+                  changeDropDownValueAdvance();
+              }
+              if (model.MonthlyLoanAmount > 0) {
+                  document.getElementById("dropDownLoan").value = "1";
+                  document.getElementById("radioDayLoan").checked = true;
+                  if (model.MonthlyLoanDueDate == "VP") {
+                      document.getElementById("loanDue").value = "Vehicle Payoff";
+                      document.getElementById("loanDueDate").disabled = true;
+                      document.getElementById("radioDayLoan").disabled = true;
+                      document.getElementById("radioMonthLoan").disabled = true;
+                  }
+                  else if (model.MonthlyLoanDueDate == "TOA") {
+                      document.getElementById("loanDue").value = "Time of Advance";
+                      document.getElementById("loanDueDate").disabled = true;
+                      document.getElementById("radioDayLoan").disabled = true;
+                      document.getElementById("radioMonthLoan").disabled = true;
+                  }
+                  else{
+
+                      document.getElementById("radioDayLoan").disabled = false;
+                      document.getElementById("radioMonthLoan").disabled = false;
+                      if(model.MonthlyLoanDueDate == "EOM"){
+                          document.getElementById("radioMonthLoan").checked = true;
+                          document.getElementById("loanDueDate").disabled = true;
+                      }else{
+                          document.getElementById("radioDayLoan").checked = true;
+                      }
+                  }
+              }
+              if(model.MonthlyLoanAmount <= 0){
+                  changeDropDownValueLoan();
+              }
+              if (model.LotInspectionAmount > 0) {
+                  changeDropDownValueLot();
+              }
+              if(model.LotInspectionAmount <= 0){
+                  changeDropDownValueLot();
+              }
+          }
+          else{
+              document.getElementById("form").reset();
+              changeDropDownValueAdvance();
+              changeDropDownValueLoan();
+              changeDropDownValueLot();
+          }
+
+      };*@
 </script>
