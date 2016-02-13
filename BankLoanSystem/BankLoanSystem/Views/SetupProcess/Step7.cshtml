@@ -17,7 +17,7 @@
         <h2>Step 2 - Interest</h2>
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(8)",
+                OnSuccess = "Progress(8) ; partialLoad() ;",
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,

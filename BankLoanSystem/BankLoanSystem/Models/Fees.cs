@@ -24,7 +24,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Advance Due Date is required.")]
         [Display(Name = "Due Date")]
         public string AdvanceDueDate { get; set; }
-        public string AdvanceRadio { get; set; }
+        public bool AdvanceRadio { get; set; }
         [Display(Name = "Lender Email")]
         public string AdvanceLenderEmail { get; set; }
         [Display(Name = "Email Remind Period")]
@@ -45,7 +45,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Loan Due Type is required.")]
         [Display(Name = "Due Type")]
         public string MonthlyLoanDue { get; set; }
-        public string MonthlyLoanRadio { get; set; }
+        public bool MonthlyLoanRadio { get; set; }
         [Required(ErrorMessage = "Loan Due Date is required.")]
         [Display(Name = "Due Date")]
         public string MonthlyLoanDueDate { get; set; }
@@ -70,6 +70,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Lot Due Type is required.")]
         [Display(Name = "Due Type")]
         public string LotInspectionDue { get; set; }
+        public bool LotInspectionRadio { get; set; }
         [Required(ErrorMessage = "Lot Due Date is required.")]
         [Display(Name = "Due Date")]
         public string LotInspectionDueDate { get; set; }
@@ -81,6 +82,8 @@ namespace BankLoanSystem.Models
         public int LotInspectionLenderEmailRemindPeriod { get; set; }
         [Display(Name = "Email Remind Period")]
         public int LotInspectionDealerEmailRemindPeriod { get; set; }
+
+        public bool isEdit { get; set; }
 
     }
 }

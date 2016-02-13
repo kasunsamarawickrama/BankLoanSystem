@@ -1502,14 +1502,29 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //check the loan is in a update
-            Session["isEdit"] = false;
+            //Session["isEdit"] = false;
+            
             var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
 
             if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
             {
                 ViewBag.isEdit = "editable";
-                Session["isEdit"] = true;
+                //Session["isEdit"] = true;
                 hasLoan.LoanId = fee.LoanId;
+                hasLoan.isEdit = true;
+               
+                if (hasLoan.AdvanceDueDate == "EOM")
+                {
+                    hasLoan.AdvanceRadio = true;
+                }
+                if (hasLoan.MonthlyLoanDueDate == "EOM")
+                {
+                    hasLoan.MonthlyLoanRadio = true;
+                }
+                if (hasLoan.LotInspectionDueDate == "EOM")
+                {
+                    hasLoan.LotInspectionRadio = true;
+                }
                 return PartialView(hasLoan);
             }
             else {
@@ -1520,6 +1535,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 if (feeUpdate.LoanId > 0)
                 {
+                    feeUpdate.isEdit = false;
                     var email = loan.getAutoRemindEmailByLoanId(feeUpdate.LoanId);
                     feeUpdate.MonthlyLoanLenderEmail = email;
                     feeUpdate.MonthlyLoanDealerEmail = email;
@@ -1567,13 +1583,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.MonthlyLoanDueDate = "TOA";
             }
-            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio =="month")
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio ==true)
             {
                 fees.AdvanceDueDate = "EOM";
             }
-            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanRadio == "month")
+            if (fees.MonthlyLoanDue == "Once a Month" && fees.MonthlyLoanRadio == true)
             {
                 fees.MonthlyLoanDueDate = "EOM";
+            }
+            if (fees.LotInspectionRadio == true)
+            {
+                fees.LotInspectionDueDate = "EOM";
             }
             if (step.InsertFeesDetails(fees))
             {
@@ -1581,8 +1601,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 var userId = (int)Session["userId"];
                 var branchId = (int)Session["branchId"];
 
-                if ((bool)Session["isEdit"] == true) {
-                    Session["isEdit"] = false;
+                if (fees.isEdit == true) {
+                    //Session["isEdit"] = false;
                     return RedirectToAction("Step9");
                 }
                 else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
