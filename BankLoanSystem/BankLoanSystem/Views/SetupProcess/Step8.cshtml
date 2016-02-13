@@ -3,8 +3,6 @@
     ViewBag.Title = "Step8";
 }
 
-<h2>Step8</h2>
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -13,7 +11,7 @@
 
 <div class="row">
     <div class="container body-content">
-        <h2>Fees</h2>
+        <h2>Step 3 - Fees</h2>
 
         @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
         {
@@ -404,6 +402,7 @@
                     document.getElementById("radioMonthAdvance").disabled = false;
                     if(model.AdvanceDueDate == "EOM"){
                         document.getElementById("radioMonthAdvance").checked = true;
+                        document.getElementById("advanceDueDate").disabled = true;
                     }else{
                         document.getElementById("radioDayAdvance").checked = true;
                     }
@@ -433,6 +432,7 @@
                     document.getElementById("radioMonthLoan").disabled = false;
                     if(model.MonthlyLoanDueDate == "EOM"){
                         document.getElementById("radioMonthLoan").checked = true;
+                        document.getElementById("loanDueDate").disabled = true;
                     }else{
                         document.getElementById("radioDayLoan").checked = true;
                     }
@@ -447,6 +447,14 @@
             if(model.LotInspectionAmount <= 0){
                 changeDropDownValueLot();
             }
+        }
+        else{
+            document.getElementById("form").reset();
+            changeDropDownValueAdvance();
+            changeDropDownValueLoan();
+            changeDropDownValueLot();
+            document.getElementById("radioDayAdvance").checked = true;
+            document.getElementById("radioDayLoan").checked = true;
         }
         
     };
@@ -478,6 +486,7 @@
                     document.getElementById("radioMonthAdvance").disabled = false;
                     if(model.AdvanceDueDate == "EOM"){
                         document.getElementById("radioMonthAdvance").checked = true;
+                        document.getElementById("advanceDueDate").disabled = true;
                     }else{
                         document.getElementById("radioDayAdvance").checked = true;
                     }
@@ -508,6 +517,7 @@
                     document.getElementById("radioMonthLoan").disabled = false;
                     if(model.MonthlyLoanDueDate == "EOM"){
                         document.getElementById("radioMonthLoan").checked = true;
+                        document.getElementById("loanDueDate").disabled = true;
                     }else{
                         document.getElementById("radioDayLoan").checked = true;
                     }
@@ -520,9 +530,18 @@
                 document.getElementById("dropDownLot").value = "1";
             }
             if(model.LotInspectionAmount <= 0){
-            changeDropDownValueLot();
+                changeDropDownValueLot();
             }
         }
+        else{
+            document.getElementById("form").reset();
+            changeDropDownValueAdvance();
+            changeDropDownValueLoan();
+            changeDropDownValueLot();
+            document.getElementById("radioDayAdvance").checked = true;
+            document.getElementById("radioDayLoan").checked = true;
+        }
+
         
 
     }

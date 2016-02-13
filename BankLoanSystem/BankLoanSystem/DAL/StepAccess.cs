@@ -46,6 +46,41 @@ namespace BankLoanSystem.DAL
             }
         }
 
+
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/01/25
+        /// 
+        /// Get Step Nomber By UserId
+        /// </summary>
+        /// <returns>step number</returns>
+        /// 
+        public int getBranchIdByUserId(int userId)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    var command = new SqlCommand("spGetBranchIdByUserId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@user_id", userId);
+
+                    SqlParameter returnParameter = command.Parameters.Add("@Return", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery();
+
+                    return (int)returnParameter.Value;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
+
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/01/26
@@ -70,13 +105,12 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    //if ((int)returnParameter.Value >=1) {
-                    //    return true ;
-                    //}
-                    //else {
-                    //    return false;
-                    //}
-                    return true;
+                    if ((int)returnParameter.Value >=1) {
+                        return true ;
+                    }
+                    else {
+                        return false;
+                    }
 
                 }
                 catch (Exception ex)
@@ -115,13 +149,13 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    //if ((int)returnParameter.Value == 1)
-                    //{
+                    if ((int)returnParameter.Value == 1)
+                    {
                         return true;
-                    //}
-                    //else {
-                    //    return false;
-                    //}
+                    }
+                    else {
+                        return false;
+                    }
 
                 }
                 catch (Exception ex)

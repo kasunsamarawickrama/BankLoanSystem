@@ -584,5 +584,36 @@ namespace BankLoanSystem.DAL
         }
 
 
+        internal int updateLoanActivation(bool activation, int loanId)
+        {
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spUpdateLoanActivation", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                        command.Parameters.Add("@is_active", SqlDbType.Bit).Value = activation;                        
+                       
+                        SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                        con.Open();
+                        command.ExecuteNonQuery();
+                        loanId = (int)returnParameter.Value;
+
+                        return loanId;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+        }
     }
 }
