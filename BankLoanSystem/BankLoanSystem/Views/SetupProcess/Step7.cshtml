@@ -270,12 +270,10 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $("#clear").click(function(){
-            
-            document.getElementById("form")[0].reset();
-           
-        }
-        );          
+        $('#clear').click(function () {
+            document.getElementsByTagName("form")[0].reset();
+            $('#paidDateDiv').hide();
+        });        
       
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');

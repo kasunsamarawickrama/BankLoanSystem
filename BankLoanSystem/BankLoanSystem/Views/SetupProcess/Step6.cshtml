@@ -27,7 +27,7 @@
         <div class="form-group">
             <div class="control-label col-sm-2">
 
-                @*@Html.LabelFor(model => model.RegisteredBranchId)*@
+               
                 <label for="RegisteredBranchId">@ViewBag.ThisCompanyType Branch</label>
                 <span style="color:red">*</span>
             </div>
@@ -49,7 +49,7 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @*@Html.LabelFor(model => model.nonRegisteredBranchId, htmlAttributes: new { })*@
+               
 
                 @if (ViewBag.ThisCompanyType == "Lender")
                 {
@@ -78,8 +78,14 @@
                 @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
-            <div class="col-xs-8">
+            <div class="col-xs-8" id="loanNumber" style="display:none">
                 @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber" } })
+                @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-xs-8" id="loanNumberDisplay">
+                @Html.HiddenFor(model => model.loanNumber)
+                @Html.EditorFor(model => model.loanNumberForDisplay, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber",onclick= "$('#loanNumberDisplay').hide();$('#loanNumber').show();$('#loanNumber').children('input').focus();$('#loanNumber').children('input').val($('#loanNumber').children('input').val());" } })
                 @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -109,72 +115,75 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.payOffPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
-            </div>
-            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Months",
-                    Value = "1"
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Days",
-                    Value = "0",
-                    Selected = true
-                });
-            }
-           
-            <div class="col-xs-3" style="float:left;margin-left: 65px;">
+    <div class="form-group">
+        <div class="control-label col-sm-2">
+            @Html.LabelFor(model => model.payOffPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
+        </div>
+      @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem
+        {
+            Text = "Months",
+            Value = "1"
+        });
+        listItems.Add(new SelectListItem
+        {
+            Text = "Days",
+            Value = "0",
+            Selected = true
+        });
+    }
 
-                
-                
-                @Html.DropDownListFor(model => model.payOffPeriodType, listItems, htmlAttributes: new { @class = "form-control",onchange = "setPayOffPeriod()" })
-                @Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" })
-
-
-               
-            </div>
-            <div class="col-xs-4" style="float:left">
-                    @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" , @id= "payOffPeriod" } })
-                    @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })
-                </div>
+    <div class="col-xs-3" style="float:left;margin-left: 65px;">
 
 
 
-
-            </div>
-
-        
-
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
-            </div>
+        @Html.DropDownListFor(model => model.payOffPeriodType, listItems, htmlAttributes: new {@id= "payOffPeriodType", @class = "form-control",onchange = "setPayOffPeriod()" })
+        @Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" })
 
 
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount" } })
-                @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
-            </div>
-            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
+
+    </div>
+
+    <div class="col-xs-4" style="float:left">
+            @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" , @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)"} })
+            @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })
+            
+        <span id="outOffRangeError" class="text-danger field-validation-error" style="display:none" >The pay off period is out of Range.</span>
         </div>
 
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { })<span style="color:red"> *</span>
-            </div>
 
-            <div class="col-xs-4" style="float:left;margin-left: 28px;">
-                @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
-            </div>
-            <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
+
+
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="control-label col-sm-2">
+            @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
         </div>
-        
+
+
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount" } })
+            @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
+        </div>
+        <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-sm-2">
+            @Html.LabelFor(model => model.advancePercentage, htmlAttributes: new { })<span style="color:red"> *</span>
+        </div>
+
+        <div class="col-xs-4" style="float:left;margin-left: 28px;">
+            @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
+        </div>
+        <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
+    </div>
+
         
         <div class="form-group">
             <div class="control-label col-sm-2">
@@ -200,9 +209,7 @@
 
                 @for (int i = 0; i < Model.allUnitTypes.Count; i++)
                 {
-                    @*<div class="col-xs-4">
-                            <input type="checkbox" name="SelectedSources" value="@item.unitTypeId">@item.unitTypeName
-                        </div>*@
+                   
                     <div class="col-xs-7">
                         @Html.HiddenFor(m => m.allUnitTypes[i].unitTypeId)
                         @Html.CheckBoxFor(m => m.allUnitTypes[i].isSelected, htmlAttributes: new { @onchange = "javascript:showDefaultUnitOption(this.checked," + i + ")" })
@@ -225,9 +232,7 @@
 
                 @Html.ValidationMessageFor(model => model.defaultUnitType, "", new { @class = "text-danger" })
             </div>
-            @*@Html.DropDownListFor(model => model.GetunitTypes(),null, "Select a Payment Method", htmlAttributes: new { @class = "form-control" })
-
-                @Html.ValidationMessageFor(model => model.GetunitTypes(), "", new { @class = "text-danger" })*@
+          
 
         </div>
 
@@ -271,7 +276,7 @@
 
             </div>
             <div class="control-label col-sm-2">
-                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
+               
                 
                @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control" })
 
@@ -281,43 +286,43 @@
         </div>
 
         <div class="form-group">
-            <div class="col-xs-9" style="margin-top: 18px;float:left">
+        <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-                @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })
+            @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })
 
-            </div>
-            <div class="control-label col-sm-2">
-                @*@Html.CheckBoxFor(m => m.isEditAllowable, Model.isEditAllowable)*@
-
-                @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
+        </div>
+        <div class="control-label col-sm-2">
 
 
+            @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
 
 
-            </div>
 
 
         </div>
 
-        <div class="form-group">
-            <div class="col-xs-9" style="margin-top: 18px;float:left">
-                
-               @Html.Label("Do you want auto reminder for renewal")
 
-            </div>
-            <div class="control-label col-sm-2">
-               
+    </div>
+        
+    <div class="form-group">
+        <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-                @Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
-                
+           @Html.Label("Do you want auto reminder for renewal")
 
+        </div>
+        <div class="control-label col-sm-2">
 
 
-            </div>
+            @Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
+
+
 
 
         </div>
+
+
+    </div>
 
         
 
@@ -369,6 +374,7 @@
 
 <script>
     $('#clear').click(function () {
+        
         document.getElementsByTagName("form")[0].reset();
     });
 </script>
@@ -545,7 +551,38 @@
         function setPayOffPeriod() {
             
             $("#payOffPeriod").val("0");
-}
+        }
+
+        function checkTheRange(value) {
+            
+
+            var oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
+            var firstDate = new Date($("#startDate").val());
+            var secondDate = new Date($("#maturityDate").val());
+            var type = $("#payOffPeriodType").val();
+
+            if (type == 0) {
+                var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
+                if (value > diffDays) {
+                    $("#outOffRangeError").show();
+                    e.preventDefault();
+                } else {
+                    $("#outOffRangeError").hide();
+                }
+                //alert(diffDays);
+            } else {
+                alert(secondDate.getMonth() - firstDate.getMonth()
+       + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
+            }
+            
+
+    }
+
+
+
+
+
+
 
         $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
 </script>
@@ -617,4 +654,3 @@
     }
 
 }
-<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
