@@ -588,8 +588,14 @@
                 }
                 //alert(diffDays);
             } else {
-                alert(secondDate.getMonth() - firstDate.getMonth()
+                var diffMonths = (secondDate.getMonth() - firstDate.getMonth()
        + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
+                if (value > diffMonths) {
+                    $("#outOffRangeError").show();
+                    
+                } else {
+                    $("#outOffRangeError").hide();
+                }
             }
             
 
