@@ -17,7 +17,7 @@ namespace BankLoanSystem.DAL
         /// check the loan number is unique for a branch
         /// </summary>
         /// <returns>true or false</returns>
-        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, int userId)
+        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user)
         {
 
             using (
@@ -28,7 +28,12 @@ namespace BankLoanSystem.DAL
                 LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
 
                 LoanSetupAccess la = new LoanSetupAccess();
-                int loanId = la.getLoanIdByUserId(userId);
+                int loanId=0;
+             
+                loanId = la.getLoanIdByBranchId(user.BranchId);
+                
+               
+                
                 var command = new SqlCommand("spIsUniqueLoanNumberForBranch", con) { CommandType = CommandType.StoredProcedure };
                 command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanNumber;
                 command.Parameters.Add("@branch_id", SqlDbType.Int).Value = RegisteredBranchId;

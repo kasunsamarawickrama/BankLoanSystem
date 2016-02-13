@@ -582,14 +582,20 @@
                 var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
                 if (value > diffDays) {
                     $("#outOffRangeError").show();
-                    e.preventDefault();
+                    
                 } else {
                     $("#outOffRangeError").hide();
                 }
-                //alert(diffDays);
+                
             } else {
-                alert(secondDate.getMonth() - firstDate.getMonth()
+                var diffMonths = (secondDate.getMonth() - firstDate.getMonth()
        + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
+                if (value > diffMonths) {
+                    $("#outOffRangeError").show();
+                    
+                } else {
+                    $("#outOffRangeError").hide();
+                }
             }
             
 
