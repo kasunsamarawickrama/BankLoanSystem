@@ -13,11 +13,7 @@
 
 
     <div class="container body-content">
-        <h2>Step5</h2>
-
-
-        <h4>Curtailment</h4>
-        <hr />
+        <h2>Step 5 - Curtailment</h2>
         <script type="text/javascript">
             function ValidateData() {
                 if ($(".validateID").attr('value') == "0" || $(".validateID").attr('value') == "") {
@@ -42,7 +38,7 @@
 
 
 
-        @*@using (Ajax.BeginForm("Step5", "LoanSetUpStep5", new AjaxOptions()
+        @using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
             {
 
                 OnFailure = "handleError",
@@ -50,8 +46,8 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "changeContainer",
                 LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))*@
-        @using (Html.BeginForm("Step5", "LoanSetUpStep5"))
+            }, new { id = "form" }))
+        @*@using (Html.BeginForm("Step5", "LoanSetUpStep5"))*@
 
         {
             @Html.AntiForgeryToken()
