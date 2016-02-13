@@ -33,6 +33,8 @@ namespace BankLoanSystem.Models
         ErrorMessage = "Loan Number already in use")]
         public string loanNumber { get; set; }
 
+        public string loanNumberForDisplay { get; set; }
+
         [Required]
         [Display(Name = "Start Date")]
         //[DataType(DataType.Date)]
@@ -48,10 +50,10 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Pay Off Period")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Pay Off Period must be a natural number")]
-        [Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
-        AdditionalFields = "startDate,maturityDate,payOffPeriodType",
-        HttpMethod = "POST",
-        ErrorMessage = "Invalid")]
+        //[Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
+        //AdditionalFields = "startDate,maturityDate,payOffPeriodType",
+        //HttpMethod = "POST",
+        //ErrorMessage = "Invalid")]
         public int payOffPeriod { get; set; }
 
         [Required]

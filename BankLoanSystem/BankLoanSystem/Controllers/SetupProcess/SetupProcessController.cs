@@ -1169,6 +1169,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = int.Parse(Session["userId"].ToString());
             //int branchId = int.Parse(Session["branchId"].ToString());
 
+
+            if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.payOffPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, loanSetupStep1.payOffPeriodType)) {
+                return new HttpStatusCodeResult(404, "Pay off period is out of range");
+            }
             if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
             {
                 return new HttpStatusCodeResult(404, "Select Atleast One Unit Type");
@@ -1804,16 +1808,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
-        public JsonResult CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
+        public bool CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
         {
             if (payOffPeriodType == 0) {
                 int totalDays = (int)(maturityDate - startDate).TotalDays;
                 if (payOffPeriod <= totalDays) {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return true;
                 }
                 else
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    return false;
                 }
                   }
             else {
@@ -1821,11 +1825,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int diffMonths = (maturityDate.Month + maturityDate.Year * 12) - (startDate.Month + startDate.Year * 12);
                 if (payOffPeriod <= diffMonths)
                 {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return true;
                 }
                 else
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    return false;
                 }
             }
 

@@ -458,6 +458,7 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.isInterestCalculate = Convert.ToBoolean(reader["is_interest_calculate"].ToString());
                             loanSetupStep1.loanAmount = Convert.ToDecimal(reader["loan_amount"].ToString());
                             loanSetupStep1.loanNumber = reader["loan_number"].ToString();
+                            loanSetupStep1.loanNumberForDisplay = loanSetupStep1.loanNumber;
                             loanSetupStep1.maturityDate = Convert.ToDateTime(reader["maturity_date"].ToString());
                             loanSetupStep1.nonRegisteredBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
                             loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
