@@ -521,9 +521,11 @@
             if (model.AdvanceAmount > 0) {
                 document.getElementById("dropDownAdvance").value = "1";
                 if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
+                    
                     $("#remindEmailAdvance").show();
                 }
                 else{
+                    
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -566,8 +568,10 @@
                 }
                 else{
                     if(model.MonthlyLoanDueDate == "EOM"){
+                        $("#monthLoan").show();
                     }
                     else{
+                        $("#monthLoan").show();
                     }
                 }
             }
@@ -620,9 +624,11 @@
             if (model.AdvanceAmount > 0) {
                 document.getElementById("dropDownAdvance").value = "1";
                 if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
+                    
                     $("#remindEmailAdvance").show();
                 }
                 else{
+                   
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -665,8 +671,9 @@
                 }
                 else{
                     if(model.MonthlyLoanDueDate == "EOM"){
-                    }
-                    else{
+                        $("#monthLoan").show();
+                    }else{
+                        $("#monthLoan").show();
                     }
                 }
             }
@@ -780,7 +787,7 @@
     });
 
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
-
+    skipProgress(8);
     //function changeDropDownValueLoan() {
     //    var drop2 = document.getElementById("dropDownLoan").value;
     //    if (drop2 =="0") {

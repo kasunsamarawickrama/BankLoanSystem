@@ -1429,7 +1429,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int userId = int.Parse(Session["userId"].ToString());
             int branchId = int.Parse(Session["branchId"].ToString());
-            //int  branchId = 35;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
