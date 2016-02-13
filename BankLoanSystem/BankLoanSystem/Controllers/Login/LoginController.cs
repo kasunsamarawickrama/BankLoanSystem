@@ -111,7 +111,7 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("Index", "SetupProcess");
                 }
 
-                return RedirectToAction("UserDashBoard", "DashBoard");
+                return RedirectToAction("UserDetails", "UserManagement");
             }
             else {
 
