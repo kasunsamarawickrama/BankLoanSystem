@@ -1503,7 +1503,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //check the loan is in a update
-
+            Session["isEdit"] = false;
             var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
 
             if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
