@@ -752,7 +752,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = sa.checkUserLoginWhileCompanySetup(userId);
             }
 
-            if (stepNo < 6) 
+            if (stepNo < 6)
             {
                 return new HttpStatusCodeResult(404, "You are not allowed");
             }
@@ -771,7 +771,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = la.getLoanIdByUserId(userId);
-            
+
 
 
 
@@ -786,7 +786,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             paymentMethods.Add("Invoice/Check");
             ViewBag.paymentMethods = paymentMethods;
 
-            
+
 
             LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
             loanSetupStep1.startDate = DateTime.Today;
@@ -814,7 +814,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                 }
                 var newNonRegList = new List<Branch>();
-               
+
                 foreach (NonRegBranch branch in NonRegisteredBranchLists)
                 {
                     if (branch.BranchId == curUser.BranchId)
@@ -828,8 +828,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
                 ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
-                
-                
+
+
             }
             else
             {
@@ -837,12 +837,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     NonRegBranch nonRegBranch = (new BranchAccess()).getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
                     loanSetupStep1.RegisteredBranchId = nonRegBranch.BranchId;
-                    
+
                 }
-                
+
                 ViewBag.RegisteredBranchId = new SelectList(RegisteredBranchLists, "BranchId", "BranchName");
-                    ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "BranchName");
-                
+                ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "BranchName");
+
             }
 
 
@@ -855,14 +855,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (loanId > 0)
             {
-                
+
                 loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
                 //(new LoanSetupAccess()).getSelectedUnitTypes(loanId, loanSetupStep1);
                 foreach (UnitType unitType in (List<UnitType>)loanSetupStep1.selectedUnitTypes)
                 {
                     foreach (UnitType allUnitType in (List<UnitType>)loanSetupStep1.allUnitTypes)
                     {
-                        if(allUnitType.unitTypeId == unitType.unitTypeId)
+                        if (allUnitType.unitTypeId == unitType.unitTypeId)
                         {
                             allUnitType.isSelected = true;
                             continue;
@@ -1057,7 +1057,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //Get all non registered branches by company id
                 List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-                    
+
                 if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
 
                 //Select non registered branch for admin's branch
@@ -1187,30 +1187,31 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
 
-            if (loanId > 0) {
+            if (loanId > 0)
+            {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
             }
             else
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
-                if(loanId > 0)
+                if (loanId > 0)
                     sa.updateStepNumberByUserId(userId, 7, loanId, loanSetupStep1.RegisteredBranchId);
             }
 
             Session["branchId"] = loanSetupStep1.RegisteredBranchId;
             //if (loanSetupStep1.isInterestCalculate)
             //{
-              //  return RedirectToAction("step7");
+            //  return RedirectToAction("step7");
             //}
             //else
             //{
-                sa.updateStepNumberByUserId(userId, 8, loanId, loanSetupStep1.RegisteredBranchId);
-                return RedirectToAction("step8");
+            sa.updateStepNumberByUserId(userId, 8, loanId, loanSetupStep1.RegisteredBranchId);
+            return RedirectToAction("Step10");
             //}
 
-            
 
-            
+
+
 
 
         }
@@ -1356,7 +1357,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 LoanSetupAccess la = new LoanSetupAccess();
                 int loanId = la.getLoanIdByBranchId(branchId);
-                
+
                 //int loanId = 1;
                 if (loanId > 0)
                 {
@@ -1367,7 +1368,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.Edit = 1;
                         //intrst = ia.getInterestDetails(loanId);
                         ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
-                        
+
                         if (intrstobj.option != "once a month")
                         {
                             ViewBag.Option = true;
@@ -1391,10 +1392,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         //intrst.AutoRemindEmail = defaultEmail;
 
                         return PartialView();
-                        }
+                    }
                     //return PartialView();
                 }
-                
+
                 else
                 {
                     return new HttpStatusCodeResult(404, "error message");
@@ -1421,7 +1422,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int userId = int.Parse(Session["userId"].ToString());
             //int branchId = int.Parse(Session["branchId"].ToString());
-            int  branchId = 35;
+            int branchId = 35;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
@@ -1458,7 +1459,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return new HttpStatusCodeResult(404, "error message");
             }
-            
+
         }
 
         /// <summary>
@@ -1481,16 +1482,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
- 
+
             companyType = 1;
             if (companyType == 1)
             {
                 ViewBag.isLender = true;
             }
-            else {
+            else
+            {
                 ViewBag.isLender = false;
             }
-            Fees fee = new Fees(); 
+            Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //check the loan is in a update
@@ -1504,11 +1506,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 hasLoan.LoanId = fee.LoanId;
                 return PartialView(hasLoan);
             }
-            else {
+            else
+            {
                 ViewBag.isEdit = "notEditable";
-            
+
                 Fees feeUpdate = new Fees();
-            feeUpdate.LoanId = fee.LoanId;
+                feeUpdate.LoanId = fee.LoanId;
 
                 if (feeUpdate.LoanId > 0)
                 {
@@ -1520,12 +1523,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     feeUpdate.AdvanceLenderEmail = email;
                     feeUpdate.AdvanceDealerEmail = email;
 
-                return PartialView(feeUpdate);
+                    return PartialView(feeUpdate);
+                }
+                else
+                {
+                    return RedirectToAction("Step7");
+                }
             }
-            else {
-                return RedirectToAction("Step7");
-            }
-        }
         }
         /// <summary>
         /// CreatedBy :kasun samarawickrama
@@ -1558,7 +1562,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.MonthlyLoanDueDate = "TOA";
             }
-            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio =="month")
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio == "month")
             {
                 fees.AdvanceDueDate = "EOM";
             }
@@ -1572,11 +1576,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 var userId = (int)Session["userId"];
                 var branchId = (int)Session["branchId"];
 
-                if ((bool)Session["isEdit"] == true) {
+                if ((bool)Session["isEdit"] == true)
+                {
                     Session["isEdit"] = false;
                     return RedirectToAction("Step9");
                 }
-                else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
+                else if (step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
                 {
                     return RedirectToAction("Step9");
                 }
@@ -1659,7 +1664,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TitleAccess ta = new TitleAccess();
                 Title title = new Title();
                 int loanId = la.getLoanIdByBranchId(branchId);
-                
+
                 //int loanId = 1;
                 if (loanId > 0)
                 {
@@ -1736,11 +1741,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (title.IsReceipRequired || title.IsTitleTrack)
             {
-            int reslt = ta.insertTitleDetails(title);
+                int reslt = ta.insertTitleDetails(title);
                 if (reslt >= 1)
-            {
-                StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
+                {
+                    StepAccess sa = new StepAccess();
+                    if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
+                    {
+                        return RedirectToAction("Step10");
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(404, "error message");
+                    }
+                }
+                else if (reslt == 0)
                 {
                     return RedirectToAction("Step10");
                 }
@@ -1748,22 +1762,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return new HttpStatusCodeResult(404, "error message");
                 }
-                }
-                else if (reslt == 0)
-                {
-                    return RedirectToAction("Step10");
-            }
-            else
-            {
-                return new HttpStatusCodeResult(404, "error message");
-            }
             }
             else
             {
                 return RedirectToAction("Step10");
             }
 
-           
+
         }
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -1801,19 +1806,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
-        public JsonResult CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
+        public JsonResult CheckTheRangeOfPayOffPeriod(int payOffPeriod, DateTime startDate, DateTime maturityDate, int payOffPeriodType)
         {
-            if (payOffPeriodType == 0) {
+            if (payOffPeriodType == 0)
+            {
                 int totalDays = (int)(maturityDate - startDate).TotalDays;
-                if (payOffPeriod <= totalDays) {
+                if (payOffPeriod <= totalDays)
+                {
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
-                  }
-            else {
+            }
+            else
+            {
 
                 int diffMonths = (maturityDate.Month + maturityDate.Year * 12) - (startDate.Month + startDate.Year * 12);
                 if (payOffPeriod <= diffMonths)
@@ -1826,7 +1834,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-           
+
         }
 
         private static LoanSetupStep1 _loan;
@@ -1837,50 +1845,44 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
-
             int userId = Convert.ToInt32(Session["userId"]);
-            int branchId = int.Parse(Session["branchId"].ToString());
+            //check user step is valid for this step
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) == 10)
+            {
+                //return PartialView();
+                int branchId = int.Parse(Session["branchId"].ToString());
 
-            LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
+                LoanSetupAccess la = new LoanSetupAccess();
+                int loanId = la.getLoanIdByBranchId(branchId);
 
-            CurtailmentAccess curAccess = new CurtailmentAccess();
+                CurtailmentAccess curAccess = new CurtailmentAccess();
 
-            _loan = curAccess.GetLoanDetailsByLoanId(loanId);
-            _loan.loanId = loanId;
+                _loan = curAccess.GetLoanDetailsByLoanId(loanId);
+                _loan.loanId = loanId;
 
-            CurtailmentModel obj = new CurtailmentModel();
-            obj.RemainingPercentage = _loan.advancePercentage;
-            obj.InfoModel = new List<Curtailment>();
+                CurtailmentModel obj = new CurtailmentModel();
+                obj.RemainingPercentage = _loan.advancePercentage;
+                obj.InfoModel = new List<Curtailment>();
 
-            obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
-            ViewData["objmodel"] = obj;
-            return View(obj);
+                obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
+                ViewData["objmodel"] = obj;
+                return PartialView(obj);
+            }
+            return RedirectToAction("UserLogin", "Login");
         }
 
         [HttpPost]
         public ActionResult Step10(CurtailmentModel objmodel, string submit)
         {
-
-            //CalculationBase is true - Full payment
-            //TimeBase is true - Month
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
-
-            int uId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
-
-            LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
-
-            float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
-            float totalPercentage = 0;
-
-            Session["userId"] = 2;
+            //Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
             int userId = Convert.ToInt32(Session["userId"]);
+
+            float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
+            float totalPercentage = 0;
 
             int noOfDays = (int)(_loan.maturityDate - _loan.startDate).TotalDays;
             int payTime = objmodel.TimeBase == "Month" ? noOfDays / 30 : noOfDays;
@@ -1897,7 +1899,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i].TimePeriod > payTime)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1912,7 +1914,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1948,20 +1950,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                     newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
                     if (objmodel.InfoModel.Count > 1)
-                        return View(newObjmodel);
-                    else
-                    {
-                        objmodel.InfoModel[0].CurtailmentId = 1;
-                        objmodel.RemainingPercentage = payPercentage;
-                        return View(objmodel);
-                    }
+                        return PartialView(newObjmodel);
+                    objmodel.InfoModel[0].CurtailmentId = 1;
+                    objmodel.RemainingPercentage = payPercentage - objmodel.InfoModel[0].Percentage;
+                    return PartialView(objmodel);
 
                 case "Create":
-                    bool loanActive = false;
-                    if (objmodel.Activete != null)
-                    {
-                        loanActive = true;
-                    }
+                    bool loanActive = objmodel.Activete == "Yes";
+
                     for (int i = 0; i < objmodel.InfoModel.Count; i++)
                     {
                         Curtailment curtailment = objmodel.InfoModel[i];
@@ -1970,7 +1966,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i].TimePeriod > payTime)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1985,7 +1981,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -2040,7 +2036,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                     break;
             }
-            return View(objmodel);
+            return PartialView(objmodel);
         }
 
 

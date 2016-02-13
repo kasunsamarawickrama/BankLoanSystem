@@ -26,27 +26,23 @@ namespace BankLoanSystem.Models
         public string Month { get; set; }
 
         [Display(Name = "Activate Loan")]
-        public bool Activete
-        {
-            get; set;
-
-        }
+        public string Activete { get; set; }
     }
 
     public class Curtailment
     {
-        
+
         [Display(Name = "Curtailment Id")]
         public int CurtailmentId { get; set; }
 
-        [Display(Name ="Month")]
+        [Display(Name = "Month")]
         [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "Invalid")]
         public int TimePeriod { get; set; }
 
         [Display(Name = "Percentage")]
         [Required]
         [Range(typeof(float), "0.001", "100", ErrorMessage = "Invalid")]
-        public float Percentage { get; set; }       
+        public float Percentage { get; set; }
 
         public int LoanId { get; set; }
     }
