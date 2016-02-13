@@ -2032,7 +2032,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             }
                         }
 
-                        if (curtailmentAccess.InsertCurtailment(lstCurtailment, "I") == 1)
+                        if (curtailmentAccess.InsertCurtailment(lstCurtailment) == 1)
                         {
                             ViewBag.SuccessMsg = "Curtailment Details added successfully";
                             StepAccess stepAccess = new StepAccess();
