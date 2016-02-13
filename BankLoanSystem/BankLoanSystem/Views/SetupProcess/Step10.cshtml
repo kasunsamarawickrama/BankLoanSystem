@@ -1,6 +1,6 @@
 ﻿@model BankLoanSystem.Models.CurtailmentModel
 @{
-    ViewBag.Title = "Step5";
+    ViewBag.Title = "Step10";
 
 }
 
@@ -47,7 +47,7 @@
                 UpdateTargetId = "changeContainer",
                 LoadingElementId = "loadingDiv"
             }, new { id = "form" }))
-        @*@using (Html.BeginForm("Step5", "LoanSetUpStep5"))*@
+       
 
         {
             @Html.AntiForgeryToken()
@@ -266,7 +266,7 @@
             alert('aaaa');
             $('#loadingDiv').show();
             $.ajax({
-                url: '@Url.Action("Step5", "LoanSetUpStep5")',
+                url: '@Url.Action("Step10", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1 },
 
