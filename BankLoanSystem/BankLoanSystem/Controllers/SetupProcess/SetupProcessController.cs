@@ -862,7 +862,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     foreach (UnitType allUnitType in (List<UnitType>)loanSetupStep1.allUnitTypes)
                     {
-                        if(allUnitType.unitTypeId == unitType.unitTypeId)
+                        if (allUnitType.unitTypeId == unitType.unitTypeId)
                         {
                             allUnitType.isSelected = true;
                             continue;
@@ -1191,13 +1191,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
 
-            if (loanId > 0) {
+            if (loanId > 0)
+            {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
             }
             else
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
-                if(loanId > 0)
+                if (loanId > 0)
                     sa.updateStepNumberByUserId(userId, 7, loanId, loanSetupStep1.RegisteredBranchId);
             }
 
@@ -1424,8 +1425,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             int userId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
-            //int  branchId = 35;
+            //int branchId = int.Parse(Session["branchId"].ToString());
+            int  branchId = 35;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
@@ -1491,7 +1492,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.isLender = true;
             }
-            else {
+            else
+            {
                 ViewBag.isLender = false;
             }
             Fees fee = new Fees(); 
@@ -1526,7 +1528,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return PartialView(feeUpdate);
             }
-            else {
+                else
+                {
                 return RedirectToAction("Step7");
             }
         }
@@ -1767,15 +1770,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
                 {
-                    return RedirectToAction("Step10");
-                }
+                return RedirectToAction("Step10");
+            }
                 else
                 {
                     return new HttpStatusCodeResult(404, "error message");
                 }
-               
-            }
 
+            }
+           
            
         }
         /// <summary>
@@ -1816,7 +1819,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns>Return JsonResult</returns>
         public bool CheckTheRangeOfPayOffPeriod(int payOffPeriod,DateTime startDate, DateTime maturityDate,int payOffPeriodType)
         {
-            if (payOffPeriodType == 0) {
+            if (payOffPeriodType == 0)
+            {
                 int totalDays = (int)(maturityDate - startDate).TotalDays;
                 if (payOffPeriod <= totalDays) {
                     return true;
@@ -1826,7 +1830,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return false;
                 }
                   }
-            else {
+            else
+            {
 
                 int diffMonths = (maturityDate.Month + maturityDate.Year * 12) - (startDate.Month + startDate.Year * 12);
                 if (payOffPeriod <= diffMonths)
@@ -1850,8 +1855,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
-
             int userId = Convert.ToInt32(Session["userId"]);
+            //check user step is valid for this step
+            StepAccess sa = new StepAccess();
+            if (sa.getStepNumberByUserId(userId) == 10)
+            {
+                //return PartialView();
             int branchId = int.Parse(Session["branchId"].ToString());
 
             LoanSetupAccess la = new LoanSetupAccess();
@@ -1868,32 +1877,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
             ViewData["objmodel"] = obj;
-            return PartialView(obj);
+                return PartialView(obj);
+            }
+            return RedirectToAction("UserLogin", "Login");
         }
 
         [HttpPost]
         public ActionResult Step10(CurtailmentModel objmodel, string submit)
         {
-
-            //CalculationBase is true - Full payment
-            //TimeBase is true - Month
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
-
-            int uId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
-
-            LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
-
-            float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
-            float totalPercentage = 0;
-
-            Session["userId"] = 2;
+            //Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 
             int userId = Convert.ToInt32(Session["userId"]);
+
+            float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
+            float totalPercentage = 0;
 
             int noOfDays = (int)(_loan.maturityDate - _loan.startDate).TotalDays;
             int payTime = objmodel.TimeBase == "Month" ? noOfDays / 30 : noOfDays;
@@ -1962,19 +1961,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
                     if (objmodel.InfoModel.Count > 1)
                         return PartialView(newObjmodel);
-                    else
-                    {
                         objmodel.InfoModel[0].CurtailmentId = 1;
-                        objmodel.RemainingPercentage = payPercentage;
-                        return PartialView(objmodel);
-                    }
+                    objmodel.RemainingPercentage = payPercentage - objmodel.InfoModel[0].Percentage;
+                    return PartialView(objmodel);
 
                 case "Create":
-                    bool loanActive = false;
-                    if (objmodel.Activete != null)
-                    {
-                        loanActive = true;
-                    }
+                    bool loanActive = objmodel.Activete == "Yes";
+
                     for (int i = 0; i < objmodel.InfoModel.Count; i++)
                     {
                         Curtailment curtailment = objmodel.InfoModel[i];
