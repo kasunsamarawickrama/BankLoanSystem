@@ -389,9 +389,25 @@
                 $("#radio-" + i).prop("checked", false);
                 $("#radio-" + i).hide();
                 $("#radioStyle-" + i).hide();
-                
-}
+
+            }
         }
+
+        @if(Model.autoReminderEmail == null || Model.autoReminderEmail == "")
+        {
+
+             <text>$("#AutoEmail").val("");</text>
+            <text>$("#AutoReminderEmail").hide();</text>
+            <text>$("#emailPeriod").val("0");</text>
+        <text>$("#errorAutoEmail").text("");</text>
+
+        }
+        else
+        {
+             <text>$('#autoRem').val("true");</text>
+        <text> showAutoReminderEmail("true");</text>
+        }
+
 
     });
 </script>

@@ -55,6 +55,12 @@
         function globalProgress(step) {
             global = step;
         }
+        function skipProgress(step) {
+            if (global < step) {
+                gloal = step;
+                Progress(step);
+            }
+        }
 
         function Progress(step) {
             if (global > step)
