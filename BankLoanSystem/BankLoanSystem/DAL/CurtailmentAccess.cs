@@ -196,7 +196,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>1</returns>
 
-        public int InsertCurtailment(List<Curtailment> lstCurtailment, string type)
+        public int InsertCurtailment(List<Curtailment> lstCurtailment)
         {
             int flag = 0;
             int delFlag = 0;
@@ -221,7 +221,6 @@ namespace BankLoanSystem.DAL
                     command.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailment.CurtailmentId;
                     command.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = curtailment.TimePeriod;
                     command.Parameters.Add("@percentage", SqlDbType.Float).Value = curtailment.Percentage;
-                    //command.Parameters.AddWithValue("@transaction_type", type);
 
 
                     SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
@@ -233,7 +232,7 @@ namespace BankLoanSystem.DAL
                     command.Parameters.Clear();
                 }
             }
-            if (delFlag == 2) flag = delFlag;
+            //if (delFlag == 2) flag = delFlag;
             return flag; ;
         }
     }
