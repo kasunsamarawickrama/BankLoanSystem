@@ -198,7 +198,7 @@ namespace BankLoanSystem.Controllers
                             }
                         }
 
-                        if (curtailmentAccess.InsertCurtailment(lstCurtailment, "I") == 1)
+                        if (curtailmentAccess.InsertCurtailment(lstCurtailment) == 1)
                         {
                             ViewBag.SuccessMsg = "Curtailment Details added successfully";
                             StepAccess stepAccess = new StepAccess();
@@ -412,7 +412,7 @@ namespace BankLoanSystem.Controllers
                         }
                     }
 
-                    if (curtailmentAccess.InsertCurtailment(lstCurtailment, type) == 1)
+                    if (curtailmentAccess.InsertCurtailment(lstCurtailment) == 1)
                     {
                         ViewBag.SuccessMsg = "Curtailment Details added successfully";
 
