@@ -14,12 +14,12 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "NonRegistered Branch")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
         public int nonRegisteredBranchId { get; set; }
 
         [Required]
         [Display(Name = "Registered Branch")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
         public int RegisteredBranchId { get; set; }
 
         [Required]

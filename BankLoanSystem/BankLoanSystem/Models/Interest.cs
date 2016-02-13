@@ -43,6 +43,7 @@ namespace BankLoanSystem.Models
         public int RemindPeriod { get; set; }
 
         [Display(Name = "Accrual Method")]
+        [Required(ErrorMessage = "Accrual Method is required.")]
         public int AccrualMethodId { get; set; }
 
         public int LoanId { get; set; }

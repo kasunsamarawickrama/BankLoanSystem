@@ -10,6 +10,7 @@ namespace BankLoanSystem.Models
     {
         [EmailAddress]
         [Display(Name = "Email Address")]
+        [Required(ErrorMessage = "Email is required.")]
         public string RemindEmail { get; set; }
 
         [Display(Name = "Physically required")]
@@ -21,12 +22,15 @@ namespace BankLoanSystem.Models
 
         public bool IsTitleTrack { get; set; }
 
+        [Required(ErrorMessage = "Accept Method is required.")]
         public string TitleAcceptMethod { get; set; }
 
+        [Required(ErrorMessage = "Received Time  Limit is required.")]
         public string ReceivedTimeLimit { get; set; }
 
         public bool IsReceipRequired { get; set; }
 
+        [Required(ErrorMessage = "Required Method is required.")]
         public string ReceiptRequiredMethod { get; set; }
 
         public int LoanId { get; set; }
