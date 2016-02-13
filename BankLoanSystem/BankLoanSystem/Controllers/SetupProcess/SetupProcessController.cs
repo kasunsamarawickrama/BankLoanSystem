@@ -1446,7 +1446,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // if()
             int reslt = ia.insertInterestDetails(interest);
 
-            if (reslt >= 1)
+            if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 8, interest.LoanId, branchId))
@@ -1458,10 +1458,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
             }
-            else if (reslt == 0)
-            {
-                return RedirectToAction("Step8");
-            }
+            //else if (reslt == 0)
+            //{
+            //    return RedirectToAction("Step8");
+            //}
             else
             {
                 return new HttpStatusCodeResult(404, "error message");
@@ -1745,10 +1745,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int loanId = la.getLoanIdByBranchId(branchId);
             title.LoanId = loanId;
 
-            if (title.IsReceipRequired || title.IsTitleTrack)
-            {
+            //if (title.IsReceipRequired || title.IsTitleTrack)
+            //{
             int reslt = ta.insertTitleDetails(title);
-                if (reslt >= 1)
+                if (reslt >= 0)
             {
                 
                 if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
@@ -1760,27 +1760,27 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return new HttpStatusCodeResult(404, "error message");
                 }
                 }
-                else if (reslt == 0)
-                {
-                    return RedirectToAction("Step10");
-            }
+            //    else if (reslt == 0)
+            //    {
+            //        return RedirectToAction("Step10");
+            //}
             else
             {
                 return new HttpStatusCodeResult(404, "error message");
             }
-            }
-            else
-            {
-                if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
-                {
-                return RedirectToAction("Step10");
-            }
-                else
-                {
-                    return new HttpStatusCodeResult(404, "error message");
-                }
+            //}
+            //else
+            //{
+            //    if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
+            //    {
+            //    return RedirectToAction("Step10");
+            //}
+            //    else
+            //    {
+            //        return new HttpStatusCodeResult(404, "error message");
+            //    }
 
-            }
+            //}
            
            
         }
