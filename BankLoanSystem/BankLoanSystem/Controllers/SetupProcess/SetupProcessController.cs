@@ -1731,6 +1731,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             TitleAccess ta = new TitleAccess();
             LoanSetupAccess la = new LoanSetupAccess();
+            StepAccess sa = new StepAccess();
             int loanId = la.getLoanIdByBranchId(branchId);
             title.LoanId = loanId;
 
@@ -1739,7 +1740,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int reslt = ta.insertTitleDetails(title);
                 if (reslt >= 1)
             {
-                StepAccess sa = new StepAccess();
+                
                 if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
                 {
                     return RedirectToAction("Step10");
@@ -1760,7 +1761,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                return RedirectToAction("Step10");
+                if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
+                {
+                    return RedirectToAction("Step10");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404, "error message");
+                }
+               
             }
 
            
@@ -1855,7 +1864,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
             ViewData["objmodel"] = obj;
-            return View(obj);
+            return PartialView(obj);
         }
 
         [HttpPost]
@@ -1897,7 +1906,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i].TimePeriod > payTime)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1912,7 +1921,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1948,12 +1957,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                     newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
                     if (objmodel.InfoModel.Count > 1)
-                        return View(newObjmodel);
+                        return PartialView(newObjmodel);
                     else
                     {
                         objmodel.InfoModel[0].CurtailmentId = 1;
                         objmodel.RemainingPercentage = payPercentage;
-                        return View(objmodel);
+                        return PartialView(objmodel);
                     }
 
                 case "Create":
@@ -1970,7 +1979,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i].TimePeriod > payTime)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -1985,7 +1994,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
                             {
                                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                                return View(objmodel);
+                                return PartialView(objmodel);
                             }
                         }
 
@@ -2040,7 +2049,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                     break;
             }
-            return View(objmodel);
+            return PartialView(objmodel);
         }
 
 
