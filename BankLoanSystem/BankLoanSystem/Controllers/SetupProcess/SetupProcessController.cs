@@ -770,9 +770,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //
 
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByUserId(userId);
-            
+            int loanId=0;
 
+            
+            loanId = la.getLoanIdByBranchId(curUser.BranchId);
+            
 
 
 
@@ -1318,7 +1320,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             //check user name is already exist.  
             int userId = int.Parse(Session["userId"].ToString());
-            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userId), JsonRequestBehavior.AllowGet);
+            User user = (new UserAccess()).retreiveUserByUserId(userId); 
+            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, user), JsonRequestBehavior.AllowGet);
         }
 
 
