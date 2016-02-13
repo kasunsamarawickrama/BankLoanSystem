@@ -594,7 +594,7 @@ namespace BankLoanSystem.DAL
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                        command.Parameters.Add("@is_active", SqlDbType.Bit).Value = activation;                        
+                        command.Parameters.Add("@loan_status", SqlDbType.Bit).Value = activation;                        
                        
                         SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
                         returnParameter.Direction = ParameterDirection.ReturnValue;
