@@ -7,6 +7,9 @@
 
 
 
+
+
+
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
     OnSuccess = "Progress(7)",
@@ -212,7 +215,7 @@
                    
                     <div class="col-xs-7">
                         @Html.HiddenFor(m => m.allUnitTypes[i].unitTypeId)
-                        @Html.CheckBoxFor(m => m.allUnitTypes[i].isSelected, htmlAttributes: new { @onchange = "javascript:showDefaultUnitOption(this.checked," + i + ")" })
+                        @Html.CheckBoxFor(m => m.allUnitTypes[i].isSelected, htmlAttributes: new {@id="checkedBox_"+ i, @onchange = "javascript:showDefaultUnitOption(this.checked," + i + ")" })
                         @Html.LabelFor(m => m.allUnitTypes[i].unitTypeName, Model.allUnitTypes[i].unitTypeName)
 
                         <div class="col-xs-5">
@@ -374,8 +377,22 @@
 
 <script>
     $('#clear').click(function () {
-        
+
         document.getElementsByTagName("form")[0].reset();
+        for (var i = 0 ; i < 8; i++) {
+
+            if ($("#checkedBox_" + i).is(':checked')) {
+
+                $("#radioStyle-" + i).show();
+                $("#radio-" + i).show();
+            } else {
+                $("#radio-" + i).prop("checked", false);
+                $("#radio-" + i).hide();
+                $("#radioStyle-" + i).hide();
+                
+}
+        }
+
     });
 </script>
 
