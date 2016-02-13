@@ -1843,6 +1843,221 @@ namespace BankLoanSystem.Controllers.SetupProcess
            
         }
 
+        private static LoanSetupStep1 _loan;
+
+        // GET: LoanSetUpStep5
+        public ActionResult Step10()
+        {
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+
+            int userId = Convert.ToInt32(Session["userId"]);
+            int branchId = int.Parse(Session["branchId"].ToString());
+
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByBranchId(branchId);
+
+            CurtailmentAccess curAccess = new CurtailmentAccess();
+
+            _loan = curAccess.GetLoanDetailsByLoanId(loanId);
+            _loan.loanId = loanId;
+
+            CurtailmentModel obj = new CurtailmentModel();
+            obj.RemainingPercentage = _loan.advancePercentage;
+            obj.InfoModel = new List<Curtailment>();
+
+            obj.InfoModel.Add(new Curtailment { CurtailmentId = 1 });
+            ViewData["objmodel"] = obj;
+            return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult Step10(CurtailmentModel objmodel, string submit)
+        {
+
+            //CalculationBase is true - Full payment
+            //TimeBase is true - Month
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            int uId = int.Parse(Session["userId"].ToString());
+            int branchId = int.Parse(Session["branchId"].ToString());
+
+            LoanSetupAccess la = new LoanSetupAccess();
+            int loanId = la.getLoanIdByBranchId(branchId);
+
+            float payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
+            float totalPercentage = 0;
+
+            Session["userId"] = 2;
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+
+            int userId = Convert.ToInt32(Session["userId"]);
+
+            int noOfDays = (int)(_loan.maturityDate - _loan.startDate).TotalDays;
+            int payTime = objmodel.TimeBase == "Month" ? noOfDays / 30 : noOfDays;
+            int curId = 1;
+            switch (submit)
+            {
+                case "+":
+
+                    for (int i = 0; i < objmodel.InfoModel.Count; i++)
+                    {
+                        Curtailment curtailment = objmodel.InfoModel[i];
+                        if (i == 0)
+                        {
+                            if (objmodel.InfoModel[i].TimePeriod > payTime)
+                            {
+                                ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                return View(objmodel);
+                            }
+                        }
+
+                        totalPercentage += curtailment.Percentage;
+                        curtailment.CurtailmentId = curId;
+                        objmodel.RemainingTime = curtailment.TimePeriod;
+                        objmodel.RemainingPercentage = payPercentage - totalPercentage;
+                        curId++;
+
+                        if (i >= 1)
+                        {
+                            if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
+                            {
+                                ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                return View(objmodel);
+                            }
+                        }
+
+
+                    }
+                    objmodel.RemainingPercentage = payPercentage - totalPercentage;
+
+                    if (objmodel.RemainingPercentage >= 0 && objmodel.RemainingTime <= payTime)
+                    {
+                        if (objmodel.RemainingPercentage != 0 && objmodel.RemainingTime != payTime)
+                            objmodel.InfoModel.Add(new Curtailment { CurtailmentId = objmodel.InfoModel.Count + 1 });
+                        ViewBag.ErrorMsg = "";
+                    }
+                    else if (objmodel.RemainingPercentage < 0)
+                    {
+                        ViewBag.ErrorMsg = "Invalid percentage's found!";
+                    }
+                    else if (objmodel.RemainingTime > payTime)
+                    {
+                        ViewBag.ErrorMsg = "Invalid time's found!";
+                    }
+                    break;
+
+                case "-":
+                    CurtailmentModel newObjmodel = new CurtailmentModel();
+                    newObjmodel.InfoModel = new List<Curtailment>();
+                    for (int i = 0; i < objmodel.InfoModel.Count - 1; i++)
+                    {
+                        Curtailment curtailment = objmodel.InfoModel[i];
+                        curtailment.CurtailmentId = (i + 1);
+                        newObjmodel.InfoModel.Add(curtailment);
+                        totalPercentage += curtailment.Percentage;
+                    }
+                    newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
+                    if (objmodel.InfoModel.Count > 1)
+                        return View(newObjmodel);
+                    else
+                    {
+                        objmodel.InfoModel[0].CurtailmentId = 1;
+                        objmodel.RemainingPercentage = payPercentage;
+                        return View(objmodel);
+                    }
+
+                case "Create":
+                    bool loanActive = false;
+                    if (objmodel.Activete != null)
+                    {
+                        loanActive = true;
+                    }
+                    for (int i = 0; i < objmodel.InfoModel.Count; i++)
+                    {
+                        Curtailment curtailment = objmodel.InfoModel[i];
+                        if (i == 0)
+                        {
+                            if (objmodel.InfoModel[i].TimePeriod > payTime)
+                            {
+                                ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                return View(objmodel);
+                            }
+                        }
+
+                        totalPercentage += curtailment.Percentage;
+                        curtailment.CurtailmentId = curId;
+                        objmodel.RemainingTime = curtailment.TimePeriod;
+                        objmodel.RemainingPercentage = payPercentage - totalPercentage;
+                        curId++;
+
+                        if (i >= 1)
+                        {
+                            if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
+                            {
+                                ViewBag.ErrorMsg = "Entered time period is invalid!";
+                                return View(objmodel);
+                            }
+                        }
+
+
+                    }
+                    objmodel.RemainingPercentage = payPercentage - totalPercentage;
+
+                    if (objmodel.RemainingPercentage >= 0 && objmodel.RemainingTime <= payTime)
+                    {
+                        if (objmodel.RemainingPercentage != 0 && objmodel.RemainingTime != payTime)
+                            objmodel.InfoModel.Add(new Curtailment { CurtailmentId = objmodel.InfoModel.Count + 1 });
+                        ViewBag.ErrorMsg = "";
+                    }
+                    else if (objmodel.RemainingPercentage < 0)
+                    {
+                        ViewBag.ErrorMsg = "Invalid percentage's found!";
+                    }
+                    else if (objmodel.RemainingTime > payTime)
+                    {
+                        ViewBag.ErrorMsg = "Invalid time's found!";
+                    }
+
+                    if (ViewBag.ErrorMsg == "" && objmodel.RemainingPercentage == 0)
+                    {
+                        CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+                        //LoanSetupAccess la = new LoanSetupAccess();
+                        //int loanId = la.getLoanIdByUserId(userId);
+                        List<Curtailment> lstCurtailment = new List<Curtailment>();
+                        foreach (Curtailment curtailment in objmodel.InfoModel)
+                        {
+                            if (curtailment.Percentage != 0 && curtailment.TimePeriod != 0)
+                            {
+                                curtailment.LoanId = _loan.loanId;
+                                lstCurtailment.Add(curtailment);
+                            }
+                        }
+
+                        if (curtailmentAccess.InsertCurtailment(lstCurtailment, "I") == 1)
+                        {
+                            ViewBag.SuccessMsg = "Curtailment Details added successfully";
+                            StepAccess stepAccess = new StepAccess();
+
+                            stepAccess.updateStepNumberByUserId(userId, 11);
+                        }
+                        else
+                        {
+                            ViewBag.SuccessMsg = "Curtailment Details updated successfully";
+                        }
+                        LoanSetupAccess loanAccess = new LoanSetupAccess();
+                        loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+
+                    }
+                    break;
+            }
+            return View(objmodel);
+        }
+
+
     }
 }
 
