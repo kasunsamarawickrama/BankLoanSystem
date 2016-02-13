@@ -202,7 +202,14 @@
 
     $(document).ready(function () {
 
-
+        
+            $('#clear').click(function () {
+                document.getElementsByTagName("form")[0].reset();
+                $('#needTrack').hide();
+                $('#needReceipt').hide();
+                $('#ScannTitle').hide();
+            });  
+        
 
         $.fn.loadFunc = function () {
 
@@ -292,12 +299,7 @@
 
             });
 
-            $('#clear').click(function () {
-
-                document.getElementsByTagName("form")[0].reset();
-
-            });
-
+          
         }
 
         if(@ViewBag.Edit ==1){
