@@ -513,7 +513,7 @@
 
     });
     window.onload = function () {
-        var isEdit = '@ViewBag.isEdit';
+         var isEdit = '@ViewBag.isEdit';
         var model = @Html.Raw(Json.Encode(Model));
 
         if(isEdit == "editable"){
@@ -521,11 +521,11 @@
             if (model.AdvanceAmount > 0) {
                 document.getElementById("dropDownAdvance").value = "1";
                 if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
-                    
+                    $("#needReminderAdvance").attr("checked","checked");
                     $("#remindEmailAdvance").show();
                 }
                 else{
-                    
+                    $("#needReminderAdvance").prop("checked", false);
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -540,7 +540,7 @@
                     if(model.AdvanceDueDate == "EOM"){
                         $("#monthAdvance").show();
                     }else{
-                        $("#monthAdvance").show();
+                        $("#monthAdvance").hide();
                     }
                 }
             }
@@ -549,14 +549,18 @@
                 document.getElementById("advanceAmount").value = "";
                 document.getElementById("advanceDue").value = "";
                 document.getElementById("advanceDueDate").value = "";
+                $("#monthAdvance").hide();
                 $('#advance').hide();
+
             }
             if (model.MonthlyLoanAmount > 0) {
                 document.getElementById("dropDownLoan").value = "1";
                 if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
+                    $("#needReminderLoan").attr("checked","checked");
                     $("#remindEmailLoan").show();
                 }
                 else{
+                    $("#needReminderLoan").prop("checked", false);
                     $("#remindEmailLoan").hide();
                 }
 
@@ -569,9 +573,8 @@
                 else{
                     if(model.MonthlyLoanDueDate == "EOM"){
                         $("#monthLoan").show();
-                    }
-                    else{
-                        $("#monthLoan").show();
+                    }else{
+                        $("#monthLoan").hide();
                     }
                 }
             }
@@ -580,14 +583,17 @@
                 document.getElementById("loanAmount").value = "";
                 document.getElementById("loanDue").value = "";
                 document.getElementById("loanDueDate").value = "";
+                $("#remindEmailLoan").hide();
                 $('#loan').hide();
             }
             if (model.LotInspectionAmount > 0) {
                 document.getElementById("dropDownLot").value = "1";
                 if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
+                    $("#needReminderLot").attr("checked","checked");
                     $("#remindEmailLot").show();
                 }
                 else{
+                    $("#needReminderLot").prop("checked", false);
                     $("#remindEmailLot").hide();
                 }
                 $("#monthLot").hide();
@@ -603,7 +609,9 @@
                 document.getElementById("lotAmount").value = "";
                 document.getElementById("lotDue").value = "";
                 document.getElementById("lotDueDate").value = "";
+                $("#remindEmailLot").hide();
                 $('#lot').hide();
+
             }
         }
         else{
@@ -612,6 +620,8 @@
             changeDropDownValueLoan();
             changeDropDownValueLot();
         }
+
+
 
     };
 
@@ -624,11 +634,11 @@
             if (model.AdvanceAmount > 0) {
                 document.getElementById("dropDownAdvance").value = "1";
                 if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
-                    
+                    $("#needReminderAdvance").attr("checked","checked");
                     $("#remindEmailAdvance").show();
                 }
                 else{
-                   
+                    $("#needReminderAdvance").prop("checked", false);
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -643,7 +653,7 @@
                     if(model.AdvanceDueDate == "EOM"){
                         $("#monthAdvance").show();
                     }else{
-                        $("#monthAdvance").show();
+                        $("#monthAdvance").hide();
                     }
                 }
             }
@@ -652,14 +662,18 @@
                 document.getElementById("advanceAmount").value = "";
                 document.getElementById("advanceDue").value = "";
                 document.getElementById("advanceDueDate").value = "";
+                $("#monthAdvance").hide();
                 $('#advance').hide();
+
             }
             if (model.MonthlyLoanAmount > 0) {
                 document.getElementById("dropDownLoan").value = "1";
                 if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
+                    $("#needReminderLoan").attr("checked","checked");
                     $("#remindEmailLoan").show();
                 }
                 else{
+                    $("#needReminderLoan").prop("checked", false);
                     $("#remindEmailLoan").hide();
                 }
 
@@ -673,7 +687,7 @@
                     if(model.MonthlyLoanDueDate == "EOM"){
                         $("#monthLoan").show();
                     }else{
-                        $("#monthLoan").show();
+                        $("#monthLoan").hide();
                     }
                 }
             }
@@ -682,14 +696,17 @@
                 document.getElementById("loanAmount").value = "";
                 document.getElementById("loanDue").value = "";
                 document.getElementById("loanDueDate").value = "";
+                $("#remindEmailLoan").hide();
                 $('#loan').hide();
             }
             if (model.LotInspectionAmount > 0) {
                 document.getElementById("dropDownLot").value = "1";
                 if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
+                    $("#needReminderLot").attr("checked","checked");
                     $("#remindEmailLot").show();
                 }
                 else{
+                    $("#needReminderLot").prop("checked", false);
                     $("#remindEmailLot").hide();
                 }
                 $("#monthLot").hide();
@@ -705,7 +722,9 @@
                 document.getElementById("lotAmount").value = "";
                 document.getElementById("lotDue").value = "";
                 document.getElementById("lotDueDate").value = "";
+                $("#remindEmailLot").hide();
                 $('#lot').hide();
+
             }
         }
         else{
@@ -714,9 +733,6 @@
             changeDropDownValueLoan();
             changeDropDownValueLot();
         }
-
-
-
     }
 
     function changeDropDownValueDueAdvance() {
