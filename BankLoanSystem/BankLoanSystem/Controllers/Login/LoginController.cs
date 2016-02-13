@@ -96,18 +96,22 @@ namespace BankLoanSystem.Controllers
                 if (stepNo < 0) {
                     stepNo = step.checkUserLoginWhileCompanySetup(userId);
                 }
-                Session["stepNo"] = stepNo;
-                int branchId = step.getBranchIdByUserId(userId);
-                if (branchId > 0)
+                if (stepNo > 0)
                 {
-                    Session["branchId"] = branchId;
+                    Session["stepNo"] = stepNo;
+                    int branchId = step.getBranchIdByUserId(userId);
+                    if (branchId > 0)
+                    {
+                        Session["branchId"] = branchId;
+                    }
+                    else
+                    {
+                        Session["branchId"] = 0;
+                    }
+                    return RedirectToAction("Index", "SetupProcess");
                 }
-                else {
-                    Session["branchId"] = 0;
-                }
-                return RedirectToAction("Index","SetupProcess");
-                
-                
+
+                return RedirectToAction("UserDashBoard", "DashBoard");
             }
             else {
 
