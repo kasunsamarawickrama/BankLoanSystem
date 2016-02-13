@@ -241,7 +241,7 @@
                                 <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
                             </li>
                             <li>
-                                <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
+                                <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                             </li>
 
                             @*@if(ViewBag.ErrorMsg == "" && Model.RemainingPercentage == 0)
@@ -273,13 +273,11 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#btnPreStep3').click(function () {
-            alert('aaaa');
+        $('#btnPreStep10').click(function () {
             $('#loadingDiv').show();
             $.ajax({
-                url: '@Url.Action("Step5", "LoanSetUpStep5")',
+                url: '@Url.Action("Step9", "SetupProcess")',
                 type: 'GET',
-                data: { edit: 1 },
 
                 success: function (partialView) {
                     $('#loadingDiv').hide();
