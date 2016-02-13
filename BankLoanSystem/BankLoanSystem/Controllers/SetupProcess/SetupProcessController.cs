@@ -1020,71 +1020,54 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     stepNo = cs.checkUserLoginWhileCompanySetup(userId);
                 }
 
-                if (stepNo >= 5)
+                if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
+                if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
                 {
-                    if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
-                    {
-                        userNonRegCompany = new CompanyBranchModel();
+                    userNonRegCompany = new CompanyBranchModel();
 
-                        userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
-                        userNonRegCompany.MainBranch = new Branch();
-                        if (userNonRegCompany.Company.Extension == null)
-                            userNonRegCompany.Company.Extension = "";
-                    }
-
-                    UserAccess ua = new UserAccess();
-                    User curUser = ua.retreiveUserByUserId(userId);
-
-
-                    ViewBag.CurrUserRoleType = curUser.RoleId;
-                    _curUserRoleId = curUser.RoleId;
-                    _curBranchId = curUser.BranchId;
-
-                    //Get states to list
-                    CompanyAccess ca = new CompanyAccess();
-                    List<State> stateList = ca.GetAllStates();
-                    ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-                    // get all branches
-                    List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-                    ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-
-                    //Get all non reg companies
-                    List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
-                    ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
-
-                    NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-
-                    //Get all non registered branches by company id
-                    List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
-                    nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-
-                    List<NonRegBranch> adminBonRegBranches = new List<NonRegBranch>();
-                    if (curUser.RoleId == 2)
-                    {
-                        for (int i = 0; i < nonRegBranches.Count; i++)
-                        {
-                            if (curUser.BranchId == nonRegBranches[i].BranchId)
-                            {
-                                adminBonRegBranches.Add(nonRegBranches[i]);
-                            }
-                        }
-
-                        nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
-                    }
-
-                    return PartialView(nonRegCompanyBranch);
-
+                    userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
+                    userNonRegCompany.MainBranch = new Branch();
+                    if (userNonRegCompany.Company.Extension == null)
+                        userNonRegCompany.Company.Extension = "";
                 }
-                else
-                {
-                    return new HttpStatusCodeResult(404, "Your Session is Expired");
-                }
+
+                UserAccess ua = new UserAccess();
+                User curUser = ua.retreiveUserByUserId(userId);
+
+
+                ViewBag.CurrUserRoleType = curUser.RoleId;
+                _curUserRoleId = curUser.RoleId;
+                _curBranchId = curUser.BranchId;
+
+                //Get states to list
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                // get all branches
+                List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+                ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+                //Get all non reg companies
+                List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
+                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
+
+                NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
+
+                //Get all non registered branches by company id
+                List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
+                nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+                    
+                if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
+
+                //Select non registered branch for admin's branch
+                var adminBonRegBranches = new List<NonRegBranch>();
+                adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
+                nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+
+                return PartialView(nonRegCompanyBranch);
             }
-            else
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
+            return RedirectToAction("UserLogin", "Login");
         }
 
         /// <summary>
@@ -1093,6 +1076,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Insert Non registered branch details
         /// </summary>
         /// <param name="nonRegCompanyBranch"></param>
+        /// <param name="branchCode"></param>
         /// <returns></returns>
         [HttpPost]
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
