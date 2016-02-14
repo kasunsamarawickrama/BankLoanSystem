@@ -26,10 +26,10 @@
         TFN
     </div>
 </li>
-<li class="active">
+<li class="navig1">
     <a href="#"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> <span class="nav-label">Company Setup</span> <span class="caret arrow" style="margin-top: 5px;"></span></a>
-    <ul class="nav nav-second-level collapse in">
-        <li class="active">
+    <ul class="nav nav-second-level collapse">
+        <li >
             @Ajax.ActionLink("Step 1", "Step1", "SetupProcess", new {edit = 1}, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { data_toggle = "tooltip", title = "Some tooltip text!", @class = "tab 1" })
 
 
@@ -72,7 +72,7 @@
     </ul>
 </li>
 
-<li>
+<li class="navig2">
     <a href="#"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  <span class="nav-label">Loan Setup</span><span class="caret arrow" style="margin-top: 5px;"></span></a>
     <ul class="nav nav-second-level collapse">
         <li>@Ajax.ActionLink("Step 1", "Step6", "SetupProcess", null, new AjaxOptions { OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 6" })</li>
