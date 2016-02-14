@@ -39,8 +39,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId;
             try
             {
-                stepNo = int.Parse(Session["stepNo"].ToString());
+                
                 userId = int.Parse(Session["userId"].ToString());
+                stepNo = (new StepAccess()).getStepNumberByUserId(userId);
             }
             catch (Exception)
             {
@@ -772,9 +773,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId=0;
 
-            
+            if (userrole == 2) { 
             loanId = la.getLoanIdByBranchId(curUser.BranchId);
-            
+            }else if(userrole == 1)
+            {
+                loanId = la.getLoanIdByUserId(userId);
+            }
+
 
 
 
@@ -1199,9 +1204,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
+                loanId = la.getLoanIdByUserId(userId);
+
+                
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 if (loanId > 0)
-                    sa.updateStepNumberByUserId(userId, 7, loanId, loanSetupStep1.RegisteredBranchId);
+                {
+                    sa.updateStepNumberByUserId(userId, sa.getStepNumberByUserId(userId), loanId, loanSetupStep1.RegisteredBranchId);
+                }
             }
 
             Session["branchId"] = loanSetupStep1.RegisteredBranchId;
