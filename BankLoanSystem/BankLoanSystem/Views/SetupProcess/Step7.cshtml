@@ -121,7 +121,7 @@
                 <div id="autoRemind">
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })
+                            @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })<span style="color: red">*</span>
 
                         </div>
 
@@ -143,7 +143,7 @@
 
                         <div class="form-group">
                             <div class="control-label col-sm-2" style="margin-left:15px">
-                                @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })
+                                @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })<span style="color: red">*</span>
 
                             </div>
                             <div class="col-xs-8">

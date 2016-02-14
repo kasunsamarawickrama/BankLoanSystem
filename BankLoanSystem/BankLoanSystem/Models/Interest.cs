@@ -37,9 +37,10 @@ namespace BankLoanSystem.Models
 
         [EmailAddress]
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email Address is required.")]
         public String AutoRemindEmail { get; set; }
 
-
+        [Required(ErrorMessage = "Remind Period is required.")]
         public int RemindPeriod { get; set; }
 
         [Display(Name = "Accrual Method")]
