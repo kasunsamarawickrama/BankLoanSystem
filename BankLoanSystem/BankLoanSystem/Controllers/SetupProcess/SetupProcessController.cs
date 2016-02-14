@@ -1178,14 +1178,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is super admin or admin
             if (new UserManageAccess().getUserRole(userId) > 2)
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404,"You are Not Allowed");
             }
 
             // check if   step is 6...
             StepAccess sa = new StepAccess();
             if (sa.getStepNumberByUserId(userId) < 6)
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
 
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
@@ -1875,7 +1875,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step10()
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404,"Your Session is Expired");
 
             int userId = Convert.ToInt32(Session["userId"]);
             //check user step is valid for this step
@@ -1909,7 +1909,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             //Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
 
             int userId = Convert.ToInt32(Session["userId"]);
 
