@@ -16,15 +16,17 @@
 
         <h2>Step 2 - Interest</h2>
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
-            {
-                OnSuccess = "Progress(8) ; partialLoad() ;",
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
+        {
+
+            //partialLoad ....???
+            OnSuccess = "Progress(8);",
+            OnFailure = "handleErrorMsg",
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "changeContainer",
+            LoadingElementId = "loadingDiv"
+        }, new { id = "form" }))
+        {
 
             @Html.AntiForgeryToken()
 

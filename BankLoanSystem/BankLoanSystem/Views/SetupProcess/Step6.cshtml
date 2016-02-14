@@ -12,7 +12,7 @@
 
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    OnSuccess = "Progress(7) ; partialLoad() ;",
+    OnSuccess = "Progress(7) ;",
     OnFailure = "handleErrorMsg",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
