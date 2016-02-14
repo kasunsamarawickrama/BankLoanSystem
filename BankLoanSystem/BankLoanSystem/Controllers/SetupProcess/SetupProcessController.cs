@@ -1498,7 +1498,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
- 
+
             companyType = 1;
             if (companyType == 1)
             {
@@ -1508,12 +1508,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.isLender = false;
             }
-            Fees fee = new Fees(); 
+            Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
             //check the loan is in a update
             //Session["isEdit"] = false;
-            
+
             var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
 
             if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
@@ -1522,7 +1522,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //Session["isEdit"] = true;
                 hasLoan.LoanId = fee.LoanId;
                 hasLoan.isEdit = true;
-               
+
+                hasLoan.IsAdvanceEmailReminder = false;
+                hasLoan.IsLoanEmailReminder = false;
+                hasLoan.IsLotEmailReminder = false;
+
                 if (hasLoan.AdvanceDueDate == "EOM")
                 {
                     hasLoan.AdvanceRadio = true;
@@ -1535,32 +1539,51 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     hasLoan.LotInspectionRadio = true;
                 }
+                if (hasLoan.AdvanceLenderEmail != "" || hasLoan.AdvanceDealerEmail != "")
+                {
+                    hasLoan.IsAdvanceEmailReminder = true;
+                }
+                if (hasLoan.MonthlyLoanDealerEmail != "" || hasLoan.MonthlyLoanLenderEmail != "")
+                {
+                    hasLoan.IsLoanEmailReminder = true;
+                }
+                if (hasLoan.LotInspectionLenderEmail != "" || hasLoan.LotInspectionDealerEmail != "")
+                {
+                    hasLoan.IsLotEmailReminder = true;
+                }
                 return PartialView(hasLoan);
             }
             else {
                 ViewBag.isEdit = "notEditable";
-            
-                Fees feeUpdate = new Fees();
-            feeUpdate.LoanId = fee.LoanId;
 
-                if (feeUpdate.LoanId > 0)
+                Fees feeNew = new Fees();
+                feeNew.LoanId = fee.LoanId;
+
+                if (feeNew.LoanId > 0)
                 {
-                    feeUpdate.isEdit = false;
-                    var email = loan.getAutoRemindEmailByLoanId(feeUpdate.LoanId);
-                    feeUpdate.MonthlyLoanLenderEmail = email;
-                    feeUpdate.MonthlyLoanDealerEmail = email;
-                    feeUpdate.LotInspectionLenderEmail = email;
-                    feeUpdate.LotInspectionDealerEmail = email;
-                    feeUpdate.AdvanceLenderEmail = email;
-                    feeUpdate.AdvanceDealerEmail = email;
+                    feeNew.isEdit = false;
+                    var email = loan.getAutoRemindEmailByLoanId(feeNew.LoanId);
 
-                return PartialView(feeUpdate);
-            }
+                    feeNew.MonthlyLoanLenderEmail = email;
+                    feeNew.MonthlyLoanDealerEmail = email;
+                    feeNew.LotInspectionLenderEmail = email;
+                    feeNew.LotInspectionDealerEmail = email;
+                    feeNew.AdvanceLenderEmail = email;
+                    feeNew.AdvanceDealerEmail = email;
+
+
+                    feeNew.IsAdvanceEmailReminder = false;
+                    feeNew.IsLoanEmailReminder = false;
+                    feeNew.IsLotEmailReminder = false;
+
+                    return PartialView(feeNew);
+                }
                 else
                 {
-                return RedirectToAction("Step7");
+                    return RedirectToAction("Step7");
+                }
             }
-        }
+
         }
         /// <summary>
         /// CreatedBy :kasun samarawickrama
@@ -1593,7 +1616,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.MonthlyLoanDueDate = "TOA";
             }
-            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio ==true)
+            if (fees.AdvanceDue == "Once a Month" && fees.AdvanceRadio == true)
             {
                 fees.AdvanceDueDate = "EOM";
             }
@@ -1605,17 +1628,41 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.LotInspectionDueDate = "EOM";
             }
+
+            if (fees.IsAdvanceEmailReminder == false)
+            {
+                fees.AdvanceLenderEmail = "";
+                fees.AdvanceLenderEmailRemindPeriod = 0;
+                fees.AdvanceDealerEmail = "";
+                fees.AdvanceDealerEmailRemindPeriod = 0;
+            }
+            if (fees.IsLoanEmailReminder == false)
+            {
+                fees.MonthlyLoanDealerEmail = "";
+                fees.MonthlyLoanLenderEmail = "";
+                fees.MonthlyLoanDealerEmailRemindPeriod = 0;
+                fees.MonthlyLoanLenderEmailRemindPeriod = 0;
+            }
+            if (fees.IsLotEmailReminder == false)
+            {
+                fees.LotInspectionLenderEmail = "";
+                fees.LotInspectionDealerEmail = "";
+                fees.LotInspectionLenderEmailRemindPeriod = 0;
+                fees.LotInspectionDealerEmailRemindPeriod = 0;
+            }
+
             if (step.InsertFeesDetails(fees))
             {
                 //Session["userId"] = 2;
                 var userId = (int)Session["userId"];
                 var branchId = (int)Session["branchId"];
 
-                if (fees.isEdit == true) {
+                if (fees.isEdit == true)
+                {
                     //Session["isEdit"] = false;
                     return RedirectToAction("Step9");
                 }
-                else if(step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
+                else if (step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
                 {
                     return RedirectToAction("Step9");
                 }
@@ -1628,6 +1675,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("Step8");
             }
+
         }
 
         /// <summary>

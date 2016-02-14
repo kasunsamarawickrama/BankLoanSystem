@@ -110,7 +110,7 @@
                             <div class="form-group">
                                 <div>
                                     <div class="col-xs-8">
-                                        @Html.CheckBoxFor(model => model.AdvanceRadio, new { @id = "endMonthAdvance", htmlAttributes = new {  Value = false } })  End of Month
+                                        @Html.CheckBoxFor(model => model.AdvanceRadio, new { @id = "endMonthAdvance", htmlAttributes = new { Value = false } })  End of Month
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                                 @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
                             </div>
                             <div class="control-label col-sm-2">
-                                @Html.CheckBox("NeedReminder", new { @id = "needReminderAdvance", htmlAttributes = new { Value = false } })
+                                @Html.CheckBoxFor(model => model.IsAdvanceEmailReminder, new { @id = "needReminderAdvance", htmlAttributes = new { Value = false } })
                             </div>
                         </div>
                         <div id="remindEmailAdvance">
@@ -272,7 +272,7 @@
                                 @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
                             </div>
                             <div class="control-label col-sm-2">
-                                @Html.CheckBox("NeedReminder", new { @id = "needReminderLoan", htmlAttributes = new { Value = false } })
+                                @Html.CheckBoxFor(model => model.IsLoanEmailReminder, new { @id = "needReminderLoan", htmlAttributes = new { Value = false } })
                             </div>
                         </div>
                         <div id="remindEmailLoan">
@@ -413,7 +413,7 @@
                                 @Html.Label("Do you need an auto reminder?", htmlAttributes: new { })
                             </div>
                             <div class="control-label col-sm-2">
-                                @Html.CheckBox("NeedReminder", new { @id = "needReminderLot", htmlAttributes = new { Value = false } })
+                                @Html.CheckBoxFor(model => model.IsLotEmailReminder, new { @id = "needReminderLot", htmlAttributes = new { Value = false } })
                             </div>
                         </div>
                         <div id="remindEmailLot">
@@ -529,12 +529,10 @@
                     $('#advanceDueDate').show();
                 }
 
-                if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
-                    $("#needReminderAdvance").attr("checked","checked");
+                if(model.IsAdvanceEmailReminder == true){
                     $("#remindEmailAdvance").show();
                 }
                 else{
-                    $("#needReminderAdvance").prop("checked", false);
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -548,8 +546,6 @@
                 else{
                     if(model.AdvanceDueDate == "EOM"){
                         $("#monthAdvance").show();
-                    }else{
-                        $("#monthAdvance").hide();
                     }
                 }
             }
@@ -570,26 +566,24 @@
                     $('#loanDueDate').show();
                 }
 
-                if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
-                    $("#needReminderLoan").attr("checked","checked");
+                if(model.IsLoanEmailReminder == true ){
                     $("#remindEmailLoan").show();
                 }
                 else{
-                    $("#needReminderLoan").prop("checked", false);
                     $("#remindEmailLoan").hide();
                 }
 
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
+                    $("#monthLoan").hide();
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
+                    $("#monthLoan").hide();
                 }
                 else{
                     if(model.MonthlyLoanDueDate == "EOM"){
                         $("#monthLoan").show();
-                    }else{
-                        $("#monthLoan").hide();
                     }
                 }
             }
@@ -609,21 +603,13 @@
                     $('#lotDueDate').show();
                 }
 
-                if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
-                    $("#needReminderLot").attr("checked","checked");
+                if(model.IsLotEmailReminder == true ){
                     $("#remindEmailLot").show();
                 }
                 else{
-                    $("#needReminderLot").prop("checked", false);
                     $("#remindEmailLot").hide();
                 }
-                $("#monthLot").hide();
-                if(model.MonthlyLoanDueDate == "EOM"){
-                    $("#monthLot").show();
-                }
-                else{
-                    $("#monthLot").show();
-                }
+                $("#monthLot").show();
             }
             if(model.LotInspectionAmount <= 0){
                 document.getElementById("dropDownLot").value = "0";
@@ -644,7 +630,6 @@
             changeDropDownValueLoan();
             changeDropDownValueLot();
         }
-
     };
 
     function partialLoad() {
@@ -661,12 +646,10 @@
                     $('#advanceDueDate').show();
                 }
 
-                if(model.AdvanceDealerEmail != "" || model.AdvanceLenderEmail != "" ){
-                    $("#needReminderAdvance").attr("checked","checked");
+                if(model.IsAdvanceEmailReminder == true){
                     $("#remindEmailAdvance").show();
                 }
                 else{
-                    $("#needReminderAdvance").prop("checked", false);
                     $("#remindEmailAdvance").hide();
                 }
                 if (model.AdvanceDueDate == "VP") {
@@ -680,8 +663,6 @@
                 else{
                     if(model.AdvanceDueDate == "EOM"){
                         $("#monthAdvance").show();
-                    }else{
-                        $("#monthAdvance").hide();
                     }
                 }
             }
@@ -702,26 +683,24 @@
                     $('#loanDueDate').show();
                 }
 
-                if(model.MonthlyLoanLenderEmail != "" || model.MonthlyLoanDealerEmail != "" ){
-                    $("#needReminderLoan").attr("checked","checked");
+                if(model.IsLoanEmailReminder == true ){
                     $("#remindEmailLoan").show();
                 }
                 else{
-                    $("#needReminderLoan").prop("checked", false);
                     $("#remindEmailLoan").hide();
                 }
 
                 if (model.MonthlyLoanDueDate == "VP") {
                     document.getElementById("loanDue").value = "Vehicle Payoff";
+                    $("#monthLoan").hide();
                 }
                 else if (model.MonthlyLoanDueDate == "TOA") {
                     document.getElementById("loanDue").value = "Time of Advance";
+                    $("#monthLoan").hide();
                 }
                 else{
                     if(model.MonthlyLoanDueDate == "EOM"){
                         $("#monthLoan").show();
-                    }else{
-                        $("#monthLoan").hide();
                     }
                 }
             }
@@ -741,21 +720,13 @@
                     $('#lotDueDate').show();
                 }
 
-                if(model.LotInspectionDealerEmail != "" || model.LotInspectionLenderEmail != "" ){
-                    $("#needReminderLot").attr("checked","checked");
+                if(model.IsLotEmailReminder == true ){
                     $("#remindEmailLot").show();
                 }
                 else{
-                    $("#needReminderLot").prop("checked", false);
                     $("#remindEmailLot").hide();
                 }
-                $("#monthLot").hide();
-                if(model.MonthlyLoanDueDate == "EOM"){
-                    $("#monthLot").show();
-                }
-                else{
-                    $("#monthLot").show();
-                }
+                $("#monthLot").show();
             }
             if(model.LotInspectionAmount <= 0){
                 document.getElementById("dropDownLot").value = "0";
@@ -883,7 +854,6 @@
         changeDropDownValueLot();
 
     });
-    partialLoad();
 
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     skipProgress(8);
