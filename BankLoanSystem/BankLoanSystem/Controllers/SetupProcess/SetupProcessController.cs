@@ -1255,7 +1255,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
                 dashBoardModel.userId = id;
-                dashBoardModel.userName = (new UserAccess()).retreiveUserByUserId(id).UserName;
+                dashBoardModel.userName = (new UserManageAccess()).getUserNameById(id);
                 dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
                 dashBoardModel.levelId = userLevelId;
                 return PartialView(dashBoardModel);
