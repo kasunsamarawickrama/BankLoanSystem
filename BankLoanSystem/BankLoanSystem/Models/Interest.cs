@@ -31,6 +31,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Payment Period is required.")]
         public String PaymentPeriod { get; set; }
 
+        [Required(ErrorMessage = "Payment Date is required.")]
         public String option { get; set; }
 
         public bool NeedReminder { get; set; }

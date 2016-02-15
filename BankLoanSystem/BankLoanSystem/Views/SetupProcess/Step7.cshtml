@@ -18,8 +18,8 @@
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
         {
 
-            //partialLoad ....???
-            OnSuccess = "Progress(8); partialLoad();",
+            
+            OnSuccess = "Progress(8);",
             OnFailure = "handleErrorMsg",
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace,
@@ -71,7 +71,7 @@
                     </div>
                     
                    
-
+                    @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
                     @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
 
                 </div>
