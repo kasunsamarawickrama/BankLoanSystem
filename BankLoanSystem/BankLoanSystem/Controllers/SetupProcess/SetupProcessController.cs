@@ -1502,7 +1502,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
 
-            companyType = 1;
+            //companyType = 1;
             if (companyType == 1)
             {
                 ViewBag.isLender = true;
