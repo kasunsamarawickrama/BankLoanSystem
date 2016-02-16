@@ -55,6 +55,12 @@
         function globalProgress(step) {
             global = step;
         }
+        function skipProgress(step) {
+            if (global < step) {
+                gloal = step;
+                Progress(step);
+            }
+        }
 
         function Progress(step) {
             if (global > step)
@@ -66,6 +72,12 @@
                 if(i==step){
                     $(tab).append("<span style='float:right;color:yellow'>&#x270E;  </span>");
                     $(tab).parent("li").addClass("active").siblings().removeClass('active');
+                    if (i >= 6) {
+                        $(".navig1").removeClass('active').children("ul").removeClass('in');
+                        $(".navig2").addClass("active").children("ul").addClass('in');
+                    } else {
+                        $(".navig1").addClass("active");
+                    }
                 } else {
                     $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
                 }
@@ -406,6 +418,7 @@
             $(".tab").click(function () {
 
                 $(this).parent("li").addClass("active").siblings().removeClass('active');
+                $(this).parent("li").parent("ul").parent("li").siblings("li").children("ul").children("li").removeClass('active');
             });
         </script>
         <div id="page-wrapper" class="gray-bg sidebar-content" style="min-height: 1199px;">

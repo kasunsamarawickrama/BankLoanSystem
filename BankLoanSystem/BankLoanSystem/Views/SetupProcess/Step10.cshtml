@@ -72,7 +72,7 @@
                             <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
                             <td width="60%">
                                 : @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment" }) Full payment
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "radioAdvance" }) Advance Fee
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "radioAdvance" }) Advance
                             </td>
                         </tr>
                     </table>
@@ -237,9 +237,9 @@
                         <ul class="pager">
 
 
-                            <li>
+                            @*<li>
                                 <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
-                            </li>
+                            </li>*@
                             <li>
                                 <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                             </li>
@@ -292,11 +292,6 @@
             });
         });
     });
-
-    $('#clear').click(function () {
-        alert('hi');
-        document.getElementsByTagName("form")[0].reset();
-    });
 </script>
 
 <script type="text/javascript">
@@ -343,11 +338,11 @@
         }
     });
 
-    $('#clear').click(function () {
+    //$('#clear').click(function () {
 
-        document.getElementsByTagName("form")[0].reset();
+    //    document.getElementsByTagName("form")[0].reset();
 
-    });
+    //});
 
     //$('input[name=submit]').click(function () {
     //    var test = document.getElementById("rdMonth").value;

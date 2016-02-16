@@ -12,7 +12,7 @@
 
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    OnSuccess = "Progress(7)",
+    OnSuccess = "Progress(7) ;",
     OnFailure = "handleErrorMsg",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
@@ -389,9 +389,25 @@
                 $("#radio-" + i).prop("checked", false);
                 $("#radio-" + i).hide();
                 $("#radioStyle-" + i).hide();
-                
-}
+
+            }
         }
+
+        @if(Model.autoReminderEmail == null || Model.autoReminderEmail == "")
+        {
+
+             <text>$("#AutoEmail").val("");</text>
+            <text>$("#AutoReminderEmail").hide();</text>
+            <text>$("#emailPeriod").val("0");</text>
+        <text>$("#errorAutoEmail").text("");</text>
+
+        }
+        else
+        {
+             <text>$('#autoRem').val("true");</text>
+        <text> showAutoReminderEmail("true");</text>
+        }
+
 
     });
 </script>

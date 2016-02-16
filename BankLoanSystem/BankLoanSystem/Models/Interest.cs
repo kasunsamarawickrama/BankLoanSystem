@@ -31,18 +31,21 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Payment Period is required.")]
         public String PaymentPeriod { get; set; }
 
+        [Required(ErrorMessage = "Payment Date is required.")]
         public String option { get; set; }
 
         public bool NeedReminder { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email Address is required.")]
         public String AutoRemindEmail { get; set; }
 
-
+        [Required(ErrorMessage = "Remind Period is required.")]
         public int RemindPeriod { get; set; }
 
         [Display(Name = "Accrual Method")]
+        [Required(ErrorMessage = "Accrual Method is required.")]
         public int AccrualMethodId { get; set; }
 
         public int LoanId { get; set; }

@@ -24,11 +24,14 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Advance Due Date is required.")]
         [Display(Name = "Due Date")]
         public string AdvanceDueDate { get; set; }
-        public string AdvanceRadio { get; set; }
+        public bool AdvanceRadio { get; set; }
+        public bool IsAdvanceEmailReminder { get; set; }
+        [EmailAddress]
         [Display(Name = "Lender Email")]
         public string AdvanceLenderEmail { get; set; }
         [Display(Name = "Email Remind Period")]
         public int AdvanceLenderEmailRemindPeriod { get; set; }
+        [EmailAddress]
         [Display(Name = "Dealer Email")]
         public string AdvanceDealerEmail { get; set; }
         [Display(Name = "Email Remind Period")]
@@ -45,12 +48,15 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Loan Due Type is required.")]
         [Display(Name = "Due Type")]
         public string MonthlyLoanDue { get; set; }
-        public string MonthlyLoanRadio { get; set; }
+        public bool MonthlyLoanRadio { get; set; }
         [Required(ErrorMessage = "Loan Due Date is required.")]
         [Display(Name = "Due Date")]
         public string MonthlyLoanDueDate { get; set; }
+        public bool IsLoanEmailReminder { get; set; }
+        [EmailAddress]
         [Display(Name = "Lender Email")]
         public string MonthlyLoanLenderEmail { get; set; }
+        [EmailAddress]
         [Display(Name = "Dealer Email")]
         public string MonthlyLoanDealerEmail { get; set; }
         [Display(Name = "Email Remind Period")]
@@ -70,17 +76,23 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Lot Due Type is required.")]
         [Display(Name = "Due Type")]
         public string LotInspectionDue { get; set; }
+        public bool LotInspectionRadio { get; set; }
         [Required(ErrorMessage = "Lot Due Date is required.")]
         [Display(Name = "Due Date")]
         public string LotInspectionDueDate { get; set; }
+        public bool IsLotEmailReminder { get; set; }
+        [EmailAddress]
         [Display(Name = "Lender Email")]
         public string LotInspectionLenderEmail { get; set; }
+        [EmailAddress]
         [Display(Name = "Dealer Email")]
         public string LotInspectionDealerEmail { get; set; }
         [Display(Name = "Email Remind Period")]
         public int LotInspectionLenderEmailRemindPeriod { get; set; }
         [Display(Name = "Email Remind Period")]
         public int LotInspectionDealerEmailRemindPeriod { get; set; }
+
+        public bool isEdit { get; set; }
 
     }
 }

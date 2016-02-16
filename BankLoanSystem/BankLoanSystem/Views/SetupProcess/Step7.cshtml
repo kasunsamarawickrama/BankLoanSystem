@@ -16,15 +16,17 @@
 
         <h2>Step 2 - Interest</h2>
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
-            {
-                OnSuccess = "Progress(8)",
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
+        {
+
+            
+            OnSuccess = "Progress(8);",
+            OnFailure = "handleErrorMsg",
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "changeContainer",
+            LoadingElementId = "loadingDiv"
+        }, new { id = "form" }))
+        {
 
             @Html.AntiForgeryToken()
 
@@ -69,7 +71,7 @@
                     </div>
                     
                    
-
+                    @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
                     @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
 
                 </div>
@@ -119,7 +121,7 @@
                 <div id="autoRemind">
                     <div class="form-group">
                         <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })
+                            @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })<span style="color: red">*</span>
 
                         </div>
 
@@ -141,7 +143,7 @@
 
                         <div class="form-group">
                             <div class="control-label col-sm-2" style="margin-left:15px">
-                                @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })
+                                @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })<span style="color: red">*</span>
 
                             </div>
                             <div class="col-xs-8">
@@ -170,7 +172,7 @@
                                     <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                 </li>
                                 <li>
-                                    <input type="submit" value="Back" id="backStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                    <input type="button" value="Back" id="btnPreStep7" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
                                 </li>
                                 <li>
                                     <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
@@ -242,7 +244,7 @@
 
     //Back Button
     $(function () {
-        $('#backStep7').click(function () {
+        $('#btnPreStep7').click(function () {
 
             $('#loadingDiv').show();
             $.ajax({

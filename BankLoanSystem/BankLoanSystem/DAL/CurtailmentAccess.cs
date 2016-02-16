@@ -47,7 +47,7 @@ namespace BankLoanSystem.DAL
                             Curtailment curtailment = new Curtailment();
                             curtailment.CurtailmentId = int.Parse(reader["curtailment_id"].ToString());
                             curtailment.LoanId = int.Parse(reader["loan_id"].ToString());
-                            curtailment.TimePeriod =Convert.ToInt32(reader["time_period"]);
+                            curtailment.TimePeriod = Convert.ToInt32(reader["time_period"]);
                             curtailment.Percentage = float.Parse(reader["percentage"].ToString());
                             lstCurtailment.Add(curtailment);
 
