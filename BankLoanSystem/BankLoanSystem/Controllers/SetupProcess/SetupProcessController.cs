@@ -1956,8 +1956,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             CurtailmentModel obj = new CurtailmentModel();
             obj.RemainingPercentage = _loan.advancePercentage;
+                obj.Month = _loan.payOffPeriod.ToString() + " " + (_loan.payOffPeriodType == 0 ? "Months" : "Days");
+                obj.TimeBase = (_loan.payOffPeriodType == 0 ? "Month" : "Day");
 
-            obj.InfoModel = new List<Curtailment>();
+                obj.InfoModel = new List<Curtailment>();
                 List<Curtailment> curtailments = new List<Curtailment>();
 
                 curtailments = curAccess.retreiveCurtailmentByLoanId(loanId);
@@ -1971,7 +1973,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     for (int i = 0; i < curtailments.Count; i++)
                     {
                         curId++;
-                        totalPercentage += curtailments[i].Percentage;
+                        totalPercentage += curtailments[i].Percentage;                       
                         obj.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
                 }
