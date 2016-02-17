@@ -14,9 +14,11 @@ namespace BankLoanSystem.Models
         public string RemindEmail { get; set; }
 
         [Display(Name = "Physically required")]
+        [Required(ErrorMessage = "Receipt required method is required.")]
         public bool NeedPyhsical { get; set; }
 
         [Display(Name = "Need a scan copy")]
+        [Required(ErrorMessage = "Receipt required method is required.")]
         public bool NeedScanCopy { get; set; }
 
 
