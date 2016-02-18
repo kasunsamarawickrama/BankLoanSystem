@@ -62,15 +62,7 @@ namespace BankLoanSystem.DAL
                                 obj1.ReceiptRequiredMethod = reader["receipt_required_method"].ToString();
                             }
 
-                            if (obj1.ReceiptRequiredMethod.Contains("physically"))
-                            {
-                                obj1.NeedPyhsical = true;
-                            }
-                            if (obj1.ReceiptRequiredMethod.Contains("scan copy"))
-                            {
-                                obj1.NeedScanCopy = true;
-                            }
-                            
+                           
 
 
                         }

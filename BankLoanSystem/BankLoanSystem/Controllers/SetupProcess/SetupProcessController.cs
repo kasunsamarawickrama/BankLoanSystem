@@ -771,8 +771,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
 
-            
-          
+
+
 
 
             // retrieve registered branches, nonregistered branches using his company Id
@@ -840,7 +840,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     }
                 }
-                
+
 
 
                 ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
@@ -897,7 +897,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             }
 
-           
+
 
 
             return PartialView(loanSetupStep1);
@@ -1384,8 +1384,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             listdates.Add(new SelectListItem
             {
-                Text = "End of the month",
-                Value = "End of the month"
+                Text = "EOM",
+                Value = "EOM"
             });
 
 
@@ -1523,7 +1523,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
 
-            companyType = 1;
+            //companyType = 1;
             if (companyType == 1)
             {
                 ViewBag.isLender = true;
@@ -1764,6 +1764,28 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Text = "at any time",
                 Value = "at any time"
             });
+
+            //Receipt required methods
+            List<SelectListItem> receiptRequiredMethodList = new List<SelectListItem>();
+
+            receiptRequiredMethodList.Add(new SelectListItem
+            {
+                Text = "physically",
+                Value = "physically"
+            });
+
+
+            receiptRequiredMethodList.Add(new SelectListItem
+            {
+                Text = "scan copy",
+                Value = "scan copy"
+            });
+
+            receiptRequiredMethodList.Add(new SelectListItem
+            {
+                Text = "physically and scan copy",
+                Value = "physically and scan copy"
+            });
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -1782,7 +1804,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         //title = ta.getTitleDetails(loanId);
                         ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
                         ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
-
+                        ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
                         ViewBag.DefaultEmail = titleObj.RemindEmail;
                         return PartialView(titleObj);
                     }
@@ -1792,7 +1814,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.Edit = 0;
                         ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
                         ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
-
+                        ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
 
                         ViewBag.Email = defaultEmail;
@@ -1828,18 +1850,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int branchId = int.Parse(Session["branchId"].ToString());
             //int loanId = 1;
 
-            if (title.NeedPyhsical && title.NeedScanCopy)
-            {
-                title.ReceiptRequiredMethod = "physically and scan copy";
-            }
-            else if (title.NeedPyhsical)
-            {
-                title.ReceiptRequiredMethod = "physically";
-            }
-            else if (title.NeedScanCopy)
-            {
-                title.ReceiptRequiredMethod = "scan copy";
-            }
+           
             TitleAccess ta = new TitleAccess();
             LoanSetupAccess la = new LoanSetupAccess();
             StepAccess sa = new StepAccess();
@@ -1977,6 +1988,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 CurtailmentModel obj = new CurtailmentModel();
                 obj.RemainingPercentage = _loan.advancePercentage;
+                obj.Month = _loan.payOffPeriod.ToString() + " " + (_loan.payOffPeriodType == 0 ? "Months" : "Days");
+                obj.TimeBase = (_loan.payOffPeriodType == 0 ? "Month" : "Day");
 
                 obj.InfoModel = new List<Curtailment>();
                 List<Curtailment> curtailments = new List<Curtailment>();
