@@ -36,5 +36,7 @@ namespace BankLoanSystem.Models
         public string ReceiptRequiredMethod { get; set; }
 
         public int LoanId { get; set; }
+        [Display(Name = "Need to select at least one method ")]
+        public string ErrorMessage { get; set; }
     }
 }
