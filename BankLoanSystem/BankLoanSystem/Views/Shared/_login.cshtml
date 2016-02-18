@@ -4,35 +4,99 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - TFN Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/message.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/font-awesome.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/animate.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+  
 
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 </head>
 
-<body class="green-bg">
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
-            
+
+
+<body>
+
+    <div class="container">
+        <div class="login-container">
 
             @RenderBody()
-            <p class="m-t"> <small>The Future Net Customized Solution © 2016</small> </p>
-        </div>
-    </div>
-
-    <!-- Mainly scripts -->
+        </div><!-- / login container -->
+    </div> <!-- /container -->
+    <p class="text-center"> <small>The Future Net Customized Solution © 2016</small> </p>
 
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/jquery-2.1.1.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <style>
+        .login-container {
+            max-width: 400px;
+            z-index: 100;
+            margin: 0 auto;
+            padding-top: 60px;
+            padding-right: 30px;
+            padding-left: 30px;
+            padding-bottom: 30px;
+            text-align: center;
+            font-family: "Segoe UI",Arial,sans-serif;
+        }
+
+        .login-button {
+            margin-bottom: 10px;
+        }
+
+        .logo-name {
+            font-size: 70px;
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+            .form-signin .form-signin-heading {
+                margin-bottom: 10px;
+            }
+
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                margin-top: 10px;
+            }
+    </style>
+
 </body>
+
+
 
 </html>
 
