@@ -725,6 +725,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6()
         {
             int userId;
+            // if Session is expired throw an error
             try
             {
                 userId = int.Parse(Session["userId"].ToString());
@@ -733,19 +734,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
+
+            //getting user role
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(userId);
 
             UserManageAccess uma = new UserManageAccess();
             int userrole = curUser.RoleId;
 
-            // check he is super admin or admin
+            // if he is a user throw a error
             if (userrole == 3)
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(404,"You are not Allowed");
             }
 
-            // check if   step is 6...
+            // check if step is less than 6, not allowed to this page...
             StepAccess sa = new StepAccess();
             int stepNo = sa.getStepNumberByUserId(userId);
             if (stepNo < 0)
@@ -759,17 +762,37 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
 
-
+            // get the Role Name for front end view
             ViewBag.userroleName = uma.getUserRoleName(userId);
 
             BranchAccess ba = new BranchAccess();
 
-
+            // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
 
-            //
+            
+          
 
+
+            // retrieve registered branches, nonregistered branches using his company Id
+
+            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+
+            // get the payments method for front End View
+            List<string> paymentMethods = new List<string>();
+            paymentMethods.Add("Auto Deduct/Deposit");
+            paymentMethods.Add("Invoice/Check");
+            ViewBag.paymentMethods = paymentMethods;
+
+
+            // Defaul loan setup form and default dates
+            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
+            loanSetupStep1.startDate = DateTime.Today;
+            loanSetupStep1.maturityDate = DateTime.Today.AddYears(10);
+
+            // get loan Id for each user
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = 0;
 
@@ -783,36 +806,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
 
-
-
-            // retrive registered branches
-
-            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
-
-            List<string> paymentMethods = new List<string>();
-            paymentMethods.Add("Auto Deduct/Deposit");
-            paymentMethods.Add("Invoice/Check");
-            ViewBag.paymentMethods = paymentMethods;
-
-
-
-            LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
-            loanSetupStep1.startDate = DateTime.Today;
-            loanSetupStep1.maturityDate = DateTime.Today;
-
+            // if loan number exists get the loan details
             if (loanId > 0)
             {
                 loanSetupStep1 = la.GetLoanStepOne(loanId);
             }
 
-
-
-
             if (userrole == 2)
             {
+                // if user is a admin, his branch id is registerd branch id
+                loanSetupStep1.RegisteredBranchId = curUser.BranchId;
 
-
+                // the get registered branch detail from the company branches list
                 foreach (Branch branch in RegisteredBranchLists)
                 {
                     if (branch.BranchId == curUser.BranchId)
@@ -824,6 +829,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 var newNonRegList = new List<Branch>();
 
+                // the get non registered branches details for perticular branch  from the non registeres branches list
                 foreach (NonRegBranch branch in NonRegisteredBranchLists)
                 {
                     if (branch.BranchId == curUser.BranchId)
@@ -834,14 +840,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     }
                 }
+                
 
 
                 ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
 
 
             }
+            // if he is a super admin, add all company branches and non registered branches in to the list
             else
             {
+                // if super admin get the branch id of the loan
                 if (loanId > 0)
                 {
                     NonRegBranch nonRegBranch = (new BranchAccess()).getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
@@ -852,6 +861,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.RegisteredBranchId = new SelectList(RegisteredBranchLists, "BranchId", "BranchName");
                 ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "BranchName");
 
+            }
+
+            if (NonRegisteredBranchLists.Count == 1)
+            {
+                loanSetupStep1.nonRegisteredBranchId = NonRegisteredBranchLists[0].NonRegBranchId;
             }
 
 
@@ -883,6 +897,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             }
 
+           
 
 
             return PartialView(loanSetupStep1);
@@ -1178,6 +1193,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return new HttpStatusCodeResult(404, "Pay off period is out of range");
             }
+            if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.autoReminderPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, 0))
+            {
+                
+                return new HttpStatusCodeResult(404, "Auto reminder period is out of range");
+            }
+
             if (!IsAtleastOneSelectUnitType(loanSetupStep1.allUnitTypes))
             {
                 return new HttpStatusCodeResult(404, "Select Atleast One Unit Type");
