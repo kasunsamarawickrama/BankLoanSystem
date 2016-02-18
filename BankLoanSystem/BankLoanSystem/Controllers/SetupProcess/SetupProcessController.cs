@@ -1364,7 +1364,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             listdates.Add(new SelectListItem
             {
                 Text = "EOM",
-                Value = "End of the month"
+                Value = "EOM"
             });
 
 
