@@ -49,30 +49,32 @@
 
                 <div class="form-group">
                     <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
+                        @Html.LabelFor(model => model.option, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "once a month", new { id = "onceMonth" }) Once a month
+                        @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
+                        @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
                     </div>
                     <div id="paidDateDiv">
                         <div class="control-label col-sm-2" style="margin-top:25px">
-                            @Html.Label("Select Paid Date", htmlAttributes: new { })<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownList("PaidDate", null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "paidDate" })
-
+                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate" })
+                            @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
                         </div>
                         
                         
                     </div>
                     
                    
-                    @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
-                    @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
+                    
+                    
 
                 </div>
 
@@ -95,7 +97,7 @@
                         @Html.LabelFor(model => model.AccrualMethodId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-8">
-                        @Html.DropDownList("AccrualMethodId", null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId" })
+                        @Html.DropDownListFor(model => model.AccrualMethodId, null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId" })
                         @Html.ValidationMessageFor(model => model.AccrualMethodId, "", new { @class = "text-danger" })
                     </div>
                 </div>

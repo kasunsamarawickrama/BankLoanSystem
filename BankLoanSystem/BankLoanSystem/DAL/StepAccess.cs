@@ -268,32 +268,33 @@ namespace BankLoanSystem.DAL
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.Add("@advance_fee_amount", SqlDbType.Float).Value = fees.AdvanceAmount;
+                        command.Parameters.Add("@advance_fee_amount", SqlDbType.Decimal).Value = fees.AdvanceAmount;
+                        command.Parameters.Add("@advance_fee_calculate_type", SqlDbType.NVarChar).Value = fees.AdvanceFeeCalculateType;
                         command.Parameters.Add("@advance_receipt", SqlDbType.Bit).Value = fees.AdvanceNeedReceipt;
                         command.Parameters.Add("@advance_payment_due_method", SqlDbType.NVarChar).Value = fees.AdvanceDue;
                         command.Parameters.Add("@advance_payment_due_date", SqlDbType.NVarChar).Value = fees.AdvanceDueDate;
-                        command.Parameters.Add("@advance_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmail;
-                        command.Parameters.Add("@advance_delaer_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceDealerEmailRemindPeriod;
-                        command.Parameters.Add("@advance_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmail;
-                        command.Parameters.Add("@advance_lender_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceLenderEmailRemindPeriod;
+                        command.Parameters.Add("@advance_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.AdvanceFeeDealerEmail;
+                        command.Parameters.Add("@advance_delaer_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceFeeDealerEmailRemindPeriod;
+                        command.Parameters.Add("@advance_due_auto_remind_email", SqlDbType.NVarChar).Value = fees.AdvanceDueEmail;
+                        command.Parameters.Add("@advance_due_auto_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceDueEmailRemindPeriod;
 
-                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.Float).Value = fees.MonthlyLoanAmount;
+                        command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.Decimal).Value = fees.MonthlyLoanAmount;
                         command.Parameters.Add("@monthly_loan_receipt", SqlDbType.Bit).Value = fees.MonthlyLoanNeedReceipt;
                         command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees.MonthlyLoanDue;
                         command.Parameters.Add("@monthly_loan_payment_due_date", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueDate;
-                        command.Parameters.Add("@monthly_loan_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmail;
-                        command.Parameters.Add("@monthly_loan_delaer_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanDealerEmailRemindPeriod;
-                        command.Parameters.Add("@monthly_loan_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmail;
-                        command.Parameters.Add("@monthly_loan_lender_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanLenderEmailRemindPeriod;
+                        command.Parameters.Add("@monthly_loan_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanFeeDealerEmail;
+                        command.Parameters.Add("@monthly_loan_delaer_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanFeeDealerEmailRemindPeriod;
+                        command.Parameters.Add("@monthly_loan_due_auto_remind_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueEmail;
+                        command.Parameters.Add("@monthly_loan_due_auto_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueEmailRemindPeriod;
 
-                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.Float).Value = fees.LotInspectionAmount;
+                        command.Parameters.Add("@lot_inspection_amount", SqlDbType.Decimal).Value = fees.LotInspectionAmount;
                         command.Parameters.Add("@lot_inspection_receipt", SqlDbType.Bit).Value = fees.LotInspectionNeedReceipt;
                         command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees.LotInspectionDue;
                         command.Parameters.Add("@lot_payment_due_date", SqlDbType.NVarChar).Value = fees.LotInspectionDueDate;
-                        command.Parameters.Add("@lot_inspection_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmail;
-                        command.Parameters.Add("@lot_inspection_delaer_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionDealerEmailRemindPeriod;
-                        command.Parameters.Add("@lot_inspection_auto_remind_lender_email", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmail;
-                        command.Parameters.Add("@lot_inspection_lender_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionLenderEmailRemindPeriod;
+                        command.Parameters.Add("@lot_inspection_auto_remind_dealer_email", SqlDbType.NVarChar).Value = fees.LotInspectionFeeDealerEmail;
+                        command.Parameters.Add("@lot_inspection_delaer_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionFeeDealerEmailRemindPeriod;
+                        command.Parameters.Add("@lot_inspection_due_auto_remind_email", SqlDbType.NVarChar).Value = fees.LotInspectionDueEmail;
+                        command.Parameters.Add("@lot_inspection_due_auto_remind_period", SqlDbType.NVarChar).Value = fees.LotInspectionDueEmailRemindPeriod;
 
                         command.Parameters.Add("@loan_id", SqlDbType.Int).Value = fees.LoanId;
 

@@ -12,87 +12,155 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Advance")]
         public int AdvanceId { get; set; }
-        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
+
         [Required(ErrorMessage = "Advance Amount is required.")]
         [Display(Name = "Amount")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         public double AdvanceAmount { get; set; }
+
         [Display(Name = "Recipt for Advance Paid")]
         public bool AdvanceNeedReceipt { get; set; }
+
+        [Required(ErrorMessage = "Advance Fee calculate Type is required.")]
+        [Display(Name = "Advance Fee calculate")]
+        public string AdvanceFeeCalculateType { get; set; }
+
+        public bool IsAdvanceFeeCompleteEmailReminder { get; set; }
+
+        [EmailAddress]
+        [Required(ErrorMessage = "Advance Email is required.")]
+        [Display(Name = "Dealer Email")]
+        public string AdvanceFeeDealerEmail { get; set; }
+
+        [Display(Name = "Email Remind Period")]
+        [Required(ErrorMessage = "Advance Email Remind Period is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int AdvanceFeeDealerEmailRemindPeriod { get; set; }
+
         [Required(ErrorMessage = "Advance Due Type is required.")]
         [Display(Name = "Due Type")]
         public string AdvanceDue { get; set; }
+
         [Required(ErrorMessage = "Advance Due Date is required.")]
         [Display(Name = "Due Date")]
         public string AdvanceDueDate { get; set; }
-        public bool AdvanceRadio { get; set; }
-        public bool IsAdvanceEmailReminder { get; set; }
+
+        public bool IsAdvanceFeeDueEmailReminder { get; set; }
+
         [EmailAddress]
-        [Display(Name = "Lender Email")]
-        public string AdvanceLenderEmail { get; set; }
+        [Required(ErrorMessage = "Remind Email is required.")]
+        [Display(Name = "Remind Email")]
+        public string AdvanceDueEmail { get; set; }
+
         [Display(Name = "Email Remind Period")]
-        public int AdvanceLenderEmailRemindPeriod { get; set; }
-        [EmailAddress]
-        [Display(Name = "Dealer Email")]
-        public string AdvanceDealerEmail { get; set; }
-        [Display(Name = "Email Remind Period")]
-        public int AdvanceDealerEmailRemindPeriod { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        [Required(ErrorMessage = "Email Remind Period is required.")]
+        public int AdvanceDueEmailRemindPeriod { get; set; }
+
+
+        
 
         [Display(Name = "Monthly Loan")]
         public int MonthlyLoanId { get; set; }
-        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
+
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         [Required(ErrorMessage = "Loan Amount is required.")]
         [Display(Name = "Amount")]
         public double MonthlyLoanAmount { get; set; }
+
         [Display(Name = "Recipt for Loan Paid")]
         public bool MonthlyLoanNeedReceipt { get; set; }
+
+        public bool IsLoanFeeCompleteEmailReminder { get; set; }
+
+        [EmailAddress]
+        [Required(ErrorMessage = "Dealer Email is required.")]
+        [Display(Name = "Dealer Email")]
+        public string MonthlyLoanFeeDealerEmail { get; set; }
+
+        [Display(Name = "Email Remind Period")]
+        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int MonthlyLoanFeeDealerEmailRemindPeriod { get; set; }
+
         [Required(ErrorMessage = "Loan Due Type is required.")]
         [Display(Name = "Due Type")]
         public string MonthlyLoanDue { get; set; }
-        public bool MonthlyLoanRadio { get; set; }
+
         [Required(ErrorMessage = "Loan Due Date is required.")]
         [Display(Name = "Due Date")]
         public string MonthlyLoanDueDate { get; set; }
-        public bool IsLoanEmailReminder { get; set; }
+
+        public bool IsLoanFeeDueEmailReminder { get; set; }
+
         [EmailAddress]
-        [Display(Name = "Lender Email")]
-        public string MonthlyLoanLenderEmail { get; set; }
-        [EmailAddress]
-        [Display(Name = "Dealer Email")]
-        public string MonthlyLoanDealerEmail { get; set; }
+        [Required(ErrorMessage = "Remind Email is required.")]
+        [Display(Name = "Remind Email")]
+        public string MonthlyLoanDueEmail { get; set; }
+
         [Display(Name = "Email Remind Period")]
-        public int MonthlyLoanLenderEmailRemindPeriod { get; set; }
-        [Display(Name = "Email Remind Period")]
-        public int MonthlyLoanDealerEmailRemindPeriod { get; set; }
+        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int MonthlyLoanDueEmailRemindPeriod { get; set; }
+
+
 
 
         [Display(Name = "Lot Inspection")]
         public int LotInspectionId { get; set; }
-        [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "Invalid; Maximum 2 Decimal Points.")]
+
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         [Required(ErrorMessage = "Lot Amount is required.")]
         [Display(Name = "Amount")]
         public double LotInspectionAmount { get; set; }
+
         [Display(Name = "Recipt for Lot Inspection Paid")]
         public bool LotInspectionNeedReceipt { get; set; }
+
+        public bool IsLotFeeCompleteEmailReminder { get; set; }
+
+        [EmailAddress]
+        [Required(ErrorMessage = "Dealer Email is required.")]
+        [Display(Name = "Dealer Email")]
+        public string LotInspectionFeeDealerEmail { get; set; }
+
+        [Display(Name = "Email Remind Period")]
+        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int LotInspectionFeeDealerEmailRemindPeriod { get; set; }
+
         [Required(ErrorMessage = "Lot Due Type is required.")]
         [Display(Name = "Due Type")]
         public string LotInspectionDue { get; set; }
-        public bool LotInspectionRadio { get; set; }
+
         [Required(ErrorMessage = "Lot Due Date is required.")]
         [Display(Name = "Due Date")]
         public string LotInspectionDueDate { get; set; }
-        public bool IsLotEmailReminder { get; set; }
+
+        public bool IsLotFeeDueEmailReminder { get; set; }
+
         [EmailAddress]
-        [Display(Name = "Lender Email")]
-        public string LotInspectionLenderEmail { get; set; }
-        [EmailAddress]
-        [Display(Name = "Dealer Email")]
-        public string LotInspectionDealerEmail { get; set; }
+        [Required(ErrorMessage = "Remind Email is required.")]
+        [Display(Name = "Remind Email")]
+        public string LotInspectionDueEmail { get; set; }
+
         [Display(Name = "Email Remind Period")]
-        public int LotInspectionLenderEmailRemindPeriod { get; set; }
-        [Display(Name = "Email Remind Period")]
-        public int LotInspectionDealerEmailRemindPeriod { get; set; }
+        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int LotInspectionDueEmailRemindPeriod { get; set; }
 
         public bool isEdit { get; set; }
+
+
 
     }
 }
