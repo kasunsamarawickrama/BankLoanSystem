@@ -1,14 +1,22 @@
-﻿.middle-box text-center loginscreen animated fadeInDown step {
-        max-width: 700px;
-        width: 700px;
-    }
+﻿
 
-.loginscreen.middle-box{
-    max-width: 700px;
-    width: 700px;
+ .login-container {
+           max-width: 650px;
+    }
+.form-group {
+
+margin-bottom:15px;
 }
 
-.main-container{
+.form-horizontal .control-label {
+text-align: left;
+
+}
+.col-xs-8 {
+    float:right;
+}
+
+/*.login-container{
         margin-left: 10px;
     margin-right: 10px;
     margin-top: 5px;
@@ -16,9 +24,9 @@
     background-color: white;
     padding-top: 40px;
 
-}
+}*/
 
-@keyframes step1 {
+/*@keyframes step1 {
     from   {width: 5%;}
     to  {width: 16%;}
  
@@ -62,11 +70,8 @@
 
 .progress{
     background-color:#9AE2D4;
-}
+}*/
 
-.form-group {
-    margin-bottom: auto;
-}
 
 
 
