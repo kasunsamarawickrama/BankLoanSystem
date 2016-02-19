@@ -7,9 +7,10 @@
 
 <link href="~/Content/steps.css" rel="stylesheet" />
 
-<div class="main-container">
-    <div class="row">
-        <div class="container body-content">
+
+
+
+
             <h2>Sign up</h2>
             @using (Html.BeginForm())
             {
@@ -19,7 +20,7 @@
 
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.UserName, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -30,7 +31,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.FirstName, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -41,7 +42,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.LastName, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -52,7 +53,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.NewEmail, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -63,7 +64,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-4">
                             @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -74,7 +75,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.Password, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -85,7 +86,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
+                        <div class="control-label col-sm-4">
                             @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
 
@@ -119,6 +120,6 @@
                 </div>
             }
 
-        </div>
-    </div>
-</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

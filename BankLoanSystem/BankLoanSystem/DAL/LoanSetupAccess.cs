@@ -368,14 +368,14 @@ namespace BankLoanSystem.DAL
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                        command.Parameters.Add("@advance", SqlDbType.Float).Value = loanSetupStep1.advancePercentage;
+                        command.Parameters.Add("@advance", SqlDbType.Decimal).Value = loanSetupStep1.advancePercentage;
                         // command.Parameters.Add("@advance_receipt", SqlDbType.Bit).Value = loanSetupStep1.allUnitTypes;
                         command.Parameters.Add("@auto_remind_email", SqlDbType.NVarChar).Value = loanSetupStep1.autoReminderEmail;
                         command.Parameters.Add("@auto_remind_period", SqlDbType.Int).Value = loanSetupStep1.autoReminderPeriod;
                         command.Parameters.Add("@default_unit_type", SqlDbType.Int).Value = loanSetupStep1.defaultUnitType;
                         command.Parameters.Add("@is_edit_allowable", SqlDbType.Bit).Value = loanSetupStep1.isEditAllowable;
                         command.Parameters.Add("@is_interest_calculate", SqlDbType.Bit).Value = loanSetupStep1.isInterestCalculate;
-                        command.Parameters.Add("@loan_amount", SqlDbType.Float).Value = loanSetupStep1.loanAmount;
+                        command.Parameters.Add("@loan_amount", SqlDbType.Decimal).Value = loanSetupStep1.loanAmount;
 
                         command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanSetupStep1.loanNumber;
                         command.Parameters.Add("@maturity_date", SqlDbType.DateTime).Value = loanSetupStep1.maturityDate;

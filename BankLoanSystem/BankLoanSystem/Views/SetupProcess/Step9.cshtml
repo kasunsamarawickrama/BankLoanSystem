@@ -107,44 +107,28 @@
                 <div class="form-group">
                     <div class="control-label col-sm-2">
                         @Html.Label("Do you need receipt or invoice for advance?", htmlAttributes: new { })
-
+                      
                     </div>
 
                     <div class="control-label col-sm-2">
 
-                        @Html.CheckBox("IsReceipRequired", new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
+                        @Html.CheckBoxFor(model => model.IsReceipRequired, new { @id = "IsReceipRequired", htmlAttributes = new {  Value = false } })
 
                     </div>
+                    
                 </div>
                 <div id="needReceipt">
                     <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.Label("How do you need receipt or invoice?", htmlAttributes: new { })<span style="color: red">*</span>
-
+                        <div class="control-label col-sm-2" style="margin-top:15px">
+                            @Html.Label("Receipt Required Method", htmlAttributes: new { })<span style="color: red">*</span>
+                            
+                        </div>
+                        <div class="col-xs-8" style="width:65%">
+                            @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select Required Method --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+                            @Html.ValidationMessageFor(model => model.ReceiptRequiredMethod, "", new { @class = "text-danger" })
                         </div>
                         </div>
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-                                
-                                @Html.CheckBoxFor(model => model.NeedPyhsical, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
-                                @Html.ValidationMessageFor(model => model.NeedPyhsical, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="control-label col-sm-2">
-                                @Html.LabelFor(model => model.NeedPyhsical, htmlAttributes: new { @style = "font-weight:normal" })
-
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-
-                                @Html.CheckBoxFor(model => model.NeedScanCopy, new { htmlAttributes = new { @id = "needReceiptCheck", Value = false } })
-                                @Html.ValidationMessageFor(model => model.NeedScanCopy, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="control-label col-sm-2">
-                                @Html.LabelFor(model => model.NeedScanCopy, htmlAttributes: new { @style = "font-weight:normal" })
-
-                            </div>
-                        </div>
+                        
                         
                         
 
@@ -163,7 +147,7 @@
                         <nav>
                             <ul class="pager">
                                 <li>
-                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px"/>
                                 </li>
                                 <li>
                                     <input type="button" value="Back" id="btnPreStep9" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
@@ -206,6 +190,8 @@
             $('#ScannTitle').hide();
         }
     }
+
+  
 </script>
 <script language="javascript" type="text/javascript">
     $('#clear').click(function () {
@@ -256,6 +242,8 @@
 
                 if (this.checked) {
                     $('#needReceipt').show();
+                   
+                   
                 }
 
                 else {
@@ -292,6 +280,8 @@
             if($('#IsReceipRequired').prop('checked')==true){
 
                 $('#needReceipt').show();
+               
+             
             }
             else {
 
@@ -323,6 +313,11 @@
 
                 if (this.checked) {
                     $('#needReceipt').show();
+
+                   
+                  
+                   
+                   
                 }
 
                 else {
@@ -330,6 +325,7 @@
                 }
 
             });
+           
             
           
         }

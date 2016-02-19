@@ -60,7 +60,7 @@ namespace BankLoanSystem.DAL
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add("@interest_rate", SqlDbType.Float).Value = interest.InterestRate;
+                        cmd.Parameters.Add("@interest_rate", SqlDbType.Decimal).Value = interest.InterestRate;
                         cmd.Parameters.Add("@paid_date", SqlDbType.VarChar).Value = interest.PaidDate;
                         cmd.Parameters.Add("@payment_period", SqlDbType.VarChar).Value = interest.PaymentPeriod;
 
