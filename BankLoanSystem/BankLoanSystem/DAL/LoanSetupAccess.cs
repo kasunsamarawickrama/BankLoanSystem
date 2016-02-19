@@ -221,18 +221,19 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read()) {                          
                             fees.AdvanceAmount = double.Parse(reader["advance_fee_amount"].ToString());
+                            fees.AdvanceFeeCalculateType = reader["advance_fee_calculate_type"].ToString();
                             fees.AdvanceNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.AdvanceDue = reader["payment_due_method"].ToString();
                             fees.AdvanceDueDate = reader["payment_due_date"].ToString();
-                            fees.AdvanceDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.AdvanceFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
                             if (reader["delaer_remind_period"] != System.DBNull.Value)
                             {
-                                fees.AdvanceDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                                fees.AdvanceFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
                             }
-                            fees.AdvanceLenderEmail = reader["auto_remind_lender_email"].ToString();
-                            if (reader["lender_remind_period"] != System.DBNull.Value)
+                            fees.AdvanceDueEmail = reader["due_auto_remind_email"].ToString();
+                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
                             {
-                                fees.AdvanceLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                                fees.AdvanceDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
                             }
                             
                         }
@@ -251,15 +252,15 @@ namespace BankLoanSystem.DAL
                             fees.MonthlyLoanNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.MonthlyLoanDue = reader["payment_due_method"].ToString();
                             fees.MonthlyLoanDueDate = reader["payment_due_date"].ToString();
-                            fees.MonthlyLoanDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.MonthlyLoanFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
                             if (reader["delaer_remind_period"] != System.DBNull.Value)
                             {
-                                fees.MonthlyLoanDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                                fees.MonthlyLoanFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
                             }
-                            fees.MonthlyLoanLenderEmail = reader["auto_remind_lender_email"].ToString();
-                            if (reader["lender_remind_period"] != System.DBNull.Value)
+                            fees.MonthlyLoanDueEmail = reader["due_auto_remind_email"].ToString();
+                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
                             {
-                                fees.MonthlyLoanLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                                fees.MonthlyLoanDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
                             }
 
                         }
@@ -278,15 +279,15 @@ namespace BankLoanSystem.DAL
                             fees.LotInspectionNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.LotInspectionDue = reader["payment_due_method"].ToString();
                             fees.LotInspectionDueDate = reader["payment_due_date"].ToString();
-                            fees.LotInspectionDealerEmail = reader["auto_remind_dealer_email"].ToString();
+                            fees.LotInspectionFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
                             if (reader["delaer_remind_period"] != System.DBNull.Value)
                             {
-                                fees.LotInspectionDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
+                                fees.LotInspectionFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
                             }
-                            fees.LotInspectionLenderEmail = reader["auto_remind_lender_email"].ToString();
-                            if (reader["lender_remind_period"] != System.DBNull.Value)
+                            fees.LotInspectionDueEmail = reader["due_auto_remind_email"].ToString();
+                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
                             {
-                                fees.LotInspectionLenderEmailRemindPeriod = int.Parse(reader["lender_remind_period"].ToString());
+                                fees.LotInspectionDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
                         }
                         }
                         reader.Close();
