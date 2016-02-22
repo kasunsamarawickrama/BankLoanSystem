@@ -48,7 +48,7 @@ namespace BankLoanSystem.DAL
                             curtailment.CurtailmentId = int.Parse(reader["curtailment_id"].ToString());
                             curtailment.LoanId = int.Parse(reader["loan_id"].ToString());
                             curtailment.TimePeriod = Convert.ToInt32(reader["time_period"]);
-                            curtailment.Percentage = float.Parse(reader["percentage"].ToString());
+                            curtailment.Percentage = Convert.ToInt32(reader["percentage"].ToString());
                             lstCurtailment.Add(curtailment);
 
                         }
@@ -172,6 +172,12 @@ namespace BankLoanSystem.DAL
                             loan.maturityDate = Convert.ToDateTime(reader["maturity_date"]);
                             loan.loanAmount = Convert.ToDecimal(reader["loan_amount"]);
                             loan.advancePercentage = Convert.ToInt32(reader["advance"]);
+
+                            //0 - day, 1 - month
+                            if (reader["pay_off_type"].ToString() == "d")
+                                loan.payOffPeriodType = 0;
+                            loan.payOffPeriodType = 1;
+                            loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
                         }
                     }
                 }
