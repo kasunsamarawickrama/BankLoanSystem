@@ -1529,7 +1529,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.isLender = false;
             }
-            Fees fee = new Fees(); 
+            Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
             fee.LoanId = loan.getLoanIdByUserId(userId);
 
@@ -1575,7 +1575,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else {
                 ViewBag.isEdit = "notEditable";
-            
+
                 Fees feeNew = new Fees();
                 feeNew.LoanId = fee.LoanId;
 
@@ -1596,12 +1596,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     hasLoan.IsLoanFeeDueEmailReminder = false;
 
                     return PartialView(feeNew);
-            }
+                }
                 else
                 {
-                return RedirectToAction("Step7");
+                    return RedirectToAction("Step7");
+                }
             }
-        }
 
         }
         /// <summary>

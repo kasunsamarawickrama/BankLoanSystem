@@ -61,7 +61,7 @@ namespace BankLoanSystem.Models
         public int AdvanceDueEmailRemindPeriod { get; set; }
 
 
-        
+
 
         [Display(Name = "Monthly Loan")]
         public int MonthlyLoanId { get; set; }
