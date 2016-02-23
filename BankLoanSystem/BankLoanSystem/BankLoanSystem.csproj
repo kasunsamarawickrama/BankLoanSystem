@@ -227,6 +227,7 @@
     <Compile Include="DAL\RoleAccess.cs" />
     <Compile Include="DAL\StepAccess.cs" />
     <Compile Include="DAL\TitleAccess.cs" />
+    <Compile Include="DAL\UnitAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
@@ -312,6 +313,8 @@
     <Content Include="Views\SetupProcess\Step6.cshtml" />
     <Content Include="Views\SetupProcess\Step10.cshtml" />
     <Content Include="Views\LoanSetUpStep5\Step5.cshtml" />
+    <Content Include="Views\AddUnit\Unit.cshtml" />
+    <Content Include="Views\Shared\_UnitAdvance.cshtml" />
     <Content Include="Views\Unit\AddUnit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
