@@ -5,7 +5,7 @@ namespace BankLoanSystem.Models
 {
     public class Unit
     {
-    public String UnitId { get; set; }
+    public string UnitId { get; set; }
 
         [Required(ErrorMessage = "Vehicle Identification Number is required.")]
         public string IdentificationNumber { get; set; }
