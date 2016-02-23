@@ -36,7 +36,7 @@ namespace BankLoanSystem.DAL
                         {
                             Unit unitDetails = new Unit()
                             {
-                                UnitId = reader["unit_id"].ToString(),
+                                UnitId = Convert.ToInt32(reader["unit_id"].ToString()),
                                 CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
                                 IdentificationNumber = reader["identification_number"].ToString(),
                                 Year = Convert.ToInt32(reader["year"].ToString()),
@@ -75,10 +75,12 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         /// <param name="unitList"></param>
         /// <returns>true/false</returns>
-        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
         {
-            int countVal = 0;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            bool result = false;
+            if (unitList.Count > 0)
+            {
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
             
                     
@@ -105,14 +107,23 @@ namespace BankLoanSystem.DAL
                                 returnParameter.Direction = ParameterDirection.ReturnValue;
                                 cmd.ExecuteNonQuery();
 
-                                countVal = (int)returnParameter.Value;
+                                int countVal = (int)returnParameter.Value;
+                                
+                                if(countVal ==1) 
+                                {
+                                    result = true;
+                                    return result;
+                                }
+
+                                else 
+                                {
+                                    return result;
+                                }
 
 
-                            //return countVal;
                             }
-                        countVal = countVal + 1;
+                            
                         }
-                    return countVal;
                     }
                     catch (Exception ex)
                     {
@@ -126,7 +137,10 @@ namespace BankLoanSystem.DAL
                 }
                 
                 
-           
+            }
+            else {
+                return false;
+            }
         }
     }
 }
