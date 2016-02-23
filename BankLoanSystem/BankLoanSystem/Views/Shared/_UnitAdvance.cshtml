@@ -15,42 +15,9 @@
 
 
 
-        <div class="top-bar">
-            <div class="profile-elements ">
-
-                <img class="img-circle" src="myProfile.jpg"></img>
-
-
-
-
-
-                <span class="block"><strong>My Name</strong></span>
-                <span> - </span>
-                <span>My Branch</span>
-
-
-
-
-
-            </div>
-
-            <a class="btn btn-info" href=""><strong>Sign out</strong></a>
-
-
-            <h2>Advance Unit</h2>
-
-
-
-
-        </div>
-
-        <div class="centered">
-            <h5><span class="label label-danger">Danger Label</span></h5>
-        </div>
-
-        <div class="info">
-            <h5><span class="label label-success"> Label</span></h5>
-        </div>
+        @{
+            Html.RenderAction("LoanInfo" , "AddUnit");
+        }
 
         <div class="details-container">
             <div class="side-panel">
@@ -91,6 +58,8 @@
         
         }
         .info {
+            padding-top: 18px;
+            padding-left: 20px;
             margin-top: 20px;
             height: 60px;
             border-radius: 15px;
@@ -163,6 +132,7 @@
 
         .profile-elements {
             float: left;
+            margin-left: 20px;
         }
     </style>
 
