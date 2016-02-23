@@ -34,7 +34,7 @@ namespace BankLoanSystem.Models
         public string AdvanceFeeDealerEmail { get; set; }
 
         [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Advance Email Remind Period is required.")]
+        [Required(ErrorMessage = "Advance Email Remind numeric value Period is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int AdvanceFeeDealerEmailRemindPeriod { get; set; }
@@ -57,7 +57,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Email Remind Period")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
-        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
         public int AdvanceDueEmailRemindPeriod { get; set; }
 
 
@@ -83,7 +83,7 @@ namespace BankLoanSystem.Models
         public string MonthlyLoanFeeDealerEmail { get; set; }
 
         [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int MonthlyLoanFeeDealerEmailRemindPeriod { get; set; }
@@ -104,7 +104,7 @@ namespace BankLoanSystem.Models
         public string MonthlyLoanDueEmail { get; set; }
 
         [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int MonthlyLoanDueEmailRemindPeriod { get; set; }
@@ -132,7 +132,7 @@ namespace BankLoanSystem.Models
         public string LotInspectionFeeDealerEmail { get; set; }
 
         [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int LotInspectionFeeDealerEmailRemindPeriod { get; set; }
@@ -153,7 +153,7 @@ namespace BankLoanSystem.Models
         public string LotInspectionDueEmail { get; set; }
 
         [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period is required.")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int LotInspectionDueEmailRemindPeriod { get; set; }
