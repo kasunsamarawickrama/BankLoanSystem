@@ -37,8 +37,8 @@ namespace BankLoanSystem.DAL
                             Year = Convert.ToInt32(reader["year"].ToString()),
                             Make = reader["make"].ToString(),
                             Model = reader["model"].ToString(),
-                            Cost = Convert.ToDouble(reader["cost"].ToString()),
-                            AdvanceAmount = Convert.ToDouble(reader["advance_amount"].ToString())
+                            Cost = Convert.ToDecimal(reader["cost"].ToString()),
+                            AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString())
                         };
                         unitList.Add(unitDetails);
                     }
