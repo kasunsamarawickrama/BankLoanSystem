@@ -1,0 +1,71 @@
+﻿@{ 
+
+    Layout = null;
+}
+
+@using System.Threading;
+@using System.Globalization;
+<div class="top-bar">
+    <div class="profile-elements ">
+
+        <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
+
+
+
+
+       
+            <span class="block"><strong>@ViewBag.Username</strong></span>
+            <span> - </span>
+            <span><strong>@ViewBag.Branch</strong></span>
+
+      
+
+        
+
+
+
+
+
+    </div>
+
+    <a class="btn btn-info" href=""><strong>Sign out</strong></a>
+
+
+    <h2>Advance Unit</h2>
+
+
+
+
+</div>
+
+<div class="centered">
+    <h5><span class="label label-danger">Danger Label</span></h5>
+</div>
+
+<div class="info">
+
+  
+        <div class="address" >
+            <span style="float:left;width:450px"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
+       
+
+        
+
+            <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+      
+
+        
+            @{
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                DateTime dt = DateTime.Now;
+
+            }
+
+            <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @DateTime.Now.ToString("d")</span>
+
+
+        </div>
+    </div>
+
+

@@ -201,7 +201,6 @@
     <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Code\PasswordEncryption.cs" />
-    <Compile Include="Controllers\AddUnit\AddUnitController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -214,6 +213,7 @@
     <Compile Include="Controllers\SetupProcessTestController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupProcessController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupSignUpController.cs" />
+    <Compile Include="Controllers\Unit\UnitController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
     <Compile Include="DAL\CompanyAccess.cs" />
@@ -314,7 +314,8 @@
     <Content Include="Views\LoanSetUpStep5\Step5.cshtml" />
     <Content Include="Views\AddUnit\Unit.cshtml" />
     <Content Include="Views\Shared\_UnitAdvance.cshtml" />
-    <Content Include="Views\AddUnit\LoanInfo.cshtml" />
+    <Content Include="Views\Unit\LoanInfo.cshtml" />
+    <Content Include="Views\Unit\AddUnit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -324,6 +325,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\AddUnit\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
   <PropertyGroup>
