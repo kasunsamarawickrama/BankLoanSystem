@@ -13,6 +13,9 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Year is required.")]
         public int Year { get; set; }
 
+        [Required(ErrorMessage = "Vehicle Serial Number is required.")]
+        public string SerialNumber { get; set; }
+
         public string Make { get; set; }
 
         public string Model { get; set; }
@@ -44,7 +47,7 @@ namespace BankLoanSystem.Models
 
         public bool IsTitleReceived { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select")]
         [Display(Name = "Title(Document) Received")]
         public string TitleReceived { get; set; }
 
@@ -55,6 +58,10 @@ namespace BankLoanSystem.Models
         public bool AddAndAdvance { get; set; }
 
         public bool IsAdvanced { get; set; }
+
+        [Required(ErrorMessage = "Please select")]
+        [Display(Name = "Do you also want to advance this unit now")]
+        public string AdvanceNow { get; set; }
 
         public bool IsApproved { get; set; }
 

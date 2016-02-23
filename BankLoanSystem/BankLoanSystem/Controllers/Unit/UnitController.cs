@@ -47,5 +47,12 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.LoanNumber = loanSetupStep1.loanNumber;
             return View();
         }
+
+        [HttpPost]
+        [ActionName("AddUnit")]
+        public ActionResult AddUnitPost()
+        {
+            return View();
+        }
     }
 }
