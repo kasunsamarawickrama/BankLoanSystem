@@ -202,7 +202,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>1</returns>
 
-        public int InsertCurtailment(List<Curtailment> lstCurtailment)
+        public int InsertCurtailment(List<Curtailment> lstCurtailment, int loanId)
         {
             int flag = 0;
             int delFlag = 0;
@@ -211,7 +211,7 @@ namespace BankLoanSystem.DAL
                 con.Open();
 
                 var commandDelete = new SqlCommand("spDeleteCurtailment", con) { CommandType = CommandType.StoredProcedure };
-                commandDelete.Parameters.Add("@loan_id", SqlDbType.Int).Value = lstCurtailment[0].LoanId;
+                commandDelete.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
 
                 SqlParameter returnDelParameter = commandDelete.Parameters.Add("@return", SqlDbType.Int);
                 returnDelParameter.Direction = ParameterDirection.ReturnValue;
@@ -223,7 +223,7 @@ namespace BankLoanSystem.DAL
 
                 foreach (Curtailment curtailment in lstCurtailment)
                 {
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = curtailment.LoanId;
+                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
                     command.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailment.CurtailmentId;
                     command.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = curtailment.TimePeriod;
                     command.Parameters.Add("@percentage", SqlDbType.Float).Value = curtailment.Percentage;
