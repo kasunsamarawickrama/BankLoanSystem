@@ -36,7 +36,7 @@ namespace BankLoanSystem.DAL
                         {
                             Unit unitDetails = new Unit()
                             {
-                                UnitId = Convert.ToInt32(reader["unit_id"].ToString()),
+                                UnitId = reader["unit_id"].ToString(),
                                 CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
                                 IdentificationNumber = reader["identification_number"].ToString(),
                                 Year = Convert.ToInt32(reader["year"].ToString()),
