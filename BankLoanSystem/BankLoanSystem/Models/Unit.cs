@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace BankLoanSystem.Models
 {
     public class Unit
     {
-    public int UnitId { get; set; }
+    public string UnitId { get; set; }
 
         [Required(ErrorMessage = "Vehicle Identification Number is required.")]
         public string IdentificationNumber { get; set; }
@@ -41,11 +38,18 @@ namespace BankLoanSystem.Models
 
         public string EngineSerial { get; set; }
 
-        public double Cost { get; set; }
+        [Required]
+        public decimal Cost { get; set; }
 
-        public double AdvanceAmount { get; set; }
+        [Required]
+        [Display(Name = "Advance Amount")]
+        public decimal AdvanceAmount { get; set; }
 
         public bool IsTitleReceived { get; set; }
+
+        [Required(ErrorMessage = "Please select")]
+        [Display(Name = "Title(Document) Received")]
+        public string TitleReceived { get; set; }
 
         public string Note { get; set; }
 
@@ -54,6 +58,10 @@ namespace BankLoanSystem.Models
         public bool AddAndAdvance { get; set; }
 
         public bool IsAdvanced { get; set; }
+
+        [Required(ErrorMessage = "Please select")]
+        [Display(Name = "Do you also want to advance this unit now")]
+        public string AdvanceNow { get; set; }
 
         public bool IsApproved { get; set; }
 
