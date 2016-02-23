@@ -23,7 +23,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Loan Setup Step1</h4>
+        <h2>Step 1 - Loan Setup</h2>
+       
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
        <div class="text-danger">@ViewBag.Error</div> 
