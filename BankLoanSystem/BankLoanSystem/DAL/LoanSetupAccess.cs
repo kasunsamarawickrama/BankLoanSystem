@@ -29,8 +29,17 @@ namespace BankLoanSystem.DAL
 
                 LoanSetupAccess la = new LoanSetupAccess();
                 int loanId=0;
-             
-                loanId = la.getLoanIdByBranchId(user.BranchId);
+
+
+                if (user.RoleId == 2)
+                {
+                    loanId = la.getLoanIdByBranchId(user.BranchId);
+                }
+                else if (user.RoleId == 1)
+                {
+                    loanId = la.getLoanIdByUserId(user.UserId);
+                }
+                //loanId = la.getLoanIdByBranchId(user.BranchId);
                 
                
                 
