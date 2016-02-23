@@ -20,7 +20,7 @@ namespace BankLoanSystem.DAL
         /// <returns>unitList</returns>
         public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
         {
-
+    
             List<Unit> unitList = new List<Unit>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
