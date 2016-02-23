@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace BankLoanSystem.Controllers
 {
     public class AdvanceUnitController : Controller
@@ -25,7 +26,7 @@ namespace BankLoanSystem.Controllers
 
             UnitAccess unitAccess = new UnitAccess();
 
-            List<Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
+            List <BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
             //unitList.Add(new Unit
             //{
             //    UnitId = 1,
@@ -53,7 +54,7 @@ namespace BankLoanSystem.Controllers
 
             UnitAccess unitAccess = new UnitAccess();
 
-            List<Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
+            List<BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
 
             // In the real application you can ids 
 
