@@ -38,15 +38,17 @@ namespace BankLoanSystem.Models
         [Required]
         public decimal Cost { get; set; }
 
+        [Required]
+        [Display(Name = "Advance Amount")]
         public decimal AdvanceAmount { get; set; }
 
         public bool IsTitleReceived { get; set; }
 
-        [Display(Name = "Title(Document) Received?")]
         [Required]
+        [Display(Name = "Title(Document) Received")]
         public string TitleReceived { get; set; }
 
-        public string Note { get; set; }
+        public String Note { get; set; }
 
         public DateTime AdvanceDate { get; set; }
 
