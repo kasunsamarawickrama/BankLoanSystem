@@ -1996,6 +1996,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
                 _gCurtailment.TimeBase = "Months";
 
+                _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+
                 _gCurtailment.InfoModel = new List<Curtailment>();
 
                 var curtailments = curAccess.retreiveCurtailmentByLoanId(loanId);
@@ -2061,6 +2063,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
+            int userId = Convert.ToInt32(Session["userId"]);
+
+            if(string.IsNullOrEmpty(userId.ToString()))
+                return RedirectToAction("UserLogin", "Login");
+
             if (isError) return PartialView("Step10", _gCurtailment);
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
 
@@ -2073,9 +2080,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
                 StepAccess stepAccess = new StepAccess();
 
-                //stepAccess.updateStepNumberByUserId(userId, 10);
-                //return RedirectToAction("UserDetails", "UserManagement");
-                //return RedirectToAction("UserLogin", "Login", ViewBag.SuccessMsg);
+                stepAccess.updateStepNumberByUserId(userId, 11);
+                return RedirectToAction("UserDetails", "UserManagement");
             }
             else
             {
