@@ -76,10 +76,11 @@
                     $(tab).append("<span style='float:right;color:yellow'>&#x270E;  </span>");
                     $(tab).parent("li").addClass("active").siblings().removeClass('active');
                     if (i >= 6) {
-                        $(".navig1").removeClass('active').children("ul").removeClass('in');
-                        $(".navig2").addClass("active").children("ul").addClass('in');
+                        $(".main-tab.2").removeClass('collapsed');
+                        $("#demo2").addClass("in");
                     } else {
-                        $(".navig1").addClass("active");
+                        $(".main-tab.1").removeClass('collapsed');
+                        $("#demo").addClass("in");
                     }
                 } else {
                     $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
@@ -217,62 +218,24 @@
         $(".tab").click(function () {
 
             $(this).parent("li").addClass("active").siblings().removeClass('active');
-            $(this).parent("li").parent("ul").parent("li").siblings("li").children("ul").children("li").removeClass('active');
+            $(this).parent("li").parent("ul").parent("div").siblings("div").children("ul").children("li").removeClass('active');
         });
+
+        $(".main-tab.1").click(function () {
+
+            $(".main-tab.2").addClass('collapsed');
+            $("#demo2").removeClass("in");
+        });
+
+        $(".main-tab.2").click(function () {
+
+            $(".main-tab.1").addClass('collapsed');
+            $("#demo").removeClass("in");
+        });
+
+
+       
         </script>
-        @*<div id="page-wrapper" class="gray-bg sidebar-content" style="min-height: 1199px;">
-                <div class="row border-bottom">
-                    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-
-                        <ul class="nav navbar-top-links navbar-right">
-
-
-
-
-                            <li>
-                                @Html.ActionLink("Log out", "UserLogin", "Login", null, null)
-                            </li>
-
-                        </ul>
-                    </nav>
-                </div>
-
-                <div class="wrapper wrapper-content">
-
-
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <div id="loadingDiv" style="display:none">
-                                        <img src="~/Images/loading.gif" />
-                                    </div>
-                                    <div id="changeContainer" class="container body-content">
-                                        <label id="successLabel">@ViewBag.SuccessMsg</label>
-                                        <label id="errorLabel">@ViewBag.ErrorMsg</label>
-                                        @RenderBody()
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="footer">
-                    <div class="pull-right">
-
-                    </div>
-                    <div>
-                        <strong>Copyright</strong> The Future Net © 2016
-                    </div>
-                </div>
-            </div>*@
-
 
         <div class="page-wrapper">
 
