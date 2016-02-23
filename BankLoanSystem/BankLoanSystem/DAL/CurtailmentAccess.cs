@@ -178,6 +178,7 @@ namespace BankLoanSystem.DAL
                                 loan.payOffPeriodType = 0;
                             loan.payOffPeriodType = 1;
                             loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
+                            loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
                         }
                     }
                 }
@@ -238,7 +239,7 @@ namespace BankLoanSystem.DAL
                     command.Parameters.Clear();
                 }
             }
-            //if (delFlag == 2) flag = delFlag;
+            if (delFlag == 2) flag = delFlag;
             return flag; ;
         }
     }
