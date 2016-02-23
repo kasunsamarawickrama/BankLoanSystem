@@ -48,7 +48,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Title(Document) Received")]
         public string TitleReceived { get; set; }
 
-        public String Note { get; set; }
+        public string Note { get; set; }
 
         public DateTime AdvanceDate { get; set; }
 
