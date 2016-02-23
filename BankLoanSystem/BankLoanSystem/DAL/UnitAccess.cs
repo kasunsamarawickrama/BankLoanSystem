@@ -18,35 +18,128 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns>unitList</returns>
-        public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId) {
+        public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
+        {
 
             List<Unit> unitList = new List<Unit>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
-                var command = new SqlCommand("spGetNotAdvancedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                con.Open();
-                using (var reader = command.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
+
+                    var command = new SqlCommand("spGetNotAdvancedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
                     {
-                        Unit unitDetails = new Unit()
+                        while (reader.Read())
                         {
-                            CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
-                            IdentificationNumber = reader["identification_number"].ToString(),
-                            Year = Convert.ToInt32(reader["year"].ToString()),
-                            Make = reader["make"].ToString(),
-                            Model = reader["model"].ToString(),
-                            Cost = Convert.ToDouble(reader["cost"].ToString()),
-                            AdvanceAmount = Convert.ToDouble(reader["advance_amount"].ToString())
-                        };
-                        unitList.Add(unitDetails);
+                            Unit unitDetails = new Unit()
+                            {
+                                UnitId = Convert.ToInt32(reader["unit_id"].ToString()),
+                                CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
+                                IdentificationNumber = reader["identification_number"].ToString(),
+                                Year = Convert.ToInt32(reader["year"].ToString()),
+                                Make = reader["make"].ToString(),
+                                Model = reader["model"].ToString(),
+                                Cost = Convert.ToDouble(reader["cost"].ToString()),
+                                AdvanceAmount = Convert.ToDouble(reader["advance_amount"].ToString())
+                            };
+                            unitList.Add(unitDetails);
+                        }
                     }
+                    return unitList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
                 }
             }
 
-            return unitList;
 
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/23
+        /// Advance all selected items
+        /// </summary>
+        /// <param name="advanceDate"></param>
+        /// <param name="loanId"></param>
+        /// <param name="unitList"></param>
+        /// <returns>true/false</returns>
+        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        {
+            bool result = false;
+            if (unitList.Count > 0)
+            {
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+            
+                    
+                    try
+                    {
+                        foreach (Unit unitObj in unitList)
+                        {
+                            using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+
+                                cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                                cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                                cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
+                                cmd.Parameters.Add("@unit_id", SqlDbType.Int).Value = unitObj.UnitId;
+                                cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
+
+                                con.Open();
+
+                                SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                                returnParameter.Direction = ParameterDirection.ReturnValue;
+                                cmd.ExecuteNonQuery();
+
+                                int countVal = (int)returnParameter.Value;
+                                
+                                if(countVal ==1) 
+                                {
+                                    result = true;
+                                    return result;
+                                }
+
+                                else 
+                                {
+                                    return result;
+                                }
+
+
+                            }
+                            
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                   
+                }
+                
+                
+            }
+            else {
+                return false;
+            }
         }
     }
 }
