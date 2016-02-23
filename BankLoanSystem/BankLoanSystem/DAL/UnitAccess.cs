@@ -75,10 +75,10 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         /// <param name="unitList"></param>
         /// <returns>true/false</returns>
-        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
         {
             int countVal = 0;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
             
                     
@@ -95,7 +95,6 @@ namespace BankLoanSystem.DAL
                                 cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
                                 cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                                 cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
-                                cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = DateTime.Now;
 
                             con.Open();
 
