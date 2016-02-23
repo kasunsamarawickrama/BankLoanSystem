@@ -1,0 +1,124 @@
+﻿@model IEnumerable<BankLoanSystem.Models.Unit>
+
+@{
+    ViewBag.Title = "Advance";
+}
+
+<h2>Advance</h2>
+
+<div>
+    @{
+        ViewBag.Title = "WebGrid";
+        WebGrid grid = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5); // grid with sorting and paging
+    }
+</div>
+
+
+
+
+
+
+@using (Html.BeginForm("Advance", "AdvanceUnit"))
+{
+    <div>
+        @grid.GetHtml(
+       tableStyle: "gridTable",
+       htmlAttributes: new { id = "checkableGrid" },
+           columns: grid.Columns(
+                grid.Column(
+                    format:@<text><input type="checkbox" value="@item.UnitId" , name="ids" /></text>
+                    ,header: "{checkall}"
+
+                ),
+                grid.Column("CreatedDate", header: "Date Entered"),
+                grid.Column("IdentificationNumber", header: "VIN/HIN/serial #"),
+                 grid.Column("Year", header: "Year"),
+                  grid.Column("Make", header: "make"),
+                  grid.Column("Model", header: "Model"),
+                  grid.Column("Cost", header: "Cost"),
+                  grid.Column("AdvanceAmount", header: "Advance Amount")
+
+           )
+       )
+
+    </div>
+    <div>
+        <input type="submit" value="Get" />
+    </div>
+}
+
+
+
+@*@grid.GetHtml(columns: grid.Columns(grid.Column("Date", header: "VIN"),
+    grid.Column("VIN", "VIN")))*@
+
+
+
+<div id="tblGrid">
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            //1st replace first colom header text with checkbox
+            $("#checkableGrid th").each(function () {
+                if ($.trim($(this).tex().toString().toLowerCase()) === "{checkall}") {
+                    $(this).text('');
+                    $("<input/>", { tyoe: "checkbox", id: "cbSelectAll", value: "" }).appendTo($(this));
+                    $(this).append("<span>Select All</span>");
+                }
+            });
+
+            //2nd click event for heaer checkbox for select/deselect all
+            $("#checkableGrid th").live("click", function () {
+                var isChecked = this.checked;
+                $('#checkableGrid').find("input:checkbox").each(function (){
+                    this.checked = isChecked;
+                });
+            });
+
+            //3rd click event for checkbox of each row
+            $("input[name ='ids']").click(function () {
+                var totalRows = $("#checkableGrid td:checkbox").length;
+                var checked = $("#checkableGrid td:checkbox:checked").length;
+
+                if (checked == totalRows) {
+                    $('#checkableGrid').find("input:checkbox").each(function () {
+                        this.checked = isChecked;
+                    });
+                }
+                else {
+
+                }
+            });
+
+        });
+
+    </script>
+
+}
+
+
+
+
+
+
+@*<script type="text/javascript">
+$(function () {
+    $('.gridTable thead tr th:first').html(
+        $('<input />', {
+            type: 'checkbox',
+            click: function () {
+                var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
+                checkboxes.prop('checked', $(this).is(':checked'));
+            }
+        })
+    );
+});
+</script>*@
+
