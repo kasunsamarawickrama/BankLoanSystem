@@ -706,8 +706,13 @@
 
 
 
-
+        $(".tab").parent("li").removeClass("active");
         $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
+        $(".main-tab.1").addClass('collapsed');
+        $("#demo").removeClass("in");
+        $(".main-tab.2").removeClass('collapsed');
+        $("#demo2").addClass("in");
+
 </script>
 
 @if (ViewBag.userroleName != "Admin")
