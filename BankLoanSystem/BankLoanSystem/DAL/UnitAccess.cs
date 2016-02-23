@@ -75,7 +75,7 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         /// <param name="unitList"></param>
         /// <returns>true/false</returns>
-        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
         {
             int countVal = 0;
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
