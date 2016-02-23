@@ -93,10 +93,11 @@ namespace BankLoanSystem.DAL
                                 cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
                                 cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
                                 cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                                cmd.Parameters.Add("@unit_id", SqlDbType.Int).Value = unitObj.UnitId;
+                                cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                                 cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
+                                cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = DateTime.Now;
 
-                                con.Open();
+                            con.Open();
 
                                 SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
