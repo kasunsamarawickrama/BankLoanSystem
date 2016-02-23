@@ -52,7 +52,15 @@ namespace BankLoanSystem.Models
 
         public bool IsAdvanced { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public int UnitTypeId { get; set; }
+
+        public int LoanId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public int CreatedBy { get; set; }
 
 
     }

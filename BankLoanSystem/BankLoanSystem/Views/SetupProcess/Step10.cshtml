@@ -109,7 +109,7 @@
                                         @Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })
                                     </td>
                                     <td style="width: 50%;">
-                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment" })
+                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment", @onkeydown = "return (event.keyCode!=13);" })
                                         @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
                                     </td>
 
@@ -187,7 +187,8 @@
         var gLoanStatus = $('.Active').filter(':checked').val();
 
         //Check time period valid
-        $('.timePeriod').blur(function () {
+        //$('.timePeriod').blur(function () {
+        $('.timePeriod').bind('blur', function () {
             var tr = $(this).parents('tr:first');
 
             var id = tr.find("#lblCur").html();
