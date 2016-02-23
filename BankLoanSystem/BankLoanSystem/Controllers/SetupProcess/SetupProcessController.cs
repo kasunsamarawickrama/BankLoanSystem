@@ -792,7 +792,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // Defaul loan setup form and default dates
             LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
             loanSetupStep1.startDate = DateTime.Today;
-            loanSetupStep1.maturityDate = DateTime.Today.AddYears(10);
+            loanSetupStep1.maturityDate = DateTime.Today.AddYears(1);
 
             // get loan Id for each user
             LoanSetupAccess la = new LoanSetupAccess();
