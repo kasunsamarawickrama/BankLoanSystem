@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace BankLoanSystem.Controllers.AddUnit
+namespace BankLoanSystem.Controllers.Unit
 {
-    public class AddUnitController : Controller
+    public class UnitController : Controller
     {
         // GET: AddUnit
         public ActionResult Index()
@@ -11,7 +11,7 @@ namespace BankLoanSystem.Controllers.AddUnit
         }
 
 
-        public ActionResult Unit()
+        public ActionResult AddUnit()
         {
             Session["UserId"] = 64;
 
