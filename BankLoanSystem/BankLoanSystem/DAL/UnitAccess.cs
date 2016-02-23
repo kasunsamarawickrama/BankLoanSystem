@@ -24,6 +24,7 @@ namespace BankLoanSystem.DAL
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 var command = new SqlCommand("spGetNotAdvancedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
+                command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
                 con.Open();
                 using (var reader = command.ExecuteReader())
                 {
