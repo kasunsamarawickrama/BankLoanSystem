@@ -7,10 +7,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup Process - TFN Application</title>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-    <link href="~/Content/font-awesome.css" rel="stylesheet">
-    <link href="~/Content/animate.css" rel="stylesheet">
-    <link href="~/Content/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+
 
     <link href="~/Content/pikaday.css" rel="stylesheet" />
     <link href="~/Content/theme.css" rel="stylesheet" />
@@ -24,9 +27,9 @@
 
     <script>
 
-        
 
-        
+
+
 
         //$(".tab.1").children("span").remove();
         //$(".tab.1").append("<span style='float:right;color:yellow'>&#x270E;  </span>");
@@ -34,7 +37,7 @@
 
         function handleError(ajaxContext) {
 
-            
+
             alert("Some thing went wrong... You have to Login again");
             window.location.href = "/Login/UserLogin";
         }
@@ -46,10 +49,10 @@
             if (response.indexOf("Session") > 0) {
                 alert("Some thing went wrong... You have to Login again");
                 window.location.href = "/Login/UserLogin";
-            }else{
+            } else {
                 alert(response);
             }
-            
+
         }
 
         function globalProgress(step) {
@@ -69,338 +72,135 @@
                 var tab = ".tab." + i;
                 $(tab).children("span").remove();
                 $(tab).css("pointer-events", "auto").css("cursor", "pointer");
-                if(i==step){
+                if (i == step) {
                     $(tab).append("<span style='float:right;color:yellow'>&#x270E;  </span>");
                     $(tab).parent("li").addClass("active").siblings().removeClass('active');
                     if (i >= 6) {
-                        $(".navig1").removeClass('active').children("ul").removeClass('in');
-                        $(".navig2").addClass("active").children("ul").addClass('in');
+                        $(".main-tab.2").removeClass('collapsed');
+                        $("#demo2").addClass("in");
                     } else {
-                        $(".navig1").addClass("active");
+                        $(".main-tab.1").removeClass('collapsed');
+                        $("#demo").addClass("in");
                     }
                 } else {
                     $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
                 }
             }
-            
+
             global = step;
 
         }
 
 
-    // common clear function
+        // common clear function
 
-    $('#clear').click(function () {
-    document.getElementsByTagName("form")[0].reset();
-    });
-
-
+        $('#clear').click(function () {
+            document.getElementsByTagName("form")[0].reset();
+        });
 
 
-    // Config box
-
-    // Enable/disable fixed top navbar
-    $('#fixednavbar').click(function (){
-        if ($('#fixednavbar').is(':checked')){
-            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            $("body").removeClass('boxed-layout');
-            $("body").addClass('fixed-nav');
-            $('#boxedlayout').prop('checked', false);
-
-            if (localStorageSupport){
-                localStorage.setItem("boxedlayout",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar",'on');
-            }
-        } else{
-            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
-            $("body").removeClass('fixed-nav');
-            $("body").removeClass('fixed-nav-basic');
-            $('#fixednavbar2').prop('checked', false);
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar2",'off');
-            }
-        }
-    });
-
-    // Enable/disable fixed top navbar
-    $('#fixednavbar2').click(function (){
-        if ($('#fixednavbar2').is(':checked')){
-            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            $("body").removeClass('boxed-layout');
-            $("body").addClass('fixed-nav').addClass('fixed-nav-basic');
-            $('#boxedlayout').prop('checked', false);
-
-            if (localStorageSupport){
-                localStorage.setItem("boxedlayout",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar2",'on');
-            }
-        } else {
-            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
-            $("body").removeClass('fixed-nav').removeClass('fixed-nav-basic');
-            $('#fixednavbar').prop('checked', false);
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar2",'off');
-            }
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar",'off');
-            }
-        }
-    });
-
-    // Enable/disable fixed sidebar
-    $('#fixedsidebar').click(function (){
-        if ($('#fixedsidebar').is(':checked')){
-            $("body").addClass('fixed-sidebar');
-            $('.sidebar-collapse').slimScroll({
-                height: '100%',
-                railOpacity: 0.9
-            });
-
-            if (localStorageSupport){
-                localStorage.setItem("fixedsidebar",'on');
-            }
-        } else{
-            $('.sidebar-collapse').slimscroll({destroy: true});
-            $('.sidebar-collapse').attr('style', '');
-            $("body").removeClass('fixed-sidebar');
-
-            if (localStorageSupport){
-                localStorage.setItem("fixedsidebar",'off');
-            }
-        }
-    });
-
-    // Enable/disable collapse menu
-    $('#collapsemenu').click(function (){
-        if ($('#collapsemenu').is(':checked')){
-            $("body").addClass('mini-navbar');
-            SmoothlyMenu();
-
-            if (localStorageSupport){
-                localStorage.setItem("collapse_menu",'on');
-            }
-
-        } else{
-            $("body").removeClass('mini-navbar');
-            SmoothlyMenu();
-
-            if (localStorageSupport){
-                localStorage.setItem("collapse_menu",'off');
-            }
-        }
-    });
-
-    // Enable/disable boxed layout
-    $('#boxedlayout').click(function (){
-        if ($('#boxedlayout').is(':checked')){
-            $("body").addClass('boxed-layout');
-            $('#fixednavbar').prop('checked', false);
-            $('#fixednavbar2').prop('checked', false);
-            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
-            $("body").removeClass('fixed-nav');
-            $("body").removeClass('fixed-nav-basic');
-            $(".footer").removeClass('fixed');
-            $('#fixedfooter').prop('checked', false);
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixednavbar2",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixedfooter",'off');
-            }
 
 
-            if (localStorageSupport){
-                localStorage.setItem("boxedlayout",'on');
-            }
-        } else{
-            $("body").removeClass('boxed-layout');
-
-            if (localStorageSupport){
-                localStorage.setItem("boxedlayout",'off');
-            }
-        }
-    });
-
-    // Enable/disable fixed footer
-    $('#fixedfooter').click(function (){
-        if ($('#fixedfooter').is(':checked')){
-            $('#boxedlayout').prop('checked', false);
-            $("body").removeClass('boxed-layout');
-            $(".footer").addClass('fixed');
-
-            if (localStorageSupport){
-                localStorage.setItem("boxedlayout",'off');
-            }
-
-            if (localStorageSupport){
-                localStorage.setItem("fixedfooter",'on');
-            }
-        } else{
-            $(".footer").removeClass('fixed');
-
-            if (localStorageSupport){
-                localStorage.setItem("fixedfooter",'off');
-            }
-        }
-    });
-
-    // SKIN Select
-    $('.spin-icon').click(function (){
-        $(".theme-config-box").toggleClass("show");
-    });
-
-    // Default skin
-    $('.s-skin-0').click(function (){
-        $("body").removeClass("skin-1");
-        $("body").removeClass("skin-2");
-        $("body").removeClass("skin-3");
-    });
-
-    // Blue skin
-    $('.s-skin-1').click(function (){
-        $("body").removeClass("skin-2");
-        $("body").removeClass("skin-3");
-        $("body").addClass("skin-1");
-    });
-
-    // Inspinia ultra skin
-    $('.s-skin-2').click(function (){
-        $("body").removeClass("skin-1");
-        $("body").removeClass("skin-3");
-        $("body").addClass("skin-2");
-    });
-
-    // Yellow skin
-    $('.s-skin-3').click(function (){
-        $("body").removeClass("skin-1");
-        $("body").removeClass("skin-2");
-        $("body").addClass("skin-3");
-    });
-
-    if (localStorageSupport){
-        var collapse = localStorage.getItem("collapse_menu");
-        var fixedsidebar = localStorage.getItem("fixedsidebar");
-        var fixednavbar = localStorage.getItem("fixednavbar");
-        var fixednavbar2 = localStorage.getItem("fixednavbar2");
-        var boxedlayout = localStorage.getItem("boxedlayout");
-        var fixedfooter = localStorage.getItem("fixedfooter");
-
-        if (collapse == 'on'){
-            $('#collapsemenu').prop('checked','checked')
-        }
-        if (fixedsidebar == 'on'){
-            $('#fixedsidebar').prop('checked','checked')
-        }
-        if (fixednavbar == 'on'){
-            $('#fixednavbar').prop('checked','checked')
-        }
-        if (fixednavbar2 == 'on'){
-            $('#fixednavbar2').prop('checked','checked')
-        }
-        if (boxedlayout == 'on'){
-            $('#boxedlayout').prop('checked','checked')
-        }
-        if (fixedfooter == 'on') {
-            $('#fixedfooter').prop('checked','checked')
-        }
-    }
     </script>
 
-    <style type="text/css">
-        .jqstooltip {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            visibility: hidden;
-            background: rgb(0, 0, 0) transparent;
-            background-color: rgba(0,0,0,0.6);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-            color: white;
-            font: 10px arial, san serif;
-            text-align: left;
-            white-space: nowrap;
-            padding: 5px;
-            border: 1px solid white;
-            z-index: 10000;
+
+    <style>
+        body {
+            background-color: aliceblue;
         }
 
-        .jqsfield {
-            color: white;
-            font: 10px arial, san serif;
-            text-align: left;
-        }
-    </style>
-
-
-    <style type="text/css">
-        .jqstooltip {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            visibility: hidden;
-            background: rgb(0, 0, 0) transparent;
-            background-color: rgba(0,0,0,0.6);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-            color: white;
-            font: 10px arial, san serif;
-            text-align: left;
-            white-space: nowrap;
-            padding: 5px;
-            border: 1px solid white;
-            z-index: 10000;
+        #changeContainer {
+            padding: 20px 20px 20px 20px;
         }
 
-        .jqsfield {
-            color: white;
-            font: 10px arial, san serif;
-            text-align: left;
+        .nav-conatainer {
+            float: left;
+            width: 20%;
+        }
+
+        .nav.nav-pills.nav-stacked.secondary {
+            padding-left: 25px;
+        }
+
+        .nav-bars {
+        }
+
+
+
+            .nav-bars.collapse.in {
+            }
+
+
+        .page-wrapper {
+            width: 78%;
+            height: 900px; /* for testing*/
+            float: right;
+            background-color: #ebebed;
+        }
+
+        .in-container {
+            float: right;
+            width: 95%;
+            margin-top: 20px;
+            margin-right: 20px;
+            background-color: white;
+        }
+
+
+        .top-bar {
+            float: right;
+            width: 100%;
+            height: 61px;
+            background-color: rgb(51, 122, 183);
+        }
+
+            .top-bar > a {
+                float: right;
+                color: white;
+                text-decoration: none;
+                margin-top: 18px;
+                padding-right: 20px;
+            }
+
+                .top-bar > a:hover {
+                    text-shadow: 2px 2px black;
+                }
+
+        .profile-elements {
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .no-bullets {
+            list-style-type: none;
+        }
+
+        .img-circle {
+            border-radius: 50%;
+        }
+
+        .no-text-decoration {
+            text-decoration: none;
+        }
+
+        .main-tab {
+            border-bottom-right-radius: 1em;
+            margin-bottom: 1px;
         }
     </style>
 
 
 
 </head>
-<body class="fixed-navigation    pace-done">
-    <div class="pace  pace-inactive">
-        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
-            <div class="pace-progress-inner"></div>
-        </div>
-        <div class="pace-activity"></div>
-    </div><div class="pace  pace-inactive">
-        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
-            <div class="pace-progress-inner"></div>
-        </div>
-        <div class="pace-activity"></div>
-    </div>
-    <div id="wrapper">
-        <nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav metismenu" id="side-menu">
+<body>
+
+    <div class="container">
 
 
-                    @{
-                        Html.RenderAction("SetupDashBoard", "SetupProcess");
-                    }
+        @{
+            Html.RenderAction("SetupDashBoard", "SetupProcess");
+        }
 
 
 
@@ -408,118 +208,62 @@
 
 
 
-                </ul>
-            </div>
-        </nav>
+
+
+
         <script>
-            $(".tab").append("<span style='float:right'>&#128274;  </span>");
-            $(".tab").css("pointer-events", "none").css("cursor", "default");
+        $(".tab").append("<span style='float:right'>&#128274;  </span>");
+        $(".tab").css("pointer-events", "none").css("cursor", "default");
 
-            $(".tab").click(function () {
+        $(".tab").click(function () {
 
-                $(this).parent("li").addClass("active").siblings().removeClass('active');
-                $(this).parent("li").parent("ul").parent("li").siblings("li").children("ul").children("li").removeClass('active');
-            });
+            $(this).parent("li").addClass("active").siblings().removeClass('active');
+            $(this).parent("li").parent("ul").parent("div").siblings("div").children("ul").children("li").removeClass('active');
+        });
+
+        $(".main-tab.1").click(function () {
+
+            $(".main-tab.2").addClass('collapsed');
+            $("#demo2").removeClass("in");
+        });
+
+        $(".main-tab.2").click(function () {
+
+            $(".main-tab.1").addClass('collapsed');
+            $("#demo").removeClass("in");
+        });
+
+
+       
         </script>
-        <div id="page-wrapper" class="gray-bg sidebar-content" style="min-height: 1199px;">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
 
-                    <ul class="nav navbar-top-links navbar-right">
+        <div class="page-wrapper">
 
+            <div class="top-bar">@Html.ActionLink("Log out", "UserLogin", "Login", null, null) </div>
 
-
-
-                        <li>
-                            @Html.ActionLink("Log out", "UserLogin", "Login", null, null)
-                        </li>
-
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="wrapper wrapper-content">
-
-
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <div id="loadingDiv" style="display:none">
-                                    <img src="~/Images/loading.gif" />
-                                </div>
-                                <div id="changeContainer" class="container body-content">
-                                    <label id="successLabel">@ViewBag.SuccessMsg</label>
-                                    <label id="errorLabel">@ViewBag.ErrorMsg</label>
-                                    @RenderBody()
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+            <div class="in-container">
+                <div id="loadingDiv" style="display:none">
+                    <img src="~/Images/loading.gif" />
                 </div>
-            </div>
-            <div class="footer">
-                <div class="pull-right">
+                <div id="changeContainer" class="body-content">
+                    <label id="successLabel">@ViewBag.SuccessMsg</label>
+                    <label id="errorLabel">@ViewBag.ErrorMsg</label>
+                    @RenderBody()
+                </div>
 
-                </div>
-                <div>
-                    <strong>Copyright</strong> The Future Net © 2016
-                </div>
             </div>
         </div>
+
 
     </div>
 
 
-<!-- Mainly scripts -->
+    <!-- Mainly scripts -->
 
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/jquery-2.1.1.js"></script>
 
-<script src="~/Scripts/jquery.metisMenu.js"></script>
-<script src="~/Scripts/jquery.slimscroll.min.js"></script>
-<!-- Flot -->
-<script src="~/Scripts/jquery.flot.js"></script>
-<script src="~/Scripts/jquery.flot.tooltip.min.js"></script>
-<script src="~/Scripts/jquery.flot.spline.js"></script>
-<script src="~/Scripts/jquery.flot.resize.js"></script>
-<script src="~/Scripts/jquery.flot.pie.js"></script>
-<script src="~/Scripts/jquery.flot.symbol.js"></script>
-<script src="~/Scripts/curvedLines.js"></script>
-<!-- Peity -->
-<script src="~/Scripts/jquery.peity.min.js"></script>
-<script src="~/Scripts/peity-demo.js"></script>
-<!-- Custom and plugin javascript -->
-<script src="~/Scripts/inspinia.js"></script>
-<script src="~/Scripts/pace.min.js"></script>
-<!-- jQuery UI -->
-<script src="~/Scripts/jquery-ui.min.js"></script>
-<!-- Jvectormap -->
-<script src="~/Scripts/jquery-jvectormap-2.0.2.min.js"></script>
-<script src="~/Scripts/jquery-jvectormap-world-mill-en.js"></script>
-<!-- Sparkline -->
-<script src="~/Scripts/jquery.sparkline.min.js"></script>
-<!-- Sparkline demo data  -->
-<script src="~/Scripts/sparkline-demo.js"></script>
-<!-- ChartJS-->
-<script src="~/Scripts/Chart.min.js"></script>
-@*<script src="~/scripts/jquery.unobtrusive-ajax.js"></script>*@
-<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
-    
-<script>
-       
-        //$('.tab').attr('disabled', 'disabled');
-    //&#128274; &#10004;
-</script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
 </body>
 </html>
