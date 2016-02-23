@@ -988,6 +988,9 @@ namespace BankLoanSystem.DAL
                             branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
                             branch.BranchCode = reader["branch_code"].ToString();
                             branch.BranchName = reader["branch_name"].ToString();
+                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
+                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
+                            branch.BranchCity = reader["city"].ToString();
 
                         }
                         return branch;
