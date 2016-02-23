@@ -16,6 +16,9 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Year is required.")]
         public int Year { get; set; }
 
+        [Required(ErrorMessage = "Vehicle Serial Number is required.")]
+        public string SerialNumber { get; set; }
+
         public string Make { get; set; }
 
         public string Model { get; set; }
