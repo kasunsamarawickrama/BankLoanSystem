@@ -75,12 +75,10 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         /// <param name="unitList"></param>
         /// <returns>true/false</returns>
-        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
         {
-            bool result = false;
-            if (unitList.Count > 0)
-            {
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            int countVal = 0;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
             
                     
@@ -106,23 +104,14 @@ namespace BankLoanSystem.DAL
                                 returnParameter.Direction = ParameterDirection.ReturnValue;
                                 cmd.ExecuteNonQuery();
 
-                                int countVal = (int)returnParameter.Value;
-                                
-                                if(countVal ==1) 
-                                {
-                                    result = true;
-                                    return result;
-                                }
-
-                                else 
-                                {
-                                    return result;
-                                }
+                                countVal = (int)returnParameter.Value;
 
 
+                            //return countVal;
                             }
-                            
+                        countVal = countVal + 1;
                         }
+                    return countVal;
                     }
                     catch (Exception ex)
                     {
@@ -136,10 +125,7 @@ namespace BankLoanSystem.DAL
                 }
                 
                 
-            }
-            else {
-                return false;
-            }
+           
         }
     }
 }
