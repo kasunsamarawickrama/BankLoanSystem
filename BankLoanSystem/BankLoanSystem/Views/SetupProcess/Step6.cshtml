@@ -134,7 +134,7 @@
 
 
             <div class="col-xs-8" id="startDateDiv" style="display:none">
-                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate" } })
+                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate" , autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
             </div>
 
@@ -151,7 +151,7 @@
             </div>
 
             <div class="col-xs-8" id="maturityDateDiv" style="display:none">
-                @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY" } })
+                @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
             </div>
 
@@ -706,8 +706,13 @@
 
 
 
-
+        $(".tab").parent("li").removeClass("active");
         $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
+        $(".main-tab.1").addClass('collapsed');
+        $("#demo").removeClass("in");
+        $(".main-tab.2").removeClass('collapsed');
+        $("#demo2").addClass("in");
+
 </script>
 
 @if (ViewBag.userroleName != "Admin")

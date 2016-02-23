@@ -792,7 +792,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // Defaul loan setup form and default dates
             LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
             loanSetupStep1.startDate = DateTime.Today;
-            loanSetupStep1.maturityDate = DateTime.Today.AddYears(10);
+            loanSetupStep1.maturityDate = DateTime.Today.AddYears(1);
 
             // get loan Id for each user
             LoanSetupAccess la = new LoanSetupAccess();
@@ -2042,22 +2042,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             switch (submit)
             {
                 case "-":
-                    //CurtailmentModel newObjmodel = new CurtailmentModel();
-                    //newObjmodel.InfoModel = new List<Curtailment>();
-                    //for (int i = 0; i < objmodel.InfoModel.Count - 1; i++)
-                    //{
-                    //    Curtailment curtailment = objmodel.InfoModel[i];
-                    //    curtailment.CurtailmentId = (i + 1);
-                    //    newObjmodel.InfoModel.Add(curtailment);
-                    //    totalPercentage += curtailment.Percentage;
-                    //}
-                    //newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
+                //CurtailmentModel newObjmodel = new CurtailmentModel();
+                //newObjmodel.InfoModel = new List<Curtailment>();
+                //for (int i = 0; i < objmodel.InfoModel.Count - 1; i++)
+                //{
+                //    Curtailment curtailment = objmodel.InfoModel[i];
+                //    curtailment.CurtailmentId = (i + 1);
+                //    newObjmodel.InfoModel.Add(curtailment);
+                //    totalPercentage += curtailment.Percentage;
+                //}
+                //newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
 
-                    //if (objmodel.InfoModel.Count > 1)
-                    //    return PartialView(newObjmodel);
-                    //objmodel.InfoModel[0].CurtailmentId = 1;
-                    //objmodel.RemainingPercentage = payPercentage - objmodel.InfoModel[0].Percentage;
-                    //return PartialView(objmodel);
+                //if (objmodel.InfoModel.Count > 1)
+                //    return PartialView(newObjmodel);
+                //objmodel.InfoModel[0].CurtailmentId = 1;
+                //objmodel.RemainingPercentage = payPercentage - objmodel.InfoModel[0].Percentage;
+                //return PartialView(objmodel);
 
                 case "Create":
                     //bool loanActive = _gCurtailment.Activete == "Yes";
@@ -2254,12 +2254,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult DeleteCurtailmentRow(Curtailment model)
         {
-            _gCurtailment.InfoModel.RemoveAt(model.CurtailmentId - 1);
-            _gCurtailment.RemainingPercentage -= model.Percentage;
-
-            for (int i = model.CurtailmentId; i < _gCurtailment.InfoModel.Count; i++)
+            if (_gCurtailment.InfoModel.Count > 1)
             {
-                _gCurtailment.InfoModel[i].CurtailmentId = i;
+                _gCurtailment.InfoModel.RemoveAt(model.CurtailmentId - 1);
+                _gCurtailment.RemainingPercentage += model.Percentage;
+
+                for (int i = model.CurtailmentId - 1; i < _gCurtailment.InfoModel.Count; i++)
+                    //_gCurtailment.InfoModel.Count > 0 && 
+                {
+                    _gCurtailment.InfoModel[i].CurtailmentId = i + 1;
+                }
             }
 
             return PartialView("Step10", _gCurtailment);
