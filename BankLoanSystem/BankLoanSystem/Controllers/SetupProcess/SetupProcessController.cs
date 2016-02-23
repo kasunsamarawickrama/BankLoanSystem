@@ -34,12 +34,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Index()
 
         {
-
             int stepNo;
             int userId;
             try
             {
-
+                if (Session["userId"].ToString() == "")
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
                 userId = int.Parse(Session["userId"].ToString());
                 stepNo = (new StepAccess()).getStepNumberByUserId(userId);
             }
