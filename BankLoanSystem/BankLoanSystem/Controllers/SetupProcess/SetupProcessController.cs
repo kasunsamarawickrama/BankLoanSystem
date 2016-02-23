@@ -2025,129 +2025,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
         [HttpPost]
-        //public ActionResult Step10(CurtailmentModel objmodel, string submit)
         public ActionResult Step10(string submit)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
-
-            int userId = Convert.ToInt32(Session["userId"]);
-
-            //int payPercentage = objmodel.CalculationBase == "Full payment" ? _loan.advancePercentage : 100;
-            //int? totalPercentage = 0;
-
-            //int noOfDays = (int)(_loan.maturityDate - _loan.startDate).TotalDays;
-            //int payTime = objmodel.TimeBase == "Month" ? noOfDays / 30 : noOfDays;
-            //int curId = 1;
-            switch (submit)
-            {
-                case "-":
-                //CurtailmentModel newObjmodel = new CurtailmentModel();
-                //newObjmodel.InfoModel = new List<Curtailment>();
-                //for (int i = 0; i < objmodel.InfoModel.Count - 1; i++)
-                //{
-                //    Curtailment curtailment = objmodel.InfoModel[i];
-                //    curtailment.CurtailmentId = (i + 1);
-                //    newObjmodel.InfoModel.Add(curtailment);
-                //    totalPercentage += curtailment.Percentage;
-                //}
-                //newObjmodel.RemainingPercentage = payPercentage - totalPercentage;
-
-                //if (objmodel.InfoModel.Count > 1)
-                //    return PartialView(newObjmodel);
-                //objmodel.InfoModel[0].CurtailmentId = 1;
-                //objmodel.RemainingPercentage = payPercentage - objmodel.InfoModel[0].Percentage;
-                //return PartialView(objmodel);
-
-                case "Create":
-                    //bool loanActive = _gCurtailment.Activete == "Yes";
-
-
-
-                    //for (int i = 0; i < objmodel.InfoModel.Count; i++)
-                    //{
-                    //    Curtailment curtailment = objmodel.InfoModel[i];
-                    //    if (i == 0)
-                    //    {
-                    //        if (objmodel.InfoModel[i].TimePeriod > payTime)
-                    //        {
-                    //            ViewBag.ErrorMsg = "Entered time period is invalid!";
-                    //            return PartialView(objmodel);
-                    //        }
-                    //    }
-
-                    //    totalPercentage += curtailment.Percentage;
-                    //    curtailment.CurtailmentId = curId;
-                    //    objmodel.RemainingTime = curtailment.TimePeriod;
-                    //    objmodel.RemainingPercentage = payPercentage - totalPercentage;
-
-                    //    curId++;
-
-                    //    if (i >= 1)
-                    //    {
-                    //        if (objmodel.InfoModel[i - 1].TimePeriod >= objmodel.InfoModel[i].TimePeriod)
-                    //        {
-                    //            ViewBag.ErrorMsg = "Entered time period is invalid!";
-                    //            return PartialView(objmodel);
-                    //        }
-                    //    }
-
-
-                    //}
-                    //objmodel.RemainingPercentage = payPercentage - totalPercentage;
-
-                    //if (objmodel.RemainingPercentage >= 0 && objmodel.RemainingTime <= payTime)
-                    //{
-                    //    if (objmodel.RemainingPercentage != 0 && objmodel.RemainingTime != payTime)
-                    //        objmodel.InfoModel.Add(new Curtailment { CurtailmentId = objmodel.InfoModel.Count + 1 });
-                    //    ViewBag.ErrorMsg = "";
-                    //}
-                    //else if (objmodel.RemainingPercentage < 0)
-                    //{
-                    //    ViewBag.ErrorMsg = "Invalid percentage's found!";
-                    //}
-                    //else if (objmodel.RemainingTime > payTime)
-                    //{
-                    //    ViewBag.ErrorMsg = "Invalid time's found!";
-                    //}
-
-                    //if (ViewBag.ErrorMsg == "" && objmodel.RemainingPercentage == 0)
-                    //{
-                    //    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-                    //    //LoanSetupAccess la = new LoanSetupAccess();
-                    //    //int loanId = la.getLoanIdByUserId(userId);
-                    //    List<Curtailment> lstCurtailment = new List<Curtailment>();
-                    //    foreach (Curtailment curtailment in objmodel.InfoModel)
-                    //    {
-                    //        if (curtailment.Percentage != 0 && curtailment.TimePeriod != 0)
-                    //        {
-                    //            curtailment.LoanId = _loan.loanId;
-                    //            lstCurtailment.Add(curtailment);
-                    //        }
-                    //    }
-
-                    //    if (curtailmentAccess.InsertCurtailment(lstCurtailment) == 1)
-                    //    {
-                    //        ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                    //        StepAccess stepAccess = new StepAccess();
-
-                    //        //stepAccess.updateStepNumberByUserId(userId, 10);
-                    //        //return RedirectToAction("UserDetails", "UserManagement");
-                    //        //return RedirectToAction("UserLogin", "Login", ViewBag.SuccessMsg);
-                    //    }
-                    //    else
-                    //    {
-                    //        ViewBag.SuccessMsg = "Curtailment Details updated successfully";
-                    //    }
-                    //    LoanSetupAccess loanAccess = new LoanSetupAccess();
-                    //    loanAccess.updateLoanActivation(loanActive, _loan.loanId);
-
-                    //}
-                    break;
-            }
+            
             return PartialView(_gCurtailment);
         }
 
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 02/19/2016
+        /// 
+        /// save data 
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddCurtailment()
         {
             bool isError = false;
