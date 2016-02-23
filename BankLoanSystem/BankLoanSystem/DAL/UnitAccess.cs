@@ -36,7 +36,7 @@ namespace BankLoanSystem.DAL
                         {
                             Unit unitDetails = new Unit()
                             {
-                                UnitId = Convert.ToInt32(reader["unit_id"].ToString()),
+                                UnitId = reader["unit_id"].ToString(),
                                 CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
                                 IdentificationNumber = reader["identification_number"].ToString(),
                                 Year = Convert.ToInt32(reader["year"].ToString()),
@@ -75,72 +75,57 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         /// <param name="unitList"></param>
         /// <returns>true/false</returns>
-        public bool AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public int AdvanceAllSelectedItems(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
         {
-            bool result = false;
-            if (unitList.Count > 0)
+            int countVal = 0;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-            
-                    
-                    try
-                    {
-                        foreach (Unit unitObj in unitList)
-                        {
-                            using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
-                            {
-                                cmd.CommandType = CommandType.StoredProcedure;
 
-                                cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                                cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                                cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                                cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
-                                cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
-                                cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = DateTime.Now;
+
+                try
+                {
+                    foreach (Unit unitObj in unitList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                            cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                            cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
+                            cmd.Parameters.Add("@unit_id", SqlDbType.Int).Value = unitObj.UnitId;
+                            cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
                             con.Open();
 
-                                SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                            SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
-                                returnParameter.Direction = ParameterDirection.ReturnValue;
-                                cmd.ExecuteNonQuery();
+                            returnParameter.Direction = ParameterDirection.ReturnValue;
+                            cmd.ExecuteNonQuery();
 
-                                int countVal = (int)returnParameter.Value;
-                                
-                                if(countVal ==1) 
-                                {
-                                    result = true;
-                                    return result;
-                                }
-
-                                else 
-                                {
-                                    return result;
-                                }
+                            countVal = (int)returnParameter.Value;
 
 
-                            }
-                            
+                            //return countVal;
                         }
+                        countVal = countVal + 1;
                     }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        con.Close();
-                    }
-                   
+                    return countVal;
                 }
-                
-                
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+
             }
-            else {
-                return false;
-            }
+
+
+
         }
     }
 }
