@@ -5,7 +5,7 @@ namespace BankLoanSystem.Models
 {
     public class Unit
     {
-    public int UnitId { get; set; }
+    public String UnitId { get; set; }
 
         [Required(ErrorMessage = "Vehicle Identification Number is required.")]
         public string IdentificationNumber { get; set; }
@@ -44,7 +44,7 @@ namespace BankLoanSystem.Models
 
         public bool IsTitleReceived { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select")]
         [Display(Name = "Title(Document) Received")]
         public string TitleReceived { get; set; }
 
@@ -55,6 +55,10 @@ namespace BankLoanSystem.Models
         public bool AddAndAdvance { get; set; }
 
         public bool IsAdvanced { get; set; }
+
+        [Required(ErrorMessage = "Please select")]
+        [Display(Name = "Do you also want to advance this unit now")]
+        public string AdvanceNow { get; set; }
 
         public bool IsApproved { get; set; }
 

@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 <h2>Unit</h2>
 
 @using (Html.BeginForm())
@@ -44,29 +48,31 @@
         @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes
+                @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                 @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
                 @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 
-    <div class="form-group" id="fileUpload">
+    <div class="form-group" hidden id="fileUpload">
         <label for="file" class="control-label col-md-2">Upload Image:</label>
         <div class="col-md-10">
 
-            <input type="file" name="file" id="file"/><br><br>
+            <input type="file" name="file" id="file" accept="*.jpg"/><br><br>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.Label("Do you also want to advance this unit now", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model=>model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @ht
+            @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
+            @Html.RadioButtonFor(model => model.AdvanceNow, "No", new {@id = "rdAdvanceNo", @class = "advanceNow"}) No
+            @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="advanceDate" hidden>
         @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control" } })
@@ -75,8 +81,17 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div>
+            <nav>
+                <ul class="pager">
+                    <li>
+                        <input type="submit" value="Add" id="btnSubmit" class="btn btn-default"/>
+                    </li>
+                    <li>
+                        <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" />
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -93,5 +108,24 @@
             $('#fileUpload').hide();
         }
         //alert(isUpload);
+    });
+
+    //
+    $('.advanceNow').change(function () {
+        var isAdvance = $(this).filter(':checked').val();
+
+        if (isAdvance === "Yes") {
+            $('#advanceDate').show();
+            $('#btnSubmit').prop('value', 'Add and Advance');
+        }
+        else {
+            $('#advanceDate').hide();
+            $('#btnSubmit').prop('value', 'Add');
+        }
+    });
+
+    //Reset the data and clear just the form
+    $('#btnCancel').click(function () {
+        location.reload();
     });
 </script>

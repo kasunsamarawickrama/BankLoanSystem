@@ -22,5 +22,12 @@ namespace BankLoanSystem.Controllers.Unit
 
             return View();
         }
+
+        [HttpPost]
+        [ActionName("AddUnit")]
+        public ActionResult AddUnitPost()
+        {
+            return View();
+        }
     }
 }
