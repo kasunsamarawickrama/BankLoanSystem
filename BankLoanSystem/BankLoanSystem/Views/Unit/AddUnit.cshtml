@@ -15,8 +15,6 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<h2>Unit</h2>
-
 @*@using (Html.BeginForm())*@
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
@@ -94,7 +92,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @{
+                    List<SelectListItem> yearlist = new List<SelectListItem>();
+                    for (var i = @DateTime.Now.Year ; i >= 1980 ; i--)
+                    {
+                        yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                }
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control"})
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -206,7 +211,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -266,7 +271,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -326,7 +331,7 @@
     <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -378,7 +383,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -430,7 +435,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -490,7 +495,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -533,7 +538,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -652,6 +657,7 @@
 }
 
 <script type="text/javascript">
+
     unitTypeInitialLoad();
     //Initial page load
     //hide panels
@@ -665,9 +671,7 @@
         $("#snowmobile").hide();
         $("#heavyequipment").hide();
     }
-
     changeUnitType();
-
     //hide the panels 
     //show one panel at a time
     function changeUnitType() {
@@ -738,9 +742,11 @@
         }
     });
 
+
+
     //Reset the data and clear just the form
     $('#btnCancel').click(function() {
-        location.reload();
+        document.getElementById("form").reset();
     });
 
     var model = @Html.Raw(Json.Encode(Model));

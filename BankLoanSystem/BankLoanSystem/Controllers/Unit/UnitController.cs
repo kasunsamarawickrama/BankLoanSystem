@@ -62,7 +62,7 @@ namespace BankLoanSystem.Controllers.Unit
                     unit.AddAndAdvance = true;
                     break;
         }
-
+            var userId = (int)Session["userId"];
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId, _loan.loanNumber);
 
