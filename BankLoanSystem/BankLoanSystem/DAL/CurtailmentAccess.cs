@@ -168,6 +168,7 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
+                            loan.loanNumber = reader["loan_number"].ToString();
                             loan.startDate = Convert.ToDateTime(reader["start_date"]);
                             loan.maturityDate = Convert.ToDateTime(reader["maturity_date"]);
                             loan.loanAmount = Convert.ToDecimal(reader["loan_amount"]);
@@ -179,6 +180,8 @@ namespace BankLoanSystem.DAL
                             loan.payOffPeriodType = 1;
                             loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
                             loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
+
+                            loan.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"]);
                         }
                     }
                 }

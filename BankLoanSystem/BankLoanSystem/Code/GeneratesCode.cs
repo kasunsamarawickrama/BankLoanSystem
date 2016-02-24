@@ -54,5 +54,25 @@ namespace BankLoanSystem.Code
             }
             return prefix + "01";
         }
+
+        public string GenerateUnitId(string loanCode, int loanId)
+        {
+            string unitId = "";
+            var prefix = loanCode;
+            var ua = new UnitAccess();
+            var latestUnitId = ua.GetLatestUnitId(loanId);
+
+            if (latestUnitId == "")
+            {
+                unitId = loanCode + "000001";
+            }
+            else
+            {
+                //unitId = loanCode + 
+            }
+
+
+            return unitId;
+        }
     }
 }

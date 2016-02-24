@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace BankLoanSystem.Models
 {
@@ -46,6 +47,7 @@ namespace BankLoanSystem.Models
         public string EngineSerial { get; set; }
 
         [Required]
+        //[Remote("CalculateAdvance", "Unit", ErrorMessage = "error")]
         public decimal Cost { get; set; }
 
         [Required]
@@ -61,6 +63,9 @@ namespace BankLoanSystem.Models
         public string Note { get; set; }
 
         public DateTime AdvanceDate { get; set; }
+
+        [Required(ErrorMessage = "The Advance Date is required")]
+        public string DisplayAdvanceDate { get; set; }
 
         public bool AddAndAdvance { get; set; }
 
@@ -81,7 +86,14 @@ namespace BankLoanSystem.Models
 
         public int CreatedBy { get; set; }
 
+        public int AdvancePt { get; set; }
 
+        public string Status { get; set; }
+
+        public decimal LoanAmount { get; set; }
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
     public class LoanPaymentDetails {

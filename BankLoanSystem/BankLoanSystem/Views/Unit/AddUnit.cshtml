@@ -5,13 +5,28 @@
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
 }
 
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/scripts/moment.js"></script>
+
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <h2>Unit</h2>
 
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())*@
+@using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
+{
+
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -308,7 +323,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+    <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
@@ -537,16 +552,23 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost" } })
             @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdvanceAmount, new {htmlAttributes = new {@class = "form-control"}})
-            @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new {@class = "text-danger"})
+                @if (ViewBag.Editable == "Yes")
+                {
+                    @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount" } })
+                }
+                @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -573,26 +595,43 @@
         <label for="file" class="control-label col-md-2">Upload Image:</label>
         <div class="col-md-10">
 
-            <input type="file" name="file" id="file" accept="*.jpg"/><br><br>
+                <input type="file" name="file" id="file" accept="*.jpg" /><br><br>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model=>model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
-            @Html.RadioButtonFor(model => model.AdvanceNow, "No", new {@id = "rdAdvanceNo", @class = "advanceNow"}) No
+                @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
             @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group" id="advanceDate" hidden>
-        @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group" id="advanceDate" hidden>
+                @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new {@class = "control-label col-md-2"})
         <div class="col-md-10">
-            @*@Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control" } })*@
-            @Html.TextBox("StartDate", DateTime.Today, new { @class = "datepicker", @type = "date" })
+                    @Html.TextBox("StartDate", DateTime.Today, new {@class = "datepicker", @type = "date"})
+                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new {@class = "text-danger"})
+                </div>
+            </div>*@
+
+        <div class="form-group" id="advanceDateFormDiv" hidden>
+
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+
+
+            <div class="col-xs-8" id="advanceDateDiv" style="display:none">
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
             @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
         </div>
+
+            <div class="col-xs-8" id="advanceDivDisplay">
+                @Html.EditorFor(model => model.DisplayAdvanceDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#advanceDivDisplay').hide();$('#advanceDateDiv').show();$('#advanceDateDiv').children('input').val('').focus();" } })
+                @Html.ValidationMessageFor(model => model.DisplayAdvanceDate, "", new { @class = "text-danger" })
+            </div>
     </div>
 
     <div class="form-group">
@@ -600,7 +639,7 @@
             <nav>
                 <ul class="pager">
                     <li>
-                        <input type="submit" value="Add" id="btnSubmit" class="btn btn-default"/>
+                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-default" />
                     </li>
                     <li>
                         <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" />
@@ -680,29 +719,117 @@
 
         if (isUpload === "Yes") {
             $('#fileUpload').show();
-        }
-        else {
+        } else {
             $('#fileUpload').hide();
         }
         //alert(isUpload);
     });
 
     //
-    $('.advanceNow').change(function () {
+    $('.advanceNow').change(function() {
         var isAdvance = $(this).filter(':checked').val();
 
         if (isAdvance === "Yes") {
-            $('#advanceDate').show();
+            $('#advanceDateFormDiv').show();
             $('#btnSubmit').prop('value', 'Add and Advance');
-        }
-        else {
-            $('#advanceDate').hide();
+        } else {
+            $('#advanceDateFormDiv').hide();
             $('#btnSubmit').prop('value', 'Add');
         }
     });
 
     //Reset the data and clear just the form
-    $('#btnCancel').click(function () {
+    $('#btnCancel').click(function() {
         location.reload();
     });
+
+    var model = @Html.Raw(Json.Encode(Model));
+    var advancePt = model.AdvancePt;
+    var maxCost = model.LoanAmount * 100 / advancePt;
+
+    //calculate advance
+    $('#txtCost').keypress(function(e) {
+        if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+            var val = this.value + (e.which - 48);
+            if (e.which !== 46) {
+                if (val <= maxCost) {
+                    var advanceAmount = (advancePt * val) / 100;
+                    document.getElementById('txtAdvanceAmount').value = advanceAmount;
+                } else {
+                    e.preventDefault();
+                }
+            }
+
+        } else {
+            e.preventDefault();
+        }
+    });
+
+    $('#txtCost').keyup(function(e) {
+        if (e.keyCode === 8) {
+            var val = this.value;
+            var advanceAmount = (advancePt * val) / 100;
+            document.getElementById('txtAdvanceAmount').value = advanceAmount;
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+    //var advanceDate,
+    //    updateStartDate = function() {
+    //        startPicker.setStartRange(advanceDate);
+    //    },
+    //    startPicker = new Pikaday({
+    //        field: document.getElementById('advanceDate'),
+    //        minDate: new Date(),
+    //        maxDate: new Date(2020, 12, 31),
+    //        onSelect: function() {
+    //            advanceDate = this.getDate();
+    //            updateStartDate();
+    //        }
+    //    }),
+    //    _startDate = startPicker.getDate();
+
+    //if (_startDate) {
+    //    startDate = _startDate;
+    //    updateStartDate();
+    //}
+    var model = @Html.Raw(Json.Encode(Model));
+
+    //var advanceDate,
+    //    updateStartDate = function() {
+    //        startPicker.setStartRange(advanceDate);
+    //        var minNextDate = new Date(advanceDate);
+    //        //alert(minNextDate);
+    //        minNextDate.setDate(advanceDate.getDate() + 1);
+    //    },
+    //    startPicker = new Pikaday({
+    //        field: document.getElementById('advanceDate'),
+    //        minDate: new Date(),
+    //        maxDate: new Date(2020, 12, 31),
+    //        format: 'l',
+    //        bound: true,
+
+    //        onSelect: function() {
+    //            advanceDate = this.getDate();
+    //            updateStartDate();
+
+    //        }
+    //    }),
+    //    _startDate = startPicker.getDate();
+
+    //if (_startDate) {
+    //    startDate = _startDate;
+    //    updateStartDate();
+    //}
+
+    var picker = new Pikaday({
+        field: document.getElementById('advanceDate'),
+        minDate: new Date(),
+        maxDate: new Date(2020, 12, 31),
+        format: 'l',
+        theme: 'dark-theme'
+    });
+
 </script>
