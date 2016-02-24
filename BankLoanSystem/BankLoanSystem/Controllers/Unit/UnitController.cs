@@ -42,7 +42,9 @@ namespace BankLoanSystem.Controllers.Unit
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanStepOne(loanId);
             NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
-            ViewBag.loanBranchName = nonRegBranch.BranchName + "-" + nonRegBranch.BranchAddress1;
+            ViewBag.loanBranchAddress = nonRegBranch.BranchName + " - " + (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1:"" ) + (nonRegBranch.BranchAddress2 != "" ? "," + nonRegBranch.BranchAddress2 : "")+ (nonRegBranch.BranchCity != "" ? "," + nonRegBranch.BranchCity : "");
+
+            ViewBag.LoanNumber = loanSetupStep1.loanNumber;
             return View();
         }
 
