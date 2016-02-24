@@ -534,6 +534,8 @@
 
 <script>
     unitTypeInitialLoad();
+    //Initial page load
+    //hide panels
     function unitTypeInitialLoad() {
         $("#vehicle").hide();
         $("#rv").hide();
@@ -547,6 +549,8 @@
 
     changeUnitType();
 
+    //hide the panels 
+    //show one panel at a time
     function changeUnitType() {
 
         @*var model = @Html.Raw(Json.Encode(Model));*@
