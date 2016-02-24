@@ -17,11 +17,15 @@ namespace BankLoanSystem.Controllers.Unit
         public ActionResult AddUnit()
         {
             Session["UserId"] = 64;
+            int loanId = 179;
+
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+
+            ViewBag.loanDetails = loanDetails;
 
             if (string.IsNullOrEmpty(Session["UserId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
-
-
 
             return View();
         }
