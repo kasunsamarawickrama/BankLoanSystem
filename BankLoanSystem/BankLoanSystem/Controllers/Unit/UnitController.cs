@@ -15,6 +15,10 @@ namespace BankLoanSystem.Controllers.Unit
             Session["userId"] = 64;
             int loanId = 184;
 
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+
+            ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
 
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
@@ -44,7 +48,8 @@ namespace BankLoanSystem.Controllers.Unit
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
-            int userId = Convert.ToInt16(Session["userId"]);
+            if (string.IsNullOrEmpty(Session["UserId"].ToString()))
+                RedirectToAction("UserLogin", "Login");
 
             switch (btnAdd)
             {
