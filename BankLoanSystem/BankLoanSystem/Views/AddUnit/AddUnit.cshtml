@@ -1,11 +1,9 @@
 ﻿@model BankLoanSystem.Models.Unit
 
 @{
-    ViewBag.Title = "AddUnit";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    ViewBag.Title = "Add Unit";
+    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
 }
-
-<h2>AddUnit</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -19,7 +17,38 @@
             @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.HiddenFor(model => model.LoanId)
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UnitTypeId, new SelectList(ViewBag.ListOfUnitTypes, "Value", "Text"), "-- select unit type --", new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                @{
+                    List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
+
+                    var id = 0;
+                    var name = "";
+                    foreach (var type in ViewBag.loanDetails.selectedUnitTypes)
+                    {
+
+                        id = type.unitTypeId;
+                        name = type.unitTypeName;
+
+                        if (id == ViewBag.loanDetails.defaultUnitType)
+                        {
+                            ListOfUnitTypes.Add(new SelectListItem
+                            {
+                                Value = id.ToString(),
+                                Text = name,
+                                Selected = true
+                            });
+                        }
+                        else {
+                            ListOfUnitTypes.Add(new SelectListItem
+                            {
+                                Value = id.ToString(),
+                                Text = name
+                            });
+                        }
+                        id = 0;
+                        name = "";
+                    }
+                }
+                @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
                 @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -466,6 +495,7 @@
         $("#heavyequipment").hide();
     }
 
+    changeUnitType();
     function changeUnitType() {
 
         @*var model = @Html.Raw(Json.Encode(Model));*@

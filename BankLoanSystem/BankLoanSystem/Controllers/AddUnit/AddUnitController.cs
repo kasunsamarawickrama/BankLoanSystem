@@ -14,28 +14,14 @@ namespace BankLoanSystem.Controllers.AddUnit
         public ActionResult AddUnit()
         {
             Session["userId"] = 2;
-            int loanId = 182;
+            int loanId = 187;
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
 
-            List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
+            ViewBag.loanDetails = loanDetails;
 
-            int id = 0;
-            string name = "";
 
-            foreach (var type in loanDetails.selectedUnitTypes) {
-
-                id = type.unitTypeId;
-                name = type.unitTypeName;
-
-                ListOfUnitTypes.Add(new SelectListItem
-                {
-                    Value = id.ToString(),
-                    Text = name
-                });
-            }
-            ViewBag.ListOfUnitTypes = ListOfUnitTypes;
 
             return View();
         }
