@@ -1,11 +1,9 @@
 ﻿@model BankLoanSystem.Models.Unit
 
 @{
-    ViewBag.Title = "AddUnit";
-    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    ViewBag.Title = "Add Unit";
+    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
 }
-
-<h2>AddUnit</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -19,7 +17,44 @@
             @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.HiddenFor(model => model.LoanId)
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UnitTypeId, new SelectList(ViewBag.ListOfUnitTypes, "Value", "Text"), "-- select unit type --", new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                @{
+                    List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
+
+                    var id = 0;
+                    var name = "";
+                    foreach (var type in ViewBag.loanDetails.selectedUnitTypes)
+                    {
+
+                        id = type.unitTypeId;
+                        name = type.unitTypeName;
+
+                        if (id == ViewBag.loanDetails.defaultUnitType)
+                        {
+                            ListOfUnitTypes.Add(new SelectListItem
+                            {
+                                Value = id.ToString(),
+                                Text = name,
+                                Selected = true
+                            });
+                        }
+                        else {
+                            ListOfUnitTypes.Add(new SelectListItem
+                            {
+                                Value = id.ToString(),
+                                Text = name
+                            });
+                        }
+                        id = 0;
+                        name = "";
+                    }
+                }
+                @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
+                {
+                    @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @disabled = "disabled" })
+                }
+                else {
+                    @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                }               
                 @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -76,7 +111,51 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                    @{
+                        List<SelectListItem> Colourlist = new List<SelectListItem>();
+
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Black",
+                            Value = "Black"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Blue",
+                            Value = "Blue"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Brown",
+                            Value = "Brown"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Gray",
+                            Value = "Gray"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Green",
+                            Value = "Green"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Silver",
+                            Value = "Silver"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "White",
+                            Value = "White"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Yellow",
+                            Value = "Yellow"
+                        });
+                    }
+                    @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -360,7 +439,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -455,6 +534,8 @@
 
 <script>
     unitTypeInitialLoad();
+    //Initial page load
+    //hide panels
     function unitTypeInitialLoad() {
         $("#vehicle").hide();
         $("#rv").hide();
@@ -466,6 +547,10 @@
         $("#heavyequipment").hide();
     }
 
+    changeUnitType();
+
+    //hide the panels 
+    //show one panel at a time
     function changeUnitType() {
 
         @*var model = @Html.Raw(Json.Encode(Model));*@

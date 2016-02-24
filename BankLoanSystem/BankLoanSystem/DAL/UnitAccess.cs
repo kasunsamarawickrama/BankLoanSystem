@@ -239,7 +239,7 @@ namespace BankLoanSystem.DAL
                 {
                     throw ex;
                 }
-            }
+                }
 
             return true;
         }
@@ -273,6 +273,57 @@ namespace BankLoanSystem.DAL
                 }
             }
             return latestUnitId;
+            }
+
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/2/24
+        /// Get loan payment details by loan id
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns>LoanPaymentDetails</returns>
+        public LoanPaymentDetails GetLoanPaymentDetailsByLoanId(int loanId)
+        {
+
+            LoanPaymentDetails loanPaymentDetails = new LoanPaymentDetails();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetLoanPaymentDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            loanPaymentDetails.Amount = (Decimal)reader["loan_amount"];
+                            loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
+                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal) reader["pending_amount"] : (Decimal)0.00;
+                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00; 
+                            loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
+
+                        }
+                    }
+                    return loanPaymentDetails;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+
+
         }
     }
 }

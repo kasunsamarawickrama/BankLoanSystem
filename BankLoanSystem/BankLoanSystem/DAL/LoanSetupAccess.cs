@@ -482,12 +482,6 @@ namespace BankLoanSystem.DAL
                             //loanSetupStep1.selectedUnitTypes
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
 
-
-
-
-
-
-
                         }
 
                         reader.Close();
@@ -499,25 +493,14 @@ namespace BankLoanSystem.DAL
                             //con.Open();
                             SqlDataReader reader2 = cmd2.ExecuteReader();
 
-
-
-
                             while (reader2.Read())
                             {
                                 UnitType unitType = new UnitType();
-
                                 unitType.unitTypeId = int.Parse(reader2["unit_type_id"].ToString());
-
+                                unitType.unitTypeName = reader2["unit_type_name"].ToString();
                                 unittypes.Add(unitType);
 
-
-
-
-
-
-
                             }
-
                             loanSetupStep1.selectedUnitTypes = unittypes;
 
                             return loanSetupStep1;

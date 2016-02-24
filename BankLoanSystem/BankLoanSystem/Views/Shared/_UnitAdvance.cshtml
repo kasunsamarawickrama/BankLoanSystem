@@ -16,14 +16,16 @@
 
 
         @{
-            Html.RenderAction("LoanInfo" , "Unit");
+            Html.RenderAction("LoanInfo" , "Unit" , new {  title = @ViewBag.Title });
         }
 
         <div class="details-container">
-            <div class="side-panel">
-                <h5><strong>Loan Details</strong></h5>
 
-            </div>
+
+            @{
+                Html.RenderAction("LoanPaymentDetails", "Unit");
+            }
+            
 
             <div class="body-content">
                 @RenderBody()
@@ -31,32 +33,111 @@
 
         </div>
 
+        
+        <div class="link-bar">
+        
+        
+            @{
+                Html.RenderAction("GetLinkBar", "Unit");
+            }
+        
+        
     </div>
+    </div>
+    <script>
+        // if advance page
+        @if(ViewBag.Title == "Advance Unit") {
+        <text>$("#lkadv").before($(".link"));</text>
+        }else if(ViewBag.Title == "Add Unit Page") {
+                <text>  //if unit page
+        $("#lkuni").before($(".link"));</text>
+        }
 
+
+
+    </script>
+    
 
     <style>
+
+        .btn-arrow-right {
+    position: relative;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+.btn-arrow-right {
+    padding-left: 36px;
+    margin-left: 10px;
+}
+
+.btn-arrow-right:before,
+.btn-arrow-right:after { /* make two squares (before and after), looking similar to the button */
+    content:"";
+    position: absolute;
+    top: 5px; /* move it down because of rounded corners */
+    width: 22px; /* same as height */
+    height: 22px; /* button_outer_height / sqrt(2) */
+    background: inherit; /* use parent background */
+    border: inherit; /* use parent border */
+    border-left-color: transparent; /* hide left border */
+    border-bottom-color: transparent; /* hide bottom border */
+    border-radius: 0px 4px 0px 0px; /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+    -webkit-border-radius: 0px 4px 0px 0px;
+    -moz-border-radius: 0px 4px 0px 0px;
+}
+.btn-arrow-right:before,
+.btn-arrow-right:after {
+    transform: rotate(45deg); /* rotate right arrow squares 45 deg to point right */
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+}
+
+.btn-arrow-right:before { /* align the "before" square to the left */
+    left: -11px;
+}
+.btn-arrow-right:after { /* align the "after" square to the right */
+    right: -11px;
+}
+.btn-arrow-right:after { /* bring arrow pointers to front */
+    z-index: 1;
+}
+.btn-arrow-right:before { /* hide arrow tails background */
+    background-color: aliceblue;
+}
+
+
+        .link-bar {
+
+            clear:both;
+            
+             border-radius: 10px;
+            border: 2px solid #31708f;
+            padding:15px 15px 15px 15px;
+        }
         .body-content{
             float:left;
              width:70%;
         }
 
         .details-container {
-            width:100%;
+            width: 100%;
             padding: 20px 20px 20px 20px;
         }
+
         .side-panel > h5 {
-            color:#16543F;
-        
+            color: #16543F;
         }
+        
         .side-panel {
-           
-            float:right;
-            width:225px;
+            float: right;
+            width: 225px;
             margin-top: 50px;
             border-radius: 15px;
             border: 2px solid #5CB85C;
-        
         }
+        
         .info {
             padding-top: 18px;
             padding-left: 20px;

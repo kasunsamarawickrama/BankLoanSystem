@@ -1,18 +1,13 @@
 ﻿using System;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace BankLoanSystem.Controllers.Unit
 {
     public class UnitController : Controller
     {
-        // GET: AddUnit
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         private static LoanSetupStep1 _loan;
 
         public ActionResult AddUnit()
@@ -61,7 +56,7 @@ namespace BankLoanSystem.Controllers.Unit
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;
-            }
+        }
 
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId, _loan.loanNumber);
@@ -69,11 +64,11 @@ namespace BankLoanSystem.Controllers.Unit
             return RedirectToAction("AddUnit");
         }
 
-        public ActionResult LoanInfo()
+        public ActionResult LoanInfo( string title)
         {
             int userId = 57;
             int loanId = 184;
-
+            ViewBag.Title = title;
             User user = (new UserAccess()).retreiveUserByUserId(userId);
             ViewBag.Username = user.UserName;
             BranchAccess ba = new BranchAccess();
@@ -91,6 +86,79 @@ namespace BankLoanSystem.Controllers.Unit
             return View();
         }
 
+        public ActionResult LoanPaymentDetails() {
+
+            //int userId = 57;
+            int loanId = 184;
+
+            return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanId));
+
+        }
+
         
+        public ActionResult GetLinkBar() {
+            int userId = 57;
+
+            var access = new UserRightsAccess();
+
+            ///retrive all rights
+            List<Right> rights = access.getRights();
+
+            int userRole = (new UserManageAccess()).getUserRole(userId);
+
+            if(userRole == 3)
+            {
+                ///get permission string for the relevent user
+                List<Right> permissionString = access.getRightsString(userId);
+                if (permissionString.Count == 1)
+                {
+
+
+                    string permission = permissionString[0].rightsPermissionString;
+                    if (permission != "")
+                    {
+                        string[] charactors = permission.Split(',');
+
+                        List<Right> temprights = new List<Right>();
+
+                        foreach (var charactor in charactors)
+                        {
+                            foreach (var obj in rights)
+                            {
+                                if (string.Compare(obj.rightId, charactor) == 0)
+                                {
+                                    temprights.Add(obj);
+                                    break;
+
+                                }
+
+                            }
+                        }
+
+                        rights = temprights;
+
+
+                    }
+                    else
+                    {
+                        rights = new List<Right>();
+                    }
+                  
+
+                }
+
+                else if (permissionString.Count == 0)
+                {
+
+                    rights = new List<Right>();
+                }
+              
+             
+
+            }
+
+            return PartialView(rights);
+
+        }
     }
 }
