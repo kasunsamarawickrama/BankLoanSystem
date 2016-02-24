@@ -14,14 +14,12 @@ namespace BankLoanSystem.Controllers.AddUnit
         public ActionResult AddUnit()
         {
             Session["userId"] = 2;
-            int loanId = 187;
+            int loanId = 188;
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
 
             ViewBag.loanDetails = loanDetails;
-
-
 
             return View();
         }
