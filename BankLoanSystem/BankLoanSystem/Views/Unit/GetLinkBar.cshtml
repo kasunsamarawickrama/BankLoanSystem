@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BankLoanSystem.Models.Right>
+
+
+
+@Html.ActionLink("DashBoard", "UserLogin", "Login", null, new { @class = "btn btn-info btn-arrow-right" })
+
+@foreach (var item in Model)
+{
+
+
+
+    if (item.rightId == "U001")
+    {
+        @Html.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })
+    }
+
+    if (item.rightId == "U002")
+    {
+        @Html.ActionLink("Title", "UserLogin", "Login", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })
+    }
+
+    if (item.rightId == "U003")
+    {
+        @Html.ActionLink("Pay Off", "UserLogin", "Login", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })
+    }
+
+    if (item.rightId == "U004")
+    {
+        @Html.ActionLink("Unit", "UserLogin", "Login", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })
+    }
+
+
+           
+       
+       
+       
+
+}
+
+
