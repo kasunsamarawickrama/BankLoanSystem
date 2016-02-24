@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using BankLoanSystem.Code;
 using BankLoanSystem.Models;
 
 namespace BankLoanSystem.DAL
@@ -76,57 +77,57 @@ namespace BankLoanSystem.DAL
         /// <param name="unitList"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public int AdvanceAllSelectedItems(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
         {
             int countVal = 0;
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-            
-                    
-                    try
-                    {
-                        foreach (Unit unitObj in unitList)
-                        {
-                            using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
-                            {
-                                cmd.CommandType = CommandType.StoredProcedure;
 
-                                cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                                cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                                cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                                cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
-                                cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
+
+                try
+                {
+                    foreach (Unit unitObj in unitList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                            cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                            cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
+                            cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
+                            cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
                             con.Open();
 
-                                SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                            SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
-                                returnParameter.Direction = ParameterDirection.ReturnValue;
-                                cmd.ExecuteNonQuery();
+                            returnParameter.Direction = ParameterDirection.ReturnValue;
+                            cmd.ExecuteNonQuery();
 
-                                countVal = (int)returnParameter.Value;
+                            countVal = (int)returnParameter.Value;
 
 
                             //return countVal;
-                            }
-                        countVal = countVal + 1;
                         }
+                        countVal = countVal + 1;
+                    }
                     return countVal;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        con.Close();
-                    }
-                   
                 }
-                
-                
-           
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+
+            }
+
+
+
         }
 
         /// <summary>
@@ -139,7 +140,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unitObj"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceSelectedItem(Unit unitObj, int loanId, int userId, DateTime advanceDate) 
+        public int AdvanceSelectedItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -169,16 +170,109 @@ namespace BankLoanSystem.DAL
                         return countVal;
                     }
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
                     throw ex;
                 }
-                finally 
+                finally
                 {
                     con.Close();
                 }
+            }
+
+        }
+
+
+        public bool InsertUnit(Unit unit, int userId, string loanNumber)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spInsertUnitDetails", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        GeneratesCode gc = new GeneratesCode();
+                        var unitId = gc.GenerateUnitId(loanNumber, unit.LoanId);
+
+                        cmd.Parameters.AddWithValue("@loan_id", unit.LoanId);
+                        cmd.Parameters.AddWithValue("@user_id", userId);
+                        cmd.Parameters.AddWithValue("@unit_id", unitId);
+                        cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
+                        cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
+                        cmd.Parameters.AddWithValue("@year", unit.Year);
+                        cmd.Parameters.AddWithValue("@make", unit.Make);
+                        cmd.Parameters.AddWithValue("@model", unit.Model);
+                        cmd.Parameters.AddWithValue("@color", unit.Make);
+                        cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                        cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                        cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
+                        cmd.Parameters.AddWithValue("@length", unit.Length);
+                        cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                        cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                        cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                        cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        cmd.Parameters.AddWithValue("@cost", unit.Cost);
+                        cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
+                        cmd.Parameters.AddWithValue("@is_title_received", unit.IsTitleReceived);
+                        cmd.Parameters.AddWithValue("@note", unit.Note);
+                        cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
+                        cmd.Parameters.AddWithValue("@add_or_advance", unit.AddAndAdvance);
+                        cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
+                        cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
+                        cmd.Parameters.AddWithValue("@status", unit.Status);
+
+                        con.Open();
+
+                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+
+
+                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        cmd.ExecuteNonQuery();
+
+                        int countVal = (int)returnParameter.Value;
+                    }
                 }
-           
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return true;
+        }
+
+
+        public string GetLatestUnitId(int loanId)
+        {
+            string latestUnitId = "";
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spGetLatestUnitId", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@loan_id", loanId);
+                        con.Open();
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                latestUnitId = reader["unit_id"].ToString();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return latestUnitId;
         }
 
 
@@ -208,8 +302,8 @@ namespace BankLoanSystem.DAL
 
                             loanPaymentDetails.Amount = (Decimal)reader["loan_amount"];
                             //loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
-                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal) reader["pending_amount"] : (Decimal)0.00;
-                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00; 
+                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal)reader["pending_amount"] : (Decimal)0.00;
+                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00;
                             //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
 
                         }
