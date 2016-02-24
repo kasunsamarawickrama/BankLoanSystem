@@ -16,14 +16,16 @@
 
 
         @{
-            Html.RenderAction("LoanInfo" , "AddUnit");
+            Html.RenderAction("LoanInfo" , "Unit");
         }
 
         <div class="details-container">
-            <div class="side-panel">
-                <h5><strong>Loan Details</strong></h5>
 
-            </div>
+
+            @{
+                Html.RenderAction("LoanPaymentDetails", "Unit");
+            }
+            
 
             <div class="body-content">
                 @RenderBody()
@@ -61,7 +63,7 @@
             padding-top: 18px;
             padding-left: 20px;
             margin-top: 20px;
-            height: 60px;
+            padding-bottom: 18px;
             border-radius: 15px;
             border: 2px solid #8D987E;
         }

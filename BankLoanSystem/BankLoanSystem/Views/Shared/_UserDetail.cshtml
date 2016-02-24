@@ -1,93 +1,120 @@
 ﻿@model BankLoanSystem.Models.DashBoard
+@{
+    ViewBag.Title = "SetupDashBoard";
+}
 
-<li class="nav-header">
-    <div class="dropdown profile-element">
-        <span>
-            <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
-        </span>
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <span class="clear">
-                <span class="block m-t-xs">
-                    <strong class="font-bold">@Model.userName</strong>
-                </span> <span class="text-muted text-xs block">@Model.roleName<b class="caret"></b></span>
-            </span>
-        </a>
 
-        <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
-            <li class="divider"></li>
-            <li>@Html.ActionLink("Log out", "UserLogin", "Login", null, null)</li>
+<div class="nav-conatainer">
+    <div class="nav-bars">
+
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <div class="profile-elements ">
+
+                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
+
+
+                    <div class="dropdown no-text-decoration">
+
+                        <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                            <span class="block"><strong>@Model.userName</strong></span><br>
+
+                        </a>
+                        <a class="dropdown-toggle no-text-decoration" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+
+                            <span>@Model.roleName</span>
+                            <span class="caret"></span>
+                        </a>
+
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Sign out", "UserLogin", "Login", null, null)</li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </li>
+
+            <li role="separator" class="divider"></li>
+            <li class="main-tab 1"><a href="#demo" data-toggle="collapse"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> Activities<span class="caret arrow" style="margin-top: 5px;float:right"></span> </a></li>
+            <div id="demo" class="collapse nav-bars">
+                <ul class="nav nav-pills nav-stacked secondary">
+                    <li class="active">
+                        @Ajax.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                        @*@Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, null)*@
+                    </li>
+
+                    @if (@Model.levelId == 1 || @Model.levelId == 2)
+                    {
+
+
+                        <li>
+                            @*@Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)*@
+
+                            @Ajax.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                        </li>
+
+                    }
+
+                    @if (@Model.levelId == 1)
+                    {
+                        <li>
+
+                            @Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                            @*@Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)*@
+                        </li>
+                    }
+
+                    @if (@Model.levelId == 1)
+                    {
+
+                        <li>
+                            @Ajax.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                            @*@Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, null)*@
+                        </li>
+                    }
+
+                    @if (@Model.levelId == 1 || @Model.levelId == 2)
+                    {
+                        <li>
+                            @Ajax.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                            @*@Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, null)*@
+                        </li>
+                    }
+
+                    @if (@Model.levelId == 1 || @Model.levelId == 2)
+                    {
+                        <li>
+                            @Ajax.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                            @*@Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, null)*@
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+
+            <li class="main-tab 2"><a href="#demo2" data-toggle="collapse"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  Loan Management<span class="caret arrow" style="margin-top: 5px;float:right"></span></a></li>
+
+            <div id="demo2" class="collapse nav-bars">
+                <ul class="nav nav-pills nav-stacked secondary">
+
+                    
+                </ul>
+
+            </div>
+
+
         </ul>
     </div>
-    <div class="logo-element">
-        TFN
-    </div>
-</li>
-<li class="active">
-    <a href="#"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> <span class="nav-label">Activities</span> <span class="caret arrow" style="margin-top: 5px;"></span></a>
-    <ul class="nav nav-second-level collapse in">
-        <li class="active">
-        @Ajax.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-        @*@Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, null)*@</li>
 
-        @if (@Model.levelId == 1 || @Model.levelId == 2)
-        {
-
-
-            <li>
-                @*@Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)*@
-
-                @Ajax.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, new AjaxOptions { OnFailure= "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-            </li>
-
-        }
-
-        @if (@Model.levelId == 1)
-        {
-            <li>
-
-                @Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer" , LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-                @*@Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)*@
-            </li>
-        }
-
-        @if (@Model.levelId == 1)
-        {
-
-            <li>
-                @Ajax.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-                @*@Html.ActionLink("Manage Super Admins", "SearchUsers", "DashBoard", new { index = 4 }, null)*@
-            </li>
-        }
-
-        @if (@Model.levelId == 1 || @Model.levelId == 2)
-        {
-            <li>
-                @Ajax.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-                @*@Html.ActionLink("Manage Admins", "SearchUsers", "DashBoard", new { index = 5 }, null)*@
-            </li>
-        }
-
-        @if (@Model.levelId == 1 || @Model.levelId == 2)
-        {
-            <li>
-                @Ajax.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-                @*@Html.ActionLink("Manage Users", "SearchUsers", "DashBoard", new { index = 6 }, null)*@
-            </li>
-        }
-
-    </ul>
-</li>
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 

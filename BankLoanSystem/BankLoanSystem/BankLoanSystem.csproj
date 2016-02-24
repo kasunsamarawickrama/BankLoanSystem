@@ -315,11 +315,14 @@
     <Content Include="Views\SetupProcess\Step6.cshtml" />
     <Content Include="Views\SetupProcess\Step10.cshtml" />
     <Content Include="Views\LoanSetUpStep5\Step5.cshtml" />
-    <Content Include="Views\AdvanceUnit\Advance.cshtml" />
+    <Content Include="Views\AddUnit\Unit.cshtml" />
+    <Content Include="Views\Shared\_UnitAdvance.cshtml" />
+    <Content Include="Views\Unit\LoanInfo.cshtml" />
     <Content Include="Views\Unit\AddUnit.cshtml" />
     <Content Include="Views\AddUnit\AddUnit.cshtml" />
     <Content Include="Views\AddUnit\LoanInfo.cshtml" />
     <Content Include="Views\Shared\_UnitAdvance.cshtml" />
+    <Content Include="Views\Unit\LoanPaymentDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -329,6 +332,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\AddUnit\" />
+    <Folder Include="Images\UnitImage\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
   <PropertyGroup>

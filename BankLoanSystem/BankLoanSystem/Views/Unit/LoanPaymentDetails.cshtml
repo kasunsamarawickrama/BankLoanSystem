@@ -1,0 +1,40 @@
+﻿@model BankLoanSystem.Models.LoanPaymentDetails
+
+<div class="side-panel">
+
+
+    <h5><strong>Loan Details</strong></h5>
+
+
+    <table style="text-align: left;
+    color: #09714F;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;">
+       
+        <tr>
+            <td>Amount</td>
+            <td>$@Model.Amount</td>
+        </tr>
+        <tr>
+            <td>Used</td>
+            <td>$@Model.UsedAmount</td>
+        </tr>
+
+        <tr>
+            <td>Balance</td>
+            <td>$@(Model.BalanceAmount = Model.Amount - Model.UsedAmount)</td>
+        </tr>
+
+        <tr>
+            <td>Pending</td>
+            <td>$@Model.PendingAmount</td>
+        </tr>
+        <tr>
+            <td>Balance After Pending</td>
+            <td>$@(Model.BalanceAfterPending= Model.BalanceAmount - Model.PendingAmount )</td>
+        </tr>
+    </table>
+
+</div>

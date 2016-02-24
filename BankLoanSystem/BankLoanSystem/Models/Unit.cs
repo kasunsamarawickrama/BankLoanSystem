@@ -75,4 +75,17 @@ namespace BankLoanSystem.Models
 
 
     }
+
+    public class LoanPaymentDetails {
+
+
+        public decimal Amount;
+        public decimal UsedAmount;
+        public decimal BalanceAmount;
+        public decimal PendingAmount;
+        public decimal BalanceAfterPending;
+
+
+
+    }
 }

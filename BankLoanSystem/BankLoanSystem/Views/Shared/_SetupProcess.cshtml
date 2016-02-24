@@ -28,13 +28,6 @@
     <script>
 
 
-
-
-
-        //$(".tab.1").children("span").remove();
-        //$(".tab.1").append("<span style='float:right;color:yellow'>&#x270E;  </span>");
-
-
         function handleError(ajaxContext) {
 
 
@@ -106,7 +99,7 @@
 
     <style>
         body {
-            background-color: aliceblue;
+            background-color:#0A1219;
         }
 
         #changeContainer {
@@ -133,7 +126,7 @@
 
         .page-wrapper {
             width: 78%;
-            height: 900px; /* for testing*/
+           
             float: right;
             background-color: #ebebed;
         }
@@ -159,12 +152,10 @@
                 color: white;
                 text-decoration: none;
                 margin-top: 18px;
-                padding-right: 20px;
+                margin-right: 20px;
             }
 
-                .top-bar > a:hover {
-                    text-shadow: 2px 2px black;
-                }
+                
 
         .profile-elements {
             padding: 30px;
@@ -203,14 +194,6 @@
         }
 
 
-
-
-
-
-
-
-
-
         <script>
         $(".tab").append("<span style='float:right'>&#128274;  </span>");
         $(".tab").css("pointer-events", "none").css("cursor", "default");
@@ -239,7 +222,7 @@
 
         <div class="page-wrapper">
 
-            <div class="top-bar">@Html.ActionLink("Log out", "UserLogin", "Login", null, null) </div>
+            <div class="top-bar">@Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class = "btn btn-info" }) </div>
 
             <div class="in-container">
                 <div id="loadingDiv" style="display:none">
@@ -259,8 +242,6 @@
 
 
     <!-- Mainly scripts -->
-
-
 
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 
