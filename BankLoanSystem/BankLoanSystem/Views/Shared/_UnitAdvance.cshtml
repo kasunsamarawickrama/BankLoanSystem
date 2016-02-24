@@ -20,10 +20,12 @@
         }
 
         <div class="details-container">
-            <div class="side-panel">
-                <h5><strong>Loan Details</strong></h5>
 
-            </div>
+
+            @{
+                Html.RenderAction("LoanPaymentDetails", "Unit");
+            }
+            
 
             <div class="body-content">
                 @RenderBody()

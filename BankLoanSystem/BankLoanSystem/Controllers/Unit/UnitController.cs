@@ -54,5 +54,16 @@ namespace BankLoanSystem.Controllers.Unit
         {
             return View();
         }
+
+
+
+        public ActionResult LoanPaymentDetails() {
+
+            int userId = 57;
+            int loanId = 184;
+
+            return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanId));
+
+        }
     }
 }
