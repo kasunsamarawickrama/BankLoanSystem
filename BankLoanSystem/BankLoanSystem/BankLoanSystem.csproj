@@ -321,8 +321,8 @@
     <Content Include="Views\Unit\AddUnit.cshtml" />
     <Content Include="Views\AddUnit\AddUnit.cshtml" />
     <Content Include="Views\AddUnit\LoanInfo.cshtml" />
-    <Content Include="Views\Shared\_UnitAdvance.cshtml" />
     <Content Include="Views\Unit\LoanPaymentDetails.cshtml" />
+    <Content Include="Views\Unit\GetLinkBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -332,7 +332,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\AddUnit\" />
     <Folder Include="Images\UnitImage\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
