@@ -14,7 +14,7 @@ namespace BankLoanSystem.Controllers.AddUnit
         public ActionResult AddUnit()
         {
             Session["userId"] = 2;
-            int loanId = 188;
+            int loanId = 179;
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
