@@ -15,8 +15,6 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<h2>Unit</h2>
-
 @*@using (Html.BeginForm())*@
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
@@ -31,8 +29,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Unit</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">

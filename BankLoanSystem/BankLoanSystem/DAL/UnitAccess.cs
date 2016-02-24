@@ -77,57 +77,57 @@ namespace BankLoanSystem.DAL
         /// <param name="unitList"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceAllSelectedItems(List<Unit> unitList,int loanId,int userId,DateTime advanceDate)
+        public int AdvanceAllSelectedItems(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
         {
             int countVal = 0;
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-            
-                    
-                    try
-                    {
-                        foreach (Unit unitObj in unitList)
-                        {
-                            using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
-                            {
-                                cmd.CommandType = CommandType.StoredProcedure;
 
-                                cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                                cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                                cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                                cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
-                                cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
+
+                try
+                {
+                    foreach (Unit unitObj in unitList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                            cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                            cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
+                            cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
+                            cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
                             con.Open();
 
-                                SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
+                            SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
 
-                                returnParameter.Direction = ParameterDirection.ReturnValue;
-                                cmd.ExecuteNonQuery();
+                            returnParameter.Direction = ParameterDirection.ReturnValue;
+                            cmd.ExecuteNonQuery();
 
-                                countVal = (int)returnParameter.Value;
+                            countVal = (int)returnParameter.Value;
 
 
                             //return countVal;
-                            }
-                        countVal = countVal + 1;
                         }
+                        countVal = countVal + 1;
+                    }
                     return countVal;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        con.Close();
-                    }
-                   
                 }
-                
-                
-           
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+
+            }
+
+
+
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unitObj"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceSelectedItem(Unit unitObj, int loanId, int userId, DateTime advanceDate) 
+        public int AdvanceSelectedItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -170,17 +170,17 @@ namespace BankLoanSystem.DAL
                         return countVal;
                     }
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
                     throw ex;
                 }
-                finally 
+                finally
                 {
                     con.Close();
                 }
-                }
-
             }
+
+        }
 
 
         public bool InsertUnit(Unit unit, int userId, string loanNumber)
@@ -239,7 +239,7 @@ namespace BankLoanSystem.DAL
                 {
                     throw ex;
                 }
-                }
+            }
 
             return true;
         }
@@ -273,7 +273,7 @@ namespace BankLoanSystem.DAL
                 }
             }
             return latestUnitId;
-            }
+        }
 
 
         /// <summary>
@@ -302,8 +302,8 @@ namespace BankLoanSystem.DAL
 
                             loanPaymentDetails.Amount = (Decimal)reader["loan_amount"];
                             //loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
-                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal) reader["pending_amount"] : (Decimal)0.00;
-                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00; 
+                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal)reader["pending_amount"] : (Decimal)0.00;
+                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00;
                             //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
 
                         }
