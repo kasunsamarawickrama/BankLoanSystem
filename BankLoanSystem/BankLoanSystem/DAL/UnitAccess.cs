@@ -207,10 +207,10 @@ namespace BankLoanSystem.DAL
                         {
 
                             loanPaymentDetails.Amount = (Decimal)reader["loan_amount"];
-                            loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
+                            //loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
                             loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal) reader["pending_amount"] : (Decimal)0.00;
                             loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00; 
-                            loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
+                            //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
 
                         }
                     }
