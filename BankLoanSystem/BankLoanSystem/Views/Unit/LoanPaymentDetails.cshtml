@@ -7,34 +7,62 @@
 
 
     <table style="text-align: left;
-    color: #09714F;
+    color: #07BB9B;
     font-weight: bold;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 10px;">
+    margin-bottom: 10px;font-size: 85%;width: 125%;">
        
         <tr>
             <td>Amount</td>
+            <td>-</td>
             <td>$@Model.Amount</td>
         </tr>
         <tr>
             <td>Used</td>
+            <td>-</td>
             <td>$@Model.UsedAmount</td>
         </tr>
 
         <tr>
             <td>Balance</td>
+            <td>-</td>
             <td>$@(Model.BalanceAmount = Model.Amount - Model.UsedAmount)</td>
         </tr>
 
         <tr>
             <td>Pending</td>
+            <td>-</td>
             <td>$@Model.PendingAmount</td>
         </tr>
-        <tr>
-            <td>Balance After Pending</td>
-            <td>$@(Model.BalanceAfterPending= Model.BalanceAmount - Model.PendingAmount )</td>
-        </tr>
+      
     </table>
+    <table style="text-align: left;
+    color: #07BB9B;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;font-size: 85%;">
+        <tr>
+            <td style="width:60%">Balance After Pending</td>
 
-</div>
+            <td>$@(Model.BalanceAfterPending = Model.BalanceAmount - Model.PendingAmount )</td>
+        </tr>
+
+
+        </table>
+        
+        </div>
+
+<style>
+
+
+    table {
+    border-collapse: collapse;
+}
+
+td {
+   
+       padding-bottom: 0.5em;
+}
+</style>
