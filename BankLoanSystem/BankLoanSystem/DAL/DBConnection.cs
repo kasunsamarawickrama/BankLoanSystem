@@ -14,7 +14,7 @@ namespace BankLoanSystem.DAL
     /// 
     /// DB connection Initialize
     /// </summary>
-    public class DBConnection
+    public class DBConnection : IDisposable
     {
         public SqlConnection connection;
         public DBConnection() {
@@ -39,6 +39,11 @@ namespace BankLoanSystem.DAL
         }
 
         public void CloseConnection()
+        {
+            connection.Close();
+        }
+
+        public void Dispose()
         {
             connection.Close();
         }
