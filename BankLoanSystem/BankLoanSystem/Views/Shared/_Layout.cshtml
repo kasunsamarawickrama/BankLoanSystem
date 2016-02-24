@@ -69,6 +69,10 @@
 
         #changeContainer {
             padding: 10px 30px 30px 35px;
+            box-shadow: 10px 10px 5px #888888;
+            -webkit-box-shadow: 10px 10px 5px #888888;
+            -moz-box-shadow: 10px 10px 5px #888888;
+
         }
 
         .nav-conatainer {
@@ -179,7 +183,9 @@
             $(".main-tab.1").addClass('collapsed');
             $("#demo").removeClass("in");
         });
-
+        
+        $(".main-tab.1").removeClass('collapsed');
+        $("#demo").addClass("in");
 
 
         </script>
