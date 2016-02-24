@@ -48,7 +48,13 @@
                         name = "";
                     }
                 }
-                @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
+                {
+                    @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @disabled = "disabled" })
+                }
+                else {
+                    @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                }               
                 @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -105,7 +111,51 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                    @{
+                        List<SelectListItem> Colourlist = new List<SelectListItem>();
+
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Black",
+                            Value = "Black"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Blue",
+                            Value = "Blue"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Brown",
+                            Value = "Brown"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Gray",
+                            Value = "Gray"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Green",
+                            Value = "Green"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Silver",
+                            Value = "Silver"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "White",
+                            Value = "White"
+                        });
+                        Colourlist.Add(new SelectListItem
+                        {
+                            Text = "Yellow",
+                            Value = "Yellow"
+                        });
+                    }
+                    @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -389,7 +439,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -496,6 +546,7 @@
     }
 
     changeUnitType();
+
     function changeUnitType() {
 
         @*var model = @Html.Raw(Json.Encode(Model));*@
