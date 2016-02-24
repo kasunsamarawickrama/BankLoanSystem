@@ -96,4 +96,13 @@ namespace BankLoanSystem.Models
 
 
     }
+    public class JustAddedUnit
+    {
+
+        public int userId;
+        public string model;
+        public decimal advanceAmount;
+        public bool isAdvance;
+
+    }
 }
