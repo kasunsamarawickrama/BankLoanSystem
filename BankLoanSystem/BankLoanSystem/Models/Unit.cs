@@ -5,14 +5,16 @@ namespace BankLoanSystem.Models
 {
     public class Unit
     {
-    public string UnitId { get; set; }
+        public string UnitId { get; set; }
 
+        [Display(Name = "Identification Number")]
         [Required(ErrorMessage = "Vehicle Identification Number is required.")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
         public int Year { get; set; }
 
+        [Display(Name = "Serial Number")]
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
         public string SerialNumber { get; set; }
 
@@ -26,16 +28,20 @@ namespace BankLoanSystem.Models
 
         public string Color { get; set; }
 
+        [Display(Name = "New or Used")]
         public bool NewOrUsed { get; set; }
 
         public double Length { get; set; }
 
+        [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
         public double Speed { get; set; }
 
+        [Display(Name = "Trailer")]
         public string TrailerId { get; set; }
 
+        [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
         [Required]
@@ -65,6 +71,7 @@ namespace BankLoanSystem.Models
 
         public bool IsApproved { get; set; }
 
+        [Display(Name = "Unit Type")]
         public int UnitTypeId { get; set; }
 
         public int LoanId { get; set; }
