@@ -61,16 +61,15 @@ namespace BankLoanSystem.Controllers.Unit
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;
-        }
-            var userId = (int)Session["userId"];
+            }
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId, _loan.loanNumber);
             if (res)
             {
                 res = ua.InsertJustAddedUnit(userId, unit.Model, unit.AdvanceAmount, unit.IsAdvanced, unit.LoanId);
-                if(res)
-            return RedirectToAction("AddUnit");
-        }
+                if (res)
+                    return RedirectToAction("AddUnit");
+            }
             return RedirectToAction("AddUnit", unit);
         }
 
@@ -106,7 +105,7 @@ namespace BankLoanSystem.Controllers.Unit
 
         }
 
-        
+
         public ActionResult GetLinkBar()
         {
             int userId = 57;
@@ -155,7 +154,7 @@ namespace BankLoanSystem.Controllers.Unit
                     {
                         rights = new List<Right>();
                     }
-                  
+
 
                 }
 
@@ -164,8 +163,8 @@ namespace BankLoanSystem.Controllers.Unit
 
                     rights = new List<Right>();
                 }
-              
-             
+
+
 
             }
 
@@ -181,7 +180,7 @@ namespace BankLoanSystem.Controllers.Unit
             int loanId = 184;
 
 
-            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId,loanId)));
+            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanId)));
         }
     }
 }
