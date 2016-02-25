@@ -9,8 +9,15 @@ using System.Web.Mvc;
 
 namespace BankLoanSystem.Controllers
 {
+    /// <summary>
+    /// Get not advanced unit list and display in table
+    /// can select one or more units and do the advance
+    /// can search unit by vin/year/make or model
+    /// </summary>
     public class AdvanceUnitController : Controller
     {
+        private static LoanSetupStep1 loan;
+
         // GET: AdvanceUnit
         public ActionResult Index()
         {
@@ -18,6 +25,15 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 02/24/2016
+        /// 
+        /// Get loan details and not advanced unit details from database and return not advance unit list to view
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Return partial view</returns>
         public ActionResult Advance()
         {
             Session["userId"] = 2;
@@ -25,33 +41,20 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("UserLogin", "Login");
             int userId = Convert.ToInt32(Session["userId"]);
 
+            Session["userId"] = 2;
+            int loanId = 187;
 
             UnitAccess unitAccess = new UnitAccess();
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
 
-            List<BankLoanSystem.Models.AdvanceUnit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
-            //List<Models.Unit> units = new List<Models.Unit>();
-            //unitList.Add(new Unit
-            //{
-            //    UnitId = 1,
-            //    CreatedDate = DateTime.Now,
-            //    IdentificationNumber = "s1"
+            ViewBag.loanDetails = loanDetails;
+            Models.Unit unit = new Models.Unit();
 
-            //});
-            //unitList.Add(new Unit
-            //{
-            //    UnitId = 1,
-            //    CreatedDate = DateTime.Now,
-            //    IdentificationNumber = "s2"
-            //});
-
+            List<BankLoanSystem.Models.AdvanceUnit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
+           
             return View(unitList);
-        }
-
-        //[HttpPost]
-        //public ActionResult Advance(List<BankLoanSystem.Models.Unit> unitList)
-        //{
-        //    return View(unitList);
-        //}
+        }        
 
         [HttpPost]
         public ActionResult Advance(List<BankLoanSystem.Models.Unit> unitListf, string[] ids, string identificationNumber, string year, string make, string vehicleModel, string search)
@@ -314,6 +317,72 @@ namespace BankLoanSystem.Controllers
                 }
             }
             return View(resultList);
+        }
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 02/24/2016
+        /// 
+        /// Get selected advance units to update advance amount of the unit table, 
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Return partial view</returns>
+        public ActionResult UpdateAdvance(BankLoanSystem.Models.Unit unit)
+        {
+            if (string.IsNullOrEmpty(Session["userId"].ToString()))
+                RedirectToAction("UserLogin", "Login");
+
+            int userId = Convert.ToInt16(Session["userId"]);
+
+            ViewBag.ErrorMsg = "";
+            UnitAccess unitAccess = new UnitAccess();
+            List<BankLoanSystem.Models.AdvanceUnit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
+
+            var res = unitAccess.AdvanceSelectedItem(unit, loan.loanId, userId, unit.AdvanceDate);
+            if (res == 0)
+            {
+                return RedirectToAction("Advance");
+            }
+            return RedirectToAction("Advance", unit);
+
+
+
+        }
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 02/25/2016
+        /// 
+        /// Get selected advance unit list to update advance amount of the unit table 
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Return partial view</returns>
+        public ActionResult UpdateAdvanceAll(ListViewModel list)
+        {
+            Session["userId"] = 2;
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
+            int userId = Convert.ToInt32(Session["userId"]);
+            ViewBag.ErrorMsg = "";
+
+
+            UnitAccess unitAccess = new UnitAccess();
+            int count = unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);
+            if (count > 0)
+            {
+                return RedirectToAction("Advance");
+            }
+            else
+            {
+                return RedirectToAction("Advance");
+            }
+
+            List<BankLoanSystem.Models.AdvanceUnit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
+
+
+            return PartialView("Step10", unitList);
         }
     }
 }
