@@ -182,7 +182,17 @@ namespace BankLoanSystem.DAL
 
         }
 
-
+        /// <summary>
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/24/2016
+        /// 
+        /// Insert unit to database
+        /// 
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="userId"></param>
+        /// <param name="loanNumber"></param>
+        /// <returns></returns>
         public bool InsertUnit(Unit unit, int userId, string loanNumber)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -232,7 +242,7 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        int countVal = (int)returnParameter.Value;
+                        return true;
                     }
                 }
                 catch (Exception ex)
@@ -240,11 +250,17 @@ namespace BankLoanSystem.DAL
                     throw ex;
                 }
             }
-
-            return true;
         }
 
-
+        /// <summary>
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/24/2016
+        /// 
+        /// Get latest unit id from database
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
         public string GetLatestUnitId(int loanId)
         {
             string latestUnitId = "";
@@ -273,6 +289,40 @@ namespace BankLoanSystem.DAL
                 }
             }
             return latestUnitId;
+        }
+
+        public bool InsertJustAddedUnit(int userId, string model, decimal advanceAmount, bool isAdvanced, int loanId)
+        {
+            bool result;
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spInsertJustAddedUnit", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@user_id", userId);
+                        command.Parameters.AddWithValue("@model", model);
+                        command.Parameters.AddWithValue("@advance_amount", advanceAmount);
+                        command.Parameters.AddWithValue("@is_advanced", isAdvanced);
+                        command.Parameters.AddWithValue("@loan_id", loanId);
+
+                        con.Open();
+                        command.ExecuteNonQuery();
+
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    throw ex;
+                }
+            }
+
+            return result;
         }
 
 

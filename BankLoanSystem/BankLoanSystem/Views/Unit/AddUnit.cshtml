@@ -770,11 +770,29 @@
         }
     });
 
+    //claculate advance when click back-space
     $('#txtCost').keyup(function(e) {
         if (e.keyCode === 8) {
             var val = this.value;
             var advanceAmount = (advancePt * val) / 100;
             document.getElementById('txtAdvanceAmount').value = advanceAmount;
+        }
+    });
+
+    $('#txtAdvanceAmount').keypress(function(e) {
+        var cost = document.getElementById('txtCost').value;
+        //alert(cost);
+        if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+            var val = this.value + (e.which - 48);
+            alert(cost + ' ' + val);
+            if (e.which !== 46) {
+                if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
+                    e.preventDefault();
+                }
+            }
+
+        } else {
+            e.preventDefault();
         }
     });
 

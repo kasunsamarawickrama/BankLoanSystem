@@ -3,6 +3,7 @@ using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using BankLoanSystem.Code;
 
 namespace BankLoanSystem.Controllers.Unit
 {
@@ -48,8 +49,7 @@ namespace BankLoanSystem.Controllers.Unit
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
-            if (string.IsNullOrEmpty(Session["UserId"].ToString()))
-                RedirectToAction("UserLogin", "Login");
+            int userId = Convert.ToInt16(Session["userId"]);
 
             switch (btnAdd)
             {
@@ -61,15 +61,19 @@ namespace BankLoanSystem.Controllers.Unit
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;
-        }
-            var userId = (int)Session["userId"];
+            }
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId, _loan.loanNumber);
-
-            return RedirectToAction("AddUnit");
+            if (res)
+            {
+                res = ua.InsertJustAddedUnit(userId, unit.Model, unit.AdvanceAmount, unit.IsAdvanced, unit.LoanId);
+                if (res)
+                    return RedirectToAction("AddUnit");
+            }
+            return RedirectToAction("AddUnit", unit);
         }
 
-        public ActionResult LoanInfo( string title)
+        public ActionResult LoanInfo(string title)
         {
             int userId = 57;
             int loanId = 184;
@@ -91,7 +95,8 @@ namespace BankLoanSystem.Controllers.Unit
             return View();
         }
 
-        public ActionResult LoanPaymentDetails() {
+        public ActionResult LoanPaymentDetails()
+        {
 
             //int userId = 57;
             int loanId = 184;
@@ -100,8 +105,9 @@ namespace BankLoanSystem.Controllers.Unit
 
         }
 
-        
-        public ActionResult GetLinkBar() {
+
+        public ActionResult GetLinkBar()
+        {
             int userId = 57;
 
             var access = new UserRightsAccess();
@@ -111,7 +117,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             int userRole = (new UserManageAccess()).getUserRole(userId);
 
-            if(userRole == 3)
+            if (userRole == 3)
             {
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(userId);
@@ -148,7 +154,7 @@ namespace BankLoanSystem.Controllers.Unit
                     {
                         rights = new List<Right>();
                     }
-                  
+
 
                 }
 
@@ -157,8 +163,8 @@ namespace BankLoanSystem.Controllers.Unit
 
                     rights = new List<Right>();
                 }
-              
-             
+
+
 
             }
 
@@ -174,7 +180,7 @@ namespace BankLoanSystem.Controllers.Unit
             int loanId = 184;
 
 
-            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId,loanId)));
+            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanId)));
         }
     }
 }
