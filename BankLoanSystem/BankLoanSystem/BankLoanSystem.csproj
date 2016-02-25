@@ -125,21 +125,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\combo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Content\jquery.gritter.css" />
-    <Content Include="Content\message.css" />
     <Content Include="Content\pikaday.css" />
-    <Content Include="Content\screen_preview.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\steps.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\theme.css" />
-    <Content Include="Content\toastr.min.css" />
     <Content Include="Content\triangle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -161,10 +155,6 @@
     <Content Include="Images\profile_small.jpg" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\small_loading.gif" />
-    <Content Include="scripts\ai.0.15.0-build58334.js" />
-    <Content Include="scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="scripts\analytics.js" />
-    <Content Include="scripts\behavior.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
@@ -194,13 +184,10 @@
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pace.min.js" />
     <Content Include="scripts\peity-demo.js" />
     <Content Include="scripts\pikaday.js" />
-    <Content Include="scripts\sparkline-demo.js" />
-    <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -282,7 +269,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\UserManagement\editUser.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\CreateUser\Create.cshtml" />
@@ -334,6 +320,7 @@
     <Content Include="Views\Unit\GetLinkBar.cshtml" />
     <Content Include="Views\Unit\GetJustAddedUnits.cshtml" />
     <Content Include="Views\AdvanceUnit\Advance.cshtml" />
+    <Content Include="Views\UserManagement\DashBoard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
