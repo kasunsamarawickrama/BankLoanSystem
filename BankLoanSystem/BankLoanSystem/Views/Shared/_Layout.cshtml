@@ -188,6 +188,16 @@
         $("#demo").addClass("in");
 
 
+
+        function removeAll() {
+
+            $('.main-tab.1').addClass('collapsed');
+            $('#demo').removeClass('in');
+            $('.main-tab.2').addClass('collapsed');
+            $('#demo2').removeClass('in');
+            $('.tab').parent("li").removeClass('active');
+           
+        }
         </script>
 
         <div class="page-wrapper">
