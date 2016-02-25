@@ -26,6 +26,7 @@ namespace BankLoanSystem.Models
 
         public string Trim { get; set; }
 
+        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
         public string Color { get; set; }
@@ -33,11 +34,13 @@ namespace BankLoanSystem.Models
         [Display(Name = "New or Used")]
         public bool NewOrUsed { get; set; }
 
+        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
         public double Length { get; set; }
 
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
+        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
         public double Speed { get; set; }
 
         [Display(Name = "Trailer")]
