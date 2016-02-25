@@ -165,5 +165,16 @@ namespace BankLoanSystem.Controllers.Unit
             return PartialView(rights);
 
         }
+
+
+
+        public ActionResult GetJustAddedUnits()
+        {
+            int userId = 57;
+            int loanId = 184;
+
+
+            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId,loanId)));
+        }
     }
 }
