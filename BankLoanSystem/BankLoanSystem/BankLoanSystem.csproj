@@ -43,10 +43,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AspNet.ScriptManager.Kendo, Version=2014.1.528.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AspNet.ScriptManager.Kendo.2014.1.528.0\lib\net452\AspNet.ScriptManager.Kendo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -127,8 +123,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\combo.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\overlaypopup.css" />
     <Content Include="Content\pikaday.css" />
     <Content Include="Content\steps.css" />
     <Content Include="Content\style.css" />
@@ -164,6 +160,7 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
+    <Content Include="scripts\popup.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -220,6 +217,7 @@
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\LoanSelection.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
@@ -296,8 +294,10 @@
     <Content Include="Views\Unit\LoanPaymentDetails.cshtml" />
     <Content Include="Views\Unit\GetLinkBar.cshtml" />
     <Content Include="Views\Unit\GetJustAddedUnits.cshtml" />
-    <Content Include="Views\AdvanceUnit\Advance.cshtml" />
     <Content Include="Views\UserManagement\DashBoard.cshtml" />
+    <Content Include="Views\UserManagement\Selectloan.cshtml" />
+    <Content Include="Views\UserManagement\GetLoansByNonRegBranchId.cshtml" />
+    <Content Include="Views\UserManagement\getNonRegBranchesByNonRegComId.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
