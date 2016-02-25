@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -120,6 +121,12 @@ namespace BankLoanSystem.Models
         public string model;
         public decimal advanceAmount;
         public bool isAdvance;
+
+    }
+
+    public class ListViewModel
+    {
+        public List<Unit> ItemList { get; set; }
 
     }
 }

@@ -19,10 +19,10 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns>unitList</returns>
-        public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
+        public List<AdvanceUnit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
         {
 
-            List<Unit> unitList = new List<Unit>();
+            List<AdvanceUnit> unitList = new List<AdvanceUnit>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
@@ -35,17 +35,19 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
-                            Unit unitDetails = new Unit()
-                            {
-                                UnitId = reader["unit_id"].ToString(),
-                                CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
-                                IdentificationNumber = reader["identification_number"].ToString(),
-                                Year = Convert.ToInt32(reader["year"].ToString()),
-                                Make = reader["make"].ToString(),
-                                Model = reader["model"].ToString(),
-                                Cost = Convert.ToDecimal(reader["cost"].ToString()),
-                                AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString())
-                            };
+                            AdvanceUnit unitDetails = new AdvanceUnit();
+                            Unit NotAdvanced = new Unit();
+
+                            NotAdvanced.UnitId = reader["unit_id"].ToString();
+                            NotAdvanced.CreatedDate = Convert.ToDateTime(reader["created_date"].ToString());
+                            NotAdvanced.IdentificationNumber = reader["identification_number"].ToString();
+                            NotAdvanced.Year = Convert.ToInt32(reader["year"].ToString());
+                            NotAdvanced.Make = reader["make"].ToString();
+                            NotAdvanced.Model = reader["model"].ToString();
+                            NotAdvanced.Cost = Convert.ToDecimal(reader["cost"].ToString());
+                            NotAdvanced.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
+
+                            unitDetails.NotAdvanced = NotAdvanced;
                             unitList.Add(unitDetails);
                         }
                     }
