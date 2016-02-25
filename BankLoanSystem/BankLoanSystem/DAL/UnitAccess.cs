@@ -375,5 +375,58 @@ namespace BankLoanSystem.DAL
 
 
         }
+
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/2/24
+        /// Get just added units details by loan id and user id
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns>LoanPaymentDetails</returns>
+        public List<JustAddedUnit> GetJustAddedUnitDetails(int userId, int loanId)
+        {
+
+            List<JustAddedUnit> justAddedUnitList = new List<JustAddedUnit>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetJustAddedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
+                    command.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            JustAddedUnit justAddedUnit = new JustAddedUnit();
+                            
+                            justAddedUnit.model = reader["model"].ToString();
+                            justAddedUnit.advanceAmount = (reader["advance_amount"]) != DBNull.Value ? (Decimal)reader["advance_amount"] : (Decimal)0.00;
+                            justAddedUnit.isAdvance = Convert.ToBoolean(reader["is_advanced"]);
+                            justAddedUnitList.Add(justAddedUnit);
+                        }
+                    }
+                    return justAddedUnitList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+
+
+        }
+
+        
     }
 }
