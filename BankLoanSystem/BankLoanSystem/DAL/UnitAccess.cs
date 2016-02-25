@@ -393,6 +393,51 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/25
+        /// Get vehicle models by make
+        /// </summary>
+        /// <param name="make"></param>
+        /// <returns>modelList</returns>
+        public List<VehicleYearMakeModel> GetVehicleModelsByMake(string make)
+        {
+            List<VehicleYearMakeModel> modelList = new List<VehicleYearMakeModel>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleModelsByMake", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@make", SqlDbType.Int).Value = make;
+                   
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            VehicleYearMakeModel vym = new VehicleYearMakeModel();
+                            vym.VehicleModel = reader["model"].ToString();
+                            modelList.Add(vym);
+
+                           
+                        }
+                    }
+                    return modelList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
         
     }
 }
