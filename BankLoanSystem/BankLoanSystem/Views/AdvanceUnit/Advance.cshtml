@@ -1,17 +1,13 @@
-﻿@model IEnumerable<BankLoanSystem.Models.Unit>
+﻿@model IEnumerable<BankLoanSystem.Models.AdvanceUnit>
 
 @{
     ViewBag.Title = "Advance";
+    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
+    WebGrid grid = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5);
+    WebGrid grid1 = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 
 <h2>Advance</h2>
-
-<div>
-    @{
-        ViewBag.Title = "WebGrid";
-        WebGrid grid = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5); // grid with sorting and paging
-    }
-</div>
 
 
 
@@ -26,43 +22,96 @@
        htmlAttributes: new { id = "checkableGrid" },
            columns: grid.Columns(
                 grid.Column(
-                    format:@<text><input type="checkbox" value="@item.UnitId" , name="ids" /></text>
+                    format:@<text><input type="checkbox" value="@item.NotAdvanced.UnitId" , name="ids" /></text>
                     ,header: "{checkall}"
 
                 ),
-                grid.Column("CreatedDate", header: "Date Entered"),
-                grid.Column("IdentificationNumber", header: "VIN/HIN/serial #"),
-                grid.Column("Year", header: "Year"),
-                grid.Column("Make", header: "make"),
-                grid.Column("Model", header: "Model"),
-                grid.Column("Cost", header: "Cost"),
-                grid.Column("AdvanceAmount", header: "Advance Amount")
+                grid.Column("NotAdvanced.CreatedDate", header: "Date Entered"),
+                grid.Column("NotAdvanced.IdentificationNumber", header: "VIN/HIN/serial #"),
+                grid.Column("NotAdvanced.Year", header: "Year"),
+                grid.Column("NotAdvanced.Make", header: "make"),
+                grid.Column("NotAdvanced.Model", header: "Model"),
+                grid.Column("NotAdvanced.Cost", header: "Cost"),
+                grid.Column("NotAdvanced.AdvanceAmount", header: "Advance Amount")
 
            )
        )
 
     </div>
-    <div>
-        <input type="submit" value="Get" />
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div style="border:solid;border-radius: 15px; width:870px;float:left">
+            <div class="form-group">
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
+                <div class="col-sm-4" style="margin-top:10px">
+                    @Html.Editor("identificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.IdentificationNumber, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
+                <div class="col-sm-2" style="margin-top:10px">
+                    @Html.Editor("year", new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
+                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Year, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
+                <div class="col-sm-2" style="margin-top:5px">
+                    @Html.Editor("make", new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
+                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Make, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
+                <div class="col-sm-2" style="margin-top:5px">
+                    @Html.Editor("vehicleModel", new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
+                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Model, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="form-group">
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="submit" name="search" value="Search" id="btnSubmit" class="btn btn-default" style="float:left;margin-left:200px" />
+                        </li>
+                        <li>
+                            <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
+
+
+        </div>
+      
+
+
+
+
     </div>
 }
 
 
 
-@*@grid.GetHtml(columns: grid.Columns(grid.Column("Date", header: "VIN"),
-    grid.Column("VIN", "VIN")))*@
 
 
 
-<div id="tblGrid">
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@section script{
+
     <script>
         $(document).ready(function () {
             //1st replace first colom header text with checkbox
@@ -101,7 +150,7 @@
 
     </script>
 
-}
+
 
 
 
