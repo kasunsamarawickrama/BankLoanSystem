@@ -66,16 +66,14 @@ namespace BankLoanSystem.Controllers.Unit
             var res = ua.InsertUnit(unit, userId, _loan.loanNumber);
             if (res)
             {
-                res = ua.InsertJustAddedUnit(userId, unit.Model, unit.AdvanceAmount, unit.IsAdvanced, unit.LoanId);
-                if (res)
-                    return RedirectToAction("AddUnit");
+                return RedirectToAction("AddUnit");
             }
             return RedirectToAction("AddUnit", unit);
         }
 
         public ActionResult LoanInfo(string title)
         {
-            int userId = 57;
+            int userId = 64;
             int loanId = 184;
             ViewBag.Title = title;
             User user = (new UserAccess()).retreiveUserByUserId(userId);
@@ -176,7 +174,7 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult GetJustAddedUnits()
         {
-            int userId = 57;
+            int userId = 64;
             int loanId = 184;
 
 

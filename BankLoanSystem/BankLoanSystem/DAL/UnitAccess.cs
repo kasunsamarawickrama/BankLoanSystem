@@ -291,40 +291,6 @@ namespace BankLoanSystem.DAL
             return latestUnitId;
         }
 
-        public bool InsertJustAddedUnit(int userId, string model, decimal advanceAmount, bool isAdvanced, int loanId)
-        {
-            bool result;
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spInsertJustAddedUnit", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        command.Parameters.AddWithValue("@user_id", userId);
-                        command.Parameters.AddWithValue("@model", model);
-                        command.Parameters.AddWithValue("@advance_amount", advanceAmount);
-                        command.Parameters.AddWithValue("@is_advanced", isAdvanced);
-                        command.Parameters.AddWithValue("@loan_id", loanId);
-
-                        con.Open();
-                        command.ExecuteNonQuery();
-
-                        result = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result = false;
-                    throw ex;
-                }
-            }
-
-            return result;
-        }
-
 
         /// <summary>
         /// CreatedBy:Irfan
