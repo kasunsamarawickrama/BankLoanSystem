@@ -542,11 +542,61 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        public ActionResult Selectloan()
+        {
+            int userId;
+            // if Session is expired throw an error
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Your Session is Expired");
+            }
+            LoanSelection loanSelection = new LoanSelection();
+            //getting user role
+            UserAccess ua = new UserAccess();
+            User curUser = ua.retreiveUserByUserId(userId);
 
 
+            // curUser.Company_Id
+            loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId(curUser.Company_Id);
+
+                if (loanSelection.NonRegCompanies.Count() == 1) {
+                loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+
+                    if (loanSelection.NonRegBranchList.Count() == 1) {
+                    loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                        //if loans count is one redirect to add unit page
+                    }
+                }
+                
+            
 
 
+            return PartialView(loanSelection);
         }
+
+
+
+        public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId) {
+
+            return PartialView(new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(NonRegBranchId));
+        }
+        
+
+        public ActionResult getNonRegBranchesByNonRegComId(int NonRegCompId)
+        {
+
+            return PartialView((new BranchAccess()).getNonRegBranches(NonRegCompId));
+        }
+
+
+
+
+
+    }
 
 
 

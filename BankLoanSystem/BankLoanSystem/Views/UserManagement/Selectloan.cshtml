@@ -1,0 +1,93 @@
+﻿@model BankLoanSystem.Models.LoanSelection
+
+<div>
+    <h4>LoanSelection</h4>
+    <hr />
+    
+@if (Model.NonRegCompanies != null)
+{
+        <div class="h-panel">
+            <ul>
+                @if (Model.NonRegCompanies.Count() == 1)
+                {
+                    <li>
+                        @Model.NonRegCompanies[0].CompanyName
+                    </li>
+                }
+                else {
+                foreach (var item in Model.NonRegCompanies)
+                {
+                        <li>
+                            @*<a >@item.CompanyName</a>*@
+
+                            @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                        </li>
+                    }
+                }
+            </ul>
+
+
+
+        </div>
+
+        <div id="branch-panel">
+            <div class="h-panel">
+                <ul>
+                    @if (Model.NonRegBranchList != null)
+                {
+
+                    if (Model.NonRegBranchList.Count() == 1)
+                    {
+                            <li>
+                                @Model.NonRegBranchList[0].BranchName
+
+
+                            </li>
+                        }
+                        else {
+                            foreach (var item in Model.NonRegBranchList)
+                            {
+                                <li>
+                                    @*<a>@item.BranchName</a>*@
+                                    @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+
+            </div>
+
+            <div class="h-panel">
+
+                <ul id="loan-panel">
+                    @if (Model.LoanList != null)
+                {
+                    foreach (var item in Model.LoanList)
+                    {
+                            <li>
+                                <a>@item.loanNumber</a>
+                            </li>
+                        }
+                    }
+                </ul>
+
+            </div>
+        </div>
+
+
+}
+    </div>
+        <p>
+
+            @*@Html.ActionLink("Back to DashBoard", "Index")*@
+        </p>
+
+        <style>
+            .h-panel {
+                margin-left: 20px;
+                width: 30%;
+                float: left;
+                height: 100%;
+            }
+        </style>

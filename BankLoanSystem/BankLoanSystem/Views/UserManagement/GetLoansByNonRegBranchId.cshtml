@@ -1,0 +1,20 @@
+﻿@model IEnumerable<BankLoanSystem.Models.LoanSetupStep1>
+
+
+
+  
+
+@foreach (var item in Model)
+{
+
+    if (item.LoanStatus)
+    {
+        //@Html.ActionLink(modelItem => item.loanNumber)
+        <li>@Html.ActionLink(item.loanNumber, "addunit", "unit", null, new { @class = "" })</li>
+
+    }
+
+
+}
+
+
