@@ -475,9 +475,77 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-       
-        
-             
+
+        public ActionResult DashBoard() {
+
+            int userId = 57;
+
+            var access = new UserRightsAccess();
+
+            ///retrive all rights
+            List<Right> rights = access.getRights();
+
+            int userRole = (new UserManageAccess()).getUserRole(userId);
+
+            if (userRole == 3)
+            {
+                ///get permission string for the relevent user
+                List<Right> permissionString = access.getRightsString(userId);
+                if (permissionString.Count == 1)
+                {
+
+
+                    string permission = permissionString[0].rightsPermissionString;
+                    if (permission != "")
+                    {
+                        string[] charactors = permission.Split(',');
+
+                        List<Right> temprights = new List<Right>();
+
+                        foreach (var charactor in charactors)
+                        {
+                            foreach (var obj in rights)
+                            {
+                                if (string.Compare(obj.rightId, charactor) == 0)
+                                {
+                                    temprights.Add(obj);
+                                    break;
+
+                                }
+
+                            }
+                        }
+
+                        rights = temprights;
+
+
+                    }
+                    else
+                    {
+                        rights = new List<Right>();
+                    }
+
+
+                }
+
+                else if (permissionString.Count == 0)
+                {
+
+                    rights = new List<Right>();
+                }
+
+
+
+            }
+
+            return PartialView(rights);
+
+        }
+
+
+
+
+
         }
 
 

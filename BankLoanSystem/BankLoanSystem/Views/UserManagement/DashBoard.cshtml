@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BankLoanSystem.Models.Right>
+
+
+@foreach (var item in Model)
+{
+
+
+
+    if (item.rightId == "U001")
+    {
+        @Html.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkadv" })
+    }
+
+    if (item.rightId == "U002")
+    {
+        @Html.ActionLink("Title", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkttl" })
+    }
+
+    if (item.rightId == "U003")
+    {
+        @Html.ActionLink("Pay Off", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkpoff" })
+    }
+
+    if (item.rightId == "U004")
+    {
+        @Html.ActionLink("Add a Unit", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkuni" })
+    }
+
+
+
+}
+
+<style>
+
+
+    .btn-info{
+
+        margin-left:20px;
+    }
+</style>

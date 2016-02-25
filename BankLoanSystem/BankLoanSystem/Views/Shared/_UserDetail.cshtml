@@ -15,30 +15,31 @@
                     <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
 
 
-                    <div class="dropdown no-text-decoration">
+                
+                    <strong>
+                        @Ajax.ActionLink(Model.userName, "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "block", onclick= "removeAll()" })
+                    </strong>
 
-                        <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        @*<span class="block"><strong>@Model.userName  </strong></span><br>*@
+                        <div class="dropdown no-text-decoration">
 
-                            <span class="block"><strong>@Model.userName</strong></span><br>
-
-                        </a>
-                        <a class="dropdown-toggle no-text-decoration" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-
-                            <span>@Model.roleName</span>
-                            <span class="caret"></span>
-                        </a>
+                            <a class="dropdown-toggle no-text-decoration" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-
-                            <li role="separator" class="divider"></li>
-                            <li>@Html.ActionLink("Sign out", "UserLogin", "Login", null, null)</li>
-                        </ul>
-                    </div>
+                                <span>@Model.roleName</span>
+                                <span class="caret"></span>
+                            </a>
 
 
-                </div>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>@Ajax.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "block", onclick = "removeAll()" })</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Sign out", "UserLogin", "Login", null, null)</li>
+                            </ul>
+                        </div>
+
+
+</div>
             </li>
 
             <li role="separator" class="divider"></li>
@@ -46,7 +47,9 @@
             <div id="demo" class="collapse nav-bars">
                 <ul class="nav nav-pills nav-stacked secondary">
                     <li class="active">
-                        @Ajax.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+
+                        @Ajax.ActionLink("DashBoard", "DashBoard", "UserManagement", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                        @*@Ajax.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })*@
                         @*@Html.ActionLink("My Profile", "SearchUsers", "DashBoard", new { index = 1 }, null)*@
                     </li>
 
@@ -115,6 +118,5 @@
     </div>
 
 </div>
-
 
 
