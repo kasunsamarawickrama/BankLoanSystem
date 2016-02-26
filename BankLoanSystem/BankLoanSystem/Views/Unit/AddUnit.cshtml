@@ -1052,60 +1052,12 @@
 </script>
 
 <script type="text/javascript">
-    //var advanceDate,
-    //    updateStartDate = function() {
-    //        startPicker.setStartRange(advanceDate);
-    //    },
-    //    startPicker = new Pikaday({
-    //        field: document.getElementById('advanceDate'),
-    //        minDate: new Date(),
-    //        maxDate: new Date(2020, 12, 31),
-    //        onSelect: function() {
-    //            advanceDate = this.getDate();
-    //            updateStartDate();
-    //        }
-    //    }),
-    //    _startDate = startPicker.getDate();
-
-    //if (_startDate) {
-    //    startDate = _startDate;
-    //    updateStartDate();
-    //}
-    var model = @Html.Raw(Json.Encode(Model));
-
-    //var advanceDate,
-    //    updateStartDate = function() {
-    //        startPicker.setStartRange(advanceDate);
-    //        var minNextDate = new Date(advanceDate);
-    //        //alert(minNextDate);
-    //        minNextDate.setDate(advanceDate.getDate() + 1);
-    //    },
-    //    startPicker = new Pikaday({
-    //        field: document.getElementById('advanceDate'),
-    //        minDate: new Date(),
-    //        maxDate: new Date(2020, 12, 31),
-    //        format: 'l',
-    //        bound: true,
-
-    //        onSelect: function() {
-    //            advanceDate = this.getDate();
-    //            updateStartDate();
-
-    //        }
-    //    }),
-    //    _startDate = startPicker.getDate();
-
-    //if (_startDate) {
-    //    startDate = _startDate;
-    //    updateStartDate();
-    //}
-
-    var picker = new Pikaday({
+    var startPicker = new Pikaday({
         field: document.getElementById('advanceDate'),
-        minDate: new Date(),
-        maxDate: new Date(2020, 12, 31),
-        format: 'l',
-        theme: 'dark-theme'
+        format: 'l'
     });
+
+    startPicker.setMinDate(new Date("@Model.StartDate"));
+    startPicker.setMaxDate(new Date("@Model.EndDate"));
 
 </script>

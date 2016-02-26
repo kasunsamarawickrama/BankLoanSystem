@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
-    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow", rowsPerPage: 5);// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
     .gridtable {
@@ -68,7 +68,7 @@
                     rowStyle: "webgrid-row-style",
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
-                    grid.Column(
+                    grid.Column(                     
                          format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                             , header: "{checkall}"
 
@@ -106,7 +106,7 @@
 
             <div class="col-xs-8" id="advanceDateAll" style="display:none">
                 @Html.Editor("TAdvanceDate", new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-                
+
             </div>
 
 
@@ -370,6 +370,15 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
+
+
+                var tr = $('.gridtable tbody tr');
+                if (tr.length > 1) {
+                    $('#cbSelectAll').show();
+                } else {                   
+                    $('#cbSelectAll').css("display", "none");
+                }
+
             });
 
 
@@ -409,18 +418,6 @@
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 }
 
-            });
-
-            $(document).ready(function () {
-                $("#content tbody tr").each(function (i, row) {
-                    var $actualRow = $(row);
-                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
-                        $actualRow.css('background-color', '#EAF2D3');
-                    }
-                    else {
-                        $actualRow.css('background-color', '#FF9E9E');
-                    }
-                });
             });
 
             $('#btnAdvance').click(function () {
