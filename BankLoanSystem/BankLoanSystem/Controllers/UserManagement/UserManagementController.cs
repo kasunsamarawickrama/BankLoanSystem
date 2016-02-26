@@ -23,21 +23,21 @@ namespace BankLoanSystem.Controllers
         {
 
             int idval;
-            int typeval=0;
-            if(Session["userId"] == null || Session["userId"].ToString() == "")
+            int typeval = 0;
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
             {
                 return RedirectToAction("UserLogin", "Login");
             }
             try
             {
                 idval = (int)Session["userId"];
-                
+
                 if ((string)Session["searchType"] == "SuperAdmin")
                 {
                     typeval = 1;
                     ViewBag.Manage = "Manage SuperAdmins";
                 }
-                else if((string)Session["searchType"]== "Admin")
+                else if ((string)Session["searchType"] == "Admin")
                 {
                     typeval = 2;
                     ViewBag.Manage = "Manage Admins";
@@ -66,7 +66,7 @@ namespace BankLoanSystem.Controllers
             {
                 return new HttpStatusCodeResult(404);
             }
-           
+
 
         }
         /// <summary>
@@ -81,7 +81,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult Detailsset(int id)
         {
             Session["rowId"] = id;
-           
+
             return RedirectToAction("Details", "UserManagement");
         }
 
@@ -126,7 +126,7 @@ namespace BankLoanSystem.Controllers
                 if (id != 0)
                 {
                     var ret = obj1.getUserById(id);
-                    
+
                     if (id == logId)
                     {
                         ViewBag.userId = ret.userId;
@@ -144,8 +144,8 @@ namespace BankLoanSystem.Controllers
             {
                 return new HttpStatusCodeResult(404);
             }
-           
-            
+
+
 
         }
 
@@ -221,15 +221,17 @@ namespace BankLoanSystem.Controllers
 
 
 
-            if (currentUserId == editUserId) { ViewBag.isSame = true;
-                Session["rowId"]= editUserId;
+            if (currentUserId == editUserId)
+            {
+                ViewBag.isSame = true;
+                Session["rowId"] = editUserId;
 
                 return PartialView(editUser);
             }
             else { ViewBag.isSame = false; }
 
 
-            
+
             List<UserLogin> details;
 
             string typevalue;
@@ -239,7 +241,8 @@ namespace BankLoanSystem.Controllers
             {
                 typevalue = (string)Session["searchtype"];
 
-                if (typevalue == "SuperAdmin") {
+                if (typevalue == "SuperAdmin")
+                {
                     typeval = 1;
                 }
                 else if (typevalue == "Admin")
@@ -258,14 +261,14 @@ namespace BankLoanSystem.Controllers
             {
                 return new HttpStatusCodeResult(404);
             }
-            
 
-            
+
+
 
             bool isEditable = false;
             foreach (UserLogin user in details)
             {
-                if(user.userId == editUserId && user.isEdit == true)
+                if (user.userId == editUserId && user.isEdit == true)
                 {
                     isEditable = true;
                     break;
@@ -292,7 +295,7 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult editRights(User user)
         {
-            int currentUserId =(int) Session["userId"];
+            int currentUserId = (int)Session["userId"];
             int editUserId = (int)Session["editUserId"];
 
             Session["editUserIds"] = editUserId;
@@ -320,7 +323,7 @@ namespace BankLoanSystem.Controllers
 
             string typevalue;
 
-            
+
 
             try
             {
@@ -357,7 +360,8 @@ namespace BankLoanSystem.Controllers
 
             if (isUpdate)
                 ViewBag.SuccessMsg = "Data Successfully Updated";
-            else {
+            else
+            {
                 ViewBag.ErrorMsg = "Updating failed";
                 return View(user);
             }
@@ -393,7 +397,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult PrevDelete(int id)
         {
             TempData["delRowId"] = id;
-            
+
             return RedirectToAction("Delete", "UserManagement");
         }
 
@@ -409,9 +413,9 @@ namespace BankLoanSystem.Controllers
         public ActionResult Delete()
         {
             int id = (int)TempData["delRowId"];
-            
+
             DashBoardAccess db = new DashBoardAccess();
-            
+
             UserManageAccess obj1 = new UserManageAccess();
             if (id != 0)
             {
@@ -427,7 +431,7 @@ namespace BankLoanSystem.Controllers
                 }
 
             }
-            
+
             return RedirectToAction("UserList", "UserManagement");
 
 
@@ -444,7 +448,7 @@ namespace BankLoanSystem.Controllers
         /// 
         public ActionResult ChangePassword()
         {
-            
+
 
             return PartialView();
         }
@@ -476,7 +480,8 @@ namespace BankLoanSystem.Controllers
         }
 
 
-        public ActionResult DashBoard() {
+        public ActionResult DashBoard()
+        {
 
             int userId = int.Parse(Session["userId"].ToString());
 
@@ -563,16 +568,18 @@ namespace BankLoanSystem.Controllers
             // curUser.Company_Id
             loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId(curUser.Company_Id);
 
-                if (loanSelection.NonRegCompanies.Count() == 1) {
+            if (loanSelection.NonRegCompanies.Count() == 1)
+            {
                 loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
 
-                    if (loanSelection.NonRegBranchList.Count() == 1) {
+                if (loanSelection.NonRegBranchList.Count() == 1)
+                {
                     loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-                        //if loans count is one redirect to add unit page
-                    }
+                    //if loans count is one redirect to add unit page
                 }
-                
-            if(type == "asderruy") // for add unit page
+            }
+
+            if (type == "asderruy") // for add unit page
             {
                 ViewBag.type = "AddUnit";
                 return PartialView(loanSelection);
@@ -590,7 +597,8 @@ namespace BankLoanSystem.Controllers
 
 
 
-        public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId, string type) {
+        public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId, string type)
+        {
 
             if (type == "AddUnit")
             {
@@ -603,15 +611,17 @@ namespace BankLoanSystem.Controllers
 
             return PartialView(new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(NonRegBranchId));
         }
-        
+
 
         public ActionResult getNonRegBranchesByNonRegComId(int NonRegCompId, string type)
         {
 
-            if (type == "AddUnit") {
+            if (type == "AddUnit")
+            {
                 ViewBag.type = "AddUnit";
             }
-            else if (type == "Advance") {
+            else if (type == "Advance")
+            {
                 ViewBag.type = "Advance";
             }
             return PartialView((new BranchAccess()).getNonRegBranches(NonRegCompId));
@@ -619,11 +629,54 @@ namespace BankLoanSystem.Controllers
 
 
 
+        public List<Right> PermissionList(int userId)
+        {
+            var access = new UserRightsAccess();
 
+            //retrive all rights
+            List<Right> rights = access.getRights();
+
+            int userRole = (new UserManageAccess()).getUserRole(userId);
+
+            if (userRole == 3)
+            {
+                //get permission string for the relevent user
+                List<Right> permissionString = access.getRightsString(userId);
+                if (permissionString.Count == 1)
+                {
+                    string permission = permissionString[0].rightsPermissionString;
+                    if (permission != "")
+                    {
+                        string[] charactors = permission.Split(',');
+
+                        List<Right> temprights = new List<Right>();
+
+                        foreach (var charactor in charactors)
+                        {
+                            foreach (var obj in rights)
+                            {
+                                if (String.CompareOrdinal(obj.rightId, charactor) == 0)
+                                {
+                                    temprights.Add(obj);
+                                    break;
+                                }
+                            }
+                        }
+                        rights = temprights;
+                    }
+                    else
+                    {
+                        rights = new List<Right>();
+                    }
+                }
+                else if (permissionString.Count == 0)
+                {
+                    rights = new List<Right>();
+                }
+            }
+
+            return rights;
+        }
 
     }
-
-
-
-
 }

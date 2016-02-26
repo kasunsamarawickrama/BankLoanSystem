@@ -194,7 +194,6 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="userId"></param>
-        /// <param name="loanNumber"></param>
         /// <returns></returns>
         public bool InsertUnit(Unit unit, int userId)
         {
@@ -291,6 +290,14 @@ namespace BankLoanSystem.DAL
             return latestUnitId;
         }
 
+        /// <summary>
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/26/2016
+        /// 
+        /// Insert title document detail
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool InsertTitleDocumentUploadInfo(string xmlDoc, string unitId)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -388,7 +395,7 @@ namespace BankLoanSystem.DAL
                             loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal)reader["pending_amount"] : (Decimal)0.00;
                             loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00;
                             //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
-
+                            loanPaymentDetails.BalanceAmount = loanPaymentDetails.Amount - loanPaymentDetails.UsedAmount;
                         }
                     }
                     return loanPaymentDetails;
@@ -548,5 +555,40 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/26/2016
+        /// 
+        /// Delete just added unit records
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="loanId"></param>
+        public void DeleteJustAddedUnits(int userId, int loanId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spDeleteJustAddedUnit", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@user_id", userId);
+                        command.Parameters.AddWithValue("@loan_id", loanId);
+
+                        con.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
     }
 }
