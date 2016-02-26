@@ -298,11 +298,17 @@
 
         });
    });
-   //$(document).ready(function () {
-   //    alert("hii");
-   //    //alert($('#checkableGrid').totalRows.);
-      
-   //});
+   $(document).ready(function () {
+       //alert("hii");
+       //alert($('#searchResultGrid').children('tbody').children('tr').length);
+       if ($('#searchResultGrid').children('tbody').children('tr').length > 0)
+       {
+           $("#searchGrid1").show();
+       }
+       else {
+           $("#searchGrid1").hide();
+       }
+   });
 
    //$("#btnSearch").click(function () {
    //    $("#searchGrid1").show();
