@@ -210,7 +210,7 @@ namespace BankLoanSystem.Controllers
             int userId = Convert.ToInt16(Session["userId"]);
 
             ViewBag.ErrorMsg = "";
-            UnitAccess unitAccess = new UnitAccess();           
+            UnitAccess unitAccess = new UnitAccess();
 
             var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, DateTime.Now);
             if (res == 0)
@@ -255,7 +255,7 @@ namespace BankLoanSystem.Controllers
             {
                 return RedirectToAction("Advance");
             }
-           
+
 
 
             return PartialView("Step10", this.GetAdvanceUnitList(187));
@@ -271,6 +271,7 @@ namespace BankLoanSystem.Controllers
             unitList1.NotAdvanced = unitList;
 
             unitList1.Search = unitList2;
+            unitList1.AdvanceDate = DateTime.Now;
             return unitList1;
         }
     }
