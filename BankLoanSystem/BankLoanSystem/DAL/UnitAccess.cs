@@ -84,7 +84,7 @@ namespace BankLoanSystem.DAL
             int countVal = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-
+                con.Open();
 
                 try
                 {
@@ -100,7 +100,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                             cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
-                            con.Open();
+                            
 
                             SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
@@ -109,11 +109,12 @@ namespace BankLoanSystem.DAL
                             cmd.ExecuteNonQuery();
 
                             countVal = (int)returnParameter.Value;
-
+                            cmd.Parameters.Clear();
 
                             //return countVal;
                         }
                         countVal = countVal + 1;
+                        
                     }
                     return countVal;
                 }

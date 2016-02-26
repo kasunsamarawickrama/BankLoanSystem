@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
     WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 
@@ -15,6 +15,10 @@
         border-width: 1px;
         border-color: #666666;
         border-collapse: collapse;
+        overflow-y: scroll;
+        width: 500px;
+        height: 10px;
+        position: relative;
     }
 
         table.gridtable th, td {
@@ -41,6 +45,10 @@
         /*background-color: #b6dbe4;*/
         padding: 3px 7px 2px;
     }
+
+    .hidden { display: none; }
+    
+}
 </style>
 
 
@@ -67,6 +75,7 @@
                             "Date Entered",
                             format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                         ),
+                         grid.Column("UnitId", "UnitId", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),
                     grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                          grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                          grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
@@ -80,6 +89,7 @@
 
         </div>
         <div id="subtotal"></div>
+       
     </div>
    
 
@@ -260,6 +270,8 @@
                 @Html.Editor("iDate", new { htmlAttributes = new { @class = "form-control", @id = "iDate", @disabled = "disabled", @style = "margin-top:10px" } })
 
             </div>
+
+            <div id="unitid" class="hidden">unit id</div>
             <div class="form-group">
                 <nav>
                     <ul class="pager">
@@ -309,6 +321,8 @@
                                 $(this).parents('tr').css('background', 'transparent');
                             }
                             document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            //$(".unitid").append(",").append.tr.find("#all").val();
+                            //document.getElementById("unitid").innerHTML = tr.find("#all").val();
 
                         });
 
@@ -388,7 +402,7 @@
 
                 if ($('#iVin').val() != '') {
                     var unit = {
-                        "UnitId": 1,
+                       "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
                         "AdvanceAmount": $('#iAdvance').val(),
                         "AdvanceDate": $('#advanceDate').val()
@@ -425,7 +439,7 @@
                         var tr = $(this).parents('tr:first');
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            data.ItemList.push({ UnitId: 1, IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
 
                         }
                     });
@@ -472,7 +486,9 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
-                $('#iAdvance').val(tr.find("#am").text());
+                $('#iAdvance').val(tr.find("#am").text());                
+                
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();                
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
             }
 
@@ -532,6 +548,8 @@
                 endDate = _endDate;
                 updateEndDate();
             }
+
+
 
 
         </script>
