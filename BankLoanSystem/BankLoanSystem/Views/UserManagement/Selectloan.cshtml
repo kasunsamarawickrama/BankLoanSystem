@@ -1,17 +1,18 @@
 ﻿@model BankLoanSystem.Models.LoanSelection
 
 <div>
-    <h4>LoanSelection</h4>
+    <h4>Select the Loan</h4>
     <hr />
     
 @if (Model.NonRegCompanies != null)
 {
         <div class="h-panel">
             <ul>
+                <li><h5>Company Name</h5></li>
                 @if (Model.NonRegCompanies.Count() == 1)
                 {
-                    <li>
-                        @Model.NonRegCompanies[0].CompanyName
+                    <li class="active">
+                       <a> @Model.NonRegCompanies[0].CompanyName</a> 
                     </li>
                 }
                 else {
@@ -20,7 +21,7 @@
                         <li>
                             @*<a >@item.CompanyName</a>*@
 
-                            @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                            @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
                         </li>
                     }
                 }
@@ -33,13 +34,14 @@
         <div id="branch-panel">
             <div class="h-panel">
                 <ul>
+                    <li><h5>Branch Name</h5></li>
                     @if (Model.NonRegBranchList != null)
                 {
 
                     if (Model.NonRegBranchList.Count() == 1)
                     {
                             <li>
-                                @Model.NonRegBranchList[0].BranchName
+                                <a>@Model.NonRegBranchList[0].BranchName </a>
 
 
                             </li>
@@ -49,7 +51,7 @@
                             {
                                 <li>
                                     @*<a>@item.BranchName</a>*@
-                                    @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                                    @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
                                 </li>
                             }
                         }
@@ -61,12 +63,13 @@
             <div class="h-panel">
 
                 <ul id="loan-panel">
+                    <li><h5>Loan Number</h5></li>
                     @if (Model.LoanList != null)
                 {
                     foreach (var item in Model.LoanList)
                     {
                             <li>
-                                <a>@item.loanNumber</a>
+                                <a>@item.loanNumber</a> 
                             </li>
                         }
                     }
@@ -90,4 +93,36 @@
                 float: left;
                 height: 100%;
             }
+
+
+            .h-panel>ul>li{
+                 position: relative;
+   
+    padding: 8px 0;
+                list-style:none;
+                border-bottom: solid 1px #d4ded9;
+            }
+            .h-panel>ul>li>a{
+                   
+     display: block;
+    color: #0074ba;
+        text-decoration: none;
+            }
+
+
+            li.active>a{
+                  font-weight: 700;
+    color: #2f3432;
+            }
+
+           
         </style>
+<script>
+
+    $("a").click(function () {
+
+        $(this).parent('li').addClass('active').siblings().removeClass('active');
+    });
+
+    $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+</script>

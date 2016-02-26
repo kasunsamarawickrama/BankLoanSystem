@@ -3,14 +3,14 @@
 
 
   
-
+<li><h5>Loan Number</h5></li>
 @foreach (var item in Model)
 {
 
     if (item.LoanStatus)
     {
         //@Html.ActionLink(modelItem => item.loanNumber)
-        <li>@Html.ActionLink(item.loanNumber, "addunit", "unit", null, new { @class = "" })</li>
+        <li>@Html.ActionLink(item.loanNumber, "addunit", "unit", null, new { @class = "" }) </li>
 
     }
 
