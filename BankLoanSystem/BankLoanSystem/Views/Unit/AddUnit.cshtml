@@ -611,8 +611,9 @@
     <div class="form-group">
             @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost" } })
+                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                <div id="tagscloud"><span class ="text-danger"></span></div>
             </div>
         </div>
 
@@ -939,6 +940,7 @@
 
     //calculate advance
     $('#txtCost').keypress(function(e) {
+        $("#tagscloud span").text("");
         if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
             var val = this.value + (e.which - 48);
             if (e.which !== 46) {
@@ -946,14 +948,21 @@
                     var advanceAmount = (advancePt * val) / 100;
                     document.getElementById('txtAdvanceAmount').value = advanceAmount;
                 } else {
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Cost must be less than balance");
+                    $("#tagscloud span").delay(1000).fadeOut();
                     e.preventDefault();
                 }
             }
 
         } else {
+            $("#tagscloud span").fadeIn();
+            $("#tagscloud span").text("Invalid character");
+            $("#tagscloud span").delay(1000).fadeOut();
             e.preventDefault();
         }
     });
+    
 
     //claculate advance when click back-space
     $('#txtCost').keyup(function(e) {
