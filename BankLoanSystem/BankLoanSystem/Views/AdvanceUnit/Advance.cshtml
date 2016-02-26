@@ -9,8 +9,8 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
-    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow", rowsPerPage: 5);// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
     .gridtable {
@@ -114,10 +114,10 @@
                 
 
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-                
-            </div>
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
 
+        </div>
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
+        
         </div>
         
         
@@ -306,12 +306,18 @@
 
         });
    });
-   //$(document).ready(function () {
-   //    alert("hii");
-   //    //alert($('#checkableGrid').totalRows.);
+   $(document).ready(function () {
+       //alert("hii");
+       //alert($('#searchResultGrid').children('tbody').children('tr').length);
+       if ($('#searchResultGrid').children('tbody').children('tr').length > 0)
+       {
+           $("#searchGrid1").show();
+       }
+       else {
+           $("#searchGrid1").hide();
+       }
+   });
       
-   //});
-
    //$("#btnSearch").click(function () {
    //    $("#searchGrid1").show();
    //});
@@ -372,6 +378,15 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
+
+
+                var tr = $('.gridtable tbody tr');
+                if (tr.length > 1) {
+                    $('#cbSelectAll').show();
+                } else {                   
+                    $('#cbSelectAll').css("display", "none");
+                }
+
             });
 
 
@@ -411,18 +426,6 @@
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 }
 
-            });
-
-            $(document).ready(function () {
-                $("#content tbody tr").each(function (i, row) {
-                    var $actualRow = $(row);
-                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
-                        $actualRow.css('background-color', '#EAF2D3');
-                    }
-                    else {
-                        $actualRow.css('background-color', '#FF9E9E');
-                    }
-                });
             });
 
             $('#btnAdvance').click(function () {
@@ -519,7 +522,7 @@
             }
 
             var startPicker = new Pikaday({
-                field: document.getElementById('startDate'),
+             field: document.getElementById('startDate'),
                 format: 'l'
 
 

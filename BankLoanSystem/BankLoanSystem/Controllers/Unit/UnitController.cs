@@ -39,6 +39,7 @@ namespace BankLoanSystem.Controllers.Unit
             unit.AdvancePt = _loan.advancePercentage;
             unit.LoanId = loanId;
             unit.LoanAmount = _loan.loanAmount;
+            unit.AdvanceDate = DateTime.Now;
             unit.StartDate = _loan.startDate;
             unit.EndDate = _loan.maturityDate;
 
