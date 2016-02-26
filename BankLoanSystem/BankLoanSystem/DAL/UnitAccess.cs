@@ -19,10 +19,10 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns>unitList</returns>
-        public List<AdvanceUnit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
+        public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
         {
 
-            List<AdvanceUnit> unitList = new List<AdvanceUnit>();
+            List<Unit> unitList = new List<Unit>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
@@ -35,7 +35,7 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
-                            AdvanceUnit unitDetails = new AdvanceUnit();
+
                             Unit NotAdvanced = new Unit();
 
                             NotAdvanced.UnitId = reader["unit_id"].ToString();
@@ -47,8 +47,8 @@ namespace BankLoanSystem.DAL
                             NotAdvanced.Cost = Convert.ToDecimal(reader["cost"].ToString());
                             NotAdvanced.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
 
-                            unitDetails.NotAdvanced = NotAdvanced;
-                            unitList.Add(unitDetails);
+
+                            unitList.Add(NotAdvanced);
                         }
                     }
                     return unitList;

@@ -7,7 +7,7 @@ namespace BankLoanSystem.Models
 {
     public class AdvanceUnit
     {
-        public Unit NotAdvanced { get; set; }
-        public Unit Search { get; set; }
+        public List<Unit> NotAdvanced { get; set; }
+        public List<Unit> Search { get; set; }
     }
 }

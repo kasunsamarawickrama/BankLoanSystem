@@ -1,10 +1,10 @@
-﻿@model IEnumerable<BankLoanSystem.Models.AdvanceUnit>
+﻿@model BankLoanSystem.Models.AdvanceUnit
 
 @{
     ViewBag.Title = "Advance";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5);
-    WebGrid grid1 = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", rowsPerPage: 5);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 
 <h2>Advance</h2>
@@ -28,21 +28,21 @@
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
                     grid.Column(                       
-                         format:@<text><input type="checkbox" value="@item.NotAdvanced.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                             , header: "{checkall}"
 
                     ),
                          grid.Column(
                             "CreatedDate",
                             "Date Entered",
-                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.NotAdvanced.CreatedDate)
+                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                         ),
-                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.NotAdvanced.IdentificationNumber</label>}</text>),
-                         grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.NotAdvanced.Year</label>}</text>),
-                         grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.NotAdvanced.Make</label>}</text>),
-                        grid.Column("Modeln", "Model", format:@<text>@{<label id="model" class="model">@item.NotAdvanced.Model</label>}</text>),
-                        grid.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.NotAdvanced.Cost</label>}</text>),
-                         grid.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="am" class="advanceAmount">@item.NotAdvanced.AdvanceAmount</label>}</text>)
+                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                         grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                         grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                        grid.Column("Modeln", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                        grid.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                         grid.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
            
 
            )
@@ -55,13 +55,13 @@
     <div class="form-group">
 
         <div class="control-label col-sm-2">
-            @Html.LabelFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            @Html.LabelFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
         </div>
 
 
         <div class="col-xs-8" id="advanceDateAll" style="display:none">
-            @Html.EditorFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-            @Html.ValidationMessageFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, "", new { @class = "text-danger" })
         </div>
 
 
@@ -82,7 +82,7 @@
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
                     @Html.Editor("identificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
-                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.IdentificationNumber, "", new { @class = "text-danger" })
+                    
                 </div>
 
 
@@ -90,7 +90,7 @@
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
                 <div class="col-sm-2" style="margin-top:10px">
                     @Html.Editor("year", new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
-                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Year, "", new { @class = "text-danger" })
+                    
                 </div>
 
 
@@ -98,7 +98,7 @@
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
                     @Html.Editor("make", new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
-                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Make, "", new { @class = "text-danger" })
+                   
                 </div>
 
 
@@ -106,7 +106,7 @@
                 @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
                     @Html.Editor("vehicleModel", new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
-                    @Html.ValidationMessageFor(model => model.ElementAt(0).Search.Model, "", new { @class = "text-danger" })
+                   
                 </div>
 
             </div>
@@ -128,6 +128,33 @@
 
         </div>
       
+        <div style="border:solid;border-radius: 15px; width:870px;float:left;margin-top:10px">
+            <div id="searchGrid" style="float:left;margin-left:20px">
+                @grid1.GetHtml(
+              tableStyle: "gridtable",
+                    headerStyle: "webgrid-header",
+                    footerStyle: "webgrid-footer",
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    rowStyle: "webgrid-row-style",
+                    htmlAttributes: new { id = "searchResultGrid" },
+                    columns: grid1.Columns(
+                    grid.Column(
+                            "CreatedDate",
+                            "Date Entered",
+                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
+                        ),
+                    grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                    grid1.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                    grid1.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                    grid1.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                    grid1.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                    grid1.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="advance" class="advance">@item.AdvanceAmount</label>}</text>)
+                ))
+            </div>
+        </div>
+
+
+
 
 
 
@@ -205,18 +232,18 @@
         <div class="form-group">
 
             <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                @Html.LabelFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
 
             <div class="col-xs-8" id="startDateDiv" style="display:none">
-                @Html.EditorFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.ElementAt(0).NotAdvanced.AdvanceDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-xs-8" id="startDateDivDisplay">
-                @Html.EditorFor(model => model.ElementAt(0).NotAdvanced.DisplayAdvanceDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#startDateDivDisplay').hide();$('#startDateDiv').show();$('#startDateDiv').children('input').val('').focus();" } })
-                @Html.ValidationMessageFor(model => model.ElementAt(0).NotAdvanced.DisplayAdvanceDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).DisplayAdvanceDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#startDateDivDisplay').hide();$('#startDateDiv').show();$('#startDateDiv').children('input').val('').focus();" } })
+                @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).DisplayAdvanceDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
