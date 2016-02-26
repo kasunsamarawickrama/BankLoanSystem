@@ -35,18 +35,20 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
-                            Unit unitDetails = new Unit()
-                            {
-                                UnitId = reader["unit_id"].ToString(),
-                                CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
-                                IdentificationNumber = reader["identification_number"].ToString(),
-                                Year = Convert.ToInt32(reader["year"].ToString()),
-                                Make = reader["make"].ToString(),
-                                Model = reader["model"].ToString(),
-                                Cost = Convert.ToDecimal(reader["cost"].ToString()),
-                                AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString())
-                            };
-                            unitList.Add(unitDetails);
+
+                            Unit NotAdvanced = new Unit();
+
+                            NotAdvanced.UnitId = reader["unit_id"].ToString();
+                            NotAdvanced.CreatedDate = Convert.ToDateTime(reader["created_date"].ToString());
+                            NotAdvanced.IdentificationNumber = reader["identification_number"].ToString();
+                            NotAdvanced.Year = Convert.ToInt32(reader["year"].ToString());
+                            NotAdvanced.Make = reader["make"].ToString();
+                            NotAdvanced.Model = reader["model"].ToString();
+                            NotAdvanced.Cost = Convert.ToDecimal(reader["cost"].ToString());
+                            NotAdvanced.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
+
+
+                            unitList.Add(NotAdvanced);
                         }
                     }
                     return unitList;
@@ -82,7 +84,7 @@ namespace BankLoanSystem.DAL
             int countVal = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-
+                con.Open();
 
                 try
                 {
@@ -98,7 +100,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                             cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
-                            con.Open();
+                            
 
                             SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
@@ -107,11 +109,12 @@ namespace BankLoanSystem.DAL
                             cmd.ExecuteNonQuery();
 
                             countVal = (int)returnParameter.Value;
-
+                            cmd.Parameters.Clear();
 
                             //return countVal;
                         }
                         countVal = countVal + 1;
+                        
                     }
                     return countVal;
                 }
@@ -457,6 +460,93 @@ namespace BankLoanSystem.DAL
 
         }
 
-        
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/25
+        /// Get vehicle models by make
+        /// </summary>
+        /// <param name="make"></param>
+        /// <returns>modelList</returns>
+        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year)
+        {
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleModelByMakeYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@make", SqlDbType.VarChar).Value = make;
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnitYearMakeModel vym = new UnitYearMakeModel();
+                            vym.VehicleModel = reader["model"].ToString();
+                            modelList.Add(vym);
+
+                           
+                        }
+                    }
+                    return modelList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/2/25
+        /// Get vehicle makes by year
+        /// </summary>
+        /// <param name="make"></param>
+        /// <returns>modelList</returns>
+        public List<UnitYearMakeModel> GetVehicleMakesByYear( int year)
+        {
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleMakesByYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnitYearMakeModel vmy = new UnitYearMakeModel();
+                            vmy.VehicleMake = reader["make"].ToString();
+                            modelList.Add(vmy);
+
+
+                        }
+                    }
+                    return modelList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }

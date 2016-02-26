@@ -124,7 +124,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\overlaypopup.css" />
     <Content Include="Content\pikaday.css" />
+    <Content Include="Content\smoothnessjquery-ui.css" />
     <Content Include="Content\steps.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\theme.css" />
@@ -151,6 +153,9 @@
     <Content Include="Images\small_loading.gif" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\combo.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-ui.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
@@ -158,6 +163,7 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
+    <Content Include="scripts\popup.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -169,7 +175,7 @@
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Code\PasswordEncryption.cs" />
     <Compile Include="Controllers\AddUnit\AddUnitController.cs" />
-    <Compile Include="Controllers\AdvanceUnitController.cs" />
+    <Compile Include="Controllers\AdvanceUnit\AdvanceUnitController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -203,6 +209,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccrualMethods.cs" />
+    <Compile Include="Models\AdvanceUnit.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyBranchModel.cs" />
@@ -214,6 +221,7 @@
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\LoanSelection.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
@@ -224,6 +232,7 @@
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
     <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +299,9 @@
     <Content Include="Views\Unit\GetLinkBar.cshtml" />
     <Content Include="Views\Unit\GetJustAddedUnits.cshtml" />
     <Content Include="Views\UserManagement\DashBoard.cshtml" />
+    <Content Include="Views\UserManagement\Selectloan.cshtml" />
+    <Content Include="Views\UserManagement\GetLoansByNonRegBranchId.cshtml" />
+    <Content Include="Views\UserManagement\getNonRegBranchesByNonRegComId.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BankLoanSystem.Models.NonRegBranch>
+@{
+    string actoinName = "";
+    string controllerName = "";
+}
+
+@if (ViewBag.type == "AddUnit")
+{
+    actoinName = "addunit";
+    controllerName = "unit";
+}
+else if (ViewBag.type == "Advance")
+{
+    actoinName = "Advance";
+    controllerName = "AdvanceUnit";
+}
+
+<div class="h-panel">
+    <ul>
+        @if (Model != null)
+        {
+            <li><h5>Branch Name</h5></li>
+            if (Model.Count() == 1)
+            {
+                <li>
+                    <a> @Model.Last().BranchName </a>
+
+
+                </li>
+            }
+            else {
+                foreach (var item in Model)
+                {
+                    <li>
+                        @*<a>@item.BranchName</a>*@
+                        @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId , type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
+                    </li>
+                }
+            }
+        }
+    </ul>
+
+</div>
+
+<div class="h-panel">
+
+    <ul id="loan-panel">
+
+        @if (Model.Count() == 1)
+        {
+            { Html.RenderAction("GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = Model.Last().NonRegBranchId , type = ViewBag.type }); }
+        }
+      
+    </ul>
+
+</div>

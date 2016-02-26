@@ -1,5 +1,34 @@
 ﻿@model IEnumerable<BankLoanSystem.Models.Right>
 
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+<script src="~/scripts/popup.js"></script>
+
+   
+
+
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup1">
+    
+    <div id="loadingSpan" style="display:none;">
+        <strong><span>Loading... </span></strong>
+    </div>
+    <div id="selcet-panel">
+        @*@{
+            Html.RenderAction("Selectloan", "UserManagement");
+        }*@
+    </div>
+    
+</div>
+<div class="overlay-content popup2">
+    <p>This is the content for Popup #2</p>
+    <button class="close-btn">Close</button>
+</div>
+<div class="overlay-content popup3">
+    <p>This is the content for Popup #3</p>
+    <button class="close-btn">Close</button>
+</div>
+
 
 @foreach (var item in Model)
 {
@@ -8,22 +37,24 @@
 
     if (item.rightId == "U001")
     {
-        @Html.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkadv" })
+        @*@Ajax.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info show-popup", @id = "lkadv" , @data_showpopup = "1" })*@
+        @Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
     }
 
     if (item.rightId == "U002")
     {
-        @Html.ActionLink("Title", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkttl" })
+        @Html.ActionLink("Title", "", "", null, new { @class = "btn btn-info", @id = "lkttl" })
     }
 
     if (item.rightId == "U003")
     {
-        @Html.ActionLink("Pay Off", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkpoff" })
+        @Html.ActionLink("Pay Off", "", "", null, new { @class = "btn btn-info", @id = "lkpoff" })
     }
 
     if (item.rightId == "U004")
     {
-        @Html.ActionLink("Add a Unit", "UserLogin", "Login", null, new { @class = "btn btn-info", @id = "lkuni" })
+        @*@Html.ActionLink("Add a Unit", "Selectloan", "UserManagement", null, new { @class = "btn btn-info show-popup", @id = "lkuni" , @data_showpopup = "1" })*@
+        @Ajax.ActionLink("Add a Unit", "Selectloan", "UserManagement", new {type= "asderruy" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
     }
 
 

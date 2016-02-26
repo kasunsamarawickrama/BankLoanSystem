@@ -163,6 +163,45 @@ namespace BankLoanSystem.Controllers.Unit
             //return RedirectToAction("AddUnit");
         }
 
+        /// <summary>
+        /// Auther: kasun
+        /// get the models accrding to the vehicle model year and make
+        /// </summary>
+        /// <param name="make"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        [HttpPost] 
+        public ActionResult GetModels(string make, int year)
+        {
+            List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
+            
+            SelectList modelSelectList = new SelectList(modelList, "VehicleModel", "VehicleModel");
+            //var obj = new
+            //{
+            //    modelSelectList = modelSelectList
+            //};
+            return Json(modelSelectList);
+        }
+
+        /// <summary>
+        /// Auther: kasun
+        /// get the mskes accrding to the vehicle model year
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetMakes(string make, int year)
+        {
+            List<UnitYearMakeModel> makeList = (new UnitAccess()).GetVehicleMakesByYear(year);
+
+            SelectList makeSelectList = new SelectList(makeList, "VehicleMake", "VehicleMake");
+            //var obj = new
+            //{
+            //    modelSelectList = modelSelectList
+            //};
+            return Json(makeSelectList);
+        }
+
         public ActionResult LoanInfo(string title)
         {
             int userId = 64;
