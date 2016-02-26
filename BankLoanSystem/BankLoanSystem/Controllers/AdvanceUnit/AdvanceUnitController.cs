@@ -44,24 +44,24 @@ namespace BankLoanSystem.Controllers
             Session["userId"] = 2;
             int loanId = 187;
 
-            UnitAccess unitAccess = new UnitAccess();
+            
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
-            List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
-            unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
-            List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
-            Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
-            unitList1.NotAdvanced = unitList;
+            //List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
+            //unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
+            //List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
+            //Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
+            //unitList1.NotAdvanced = unitList;
 
-            unitList1.Search = unitList2;
+            //unitList1.Search = unitList2;
 
 
-            TempData["notAdvancedList"] = unitList;
+            //TempData["notAdvancedList"] = unitList;
 
-            return View(unitList1);
+            return View(this.GetAdvanceUnitList(loanId));
         }        
 
         [HttpPost]
@@ -210,15 +210,14 @@ namespace BankLoanSystem.Controllers
             int userId = Convert.ToInt16(Session["userId"]);
 
             ViewBag.ErrorMsg = "";
-            UnitAccess unitAccess = new UnitAccess();
-            List<BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
+            UnitAccess unitAccess = new UnitAccess();           
 
             var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, DateTime.Now);
             if (res == 0)
             {
                 return RedirectToAction("Advance");
             }
-            return RedirectToAction("Advance", unit);
+            return RedirectToAction("Advance", this.GetAdvanceUnitList(187));
 
 
 
@@ -256,11 +255,23 @@ namespace BankLoanSystem.Controllers
             {
                 return RedirectToAction("Advance");
             }
+           
 
-            List<BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
 
+            return PartialView("Step10", this.GetAdvanceUnitList(187));
+        }
 
-            return PartialView("Step10", unitList);
+        private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
+        {
+            UnitAccess unitAccess = new UnitAccess();
+            List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
+            unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
+            List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
+            Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
+            unitList1.NotAdvanced = unitList;
+
+            unitList1.Search = unitList2;
+            return unitList1;
         }
     }
 }

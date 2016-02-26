@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
     WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
@@ -100,14 +100,14 @@
         <div class="form-group">
 
             <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
 
-            @*@*<div class="col-xs-8" id="advanceDateAll" style="display:none">
-                @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, "", new { @class = "text-danger" })
-            </div>*@
+            <div class="col-xs-8" id="advanceDateAll" style="display:none">
+                @Html.Editor("TAdvanceDate", new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+
+            </div>
 
 
         </div>
@@ -161,7 +161,7 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="submit" name="search" value="Search" id="btnSubmit" class="btn btn-default cancel" style="float:left;margin-left:200px" />
+                            <input type="submit" name="search" value="Search" id="btnSearch" class="btn btn-default cancel" style="float:left;margin-left:200px" />
                         </li>
                         <li>
                             <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
@@ -175,7 +175,7 @@
 
         </div>
       
-        <div class ="side-panel"style="width:870px;float:left;margin-top:10px">
+        <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
             <div id="searchGrid" style="float:left;margin-left:20px">
                 @grid1.GetHtml(
               tableStyle: "gridtable",
@@ -196,15 +196,10 @@
                     grid1.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                     grid1.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                     grid1.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                    grid1.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="advance" class="advance">@item.AdvanceAmount</label>}</text>)
+                    grid1.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="am" class="advance">@item.AdvanceAmount</label>}</text>)
                 ))
             </div>
         </div>
-
-
-
-
-
 
 
     </div>
@@ -277,7 +272,7 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="submit" name="search" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
+                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
                         </li>
                         
                     </ul>
@@ -286,10 +281,33 @@
         </div>
     </div>
         }
+
+
         <script src="~/Scripts/jquery-1.10.2.min.js"></script>
         <script src="~/Scripts/jquery.validate.min.js"></script>
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<script type="text/javascript">
+
+   $(function () {
+        var tr = $('#searchResultGrid').find('tr');
+        tr.bind('click', function (event) {
+
+            SetTextBoxValues(tr);
+
+
+        });
+   });
+   //$(document).ready(function () {
+   //    alert("hii");
+   //    //alert($('#checkableGrid').totalRows.);
+      
+   //});
+
+   //$("#btnSearch").click(function () {
+   //    $("#searchGrid1").show();
+   //});
+</script>
 
 
         <script type="text/javascript">
@@ -346,6 +364,15 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
+
+
+                var tr = $('.gridtable tbody tr');
+                if (tr.length > 1) {
+                    $('#cbSelectAll').show();
+                } else {                   
+                    $('#cbSelectAll').css("display", "none");
+                }
+
             });
 
 
@@ -385,18 +412,6 @@
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 }
 
-            });
-
-            $(document).ready(function () {
-                $("#content tbody tr").each(function (i, row) {
-                    var $actualRow = $(row);
-                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
-                        $actualRow.css('background-color', '#EAF2D3');
-                    }
-                    else {
-                        $actualRow.css('background-color', '#FF9E9E');
-                    }
-                });
             });
 
             $('#btnAdvance').click(function () {
