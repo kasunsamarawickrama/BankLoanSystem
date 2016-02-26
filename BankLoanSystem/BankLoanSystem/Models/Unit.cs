@@ -97,8 +97,13 @@ namespace BankLoanSystem.Models
 
         public decimal LoanAmount { get; set; }
 
+        public decimal Balance { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        //Image
+        public string FileName { get; set; }
     }
 
     public class LoanPaymentDetails {
@@ -113,6 +118,7 @@ namespace BankLoanSystem.Models
 
 
     }
+
     public class JustAddedUnit
     {
 
@@ -121,5 +127,13 @@ namespace BankLoanSystem.Models
         public decimal advanceAmount;
         public bool isAdvance;
 
+    }
+
+    public class TitleUpload
+    {
+        public int UploadId { get; set; }
+        public string FilePath { get; set; }
+        public string UnitId { get; set; }
+        public string OriginalFileName { get; set; }
     }
 }

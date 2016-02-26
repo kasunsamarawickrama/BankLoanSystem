@@ -193,7 +193,7 @@ namespace BankLoanSystem.DAL
         /// <param name="userId"></param>
         /// <param name="loanNumber"></param>
         /// <returns></returns>
-        public bool InsertUnit(Unit unit, int userId, string loanNumber)
+        public bool InsertUnit(Unit unit, int userId)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -203,12 +203,9 @@ namespace BankLoanSystem.DAL
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        GeneratesCode gc = new GeneratesCode();
-                        var unitId = gc.GenerateUnitId(loanNumber, unit.LoanId);
-
                         cmd.Parameters.AddWithValue("@loan_id", unit.LoanId);
                         cmd.Parameters.AddWithValue("@user_id", userId);
-                        cmd.Parameters.AddWithValue("@unit_id", unitId);
+                        cmd.Parameters.AddWithValue("@unit_id", unit.UnitId);
                         cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
                         cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
                         cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
@@ -290,6 +287,73 @@ namespace BankLoanSystem.DAL
             }
             return latestUnitId;
         }
+
+        public bool InsertTitleDocumentUploadInfo(string xmlDoc, string unitId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spInsertTitleDocumentDetails", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@Input", xmlDoc);
+                        command.Parameters.AddWithValue("@unit_id", unitId);
+
+                        con.Open();
+                        command.ExecuteNonQuery();
+
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/24/2016
+        /// 
+        /// Get latest unit image name from database
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        //public string GetLatestUnitImageName(int unitId)
+        //{
+        //    string latestUnitId = "";
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            using (SqlCommand command = new SqlCommand("spGetLatestUnitId", con))
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+
+        //                command.Parameters.AddWithValue("@loan_id", loanId);
+        //                con.Open();
+        //                using (var reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        latestUnitId = reader["unit_id"].ToString();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
+        //        }
+        //    }
+        //    return latestUnitId;
+        //}
 
 
         /// <summary>

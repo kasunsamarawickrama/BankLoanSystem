@@ -57,18 +57,18 @@ namespace BankLoanSystem.Code
 
         public string GenerateUnitId(string loanCode, int loanId)
         {
-            string unitId = "";
-            var prefix = loanCode;
+            string unitId;
             var ua = new UnitAccess();
-            var latestUnitId = ua.GetLatestUnitId(loanId);
+            string latestUnitId = ua.GetLatestUnitId(loanId);
 
             if (latestUnitId == "")
             {
-                unitId = loanCode + "000001";
+                unitId = loanCode + "-000001";
             }
             else
             {
-                //unitId = loanCode + 
+                var sufix = (Convert.ToInt32(latestUnitId.Substring(latestUnitId.Length - 6, 6)) + 1).ToString("000000");
+                unitId = loanCode + "-" + sufix;
             }
 
 
