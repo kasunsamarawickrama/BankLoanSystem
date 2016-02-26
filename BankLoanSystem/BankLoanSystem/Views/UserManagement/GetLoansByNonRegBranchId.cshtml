@@ -1,8 +1,19 @@
 ﻿@model IEnumerable<BankLoanSystem.Models.LoanSetupStep1>
+@{ 
+    string actoinName = "";
+    string controllerName = "";
+}
 
+@if (ViewBag.type == "AddUnit")
+{
+    actoinName = "addunit";
+    controllerName = "unit";
+}else if(ViewBag.type == "Advance")
+{
+    actoinName = "Advance";
+    controllerName = "AdvanceUnit";
+}
 
-
-  
 <li><h5>Loan Number</h5></li>
 @foreach (var item in Model)
 {
@@ -10,7 +21,7 @@
     if (item.LoanStatus)
     {
         //@Html.ActionLink(modelItem => item.loanNumber)
-        <li>@Html.ActionLink(item.loanNumber, "addunit", "unit", null, new { @class = "" }) </li>
+        <li>@Html.ActionLink(item.loanNumber, actoinName , controllerName , null, new { @class = "" }) </li>
 
     }
 

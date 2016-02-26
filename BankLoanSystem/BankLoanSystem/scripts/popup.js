@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     // show popup when you click on the link
     $('.show-popup').click(function(event){
-        event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
         var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
         
         showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want

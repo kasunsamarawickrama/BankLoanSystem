@@ -478,7 +478,7 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult DashBoard() {
 
-            int userId = 57;
+            int userId = int.Parse(Session["userId"].ToString());
 
             var access = new UserRightsAccess();
 
@@ -542,7 +542,7 @@ namespace BankLoanSystem.Controllers
 
         }
 
-        public ActionResult Selectloan()
+        public ActionResult Selectloan(string type)
         {
             int userId;
             // if Session is expired throw an error
@@ -572,7 +572,17 @@ namespace BankLoanSystem.Controllers
                     }
                 }
                 
-            
+            if(type == "asderruy") // for add unit page
+            {
+                ViewBag.type = "AddUnit";
+                return PartialView(loanSelection);
+            }
+
+            else if (type == "tyuirede") // for add unit page
+            {
+                ViewBag.type = "Advance";
+                return PartialView(loanSelection);
+            }
 
 
             return PartialView(loanSelection);
@@ -580,15 +590,30 @@ namespace BankLoanSystem.Controllers
 
 
 
-        public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId) {
+        public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId, string type) {
+
+            if (type == "AddUnit")
+            {
+                ViewBag.type = "AddUnit";
+            }
+            else if (type == "Advance")
+            {
+                ViewBag.type = "Advance";
+            }
 
             return PartialView(new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(NonRegBranchId));
         }
         
 
-        public ActionResult getNonRegBranchesByNonRegComId(int NonRegCompId)
+        public ActionResult getNonRegBranchesByNonRegComId(int NonRegCompId, string type)
         {
 
+            if (type == "AddUnit") {
+                ViewBag.type = "AddUnit";
+            }
+            else if (type == "Advance") {
+                ViewBag.type = "Advance";
+            }
             return PartialView((new BranchAccess()).getNonRegBranches(NonRegCompId));
         }
 
