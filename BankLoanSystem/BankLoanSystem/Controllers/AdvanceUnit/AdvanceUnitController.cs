@@ -50,8 +50,8 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
-
-            List<BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
+            List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
+            unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
             List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
             Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
             unitList1.NotAdvanced = unitList;
@@ -193,9 +193,6 @@ namespace BankLoanSystem.Controllers
 
         }
 
-
-      
-
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 02/24/2016
@@ -216,7 +213,7 @@ namespace BankLoanSystem.Controllers
             UnitAccess unitAccess = new UnitAccess();
             List<BankLoanSystem.Models.Unit> unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(187);
 
-            var res = unitAccess.AdvanceSelectedItem(unit, loan.loanId, userId, unit.AdvanceDate);
+            var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, DateTime.Now);
             if (res == 0)
             {
                 return RedirectToAction("Advance");
@@ -246,6 +243,10 @@ namespace BankLoanSystem.Controllers
 
 
             UnitAccess unitAccess = new UnitAccess();
+            foreach(Models.Unit u in list.ItemList)
+            {
+                u.AdvanceDate = DateTime.Now;
+            }
             int count = unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);
             if (count > 0)
             {
