@@ -4,11 +4,11 @@
     <ul>
         @if (Model != null)
         {
-
+            <li><h5>Branch Name</h5></li>
             if (Model.Count() == 1)
             {
                 <li>
-                    @Model.Last().BranchName
+                    <a> @Model.Last().BranchName </a>
 
 
                 </li>
@@ -18,7 +18,7 @@
                 {
                     <li>
                         @*<a>@item.BranchName</a>*@
-                        @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                        @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
                     </li>
                 }
             }
