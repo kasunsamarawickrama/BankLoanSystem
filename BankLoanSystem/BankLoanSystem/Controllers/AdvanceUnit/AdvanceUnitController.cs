@@ -59,7 +59,7 @@ namespace BankLoanSystem.Controllers
             //unitList1.Search = unitList2;
 
 
-            //TempData["notAdvancedList"] = unitList;
+            Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
 
             return View(this.GetAdvanceUnitList(loanId));
         }        
@@ -67,7 +67,7 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult Advance(List<BankLoanSystem.Models.Unit> unitListf, string[] ids, string identificationNumber, string year, string make, string vehicleModel, string search)
         {
-            List<Models.Unit> unitList = (List<Models.Unit>)TempData["notAdvancedList"];
+            List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
             List<Models.Unit> resultList = new List<Models.Unit>();
             Models.AdvanceUnit unitListMain = new Models.AdvanceUnit();
             if (!string.IsNullOrEmpty(search))
