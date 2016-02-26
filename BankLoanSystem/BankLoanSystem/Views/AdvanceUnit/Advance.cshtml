@@ -51,7 +51,7 @@
     }
 
     .select {
-        background-color:dodgerblue;
+        background-color:mediumaquamarine;
     }
 
     .hidden {
@@ -306,12 +306,15 @@
 <script type="text/javascript">
 
    $(function () {
-        var tr = $('#searchResultGrid').find('tr');
-        tr.bind('click', function (event) {
-
+       
+        $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
+            
+                $(this).css('background', 'mediumaquamarine');
+            
+            
             SetTextBoxValues(tr);
-
-
+            
         });
    });
    $(document).ready(function () {
@@ -561,8 +564,8 @@
 
             });
 
-            startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+            @*startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
             var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
