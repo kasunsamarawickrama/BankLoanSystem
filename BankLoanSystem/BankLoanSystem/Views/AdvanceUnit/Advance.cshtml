@@ -6,13 +6,50 @@
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", rowsPerPage: 5);
     WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
+<style type="text/css">
+    .gridtable {
+        margin: 30px;
+        border-collapse: collapse;
+        width: 800px;
+        background-color:aliceblue;
+        border-style: solid;
+        
+        border-width:1px;
+        
+    }
 
-<h2>Advance</h2>
+    .webgrid-header {
+        background-color:paleturquoise;
+        font-weight: bold;
+        color: #FFF;
+    }
 
+    .gridtable th, .gridtable td {
+        border: 1px solid cadetblue;
+        padding: 5px;
+    }
 
+    .webgrid-alternating-row {
+        background-color:aliceblue;
+        color: #000;
+        font-weight:normal;
+    }
+    .webgrid-row-style
+    {
+        padding: 3px 7px 2px;
+    }
+    .gridHead a:hover {
+        text-decoration: underline;
+    }
 
+    .description {
+        width: auto;
+    }
 
-
+    .select {
+        background-color:dodgerblue;
+    }
+</style>
 
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
@@ -22,7 +59,7 @@
             @grid.GetHtml(
                      tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
-                    footerStyle: "webgrid-footer",
+                    
                     alternatingRowStyle: "webgrid-alternating-row",
                     rowStyle: "webgrid-row-style",
                     htmlAttributes: new { id = "checkableGrid" },
@@ -138,8 +175,9 @@
                 @grid1.GetHtml(
               tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
-                    footerStyle: "webgrid-footer",
+                    
                     alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "select",
                     rowStyle: "webgrid-row-style",
                     htmlAttributes: new { id = "searchResultGrid" },
                     columns: grid1.Columns(
@@ -255,6 +293,11 @@
     </div>
 
         }
+@*@if (grid1.HasSelection)
+{
+    var data = grid1.SelectedRow.Value;
+    var date = dat
+}*@
 
 
 
@@ -265,6 +308,8 @@
         <script src="~/Scripts/jquery-1.10.2.min.js"></script>
         <script src="~/Scripts/jquery.validate.min.js"></script>
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
 
         <script type="text/javascript">
             var total = 0;
@@ -519,7 +564,7 @@
             }
 
 
-        </script>
+</script>
 
 
 
