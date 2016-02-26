@@ -30,6 +30,9 @@ namespace BankLoanLocal.Models
         [Display(Name = "Branch")]
         public string branchName { get; set; }
 
+        public string CompanyCode { get; set; }
+        public string BranchCode { get; set; }
+
         public int BranchId { get; set; }
     }
 }

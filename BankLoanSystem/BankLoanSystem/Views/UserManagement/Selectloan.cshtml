@@ -1,91 +1,116 @@
 ﻿@model BankLoanSystem.Models.LoanSelection
+<script src="~/scripts/popup.js"></script>
 
-<div>
-    <h4>Select the Loan</h4>
-    <hr />
-    
-@if (Model.NonRegCompanies != null)
-{
-        <div class="h-panel">
-            <ul>
-                <li><h5>Company Name</h5></li>
-                @if (Model.NonRegCompanies.Count() == 1)
-                {
-                    <li class="active">
-                       <a> @Model.NonRegCompanies[0].CompanyName</a> 
-                    </li>
-                }
-                else {
-                foreach (var item in Model.NonRegCompanies)
-                {
-                        <li>
-                            @*<a >@item.CompanyName</a>*@
+    @{
+        string actoinName = "";
+        string controllerName = "";
+    }
 
-                            @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
-                        </li>
-                    }
-                }
-            </ul>
+    @if (ViewBag.type == "AddUnit")
+    {
+        actoinName = "addunit";
+        controllerName = "unit";
+    }
+    else if (ViewBag.type == "Advance")
+    {
+        actoinName = "Advance";
+        controllerName = "AdvanceUnit";
+    }
+
+    @if (Model.LoanList != null && Model.LoanList.Count() == 1)
+    {
+        <script>
 
 
+            $(location).attr('href', '/unit/addunit');
 
-        </div>
 
-        <div id="branch-panel">
+        </script>
+    }
+    else if (Model.NonRegCompanies != null)
+    {
+        <div>
+            <h4>Select the Loan</h4>
+            <hr />
+
             <div class="h-panel">
                 <ul>
-                    <li><h5>Branch Name</h5></li>
-                    @if (Model.NonRegBranchList != null)
+                    <li><h5>Company Name</h5></li>
+                    @if (Model.NonRegCompanies.Count() == 1)
+                {
+                        <li class="active">
+                            <a> @Model.NonRegCompanies[0].CompanyName</a>
+                        </li>
+                    }
+                    else {
+                        foreach (var item in Model.NonRegCompanies)
+                        {
+                            <li>
+                                @*<a >@item.CompanyName</a>*@
+
+                                @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                            </li>
+                        }
+                    }
+                </ul>
+
+
+
+            </div>
+
+            <div id="branch-panel">
+                <div class="h-panel">
+                    <ul>
+                        <li><h5>Branch Name</h5></li>
+                        @if (Model.NonRegBranchList != null)
                 {
 
                     if (Model.NonRegBranchList.Count() == 1)
                     {
-                            <li>
-                                <a>@Model.NonRegBranchList[0].BranchName </a>
-
-
-                            </li>
-                        }
-                        else {
-                            foreach (var item in Model.NonRegBranchList)
-                            {
                                 <li>
-                                    @*<a>@item.BranchName</a>*@
-                                    @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
+                                    <a>@Model.NonRegBranchList[0].BranchName </a>
+
+
                                 </li>
                             }
+                            else {
+                                foreach (var item in Model.NonRegBranchList)
+                                {
+                                    <li>
+                                        @*<a>@item.BranchName</a>*@
+                                        @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                                    </li>
+                                }
+                            }
                         }
-                    }
-                </ul>
+                    </ul>
 
-            </div>
+                </div>
 
-            <div class="h-panel">
+                <div class="h-panel">
 
-                <ul id="loan-panel">
-                    <li><h5>Loan Number</h5></li>
-                    @if (Model.LoanList != null)
+                    <ul id="loan-panel">
+                        <li><h5>Loan Number</h5></li>
+                        @if (Model.LoanList != null)
                 {
                     foreach (var item in Model.LoanList)
                     {
-                            <li>
-                                <a>@item.loanNumber</a> 
-                            </li>
+                                <li>@Html.ActionLink(item.loanNumber, actoinName, controllerName, new { }, new { @class = "" }) </li>
+
+                            }
                         }
-                    }
-                </ul>
+                    </ul>
 
+                </div>
             </div>
+            
         </div>
-
-
-}
-    </div>
         <p>
 
             @*@Html.ActionLink("Back to DashBoard", "Index")*@
         </p>
-
+        <button class="close-btn btn btn-info" style="clear: both;float: right;padding:6px 12px">Close</button>
+    }
         <style>
             .h-panel {
                 margin-left: 20px;
@@ -125,4 +150,7 @@
     });
 
     $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+
+
+   
 </script>

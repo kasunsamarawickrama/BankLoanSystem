@@ -47,6 +47,11 @@
     .select {
         background-color:dodgerblue;
     }
+
+    .hidden {
+        display: none;
+    }
+}
 </style>
 
 
@@ -86,6 +91,7 @@
 
         </div>
         <div id="subtotal"></div>
+        <div id="unitId" class="hidden"></div>
     </div>
    
 
@@ -195,10 +201,10 @@
             </div>
         </div>
 
-        
+
     </div>
 
-    
+
     <div class="side-panel" style="width:870px;float:left;margin-top:10px">
 
         <div class="form-group">
@@ -415,7 +421,7 @@
 
                 if ($('#iVin').val() != '') {
                     var unit = {
-                        "UnitId": 1,
+                        "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
                         "AdvanceAmount": $('#iAdvance').val(),
                         "AdvanceDate": $('#advanceDate').val()
@@ -452,7 +458,7 @@
                         var tr = $(this).parents('tr:first');
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            data.ItemList.push({ UnitId: 1, IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
 
                         }
                     });
@@ -500,6 +506,7 @@
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
                 $('#iAdvance').val(tr.find("#am").text());
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
             }
 
@@ -561,7 +568,7 @@
             }
 
 
-</script>
+        </script>
 
 
 

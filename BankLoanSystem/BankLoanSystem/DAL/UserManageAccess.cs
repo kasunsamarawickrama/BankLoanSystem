@@ -195,7 +195,14 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/13
+        /// 
         /// Get user details of a given user
+        /// 
+        /// EditedBy: Kanishka
+        /// EditedDate:2016/2/26
+        /// 
+        /// Add user company code and branch code
+        /// 
         /// </summary>
         /// <param name="user_id"></param>
         /// <returns>GetDetails Object</returns>
@@ -237,7 +244,8 @@ namespace BankLoanSystem.DAL
                             dtl.roleName = reader["role_name"].ToString();
                             dtl.branchName = reader["branch_name"].ToString();
                             dtl.BranchId = Convert.ToInt32(reader["branch_id"]);
-
+                            dtl.CompanyCode = reader["CompanyCode"].ToString();
+                            dtl.BranchCode = reader["BranchCode"].ToString();
                         }
 
                         return dtl;
