@@ -196,7 +196,7 @@ namespace BankLoanSystem.DAL
         /// <param name="userId"></param>
         /// <param name="loanNumber"></param>
         /// <returns></returns>
-        public bool InsertUnit(Unit unit, int userId, string loanNumber)
+        public bool InsertUnit(Unit unit, int userId)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -206,12 +206,9 @@ namespace BankLoanSystem.DAL
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        GeneratesCode gc = new GeneratesCode();
-                        var unitId = gc.GenerateUnitId(loanNumber, unit.LoanId);
-
                         cmd.Parameters.AddWithValue("@loan_id", unit.LoanId);
                         cmd.Parameters.AddWithValue("@user_id", userId);
-                        cmd.Parameters.AddWithValue("@unit_id", unitId);
+                        cmd.Parameters.AddWithValue("@unit_id", unit.UnitId);
                         cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
                         cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
                         cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
@@ -293,6 +290,73 @@ namespace BankLoanSystem.DAL
             }
             return latestUnitId;
         }
+
+        public bool InsertTitleDocumentUploadInfo(string xmlDoc, string unitId)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("spInsertTitleDocumentDetails", con))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@Input", xmlDoc);
+                        command.Parameters.AddWithValue("@unit_id", unitId);
+
+                        con.Open();
+                        command.ExecuteNonQuery();
+
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// CreatedBy:  Kanishka 
+        /// CreatedDate:02/24/2016
+        /// 
+        /// Get latest unit image name from database
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        //public string GetLatestUnitImageName(int unitId)
+        //{
+        //    string latestUnitId = "";
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            using (SqlCommand command = new SqlCommand("spGetLatestUnitId", con))
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+
+        //                command.Parameters.AddWithValue("@loan_id", loanId);
+        //                con.Open();
+        //                using (var reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        latestUnitId = reader["unit_id"].ToString();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
+        //        }
+        //    }
+        //    return latestUnitId;
+        //}
 
 
         /// <summary>
@@ -403,23 +467,23 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<VehicleYearMakeModel> GetVehicleModelsByMake(string make)
+        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year)
         {
-            List<VehicleYearMakeModel> modelList = new List<VehicleYearMakeModel>();
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
                 {
 
-                    var command = new SqlCommand("spGetVehicleModelsByMake", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@make", SqlDbType.Int).Value = make;
-                   
+                    var command = new SqlCommand("spGetVehicleModelByMakeYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@make", SqlDbType.VarChar).Value = make;
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
                     con.Open();
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            VehicleYearMakeModel vym = new VehicleYearMakeModel();
+                            UnitYearMakeModel vym = new UnitYearMakeModel();
                             vym.VehicleModel = reader["model"].ToString();
                             modelList.Add(vym);
 
@@ -441,6 +505,48 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/2/25
+        /// Get vehicle makes by year
+        /// </summary>
+        /// <param name="make"></param>
+        /// <returns>modelList</returns>
+        public List<UnitYearMakeModel> GetVehicleMakesByYear( int year)
+        {
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleMakesByYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnitYearMakeModel vmy = new UnitYearMakeModel();
+                            vmy.VehicleMake = reader["make"].ToString();
+                            modelList.Add(vmy);
+
+
+                        }
+                    }
+                    return modelList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }
