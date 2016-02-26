@@ -35,18 +35,20 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
-                            Unit unitDetails = new Unit()
-                            {
-                                UnitId = reader["unit_id"].ToString(),
-                                CreatedDate = Convert.ToDateTime(reader["created_date"].ToString()),
-                                IdentificationNumber = reader["identification_number"].ToString(),
-                                Year = Convert.ToInt32(reader["year"].ToString()),
-                                Make = reader["make"].ToString(),
-                                Model = reader["model"].ToString(),
-                                Cost = Convert.ToDecimal(reader["cost"].ToString()),
-                                AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString())
-                            };
-                            unitList.Add(unitDetails);
+
+                            Unit NotAdvanced = new Unit();
+
+                            NotAdvanced.UnitId = reader["unit_id"].ToString();
+                            NotAdvanced.CreatedDate = Convert.ToDateTime(reader["created_date"].ToString());
+                            NotAdvanced.IdentificationNumber = reader["identification_number"].ToString();
+                            NotAdvanced.Year = Convert.ToInt32(reader["year"].ToString());
+                            NotAdvanced.Make = reader["make"].ToString();
+                            NotAdvanced.Model = reader["model"].ToString();
+                            NotAdvanced.Cost = Convert.ToDecimal(reader["cost"].ToString());
+                            NotAdvanced.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
+
+
+                            unitList.Add(NotAdvanced);
                         }
                     }
                     return unitList;
@@ -82,7 +84,7 @@ namespace BankLoanSystem.DAL
             int countVal = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
-
+                con.Open();
 
                 try
                 {
@@ -98,7 +100,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                             cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
-                            con.Open();
+                            
 
                             SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
@@ -107,11 +109,12 @@ namespace BankLoanSystem.DAL
                             cmd.ExecuteNonQuery();
 
                             countVal = (int)returnParameter.Value;
-
+                            cmd.Parameters.Clear();
 
                             //return countVal;
                         }
                         countVal = countVal + 1;
+                        
                     }
                     return countVal;
                 }

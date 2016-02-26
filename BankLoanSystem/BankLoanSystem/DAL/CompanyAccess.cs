@@ -831,9 +831,11 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="regCompanyId"></param>
         /// <returns></returns>
-        public Company GetNonRegCompanyDetailsByRegCompanyId(int regCompanyId)
+        public List<Company> GetNonRegCompanyDetailsByRegCompanyId(int regCompanyId)
         {
-            Company company = new Company();
+
+            List<Company> companyList = new List<Company>();
+            
             using (
                 SqlConnection con =
                     new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -849,6 +851,7 @@ namespace BankLoanSystem.DAL
                     {
                         while (reader.Read())
                         {
+                            Company company = new Company();
                             company.CompanyName = reader["company_name"].ToString();
                             company.CompanyCode = reader["company_code"].ToString();
                             company.CompanyAddress1 = reader["company_address_1"].ToString();
@@ -861,7 +864,9 @@ namespace BankLoanSystem.DAL
                             company.PhoneNum2 = reader["phone_num_2"].ToString();
                             company.PhoneNum3 = reader["phone_num_3"].ToString();
                             company.Fax = reader["fax"].ToString();
+                            companyList.Add(company);
                         }
+                        
                     }
                 }
                 catch (Exception ex)
@@ -869,7 +874,7 @@ namespace BankLoanSystem.DAL
                     throw ex;
                 }
             }
-            return company;
+            return companyList;
         }
 
 

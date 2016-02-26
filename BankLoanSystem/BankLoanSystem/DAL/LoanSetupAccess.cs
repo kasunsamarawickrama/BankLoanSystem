@@ -613,5 +613,71 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// CreatedBy : iRFAN
+        /// CreatedDate: 2016/02/25
+        /// 
+        /// GET LOAN DETAILS BY NON REG BRANCH ID
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>1</returns>
+
+        public List<LoanSetupStep1> GetLoanDetailsByNonRegBranchId(int nonRegBranchId)
+        {
+
+            List<LoanSetupStep1> loanList = new List<LoanSetupStep1>();
+            using (
+                SqlConnection con =
+                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+
+                try
+                {
+                    var command = new SqlCommand("spGetLoanDetailsByNonRegBranchId", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@non_reg_branch_id", nonRegBranchId);
+
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            LoanSetupStep1 loan = new LoanSetupStep1();
+                            loan.loanNumber = reader["loan_number"].ToString();
+                            loan.startDate = Convert.ToDateTime(reader["start_date"]);
+                            loan.maturityDate = Convert.ToDateTime(reader["maturity_date"]);
+                            loan.loanAmount = Convert.ToDecimal(reader["loan_amount"]);
+                            loan.advancePercentage = Convert.ToInt32(reader["advance"]);
+
+                            //0 - day, 1 - month
+                            if (reader["pay_off_type"].ToString() == "d")
+                                loan.payOffPeriodType = 0;
+                            loan.payOffPeriodType = 1;
+                            loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
+                            loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
+
+                            loan.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"]);
+
+                            loanList.Add(loan);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+
+            return loanList;
+        }
     }
+
+
+
 }

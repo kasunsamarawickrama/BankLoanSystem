@@ -69,7 +69,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             else if (stepNo == 5)
             {
-                Company nonRegCompany = ca.GetNonRegCompanyDetailsByRegCompanyId(company.CompanyId);
+                Company nonRegCompany = ca.GetNonRegCompanyDetailsByRegCompanyId(company.CompanyId)[0];
 
                 if (string.IsNullOrEmpty(nonRegCompany.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
 

@@ -1,124 +1,561 @@
-﻿@model IEnumerable<BankLoanSystem.Models.Unit>
+﻿@model BankLoanSystem.Models.AdvanceUnit
 
 @{
-    ViewBag.Title = "Advance";
+    ViewBag.Title = "Advance Unit";
+    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
-
-<h2>Advance</h2>
-
-<div>
-    @{
-        ViewBag.Title = "WebGrid";
-        WebGrid grid = new WebGrid(Model, defaultSort: "CreatedDate", rowsPerPage: 5); // grid with sorting and paging
+<style type="text/css">
+    .gridtable {
+        margin: 30px;
+        border-collapse: collapse;
+        width: 800px;
+        background-color: aliceblue;
     }
-</div>
 
 
 
+    .webgrid-header {
+        background-color:paleturquoise;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+    .gridtable th, .gridtable td {
+        border: 1px solid cadetblue;
+        padding: 5px;
+    }
+
+    .webgrid-alternating-row {
+        background-color:aliceblue;
+        color: #000;
+        font-weight:normal;
+    }
+    .webgrid-row-style
+    {
+        padding: 3px 7px 2px;
+    }
+    .gridHead a:hover {
+        text-decoration: underline;
+    }
+
+    .description {
+        width: auto;
+    }
+
+    .select {
+        background-color:dodgerblue;
+    }
+
+    .hidden {
+        display: none;
+    }
+}
+</style>
 
 
 
-@using (Html.BeginForm("Advance", "AdvanceUnit"))
+@using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
-    <div>
-        @grid.GetHtml(
-       tableStyle: "gridTable",
-       htmlAttributes: new { id = "checkableGrid" },
-           columns: grid.Columns(
-                grid.Column(
-                    format:@<text><input type="checkbox" value="@item.UnitId" , name="ids" /></text>
-                    ,header: "{checkall}"
+    <div class ="side-panel" style="width:870px;float:left">
+        <div>
+            @grid.GetHtml(
+                     tableStyle: "gridtable",
+                    headerStyle: "webgrid-header",
+                    
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    rowStyle: "webgrid-row-style",
+                    htmlAttributes: new { id = "checkableGrid" },
+                    columns: grid.Columns(
+                    grid.Column(                     
+                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                            , header: "{checkall}"
 
-                ),
-                grid.Column("CreatedDate", header: "Date Entered"),
-                grid.Column("IdentificationNumber", header: "VIN/HIN/serial #"),
-                grid.Column("Year", header: "Year"),
-                grid.Column("Make", header: "make"),
-                grid.Column("Model", header: "Model"),
-                grid.Column("Cost", header: "Cost"),
-                grid.Column("AdvanceAmount", header: "Advance Amount")
+                    ),
+                         grid.Column(
+                            "CreatedDate",
+                            "Date Entered",
+                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
+                        ),
+                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                         grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                         grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                        grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                        grid.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                         grid.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+
 
            )
        )
 
+        </div>
+        <div id="subtotal"></div>
+        <div id="unitId" class="hidden"></div>
     </div>
-    <div>
-        <input type="submit" value="Get" />
+   
+
+    
+    <div class ="side-panel" style="width:870px;float:left">
+        <div class="form-group">
+
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+
+
+            @*@*<div class="col-xs-8" id="advanceDateAll" style="display:none">
+                @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, "", new { @class = "text-danger" })
+            </div>*@
+
+
+        </div>
+        
+        
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
+        
     </div>
-}
+    
+
+    
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class ="side-panel" style="width:870px;float:left">
+            <div class="form-group">
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
+                <div class="col-sm-4" style="margin-top:10px">
+                    @Html.Editor("identificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
+                    
+                </div>
 
 
 
-@*@grid.GetHtml(columns: grid.Columns(grid.Column("Date", header: "VIN"),
-    grid.Column("VIN", "VIN")))*@
+                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
+                <div class="col-sm-2" style="margin-top:10px">
+                    @Html.Editor("year", new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
+                    
+                </div>
 
 
 
-<div id="tblGrid">
-    @Html.ActionLink("Back to List", "Index")
-</div>
+                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
+                <div class="col-sm-2" style="margin-top:5px">
+                    @Html.Editor("make", new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
+                   
+                </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@section script{
-    <script>
-        $(document).ready(function () {
-            //1st replace first colom header text with checkbox
-            $("#checkableGrid th").each(function () {
-                if ($.trim($(this).tex().toString().toLowerCase()) === "{checkall}") {
-                    $(this).text('');
-                    $("<input/>", { tyoe: "checkbox", id: "cbSelectAll", value: "" }).appendTo($(this));
-                    $(this).append("<span>Select All</span>");
-                }
-            });
 
-            //2nd click event for heaer checkbox for select/deselect all
-            $("#checkableGrid th").live("click", function () {
-                var isChecked = this.checked;
-                $('#checkableGrid').find("input:checkbox").each(function (){
-                    this.checked = isChecked;
+                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
+                <div class="col-sm-2" style="margin-top:5px">
+                    @Html.Editor("vehicleModel", new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
+                   
+                </div>
+
+            </div>
+            <div class="form-group">
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="submit" name="search" value="Search" id="btnSubmit" class="btn btn-default cancel" style="float:left;margin-left:200px" />
+                        </li>
+                        <li>
+                            <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
+
+
+        </div>
+      
+        <div class ="side-panel"style="width:870px;float:left;margin-top:10px">
+            <div id="searchGrid" style="float:left;margin-left:20px">
+                @grid1.GetHtml(
+              tableStyle: "gridtable",
+                    headerStyle: "webgrid-header",
+                    
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "select",
+                    rowStyle: "webgrid-row-style",
+                    htmlAttributes: new { id = "searchResultGrid" },
+                    columns: grid1.Columns(
+                    grid.Column(
+                            "CreatedDate",
+                            "Date Entered",
+                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
+                        ),
+                    grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                    grid1.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                    grid1.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                    grid1.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                    grid1.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                    grid1.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="advance" class="advance">@item.AdvanceAmount</label>}</text>)
+                ))
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="side-panel" style="width:870px;float:left;margin-top:10px">
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new {  @style = "margin-top:10px" ,@id = "iVIN" })
+                
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+               
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px"})
+                
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control" , @disabled = "disabled", @style = "margin-top:10px" } })
+                
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label(" Make", htmlAttributes: new { @style = "margin-top:10px" })
+               
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+                
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label("Model", htmlAttributes: new { @style = "margin-top:10px" })
+                
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+                
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px"})
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control",  @disabled = "disabled", @style = "margin-top:10px" } })
+
+            </div>
+            
+           
+        </div>
+        <div class="form-group" style = "margin-top:10px">
+            <div class="control-label col-sm-2">
+                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px"})
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label("Advance Date", htmlAttributes: new { @style = "margin-top:10px", @id = "iDate" })<span style="color:red">*</span>
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iDate", new { htmlAttributes = new { @class = "form-control", @id = "iDate", @disabled = "disabled", @style = "margin-top:10px" } })
+
+            </div>
+            <div class="form-group">
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="submit" name="search" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
+                        </li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+        }
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+        <script type="text/javascript">
+            var total = 0;
+            var checkCount = 0;
+
+            $(function () {
+                // alert($('.gridTable thead tr th:first'));
+                $('.gridtable thead tr th:first').html(
+
+                $('<input />', {
+                    type: 'checkbox',
+                    id: "cbSelectAll",
+                    click: function () {
+
+                        var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
+                        checkboxes.prop('checked', $(this).is(':checked'));
+                        total = 0;
+                        $('.advanceAmount').each(function () {
+                            var tr = $(this).parents('tr:first');
+
+                            if (document.getElementById('all').checked) {
+                                total = total + parseFloat(tr.find("#am").text());
+                                checkCount++;
+                                if (checkCount > 1) {
+                                    ClearTextBoxValues();
+                                }
+                                $(this).parents('tr').css('background', 'lightblue');
+                            } else {
+                                checkCount = 0;
+                                total = 0;
+                                $(this).parents('tr').css('background', 'transparent');
+                            }
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+                        });
+
+                    }
+                })
+            );
+
+                $("input[name='ids']").click(function () {
+
+                    var totalRows = $("#checkableGrid td :checkbox").length;
+                    var checked = $("#checkableGrid td :checkbox:checked").length;
+
+                    if (checked == totalRows) {
+                        $("#checkableGrid").find("input:checkbox").each(function () {
+                            this.checked = true;
+
+                        });
+                    }
+                    else {
+                        $("#cbSelectAll").removeAttr("checked");
+                    }
                 });
             });
 
-            //3rd click event for checkbox of each row
-            $("input[name ='ids']").click(function () {
-                var totalRows = $("#checkableGrid td:checkbox").length;
-                var checked = $("#checkableGrid td:checkbox:checked").length;
 
-                if (checked == totalRows) {
-                    $('#checkableGrid').find("input:checkbox").each(function () {
-                        this.checked = isChecked;
-                    });
+
+
+            $('.checkboxAll').change(function () {
+
+                var tr = $(this).parents('tr:first');
+                var checked = tr.find("#all").is(':checked');
+
+                if (checked) {
+                    total = total + parseFloat(tr.find("#am").text());
+                    checkCount++;
+                    $(this).parents('tr').css('background', 'lightblue');
+                } else {
+
+                    total = total - parseFloat(tr.find("#am").text());
+                    checkCount--;
+                    $(this).parents('tr').css('background', 'transparent');
                 }
-                else {
 
+
+                if (checkCount == 1) {
+                    if (checked) {
+                        SetTextBoxValues(tr);
+                    } else {
+                        $('.advanceAmount').each(function () {
+                            var tr = $(this).parents('tr:first');
+                            var checked = tr.find("#all").is(':checked');
+                            if (checked) {
+                                SetTextBoxValues(tr);
+                            }
+                        });
+                    }
+                } else {
+                    ClearTextBoxValues();
+                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                }
+
+            });
+
+            $(document).ready(function () {
+                $("#content tbody tr").each(function (i, row) {
+                    var $actualRow = $(row);
+                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
+                        $actualRow.css('background-color', '#EAF2D3');
+                    }
+                    else {
+                        $actualRow.css('background-color', '#FF9E9E');
+                    }
+                });
+            });
+
+            $('#btnAdvance').click(function () {
+
+                if ($('#iVin').val() != '') {
+                    var unit = {
+                        "UnitId": $('#all').val(),
+                        "IdentificationNumber": $('#iVin').val(),
+                        "AdvanceAmount": $('#iAdvance').val(),
+                        "AdvanceDate": $('#advanceDate').val()
+                    };
+
+                    $.ajax({
+                        url: '/AdvanceUnit/UpdateAdvance/',
+                        data: JSON.stringify(unit),
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (partialView) {
+                            $('#changeContainer').html(partialView);
+                            if (gCalBase === "Advance") {
+                                $('#rdAdvance').prop('checked', true);
+                            }
+                            else
+                                $('#rdFullPayment').prop('checked', true);
+
+                            if (gLoanStatus === "Yes")
+                                $('#rdYes').prop('checked', true);
+                            else
+                                $('#rdNo').prop('checked', true);
+
+                            $('#changeContainer').show();
+                        }
+                    });
                 }
             });
 
-        });
+            $('#btnAdvanceAll').click(function () {
+                if (checkCount > 1) {
+                    var data = { ItemList: [] };
+                    $('.advanceAmount').each(function () {
+                        var tr = $(this).parents('tr:first');
+                        var checked = tr.find("#all").is(':checked');
+                        if (checked) {
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
 
-    </script>
+                        }
+                    });
 
-}
+                    $.ajax({
+                        url: '/AdvanceUnit/UpdateAdvanceAll/',
+                        data: JSON.stringify(data),
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
 
+                        success: function (partialView) {
+                            $('#changeContainer').html(partialView);
+                            if (gCalBase === "Advance") {
+                                $('#rdAdvance').prop('checked', true);
+                            }
+                            else
+                                $('#rdFullPayment').prop('checked', true);
 
+                            if (gLoanStatus === "Yes")
+                                $('#rdYes').prop('checked', true);
+                            else
+                                $('#rdNo').prop('checked', true);
 
+                            $('#changeContainer').show();
+                        }
+                    });
+                }
 
+            });
 
-
-@*<script type="text/javascript">
-$(function () {
-    $('.gridTable thead tr th:first').html(
-        $('<input />', {
-            type: 'checkbox',
-            click: function () {
-                var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
-                checkboxes.prop('checked', $(this).is(':checked'));
+            function ClearTextBoxValues() {
+                $('#ivin').val('');
+                $('#iVin').val('');
+                $('#iYear').val('');
+                $('#iMake').val('');
+                $('#iModel').val('');
+                $('#iCost').val('');
+                $('#iAdvance').val('');
             }
-        })
-    );
-});
-</script>*@
+
+            function SetTextBoxValues(tr) {
+                $('#iVin').val(tr.find("#vin").text());
+                $('#iYear').val(tr.find("#year").text());
+                $('#iMake').val(tr.find("#make").text());
+                $('#iModel').val(tr.find("#model").text());
+                $('#iCost').val(tr.find("#cost").text());
+                $('#iAdvance').val(tr.find("#am").text());
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+            }
+
+            var startDate,
+                endDate,
+                updateStartDate = function () {
+                    startPicker.setStartRange(startDate);
+                    endPicker.setStartRange(startDate);
+                    var minNextDate = new Date(startDate);
+                    //alert(minNextDate);
+                    minNextDate.setDate(startDate.getDate() + 1);
+                    endPicker.setMinDate(minNextDate);
+                },
+         updateEndDate = function () {
+             startPicker.setEndRange(endDate);
+
+             var maxNextDate = new Date(endDate);
+             //alert(minNextDate);
+             maxNextDate.setDate(endDate.getDate() - 1);
+             startPicker.setMaxDate(maxNextDate);
+             endPicker.setEndRange(endDate);
+         },
+         startPicker = new Pikaday({
+             field: document.getElementById('startDate'),
+             format: 'l',
+             bound: true,
+
+             onSelect: function () {
+                 startDate = this.getDate();
+                 $("#payOffPeriod").val("0");
+                 $("#outOffRangeError").hide();
+                 updateStartDate();
+                 endPicker.enableDayFn();
+
+             }
+         }),
+         endPicker = new Pikaday({
+             field: document.getElementById('maturityDate'),
+             format: 'l',
+
+             onSelect: function () {
+                 endDate = this.getDate();
+                 $("#payOffPeriod").val("0");
+                 $("#outOffRangeError").hide();
+                 updateEndDate();
+             }
+         }),
+         _startDate = startPicker.getDate(),
+                _endDate = endPicker.getDate();
+
+            if (_startDate) {
+                startDate = _startDate;
+                updateStartDate();
+            }
+
+            if (_endDate) {
+                endDate = _endDate;
+                updateEndDate();
+            }
+
+
+        </script>
+
+
+
+
+
+
+
 
