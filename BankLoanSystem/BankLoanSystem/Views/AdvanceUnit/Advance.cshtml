@@ -9,8 +9,8 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
-    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
     .gridtable {
@@ -57,14 +57,14 @@
     .hidden {
         display: none;
     }
-}
+
 </style>
 
 
 
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
-    <div class ="side-panel" style="width:870px;float:left">
+    <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left">
         <div>
             @grid.GetHtml(
                      tableStyle: "gridtable",
@@ -74,7 +74,7 @@
                     rowStyle: "webgrid-row-style",
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
-                    grid.Column(
+                    grid.Column(                     
                          format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                             , header: "{checkall}"
 
@@ -102,7 +102,7 @@
    
 
     
-    <div class ="side-panel" style="width:870px;float:left;padding: 25px 10px 10px 10px;">
+    <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left">
         <div class="form-group">
 
             <div class="control-label col-sm-2">
@@ -111,7 +111,7 @@
 
 
             <div class="col-xs-3" id="advanceDateAll" >
-                
+
 
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
 
@@ -132,7 +132,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class ="side-panel" style="width:870px;float:left">
+        <div class ="side-panel" id ="searchDiv"style="width:870px;float:left">
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
@@ -213,7 +213,7 @@
     </div>
 
 
-    <div class="side-panel" style="width:870px;float:left;margin-top:10px">
+    <div class="side-panel" id="unitDetailDiv"style="width:870px;float:left;margin-top:10px">
 
         <div class="form-group">
             <div class="control-label col-sm-2">
@@ -315,15 +315,32 @@
    $(document).ready(function () {
        //alert("hii");
        //alert($('#searchResultGrid').children('tbody').children('tr').length);
-       if ($('#searchResultGrid').children('tbody').children('tr').length > 0)
-       {
-           $("#searchGrid1").show();
+       if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
+           $("#checkableGridDiv").hide();
+           $("#advanceAllDiv").hide();
+           $("#searchDiv").hide();
+           $("#searchGrid1").hide();
+           $("#unitDetailDiv").hide();
+           
        }
-       else {
+       else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
+           $("#checkableGridDiv").show();
+           $("#advanceAllDiv").show();
+           $("#searchDiv").show();
+           $("#searchGrid1").show();
+           $("#unitDetailDiv").show();
+       }
+       else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
+       {
+           $("#checkableGridDiv").show();
+           $("#advanceAllDiv").show();
+           $("#searchDiv").show();
+           $("#unitDetailDiv").show();
            $("#searchGrid1").hide();
        }
+       
    });
-      
+
    //$("#btnSearch").click(function () {
    //    $("#searchGrid1").show();
    //});
@@ -384,15 +401,6 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
-
-
-                var tr = $('.gridtable tbody tr');
-                if (tr.length > 1) {
-                    $('#cbSelectAll').show();
-                } else {                   
-                    $('#cbSelectAll').css("display", "none");
-                }
-
             });
 
 
@@ -432,6 +440,18 @@
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 }
 
+            });
+
+            $(document).ready(function () {
+                $("#content tbody tr").each(function (i, row) {
+                    var $actualRow = $(row);
+                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
+                        $actualRow.css('background-color', '#EAF2D3');
+                    }
+                    else {
+                        $actualRow.css('background-color', '#FF9E9E');
+                    }
+                });
             });
 
             $('#btnAdvance').click(function () {
