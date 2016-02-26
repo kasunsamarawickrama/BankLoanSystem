@@ -33,6 +33,17 @@ namespace BankLoanSystem.Controllers.Unit
 
             int userId = Convert.ToInt16(Session["userId"]);
 
+            //int userRole = (new UserManageAccess()).getUserRole(userId);
+            //if (userRole == 3)
+            //{
+            //    var access = new UserRightsAccess();
+            //    List<Right> permission = access.getRightsString(userId);
+            //    if (permission.Count >= 1)
+            //    {
+            //        string permissionString = permission[0].rightsPermissionString;
+            //    }
+            //}
+
             CurtailmentAccess curAccess = new CurtailmentAccess();
             _loan = curAccess.GetLoanDetailsByLoanId(loanId);
             _loan.loanId = loanId;
@@ -51,7 +62,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             ViewBag.CompabyType = companyType;
 
-            //
+            //Check title 
             TitleAccess ta = new TitleAccess();
             Title title = ta.getTitleDetails(_loan.loanId);
             

@@ -934,8 +934,8 @@
 
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
-    var maxCost = model.LoanAmount * 100 / advancePt;
-    //var maxCost = model.Balance * 100 / advancePt;
+    //var maxCost = model.LoanAmount * 100 / advancePt;
+    var maxCost = model.Balance * 100 / advancePt;
 
     //calculate advance
     $('#txtCost').keypress(function(e) {
