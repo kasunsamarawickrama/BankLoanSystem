@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
     WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
@@ -346,6 +346,15 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
+
+
+                var tr = $('.gridtable tbody tr');
+                if (tr.length > 1) {
+                    $('#cbSelectAll').show();
+                } else {                   
+                    $('#cbSelectAll').css("display", "none");
+                }
+
             });
 
 
@@ -386,19 +395,7 @@
                 }
 
             });
-
-            $(document).ready(function () {
-                $("#content tbody tr").each(function (i, row) {
-                    var $actualRow = $(row);
-                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
-                        $actualRow.css('background-color', '#EAF2D3');
-                    }
-                    else {
-                        $actualRow.css('background-color', '#FF9E9E');
-                    }
-                });
-            });
-
+           
             $('#btnAdvance').click(function () {
 
                 if ($('#iVin').val() != '') {
