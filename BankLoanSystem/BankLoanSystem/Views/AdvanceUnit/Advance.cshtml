@@ -1,10 +1,16 @@
 ﻿@model BankLoanSystem.Models.AdvanceUnit
 
+
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/scripts/moment.js"></script>
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true);
-    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", rowsPerPage: 5);// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canSort: true, rowsPerPage: 4);
+    WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow", rowsPerPage: 5);// grid with sorting and paging
 }
 <style type="text/css">
     .gridtable {
@@ -51,14 +57,14 @@
     .hidden {
         display: none;
     }
-}
+
 </style>
 
 
 
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
-    <div class ="side-panel" style="width:870px;float:left">
+    <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left">
         <div>
             @grid.GetHtml(
                      tableStyle: "gridtable",
@@ -96,7 +102,7 @@
    
 
     
-    <div class ="side-panel" style="width:870px;float:left">
+    <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left">
         <div class="form-group">
 
             <div class="control-label col-sm-2">
@@ -104,16 +110,18 @@
             </div>
 
 
-            <div class="col-xs-8" id="advanceDateAll" style="display:none">
-                @Html.Editor("TAdvanceDate", new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
-
-            </div>
+            <div class="col-xs-3" id="advanceDateAll" >
 
 
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+
+        </div>
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
+        
         </div>
         
         
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
+           
         
     </div>
     
@@ -124,7 +132,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class ="side-panel" style="width:870px;float:left">
+        <div class ="side-panel" id ="searchDiv"style="width:870px;float:left">
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
@@ -205,80 +213,86 @@
     </div>
 
 
-    <div class="side-panel" style="width:870px;float:left;margin-top:10px">
+    <div class="side-panel" id="unitDetailDiv"style="width:870px;float:left;margin-top:10px">
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new {  @style = "margin-top:10px" ,@id = "iVIN" })
-                
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @style = "margin-top:10px", @id = "iVIN" })
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-               
+
             </div>
             <div class="control-label col-sm-2">
-                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px"})
-                
+                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px" })
+
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control" , @disabled = "disabled", @style = "margin-top:10px" } })
-                
+                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+
             </div>
             <div class="control-label col-sm-2">
                 @Html.Label(" Make", htmlAttributes: new { @style = "margin-top:10px" })
-               
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-                
+
             </div>
             <div class="control-label col-sm-2">
                 @Html.Label("Model", htmlAttributes: new { @style = "margin-top:10px" })
-                
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-                
+
             </div>
             <div class="control-label col-sm-2">
-                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px"})
+                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px" })
 
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control",  @disabled = "disabled", @style = "margin-top:10px" } })
+                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
             </div>
-            
-           
-        </div>
-        <div class="form-group" style = "margin-top:10px">
+
+
+
+
             <div class="control-label col-sm-2">
-                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px"})
+                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px" })
 
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
             </div>
+
+           
             <div class="control-label col-sm-2">
-                @Html.Label("Advance Date", htmlAttributes: new { @style = "margin-top:10px", @id = "iDate" })<span style="color:red">*</span>
+                @Html.Label("AdvanceDate", htmlAttributes: new { @style = "margin-top:10px" })<span style="color:red"> *</span>
+            </div>
+
+
+            <div class="col-xs-4" >
+
+
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @style = "margin-top:10px" } })
 
             </div>
-            <div class="col-xs-4">
-                @Html.Editor("iDate", new { htmlAttributes = new { @class = "form-control", @id = "iDate", @disabled = "disabled", @style = "margin-top:10px" } })
 
-            </div>
-            <div class="form-group">
-                <nav>
-                    <ul class="pager">
-                        <li>
-                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
-                        </li>
-                        
-                    </ul>
-                </nav>
-            </div>
         </div>
+
+      
+
+                
+                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
+                      
+                        
+                  
+          
+       
     </div>
         }
 
@@ -298,11 +312,34 @@
 
         });
    });
-   //$(document).ready(function () {
-   //    alert("hii");
-   //    //alert($('#checkableGrid').totalRows.);
-      
-   //});
+   $(document).ready(function () {
+       //alert("hii");
+       //alert($('#searchResultGrid').children('tbody').children('tr').length);
+       if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
+           $("#checkableGridDiv").hide();
+           $("#advanceAllDiv").hide();
+           $("#searchDiv").hide();
+           $("#searchGrid1").hide();
+           $("#unitDetailDiv").hide();
+           
+       }
+       else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
+           $("#checkableGridDiv").show();
+           $("#advanceAllDiv").show();
+           $("#searchDiv").show();
+           $("#searchGrid1").show();
+           $("#unitDetailDiv").show();
+       }
+       else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
+       {
+           $("#checkableGridDiv").show();
+           $("#advanceAllDiv").show();
+           $("#searchDiv").show();
+           $("#unitDetailDiv").show();
+           $("#searchGrid1").hide();
+       }
+       
+   });
 
    //$("#btnSearch").click(function () {
    //    $("#searchGrid1").show();
@@ -364,15 +401,6 @@
                         $("#cbSelectAll").removeAttr("checked");
                     }
                 });
-
-
-                var tr = $('.gridtable tbody tr');
-                if (tr.length > 1) {
-                    $('#cbSelectAll').show();
-                } else {                   
-                    $('#cbSelectAll').css("display", "none");
-                }
-
             });
 
 
@@ -412,6 +440,18 @@
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 }
 
+            });
+
+            $(document).ready(function () {
+                $("#content tbody tr").each(function (i, row) {
+                    var $actualRow = $(row);
+                    if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
+                        $actualRow.css('background-color', '#EAF2D3');
+                    }
+                    else {
+                        $actualRow.css('background-color', '#FF9E9E');
+                    }
+                });
             });
 
             $('#btnAdvance').click(function () {
@@ -507,62 +547,25 @@
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
             }
 
-            var startDate,
-                endDate,
-                updateStartDate = function () {
-                    startPicker.setStartRange(startDate);
-                    endPicker.setStartRange(startDate);
-                    var minNextDate = new Date(startDate);
-                    //alert(minNextDate);
-                    minNextDate.setDate(startDate.getDate() + 1);
-                    endPicker.setMinDate(minNextDate);
-                },
-         updateEndDate = function () {
-             startPicker.setEndRange(endDate);
-
-             var maxNextDate = new Date(endDate);
-             //alert(minNextDate);
-             maxNextDate.setDate(endDate.getDate() - 1);
-             startPicker.setMaxDate(maxNextDate);
-             endPicker.setEndRange(endDate);
-         },
-         startPicker = new Pikaday({
+            var startPicker = new Pikaday({
              field: document.getElementById('startDate'),
-             format: 'l',
-             bound: true,
+                format: 'l'
 
-             onSelect: function () {
-                 startDate = this.getDate();
-                 $("#payOffPeriod").val("0");
-                 $("#outOffRangeError").hide();
-                 updateStartDate();
-                 endPicker.enableDayFn();
 
-             }
-         }),
-         endPicker = new Pikaday({
-             field: document.getElementById('maturityDate'),
-             format: 'l',
+            });
 
-             onSelect: function () {
-                 endDate = this.getDate();
-                 $("#payOffPeriod").val("0");
-                 $("#outOffRangeError").hide();
-                 updateEndDate();
-             }
-         }),
-         _startDate = startPicker.getDate(),
-                _endDate = endPicker.getDate();
+            startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
-            if (_startDate) {
-                startDate = _startDate;
-                updateStartDate();
-            }
+            var advDatePicker = new Pikaday({
+                field: document.getElementById('advanceDate'),
+                format: 'l'
 
-            if (_endDate) {
-                endDate = _endDate;
-                updateEndDate();
-            }
+
+            });
+
+            advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
 
         </script>
