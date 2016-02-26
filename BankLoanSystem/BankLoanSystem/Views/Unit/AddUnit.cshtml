@@ -971,7 +971,7 @@
             var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
             if (e.which !== 46) {
-                if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
+                if (val > maxCost || cost === 0.00 || Number(val) > Number(cost)) {
                     e.preventDefault();
                 }
             }
