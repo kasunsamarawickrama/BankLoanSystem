@@ -47,6 +47,11 @@
     .select {
         background-color:dodgerblue;
     }
+
+    .hidden {
+        display: none;
+    }
+}
 </style>
 
 
@@ -63,7 +68,7 @@
                     rowStyle: "webgrid-row-style",
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
-                    grid.Column(
+                    grid.Column(                     
                          format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                             , header: "{checkall}"
 
@@ -86,6 +91,7 @@
 
         </div>
         <div id="subtotal"></div>
+        <div id="unitId" class="hidden"></div>
     </div>
    
 
@@ -98,10 +104,10 @@
             </div>
 
 
-            <div class="col-xs-8" id="advanceDateAll" style="display:none">
+            @*@*<div class="col-xs-8" id="advanceDateAll" style="display:none">
                 @Html.EditorFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.NotAdvanced.ElementAt(0).AdvanceDate, "", new { @class = "text-danger" })
-            </div>
+            </div>*@
 
 
         </div>
@@ -397,7 +403,7 @@
 
                 if ($('#iVin').val() != '') {
                     var unit = {
-                        "UnitId": 1,
+                        "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
                         "AdvanceAmount": $('#iAdvance').val(),
                         "AdvanceDate": $('#advanceDate').val()
@@ -434,7 +440,7 @@
                         var tr = $(this).parents('tr:first');
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            data.ItemList.push({ UnitId: 1, IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#advanceDateAll').val() });
 
                         }
                     });
@@ -482,6 +488,7 @@
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
                 $('#iAdvance').val(tr.find("#am").text());
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
             }
 
