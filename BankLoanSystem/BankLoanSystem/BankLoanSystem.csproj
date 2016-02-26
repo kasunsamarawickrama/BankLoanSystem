@@ -130,6 +130,7 @@
     <Content Include="Content\combo.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\pikaday.css" />
+    <Content Include="Content\smoothnessjquery-ui.css" />
     <Content Include="Content\steps.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\theme.css" />
@@ -157,6 +158,8 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-ui.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
@@ -230,7 +233,7 @@
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
     <Compile Include="Models\UserRole.cs" />
-    <Compile Include="Models\VehicleYearMakeModel.cs" />
+    <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
