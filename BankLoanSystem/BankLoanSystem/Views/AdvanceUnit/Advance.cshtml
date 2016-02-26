@@ -217,76 +217,82 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new {  @style = "margin-top:10px" ,@id = "iVIN" })
-                
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @style = "margin-top:10px", @id = "iVIN" })
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-               
+
             </div>
             <div class="control-label col-sm-2">
-                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px"})
-                
+                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px" })
+
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control" , @disabled = "disabled", @style = "margin-top:10px" } })
-                
+                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+
             </div>
             <div class="control-label col-sm-2">
                 @Html.Label(" Make", htmlAttributes: new { @style = "margin-top:10px" })
-               
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-                
+
             </div>
             <div class="control-label col-sm-2">
                 @Html.Label("Model", htmlAttributes: new { @style = "margin-top:10px" })
-                
+
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-                
+
             </div>
             <div class="control-label col-sm-2">
-                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px"})
+                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px" })
 
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control",  @disabled = "disabled", @style = "margin-top:10px" } })
+                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
             </div>
-            
-           
-        </div>
-        <div class="form-group" style = "margin-top:10px">
+
+
+
+
             <div class="control-label col-sm-2">
-                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px"})
+                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px" })
 
             </div>
             <div class="col-xs-4">
                 @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
             </div>
+
+           
             <div class="control-label col-sm-2">
-                @Html.Label("Advance Date", htmlAttributes: new { @style = "margin-top:10px", @id = "iDate" })<span style="color:red">*</span>
+                @Html.Label("AdvanceDate", htmlAttributes: new { @style = "margin-top:10px" })<span style="color:red"> *</span>
+            </div>
+
+
+            <div class="col-xs-4" >
+
+
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @style = "margin-top:10px" } })
 
             </div>
-            <div class="col-xs-4">
-                @Html.Editor("iDate", new { htmlAttributes = new { @class = "form-control", @id = "iDate", @disabled = "disabled", @style = "margin-top:10px" } })
 
-            </div>
-            <div class="form-group">
-                <nav>
-                    <ul class="pager">
-                        <li>
-                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
-                        </li>
-                        
-                    </ul>
-                </nav>
-            </div>
         </div>
+
+      
+
+                
+                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
+                      
+                        
+                  
+          
+       
     </div>
         }
 
@@ -530,6 +536,16 @@
 
             startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
             startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
+            var advDatePicker = new Pikaday({
+                field: document.getElementById('advanceDate'),
+                format: 'l'
+
+
+            });
+
+            advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
 
         </script>
