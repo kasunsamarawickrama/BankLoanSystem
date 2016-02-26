@@ -14,6 +14,7 @@ namespace BankLoanSystem.Models
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
         [Display(Name = "Serial Number")]
@@ -26,21 +27,22 @@ namespace BankLoanSystem.Models
 
         public string Trim { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
         [Display(Name = "New or Used")]
         public bool NewOrUsed { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Length { get; set; }
 
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Speed { get; set; }
 
         [Display(Name = "Trailer")]
@@ -103,14 +105,11 @@ namespace BankLoanSystem.Models
 
     public class LoanPaymentDetails {
 
-
         public decimal Amount;
         public decimal UsedAmount;
         public decimal BalanceAmount;
         public decimal PendingAmount;
         public decimal BalanceAfterPending;
-
-
 
     }
     public class JustAddedUnit

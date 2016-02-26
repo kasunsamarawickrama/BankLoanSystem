@@ -400,23 +400,23 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<VehicleYearMakeModel> GetVehicleModelsByMake(string make)
+        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year)
         {
-            List<VehicleYearMakeModel> modelList = new List<VehicleYearMakeModel>();
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
                 {
 
-                    var command = new SqlCommand("spGetVehicleModelsByMake", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@make", SqlDbType.Int).Value = make;
-                   
+                    var command = new SqlCommand("spGetVehicleModelByMakeYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@make", SqlDbType.VarChar).Value = make;
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
                     con.Open();
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            VehicleYearMakeModel vym = new VehicleYearMakeModel();
+                            UnitYearMakeModel vym = new UnitYearMakeModel();
                             vym.VehicleModel = reader["model"].ToString();
                             modelList.Add(vym);
 
@@ -438,6 +438,48 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/2/25
+        /// Get vehicle makes by year
+        /// </summary>
+        /// <param name="make"></param>
+        /// <returns>modelList</returns>
+        public List<UnitYearMakeModel> GetVehicleMakesByYear( int year)
+        {
+            List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleMakesByYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnitYearMakeModel vmy = new UnitYearMakeModel();
+                            vmy.VehicleMake = reader["make"].ToString();
+                            modelList.Add(vmy);
+
+
+                        }
+                    }
+                    return modelList;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }
