@@ -1,5 +1,11 @@
 ﻿@model BankLoanSystem.Models.AdvanceUnit
 
+
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/scripts/moment.js"></script>
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
@@ -96,7 +102,7 @@
    
 
     
-    <div class ="side-panel" style="width:870px;float:left">
+    <div class ="side-panel" style="width:870px;float:left;padding: 25px 10px 10px 10px;">
         <div class="form-group">
 
             <div class="control-label col-sm-2">
@@ -104,16 +110,18 @@
             </div>
 
 
-            <div class="col-xs-8" id="advanceDateAll" style="display:none">
-                @Html.Editor("TAdvanceDate", new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
+            <div class="col-xs-3" id="advanceDateAll" >
+                
+
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
                 
             </div>
-
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
 
         </div>
         
         
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
+           
         
     </div>
     
@@ -510,62 +518,15 @@
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
             }
 
-            var startDate,
-                endDate,
-                updateStartDate = function () {
-                    startPicker.setStartRange(startDate);
-                    endPicker.setStartRange(startDate);
-                    var minNextDate = new Date(startDate);
-                    //alert(minNextDate);
-                    minNextDate.setDate(startDate.getDate() + 1);
-                    endPicker.setMinDate(minNextDate);
-                },
-         updateEndDate = function () {
-             startPicker.setEndRange(endDate);
+            var startPicker = new Pikaday({
+                field: document.getElementById('startDate'),
+                format: 'l'
 
-             var maxNextDate = new Date(endDate);
-             //alert(minNextDate);
-             maxNextDate.setDate(endDate.getDate() - 1);
-             startPicker.setMaxDate(maxNextDate);
-             endPicker.setEndRange(endDate);
-         },
-         startPicker = new Pikaday({
-             field: document.getElementById('startDate'),
-             format: 'l',
-             bound: true,
 
-             onSelect: function () {
-                 startDate = this.getDate();
-                 $("#payOffPeriod").val("0");
-                 $("#outOffRangeError").hide();
-                 updateStartDate();
-                 endPicker.enableDayFn();
+            });
 
-             }
-         }),
-         endPicker = new Pikaday({
-             field: document.getElementById('maturityDate'),
-             format: 'l',
-
-             onSelect: function () {
-                 endDate = this.getDate();
-                 $("#payOffPeriod").val("0");
-                 $("#outOffRangeError").hide();
-                 updateEndDate();
-             }
-         }),
-         _startDate = startPicker.getDate(),
-                _endDate = endPicker.getDate();
-
-            if (_startDate) {
-                startDate = _startDate;
-                updateStartDate();
-            }
-
-            if (_endDate) {
-                endDate = _endDate;
-                updateEndDate();
-            }
+            startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
 
         </script>

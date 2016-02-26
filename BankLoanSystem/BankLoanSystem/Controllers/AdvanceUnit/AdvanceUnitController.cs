@@ -61,6 +61,8 @@ namespace BankLoanSystem.Controllers
 
             TempData["notAdvancedList"] = unitList;
 
+            unitList1.AdvanceDate = DateTime.Now;
+
             return View(unitList1);
         }        
 
