@@ -82,16 +82,16 @@
     $(document).ready(function(){
         // show popup when you click on the link
         $('.show-logout-popup').click(function (event) {
-            
-          
 
-            
+
+
+
 
              @if(ViewBag.Title == "Advance Unit") {
                  <text>if ($('#iVin').val() != "") { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
-                
+
             }else if(ViewBag.Title == "Add Unit Page") {
-                <text>alert('hi')</text>
+                                <text>if (  $('#txtCost').val() != "" || $('#txtCost').val() != 0 || $('#txtAdvanceAmount').val() != "" || $('#txtAdvanceAmount').val() != 0 || $("#radio_1").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true) { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
             }
         });
 
