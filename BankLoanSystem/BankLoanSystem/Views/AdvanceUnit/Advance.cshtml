@@ -289,7 +289,7 @@
       
 
                 
-                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
+                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
                       
                         
                   
@@ -459,9 +459,13 @@
                 });
             });
 
-            $('#btnAdvance').click(function () {
+            $('#btnAdvance').click(function (e) {
 
-                if ($('#iVin').val() != '') {
+                if ($("#tagscloud span").text() != "") {
+                    e.preventDefault();
+                }
+
+                else if ($('#iVin').val() != '') {
                     var unit = {
                         "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
@@ -656,8 +660,10 @@
                  
                 } else {
                     $("#tagscloud span").fadeOut();
+                    $("#tagscloud span").text("");
 
                 }
+
 
                 $(this).val(num);
             });
