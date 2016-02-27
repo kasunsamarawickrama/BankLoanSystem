@@ -136,32 +136,32 @@
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
-                    @Html.Editor("identificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
-                    
+                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
                 <div class="col-sm-2" style="margin-top:10px">
-                    @Html.Editor("year", new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
-                    
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
+                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.Editor("make", new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
-                   
+                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
+                   @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.Editor("vehicleModel", new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
-                   
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
+                   @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
             </div>
