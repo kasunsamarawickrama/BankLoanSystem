@@ -564,8 +564,8 @@
 
             });
 
-            @*startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
+            startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
             var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
