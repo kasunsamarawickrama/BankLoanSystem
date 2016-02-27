@@ -9,8 +9,8 @@ namespace BankLoanSystem.Models
     {
         public string UnitId { get; set; }
 
-        [Display(Name = "Identification Number")]
-        [Required(ErrorMessage = "Vehicle Identification Number is required.")]
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 numeric characters for VIN number")]
         [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid Vehicle Identification Number Format.")]
         public string IdentificationNumber { get; set; }
 
@@ -18,7 +18,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Display(Name = "Serial Number")]
+        [Display(Name = "SN")]
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
         public string SerialNumber { get; set; }
 
@@ -34,7 +34,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Display(Name = "New or Used")]
+        [Display(Name = "Brand New")]
         public bool NewOrUsed { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
