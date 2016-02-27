@@ -99,9 +99,9 @@
         <div id="subtotal"></div>
         <div id="unitId" class="hidden"></div>
     </div>
+   
 
-
-
+    
    
 
     <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left">
@@ -126,9 +126,9 @@
            
         
     </div>
-
     
 
+    
 
     <div class="form-horizontal">
 
@@ -289,7 +289,7 @@
       
 
                 
-                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
+                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
                       
                         
                   
@@ -310,7 +310,7 @@
         $('#searchResultGrid').children('tbody').children('tr').click(function () {
             var tr = $(this);
             
-            $(this).css('background', 'mediumaquamarine');
+                $(this).css('background', 'mediumaquamarine');
             $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
             
@@ -458,9 +458,13 @@
                 });
             });
 
-            $('#btnAdvance').click(function () {
+            $('#btnAdvance').click(function (e) {
 
-                if ($('#iVin').val() != '') {
+                if ($("#tagscloud span").text() != "") {
+                    e.preventDefault();
+                }
+
+                else if ($('#iVin').val() != '') {
                     var unit = {
                         "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
@@ -570,6 +574,93 @@
 
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
             advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
+
+
+
+            $('#iAdvance').keypress(function (e) {
+                var cost = document.getElementById('iCost').value;
+                //alert(cost);
+                if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+                    var val = this.value + (e.which - 48);
+                    //alert(cost + ' ' + val);
+                    if (e.which !== 46) {
+                        if (Number(val) > Number(cost)) {
+                            $("#tagscloud span").fadeIn();
+                            
+                            $("#tagscloud span").text("Advance must be less than cost");
+                            $("#tagscloud span").delay(1000).fadeOut();
+                            //$("#tagscloud span")
+                            e.preventDefault();
+                        }
+                        //if (Number(val) <= 0) {
+                        //    $("#tagscloud span").fadeIn();
+
+                        //    $("#tagscloud span").text("Advance must be greater than zero");
+                        //    $("#tagscloud span").delay(1000).fadeOut();
+                        //    //$("#tagscloud span")
+                        //    e.preventDefault();
+                        //}
+                       
+                    }
+
+                } else {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be a positive number");
+                    $("#tagscloud span").delay(1000).fadeOut();
+                    e.preventDefault();
+                }
+            });
+
+            $('#iAdvance').blur(function () {
+
+                var cost = document.getElementById('iCost').value;
+  
+
+                var val = $.trim($(this).val());
+
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+             
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
+                }
+
+
+               
+
+                if (isNaN(num)) {
+                  
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be a positive number");
+                   
+                }
+                else if (Number(num) > Number(cost)) {
+
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be less than cost");
+
+
+                }
+
+                else if (Number(num) <= 0) {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be greater than zero");
+                 
+                } else {
+                    $("#tagscloud span").fadeOut();
+                    $("#tagscloud span").text("");
+
+                }
+
+
+                $(this).val(num);
+            });
 
 
         </script>
