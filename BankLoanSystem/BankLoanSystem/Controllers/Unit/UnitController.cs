@@ -214,6 +214,20 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(makeSelectList);
         }
 
+        /// <summary>
+        /// Auther: kasun
+        /// get year accrding to the vehicle vin number
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns>year</returns>
+        [HttpPost]
+        public ActionResult GetYearByVin(string vin)
+        {
+            int year = (new UnitAccess()).DecodeVINYear(vin);
+
+            return Json(year);
+        }
+
         public ActionResult LoanInfo(string title)
         {
             int userId = 64;
