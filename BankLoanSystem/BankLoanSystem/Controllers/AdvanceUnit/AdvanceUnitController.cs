@@ -94,7 +94,7 @@ namespace BankLoanSystem.Controllers
 
         }
 
-        
+
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 02/24/2016
@@ -114,7 +114,7 @@ namespace BankLoanSystem.Controllers
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
 
-            var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, DateTime.Now);
+            var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
             if (res == 0)
             {
                 return RedirectToAction("Advance");
@@ -144,10 +144,10 @@ namespace BankLoanSystem.Controllers
 
 
             UnitAccess unitAccess = new UnitAccess();
-            foreach(Models.Unit u in list.ItemList)
-            {
-                u.AdvanceDate = DateTime.Now;
-            }
+            //foreach(Models.Unit u in list.ItemList)
+            //{
+            //    u.AdvanceDate = DateTime.Now;
+            //}
             int count = unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);
             if (count > 0)
             {
@@ -162,7 +162,6 @@ namespace BankLoanSystem.Controllers
 
             return PartialView("Step10", this.GetAdvanceUnitList(187));
         }
-
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
         {
             UnitAccess unitAccess = new UnitAccess();
