@@ -267,7 +267,7 @@
             <div class="col-xs-4">
                 @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
-                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+               
                 <div id="tagscloud"><span class="text-danger"></span></div>
             </div>
 
@@ -587,14 +587,79 @@
                     var val = this.value + (e.which - 48);
                     //alert(cost + ' ' + val);
                     if (e.which !== 46) {
-                        if ( cost === 0.00 || Number(val) > Number(cost)) {
+                        if (Number(val) > Number(cost)) {
+                            $("#tagscloud span").fadeIn();
+                            
+                            $("#tagscloud span").text("Advance must be less than cost");
+                            $("#tagscloud span").delay(1000).fadeOut();
+                            //$("#tagscloud span")
                             e.preventDefault();
                         }
+                        //if (Number(val) <= 0) {
+                        //    $("#tagscloud span").fadeIn();
+
+                        //    $("#tagscloud span").text("Advance must be greater than zero");
+                        //    $("#tagscloud span").delay(1000).fadeOut();
+                        //    //$("#tagscloud span")
+                        //    e.preventDefault();
+                        //}
+                       
                     }
 
                 } else {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be a positive number");
+                    $("#tagscloud span").delay(1000).fadeOut();
                     e.preventDefault();
                 }
+            });
+
+            $('#iAdvance').blur(function () {
+
+                var cost = document.getElementById('iCost').value;
+  
+
+                var val = $.trim($(this).val());
+
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+             
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
+                }
+
+
+               
+
+                if (isNaN(num)) {
+                  
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be a positive number");
+                   
+                }
+                else if (Number(num) > Number(cost)) {
+
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be less than cost");
+
+
+                }
+
+                else if (Number(num) <= 0) {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be greater than zero");
+                 
+                } else {
+                    $("#tagscloud span").fadeOut();
+
+                }
+
+                $(this).val(num);
             });
 
 
