@@ -5,6 +5,10 @@
 
 @using System.Threading;
 @using System.Globalization;
+
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
+
 <div class="top-bar">
     <div class="profile-elements ">
 
@@ -29,7 +33,9 @@
     </div>
 
    
-    @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class="btn btn-info" })
+    @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class= "btn btn-info show-logout-popup", @data_showpopup = "1" })
+
+    @*@Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
 
     <h2>@ViewBag.Title</h2>
 
@@ -68,4 +74,97 @@
         </div>
     </div>
 
+
+
+
+<script>
+
+    $(document).ready(function(){
+        // show popup when you click on the link
+        $('.show-logout-popup').click(function (event) {
+            
+          
+
+            
+
+             @if(ViewBag.Title == "Advance Unit") {
+                 <text>if ($('#iVin').val() != "") { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
+                
+            }else if(ViewBag.Title == "Add Unit Page") {
+                <text>alert('hi')</text>
+            }
+        });
+
+        // function to show our popups
+        function showPopup(whichpopup) {
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        }
+
+
+        // function to show our popups
+        function showPopup(whichpopup) {
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        }
+
+        // function to close our popups
+        function closePopup() {
+            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        }
+
+        // timer if we want to show a popup after a few seconds.
+        //get rid of this if you don't want a popup to show up automatically
+        // setTimeout(function() {
+        // Show popup3 after 2 seconds
+        //    showPopup(3);
+        // }, 2000);
+
+
+        // show popup when you click on the link
+        $('.show-popup').click(function (event) {
+            //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+            showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+        });
+
+        // hide popup when user clicks on close button or if user clicks anywhere outside the container
+        $('.close-btn, .overlay-bg').click(function () {
+            closePopup();
+        });
+
+        // hide the popup when user presses the esc key
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) { // if user presses esc key
+                closePopup();
+            }
+        });
+    });
+
+</script>
+
+
+
+
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup1"  style="width:auto;text-align:center">
+
+    
+   <h3>Logout</h3>
+
+    <span class="text-warning"> Are you sure you want to logout?</span><br />
+    <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
+    <br/>
+    @Html.ActionLink("OK", "UserLogin", "Login", null, new { @class = "btn btn-info" , style= "width: 70px;margin-right: 20px;" })
+    <button class="close-btn btn btn-info" >Cancel</button>
+    
+  
+
+</div>
 
