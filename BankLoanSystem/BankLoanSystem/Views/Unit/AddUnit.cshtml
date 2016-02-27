@@ -1366,9 +1366,9 @@
 
 
     function doReCreate(e) {
-        upc = upc + 1;
-        if(upc <= 9)
+        if(upc < 9)
         {
+            upc = upc + 1;
             handleFileSelect(e);
             $("input[id^='fileToUpload']").hide();
 
@@ -1415,7 +1415,7 @@
         $(t).parent().remove();
 
         $('#@Html.IdFor(i => i.FileName)').val(storedFiles);
-
+        upc = upc - 1;
     }
 
     //Add date picker
