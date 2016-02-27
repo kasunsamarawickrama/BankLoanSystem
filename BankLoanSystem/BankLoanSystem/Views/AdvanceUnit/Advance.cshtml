@@ -64,6 +64,9 @@
 
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
+    <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
+        @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-3" })
+    </div>
     <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left">
         <div>
             @grid.GetHtml(
@@ -184,9 +187,11 @@
 
 
         </div>
-      
+      <div id="noDataLabelDiv" class ="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;text-align:center">
+          @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3" })
+      </div>
         <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
-            <div id="searchGrid" style="float:left;margin-left:20px">
+            <div id="searchGrid" style="float:left; margin-left:20px">
                 @grid1.GetHtml(
               tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
@@ -325,6 +330,8 @@
            $("#searchDiv").hide();
            $("#searchGrid1").hide();
            $("#unitDetailDiv").hide();
+           $("#noDataLabelDiv").hide();
+           $("#noUnitLabelDiv").show();
            
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
@@ -333,6 +340,8 @@
            $("#searchDiv").show();
            $("#searchGrid1").show();
            $("#unitDetailDiv").show();
+           $("#noDataLabelDiv").hide();
+           $("#noUnitLabelDiv").hide();
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
        {
@@ -341,6 +350,8 @@
            $("#searchDiv").show();
            $("#unitDetailDiv").show();
            $("#searchGrid1").hide();
+           $("#noDataLabelDiv").show();
+           $("#noUnitLabelDiv").hide();
        }
        
    });
