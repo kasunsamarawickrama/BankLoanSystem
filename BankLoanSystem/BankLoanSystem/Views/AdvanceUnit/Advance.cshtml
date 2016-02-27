@@ -80,7 +80,7 @@
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
                     grid.Column(                     
-                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                             , header: "{checkall}"
 
                     ),
@@ -89,12 +89,14 @@
                             "Date Entered",
                             format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                         ),
+                          grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),
                     grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                          grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                          grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                         grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                         grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                         grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+                         grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>),
+                        grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)
 
 
            )
@@ -102,7 +104,7 @@
 
         </div>
         <div id="subtotal"> Current Total to Advance : $ 0 </div>
-        <div id="unitId" class="hidden"></div>
+        <div id="unitid" class="hidden"></div>
     </div>
    
 
@@ -201,7 +203,7 @@
                 @grid1.GetHtml(
               tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
-                    
+
                     alternatingRowStyle: "webgrid-alternating-row",
                     selectedRowStyle: "select",
                     rowStyle: "webgrid-row-style",
@@ -212,6 +214,7 @@
                             "Date Entered",
                             format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                         ),
+                    
                     grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                     grid1.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                     grid1.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
@@ -466,20 +469,22 @@
                 var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
 
                 if (ColIndex != 0) {
+                    var checked = row.find("#all").prop('checked');
+                    if (!checked) {
+                        row.find("#all").prop('checked', true);
+                        row.css('background', 'lightblue');
 
-                    row.find("#all").prop('checked', true);
-                    row.css('background', 'lightblue');
+                        checkCount++;
+                        total = total + parseFloat(row.find("#am").text());
 
-                    checkCount++;
-                    total = total + parseFloat(row.find("#am").text());
-
-                    if (checkCount == 1) {
-                        SetTextBoxValues(row);
-                    }
-                    else {
-                        SetRadioBtnHeaderChecked();
-                        ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        if (checkCount == 1) {
+                            SetTextBoxValues(row);
+                        }
+                        else {
+                            SetRadioBtnHeaderChecked();
+                            ClearTextBoxValues();
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        }
                     }
                 } else {
                     SetRadioBtnHeaderChecked();
@@ -505,8 +510,9 @@
                 }
 
                 else if ($('#iVin').val() != '') {
+                    //alert($('#unitid').text());
                     var unit = {
-                        "UnitId": $('#all').val(),
+                        "UnitId": $('#unitid').text(),
                         "IdentificationNumber": $('#iVin').val(),
                         "AdvanceAmount": $('#iAdvance').val(),
                         "AdvanceDate": $('#advanceDate').val()
@@ -519,17 +525,6 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function (partialView) {
                             $('#changeContainer').html(partialView);
-                            if (gCalBase === "Advance") {
-                                $('#rdAdvance').prop('checked', true);
-                            }
-                            else
-                                $('#rdFullPayment').prop('checked', true);
-
-                            if (gLoanStatus === "Yes")
-                                $('#rdYes').prop('checked', true);
-                            else
-                                $('#rdNo').prop('checked', true);
-
                             $('#changeContainer').show();
                         }
                     });
@@ -556,17 +551,6 @@
 
                         success: function (partialView) {
                             $('#changeContainer').html(partialView);
-                            if (gCalBase === "Advance") {
-                                $('#rdAdvance').prop('checked', true);
-                            }
-                            else
-                                $('#rdFullPayment').prop('checked', true);
-
-                            if (gLoanStatus === "Yes")
-                                $('#rdYes').prop('checked', true);
-                            else
-                                $('#rdNo').prop('checked', true);
-
                             $('#changeContainer').show();
                         }
                     });
@@ -595,8 +579,8 @@
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
                 $('#iAdvance').val(tr.find("#am").text());
-                document.getElementById("unitId").innerHTML = tr.find("#all").val(); 
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";     
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ "; 
                 @if(ViewBag.loanDetails.isEditAllowable == true)
                 {
                     <text> $('#iAdvance').removeAttr('disabled'); </text>

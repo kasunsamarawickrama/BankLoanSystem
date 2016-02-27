@@ -115,11 +115,14 @@ namespace BankLoanSystem.Controllers
             UnitAccess unitAccess = new UnitAccess();
 
             var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
-            if (res == 0)
+            if (res > 0)
             {
                 return RedirectToAction("Advance");
             }
-            return RedirectToAction("Advance", this.GetAdvanceUnitList(187));
+            else
+            {
+                return RedirectToAction("Advance");
+            }
 
 
 

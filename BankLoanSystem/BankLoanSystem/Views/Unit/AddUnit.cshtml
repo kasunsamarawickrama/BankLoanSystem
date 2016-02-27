@@ -88,21 +88,21 @@
                     }
                     @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                 {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @disabled = "disabled" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2",@Style= "width: 17%;", @disabled = "disabled" })
                     }
                     else
                     {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", onChange = "changeUnitType();" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", onChange = "changeUnitType();" })
                     }
                     @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <hr />
-            <div id="vehicle">
+            <div id="vehicle" >
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control" ,@id = "vehicleVin" } })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin",@Style= "width: 98%;" } })
                         @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @id = "editor1-1", @Style = "display: none;" } })
-                    <div class="col-md-10" id="div-combobox1-1">
+                    <div class="col-sm-4" id="div-combobox1-1">
                         @{
                             List<SelectListItem> yearlist = new List<SelectListItem>();
                             for (var i = @DateTime.Now.AddYears(+1).Year; i >= 1980; i--)
@@ -122,12 +122,10 @@
                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox1-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                     </div>
-                </div>
 
-                <div class="form-group">
                     @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
-                    <div class="col-md-10" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2');" id="div-combobox1-2">
+                    <div class="col-sm-2" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2');" id="div-combobox1-2">
                         <div>
                             @Html.DropDownListFor(model => model.Make, new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })
                         </div>
@@ -138,33 +136,29 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @id = "editor1-3", @Style = "display: none;" } })
-                    <div class="col-md-10" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3');" id="div-combobox1-3">
+                    <div class="col-sm-4" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3');" id="div-combobox1-3">
                         <div>
                             @Html.DropDownListFor(model => model.Model, new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox1-3" })
                         </div>
                         @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                     </div>
-                </div>
 
-                <div class="form-group">
                     @Html.LabelFor(model => model.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Trim, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Trim, new { htmlAttributes = new { @class = "form-control", @Style = "width: 223%;" } })
                         @Html.ValidationMessageFor(model => model.Trim, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Miles, new { htmlAttributes = new { @class = "form-control", @id = "miles1" } })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.Miles, new { htmlAttributes = new { @class = "form-control", @id = "miles1", @Style = "width: 98%;" } })
                         @Html.ValidationMessageFor(model => model.Miles, "", new { @class = "text-danger" })
                     </div>
-                </div>
 
-                <div class="form-group">
                     @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-sm-2">
                         @{
                             List<SelectListItem> Colourlist = new List<SelectListItem>();
 
@@ -209,20 +203,21 @@
                                 Value = "Yellow"
                             });
                         }
-                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control", @Style= "width: 223%;" })
                         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-sm-4">
                         <div class="checkbox">
                             @Html.EditorFor(model => model.NewOrUsed)
-                            @Html.ValidationMessageFor(model => model.NewOrUsed, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.NewOrUsed, "", new { @class = "text-danger", @Style = "margin-left: 0px;" })
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div id="rv">
