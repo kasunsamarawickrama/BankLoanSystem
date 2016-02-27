@@ -75,19 +75,21 @@ namespace BankLoanSystem.Controllers
             List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
             
             Models.AdvanceUnit unitListMain = new Models.AdvanceUnit();
-            if (!string.IsNullOrEmpty(search))
+            unitListMain.NotAdvanced = unitList;
+            if ((!string.IsNullOrEmpty(search))&&((!string.IsNullOrEmpty(identificationNumber))|| (!string.IsNullOrEmpty(year))|| (!string.IsNullOrEmpty(make))|| (!string.IsNullOrEmpty(vehicleModel))))
             {
                 //search through list elements
                 Search sc = new Search();
 
                 unitListMain.Search = sc.GetSearchResultsList(unitList,identificationNumber,year,make,vehicleModel);
+
                
-                unitListMain.NotAdvanced = unitList;
                 return View(unitListMain);
             }
             else
             {
-                return View();
+                unitListMain.Search = new List<Models.Unit>();
+                return View(unitListMain);
             }
 
         }
