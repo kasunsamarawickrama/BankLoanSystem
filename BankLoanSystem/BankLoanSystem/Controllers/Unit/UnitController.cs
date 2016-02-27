@@ -22,8 +22,7 @@ namespace BankLoanSystem.Controllers.Unit
             Session["userId"] = 64;
             int loanId = 184;
 
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+            var loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
