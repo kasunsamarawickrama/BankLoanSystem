@@ -64,6 +64,9 @@
 
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
+    <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
+        @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-3" })
+    </div>
     <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left">
         <div>
             @grid.GetHtml(
@@ -102,6 +105,8 @@
    
 
     
+   
+
     <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left">
         <div class="form-group">
 
@@ -136,32 +141,32 @@
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
-                    @Html.Editor("identificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
-                    
+                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
                 <div class="col-sm-2" style="margin-top:10px">
-                    @Html.Editor("year", new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
-                    
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
+                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.Editor("make", new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
-                   
+                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
+                   @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
 
 
                 @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.Editor("vehicleModel", new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
-                   
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
+                   @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
             </div>
@@ -182,9 +187,11 @@
 
 
         </div>
-      
+      <div id="noDataLabelDiv" class ="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;text-align:center">
+          @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3" })
+      </div>
         <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
-            <div id="searchGrid" style="float:left;margin-left:20px">
+            <div id="searchGrid" style="float:left; margin-left:20px">
                 @grid1.GetHtml(
               tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
@@ -267,7 +274,7 @@
             <div class="col-xs-4">
                 @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
 
-                
+                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                 <div id="tagscloud"><span class="text-danger"></span></div>
             </div>
 
@@ -311,8 +318,7 @@
             var tr = $(this);
             
                 $(this).css('background', 'mediumaquamarine');
-            
-            
+            $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
             
         });
@@ -326,6 +332,8 @@
            $("#searchDiv").hide();
            $("#searchGrid1").hide();
            $("#unitDetailDiv").hide();
+           $("#noDataLabelDiv").hide();
+           $("#noUnitLabelDiv").show();
            
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
@@ -334,6 +342,8 @@
            $("#searchDiv").show();
            $("#searchGrid1").show();
            $("#unitDetailDiv").show();
+           $("#noDataLabelDiv").hide();
+           $("#noUnitLabelDiv").hide();
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
        {
@@ -342,6 +352,8 @@
            $("#searchDiv").show();
            $("#unitDetailDiv").show();
            $("#searchGrid1").hide();
+           $("#noDataLabelDiv").show();
+           $("#noUnitLabelDiv").hide();
        }
        
    });
@@ -387,7 +399,7 @@
 
                         if (checkCount > 1) {
                             ClearTextBoxValues();
-                        }
+                    }
 
                     }
                 })
@@ -438,17 +450,17 @@
                 var ColIndex = $td.parent().children().index($td);
                 var table = document.getElementById("checkableGrid");
                 var row = $("tr:eq(" + rowIndex  + ")", '#checkableGrid');
-                
+
                 if (ColIndex != 0) {                   
                     row.find("#all").prop('checked', true);
                     row.css('background', 'lightblue');
 
                     checkCount++;
                     total = total + parseFloat(row.find("#am").text());
-                    
+
                     if (checkCount == 1) {                       
                         SetTextBoxValues(row);
-                    } 
+                    }
                     else {
                         SetRadioBtnHeaderChecked();
                         ClearTextBoxValues();
@@ -457,7 +469,7 @@
                 } else {
                     SetRadioBtnHeaderChecked();
                 }
-            });
+                });
 
 
             $('.checkboxAll').change(function () {
@@ -476,7 +488,7 @@
                     $(this).parents('tr').css('background', 'transparent');
                 }
 
-                
+
                 if (checkCount == 1) {
                     if (checked) {
                         SetTextBoxValues(tr);
@@ -509,9 +521,13 @@
                 });
             });
 
-            $('#btnAdvance').click(function () {
+            $('#btnAdvance').click(function (e) {
 
-                if ($('#iVin').val() != '') {
+                if ($("#tagscloud span").text() != "") {
+                    e.preventDefault();
+                }
+
+                else if ($('#iVin').val() != '') {
                     var unit = {
                         "UnitId": $('#all').val(),
                         "IdentificationNumber": $('#iVin').val(),
@@ -588,7 +604,7 @@
                 $('#iMake').val('');
                 $('#iModel').val('');
                 $('#iCost').val('');
-                $('#iAdvance').val('');                
+                $('#iAdvance').val('');
                 $("#btnAdvance").attr("disabled", "disabled");
                 $("#btnAdvanceAll").removeAttr("disabled");
                 $("#advanceDate").attr("disabled", "disabled");
@@ -601,7 +617,7 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
-                $('#iAdvance').val(tr.find("#am").text());                
+                $('#iAdvance').val(tr.find("#am").text());
                 document.getElementById("unitId").innerHTML = tr.find("#all").val(); 
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";     
                 @if(ViewBag.loanDetails.isEditAllowable == true)
@@ -639,8 +655,8 @@
 
             });
 
-            @*startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
+            startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
             var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
@@ -659,20 +675,80 @@
                 var cost = document.getElementById('iCost').value;
                 //alert(cost);
                 if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
-                    var val = this.value + (e.which - 48);
+                    var val = this.value;
                     //alert(cost + ' ' + val);
                     if (e.which !== 46) {
-                        if ( cost === 0.00 || Number(val) > Number(cost)) {
+                        if (val.length+1 > cost.length) {
+                            $("#tagscloud span").fadeIn();
+                            
+                            $("#tagscloud span").text("Advance can not be higer than cost/ input two decimal point only");
+                            $("#tagscloud span").delay(1000).fadeOut();
+                            $("#tagscloud span")
                             e.preventDefault();
                         }
+                       
+                       
                     }
 
                 } else {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be a positive number");
+                    $("#tagscloud span").delay(1000).fadeOut();
                     e.preventDefault();
                 }
             });
 
-           
+            $('#iAdvance').blur(function () {
+
+                var cost = document.getElementById('iCost').value;
+  
+
+                var val = $.trim($(this).val());
+
+                if (val.indexOf(',') > -1) {
+                    val = val.replace(',', '');
+                }
+             
+                var num = parseFloat(val);
+                var num = num.toFixed(2);
+                if (isNaN(num)) {
+                    num = '';
+                }
+
+
+               
+
+                if (isNaN(num)) {
+                  
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be a positive number");
+                   
+                }
+                else if (Number(num) > Number(cost)) {
+
+                    $("#tagscloud span").fadeIn();
+                    $("#tagscloud span").text("Advance must be less than cost");
+
+
+                }
+
+                else if (Number(num) <= 0) {
+                    $("#tagscloud span").fadeIn();
+
+                    $("#tagscloud span").text("Advance must be greater than zero");
+                 
+                } else {
+                    $("#tagscloud span").fadeOut();
+                    $("#tagscloud span").text("");
+
+                }
+
+
+                $(this).val(num);
+            });
+
+
 
 
         </script>

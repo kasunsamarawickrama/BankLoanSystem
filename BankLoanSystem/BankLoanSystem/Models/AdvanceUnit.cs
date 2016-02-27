@@ -15,5 +15,16 @@ namespace BankLoanSystem.Models
         [Display(Name = "Advance Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AdvanceDate  { get; set; }
+
+
+        public string IdentificationNumber { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Year must be a positive value.")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "year must contain only digits")]
+        public string Year { get; set; }
+
+        public string Make { get; set; }
+
+        public string Model { get; set; }
     }
 }

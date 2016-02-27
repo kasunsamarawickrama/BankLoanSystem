@@ -67,122 +67,21 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult Advance(List<BankLoanSystem.Models.Unit> unitListf, string[] ids, string identificationNumber, string year, string make, string vehicleModel, string search)
         {
+            int loanId = 187;
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+
+            ViewBag.loanDetails = loanDetails;
             List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
-            List<Models.Unit> resultList = new List<Models.Unit>();
+            
             Models.AdvanceUnit unitListMain = new Models.AdvanceUnit();
             if (!string.IsNullOrEmpty(search))
             {
-
                 //search through list elements
-                foreach (Models.Unit unitElement in unitList)
-                {
-                    if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (string.IsNullOrEmpty(vehicleModel) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Year.ToString().Contains(year))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Make.Contains(make))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Make.Contains(make))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
-                    {
-                        if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Model.Contains(vehicleModel))
-                        {
-                            resultList.Add(unitElement);
-                        }
-                    }
-                }
-                unitListMain.Search = resultList;
+                Search sc = new Search();
+
+                unitListMain.Search = sc.GetSearchResultsList(unitList,identificationNumber,year,make,vehicleModel);
+               
                 unitListMain.NotAdvanced = unitList;
                 return View(unitListMain);
             }
@@ -193,6 +92,7 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 02/24/2016
