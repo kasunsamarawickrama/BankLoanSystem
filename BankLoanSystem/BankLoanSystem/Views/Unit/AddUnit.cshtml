@@ -698,7 +698,7 @@
                     @Html.HiddenFor(i => i.FileName)
                     <label for="file" class="control-label col-md-2">Upload Image:</label>
 
-                    <div class="col-md-10">
+                    <div class="col-md-10" id="fileUploaderInsideDiv">
                         <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
                         <br />
                         <span id="spnFile" style="float: left; color: #FF0000"></span>
@@ -1163,7 +1163,7 @@
                 title: '  ',
                 onchange: "doReCreate(event)"
 
-            }).appendTo('#fileUploader');
+            }).appendTo('#fileUploaderInsideDiv');
         }
     }
 

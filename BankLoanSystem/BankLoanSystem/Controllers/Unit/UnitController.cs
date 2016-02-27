@@ -109,13 +109,14 @@ namespace BankLoanSystem.Controllers.Unit
             unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
 
             UnitAccess ua = new UnitAccess();
-            var res = ua.InsertUnit(unit, userId);
+            var res = true;// = ua.InsertUnit(unit, userId);
             if (res)
             {
                 //Handling file attachments
                 UserManageAccess uma = new UserManageAccess();
                 GetDetails user = uma.getUserById(userId);
 
+                //Check directory is already exists, if not create new
                 string mapPath = "~/Images/UnitImages/" + user.CompanyCode + "/" + user.BranchCode + "/";
                 if (!Directory.Exists(Server.MapPath(mapPath)))
                 {
