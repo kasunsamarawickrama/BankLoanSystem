@@ -65,9 +65,9 @@
 @using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
 {
     <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
-        @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-3" })
+        @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-8" })
     </div>
-    <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left">
+    <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left;margin-top:10px">
         <div>
             @grid.GetHtml(
                      tableStyle: "gridtable",
@@ -107,7 +107,7 @@
     
    
 
-    <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left">
+    <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left; margin-top:10px">
         <div class="form-group">
 
             <div class="control-label col-sm-2">
@@ -129,15 +129,18 @@
            
         
     </div>
-    
 
-    
 
+
+    <div class="control-label col-sm-8" style="color:dodgerblue;font-size:large; margin-top:10px">
+        @Html.Label("Search Not Advanced Units", htmlAttributes: new { })
+    </div>
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class ="side-panel" id ="searchDiv"style="width:870px;float:left">
+        <div class ="side-panel" id ="searchDiv"style="width:870px;float:left; margin-top:10px">
+
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
@@ -191,6 +194,7 @@
           @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3" })
       </div>
         <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
+            
             <div id="searchGrid" style="float:left; margin-left:20px">
                 @grid1.GetHtml(
               tableStyle: "gridtable",
@@ -324,6 +328,7 @@
    $(document).ready(function () {
        //alert("hii");
        //alert($('#searchResultGrid').children('tbody').children('tr').length);
+
        if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
            $("#checkableGridDiv").hide();
            $("#advanceAllDiv").hide();
