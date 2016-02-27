@@ -469,20 +469,22 @@
                 var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
 
                 if (ColIndex != 0) {
+                    var checked = row.find("#all").prop('checked');
+                    if (!checked) {
+                        row.find("#all").prop('checked', true);
+                        row.css('background', 'lightblue');
 
-                    row.find("#all").prop('checked', true);
-                    row.css('background', 'lightblue');
+                        checkCount++;
+                        total = total + parseFloat(row.find("#am").text());
 
-                    checkCount++;
-                    total = total + parseFloat(row.find("#am").text());
-
-                    if (checkCount == 1) {
-                        SetTextBoxValues(row);
-                    }
-                    else {
-                        SetRadioBtnHeaderChecked();
-                        ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        if (checkCount == 1) {
+                            SetTextBoxValues(row);
+                        }
+                        else {
+                            SetRadioBtnHeaderChecked();
+                            ClearTextBoxValues();
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        }
                     }
                 } else {
                     SetRadioBtnHeaderChecked();
@@ -578,7 +580,7 @@
                 $('#iCost').val(tr.find("#cost").text());
                 $('#iAdvance').val(tr.find("#am").text());
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0"; 
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ "; 
                 @if(ViewBag.loanDetails.isEditAllowable == true)
                 {
                     <text> $('#iAdvance').removeAttr('disabled'); </text>
