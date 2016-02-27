@@ -60,10 +60,22 @@
     <script>
         // if advance page
         @if(ViewBag.Title == "Advance Unit") {
-        <text>$("#lkadv").before($(".link"));</text>
+        <text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
+            <text>$("#lkadv").click(function (e) { e.preventDefault(); });</text>
+              <text>$("#lkadv").siblings().click(function (e) {
+            return true;
+
+        });</text>
         }else if(ViewBag.Title == "Add Unit Page") {
-                <text>  //if unit page
-        $("#lkuni").before($(".link"));</text>
+                <text>
+
+        //if unit page
+        $("#lkuni").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
+            <text>$("#lkuni").click(function (e) { e.preventDefault(); });</text>
+            <text>$("#lkuni").siblings().click(function (e) {
+            return true;
+
+        });</text>
         }
 
 
@@ -159,7 +171,7 @@
         .info {
             padding-top: 18px;
             padding-left: 20px;
-            margin-top: 20px;
+            margin-top: 35px;
             padding-bottom: 18px;
             border-radius: 15px;
             border: 2px solid #8D987E;
