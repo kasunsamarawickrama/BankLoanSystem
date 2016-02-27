@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Xml.Linq;
 using BankLoanLocal.Models;
 using BankLoanSystem.Code;
@@ -109,7 +108,7 @@ namespace BankLoanSystem.Controllers.Unit
             unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
 
             UnitAccess ua = new UnitAccess();
-            var res = true;// = ua.InsertUnit(unit, userId);
+            var res = ua.InsertUnit(unit, userId);
             if (res)
             {
                 //Handling file attachments

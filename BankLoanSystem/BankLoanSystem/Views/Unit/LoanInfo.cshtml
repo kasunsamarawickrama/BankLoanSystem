@@ -45,7 +45,7 @@
 </div>
 
 <div class="centered">
-    <h5><span class="label label-danger"></span></h5>
+    <h5><span  class="label label-danger"></span></h5>
 </div>
 
 <div class="info">
@@ -91,17 +91,12 @@
                  <text>if ($('#iVin').val() != "") { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
-                                <text>if (  $('#txtCost').val() != "" || $('#txtCost').val() != 0 || $('#txtAdvanceAmount').val() != "" || $('#txtAdvanceAmount').val() != 0 || $("#radio_1").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true) { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
+
+                                <text>if (  ($('#txtCost').val() != "" && $('#txtCost').val() != 0) || ($('#txtAdvanceAmount').val() != "" && $('#txtAdvanceAmount').val() != 0) || $("#radio_1").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true) { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
             }
         });
 
-        // function to show our popups
-        function showPopup(whichpopup) {
-            var docHeight = $(document).height(); //grab the height of the page
-            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-        }
+      
 
 
         // function to show our popups
@@ -144,8 +139,28 @@
                 closePopup();
             }
         });
-    });
 
+        $('input').blur(function () {
+            
+            if ($(this).next('span').children('span').length > 0) {
+                $('.centered span').text('Error');
+            } 
+            //else if ($(this).siblings().next('span').children('span').length === 0) {
+
+            //    $('.centered span').text('');
+            //}
+            var isError = false;
+            
+            $.each($('input').next('span'), function (i, obj) {
+                if ($(obj).children('span').length > 0) {
+                    isError = true;
+                }
+            });
+
+            if(isError === false)
+                $('.centered span').text('');
+        });
+    });
 </script>
 
 

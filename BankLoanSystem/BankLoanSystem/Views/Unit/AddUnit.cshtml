@@ -33,23 +33,6 @@
 <link href="~/Content/combo.css" rel="stylesheet" />
 <script src="~/scripts/combo.js"></script>
 
-
-@*<style type="text/css">
-        #selectedFiles img {
-            max-width: 200px;
-            max-height: 200px;
-            float: left;
-            margin-bottom: 10px;
-        }
-
-        input[type='file'] {
-            color: transparent;
-        }
-    </style>*@
-
-
-
-@*@using (Html.BeginForm())*@
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
 
@@ -63,7 +46,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ValidationSummary(false, "Error", new { @class = "validation-summary" })
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
 
         @*UNIT MODEL START*@
         <div class="side-panel" style="width: 803px; float:none; padding-right: 24px; padding-top: 24px;">
@@ -1352,6 +1335,10 @@
         }
 
         $(this).val(num);
+    });
+
+    $('input').blur(function() {
+
     });
 
 </script>

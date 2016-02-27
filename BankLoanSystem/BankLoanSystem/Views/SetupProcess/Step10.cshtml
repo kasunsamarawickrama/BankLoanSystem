@@ -9,172 +9,170 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
-        <h2>Step 5 - Curtailment</h2>
+<h2>Step 5 - Curtailment</h2>
 
-        @using (Ajax.BeginForm("Step10", null, new AjaxOptions()
-        {
+@using (Ajax.BeginForm("Step10", null, new AjaxOptions()
+{
 
-            OnFailure = "handleError",
-            HttpMethod = "POST",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "changeContainer",
-            LoadingElementId = "loadingDiv"
-        }, new { id = "form" }))
-        {
-            @Html.AntiForgeryToken()
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
+    <div class="form-horizontal">
 
-                @if (ViewBag.SuccessMsg != null)
+        @if (ViewBag.SuccessMsg != null)
                 {
-                    <span style="color: green">
-                        @ViewBag.SuccessMsg
-                    </span>
-                }
-                else if (ViewBag.ErrorMsg != null)
-                {
-                    <span style="color: red">
-                        @ViewBag.ErrorMsg
-                    </span>
-                }
-
-                <input type="hidden" id="cal" name="cal" />
-                <div class="form-group">
-                    <table width="100%">
-                        <tr>
-                            <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
-                            <td width="60%">
-                                : @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = "checked" }) Full payment
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) Advance
-                            </td>
-                        </tr>
-                    </table>
-                    <div>
-                        @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-
-                </div>
-                <br />
-
-                <div class="form-group">
-                    <div style="text-align: center;">
-                        <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
-                            <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
-                                <td style="width: 15%;" height="30px">
-                                    <p id="cuId"> Curt#</p>
-                                </td>
-                                <td style="width: 30%;" height="30px">
-                                    <table>
-                                        <tr>
-                                            <td width="30%">
-                                                <p id="time">@Model.TimeBase</p>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="width: 50%;" height="30px">
-                                    <table>
-                                        <tr>
-                                            <td width="30%">
-                                                <p id="pecentage">Percentage(%)</p>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="width: 50%;" height="30px">
-                                    <table>
-                                        <tr>
-                                            <td width="30%">
-                                                
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            @for (int a = 0; a < Model.InfoModel.Count; a++)
-                            {
-                                <tr>
-                                    <td style="width: 15%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
-                                    <td style="width: 30%;">
-                                        @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "timePeriod" })
-                                        @Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })
-                                    </td>
-                                    <td style="width: 50%;">
-                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment", @onkeydown = "return (event.keyCode!=13);" })
-                                        @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
-                                    </td>
-
-                                    <td style="width: 50%;">
-                                        <input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px"/>
-                                    </td>
-
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @if (Model.RemainingPercentage >= 0)
-                    {
-                        <span style="background-color: yellow">
-                            Remaining Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
-                        </span>
-                    }
-                    else
-                    {
-                        <span style="background-color: red">
-                            Remaining Percentage: ???
-                        </span><text>&nbsp;&nbsp;</text>
-                        <span style="background-color: green">
-                            Maximum percentage is @Model.AdvancePt
-                        </span>
-                    }
-                    <br />
-                    <span style="background-color: yellow">
-                        Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-                    </span>
-                </div>
-
-                <br />
-                <br />
-                <div class="form-group">
-                    <table width="100%">
-                        <tr>
-                            <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
-                            <td width="60%">
-                                : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
-                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="form-group">
-                    <div>
-                        <nav>
-                            <ul class="pager">
-                                <li>
-                                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
-                                <li>
-                                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+            <span style="color: green">
+                @ViewBag.SuccessMsg
+            </span>
         }
+        else if (ViewBag.ErrorMsg != null)
+        {
+            <span style="color: red">
+                @ViewBag.ErrorMsg
+            </span>
+        }
+
+        <input type="hidden" id="cal" name="cal" />
+        <div class="form-group">
+            <table width="100%">
+                <tr>
+                    <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                    <td width="60%">
+                        : @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = "checked" }) Full payment
+                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) Advance
+                    </td>
+                </tr>
+            </table>
+            <div>
+                @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+
+        </div>
+        <br />
+
+        <div class="form-group">
+            <div style="text-align: center;">
+                <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
+                    <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
+                        <td style="width: 15%;" height="30px">
+                            <p id="cuId"> Curt#</p>
+                        </td>
+                        <td style="width: 30%;" height="30px">
+                            <table>
+                                <tr>
+                                    <td width="30%">
+                                        <p id="time">@Model.TimeBase</p>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width: 50%;" height="30px">
+                            <table>
+                                <tr>
+                                    <td width="30%">
+                                        <p id="pecentage">Percentage(%)</p>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width: 50%;" height="30px">
+                            <table>
+                                <tr>
+                                    <td width="30%"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    @for (int a = 0; a < Model.InfoModel.Count; a++)
+                    {
+                        <tr>
+                            <td style="width: 15%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
+                            <td style="width: 30%;">
+                                @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "timePeriod" })
+                                @Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })
+                            </td>
+                            <td style="width: 50%;">
+                                @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment", @onkeydown = "return (event.keyCode!=13);" })
+                                @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td style="width: 50%;">
+                                <input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px" />
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @if (Model.RemainingPercentage >= 0)
+            {
+                <span style="background-color: yellow">
+                    Remaining Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                </span>
+            }
+            else
+            {
+                <span style="background-color: red">
+                    Remaining Percentage: ???
+                </span><text>&nbsp;&nbsp;</text>
+                <span style="background-color: green">
+                    Maximum percentage is @Model.AdvancePt
+                </span>
+            }
+            <br />
+            <span style="background-color: yellow">
+                Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
+            </span>
+        </div>
+
+        <br />
+        <br />
+        <div class="form-group">
+            <table width="100%">
+                <tr>
+                    <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
+                    <td width="60%">
+                        : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
+                        @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                        </li>
+                        <li>
+                            <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
 
 
 @*Grid view*@
@@ -261,7 +259,7 @@
         });
 
         //delete row
-        $('.btnDeleteRow').click(function() {
+        $('.btnDeleteRow').click(function () {
             var tr = $(this).parents('tr:first');
 
             var id = tr.find("#lblCur").html();
