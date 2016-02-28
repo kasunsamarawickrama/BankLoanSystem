@@ -64,11 +64,12 @@
             @{
                 Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-                DateTime dt = DateTime.Now;
+                var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
 
             }
 
-            <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @DateTime.Now.ToString("d")</span>
+            <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
 
 
         </div>
