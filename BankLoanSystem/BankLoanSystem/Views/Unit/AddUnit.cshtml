@@ -1267,11 +1267,11 @@
 
     $('#txtAdvanceAmount').keypress(function(e) {
         var cost = document.getElementById('txtCost').value;
-        //alert(cost);
-        if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+        //alert(e.which);
+        if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
             var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
-            if (e.which !== 46) {
+            if (e.which !== 46 || e.which !== 8) {
                 if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
                     $("#tagscloudAdvance span").fadeIn();
                     $("#tagscloudAdvance span").text("Advance amount must be less than cost");
@@ -1290,9 +1290,10 @@
 
     //claculate advance when click back-space
     $('#txtAdvanceAmount').keyup(function(e) {
+        //alert(e.keyCode);
         if (e.keyCode === 8) {
             var val = this.value;
-            document.getElementById('txtAdvanceAmount').value = val;
+            //document.getElementById('txtAdvanceAmount').value = val;
             $("#tagscloud span").text("");
         }
     });
