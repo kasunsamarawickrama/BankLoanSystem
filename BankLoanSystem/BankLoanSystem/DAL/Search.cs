@@ -15,105 +15,105 @@ namespace BankLoanSystem.DAL
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Make.ToLower().Contains(make))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Year.ToString().ToLower().Contains(year))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(vehicleModel) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().Contains(year))
+                    if (unitElement.Year.ToString().ToLower().Contains(year))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Make.Contains(make))
+                    if (unitElement.Make.ToLower().Contains(make))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().Contains(year) && unitElement.Make.Contains(make))
+                    if (unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Make.ToLower().Contains(make))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Make.Contains(make))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Make.ToLower().Contains(make))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Make.Contains(make) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.Contains(identificationNumber) && unitElement.Year.ToString().Contains(year) && unitElement.Model.Contains(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().Contains(identificationNumber) && unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }

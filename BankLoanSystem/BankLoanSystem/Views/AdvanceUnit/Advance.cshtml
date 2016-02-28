@@ -64,52 +64,60 @@
 
 
 
-@using (Html.BeginForm("Advance", "AdvanceUnit", FormMethod.Post))
+@using (Ajax.BeginForm("Advance", null, new AjaxOptions()
 {
+    OnFailure = "handleError",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
+{
+
     <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
         @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-8" })
     </div>
     <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left;margin-top:10px">
         <div>
             @grid.GetHtml(
-                     tableStyle: "gridtable",
-                    headerStyle: "webgrid-header",
-                    
-                    alternatingRowStyle: "webgrid-alternating-row",
-                    rowStyle: "webgrid-row-style",
-                    htmlAttributes: new { id = "checkableGrid" },
-                    columns: grid.Columns(
-                    grid.Column(                     
-                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                            , header: "{checkall}"
+                  tableStyle: "gridtable",
+                 headerStyle: "webgrid-header",
 
-                    ),
-                         grid.Column(
-                            "CreatedDate",
-                            "Date Entered",
-                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
-                        ),
-                          grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),
-                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                         grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                         grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                        grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                        grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                         grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>),
-                        grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)
+                 alternatingRowStyle: "webgrid-alternating-row",
+                 rowStyle: "webgrid-row-style",
+                 htmlAttributes: new { id = "checkableGrid" },
+                 columns: grid.Columns(
+                 grid.Column(
+                      format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
+                         , header: "{checkall}"
+
+                 ),
+                      grid.Column(
+                         "CreatedDate",
+                         "Date Entered",
+                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
+                     ),
+                       @*grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),*@
+                 grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                      grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                      grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                     grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                     grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>),
+                     grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)
 
 
-           )
-       )
+        )
+    )
 
         </div>
         <div id="subtotal"> Current Total to Advance : $ 0 </div>
         <div id="unitid" class="hidden"></div>
     </div>
-   
 
-    
-   
+}
+
+
 
     <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left; margin-top:10px">
         <div class="form-group">
@@ -136,9 +144,9 @@
 
 
 
-    <div class="control-label col-sm-8" style="color:dodgerblue;font-size:large; margin-top:10px">
-        @Html.Label("Search Not Advanced Units", htmlAttributes: new { })
-    </div>
+    <div class="control-label col-sm-8" id="searchLabelDiv" style="color:dodgerblue;margin-top:10px">
+    @Html.Label("Search Units", htmlAttributes: new { })
+</div>
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -148,7 +156,7 @@
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
-                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" ,@maxlength = "20"} })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
@@ -156,7 +164,7 @@
 
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
                 <div class="col-sm-2" style="margin-top:10px">
-                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "year", @placeholder = "Year" } })
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year", @maxlength = "4" } })
                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
 
@@ -164,7 +172,7 @@
 
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "make", @placeholder = "Make" } })
+                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make", @maxlength = "20" } })
                    @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
@@ -172,7 +180,7 @@
 
                 @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModel", @placeholder = "Model" } })
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model", @maxlength = "50" } })
                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
@@ -181,7 +189,7 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="submit" name="search" value="Search" id="btnSearch" class="btn btn-default cancel" style="float:left;margin-left:200px" />
+                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-default cancel" style="float:left;margin-left:200px" />
                         </li>
                         <li>
                             <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
@@ -194,35 +202,10 @@
 
 
         </div>
-      <div id="noDataLabelDiv" class ="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;text-align:center">
-          @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3" })
-      </div>
+      
         <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
             
-            <div id="searchGrid" style="float:left; margin-left:20px">
-                @grid1.GetHtml(
-              tableStyle: "gridtable",
-                    headerStyle: "webgrid-header",
-
-                    alternatingRowStyle: "webgrid-alternating-row",
-                    selectedRowStyle: "select",
-                    rowStyle: "webgrid-row-style",
-                    htmlAttributes: new { id = "searchResultGrid" },
-                    columns: grid1.Columns(
-                    grid.Column(
-                            "CreatedDate",
-                            "Date Entered",
-                            format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
-                        ),
-                    
-                    grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                    grid1.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                    grid1.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                    grid1.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                    grid1.Column("Cost", "Cost", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                    grid1.Column("Advance Amount", "Advance Amount", format:@<text>@{<label id="am" class="advance">@item.AdvanceAmount</label>}</text>)
-                ))
-            </div>
+            
         </div>
 
 
@@ -305,14 +288,26 @@
       
 
                 
-                            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
+                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
+        <div class="form-group">
+            <nav>
+                <ul class="pager">
+                    <li>
+                        <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
+                    </li>
+                    <li>
+                        <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="float:left;margin-left:5px" />
+                    </li>
+                </ul>
+            </nav>
+        </div>
                       
                         
                   
           
        
     </div>
-        }
+        
 
 
         <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -320,18 +315,49 @@
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script type="text/javascript">
+    $("#btnCancel").click(function () {
+        ClearTextBoxValues();
+    });
 
-   $(function () {
-       
-        $('#searchResultGrid').children('tbody').children('tr').click(function () {
-            var tr = $(this);
-            
-                $(this).css('background', 'mediumaquamarine');
-            $(this).siblings().css('background', 'aliceblue');
-            SetTextBoxValues(tr);
-            
+    $("#btnClear").click(function () {
+
+       $("#identificationNumberSearch").val('');
+        $("#yearSearch").val('');
+        //alert(para1);
+        $("#makeSearch").val('');
+        $("#vehicleModelSearch").val('');
+        
+
+    });
+
+    $("#btnSearch").click(function () {
+        
+        var para1 = $("#identificationNumberSearch").val();
+        var para2 = $("#yearSearch").val();
+        //alert(para1);
+        var para3 = $("#makeSearch").val();
+        var para4 = $("#vehicleModelSearch").val();
+        Search(para1, para2, para3, para4);
+
+    });
+
+    function Search(para1, para2, para3, para4) {
+
+        $.ajax({
+            url: '/AdvanceUnit/SearchUnit',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
+            success: function (View) {
+                $('#searchGrid1').html(View);
+                $('#searchGrid1').show();
+            },
+            error: function (reponse) {
+                $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
         });
-   });
+    }
    $(document).ready(function () {
        //alert("hii");
        //alert($('#searchResultGrid').children('tbody').children('tr').length);
@@ -344,6 +370,7 @@
            $("#unitDetailDiv").hide();
            $("#noDataLabelDiv").hide();
            $("#noUnitLabelDiv").show();
+           $("#searchLabelDiv").hide();
            
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
@@ -354,6 +381,7 @@
            $("#unitDetailDiv").show();
            $("#noDataLabelDiv").hide();
            $("#noUnitLabelDiv").hide();
+           $("#searchLabelDiv").show();
        }
        else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
        {
@@ -364,6 +392,7 @@
            $("#searchGrid1").hide();
            $("#noDataLabelDiv").show();
            $("#noUnitLabelDiv").hide();
+           $("#searchLabelDiv").show();
        }
        
    });

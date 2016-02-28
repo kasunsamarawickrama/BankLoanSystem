@@ -13,6 +13,10 @@
         .validation-summary.validation-summary-errors {
             display: block;
         }
+
+    .ui-state-default {
+        background-color: white;
+    }
 </style>
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
@@ -49,7 +53,7 @@
         @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
 
         @*UNIT MODEL START*@
-        <div class="side-panel" style="width: 803px; float:none; padding-right: 24px; padding-top: 24px;">
+        <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.HiddenFor(model => model.LoanId)
@@ -88,7 +92,7 @@
                     }
                     @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                 {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2",@Style= "width: 17%;", @disabled = "disabled" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", @disabled = "disabled" })
                     }
                     else
                     {
@@ -97,12 +101,12 @@
                     @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <hr />
-            <div id="vehicle" >
+
+            <div class="info-unit" id="vehicle">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin",@Style= "width: 98%;" } })
+                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin" } })
                         @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                         <div id="vehicleVIN"><span class="text-danger"></span></div>
                     </div>
@@ -205,7 +209,7 @@
                                 Value = "Yellow"
                             });
                         }
-                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control", @Style= "width: 223%;" })
+                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control", @Style = "width: 223%;" })
                         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -222,7 +226,7 @@
 
             </div>
 
-            <div id="rv">
+            <div class="info-unit" id="rv">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -291,7 +295,7 @@
                 </div>
             </div>
 
-            <div id="camper">
+            <div class="info-unit" id="camper">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -360,7 +364,7 @@
                 </div>
             </div>
 
-            <div id="atv">
+            <div class="info-unit" id="atv">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -421,7 +425,7 @@
                 </div>
             </div>
 
-            <div id="boat">
+            <div class="info-unit" id="boat">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -478,7 +482,7 @@
                 </div>
             </div>
 
-            <div id="motorcycle">
+            <div class="info-unit" id="motorcycle">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -547,7 +551,7 @@
                 </div>
             </div>
 
-            <div id="snowmobile">
+            <div class="info-unit" id="snowmobile">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -600,7 +604,7 @@
                 </div>
             </div>
 
-            <div id="heavyequipment">
+            <div class="info-unit" id="heavyequipment">
                 <div class="form-group">
                     @Html.LabelFor(model => model.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -634,19 +638,17 @@
         @*UNIT MODEL END*@
 
         @*PAYMENT DETAILS START*@
-        <div class="side-panel" style="width: 803px; float: none; padding-right: 24px; padding-top: 24px;">
+        <div class="info-unit" style="margin-top:20px">
             <div class="form-group">
                 @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-3">
                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                     <div id="tagscloud"><span class="text-danger"></span></div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-3">
                     @if (ViewBag.Editable == "Yes")
                 {
                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount" } })
@@ -660,6 +662,8 @@
                 </div>
             </div>
 
+
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -671,39 +675,41 @@
             @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width:28%" })
+                    <div class="col-md-2">
                         <div class="checkbox">
                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                             @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
                             @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group" hidden id="fileUploader">
-                    @Html.HiddenFor(i => i.FileName)
-                    <label for="file" class="control-label col-md-2">Upload Image:</label>
+                    <div hidden id="fileUploader">
+                        @Html.HiddenFor(i => i.FileName)
+                        <label for="file" class="control-label col-md-3" style="width:22%">Upload Image:</label>
 
-                    <div class="col-md-10" id="fileUploaderInsideDiv">
-                        <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
-                        <br />
-                        <span id="spnFile" style="float: left; color: #FF0000"></span>
-                        @Html.ValidationMessage("File")
-                        @Html.Hidden("hdnFileUpload")
+                        <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left:0px;margin-top:10px">
+                            <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
+                            <br />
+                            <span id="spnFile" style="float: left; color: #FF0000"></span>
+                            @Html.ValidationMessage("File")
+                            @Html.Hidden("hdnFileUpload")
 
-                        <div class="control-section" style="padding: 0px;">
-                            <div id="selectedFiles"></div>
+                            <div class="control-section" style="padding: 0px;">
+                                <div id="selectedFiles"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             }
         </div>
         @*PAYMENT DETAILS END*@
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group" style="margin-top:15px;">
+            @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "text-align:right" })
+            <div class="col-md-2">
                 @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                 @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
                 @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" })
@@ -741,10 +747,10 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-default" />
+                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info" />
                         </li>
                         <li>
-                            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" />
+                            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:30px" />
                         </li>
                     </ul>
                 </nav>
@@ -1068,7 +1074,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
 
@@ -1087,7 +1093,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#camperVin').keyup(function () {
@@ -1105,7 +1111,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#atvVin').keyup(function () {
@@ -1123,7 +1129,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#boatVin').keyup(function () {
@@ -1141,7 +1147,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#motorcycleVin').keyup(function () {
@@ -1159,7 +1165,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#snowmobileVin').keyup(function () {
@@ -1177,10 +1183,10 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
-   
+
     changeUnitType();
 
     //hide the panels
@@ -1496,3 +1502,17 @@
     startPicker.setMinDate(new Date("@Model.StartDate"));
     startPicker.setMaxDate(new Date("@Model.EndDate"));
 </script>
+<style>
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 20px 20px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+</style>
