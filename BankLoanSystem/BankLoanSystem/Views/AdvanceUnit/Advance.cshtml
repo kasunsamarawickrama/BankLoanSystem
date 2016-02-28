@@ -685,12 +685,14 @@
                 if (isNaN(num)) {
                   
                     $("#tagscloud span").fadeIn();
+                    $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be a positive number");
                    
                 }
                 else if (Number(num) > Number(cost)) {
 
                     $("#tagscloud span").fadeIn();
+                    $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be less than cost");
 
 
@@ -698,11 +700,12 @@
 
                 else if (Number(num) <= 0) {
                     $("#tagscloud span").fadeIn();
-
+                    $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be greater than zero");
                  
                 } else {
                     $("#tagscloud span").fadeOut();
+                    $(this).removeClass('input-validation-error');
                     $("#tagscloud span").text("");
 
                 }
