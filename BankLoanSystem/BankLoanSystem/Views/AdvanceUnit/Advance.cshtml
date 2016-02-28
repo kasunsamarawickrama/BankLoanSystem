@@ -97,7 +97,7 @@
                          "Date Entered",
                          format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                      ),
-                       grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),
+                       @*grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),*@
                  grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                       grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                       grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
@@ -156,7 +156,7 @@
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
                 <div class="col-sm-4" style="margin-top:10px">
-                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" ,@maxlength = "20"} })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
@@ -164,7 +164,7 @@
 
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
                 <div class="col-sm-2" style="margin-top:10px">
-                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year" } })
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year", @maxlength = "4" } })
                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
 
@@ -172,7 +172,7 @@
 
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make" } })
+                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make", @maxlength = "20" } })
                    @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
@@ -180,7 +180,7 @@
 
                 @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" style="margin-top:5px">
-                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model" } })
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model", @maxlength = "50" } })
                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
@@ -319,8 +319,19 @@
         ClearTextBoxValues();
     });
 
+    $("#btnClear").click(function () {
+
+       $("#identificationNumberSearch").val('');
+        $("#yearSearch").val('');
+        //alert(para1);
+        $("#makeSearch").val('');
+        $("#vehicleModelSearch").val('');
+        
+
+    });
+
     $("#btnSearch").click(function () {
-        alert("hii");
+        
         var para1 = $("#identificationNumberSearch").val();
         var para2 = $("#yearSearch").val();
         //alert(para1);
