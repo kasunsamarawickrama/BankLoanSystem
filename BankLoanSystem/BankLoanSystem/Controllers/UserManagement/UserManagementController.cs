@@ -570,7 +570,7 @@ namespace BankLoanSystem.Controllers
 
             if (loanSelection.NonRegCompanies.Count() == 1)
             {
-                loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+                loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
 
                 if (loanSelection.NonRegBranchList.Count() == 1)
                 {
@@ -624,7 +624,7 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.type = "Advance";
             }
-            return PartialView((new BranchAccess()).getNonRegBranches(NonRegCompId));
+            return PartialView((new BranchAccess()).getNonRegBranchesNonCompId(NonRegCompId));
         }
 
 

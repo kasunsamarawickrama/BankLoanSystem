@@ -26,7 +26,7 @@
 
             @if (ViewBag.type == "AddUnit")
             {
-               <text>$(location).attr('href', '/addunit/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
+               <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
             }
             else if (ViewBag.type == "Advance")
             {
@@ -57,7 +57,7 @@
                             <li>
                                 @*<a >@item.CompanyName</a>*@
 
-                                @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                                @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "branch-panel", LoadingElementId = "loadingDiv" })
                             </li>
                         }
                     }
