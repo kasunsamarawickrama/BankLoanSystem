@@ -7,6 +7,22 @@ namespace BankLoanSystem.Models
     public class Unit
     {
         public string UnitId { get; set; }
+        
+        public vehicle vehicle { get; set; }
+
+        public rv rv { get; set; }
+
+        public camper camper { get; set; }
+
+        public boat boat { get; set; }
+
+        public atv atv { get; set; }
+
+        public snowmobile snowmobile { get; set; }
+
+        public heavyequipment heavyequipment { get; set; }
+
+        public motorcycle motorcycle { get; set; }
 
         [Display(Name = "VIN")]
         [Required(ErrorMessage = "Enter 17 characters for VIN")]
@@ -115,6 +131,8 @@ namespace BankLoanSystem.Models
 
         //Image
         public string FileName { get; set; }
+
+        
     }
 
     public class LoanPaymentDetails {
@@ -148,6 +166,220 @@ namespace BankLoanSystem.Models
     public class ListViewModel
     {
         public List<Unit> ItemList { get; set; }
+
+    }
+
+    public class vehicle
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Required]
+        public string Trim { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Miles { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        public string Color { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+
+    public class rv
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Miles { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Length { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+
+    public class camper
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Length { get; set; }
+
+        [Required]
+        [Display(Name = "Hitch Style")]
+        public string HitchStyle { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+    public class atv
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Miles { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+    public class boat
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        [Display(Name = "Trailer")]
+        public string TrailerId { get; set; }
+
+        [Required]
+        [Display(Name = "Engine Serial")]
+        public string EngineSerial { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+    
+    public class motorcycle
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        public double Miles { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        public string Color { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+    public class snowmobile
+    {
+
+        [Display(Name = "VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        public string IdentificationNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
+
+        [Required]
+        public string Model { get; set; }
+
+        [Display(Name = "Brand New")]
+        public bool NewOrUsed { get; set; }
+
+    }
+    public class heavyequipment
+    {
+        [Display(Name = "SN")]
+        [Required(ErrorMessage = "Vehicle Serial Number is required.")]
+        public string SerialNumber { get; set; }
+
+        [Required(ErrorMessage = "Year is required.")]
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Make { get; set; }
 
     }
 }
