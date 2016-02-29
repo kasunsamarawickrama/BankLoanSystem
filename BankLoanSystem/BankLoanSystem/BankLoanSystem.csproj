@@ -156,6 +156,7 @@
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\jquery-ui.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
@@ -305,6 +306,7 @@
     <Content Include="Views\UserManagement\GetLoansByNonRegBranchId.cshtml" />
     <Content Include="Views\UserManagement\getNonRegBranchesByNonRegComId.cshtml" />
     <Content Include="Views\AdvanceUnit\Advance.cshtml" />
+    <Content Include="Views\AdvanceUnit\SearchUnit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
