@@ -504,7 +504,6 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.selectedUnitTypes = unittypes;
 
                             return loanSetupStep1;
-
                         }
                     }
                 }
@@ -522,8 +521,92 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy:  Kanishka
+        /// CreatedDate:02/29/2016
+        /// get loan details by loan code
+        /// </summary>
+        /// <param name="loanCode"></param>
+        /// <returns></returns>
+        internal LoanSetupStep1 GetLoanDetailsByLoanCode(string loanCode)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetLoanDetailsByLoanCode", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@loan_code", SqlDbType.VarChar).Value = loanCode;
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
 
 
+                        while (reader.Read())
+                        {
+                            loanSetupStep1.loanId = Convert.ToInt32(reader["loan_id"]);
+                            loanSetupStep1.advancePercentage = int.Parse(reader["advance"].ToString());
+                            //loanSetupStep1.allUnitTypes
+                            loanSetupStep1.autoReminderEmail = reader["auto_remind_email"].ToString();
+                            loanSetupStep1.autoReminderPeriod = int.Parse(reader["auto_remind_period"].ToString());
+                            loanSetupStep1.defaultUnitType = int.Parse(reader["default_unit_type"].ToString());
+                            loanSetupStep1.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"].ToString());
+                            loanSetupStep1.isInterestCalculate = Convert.ToBoolean(reader["is_interest_calculate"].ToString());
+                            loanSetupStep1.loanAmount = Convert.ToDecimal(reader["loan_amount"].ToString());
+                            loanSetupStep1.loanNumber = reader["loan_number"].ToString();
+                            loanSetupStep1.loanNumberForDisplay = loanSetupStep1.loanNumber;
+                            loanSetupStep1.maturityDate = Convert.ToDateTime(reader["maturity_date"].ToString());
+                            loanSetupStep1.nonRegisteredBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
+                            loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
+                            loanSetupStep1.payOffPeriod = int.Parse(reader["pay_off_period"].ToString());
+                            loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
+                            //loanSetupStep1.selectedUnitTypes
+                            loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
+
+
+                            loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
+                        }
+
+                        reader.Close();
+
+                        IList<UnitType> unittypes = new List<UnitType>();
+                        using (SqlCommand cmd2 = new SqlCommand("spGetLoanUnitTypesByLoanId", con))
+                        {
+                            cmd2.CommandType = CommandType.StoredProcedure;
+                            cmd2.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanSetupStep1.loanId;
+                            //con.Open();
+                            SqlDataReader reader2 = cmd2.ExecuteReader();
+
+                            while (reader2.Read())
+                            {
+                                UnitType unitType = new UnitType();
+                                unitType.unitTypeId = int.Parse(reader2["unit_type_id"].ToString());
+                                unitType.unitTypeName = reader2["unit_type_name"].ToString();
+                                unittypes.Add(unitType);
+
+                            }
+                            loanSetupStep1.selectedUnitTypes = unittypes;
+
+                            return loanSetupStep1;
+
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
 
 
         internal void getSelectedUnitTypes(int loanId, LoanSetupStep1 loanSetupStep1)
