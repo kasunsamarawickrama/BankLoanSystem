@@ -18,6 +18,13 @@ namespace BankLoanSystem.Controllers
     {
         private static LoanSetupStep1 loan;
 
+        public ActionResult setLoanCode(string loancode)
+        {
+            Session["loanCode"] = loancode;
+
+            return RedirectToAction("Advance");
+        }
+
         // GET: AdvanceUnit
         public ActionResult Index()
         {
