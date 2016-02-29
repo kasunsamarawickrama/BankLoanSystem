@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
 
     Layout = null;
 }
@@ -17,14 +17,14 @@
 
 
 
-       
-            <span class="block"><strong>@ViewBag.Username</strong></span>
-            <span> - </span>
-            <span><strong>@ViewBag.Branch</strong></span>
 
-      
+        <span class="block"><strong>@ViewBag.Username</strong></span>
+        <span> - </span>
+        <span><strong>@ViewBag.Branch</strong></span>
 
-        
+
+
+
 
 
 
@@ -32,8 +32,8 @@
 
     </div>
 
-   
-    @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class= "btn btn-info show-logout-popup", @data_showpopup = "1" })
+
+    @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class = "btn btn-info show-logout-popup", @data_showpopup = "1" })
 
     @*@Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
 
@@ -45,42 +45,42 @@
 </div>
 
 <div class="centered">
-    <h5><span  class="label label-danger"></span></h5>
+    <h5><span class="label label-danger"></span></h5>
 </div>
 
 <div class="info">
 
-  
-        <div class="address" >
-            <span style="float:left;width:450px"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
-       
 
-        
-
-            <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
-      
-
-        
-            @{
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-
-                var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
-
-            }
-
-            <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+    <div class="address">
+        <span style="float:left;width:450px"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
 
 
-        </div>
+
+
+        <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+
+
+
+        @{
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+            var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+        }
+
+        <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+
+
     </div>
+</div>
 
 
 
 
 <script>
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         // show popup when you click on the link
         $('.show-logout-popup').click(function (event) {
 
@@ -88,7 +88,7 @@
 
 
 
-             @if(ViewBag.Title == "Advance Unit") {
+            @if(ViewBag.Title == "Advance Unit") {
                  <text>if ($('#iVin').val() != "") { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
@@ -97,7 +97,7 @@
             }
         });
 
-      
+
 
 
         // function to show our popups
@@ -142,16 +142,16 @@
         });
 
         $('input').blur(function () {
-            
+
             if ($(this).next('span').children('span').length > 0) {
                 $('.centered span').text('Error');
-            } 
+            }
             //else if ($(this).siblings().next('span').children('span').length === 0) {
 
             //    $('.centered span').text('');
             //}
             var isError = false;
-            
+
             $.each($('input').next('span'), function (i, obj) {
                 if ($(obj).children('span').length > 0) {
                     isError = true;
@@ -159,20 +159,26 @@
             });
 
 
-             @if(ViewBag.Title == "Advance Unit") {
+            @if(ViewBag.Title == "Advance Unit") {
                 <text>if ($(this).next('#tagscloud').children('span').text() != "") {
-                 $('.centered span').text('Error');
-                 isError = true;
-             } else {
-                 isError = false;
-             }</text>
+                $('.centered span').text('Error');
+                isError = true;
+            } else {
+                isError = false;
+            }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
-
-                <text></text>
+                 <text>
+            if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
+                $('.centered span').text('Error');
+                isError = true;
+            } else {
+                isError = false;
+            }
+            </text>
             }
 
-            if(isError === false)
+            if (isError === false)
                 $('.centered span').text('');
         });
     });
@@ -183,18 +189,18 @@
 
 <div class="overlay-bg">
 </div>
-<div class="overlay-content popup1"  style="width:auto;text-align:center">
+<div class="overlay-content popup1" style="width:auto;text-align:center">
 
-    
-   <h3>Logout</h3>
+
+    <h3>Logout</h3>
 
     <span class="text-warning"> Are you sure you want to logout?</span><br />
     <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
-    <br/>
-    @Html.ActionLink("OK", "UserLogin", "Login", null, new { @class = "btn btn-info" , style= "width: 70px;margin-right: 20px;" })
-    <button class="close-btn btn btn-info" >Cancel</button>
-    
-  
+    <br />
+    @Html.ActionLink("OK", "UserLogin", "Login", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+    <button class="close-btn btn btn-info">Cancel</button>
+
+
 
 </div>
 

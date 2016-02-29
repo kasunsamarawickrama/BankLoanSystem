@@ -53,12 +53,12 @@ namespace BankLoanSystem.Models
 
         [Required]
         //[Remote("CalculateAdvance", "Unit", ErrorMessage = "error")]
-        [Range(0.009, double.MaxValue, ErrorMessage = "The value must be greater than 0")]
+        [Range(0.009, double.MaxValue, ErrorMessage = "Out of range")]
         public decimal Cost { get; set; }
 
         [Required]
         [Display(Name = "Advance Amount")]
-        [Range(0.009, double.MaxValue, ErrorMessage = "The value must be greater than 0")]
+        [Range(0.009, double.MaxValue, ErrorMessage = "Out of range")]
         public decimal AdvanceAmount { get; set; }
 
         public bool IsTitleReceived { get; set; }

@@ -673,10 +673,11 @@
                     } else {
                         if (val.length + 1 > cost.length) {
                             $("#tagscloud span").fadeIn();
-
+                            $(this).addClass('input-validation-error');
                             $("#tagscloud span").text("Advance can not be higer than cost/ input two decimal point only");
                             $("#tagscloud span").delay(1000).fadeOut();
-                            $("#tagscloud span")
+                            $(this).removeClass('input-validation-error');
+                            $("#tagscloud span");
                             e.preventDefault();
                         }
 
@@ -684,9 +685,10 @@
 
                 } else {
                     $("#tagscloud span").fadeIn();
-
+                    $(this).addClass('input-validation-error')
                     $("#tagscloud span").text("Advance must be a positive number");
                     $("#tagscloud span").delay(1000).fadeOut();
+                    $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             });

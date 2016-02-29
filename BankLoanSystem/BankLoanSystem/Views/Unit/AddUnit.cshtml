@@ -1279,24 +1279,33 @@
     //calculate advance
     $('#txtCost').keypress(function(e) {
         $("#tagscloud span").text("");
-        if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+        if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
             var val = this.value + (e.which - 48);
-            if (e.which !== 46) {
+            if (e.which !== 46 && e.which !== 8) {
                 if (val <= maxCost) {
                     var advanceAmount = (advancePt * val) / 100;
                     document.getElementById('txtAdvanceAmount').value = advanceAmount;
+                    $("#tagscloudAdvance span").fadeOut();
+                    $('#txtAdvanceAmount').removeClass('input-validation-error');
+                    $("#tagscloudAdvance span").text("");
                 } else {
                     $("#tagscloud span").fadeIn();
+                    $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Cost must be less than balance");
                     $("#tagscloud span").delay(1000).fadeOut();
+                    $(this).removeClass('input-validation-error');
+                    $("#tagscloud span");
                     e.preventDefault();
                 }
             }
 
         } else {
             $("#tagscloud span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Invalid character");
             $("#tagscloud span").delay(1000).fadeOut();
+            $(this).removeClass('input-validation-error');
+            $("#tagscloud span");
             e.preventDefault();
         }
     });
@@ -1308,6 +1317,7 @@
             var advanceAmount = (advancePt * val) / 100;
             document.getElementById('txtAdvanceAmount').value = advanceAmount;
             $("#tagscloud span").text("");
+            $("#tagscloudAdvance span").text("");
         }
     });
 
@@ -1326,19 +1336,27 @@
         if (isNaN(num)) {
 
             $("#tagscloud span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be a positive number");
 
         }
         else if (Number(num) > Number(maxCost)) {
             $("#tagscloud span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be less than balance");
         }
         else if (Number(num) <= 0) {
             $("#tagscloud span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be greater than zero");
         } else {
             $("#tagscloud span").fadeOut();
+            $(this).removeClass('input-validation-error');
             $("#tagscloud span").text("");
+
+            $("#tagscloudAdvance span").fadeOut();
+            $('#txtAdvanceAmount').removeClass('input-validation-error');
+            $("#tagscloudAdvance span").text("");
         }
 
         $(this).val(num);
@@ -1357,19 +1375,23 @@
         if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
             var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
-            if (e.which !== 46 || e.which !== 8) {
+            if (e.which !== 46 && e.which !== 8) {
                 if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
                     $("#tagscloudAdvance span").fadeIn();
+                    $(this).addClass('input-validation-error');
                     $("#tagscloudAdvance span").text("Advance amount must be less than cost");
                     $("#tagscloudAdvance span").delay(1000).fadeOut();
+                    $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             }
 
         } else {
             $("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Invalid character");
             $("#tagscloudAdvance span").delay(1000).fadeOut();
+            $(this).removeClass('input-validation-error');
             e.preventDefault();
         }
     });
@@ -1380,7 +1402,7 @@
         if (e.keyCode === 8) {
             var val = this.value;
             //document.getElementById('txtAdvanceAmount').value = val;
-            $("#tagscloud span").text("");
+            $("#tagscloudAdvance span").text("");
         }
     });
 
@@ -1401,18 +1423,22 @@
         if (isNaN(num)) {
 
             $("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance amount must be a positive number");
 
         }
         else if (Number(num) > Number(cost)) {
             $("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance amount must be less than cost");
         }
         else if (Number(num) <= 0) {
             $("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be greater than zero");
         } else {
             $("#tagscloudAdvance span").fadeOut();
+            $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
 

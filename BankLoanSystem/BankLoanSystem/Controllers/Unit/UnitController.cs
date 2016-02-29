@@ -161,14 +161,17 @@ namespace BankLoanSystem.Controllers.Unit
                     string xmlDoc = xEle.ToString();
 
                     res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
+                    ViewBag.SuccessMsg = "Unit added successfully!";
                 }
                 catch (Exception ex)
                 {
+                    ViewBag.ErrorMsg1 = "Something wrong in when going to add unit!";
                     throw ex;
                 }
 
                 return RedirectToAction("AddUnit");
             }
+            
             return RedirectToAction("AddUnit", unit);
 
             //return RedirectToAction("AddUnit");
