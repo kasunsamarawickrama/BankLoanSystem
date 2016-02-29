@@ -16,15 +16,17 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AdvanceDate  { get; set; }
 
-
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]
         public string IdentificationNumber { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Year must be a positive value.")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "year must contain only digits")]
         public string Year { get; set; }
 
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Make")]
         public string Make { get; set; }
 
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Model")]
         public string Model { get; set; }
     }
 }
