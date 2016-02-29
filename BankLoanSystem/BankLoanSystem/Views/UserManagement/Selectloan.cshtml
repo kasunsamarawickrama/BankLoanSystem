@@ -26,11 +26,11 @@
 
             @if (ViewBag.type == "AddUnit")
             {
-               <text>$(location).attr('href', '/unit/addunit');</text>
+               <text>$(location).attr('href', '/setLoanCode/addunit?loanCode=' + @Model.LoanList[0].loanCode);</text>
             }
             else if (ViewBag.type == "Advance")
             {
-                 <text>$(location).attr('href', '/AdvanceUnit/Advance');</text>
+                 <text>$(location).attr('href', '/setLoanCode/Advance?loanCode=' + @Model.LoanList[0].loanCode);</text>
             }
 
 
@@ -104,7 +104,7 @@
                 {
                     foreach (var item in Model.LoanList)
                     {
-                                <li>@Html.ActionLink(item.loanNumber, actoinName, controllerName, new { }, new { @class = "" }) </li>
+                                <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
 
                             }
                         }

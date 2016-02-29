@@ -18,6 +18,13 @@ namespace BankLoanSystem.Controllers
     {
         private static LoanSetupStep1 loan;
 
+        public ActionResult setLoanCode(string loancode)
+        {
+            Session["loanCode"] = loancode;
+
+            return RedirectToAction("Advance");
+        }
+
         // GET: AdvanceUnit
         public ActionResult Index()
         {
@@ -42,28 +49,29 @@ namespace BankLoanSystem.Controllers
             int userId = Convert.ToInt32(Session["userId"]);
 
             Session["userId"] = 2;
-            int loanId = 187;
+            string loanCode = Session["loanCode"].ToString();
 
-            
+
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
-            
-            Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
+            List<Models.Unit> advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId).NotAdvanced;
+            Session["notAdvancedList"] = advanceUnit;
 
-            if (flag == 0)
+            if (flag > 0)
             {
                 ViewBag.Msg = "Success";
-                return View(this.GetAdvanceUnitList(loanId));
+                return View(advanceUnit);
             }
             else
             {
                 ViewBag.Msg = "Error";
-                return View(this.GetAdvanceUnitList(loanId));
+                return View(advanceUnit);
             }
-            
+
         }
 
         /// <summary>
@@ -123,19 +131,8 @@ namespace BankLoanSystem.Controllers
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
 
-            var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
-            if (res > 0)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-
-            
-
-
+            return unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
+           
         }
 
         /// <summary>
@@ -147,29 +144,20 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult UpdateAdvanceAll(ListViewModel list)
+        public int UpdateAdvanceAll(ListViewModel list)
         {
             Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                RedirectToAction("UserLogin", "Login");
             int userId = Convert.ToInt32(Session["userId"]);
             ViewBag.ErrorMsg = "";
 
 
             UnitAccess unitAccess = new UnitAccess();
            
-            int count = unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);
-            if (count > 0)
-            {
-                return RedirectToAction("Advance");
-            }
-            else
-            {
-                return RedirectToAction("Advance");
-            }
-
-
+            return unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);           
         }
+
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
         {
             UnitAccess unitAccess = new UnitAccess();
