@@ -907,6 +907,83 @@ namespace BankLoanSystem.DAL
 
         }
 
+
+        /// <summary>
+        /// CreatedBy: MAM. IRFAN
+        /// CreatedDate: 2016/02/05
+        /// 
+        /// Getting all non reistered company branches by Registered company id
+        /// 
+        /// </summary>
+        /// <returns> a list contain all branches</returns>
+        /// 
+        public List<NonRegBranch> getNonRegBranchesNonCompId(int nonRegCompanyId)
+        {
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchesByNonRegCompanyId", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@non_reg_companyId", SqlDbType.Int).Value = nonRegCompanyId;
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        List<NonRegBranch> branchesLists = new List<NonRegBranch>();
+
+
+                        while (reader.Read())
+                        {
+                            NonRegBranch branch = new NonRegBranch();
+                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
+
+                            branch.BranchName = reader["branch_name"].ToString();
+                            branch.BranchCode = reader["branch_code"].ToString();
+                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
+                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
+                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
+                            branch.StateId = Convert.ToInt32(reader["state_id"].ToString());
+                            branch.BranchCity = reader["city"].ToString();
+                            branch.BranchZip = reader["zip"].ToString();
+
+                            string[] zipWithExtention = branch.BranchZip.Split('-');
+
+                            if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+
+                            branch.BranchEmail = reader["email"].ToString();
+                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
+                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
+                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
+                            branch.BranchFax = reader["fax"].ToString();
+                            branch.BranchCompany = Convert.ToInt32(reader["company_id"]);
+                            //branch.BranchCreatedBy = 
+                            branchesLists.Add(branch);
+
+                        }
+                        return branchesLists;
+
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+        }
+
         /// <summary>
         /// CreatedBy:Irfan
         /// CreatedDate:2016/02/11
