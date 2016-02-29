@@ -74,10 +74,10 @@
 }, new { id = "form" }))
 {
 
-    <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
+    <div id="noUnitLabelDiv" class="info-unit" >
         @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-8" })
     </div>
-    <div class ="side-panel" id ="checkableGridDiv"style="width:870px;float:left;margin-top:10px">
+    <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px">
         <div>
             @grid.GetHtml(
                   tableStyle: "gridtable",
@@ -119,10 +119,10 @@
 
 
 
-    <div class ="side-panel" id="advanceAllDiv" style="width:870px;float:left; margin-top:10px">
+    <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px">
         <div class="form-group">
 
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3" style="text-align:right;padding-top:5px">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
@@ -132,9 +132,10 @@
 
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control",  @id = "startDate", autocomplete = "off" } })
 
-        </div>
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" />
-        
+                
+             </div>
+            
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" />
         </div>
         
         
@@ -144,58 +145,56 @@
 
 
 
-    <div class="control-label col-sm-8" id="searchLabelDiv" style="color:dodgerblue;margin-top:10px">
-    @Html.Label("Search Units", htmlAttributes: new { })
-</div>
+
+
+
+  
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class ="side-panel" id ="searchDiv"style="width:870px;float:left; margin-top:10px">
-
+        
+        <div class ="info-unit" id ="searchDiv" style="margin-top:10px;padding-top:0px">
+            <div class="control-label col-lg-10" id="searchLabelDiv" style="color:dodgerblue;padding-right:unset;">
+                <h5>@Html.Label("Search Units", htmlAttributes: new { })</h5>
+            </div>
             <div class="form-group">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "margin-top:10px" })
-                <div class="col-sm-4" style="margin-top:10px">
-                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" } })
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3" , style= "text-align: right;" })
+                <div class="col-sm-4" >
+                    @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" } })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
 
 
-                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "margin-top:10px" })
-                <div class="col-sm-2" style="margin-top:10px">
+                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", style = "text-align: right;" })
+                <div class="col-sm-2" >
                     @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year" } })
                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-
-
-                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
-                <div class="col-sm-2" style="margin-top:5px">
+            <div class="form-group">
+                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align: right;" })
+                <div class="col-sm-2" >
                     @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make" } })
-                   @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
 
 
-                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
-                <div class="col-sm-2" style="margin-top:5px">
+                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align: right;" })
+                <div class="col-sm-2" >
                     @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model" } })
-                   @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
             </div>
             <div class="form-group">
-                <nav>
-                    <ul class="pager">
-                        <li>
-                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-default cancel" style="float:left;margin-left:200px" />
-                        </li>
-                        <li>
+          
+                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info cancel" style="float:left;margin-left:200px" />
+                       
                             <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
-                        </li>
-                    </ul>
-                </nav>
+                       
             </div>
 
 
@@ -203,7 +202,7 @@
 
         </div>
       
-        <div class ="side-panel" id="searchGrid1"style="width:870px;float:left;margin-top:10px">
+        <div class ="info-unit" id="searchGrid1" style="margin-top:10px">
             
             
         </div>
@@ -212,101 +211,106 @@
     </div>
 
 
-    <div class="side-panel" id="unitDetailDiv"style="width:870px;float:left;margin-top:10px">
+    
+
+<div class="form-horizontal" style="margin-bottom:10px">
+
+    
+
+    <div class="info-unit" id="unitDetailDiv" style="margin-top:10px;padding-top:20px">
+        
+        
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @style = "margin-top:10px", @id = "iVIN" })
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @id = "iVIN" })
 
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
 
             </div>
-            <div class="control-label col-sm-2">
-                @Html.Label("Year", htmlAttributes: new { @style = "margin-top:10px" })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-
-            </div>
-            <div class="control-label col-sm-2">
-                @Html.Label(" Make", htmlAttributes: new { @style = "margin-top:10px" })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-
-            </div>
-            <div class="control-label col-sm-2">
-                @Html.Label("Model", htmlAttributes: new { @style = "margin-top:10px" })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-
-            </div>
-            <div class="control-label col-sm-2">
-                @Html.Label("Price", htmlAttributes: new { @style = "margin-top:10px" })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
-
-            </div>
-
-
 
 
             <div class="control-label col-sm-2">
-                @Html.Label("Advance Amount", htmlAttributes: new { @style = "margin-top:10px" })
+                @Html.Label("Year", htmlAttributes: new { })
 
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "margin-top:10px" } })
+                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
 
-               
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.Label(" Make", htmlAttributes: new { })
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+            </div>
+            <div class="control-label col-sm-2">
+                @Html.Label("Model", htmlAttributes: new { })
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.Label("Price", htmlAttributes: new { })
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+            </div>
+
+
+
+
+            <div class="control-label col-sm-2">
+                @Html.Label("Advance Amount", htmlAttributes: new { })
+
+            </div>
+            <div class="col-xs-4">
+                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+
                 <div id="tagscloud"><span class="text-danger"></span></div>
             </div>
-
-           
-            <div class="control-label col-sm-2">
-                @Html.Label("AdvanceDate", htmlAttributes: new { @style = "margin-top:10px" })<span style="color:red"> *</span>
-            </div>
-
-
-            <div class="col-xs-4" >
-
-
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @style = "margin-top:10px" } })
-
-            </div>
-
         </div>
-
-      
-
-                
-                            @*<input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />*@
         <div class="form-group">
-            <nav>
-                <ul class="pager">
-                    <li>
-                        <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
-                    </li>
-                    <li>
-                        <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="float:left;margin-left:5px" />
-                    </li>
-                </ul>
-            </nav>
+            <div class="control-label col-sm-2">
+                @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
+            </div>
+
+
+            <div class="col-xs-4">
+
+
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+
+            </div>
+
         </div>
-                      
-                        
-                  
-          
-       
+
+
+        <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="margin-left:200px" />
+
+        <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:5px" />
+
+
     </div>
+
+
+
+</div>
         
 
 
@@ -736,7 +740,20 @@
 
 
         </script>
+<style>
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 10px 20px;
+    }
 
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+</style>
 
 
 

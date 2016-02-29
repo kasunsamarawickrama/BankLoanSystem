@@ -22,7 +22,16 @@
         <script>
 
 
-            $(location).attr('href', '/unit/addunit');
+
+
+            @if (ViewBag.type == "AddUnit")
+            {
+               <text>$(location).attr('href', '/unit/addunit');</text>
+            }
+            else if (ViewBag.type == "Advance")
+            {
+                 <text>$(location).attr('href', '/AdvanceUnit/Advance');</text>
+            }
 
 
         </script>
