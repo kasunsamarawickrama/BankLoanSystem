@@ -34,7 +34,7 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult Advance()
+        public ActionResult Advance(int? flag)
         {
             Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
@@ -50,18 +50,20 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
-            //List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
-            //unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
-            //List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
-            //Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
-            //unitList1.NotAdvanced = unitList;
-
-            //unitList1.Search = unitList2;
-
-
+            
             Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
 
-            return View(this.GetAdvanceUnitList(loanId));
+            if (flag == 0)
+            {
+                ViewBag.Msg = "Success";
+                return View(this.GetAdvanceUnitList(loanId));
+            }
+            else
+            {
+                ViewBag.Msg = "Error";
+                return View(this.GetAdvanceUnitList(loanId));
+            }
+            
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult UpdateAdvance(BankLoanSystem.Models.Unit unit)
+        public int UpdateAdvance(BankLoanSystem.Models.Unit unit)
         {
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
@@ -124,13 +126,14 @@ namespace BankLoanSystem.Controllers
             var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
             if (res > 0)
             {
-                return RedirectToAction("Advance");
+                return 1;
             }
             else
             {
-                return RedirectToAction("Advance");
+                return 0;
             }
 
+            
 
 
         }
@@ -154,10 +157,7 @@ namespace BankLoanSystem.Controllers
 
 
             UnitAccess unitAccess = new UnitAccess();
-            //foreach(Models.Unit u in list.ItemList)
-            //{
-            //    u.AdvanceDate = DateTime.Now;
-            //}
+           
             int count = unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);
             if (count > 0)
             {
@@ -169,8 +169,6 @@ namespace BankLoanSystem.Controllers
             }
 
 
-
-            return PartialView("Step10", this.GetAdvanceUnitList(187));
         }
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
         {

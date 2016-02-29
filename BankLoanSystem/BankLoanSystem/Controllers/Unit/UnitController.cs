@@ -161,14 +161,17 @@ namespace BankLoanSystem.Controllers.Unit
                     string xmlDoc = xEle.ToString();
 
                     res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
+                    ViewBag.SuccessMsg = "Unit added successfully!";
                 }
                 catch (Exception ex)
                 {
+                    ViewBag.ErrorMsg1 = "Something wrong in when going to add unit!";
                     throw ex;
                 }
 
                 return RedirectToAction("AddUnit");
             }
+            
             return RedirectToAction("AddUnit", unit);
 
             //return RedirectToAction("AddUnit");
@@ -227,8 +230,9 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(year);
         }
 
-        public ActionResult LoanInfo(string title)
+        public ActionResult LoanInfo(string title, string msg)
         {
+            ViewBag.Msg = msg;
             int userId = 64;
             int loanId = 184;
             ViewBag.Title = title;

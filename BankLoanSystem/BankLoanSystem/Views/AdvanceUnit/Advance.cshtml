@@ -1,5 +1,7 @@
 ﻿@model BankLoanSystem.Models.AdvanceUnit
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
@@ -74,8 +76,8 @@
 }, new { id = "form" }))
 {
 
-    <div id="noUnitLabelDiv" class="info-unit" >
-        @Html.Label("There are no not advanced units found", htmlAttributes: new { @class = "control-label col-sm-8" })
+    <div id="noUnitLabelDiv" class="side-panel" style="width:870px;float:left;margin-top:10px; font:medium;color:red;">
+        @Html.Label("Not advance units not found", htmlAttributes: new { @class = "control-label col-sm-8" })
     </div>
     <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px">
         <div>
@@ -97,14 +99,14 @@
                          "Date Entered",
                          format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                      ),
-                       grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),
+                       @*grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),*@
                  grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                       grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                       grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                      grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>),
-                     grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)
+                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+                     @*grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)*@
 
 
         )
@@ -133,8 +135,8 @@
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control",  @id = "startDate", autocomplete = "off" } })
 
                 
-             </div>
-            
+        </div>
+        
             <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" />
         </div>
         
@@ -152,40 +154,41 @@
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
+
         <div class ="info-unit" id ="searchDiv" style="margin-top:10px;padding-top:0px">
             <div class="control-label col-lg-10" id="searchLabelDiv" style="color:dodgerblue;padding-right:unset;">
                 <h5>@Html.Label("Search Units", htmlAttributes: new { })</h5>
             </div>
             <div class="form-group">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3" , style= "text-align: right;" })
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-sm-3", @style = "text-align: right;" })
                 <div class="col-sm-4" >
-                    @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" } })
+                    @Html.EditorFor(model=>model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial" ,@maxlength = "20"} })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
 
 
-                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", style = "text-align: right;" })
+                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "text-align: right;" })
                 <div class="col-sm-2" >
-                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year" } })
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year", @maxlength = "4" } })
                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align: right;" })
+
+
+                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" >
-                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make" } })
-                    @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make", @maxlength = "20" } })
+                   @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
                 </div>
 
 
 
-                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align: right;" })
+                @Html.Label("Model", htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-2" >
-                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model" } })
-                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "vehicleModelSearch", @placeholder = "Model", @maxlength = "50" } })
+                   @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
                 </div>
 
             </div>
@@ -211,7 +214,7 @@
     </div>
 
 
-    
+
 
 <div class="form-horizontal" style="margin-bottom:10px">
 
@@ -241,7 +244,7 @@
 
             </div>
 
-        </div>
+            </div>
 
         <div class="form-group">
             <div class="control-label col-sm-2">
@@ -281,7 +284,7 @@
             <div class="col-xs-4">
                 @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
 
-
+               
                 <div id="tagscloud"><span class="text-danger"></span></div>
             </div>
         </div>
@@ -302,15 +305,15 @@
 
 
         <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="margin-left:200px" />
-
+      
         <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:5px" />
 
-
+                
+        </div>
+                      
+                        
+                  
     </div>
-
-
-
-</div>
         
 
 
@@ -323,11 +326,20 @@
         ClearTextBoxValues();
     });
 
+    $("#btnClear").click(function () {
+
+       $("#identificationNumberSearch").val('');
+        $("#yearSearch").val('');
+        $("#makeSearch").val('');
+        $("#vehicleModelSearch").val('');
+        
+
+    });
+
     $("#btnSearch").click(function () {
-        alert("hii");
+        
         var para1 = $("#identificationNumberSearch").val();
         var para2 = $("#yearSearch").val();
-        //alert(para1);
         var para3 = $("#makeSearch").val();
         var para4 = $("#vehicleModelSearch").val();
         Search(para1, para2, para3, para4);
@@ -352,8 +364,6 @@
         });
     }
    $(document).ready(function () {
-       //alert("hii");
-       //alert($('#searchResultGrid').children('tbody').children('tr').length);
 
        if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
            $("#checkableGridDiv").hide();
@@ -390,9 +400,6 @@
        
    });
 
-   //$("#btnSearch").click(function () {
-   //    $("#searchGrid1").show();
-   //});
 </script>
 
 
@@ -468,12 +475,6 @@
                         ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                     }
-                    //        });
-                    //    }
-                    //});
-
-
-
 
                 });
             }
@@ -532,7 +533,7 @@
                 }
 
                 else if ($('#iVin').val() != '') {
-                    //alert($('#unitid').text());
+                    
                     var unit = {
                         "UnitId": $('#unitid').text(),
                         "IdentificationNumber": $('#iVin').val(),
@@ -545,9 +546,12 @@
                         data: JSON.stringify(unit),
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
-                        success: function (partialView) {
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
+                        success: function (View) {
+                            //$('#container').html(View);
+                            $(location).attr('href', '/AdvanceUnit/Advance?flag='+View);
+                            //$('#checkableGridDiv').html(View);
+                            //$('#container').show();
+                            
                         }
                     });
                 }
@@ -656,20 +660,21 @@
 
             $('#iAdvance').keypress(function (e) {
                 var cost = document.getElementById('iCost').value;
-               // alert(e.which);
+
                 if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
                     var val = this.value;
-                    //alert(cost + ' ' + val);
+                    
                     if (e.which === 46 || e.which === 8) {
 
 
                     } else {
                         if (val.length + 1 > cost.length) {
                             $("#tagscloud span").fadeIn();
-
+                            $(this).addClass('input-validation-error');
                             $("#tagscloud span").text("Advance can not be higer than cost/ input two decimal point only");
                             $("#tagscloud span").delay(1000).fadeOut();
-                            $("#tagscloud span")
+                            $(this).removeClass('input-validation-error');
+                            $("#tagscloud span");
                             e.preventDefault();
                         }
 
@@ -677,9 +682,10 @@
 
                 } else {
                     $("#tagscloud span").fadeIn();
-
+                    $(this).addClass('input-validation-error')
                     $("#tagscloud span").text("Advance must be a positive number");
                     $("#tagscloud span").delay(1000).fadeOut();
+                    $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             });
