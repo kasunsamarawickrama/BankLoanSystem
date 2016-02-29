@@ -24,9 +24,6 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult AddUnit()
         {
-            Session["userId"] = 64;
-            Session["loanCode"] = "COM06_01-00001";
-
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
