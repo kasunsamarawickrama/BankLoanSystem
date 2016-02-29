@@ -13,6 +13,10 @@
         .validation-summary.validation-summary-errors {
             display: block;
         }
+
+    .ui-state-default {
+        background-color: white;
+    }
 </style>
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
@@ -20,8 +24,8 @@
 <link href="~/Content/triangle.css" rel="stylesheet" />
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/scripts/moment.js"></script>
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/jquery-1.10.2.js"></script>
+<script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
@@ -49,7 +53,7 @@
         @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
 
         @*UNIT MODEL START*@
-        <div class="side-panel" style="width: 803px; float:none; padding-right: 24px; padding-top: 24px;">
+        <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.HiddenFor(model => model.LoanId)
@@ -88,7 +92,7 @@
                     }
                     @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                 {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2",@Style= "width: 17%;", @disabled = "disabled" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", @disabled = "disabled" })
                     }
                     else
                     {
@@ -97,13 +101,14 @@
                     @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <hr />
-            <div id="vehicle" >
+
+            <div class="info-unit" id="vehicle">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin",@Style= "width: 98%;" } })
+                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin" } })
                         @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="vehicleVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -121,6 +126,7 @@
 
                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox1-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="vehicleyear"><span class="text-danger"></span></div>
                     </div>
 
                     @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -203,7 +209,7 @@
                                 Value = "Yellow"
                             });
                         }
-                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control", @Style= "width: 223%;" })
+                        @Html.DropDownListFor(model => model.Color, Colourlist, "-- select type --", new { @class = "form-control", @Style = "width: 223%;" })
                         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -220,7 +226,7 @@
 
             </div>
 
-            <div id="rv">
+            <div class="info-unit" id="rv">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -236,6 +242,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox2-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="rvyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -288,7 +295,7 @@
                 </div>
             </div>
 
-            <div id="camper">
+            <div class="info-unit" id="camper">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -304,6 +311,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox3-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="camperyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -356,7 +364,7 @@
                 </div>
             </div>
 
-            <div id="atv">
+            <div class="info-unit" id="atv">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -372,6 +380,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox4-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="atvyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -416,7 +425,7 @@
                 </div>
             </div>
 
-            <div id="boat">
+            <div class="info-unit" id="boat">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -432,6 +441,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox5-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="boatyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -472,7 +482,7 @@
                 </div>
             </div>
 
-            <div id="motorcycle">
+            <div class="info-unit" id="motorcycle">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -488,6 +498,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox6-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="motorcycleyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -540,7 +551,7 @@
                 </div>
             </div>
 
-            <div id="snowmobile">
+            <div class="info-unit" id="snowmobile">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -556,6 +567,7 @@
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox7-1" })
                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        <div id="snowmobileyear"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -592,7 +604,7 @@
                 </div>
             </div>
 
-            <div id="heavyequipment">
+            <div class="info-unit" id="heavyequipment">
                 <div class="form-group">
                     @Html.LabelFor(model => model.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -603,6 +615,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @id = "editor8-1", @Style = "display: none;" } })
+                    <div id="heavyequipmentyear"><span class="text-danger"></span></div>
                     <div class="col-md-10" id="div-combobox8-1">
 
                         @Html.DropDownListFor(model => model.Year, yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
@@ -625,19 +638,17 @@
         @*UNIT MODEL END*@
 
         @*PAYMENT DETAILS START*@
-        <div class="side-panel" style="width: 803px; float: none; padding-right: 24px; padding-top: 24px;">
+        <div class="info-unit" style="margin-top:20px">
             <div class="form-group">
                 @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-3">
                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                     <div id="tagscloud"><span class="text-danger"></span></div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-3">
                     @if (ViewBag.Editable == "Yes")
                 {
                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount" } })
@@ -651,6 +662,8 @@
                 </div>
             </div>
 
+
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -662,39 +675,41 @@
             @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width:28%" })
+                    <div class="col-md-2">
                         <div class="checkbox">
                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                             @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
                             @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group" hidden id="fileUploader">
-                    @Html.HiddenFor(i => i.FileName)
-                    <label for="file" class="control-label col-md-2">Upload Image:</label>
+                    <div hidden id="fileUploader">
+                        @Html.HiddenFor(i => i.FileName)
+                        <label for="file" class="control-label col-md-3" style="width:22%">Upload Image:</label>
 
-                    <div class="col-md-10" id="fileUploaderInsideDiv">
-                        <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
-                        <br />
-                        <span id="spnFile" style="float: left; color: #FF0000"></span>
-                        @Html.ValidationMessage("File")
-                        @Html.Hidden("hdnFileUpload")
+                        <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left:0px;margin-top:10px">
+                            <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
+                            <br />
+                            <span id="spnFile" style="float: left; color: #FF0000"></span>
+                            @Html.ValidationMessage("File")
+                            @Html.Hidden("hdnFileUpload")
 
-                        <div class="control-section" style="padding: 0px;">
-                            <div id="selectedFiles"></div>
+                            <div class="control-section" style="padding: 0px;">
+                                <div id="selectedFiles"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             }
         </div>
         @*PAYMENT DETAILS END*@
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group" style="margin-top:15px;">
+            @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "text-align:right" })
+            <div class="col-md-2">
                 @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                 @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
                 @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" })
@@ -732,10 +747,10 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-default" />
+                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info" />
                         </li>
                         <li>
-                            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" />
+                            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:30px" />
                         </li>
                     </ul>
                 </nav>
@@ -819,117 +834,153 @@
     // --------------------------
     $('#div-combobox1-1').focusout(function(){
         var yearmakemodel = $('#combobox1-1').next().children('input').val();
-        document.getElementById('editor1-1').value = yearmakemodel;
+        focusout('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);    
 
-    }); 
+    });
     $('#div-combobox1-2').focusout(function(){
         var yearmakemodel = $('#combobox1-2').next().children('input').val();
         document.getElementById('editor1-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox1-3').focusout(function(){
         var yearmakemodel = $('#combobox1-3').next().children('input').val();
         document.getElementById('editor1-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox2-1').focusout(function(){
         var yearmakemodel = $('#combobox2-1').next().children('input').val();
-        document.getElementById('editor2-1').value = yearmakemodel;
+        focusout('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox2-2').focusout(function(){
         var yearmakemodel = $('#combobox2-2').next().children('input').val();
         document.getElementById('editor2-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox2-3').focusout(function(){
         var yearmakemodel = $('#combobox2-3').next().children('input').val();
         document.getElementById('editor2-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox3-1').focusout(function(){
         var yearmakemodel = $('#combobox3-1').next().children('input').val();
-        document.getElementById('editor3-1').value = yearmakemodel;
+        focusout('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox3-2').focusout(function(){
         var yearmakemodel = $('#combobox3-2').next().children('input').val();
         document.getElementById('editor3-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox3-3').focusout(function(){
         var yearmakemodel = $('#combobox3-3').next().children('input').val();
         document.getElementById('editor3-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox4-1').focusout(function(){
         var yearmakemodel = $('#combobox4-1').next().children('input').val();
-        document.getElementById('editor4-1').value = yearmakemodel;
+        focusout('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox4-2').focusout(function(){
         var yearmakemodel = $('#combobox4-2').next().children('input').val();
         document.getElementById('editor4-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox4-3').focusout(function(){
         var yearmakemodel = $('#combobox4-3').next().children('input').val();
         document.getElementById('editor4-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox5-1').focusout(function(){
         var yearmakemodel = $('#combobox5-1').next().children('input').val();
-        document.getElementById('editor5-1').value = yearmakemodel;
+        focusout('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox5-2').focusout(function(){
         var yearmakemodel = $('#combobox5-2').next().children('input').val();
         document.getElementById('editor5-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox6-1').focusout(function(){
         var yearmakemodel = $('#combobox6-1').next().children('input').val();
-        document.getElementById('editor6-1').value = yearmakemodel;
+        focusout('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox6-2').focusout(function(){
         var yearmakemodel = $('#combobox6-2').next().children('input').val();
         document.getElementById('editor6-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox6-3').focusout(function(){
         var yearmakemodel = $('#combobox6-3').next().children('input').val();
         document.getElementById('editor6-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox7-1').focusout(function(){
         var yearmakemodel = $('#combobox7-1').next().children('input').val();
-        document.getElementById('editor7-1').value = yearmakemodel;
+        focusout('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox7-2').focusout(function(){
         var yearmakemodel = $('#combobox7-2').next().children('input').val();
         document.getElementById('editor7-2').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox7-3').focusout(function(){
         var yearmakemodel = $('#combobox7-3').next().children('input').val();
         document.getElementById('editor7-3').value = yearmakemodel;
 
-    }); 
+    });
     $('#div-combobox8-1').focusout(function(){
         var yearmakemodel = $('#combobox8-1').next().children('input').val();
-        document.getElementById('editor8-1').value = yearmakemodel;
+        focusout('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
 
-    }); 
+    });
     $('#div-combobox8-2').focusout(function(){
         var yearmakemodel = $('#combobox8-2').next().children('input').val();
         document.getElementById('editor8-2').value = yearmakemodel;
 
-    }); 
+    });
     // -------------------------
     //focusout functions End
-
+    function focusout(span,vareditor,varcombo, val){
+       // $('#editor1-1').trigger('change');
+       
+        console.log(val);
+        var len = val.length;
+        console.log(len);
+        if(len == 4){
+            var isnum = /^\d+$/.test(val);
+            if(isnum == false){
+                $(span).fadeIn();
+                $(span).text("Invalid : enter only numbers");
+                $(varcombo).next().children('input').val("");
+                $(vareditor).val("");
+                $(span).delay(3000).fadeOut();
+            }           
+        }
+        else if(len > 4){
+            $(span).fadeIn();
+            $(span).text("Invalid : enter only 4 numbers");
+            $(varcombo).next().children('input').val("");
+            $(vareditor).val("");
+            $(span).delay(3000).fadeOut();
+           
+        }   
+        else if(len == 0){
+            $(varcombo).next().children('input').val("");
+            $(vareditor).val("");
+          
+        }  
+        else{
+            $(span).fadeIn();
+            $(span).text("Invalid : need 4 numbers");
+            $(varcombo).next().children('input').val("");
+            $(vareditor).val("");
+            $(span).delay(3000).fadeOut();
+        }
+    }
 
     // drop down combo boxes
     $(function() {
@@ -975,6 +1026,7 @@
 
     //key up for bind child text box value to hidden box
     $('#vehicleVin').keyup(function () {
+        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
         if($('#vehicleVin').val().length == 17){
             var vin =document.getElementById('vehicleVin').value;
             $.ajax({
@@ -991,7 +1043,41 @@
                 }
             });      
         }
+        else if($('#vehicleVin').val().length < 17){
+            var vinlen = $('#vehicleVin').val().length ;
+            $('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
+            $('#vehicleVIN span').delay(1000).fadeOut();
+        }
+        else{
+            var vinlen = $('#vehicleVin').val().length ;
+            $('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text("charactors exceeded");
+            $('#vehicleVIN span').delay(1000).fadeOut();
+            
+        }
     });
+    // mouseleave for check vin number and bind year to year text box
+    $('#vehicleVin').mouseleave (function () {
+        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+        if($('#vehicleVin').val().length == 17){
+            var vin =document.getElementById('vehicleVin').value;
+            $.ajax({
+                url: '/Unit/GetYearByVin',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({vin: vin }),
+                success: function (data) {
+                    var year = data;
+                    $('#combobox1-1').next().children('input').val(year);
+                    document.getElementById('editor1-1').value = year;
+                },
+                error: function (reponse) {
+                }
+            });
+        }
+    });
+
     $('#rvVin').keyup(function () {
         if($('#rvVin').val().length == 17){
             var vin =document.getElementById('rvVin').value;
@@ -1007,7 +1093,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#camperVin').keyup(function () {
@@ -1025,7 +1111,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#atvVin').keyup(function () {
@@ -1043,7 +1129,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#boatVin').keyup(function () {
@@ -1061,7 +1147,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#motorcycleVin').keyup(function () {
@@ -1079,7 +1165,7 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
     $('#snowmobileVin').keyup(function () {
@@ -1097,10 +1183,10 @@
                 },
                 error: function (reponse) {
                 }
-            });      
+            });
         }
     });
-   
+
     changeUnitType();
 
     //hide the panels
@@ -1267,11 +1353,11 @@
 
     $('#txtAdvanceAmount').keypress(function(e) {
         var cost = document.getElementById('txtCost').value;
-        //alert(cost);
-        if ((e.which >= 48 && e.which <= 57) || e.which === 46) {
+        //alert(e.which);
+        if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
             var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
-            if (e.which !== 46) {
+            if (e.which !== 46 || e.which !== 8) {
                 if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
                     $("#tagscloudAdvance span").fadeIn();
                     $("#tagscloudAdvance span").text("Advance amount must be less than cost");
@@ -1290,9 +1376,10 @@
 
     //claculate advance when click back-space
     $('#txtAdvanceAmount').keyup(function(e) {
+        //alert(e.keyCode);
         if (e.keyCode === 8) {
             var val = this.value;
-            document.getElementById('txtAdvanceAmount').value = val;
+            //document.getElementById('txtAdvanceAmount').value = val;
             $("#tagscloud span").text("");
         }
     });
@@ -1415,3 +1502,17 @@
     startPicker.setMinDate(new Date("@Model.StartDate"));
     startPicker.setMaxDate(new Date("@Model.EndDate"));
 </script>
+<style>
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 20px 20px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+</style>

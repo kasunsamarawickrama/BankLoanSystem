@@ -62,10 +62,19 @@ namespace BankLoanSystem.Controllers
             Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
 
             return View(this.GetAdvanceUnitList(loanId));
-        }        
+        }
 
-        [HttpPost]
-        public ActionResult Advance(List<BankLoanSystem.Models.Unit> unitListf, string[] ids, string identificationNumber, string year, string make, string vehicleModel, string search)
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/2/27
+        /// Search not advanced units
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchUnit(string identificationNumber, string year, string make, string vehicleModel)
         {
             int loanId = 187;
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
@@ -73,27 +82,25 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.loanDetails = loanDetails;
             List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
-            
+
             Models.AdvanceUnit unitListMain = new Models.AdvanceUnit();
-            unitListMain.NotAdvanced = unitList;
-            if ((!string.IsNullOrEmpty(search))&&((!string.IsNullOrEmpty(identificationNumber))|| (!string.IsNullOrEmpty(year))|| (!string.IsNullOrEmpty(make))|| (!string.IsNullOrEmpty(vehicleModel))))
+            //unitListMain.NotAdvanced = unitList;
+            unitListMain.NotAdvanced = new List<Models.Unit>();
+            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
             {
                 //search through list elements
                 Search sc = new Search();
 
-                unitListMain.Search = sc.GetSearchResultsList(unitList,identificationNumber,year,make,vehicleModel);
+                unitListMain.Search = sc.GetSearchResultsList(unitList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
 
-               
-                return View(unitListMain);
+                return PartialView(unitListMain);
             }
             else
             {
                 unitListMain.Search = new List<Models.Unit>();
-                return View(unitListMain);
+                return PartialView(unitListMain);
             }
-
         }
-
 
         /// <summary>
         /// CreatedBy : Nadeeka
