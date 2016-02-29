@@ -1449,6 +1449,7 @@
                     $("#tagscloudAdvance span").fadeOut();
                     $('#txtAdvanceAmount').removeClass('input-validation-error');
                     $("#tagscloudAdvance span").text("");
+                    $('#txtAdvanceAmount').next('span').children('span').text('');
                 } else {
                     $("#tagscloud span").fadeIn();
                     $(this).addClass('input-validation-error');
@@ -1548,7 +1549,7 @@
                     $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
-            }
+            } 
 
         } else {
             $("#tagscloudAdvance span").fadeIn();

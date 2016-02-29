@@ -24,12 +24,13 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult AddUnit()
         {
-            if (string.IsNullOrEmpty(Session["userId"].ToString()))
+            if(Session["userId"] == null || Session["userId"].ToString() == "")
                 RedirectToAction("UserLogin", "Login");
 
             int userId = Convert.ToInt16(Session["userId"]);
 
-            if(string.IsNullOrEmpty(Session["loanCode"].ToString()))
+            //if(string.IsNullOrEmpty(Session["loanCode"].ToString()))
+            if(Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Failed find loan.");
 
             string loanCode = Session["loanCode"].ToString();

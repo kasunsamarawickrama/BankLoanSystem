@@ -45,10 +45,14 @@ else if (ViewBag.type == "Advance")
 <div class="h-panel">
 
     <ul id="loan-panel">
-
+        
         @if (Model.Count() == 1)
         {
-            { Html.RenderAction("GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = Model.Last().NonRegBranchId , type = ViewBag.type }); }
+            { Html.RenderAction("GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = Model.Last().NonRegBranchId, type = ViewBag.type }); }
+        }
+        else
+        {
+            <li><h5>Loan Number</h5></li>
         }
       
     </ul>
