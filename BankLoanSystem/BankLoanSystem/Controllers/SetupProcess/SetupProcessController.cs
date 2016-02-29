@@ -2109,7 +2109,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //validate percentage
             if (model.TimePeriod == 0 || model.TimePeriod == null)
             {
-                ViewBag.ErrorMsg = "TimePeriod can't be zero or null!";
+                ViewBag.ErrorMsg = "Invalid TimePeriod found.";
                 return PartialView("Step10", _gCurtailment);
             }
             else if (model.CurtailmentId > 1 &&
@@ -2120,10 +2120,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.ErrorMsg = "Entered time period is invalid!";
                 return PartialView("Step10", _gCurtailment);
             }
+            if (model.TimePeriod > _gCurtailment.RemainingTime)
+            {
+                ViewBag.ErrorMsg = "TimePeriod must be less than pay off period";
+                return PartialView("Step10", _gCurtailment);
+            }
 
             if ((model.Percentage == 0 || model.Percentage == null) && (model.TimePeriod != 0 || model.TimePeriod != null))
             {
-                ViewBag.ErrorMsg = "Percentage can't be zero or null!";
+                ViewBag.ErrorMsg = "Invalid Percentage found.";
                 return PartialView("Step10", _gCurtailment);
             }
             if (model.Percentage > 0 && _gCurtailment.RemainingPercentage - model.Percentage + prePercentage < 0)
@@ -2184,7 +2189,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (model.TimePeriod == 0 || model.TimePeriod == null)
             {
                 _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = 0;
-                ViewBag.ErrorMsg = "TimePeriod can't be zero or null!";
+                ViewBag.ErrorMsg = "Invalid TimePeriod found.";
             }
             else if (model.CurtailmentId > 1 &&
                      _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod <=
@@ -2195,7 +2200,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.ErrorMsg = "Entered time period is invalid!";
             }
             else
+            {
+                ViewBag.ErrorMsg = "TimePeriod must be less than pay off period";
                 _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
+            }
 
             return PartialView("Step10", _gCurtailment);
         }
