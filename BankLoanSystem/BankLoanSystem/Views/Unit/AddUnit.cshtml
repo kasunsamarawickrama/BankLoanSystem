@@ -235,6 +235,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "rvVin" } })
                         @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="rvVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -302,6 +303,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "camperVin" } })
                         @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="camperVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -347,7 +349,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.camper.HitchStyle, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.camper.HitchStyle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.camper.HitchStyle, new { htmlAttributes = new { @class = "form-control", @id = "camperhitch" } })
                         @Html.ValidationMessageFor(model => model.camper.HitchStyle, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -369,6 +371,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "atvVin" } })
                         @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="atvVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -428,6 +431,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "boatVin" } })
                         @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="boatVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -454,13 +458,13 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.boat.TrailerId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control", @id = "trailer5" } })
+                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control", @id = "boattrailer" } })
                         @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                     </div>
                 
                     @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2" style="width: 32.667%;">
-                        @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control" , @id="boatserial" } })
                         @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -482,6 +486,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "motorcycleVin" } })
                         @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="motorcycleVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -550,6 +555,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "snowmobileVin" } })
                         @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger" })
+                        <div id="snowmobileVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -603,6 +609,7 @@
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control", @id = "heavyequipmentSerial" } })
                         @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
+                        <div id="heavyequipmentVIN"><span class="text-danger"></span></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -759,6 +766,74 @@
     _previousMakeYear = "";
     _previousMake     = "";
 
+    //$( "#div-combobox1-1" ).focus(function(){
+    //    alert("dcd");
+    //    $('#vehicleyear span').text("");
+    //});
+    //$( "#div-combobox1-2" ).focus(function(){
+    //    $('#vehiclenake span').text("");
+    //});
+    //$( "#div-combobox1-3" ).focus(function(){
+    //    $('#vehiclemodel span').text("");
+    //});
+    //$( "#div-combobox2-1" ).focus(function(){
+    //    $('#rvyear span').text("");
+    //});
+    //$( "#div-combobox2-2" ).focus(function(){
+    //    $('#rvmake span').text("");
+    //});
+    //$( "#div-combobox2-3" ).focus(function(){
+    //    $('#rvmodel span').text("");
+    //});
+    //$( "#div-combobox3-1" ).focus(function(){
+    //    $('#camperyear span').text("");
+    //});
+    //$( "#div-combobox3-2" ).focus(function(){
+    //    $('#campermake span').text("");
+    //});
+    //$( "#div-combobox3-3" ).focus(function(){
+    //    $('#campermodel span').text("");
+    //});
+    //$( "#div-combobox4-1" ).focus(function(){
+    //    $('#atvyear span').text("");
+    //});
+    //$( "#div-combobox4-2" ).focus(function(){
+    //    $('#atvmake span').text("");
+    //});
+    //$( "#div-combobox4-3" ).focus(function(){
+    //    $('#atvmodel span').text("");
+    //});
+    //$( "#div-combobox5-1" ).focus(function(){
+    //    $('#boatyear span').text("");
+    //});
+    //$( "#div-combobox5-2" ).focus(function(){
+    //    $('#boatmake span').text("");
+    //});
+    //$( "#div-combobox6-1" ).focus(function(){
+    //    $('#motercycleyear span').text("");
+    //});
+    //$( "#div-combobox6-2" ).focus(function(){
+    //    $('#motercyclemake span').text("");
+    //});
+    //$( "#div-combobox6-3" ).focus(function(){
+    //    $('#motercyclemodel span').text("");
+    //});
+    //$( "#div-combobox7-1" ).focus(function(){
+    //    $('#snowmobileyear span').text("");
+    //});
+    //$( "#div-combobox7-2" ).focus(function(){
+    //    $('#snowmobilemake span').text("");
+    //});
+    //$( "#div-combobox7-3" ).focus(function(){
+    //    $('#snowmobilemodel span').text("");
+    //});
+    //$( "#div-combobox8-1" ).focus(function(){
+    //    $('#heavyequipmentyear span').text("");
+    //});
+    //$( "#div-combobox8-2" ).focus(function(){
+    //    $('#heavyequipmentmake span').text("");
+    //});
+
     $('#btnSubmit').click(function(e){
 
         var unitType = document.getElementById("unitType").value;
@@ -769,27 +844,21 @@
             var miles = document.getElementById("vehiclemiles").value;
 
             if($('#combobox1-1').next().children('input').val() == ""){
-                $('#vehicleyear span').fadeIn();
                 $('#vehicleyear span').text("year required");
-                $('#vehicleyear span').delay(1000).fadeOut();
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox1-2').next().children('input').val() == ""){
-                $('#vehiclemake span').fadeIn();
                 $('#vehiclemake span').text("make required");
-                $('#vehiclemake span').delay(1000).fadeOut();
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox1-3').next().children('input').val() == ""){
-                $('#vehiclemodel span').fadeIn();
                 $('#vehiclemodel span').text("model required");
-                $('#vehiclemodel span').delay(1000).fadeOut();
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -797,18 +866,178 @@
             }
         } else if (unitType == "2") {
 
+            var vin = document.getElementById("rvVin").value;
+            var length = document.getElementById("rvlength").value;
+            var miles = document.getElementById("rvmiles").value;
+
+            if($('#combobox2-1').next().children('input').val() == ""){
+                $('#rvyear span').text("year required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox2-2').next().children('input').val() == ""){
+                $('#rvmake span').text("make required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox2-3').next().children('input').val() == ""){
+                $('#rvmodel span').text("model required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+
         } else if (unitType == "3") {
+
+            var vin = document.getElementById("camperVin").value;
+            var length = document.getElementById("camperlength").value;
+            var miles = document.getElementById("camperhitch").value;
+
+            if($('#combobox3-1').next().children('input').val() == ""){
+                $('#camperyear span').text("year required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox3-2').next().children('input').val() == ""){
+                $('#campermake span').text("make required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox3-3').next().children('input').val() == ""){
+                $('#campermodel span').text("model required");
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
 
         } else if (unitType == "4") {
 
+            var vin = document.getElementById("atvVin").value;
+            var miles = document.getElementById("atvmiles").value;
+
+            if($('#combobox4-1').next().children('input').val() == ""){
+                $('#atvyear span').text("year required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox4-2').next().children('input').val() == ""){
+                $('#atvmake span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox4-3').next().children('input').val() == ""){
+                $('#atvmodel span').text("model required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
         } else if (unitType == "5") {
 
+            var vin = document.getElementById("boatVin").value;
+            var trailer = document.getElementById("boattrailer").value;
+            var serial = document.getElementById("boatserial").value;
+
+            if($('#combobox5-1').next().children('input').val() == ""){
+                $('#boatyear span').text("year required");
+                if(vin == "" || trailer == ""|| serial ==""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox5-2').next().children('input').val() == ""){
+                $('#boatmake span').text("make required");
+                if(vin == "" || trailer == ""|| serial ==""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+        
+
         } else if (unitType == "6") {
+            var vin = document.getElementById("motorcycleVin").value;
+            var miles = document.getElementById("motorcyclemiles").value;
+
+            if($('#combobox6-1').next().children('input').val() == ""){
+                $('#motorcycleyear span').text("year required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox6-2').next().children('input').val() == ""){
+                $('#motorcyclemake span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox6-3').next().children('input').val() == ""){
+                $('#motorcyclemodel span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
 
         } else if (unitType == "7") {
+            var vin = document.getElementById("snowmobileVin").value;
 
+            if($('#combobox7-1').next().children('input').val() == ""){
+                $('#snowmobileyear span').text("year required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox7-2').next().children('input').val() == ""){
+                $('#snowmobilemake span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox7-3').next().children('input').val() == ""){
+                $('#snowmobilemodel span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
         } else if (unitType == "8") {
+            var vin = document.getElementById("heavyequipmentSerial").value;
 
+            if($('#combobox8-1').next().children('input').val() == ""){
+                $('#heavyequipmentyear span').text("year required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox8-2').next().children('input').val() == ""){
+                $('#heavyequipmentmake span').text("make required");
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            
         } else {
         }
     })
@@ -1018,19 +1247,22 @@
         if(len == 4){
             var isnum = /^\d+$/.test(val);
             if(isnum === false){
-                $(span).fadeIn();
+                //$(span).fadeIn();
                 $(span).text("Invalid : enter only numbers");
                 $(varcombo).next().children('input').val("");
                 $(vareditor).val("");
-                $(span).delay(3000).fadeOut();
+                //$(span).delay(3000).fadeOut();
+            }
+            else{
+                $(span).text("");
             }
         }
         else if(len > 4){
-            $(span).fadeIn();
+            //$(span).fadeIn();
             $(span).text("Invalid : enter only 4 numbers");
             $(varcombo).next().children('input').val("");
             $(vareditor).val("");
-            $(span).delay(3000).fadeOut();
+            //$(span).delay(3000).fadeOut();
 
         }
         else if(len == 0){
@@ -1039,11 +1271,11 @@
 
         }
         else{
-            $(span).fadeIn();
+            //$(span).fadeIn();
             $(span).text("Invalid : need 4 numbers");
             $(varcombo).next().children('input').val("");
             $(vareditor).val("");
-            $(span).delay(3000).fadeOut();
+            //$(span).delay(3000).fadeOut();
         }
     }
 
@@ -1102,6 +1334,7 @@
     $('#vehicleVin').keyup(function () {
         $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
         if($('#vehicleVin').val().length == 17){
+            $('#vehicleVIN span').text("");
             var vin =document.getElementById('vehicleVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1110,24 +1343,31 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox1-1').next().children('input').val(year);
-                    document.getElementById('editor1-1').value = year;
+                    if(year != 0){
+                        $('#combobox1-1').next().children('input').val(year);
+                        document.getElementById('editor1-1').value = year;
+                    }
                 },
                 error: function (reponse) {
                 }
             });
         }
+        else if($('#vehicleVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
         else if($('#vehicleVin').val().length < 17){
             var vinlen = $('#vehicleVin').val().length ;
-            $('#vehicleVIN span').fadeIn();
+            //$('#vehicleVIN span').fadeIn();
             $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
-            $('#vehicleVIN span').delay(100).fadeOut();
+            //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#vehicleVin').val().length ;
-            $('#vehicleVIN span').fadeIn();
+            //$('#vehicleVIN span').fadeIn();
             $('#vehicleVIN span').text("charactors exceeded");
-            $('#vehicleVIN span').delay(100).fadeOut();
+            //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
     });
@@ -1143,18 +1383,41 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox1-1').next().children('input').val(year);
-                    document.getElementById('editor1-1').value = year;
+                    if(year != 0){
+                        $('#combobox1-1').next().children('input').val(year);
+                        document.getElementById('editor1-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
             });
+        }
+        else if($('#vehicleVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#vehicleVin').val().length < 17){
+            var vinlen = $('#vehicleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#vehicleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#vehicleVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
 
     });
 
     $('#rvVin').keyup(function () {
+        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
         if($('#rvVin').val().length == 17){
+            $('#rvVIN span').text("");
             var vin =document.getElementById('rvVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1169,9 +1432,28 @@
                 error: function (reponse) {
                 }
             });
+        }
+        else if($('#rvVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#rvVin').val().length < 17){
+            var vinlen = $('#rvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#rvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#rvVin').change(function () {
+        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
         if($('#rvVin').val().length == 17){
             var vin =document.getElementById('rvVin').value;
             $.ajax({
@@ -1188,9 +1470,29 @@
                 }
             });
         }
+        else if($('#rvVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#rvVin').val().length < 17){
+            var vinlen = $('#rvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#rvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#rvVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
+        }
     });
     $('#camperVin').keyup(function () {
+        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
         if($('#camperVin').val().length == 17){
+            $('#camperVIN span').text("");
             var vin =document.getElementById('camperVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1205,9 +1507,28 @@
                 error: function (reponse) {
                 }
             });
+        }
+        else if($('#camperVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#camperVin').val().length < 17){
+            var vinlen = $('#camperVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#camperVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#camperVin').change(function () {
+        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
         if($('#camperVin').val().length == 17){
             var vin =document.getElementById('camperVin').value;
             $.ajax({
@@ -1223,10 +1544,29 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#camperVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#camperVin').val().length < 17){
+            var vinlen = $('#camperVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#camperVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#camperVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#atvVin').keyup(function () {
+        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
         if($('#atvVin').val().length == 17){
+            $('#atvVIN span').text("");
             var vin =document.getElementById('atvVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1241,9 +1581,27 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#atvVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#atvVin').val().length < 17){
+            var vinlen = $('#atvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#atvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#atvVin').change(function () {
+        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
         if($('#atvVin').val().length == 17){
             var vin =document.getElementById('atvVin').value;
             $.ajax({
@@ -1259,10 +1617,29 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#atvVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#atvVin').val().length < 17){
+            var vinlen = $('#atvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#atvVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#atvVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#boatVin').keyup(function () {
+        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
         if($('#boatVin').val().length == 17){
+            $('#boatVIN span').text("");
             var vin =document.getElementById('boatVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1277,9 +1654,27 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#boatVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#boatVin').val().length < 17){
+            var vinlen = $('#boatVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#boatVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#boatVin').change(function () {
+        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
         if($('#boatVin').val().length == 17){
             var vin =document.getElementById('boatVin').value;
             $.ajax({
@@ -1295,10 +1690,30 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#boatVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
         }
+        else if($('#boatVin').val().length < 17){
+            var vinlen = $('#boatVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#boatVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#boatVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
+        }
+
     });
     $('#motorcycleVin').keyup(function () {
+        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
         if($('#motorcycleVin').val().length == 17){
+            $('#motorcycleVIN span').text("");
             var vin =document.getElementById('motorcycleVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1313,9 +1728,28 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#motorcycleVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
         }
+        else if($('#motorcycleVin').val().length < 17){
+            var vinlen = $('#motorcycleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#motorcycleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
+        }
+
     });
     $('#motorcycleVin').change(function () {
+        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
         if($('#motorcycleVin').val().length == 17){
             var vin =document.getElementById('motorcycleVin').value;
             $.ajax({
@@ -1331,10 +1765,29 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#motorcycleVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#motorcycleVin').val().length < 17){
+            var vinlen = $('#motorcycleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#motorcycleVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#motorcycleVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#snowmobileVin').keyup(function () {
+        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         if($('#snowmobileVin').val().length == 17){
+            $('#snowmobileVIN span').text("");
             var vin =document.getElementById('snowmobileVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1349,9 +1802,27 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#snowmobileVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#snowmobileVin').val().length < 17){
+            var vinlen = $('#snowmobileVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#snowmobileVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
     $('#snowmobileVin').change(function () {
+        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         if($('#snowmobileVin').val().length == 17){
             var vin =document.getElementById('snowmobileVin').value;
             $.ajax({
@@ -1367,6 +1838,23 @@
                 error: function (reponse) {
                 }
             });
+        }else if($('#snowmobileVin').val().length == 0){
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text("");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else if($('#snowmobileVin').val().length < 17){
+            var vinlen = $('#snowmobileVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+        }
+        else{
+            var vinlen = $('#snowmobileVin').val().length ;
+            //$('#vehicleVIN span').fadeIn();
+            $('#snowmobileVIN span').text("charactors exceeded");
+            //$('#vehicleVIN span').delay(100).fadeOut();
+
         }
     });
 
