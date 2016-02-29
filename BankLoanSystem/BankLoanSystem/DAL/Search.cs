@@ -41,21 +41,21 @@ namespace BankLoanSystem.DAL
                         resultList.Add(unitElement);
                     }
                 }
-                else if (string.IsNullOrEmpty(vehicleModel) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
                     if (unitElement.Year.ToString().ToLower().Contains(year) && unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
-                else if (string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
                     if (unitElement.Make.ToLower().Contains(make) && unitElement.Model.ToLower().Contains(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
-                else if (!string.IsNullOrEmpty(vehicleModel) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
                     if (unitElement.Model.ToLower().Contains(vehicleModel))
                     {

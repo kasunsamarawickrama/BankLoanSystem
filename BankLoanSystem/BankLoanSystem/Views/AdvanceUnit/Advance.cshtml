@@ -189,7 +189,7 @@
                 <nav>
                     <ul class="pager">
                         <li>
-                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-default cancel" style="float:left;margin-left:200px" />
+                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-primary m-b" style="float:left;margin-left:200px" />
                         </li>
                         <li>
                             <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel" style="float:left;margin-left:5px" />
@@ -323,7 +323,6 @@
 
        $("#identificationNumberSearch").val('');
         $("#yearSearch").val('');
-        //alert(para1);
         $("#makeSearch").val('');
         $("#vehicleModelSearch").val('');
         
@@ -334,7 +333,6 @@
         
         var para1 = $("#identificationNumberSearch").val();
         var para2 = $("#yearSearch").val();
-        //alert(para1);
         var para3 = $("#makeSearch").val();
         var para4 = $("#vehicleModelSearch").val();
         Search(para1, para2, para3, para4);
@@ -359,9 +357,7 @@
         });
     }
    $(document).ready(function () {
-       //alert("hii");
-       //alert($('#searchResultGrid').children('tbody').children('tr').length);
-
+     
        if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
            $("#checkableGridDiv").hide();
            $("#advanceAllDiv").hide();
@@ -397,9 +393,6 @@
        
    });
 
-   //$("#btnSearch").click(function () {
-   //    $("#searchGrid1").show();
-   //});
 </script>
 
 
@@ -475,13 +468,7 @@
                         ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                     }
-                    //        });
-                    //    }
-                    //});
-
-
-
-
+                  
                 });
             }
 
@@ -539,7 +526,7 @@
                 }
 
                 else if ($('#iVin').val() != '') {
-                    //alert($('#unitid').text());
+                    
                     var unit = {
                         "UnitId": $('#unitid').text(),
                         "IdentificationNumber": $('#iVin').val(),
@@ -663,10 +650,10 @@
 
             $('#iAdvance').keypress(function (e) {
                 var cost = document.getElementById('iCost').value;
-               // alert(e.which);
+
                 if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
                     var val = this.value;
-                    //alert(cost + ' ' + val);
+                    
                     if (e.which === 46 || e.which === 8) {
 
 
