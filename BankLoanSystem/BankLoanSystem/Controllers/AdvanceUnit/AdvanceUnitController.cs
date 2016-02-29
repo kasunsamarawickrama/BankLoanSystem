@@ -18,9 +18,9 @@ namespace BankLoanSystem.Controllers
     {
         private static LoanSetupStep1 loan;
 
-        public ActionResult setLoanCode(string loancode)
+        public ActionResult setLoanCode(string loanCode)
         {
-            Session["loanCode"] = loancode;
+            Session["loanCode"] = loanCode;
 
             return RedirectToAction("Advance");
         }
