@@ -852,6 +852,7 @@ namespace BankLoanSystem.DAL
                         while (reader.Read())
                         {
                             Company company = new Company();
+                            company.CompanyId = Convert.ToInt32(reader["company_id"]);
                             company.CompanyName = reader["company_name"].ToString();
                             company.CompanyCode = reader["company_code"].ToString();
                             company.CompanyAddress1 = reader["company_address_1"].ToString();

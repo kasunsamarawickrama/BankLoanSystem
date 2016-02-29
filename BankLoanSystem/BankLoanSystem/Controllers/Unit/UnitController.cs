@@ -16,20 +16,21 @@ namespace BankLoanSystem.Controllers.Unit
     {
         private static LoanSetupStep1 _loan;
 
-        public ActionResult setLoanCode(string loancode) {
-            Session["loanCode"]= loancode;
+        public ActionResult setLoanCode(string loancode)
+        {
+            Session["loanCode"] = loancode;
 
             return RedirectToAction("AddUnit");
         }
 
         public ActionResult AddUnit()
         {
-            if (string.IsNullOrEmpty(Session["userId"].ToString()))
-                RedirectToAction("UserLogin", "Login");
+            if (Session["userId"] == null || Session["userId"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login");
 
-            int userId = Convert.ToInt16(Session["userId"]);
+            int userId = Convert.ToInt32(Session["userId"].ToString());
 
-            if(string.IsNullOrEmpty(Session["loanCode"].ToString()))
+            if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Failed find loan.");
 
             string loanCode = Session["loanCode"].ToString();
@@ -53,7 +54,7 @@ namespace BankLoanSystem.Controllers.Unit
             //        string permissionString = permission[0].rightsPermissionString;
             //    }
             //}
-            
+
             _loan.loanId = loanId;
             unit.AdvancePt = _loan.advancePercentage;
             unit.LoanId = loanId;
@@ -73,8 +74,8 @@ namespace BankLoanSystem.Controllers.Unit
             //Check title 
             TitleAccess ta = new TitleAccess();
             Title title = ta.getTitleDetails(_loan.loanId);
-            
-            if(title !=null)
+
+            if (title != null)
             {
                 bool isTitleTrack = title.IsTitleTrack;
                 if (isTitleTrack)
@@ -141,53 +142,56 @@ namespace BankLoanSystem.Controllers.Unit
                 List<TitleUpload> titleList = new List<TitleUpload>();
 
                 int imageNo = 1;
-                foreach (var file in fileUpload)
+                if (fileUpload != null)
                 {
-                    if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
+                    foreach (var file in fileUpload)
                     {
-                        string extension = Path.GetExtension(file.FileName);
+                        if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
+                        {
+                            string extension = Path.GetExtension(file.FileName);
 
-                        string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
+                            string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
 
-                        file.SaveAs(Server.MapPath(mapPath + filename));
-                        string filepathtosave = mapPath + filename;
+                            file.SaveAs(Server.MapPath(mapPath + filename));
+                            string filepathtosave = mapPath + filename;
 
-                        //add file information to list
-                        TitleUpload title = new TitleUpload();
-                        title.UploadId = imageNo;
-                        title.FilePath = filepathtosave;
-                        title.UnitId = unit.UnitId;
-                        title.OriginalFileName = file.FileName;
+                            //add file information to list
+                            TitleUpload title = new TitleUpload();
+                            title.UploadId = imageNo;
+                            title.FilePath = filepathtosave;
+                            title.UnitId = unit.UnitId;
+                            title.OriginalFileName = file.FileName;
 
-                        titleList.Add(title);
+                            titleList.Add(title);
 
-                        imageNo++;
+                            imageNo++;
+                        }
                     }
-                }
 
-                try
-                {
-                    XElement xEle = new XElement("Titles",
-                                from title in titleList
-                                select new XElement("Title",
-                                               new XElement("FilePath", title.FilePath),
-                                               new XElement("UnitId", title.UnitId),
-                                               new XElement("OriginalFileName", title.OriginalFileName)
-                                           ));
-                    string xmlDoc = xEle.ToString();
+                    try
+                    {
+                        XElement xEle = new XElement("Titles",
+                            from title in titleList
+                            select new XElement("Title",
+                                new XElement("FilePath", title.FilePath),
+                                new XElement("UnitId", title.UnitId),
+                                new XElement("OriginalFileName", title.OriginalFileName)
+                                ));
+                        string xmlDoc = xEle.ToString();
 
-                    res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
-                    ViewBag.SuccessMsg = "Unit added successfully!";
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ErrorMsg1 = "Something wrong in when going to add unit!";
-                    throw ex;
+                        res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
+                        ViewBag.SuccessMsg = "Unit added successfully!";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.ErrorMsg1 = "Something wrong in when going to add unit!";
+                        throw ex;
+                    }
                 }
 
                 return RedirectToAction("AddUnit");
             }
-            
+
             return RedirectToAction("AddUnit", unit);
 
             //return RedirectToAction("AddUnit");
@@ -200,11 +204,11 @@ namespace BankLoanSystem.Controllers.Unit
         /// <param name="make"></param>
         /// <param name="year"></param>
         /// <returns></returns>
-        [HttpPost] 
+        [HttpPost]
         public ActionResult GetModels(string make, int year)
         {
-            List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
-            
+            List<UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
+
             SelectList modelSelectList = new SelectList(modelList, "VehicleModel", "VehicleModel");
             //var obj = new
             //{
@@ -251,16 +255,17 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.Msg = msg;
             int userId;
             string loanCode;
-            try {
-                 userId = int.Parse(Session["userId"].ToString());
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
 
-                 loanCode = Session["loanCode"].ToString();
+                loanCode = Session["loanCode"].ToString();
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404,"Session Expired");
+                return new HttpStatusCodeResult(404, "Session Expired");
             }
-            
+
             ViewBag.Title = title;
             User user = (new UserAccess()).retreiveUserByUserId(userId);
             ViewBag.Username = user.UserName;
@@ -294,7 +299,7 @@ namespace BankLoanSystem.Controllers.Unit
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
             //int userId = 57;
-            
+
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanSetupStep1.loanId));
@@ -306,18 +311,18 @@ namespace BankLoanSystem.Controllers.Unit
         {
 
             int userId;
-            
+
             try
             {
                 userId = int.Parse(Session["userId"].ToString());
 
-                
+
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
-            
+
 
             var access = new UserRightsAccess();
 
@@ -385,8 +390,8 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult GetJustAddedUnits()
         {
-         
-             int userId;
+
+            int userId;
             string loanCode;
             try
             {
@@ -399,7 +404,7 @@ namespace BankLoanSystem.Controllers.Unit
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
             //int userId = 57;
-            
+
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 

@@ -57,7 +57,7 @@
                             <li>
                                 @*<a >@item.CompanyName</a>*@
 
-                                @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                                @Ajax.ActionLink(item.CompanyName, "getNonRegBranchesByNonRegComId", "UserManagement", new { NonRegCompId = item.CompanyId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "branch-panel", LoadingElementId = "loadingDiv" })
                             </li>
                         }
                     }
