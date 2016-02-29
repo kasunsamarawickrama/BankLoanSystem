@@ -676,23 +676,27 @@
                 </div>
             </div>
 
+            @if (ViewBag.IsTitleTrack == "Yes")
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new {@class = "control-label col-md-4", style = "width:28%"})
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new {@id = "rdYes", @class = "titleReceived"}) Yes @*, @checked = "checked"*@
+                            @Html.RadioButtonFor(model => model.TitleReceived, "No", new {@id = "rdNo", @class = "titleReceived"}) No
+                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            }
             @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width:28%" })
-                    <div class="col-md-2">
-                        <div class="checkbox">
-                            @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
-                            @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
-                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div hidden id="fileUploader">
+                    <div id="fileUploader">
                         @Html.HiddenFor(i => i.FileName)
-                        <label for="file" class="control-label col-md-3" style="width:22%">Upload Image:</label>
+                        <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
 
-                        <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left:0px;margin-top:10px">
+                        <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
                             <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
                             <br />
                             <span id="spnFile" style="float: left; color: #FF0000"></span>
@@ -705,7 +709,6 @@
                         </div>
                     </div>
                 </div>
-
 
             }
         </div>
@@ -1017,7 +1020,7 @@
         var len = val.length;
         if(len == 4){
             var isnum = /^\d+$/.test(val);
-            if(isnum == false){
+            if(isnum === false){
                 $(span).fadeIn();
                 $(span).text("Invalid : enter only numbers");
                 $(varcombo).next().children('input').val("");
@@ -1308,16 +1311,16 @@
 
     }
 
-    $('.titleReceived').change(function() {
-        var isUpload = $(this).filter(':checked').val();
+    //$('.titleReceived').change(function() {
+    //    var isUpload = $(this).filter(':checked').val();
 
-        if (isUpload === "Yes") {
-            $('#fileUploader').show();
-        } else {
-            $('#fileUploader').hide();
-        }
-        //alert(isUpload);
-    });
+    //    if (isUpload === "Yes") {
+    //        $('#fileUploader').show();
+    //    } else {
+    //        $('#fileUploader').hide();
+    //    }
+    //    //alert(isUpload);
+    //});
 
     //
     $('.advanceNow').change(function() {
@@ -1376,7 +1379,10 @@
             $("#tagscloud span").delay(1000).fadeOut();
             $(this).removeClass('input-validation-error');
             $("#tagscloud span");
+            
             e.preventDefault();
+
+            
         }
     });
 

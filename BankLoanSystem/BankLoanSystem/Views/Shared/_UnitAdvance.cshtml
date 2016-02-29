@@ -12,13 +12,13 @@
 </head>
 <body>
 
-    <div class="container">
-
+    <div class="container" id="container">
+    
 
 
 
         @{
-            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title });
+            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg= @ViewBag.Msg });
         }
 
 
@@ -47,7 +47,7 @@
         </div>
 
 
-        <div class="link-bar">
+        <div class="link-bar" style="margin-bottom:15px;">
 
 
             @{
@@ -56,6 +56,8 @@
 
 
         </div>
+
+      
     </div>
     <script>
         // if advance page
