@@ -881,7 +881,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="loanId"></param>
-        public void DeleteJustAddedUnits(int userId, int loanId)
+        public void DeleteJustAddedUnits(int userId)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -892,7 +892,7 @@ namespace BankLoanSystem.DAL
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@user_id", userId);
-                        command.Parameters.AddWithValue("@loan_id", loanId);
+                        //command.Parameters.AddWithValue("@loan_id", loanId);
 
                         con.Open();
                         command.ExecuteNonQuery();

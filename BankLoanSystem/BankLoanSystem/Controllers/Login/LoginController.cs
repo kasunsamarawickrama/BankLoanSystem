@@ -112,6 +112,10 @@ namespace BankLoanSystem.Controllers
                 }
                 else if(stepNo == 0)
                     return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
+
+                //delete just added unit if exists
+                UnitAccess ua = new UnitAccess();
+                ua.DeleteJustAddedUnits(userId);
                 return RedirectToAction("UserDetails", "UserManagement");
             }
             else {
