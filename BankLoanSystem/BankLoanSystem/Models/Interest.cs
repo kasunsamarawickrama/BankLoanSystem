@@ -44,7 +44,7 @@ namespace BankLoanSystem.Models
 
         [Required(ErrorMessage = "Remind Period is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Remind Period must be a positive value.")]
-        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Remind Period must not include decimal points.")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Invalid Remind Period")]
         public int RemindPeriod { get; set; }
 
         [Display(Name = "Accrual Method")]
