@@ -304,6 +304,24 @@
 <script type="text/javascript">
     $("#btnCancel").click(function () {
         ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnAdvance").attr("disabled", "disabled");
+        $("#btnAdvanceAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#startDate").attr("disabled", "disabled");
+
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
     });
 
     $("#btnClear").click(function () {
