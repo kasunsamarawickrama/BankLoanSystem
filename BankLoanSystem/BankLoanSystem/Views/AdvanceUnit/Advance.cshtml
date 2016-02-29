@@ -8,6 +8,10 @@
 <link href="~/Content/triangle.css" rel="stylesheet" />
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/scripts/moment.js"></script>
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
@@ -89,22 +93,22 @@
                  rowStyle: "webgrid-row-style",
                  htmlAttributes: new { id = "checkableGrid" },
                  columns: grid.Columns(
-                     grid.Column(
-                          format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                             , header: "{checkall}"
+                 grid.Column(
+                      format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
+                         , header: "{checkall}"
 
-                     ),
-                     grid.Column(
+                 ),
+                      grid.Column(
                          "CreatedDate",
                          "Date Entered",
                          format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
-                     ),                  
-                     grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                     grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                     grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                     ),
+                 grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                      grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                      grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                      grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                     grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
         )
     )
 
@@ -120,9 +124,9 @@
             </div>
             <div class="col-xs-3" id="advanceDateAll" >
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control",  @id = "startDate", autocomplete = "off", @disabled = "disabled" } })
-            </div>        
+        </div>
             <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" disabled/>
-        </div>        
+        </div>
     </div>
 
 
@@ -130,7 +134,7 @@
 
 
 
-  
+<form>
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -150,14 +154,14 @@
 
                 @Html.Label("Year", htmlAttributes: new { @class = "control-label col-sm-1", @style = "text-align: right;padding-left:20px" })
                 <div class="col-sm-2">
-                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year", @maxlength = "4" } })
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @id = "yearSearch", @placeholder = "Year", @maxlength = "4", @onkeypress = "return onlyDotsAndNumbers(event)" } })
                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
 
-                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3" , style = "text-align:right" })
+                @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align:right" })
                 <div class="col-sm-2">
                     @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id = "makeSearch", @placeholder = "Make", @maxlength = "20" } })
                     @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
@@ -181,20 +185,17 @@
             </div>
 
         </div>
-
-
-        </div>
       
-        <div class ="info-unit" id="searchGrid1" style="margin-top:10px">
-            
             
         </div>
 
 
+    <div class="form-horizontal" style="margin-bottom:10px;margin-top:10px">
+        <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
    
 
-
-
+        </div>
+    </div>
 
 <div class="form-horizontal" style="margin-bottom:10px">
 
@@ -202,8 +203,6 @@
 
     <div class="info-unit" id="unitDetailDiv" style="margin-top:10px;padding-top:20px">
         
-        
-
         <div class="form-group">
             <div class="control-label col-sm-2">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @id = "iVIN" })
@@ -295,13 +294,22 @@
                   
     </div>
         
+</form>
 
 
-        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script type="text/javascript">
+
+        function onlyDotsAndNumbers(event) {
+            var charCode = (event.which) ? event.which : event.keyCode
+            if (charCode == 46) {
+                return true;
+            }
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
     $("#btnCancel").click(function () {
         ClearTextBoxValues();
 
@@ -384,8 +392,7 @@
            $("#noUnitLabelDiv").hide();
            $("#searchLabelDiv").show();
        }
-       else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0))
-       {
+            else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0)) {
            $("#checkableGridDiv").show();
            $("#advanceAllDiv").show();
            $("#searchDiv").show();
@@ -548,7 +555,7 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function (View) {
                             //$('#container').html(View);
-                            $(location).attr('href', '/AdvanceUnit/Advance?flag='+View);
+                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                             //$('#checkableGridDiv').html(View);
                             //$('#container').show();
                             
@@ -617,7 +624,7 @@
                 $("#btnAdvance").removeAttr("disabled");
                 $("#startDate").attr("disabled", "disabled");
                 $("#advanceDate").removeAttr("disabled");
-
+               
                
                
             }
