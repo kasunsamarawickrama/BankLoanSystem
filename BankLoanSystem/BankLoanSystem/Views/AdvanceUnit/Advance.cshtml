@@ -575,9 +575,10 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
 
-                        success: function (partialView) {
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
+                        success: function (View) {
+                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            //$('#changeContainer').html(partialView);
+                            //$('#changeContainer').show();
                         }
                     });
                 }
