@@ -249,8 +249,18 @@ namespace BankLoanSystem.Controllers.Unit
         public ActionResult LoanInfo(string title, string msg)
         {
             ViewBag.Msg = msg;
-            int userId = 64;
-            int loanId = 184;
+            int userId;
+            string loanCode;
+            try {
+                 userId = int.Parse(Session["userId"].ToString());
+
+                 loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404,"Session Expired");
+            }
+            
             ViewBag.Title = title;
             User user = (new UserAccess()).retreiveUserByUserId(userId);
             ViewBag.Username = user.UserName;
@@ -261,7 +271,7 @@ namespace BankLoanSystem.Controllers.Unit
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
-            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
             ViewBag.loanBranchAddress = nonRegBranch.BranchName + " - " + (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1 : "") + (nonRegBranch.BranchAddress2 != "" ? "," + nonRegBranch.BranchAddress2 : "") + (nonRegBranch.BranchCity != "" ? "," + nonRegBranch.BranchCity : "");
 
@@ -271,18 +281,43 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult LoanPaymentDetails()
         {
+            int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
 
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
             //int userId = 57;
-            int loanId = 184;
+            
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-            return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanId));
+            return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanSetupStep1.loanId));
 
         }
 
 
         public ActionResult GetLinkBar()
         {
-            int userId = 57;
+
+            int userId;
+            
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
+            
 
             var access = new UserRightsAccess();
 
@@ -350,11 +385,25 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult GetJustAddedUnits()
         {
-            int userId = 64;
-            int loanId = 184;
+         
+             int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
+            //int userId = 57;
+            
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 
-            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanId)));
+            return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanSetupStep1.loanId)));
         }
     }
 }
