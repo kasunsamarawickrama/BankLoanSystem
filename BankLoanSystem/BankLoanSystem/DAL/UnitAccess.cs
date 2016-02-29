@@ -210,19 +210,149 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@unit_id", unit.UnitId);
                         cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
                         cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
-                        cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
-                        cmd.Parameters.AddWithValue("@year", unit.Year);
-                        cmd.Parameters.AddWithValue("@make", unit.Make);
-                        cmd.Parameters.AddWithValue("@model", unit.Model);
-                        cmd.Parameters.AddWithValue("@color", unit.Make);
-                        cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                        cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                        cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
-                        cmd.Parameters.AddWithValue("@length", unit.Length);
-                        cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                        cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                        cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                        cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        if (unit.UnitTypeId == 1) {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.vehicle.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.vehicle.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.vehicle.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.vehicle.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.vehicle.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.vehicle.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.vehicle.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.vehicle.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }else if (unit.UnitTypeId == 2)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.rv.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.rv.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.rv.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.rv.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.rv.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.rv.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.rv.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 3)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.camper.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.camper.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.camper.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.camper.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.camper.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.camper.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.camper.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 4)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.atv.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.atv.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.atv.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.atv.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.atv.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.atv.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 5)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.boat.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.boat.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.boat.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.boat.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.boat.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.boat.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 6)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.motorcycle.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.motorcycle.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.motorcycle.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.motorcycle.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.motorcycle.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.motorcycle.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.motorcycle.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 7)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.snowmobile.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.snowmobile.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.snowmobile.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.snowmobile.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.snowmobile.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else if (unit.UnitTypeId == 8)
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.heavyequipment.SerialNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.heavyequipment.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.heavyequipment.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.Color);
+                            cmd.Parameters.AddWithValue("@color", unit.Make);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
+                            cmd.Parameters.AddWithValue("@year", unit.Year);
+                            cmd.Parameters.AddWithValue("@make", unit.Make);
+                            cmd.Parameters.AddWithValue("@model", unit.Model);
+                            cmd.Parameters.AddWithValue("@color", unit.Make);
+                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
+                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
+                            cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
+                            cmd.Parameters.AddWithValue("@length", unit.Length);
+                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
+                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
+                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
+                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
+                        }
+
                         cmd.Parameters.AddWithValue("@cost", unit.Cost);
                         cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
                         cmd.Parameters.AddWithValue("@is_title_received", unit.IsTitleReceived);

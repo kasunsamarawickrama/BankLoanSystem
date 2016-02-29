@@ -16,14 +16,13 @@ namespace BankLoanSystem.Controllers.Unit
     {
         private static LoanSetupStep1 _loan;
 
-        public ActionResult setLoanCode(string loancode)
-        {
-            Session["loanCode"] = loancode;
+        public ActionResult setLoanCode(string loancode) {
+            Session["loanCode"]= loancode;
 
             return RedirectToAction("AddUnit");
         }
 
-        public ActionResult AddUnit(int? flag)
+        public ActionResult AddUnit()
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
@@ -208,7 +207,7 @@ namespace BankLoanSystem.Controllers.Unit
         [HttpPost]
         public ActionResult GetModels(string make, int year)
         {
-            List<UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
+            List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
 
             SelectList modelSelectList = new SelectList(modelList, "VehicleModel", "VehicleModel");
             //var obj = new
@@ -256,15 +255,14 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.Msg = msg;
             int userId;
             string loanCode;
-            try
-            {
+            try {
                 userId = int.Parse(Session["userId"].ToString());
 
                 loanCode = Session["loanCode"].ToString();
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return new HttpStatusCodeResult(404,"Session Expired");
             }
 
             ViewBag.Title = title;
