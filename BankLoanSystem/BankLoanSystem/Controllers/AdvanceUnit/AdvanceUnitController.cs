@@ -42,26 +42,27 @@ namespace BankLoanSystem.Controllers
             int userId = Convert.ToInt32(Session["userId"]);
 
             Session["userId"] = 2;
-            int loanId = 187;
+            string loanCode = Session["loanCode"].ToString();
 
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
-
-            Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
+            List<Models.Unit> advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId).NotAdvanced;
+            Session["notAdvancedList"] = advanceUnit;
 
             if (flag > 0)
             {
                 ViewBag.Msg = "Success";
-                return View(this.GetAdvanceUnitList(loanId));
+                return View(advanceUnit);
             }
             else
             {
                 ViewBag.Msg = "Error";
-                return View(this.GetAdvanceUnitList(loanId));
+                return View(advanceUnit);
             }
 
         }
