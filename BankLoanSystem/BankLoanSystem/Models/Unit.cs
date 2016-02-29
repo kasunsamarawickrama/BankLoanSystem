@@ -21,12 +21,16 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
         public string SerialNumber { get; set; }
 
+        [Required]
         public string Make { get; set; }
 
+        [Required]
         public string Model { get; set; }
 
+        [Required]
         public string Trim { get; set; }
 
+        [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
@@ -36,18 +40,23 @@ namespace BankLoanSystem.Models
         [Display(Name = "Brand New")]
         public bool NewOrUsed { get; set; }
 
+        [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Length { get; set; }
 
+        [Required]
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
+        [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Speed { get; set; }
 
+        [Required]
         [Display(Name = "Trailer")]
         public string TrailerId { get; set; }
 
+        [Required]
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
