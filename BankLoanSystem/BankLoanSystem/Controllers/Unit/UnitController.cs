@@ -25,17 +25,26 @@ namespace BankLoanSystem.Controllers.Unit
         public ActionResult AddUnit()
         {
             Session["userId"] = 64;
-            int loanId = 184;
-
-            var loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
-
-            ViewBag.loanDetails = loanDetails;
-            Models.Unit unit = new Models.Unit();
+            Session["loanCode"] = "COM06_01-00001";
 
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
             int userId = Convert.ToInt16(Session["userId"]);
+
+            if(string.IsNullOrEmpty(Session["loanCode"].ToString()))
+                return new HttpStatusCodeResult(404, "Failed find loan.");
+
+            string loanCode = Session["loanCode"].ToString();
+
+            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+            int loanId = _loan.loanId;
+
+
+
+            ViewBag.loanDetails = _loan;
+            Models.Unit unit = new Models.Unit();
 
             //int userRole = (new UserManageAccess()).getUserRole(userId);
             //if (userRole == 3)
@@ -47,9 +56,7 @@ namespace BankLoanSystem.Controllers.Unit
             //        string permissionString = permission[0].rightsPermissionString;
             //    }
             //}
-
-            CurtailmentAccess curAccess = new CurtailmentAccess();
-            _loan = curAccess.GetLoanDetailsByLoanId(loanId);
+            
             _loan.loanId = loanId;
             unit.AdvancePt = _loan.advancePercentage;
             unit.LoanId = loanId;
@@ -72,6 +79,10 @@ namespace BankLoanSystem.Controllers.Unit
             
             if(title !=null)
             {
+                bool isTitleTrack = title.IsTitleTrack;
+                if (isTitleTrack)
+                    ViewBag.IsTitleTrack = "Yes";
+
                 string upload = title.TitleAcceptMethod;
                 if (!string.IsNullOrEmpty(upload) && upload == "scanned title adequate")
                     ViewBag.Upload = "Yes";
@@ -112,6 +123,8 @@ namespace BankLoanSystem.Controllers.Unit
 
             GeneratesCode gc = new GeneratesCode();
             unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
+
+            //if()
 
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId);

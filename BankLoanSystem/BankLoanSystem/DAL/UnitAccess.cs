@@ -241,14 +241,21 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        return true;
+                        if(Convert.ToInt32(returnParameter.Value) == 1)
+                            return true;
+                        else if(Convert.ToInt32(returnParameter.Value) == 0)
+                        {
+                            return false;
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
+                    return false;
                     throw ex;
                 }
             }
+            return false;
         }
 
         /// <summary>

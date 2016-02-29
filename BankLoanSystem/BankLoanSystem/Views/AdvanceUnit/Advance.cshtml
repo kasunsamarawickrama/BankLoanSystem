@@ -89,26 +89,22 @@
                  rowStyle: "webgrid-row-style",
                  htmlAttributes: new { id = "checkableGrid" },
                  columns: grid.Columns(
-                 grid.Column(
-                      format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                         , header: "{checkall}"
+                     grid.Column(
+                          format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
+                             , header: "{checkall}"
 
-                 ),
-                      grid.Column(
+                     ),
+                     grid.Column(
                          "CreatedDate",
                          "Date Entered",
                          format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
-                     ),
-                       @*grid1.Column("UnitId", "uu", format:@<text>@{<label id="year" class="year">@item.UnitId</label>}</text>),*@
-                 grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                      grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                      grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                     ),                  
+                     grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                     grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                     grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                      grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
-                     @*grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)*@
-
-
+                     grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
         )
     )
 
@@ -116,33 +112,17 @@
         <div id="subtotal"> Current Total to Advance : $ 0 </div>
         <div id="unitid" class="hidden"></div>
     </div>
-
 }
-
-
-
     <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px">
         <div class="form-group">
-
             <div class="control-label col-sm-3" style="text-align:right;padding-top:5px">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-
-
             <div class="col-xs-3" id="advanceDateAll" >
-
-
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control",  @id = "startDate", autocomplete = "off" } })
-
-                
-        </div>
-        
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" />
-        </div>
-        
-        
-           
-        
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control",  @id = "startDate", autocomplete = "off", @disabled = "disabled" } })
+            </div>        
+            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" disabled/>
+        </div>        
     </div>
 
 
@@ -297,14 +277,14 @@
             <div class="col-xs-4">
 
 
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
 
             </div>
 
         </div>
 
 
-        <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="margin-left:200px" />
+        <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="margin-left:200px" disabled />
       
         <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:5px" />
 
@@ -430,6 +410,8 @@
                                 $(this).parents('tr').css('background', 'transparent');
                             }
                             document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            $("#btnAdvanceAll").attr("disabled", "disabled");                            
+                            $("#startDate").attr("disabled", "disabled");
 
                         });
 
@@ -575,9 +557,10 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
 
-                        success: function (partialView) {
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
+                        success: function (View) {
+                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            //$('#changeContainer').html(partialView);
+                            //$('#changeContainer').show();
                         }
                     });
                 }
@@ -616,6 +599,7 @@
                 $("#btnAdvance").removeAttr("disabled");
                 $("#startDate").attr("disabled", "disabled");
                 $("#advanceDate").removeAttr("disabled");
+
                
                
             }
