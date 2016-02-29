@@ -952,7 +952,7 @@
         console.log(len);
         if(len == 4){
             var isnum = /^\d+$/.test(val);
-            if(isnum == false){
+            if(isnum === false){
                 $(span).fadeIn();
                 $(span).text("Invalid : enter only numbers");
                 $(varcombo).next().children('input').val("");

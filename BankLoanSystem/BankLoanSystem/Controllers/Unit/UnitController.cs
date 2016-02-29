@@ -107,6 +107,8 @@ namespace BankLoanSystem.Controllers.Unit
             GeneratesCode gc = new GeneratesCode();
             unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
 
+            //if()
+
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId);
             if (res)
