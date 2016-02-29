@@ -105,8 +105,8 @@
                       grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                      grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>),
-                     grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)
+                      grid.Column("Advance Amount", "Advance Amount", style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+                     @*grid.Column(null, null, format: @<input type="hidden" id="UnitId" value="@item.UnitId" />)*@
 
 
         )
