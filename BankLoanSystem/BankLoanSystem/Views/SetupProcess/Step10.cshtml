@@ -178,7 +178,7 @@
 @*Grid view*@
 <script type="text/javascript">
 
-    $(function () {
+    $(function() {
 
         //get calculation base type
         var gCalBase = $('.payment').filter(':checked').val();
@@ -186,7 +186,7 @@
 
         //Check time period valid
         //$('.timePeriod').blur(function () {
-        $('.timePeriod').bind('blur', function () {
+        $('.timePeriod').bind('blur', function() {
             var tr = $(this).parents('tr:first');
 
             var id = tr.find("#lblCur").html();
@@ -202,12 +202,11 @@
                 data: JSON.stringify(curtailmentTime),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -221,7 +220,7 @@
         });
 
         //add curtailment
-        $('.addCuirtailment').blur(function () {
+        $('.addCuirtailment').blur(function() {
             var tr = $(this).parents('tr:first');
 
             var id = tr.find("#lblCur").html();
@@ -240,12 +239,11 @@
                 data: JSON.stringify(curtailment),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -259,7 +257,7 @@
         });
 
         //delete row
-        $('.btnDeleteRow').click(function () {
+        $('.btnDeleteRow').click(function() {
             var tr = $(this).parents('tr:first');
 
             var id = tr.find("#lblCur").html();
@@ -280,12 +278,11 @@
                 data: JSON.stringify(curtailment),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -299,7 +296,7 @@
         });
 
         //update remaining percentage
-        $('.payment').change(function () {
+        $('.payment').change(function() {
             var calcMode = $(this).filter(':checked').val();
 
             gCalBase = calcMode;
@@ -307,12 +304,11 @@
                 url: '/SetupProcess/SetPercentage/',
                 data: { calcMode: calcMode },
                 type: 'POST',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -326,7 +322,7 @@
         });
 
         //set loan status
-        $('.Active').change(function () {
+        $('.Active').change(function() {
             var isaActive = $(this).filter(':checked').val();
 
             gLoanStatus = isaActive;
@@ -334,12 +330,11 @@
                 url: '/SetupProcess/SetLoanStatus/',
                 data: { loanStatus: isaActive },
                 type: 'POST',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -352,16 +347,15 @@
             });
         });
 
-        $('#btnCreate').click(function () {
+        $('#btnCreate').click(function() {
             $.ajax({
                 url: '/SetupProcess/AddCurtailment/',
                 type: 'POST',
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#changeContainer').html(partialView);
                     if (gCalBase === "Advance") {
                         $('#rdAdvance').prop('checked', true);
-                    }
-                    else
+                    } else
                         $('#rdFullPayment').prop('checked', true);
 
                     if (gLoanStatus === "Yes")
@@ -374,27 +368,23 @@
             });
         });
 
-        $('#btnPreStep10').click(function () {
+        $('#btnPreStep10').click(function() {
             $('#loadingDiv').show();
             $.ajax({
                 url: '@Url.Action("Step9", "SetupProcess")',
                 type: 'GET',
 
-                success: function (partialView) {
+                success: function(partialView) {
                     $('#loadingDiv').hide();
                     $('#changeContainer').html(partialView);
                     $('#changeContainer').show();
 
                 },
-                error: function (request, status, error) {
+                error: function(request, status, error) {
                     handleErrorMsg(request.responseText);
 
                 }
             });
         });
-    })
-
-    $('#btnCreate').click(function() {
-        alert('Hi');
     });
 </script>
