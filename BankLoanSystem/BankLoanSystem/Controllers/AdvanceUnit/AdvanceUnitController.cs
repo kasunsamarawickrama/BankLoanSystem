@@ -43,13 +43,30 @@ namespace BankLoanSystem.Controllers
         /// <returns>Return partial view</returns>
         public ActionResult Advance(int? flag)
         {
-            Session["userId"] = 2;
+            int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
+            //int userId = 57;
+
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+
+            //Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
-            int userId = Convert.ToInt32(Session["userId"]);
+            //int userId = Convert.ToInt32(Session["userId"]);
 
             Session["userId"] = 2;
-            string loanCode = "COM04_01-00001";// Session["loanCode"].ToString();
+            //string loanCode = "COM04_01-00001";// Session["loanCode"].ToString();
 
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
@@ -84,9 +101,22 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult SearchUnit(string identificationNumber, string year, string make, string vehicleModel)
         {
-            int loanId = 187;
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanStepOne(loanId);
+            int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
+            //int userId = 57;
+
+            LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            
 
             ViewBag.loanDetails = loanDetails;
             List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
@@ -121,15 +151,31 @@ namespace BankLoanSystem.Controllers
         /// <returns>Return partial view</returns>
         public int UpdateAdvance(BankLoanSystem.Models.Unit unit)
         {
+
+            int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                throw ;
+            }
+            //int userId = 57;
+
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
-            int userId = Convert.ToInt16(Session["userId"]);
+            
 
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
 
-            return unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
+            return unitAccess.AdvanceSelectedItem(unit, loanSetupStep1.loanId, userId, unit.AdvanceDate);
            
         }
 
@@ -144,16 +190,30 @@ namespace BankLoanSystem.Controllers
         /// <returns>Return partial view</returns>
         public int UpdateAdvanceAll(ListViewModel list)
         {
-            Session["userId"] = 2;
+            int userId;
+            string loanCode;
+            try
+            {
+                userId = int.Parse(Session["userId"].ToString());
+
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            //int userId = 57;
+
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 RedirectToAction("UserLogin", "Login");
-            int userId = Convert.ToInt32(Session["userId"]);
+            
             ViewBag.ErrorMsg = "";
 
 
             UnitAccess unitAccess = new UnitAccess();
            
-            return unitAccess.AdvanceAllSelectedItems(list.ItemList, 187, userId, list.ItemList[0].AdvanceDate);           
+            return unitAccess.AdvanceAllSelectedItems(list.ItemList, loanSetupStep1.loanId, userId, list.ItemList[0].AdvanceDate);           
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
