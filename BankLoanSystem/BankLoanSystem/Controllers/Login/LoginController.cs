@@ -110,7 +110,8 @@ namespace BankLoanSystem.Controllers
                     }
                     return RedirectToAction("Index", "SetupProcess");
                 }
-
+                else if(stepNo == 0)
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
                 return RedirectToAction("UserDetails", "UserManagement");
             }
             else {
