@@ -15,7 +15,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", ajaxUpdateContainerId: "checkableGrid", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate");/*, ajaxUpdateContainerId: "checkableGrid", ajaxUpdateCallback: "GridUpdate"*/
     //WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow");// grid with sorting and paging
 }
 <style type="text/css">
@@ -416,7 +416,8 @@
 
             function GridUpdate() {
                // var $ctrl2 = $('<input />', {type: 'checkbox',id: "cbSelectAll"});
-                var ctrl =                 
+                 var ctrl =  
+                //$('.gridtable thead tr th:first').html(
                     $('<input />', {
                         type: 'checkbox',
                         id: "cbSelectAll",
@@ -425,10 +426,10 @@
                             checkboxes.prop('checked', $(this).is(':checked'));
                             var chk = checkboxes.prop('checked');
                             if (chk) {
-                                var gg = $('<div />').attr({ id: 'someID' }).html('deselect ');
+                                var gg = $('<div />').attr({ id: 'someID' }).html(' Deselect ');
                                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
                             } else {
-                                var gg = $('<div />').attr({ id: 'someID' }).html('select ');
+                                var gg = $('<div />').attr({ id: 'someID' }).html(' Select ');
                                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
                             }
                             total = 0;
@@ -448,7 +449,7 @@
                                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                                 $("#btnAdvanceAll").attr("disabled", "disabled");
                                 $("#startDate").attr("disabled", "disabled");
-                                
+
                             });
 
                             if (checkCount > 1) {
@@ -456,12 +457,14 @@
                             }
 
                         }
-                    })
+                    })//);
 
                
 
-                var gg =$('<div />').attr({id: 'someID' }).html('select ');
-                $('.gridtable thead tr th:first').html(gg. prepend(ctrl));
+                var gg =$('<div />').attr({id: 'someID' }).html('Select ');
+                $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
+
+                //$('.gridtable thead tr th:first').html(ctrl);
 
 
 
@@ -542,10 +545,25 @@
                                 }
                             });
                         }
-                    } else {
+                    }                    
+                    else {
                         
                         ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                    }
+
+                    if (checkCount > 0) {
+                        var chkText = $('<div />').attr({ id: 'someID' }).html(' Select');
+                        $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+                        //ChangeCheckBoxText('select ');
+
+                        var totalRows = $("#checkableGrid td :checkbox").length;
+                        var checked = $("#checkableGrid td :checkbox:checked").length;
+
+                        if (checked == totalRows) {
+                            var chkText = $('<div />').attr({ id: 'someID' }).html(' Deselect');
+                            $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+                        }
                     }
 
                 });
@@ -554,6 +572,8 @@
             $(function () {
                 GridUpdate();
             });
+
+            
 
             $(document).on('click', 'tbody', (function (e) {
                 var $td = $(e.target).closest("td");
@@ -701,7 +721,11 @@
                 var checked = $("#checkableGrid td :checkbox:checked").length;
 
                 if (checked == totalRows) {
-                    
+                    var chkText = $('<div />').attr({ id: 'someID' }).html(' Deselect');
+                    //alert(chkText);
+                    //$('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+                    //$('#checkableGrid thead tr th:first').html(chkText.prepend(ctrl));
+
                     $("#checkableGrid").find("input:checkbox").each(function () {
                         this.checked = true;
 
@@ -711,6 +735,11 @@
                     
                     $("#cbSelectAll").removeAttr("checked");
                 }
+            }
+
+            function ChangeCheckBoxText(value) {
+                var chkText = $('<div />').attr({ id: 'someID' }).html(value);
+                $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
             }
 
             var startPicker = new Pikaday({
