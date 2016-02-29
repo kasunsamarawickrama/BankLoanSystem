@@ -34,7 +34,7 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult Advance()
+        public ActionResult Advance(int? flag)
         {
             Session["userId"] = 2;
             if (Session["userId"] == null || Session["userId"].ToString() == "")
@@ -53,7 +53,17 @@ namespace BankLoanSystem.Controllers
             
             Session["notAdvancedList"] = this.GetAdvanceUnitList(loanId).NotAdvanced;
 
-            return View(this.GetAdvanceUnitList(loanId));
+            if (flag == 0)
+            {
+                ViewBag.Msg = "Success";
+                return View(this.GetAdvanceUnitList(loanId));
+            }
+            else
+            {
+                ViewBag.Msg = "Error";
+                return View(this.GetAdvanceUnitList(loanId));
+            }
+            
         }
 
         /// <summary>
@@ -103,7 +113,7 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult UpdateAdvance(BankLoanSystem.Models.Unit unit)
+        public int UpdateAdvance(BankLoanSystem.Models.Unit unit)
         {
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
@@ -116,13 +126,14 @@ namespace BankLoanSystem.Controllers
             var res = unitAccess.AdvanceSelectedItem(unit, 187, userId, unit.AdvanceDate);
             if (res > 0)
             {
-                return RedirectToAction("Advance");
+                return 1;
             }
             else
             {
-                return RedirectToAction("Advance");
+                return 0;
             }
 
+            
 
 
         }

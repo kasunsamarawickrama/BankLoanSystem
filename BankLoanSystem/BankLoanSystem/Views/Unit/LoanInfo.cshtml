@@ -46,6 +46,12 @@
 
 <div class="centered">
     <h5><span class="label label-danger"></span></h5>
+    
+</div>
+
+<div class="centered1">
+    <h5><span class="label label-success"></span></h5>
+
 </div>
 
 <div class="info">
@@ -81,6 +87,14 @@
 <script>
 
     $(document).ready(function () {
+
+        @if (ViewBag.Msg == "Success")
+        {
+           <text> $('.centered1 span').text('Success');</text>
+        } else if (ViewBag.Msg == "Error") {
+
+            <text> $('.centered span').text('Error');</text>
+        }
         // show popup when you click on the link
         $('.show-logout-popup').click(function (event) {
 

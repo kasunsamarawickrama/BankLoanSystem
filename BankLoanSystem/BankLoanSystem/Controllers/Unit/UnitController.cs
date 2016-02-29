@@ -230,8 +230,9 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(year);
         }
 
-        public ActionResult LoanInfo(string title)
+        public ActionResult LoanInfo(string title, string msg)
         {
+            ViewBag.Msg = msg;
             int userId = 64;
             int loanId = 184;
             ViewBag.Title = title;
