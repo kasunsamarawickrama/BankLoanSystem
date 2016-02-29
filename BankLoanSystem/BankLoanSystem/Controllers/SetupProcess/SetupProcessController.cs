@@ -1995,8 +1995,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 _gCurtailment.RemainingTime = _loan.payOffPeriod;
 
-                if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
                 _gCurtailment.TimeBase = "Months";
+                if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
 
                 _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
 
@@ -2035,7 +2035,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
-            
+            ViewBag.CalMode = _calMode;
             return PartialView(_gCurtailment);
         }
 
@@ -2165,6 +2165,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult DeleteCurtailmentRow(Curtailment model)
         {
+            int? curRmeinpt = _gCurtailment.RemainingPercentage;
+            int preCout = _gCurtailment.InfoModel.Count;
             if (_gCurtailment.InfoModel.Count > 1 && _gCurtailment.InfoModel.Count != model.CurtailmentId)
             {
                 _gCurtailment.InfoModel.RemoveAt(model.CurtailmentId - 1);
@@ -2177,7 +2179,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
             ViewBag.CalMode = _calMode;
-            //_gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = _gCurtailment.InfoModel.Count });
+
+            if(curRmeinpt != null && curRmeinpt == 0 && preCout > model.CurtailmentId)
+                _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = _gCurtailment.InfoModel.Count + 1 });
             return PartialView("Step10", _gCurtailment);
         }
 
@@ -2227,15 +2231,30 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns>Return partial view</returns>
         public ActionResult SetPercentage(string calcMode)
         {
+            int? curTotalPt = 0;
+
+            for (int i = 0; i < _gCurtailment.InfoModel.Count - 1; i++)
+            {
+                curTotalPt += _gCurtailment.InfoModel[i].Percentage;
+            }
+
             if (calcMode == "Advance")
             {
                 _calMode = "Advance";
-                _gCurtailment.RemainingPercentage += _difPercentage;
+                //_gCurtailment.RemainingPercentage += _difPercentage;
+
+                _gCurtailment.RemainingPercentage = 100;
+                if (curTotalPt !=null)
+                    _gCurtailment.RemainingPercentage = 100 - curTotalPt;
             }
             else
             {
                 _calMode = "Full Payment";
-                _gCurtailment.RemainingPercentage -= _difPercentage;
+                //_gCurtailment.RemainingPercentage -= _difPercentage;
+
+                _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt;
+                if (curTotalPt != null)
+                    _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt - curTotalPt;
             }
 
             ViewBag.CalMode = _calMode;

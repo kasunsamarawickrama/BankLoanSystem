@@ -175,9 +175,10 @@ namespace BankLoanSystem.DAL
                             loan.advancePercentage = Convert.ToInt32(reader["advance"]);
 
                             //0 - day, 1 - month
+                            loan.payOffPeriodType = 1;
                             if (reader["pay_off_type"].ToString() == "d")
                                 loan.payOffPeriodType = 0;
-                            loan.payOffPeriodType = 1;
+                            
                             loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
                             loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
 
