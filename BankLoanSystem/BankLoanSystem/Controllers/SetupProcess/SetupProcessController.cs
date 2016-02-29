@@ -21,6 +21,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static int _curBranchId;
         private static int _curUserRoleId;
 
+        private static string _calMode;
+
         /// <summary>
         /// CreatedBy : Irfan MAM
         /// CreatedDate: 2016/01/27
@@ -2016,6 +2018,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                 }
 
+                _calMode = "Full Payment";
+                ViewBag.CalMode = _calMode;
                 _gCurtailment.RemainingPercentage = payPercentage - totalPercentage;
 
                 if (_gCurtailment.RemainingPercentage > 0)
@@ -2089,6 +2093,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             LoanSetupAccess loanAccess = new LoanSetupAccess();
             loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+
+            ViewBag.CalMode = _calMode;
             return PartialView("Step10", _gCurtailment);
         }
 
@@ -2113,8 +2119,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return PartialView("Step10", _gCurtailment);
             }
             else if (model.CurtailmentId > 1 &&
-                     _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod <=
-                     _gCurtailment.InfoModel[model.CurtailmentId - 2].TimePeriod && _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod <= _gCurtailment.RemainingTime)
+                     model.TimePeriod <=
+                     _gCurtailment.InfoModel[model.CurtailmentId - 2].TimePeriod && model.TimePeriod <= _gCurtailment.RemainingTime)
             {
                 _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
                 ViewBag.ErrorMsg = "Entered time period is invalid!";
@@ -2145,9 +2151,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _gCurtailment.RemainingPercentage -= model.Percentage - prePercentage;
             }
 
-            if (_gCurtailment.InfoModel.Count == model.CurtailmentId && _gCurtailment.RemainingPercentage - model.Percentage + prePercentage > 0)
+            if (_gCurtailment.InfoModel.Count == model.CurtailmentId && _gCurtailment.RemainingPercentage > 0)
                 _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = model.CurtailmentId + 1 });
 
+            ViewBag.CalMode = _calMode;
             return PartialView("Step10", _gCurtailment);
         }
 
@@ -2158,7 +2165,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult DeleteCurtailmentRow(Curtailment model)
         {
-            if (_gCurtailment.InfoModel.Count > 1)
+            if (_gCurtailment.InfoModel.Count > 1 && _gCurtailment.InfoModel.Count != model.CurtailmentId)
             {
                 _gCurtailment.InfoModel.RemoveAt(model.CurtailmentId - 1);
                 _gCurtailment.RemainingPercentage += model.Percentage;
@@ -2169,7 +2176,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     _gCurtailment.InfoModel[i].CurtailmentId = i + 1;
                 }
             }
-
+            ViewBag.CalMode = _calMode;
+            //_gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = _gCurtailment.InfoModel.Count });
             return PartialView("Step10", _gCurtailment);
         }
 
@@ -2192,19 +2200,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.ErrorMsg = "Invalid TimePeriod found.";
             }
             else if (model.CurtailmentId > 1 &&
-                     _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod <=
+                     model.TimePeriod <=
                      _gCurtailment.InfoModel[model.CurtailmentId - 2].TimePeriod &&
-                     _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod <= _gCurtailment.RemainingTime)
+                     model.TimePeriod <= _gCurtailment.RemainingTime)
             {
-                _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
                 ViewBag.ErrorMsg = "Entered time period is invalid!";
             }
-            else
+            else if(model.TimePeriod > _gCurtailment.RemainingTime)
             {
                 ViewBag.ErrorMsg = "TimePeriod must be less than pay off period";
-                _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
             }
-
+            ViewBag.CalMode = _calMode;
+            _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
             return PartialView("Step10", _gCurtailment);
         }
 
@@ -2221,9 +2228,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetPercentage(string calcMode)
         {
             if (calcMode == "Advance")
+            {
+                _calMode = "Advance";
                 _gCurtailment.RemainingPercentage += _difPercentage;
+            }
             else
+            {
+                _calMode = "Full Payment";
                 _gCurtailment.RemainingPercentage -= _difPercentage;
+            }
+
+            ViewBag.CalMode = _calMode;
 
             return PartialView("Step10", _gCurtailment);
         }
@@ -2237,6 +2252,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             _gCurtailment.Activate = loanStatus == "Yes" ? "Yes" : "No";
 
+            ViewBag.CalMode = _calMode;
             return PartialView("Step10", _gCurtailment);
         }
     }

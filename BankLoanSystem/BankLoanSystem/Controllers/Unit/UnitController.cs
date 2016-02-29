@@ -23,7 +23,7 @@ namespace BankLoanSystem.Controllers.Unit
             return RedirectToAction("AddUnit");
         }
 
-        public ActionResult AddUnit()
+        public ActionResult AddUnit(int? flag)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
@@ -102,6 +102,7 @@ namespace BankLoanSystem.Controllers.Unit
         [ActionName("AddUnit")]
         public ActionResult AddUnitPost(Models.Unit unit, string btnAdd, List<HttpPostedFileBase> fileUpload)
         {
+            int flag = 0;
             if (string.IsNullOrEmpty(Session["userId"].ToString()))
                 RedirectToAction("UserLogin", "Login");
 
@@ -180,16 +181,16 @@ namespace BankLoanSystem.Controllers.Unit
                         string xmlDoc = xEle.ToString();
 
                         res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
-                        ViewBag.SuccessMsg = "Unit added successfully!";
+                        
                     }
                     catch (Exception ex)
                     {
-                        ViewBag.ErrorMsg1 = "Something wrong in when going to add unit!";
+                        flag = 0;
                         throw ex;
                     }
                 }
-
-                return RedirectToAction("AddUnit");
+                flag = 1;
+                return RedirectToAction("AddUnit", new {flag = flag});
             }
 
             return RedirectToAction("AddUnit", unit);

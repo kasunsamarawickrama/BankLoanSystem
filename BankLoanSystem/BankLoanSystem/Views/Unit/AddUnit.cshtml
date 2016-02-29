@@ -28,7 +28,7 @@
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -39,11 +39,11 @@
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
-
+    OnSuccess = "getResult",
     OnFailure = "handleError",
     HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
+    //InsertionMode = InsertionMode.Replace,
+    //UpdateTargetId = "changeContainer",
     LoadingElementId = "loadingDiv"
 }, new { enctype = "multipart/form-data", id = "form" }))
 {
@@ -746,6 +746,9 @@
     _previousMakeYear = "";
     _previousMake     = "";
 
+    function getResult(data) {
+        alert(data);
+    }
     $('#btnSubmit').click(function(e){
 
         var unitType = document.getElementById("unitType").value;
