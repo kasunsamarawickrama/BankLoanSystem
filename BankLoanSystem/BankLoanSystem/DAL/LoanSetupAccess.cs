@@ -744,7 +744,7 @@ namespace BankLoanSystem.DAL
                             loan.payOffPeriodType = 1;
                             loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
                             loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
-
+                            loan.loanCode = reader["loan_code"].ToString();
                             loan.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"]);
 
                             loanList.Add(loan);
