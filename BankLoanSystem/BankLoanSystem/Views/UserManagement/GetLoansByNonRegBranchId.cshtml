@@ -21,7 +21,9 @@
     if (item.LoanStatus)
     {
         //@Html.ActionLink(modelItem => item.loanNumber)
-        <li>@Html.ActionLink(item.loanNumber, actoinName , controllerName , null, new { @class = "" }) </li>
+        
+
+        <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
 
     }
 

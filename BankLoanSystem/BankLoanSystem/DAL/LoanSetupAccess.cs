@@ -481,6 +481,7 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
                             //loanSetupStep1.selectedUnitTypes
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
+                            loanSetupStep1.loanCode = reader["loan_code"].ToString();
 
                         }
 

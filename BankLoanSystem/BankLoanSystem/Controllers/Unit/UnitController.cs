@@ -16,6 +16,12 @@ namespace BankLoanSystem.Controllers.Unit
     {
         private static LoanSetupStep1 _loan;
 
+        public ActionResult setLoanCode(string loancode) {
+            Session["loanCode"]= loancode;
+
+            return RedirectToAction("AddUnit");
+        }
+
         public ActionResult AddUnit()
         {
             Session["userId"] = 64;
