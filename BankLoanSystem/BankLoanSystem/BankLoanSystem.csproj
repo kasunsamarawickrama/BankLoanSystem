@@ -306,6 +306,7 @@
     <Content Include="Views\UserManagement\GetLoansByNonRegBranchId.cshtml" />
     <Content Include="Views\UserManagement\getNonRegBranchesByNonRegComId.cshtml" />
     <Content Include="Views\AdvanceUnit\Advance.cshtml" />
+    <Content Include="Views\AdvanceUnit\SearchUnit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -315,6 +316,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
   <PropertyGroup>
