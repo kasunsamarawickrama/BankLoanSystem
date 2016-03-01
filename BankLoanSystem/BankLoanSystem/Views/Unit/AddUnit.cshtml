@@ -42,8 +42,8 @@
     OnSuccess = "getResult",
     OnFailure = "handleError",
     HttpMethod = "POST",
-    //InsertionMode = InsertionMode.Replace,
-    //UpdateTargetId = "changeContainer",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
     LoadingElementId = "loadingDiv"
 }, new { enctype = "multipart/form-data", id = "form" }))
 {
@@ -760,7 +760,7 @@
     _previousMake     = "";
 
     function getResult(data) {
-        alert(data);
+        //alert(data);
     }
     $('#btnSubmit').click(function(e){
 
@@ -1653,11 +1653,17 @@
 
 
 
-    $("input[id^='fileToUpload']").change(function (e) {
-        doReCreate(e);
-    });
+    $(function () {
 
-    var selDiv = $("#selectedFiles");
+        //    $(":file").attr('title', '  ');
+        //    var $loading = $('#loadingDiv').hide();
+
+        $("input[id^='fileToUpload']").change(function (e) {
+            doReCreate(e);
+        });
+
+        var selDiv = $("#selectedFiles");
+    });
 
 
     function doReCreate(e) {
