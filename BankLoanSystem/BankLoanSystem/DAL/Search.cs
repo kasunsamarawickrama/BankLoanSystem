@@ -64,8 +64,8 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    char[] yr = year.ToArray();
-                    if (unitElement.Year.ToString().ToLower().StartsWith(yr[0].ToString()))
+                   // char[] yr = year.ToArray();
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year))
                     {
                         resultList.Add(unitElement);
                     }
