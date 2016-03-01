@@ -576,6 +576,10 @@
             
 
             $(document).on('click', 'tbody', (function (e) {
+                var target = $(e.target);
+                if (target.parents('#checkableGrid').length) {
+                    
+                
                 var $td = $(e.target).closest("td");
                 var rowIndex = $td.parent().index();
                 rowIndex++;
@@ -604,6 +608,7 @@
                     }
                 } else {
                     SetRadioBtnHeaderChecked();
+                }
                 }
             }));          
 
