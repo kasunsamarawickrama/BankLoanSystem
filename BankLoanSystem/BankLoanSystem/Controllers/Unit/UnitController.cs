@@ -22,8 +22,15 @@ namespace BankLoanSystem.Controllers.Unit
             return RedirectToAction("AddUnit");
         }
 
-        public ActionResult AddUnit()
+        public ActionResult AddUnit(int? Flag)
         {
+            if(Flag == 1)
+            {
+                ViewBag.Msg = "Success";
+            }else if (Flag == 0)
+            {
+                ViewBag.Msg = "Error";
+            }
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
 

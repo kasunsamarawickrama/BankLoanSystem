@@ -277,7 +277,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.AddWithValue("@identification_number", unit.boat.IdentificationNumber);
                             cmd.Parameters.AddWithValue("@year", unit.boat.Year);
                             cmd.Parameters.AddWithValue("@make", unit.boat.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.Model);
+                            cmd.Parameters.AddWithValue("@model", "");
                             cmd.Parameters.AddWithValue("@color", unit.Color);
                             cmd.Parameters.AddWithValue("@trim", unit.Trim);
                             cmd.Parameters.AddWithValue("@miles", unit.Miles);
@@ -325,8 +325,8 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.AddWithValue("@identification_number", unit.heavyequipment.SerialNumber);
                             cmd.Parameters.AddWithValue("@year", unit.heavyequipment.Year);
                             cmd.Parameters.AddWithValue("@make", unit.heavyequipment.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.Color);
-                            cmd.Parameters.AddWithValue("@color", unit.Make);
+                            cmd.Parameters.AddWithValue("@model", "");
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
                             cmd.Parameters.AddWithValue("@trim", unit.Trim);
                             cmd.Parameters.AddWithValue("@miles", unit.Miles);
                             cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
@@ -342,7 +342,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.AddWithValue("@year", unit.Year);
                             cmd.Parameters.AddWithValue("@make", unit.Make);
                             cmd.Parameters.AddWithValue("@model", unit.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Make);
+                            cmd.Parameters.AddWithValue("@color", unit.Color);
                             cmd.Parameters.AddWithValue("@trim", unit.Trim);
                             cmd.Parameters.AddWithValue("@miles", unit.Miles);
                             cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
