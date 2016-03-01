@@ -92,11 +92,11 @@
                     }
                     @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                 {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", @disabled = "disabled" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })
                     }
                     else
                     {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", onChange = "valueChangeUnitType();" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
                     }
                     @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                 </div>
@@ -729,17 +729,17 @@
 
         <div class="form-group" id="advanceDateFormDiv" hidden>
 
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
 
-            <div class="col-xs-8" id="advanceDateDiv" style="display:none">
+            <div class="col-xs-4" id="advanceDateDiv" style="display:none">
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-8" id="advanceDivDisplay">
+            <div class="col-xs-4" id="advanceDivDisplay">
                 @Html.EditorFor(model => model.DisplayAdvanceDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#advanceDivDisplay').hide();$('#advanceDateDiv').show();$('#advanceDateDiv').children('input').val('').focus();" } })
                 @Html.ValidationMessageFor(model => model.DisplayAdvanceDate, "", new { @class = "text-danger" })
             </div>
@@ -767,7 +767,7 @@
     _previousMake     = "";
 
     function getResult(data) {
-        //alert(data);
+        $(location).attr('href', '/Unit/AddUnit?flag=1');
     }
 
     //$( "#div-combobox1-1" ).focus(function(){
@@ -1476,8 +1476,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox2-1').next().children('input').val(year);
-                    document.getElementById('editor2-1').value = year;
+                    if(year != 0){
+                        $('#combobox2-1').next().children('input').val(year);
+                        document.getElementById('editor2-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1513,8 +1516,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox2-1').next().children('input').val(year);
-                    document.getElementById('editor2-1').value = year;
+                    if(year != 0){
+                        $('#combobox2-1').next().children('input').val(year);
+                        document.getElementById('editor2-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1551,8 +1557,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox3-1').next().children('input').val(year);
-                    document.getElementById('editor3-1').value = year;
+                    if(year != 0){
+                        $('#combobox3-1').next().children('input').val(year);
+                        document.getElementById('editor3-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1588,8 +1597,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox3-1').next().children('input').val(year);
-                    document.getElementById('editor3-1').value = year;
+                    if(year != 0){
+                        $('#combobox3-1').next().children('input').val(year);
+                        document.getElementById('editor3-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1625,8 +1637,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox4-1').next().children('input').val(year);
-                    document.getElementById('editor4-1').value = year;
+                    if(year != 0){
+                        $('#combobox4-1').next().children('input').val(year);
+                        document.getElementById('editor4-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1661,8 +1676,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox4-1').next().children('input').val(year);
-                    document.getElementById('editor4-1').value = year;
+                    if(year != 0){
+                        $('#combobox4-1').next().children('input').val(year);
+                        document.getElementById('editor4-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1698,8 +1716,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox5-1').next().children('input').val(year);
-                    document.getElementById('editor5-1').value = year;
+                    if(year != 0){
+                        $('#combobox5-1').next().children('input').val(year);
+                        document.getElementById('editor5-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1734,8 +1755,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox5-1').next().children('input').val(year);
-                    document.getElementById('editor5-1').value = year;
+                    if(year != 0){
+                        $('#combobox5-1').next().children('input').val(year);
+                        document.getElementById('editor5-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1772,8 +1796,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox6-1').next().children('input').val(year);
-                    document.getElementById('editor6-1').value = year;
+                    if(year != 0){
+                        $('#combobox6-1').next().children('input').val(year);
+                        document.getElementById('editor6-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1809,8 +1836,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox6-1').next().children('input').val(year);
-                    document.getElementById('editor6-1').value = year;
+                    if(year != 0){
+                        $('#combobox6-1').next().children('input').val(year);
+                        document.getElementById('editor6-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1846,8 +1876,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox7-1').next().children('input').val(year);
-                    document.getElementById('editor7-1').value = year;
+                    if(year != 0){
+                        $('#combobox7-1').next().children('input').val(year);
+                        document.getElementById('editor7-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
@@ -1882,8 +1915,11 @@
                 data: JSON.stringify({vin: vin }),
                 success: function (data) {
                     var year = data;
-                    $('#combobox7-1').next().children('input').val(year);
-                    document.getElementById('editor7-1').value = year;
+                    if(year != 0){
+                        $('#combobox7-1').next().children('input').val(year);
+                        document.getElementById('editor7-1').value = year;
+                    }
+                    
                 },
                 error: function (reponse) {
                 }
