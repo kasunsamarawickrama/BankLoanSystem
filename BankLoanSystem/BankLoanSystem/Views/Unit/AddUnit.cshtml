@@ -42,8 +42,8 @@
     OnSuccess = "getResult",
     OnFailure = "handleError",
     HttpMethod = "POST",
-    //InsertionMode = InsertionMode.Replace,
-    //UpdateTargetId = "changeContainer",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
     LoadingElementId = "loadingDiv"
 }, new { enctype = "multipart/form-data", id = "form" }))
 {
@@ -766,9 +766,8 @@
     _previousMakeYear = "";
     _previousMake     = "";
 
-    function getResult(data){
-        $(location).attr('href', '/unit/AddUnit?Flag=1');
-    
+    function getResult(data) {
+        //alert(data);
     }
 
     //$( "#div-combobox1-1" ).focus(function(){
@@ -1088,7 +1087,7 @@
                     e.preventDefault();
                 }
             }
-            
+
         } else {
         }
     })
@@ -2189,11 +2188,17 @@
 
 
 
+    $(function () {
+
+        //    $(":file").attr('title', '  ');
+        //    var $loading = $('#loadingDiv').hide();
+
     $("input[id^='fileToUpload']").change(function (e) {
         doReCreate(e);
     });
 
     var selDiv = $("#selectedFiles");
+    });
 
 
     function doReCreate(e) {

@@ -2085,7 +2085,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 StepAccess stepAccess = new StepAccess();
 
                 stepAccess.updateStepNumberByUserId(userId, 11);
-                return RedirectToAction("UserDetails", "UserManagement");
+                ViewBag.Redirect = 1;
+                //return RedirectToAction("UserDetails", "UserManagement");
             }
             else
             {
