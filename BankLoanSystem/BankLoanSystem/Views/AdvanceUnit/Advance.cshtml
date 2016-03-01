@@ -15,8 +15,8 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate");/*, ajaxUpdateContainerId: "checkableGrid", ajaxUpdateCallback: "GridUpdate"*/
-    //WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow");// grid with sorting and paging
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", ajaxUpdateContainerId: "checkableGrid", ajaxUpdateCallback: "GridUpdate");/**/
+   //WebGrid grid1 = new WebGrid(Model.Search, defaultSort: "CreatedDate", selectionFieldName: "selectedRow");// grid with sorting and paging
 }
 <style type="text/css">
     .gridtable {
