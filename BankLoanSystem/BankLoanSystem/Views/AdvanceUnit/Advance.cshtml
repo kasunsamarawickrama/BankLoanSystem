@@ -192,8 +192,7 @@
 
     <div class="form-horizontal" style="margin-bottom:10px;margin-top:10px">
         <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
-            <div id="subtotal"> Current Total to Advance : $ 0 </div>
-            <div id="unitid" class="hidden"></div>
+   
 
         </div>
     </div>
@@ -583,7 +582,6 @@
                 var ColIndex = $td.parent().children().index($td);
                 var table = document.getElementById("checkableGrid");
                 var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-
                 if (ColIndex != 0) {
                     var checked = row.find("#all").prop('checked');
                     if (!checked) {
@@ -702,7 +700,6 @@
                 $('#iCost').val(tr.find("#cost").text());
                 $('#iAdvance').val(tr.find("#am").text());
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
-                
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ "; 
                 @if(ViewBag.loanDetails.isEditAllowable == true)
                 {
