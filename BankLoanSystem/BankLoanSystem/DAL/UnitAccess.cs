@@ -892,7 +892,6 @@ namespace BankLoanSystem.DAL
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@user_id", userId);
-                        //command.Parameters.AddWithValue("@loan_id", loanId);
 
                         con.Open();
                         command.ExecuteNonQuery();
