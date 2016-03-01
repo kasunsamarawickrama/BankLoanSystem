@@ -19,7 +19,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]
         public string IdentificationNumber { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Year must be a positive value.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Year must be a positive value.")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "year must contain only digits")]
         public string Year { get; set; }
 

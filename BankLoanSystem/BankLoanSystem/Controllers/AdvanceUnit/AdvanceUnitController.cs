@@ -65,7 +65,7 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("UserLogin", "Login");
             //int userId = Convert.ToInt32(Session["userId"]);
 
-            Session["userId"] = 2;
+            //Session["userId"] = 2;
 
             //string loanCode = "COM04_01-00001";// Session["loanCode"].ToString();
 
