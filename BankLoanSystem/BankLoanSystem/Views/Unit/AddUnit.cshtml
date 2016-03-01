@@ -92,11 +92,11 @@
                     }
                     @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                 {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", @disabled = "disabled" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })
                     }
                     else
                     {
-                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 17%;", onChange = "valueChangeUnitType();" })
+                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
                     }
                     @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                 </div>
