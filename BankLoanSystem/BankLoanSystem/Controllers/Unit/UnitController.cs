@@ -155,6 +155,11 @@ namespace BankLoanSystem.Controllers.Unit
                     {
                         if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
                         {
+                            if (file.ContentLength > 1 * 1024 * 1024)
+                            {
+                                break;
+                            }
+
                             string extension = Path.GetExtension(file.FileName);
 
                             string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
@@ -195,10 +200,10 @@ namespace BankLoanSystem.Controllers.Unit
                         throw ex;
                     }
                 }
-                flag = 1;
+                ViewBag.Msg = "Success";
                 return RedirectToAction("AddUnit", new {flag = flag});
             }
-
+            ViewBag.Msg = "Error";
             return RedirectToAction("AddUnit", unit);
 
             //return RedirectToAction("AddUnit");

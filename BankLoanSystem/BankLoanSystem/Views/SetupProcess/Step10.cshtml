@@ -8,6 +8,13 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+@if (ViewBag.Redirect == 1)
+{
+    <script>
+
+        $(location).attr('href', '/UserManagement/UserDetails');
+    </script>
+}
 
 <h2>Step 5 - Curtailment</h2>
 
@@ -188,7 +195,8 @@
                                 </td>
 
                                 <td style="width: 50%;">
-                                    <input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px" />
+                                    @*<input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px"/>*@
+                                    <input type="button" class="btnDeleteRow" name="" value="-" title="Delete Row" style="width: 25px; height: 30px" />
                                 </td>
 
                             </tr>
