@@ -103,9 +103,15 @@ namespace BankLoanSystem.Controllers.CreateUser
         public ActionResult Create(User user)
         {
 
-            
-            int.Parse(Session["userId"].ToString());
 
+            int currentUser =0;
+            try
+            {
+                currentUser = int.Parse(Session["userId"].ToString());
+            }
+            catch (Exception) {
+                return RedirectToAction("UserLogin", "Login");
+            }
 
             user.CreatedBy = _createById;
             user.IsDelete = false;
@@ -134,7 +140,11 @@ namespace BankLoanSystem.Controllers.CreateUser
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
             user.Email = user.NewEmail;
 
+
+            CompanyAccess ca = new CompanyAccess();
+            Company company = ca.GetCompanyDetailsByFirstSpUserId(currentUser);
             //Insert user
+            user.Company_Id = company.CompanyId;
             int res = ua.InsertUser(user);
 
             //Insert new user to user activation table
