@@ -22,8 +22,9 @@
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
 <link href="~/Content/triangle.css" rel="stylesheet" />
-<script src="~/scripts/pikaday.js"></script>
 <script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>
+
 <script src="~/scripts/jquery-1.10.2.js"></script>
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -153,7 +154,7 @@
 
                     @Html.LabelFor(model => model.vehicle.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control", @Style = "width: 223%;", @id="vehicletrim" } })
+                        @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control", @Style = "width: 223%;", @id = "vehicletrim" } })
                         @Html.ValidationMessageFor(model => model.vehicle.Trim, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -167,7 +168,7 @@
 
                     @Html.LabelFor(model => model.vehicle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.vehicle.Color, new { htmlAttributes = new { @id = "editor1-4", @Style = "display: none;" } })
-                    <div class="col-sm-2"  id="div-combobox1-4">
+                    <div class="col-sm-2" id="div-combobox1-4">
                         @{
                             List<SelectListItem> Colourlist = new List<SelectListItem>();
 
@@ -248,7 +249,7 @@
                         @Html.ValidationMessageFor(model => model.rv.Year, "", new { @class = "text-danger" })
                         <div id="rvyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.rv.Make, new { htmlAttributes = new { @id = "editor2-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -270,7 +271,7 @@
                         @Html.ValidationMessageFor(model => model.rv.Model, "", new { @class = "text-danger" })
                         <div id="rvmodel"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2" style="width: 32.667%;">
                         @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "rvmiles" } })
@@ -316,7 +317,7 @@
                         @Html.ValidationMessageFor(model => model.camper.Year, "", new { @class = "text-danger" })
                         <div id="camperyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.camper.Make, new { htmlAttributes = new { @id = "editor3-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -338,7 +339,7 @@
                         @Html.ValidationMessageFor(model => model.camper.Model, "", new { @class = "text-danger" })
                         <div id="campermodel"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2" style="width: 32.667%;">
                         @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control", @id = "camperlength" } })
@@ -384,7 +385,7 @@
                         @Html.ValidationMessageFor(model => model.atv.Year, "", new { @class = "text-danger" })
                         <div id="atvyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -406,7 +407,7 @@
                         @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
                         <div id="atvmodel"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2" style="width: 32.667%;">
                         @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "atvmiles" } })
@@ -444,7 +445,7 @@
                         @Html.ValidationMessageFor(model => model.boat.Year, "", new { @class = "text-danger" })
                         <div id="boatyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.boat.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.boat.Make, new { htmlAttributes = new { @id = "editor5-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -461,10 +462,10 @@
                         @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control", @id = "boattrailer" } })
                         @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                     </div>
-                
+
                     @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-2" style="width: 32.667%;">
-                        @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control" , @id="boatserial" } })
+                        @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control", @id = "boatserial" } })
                         @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -499,7 +500,7 @@
                         @Html.ValidationMessageFor(model => model.motorcycle.Year, "", new { @class = "text-danger" })
                         <div id="motorcycleyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.motorcycle.Make, new { htmlAttributes = new { @id = "editor6-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -521,15 +522,15 @@
                         @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
                         <div id="motorcyclemodel"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-sm-2"  style="width: 32.667%;">
+                    <div class="col-sm-2" style="width: 32.667%;">
                         @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control", id = "motorcyclemiles" } })
                         @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="form-group"  id="div-combobox6-4">
+                <div class="form-group" id="div-combobox6-4">
                     @Html.LabelFor(model => model.motorcycle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.motorcycle.Color, new { htmlAttributes = new { @id = "editor6-4", @Style = "display: none;" } })
                     <div class="col-sm-4">
@@ -568,7 +569,7 @@
                         @Html.ValidationMessageFor(model => model.snowmobile.Year, "", new { @class = "text-danger" })
                         <div id="snowmobileyear"><span class="text-danger"></span></div>
                     </div>
-               
+
                     @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.snowmobile.Make, new { htmlAttributes = new { @id = "editor7-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -615,14 +616,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.heavyequipment.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.heavyequipment.Year, new { htmlAttributes = new { @id = "editor8-1", @Style = "display: none;" } })
-                    
+
                     <div class="col-sm-4" id="div-combobox8-1">
 
                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
                         @Html.ValidationMessageFor(model => model.heavyequipment.Year, "", new { @class = "text-danger" })
                         <div id="heavyequipmentyear"><span class="text-danger"></span></div>
                     </div>
-                
+
                     @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.heavyequipment.Make, new { htmlAttributes = new { @id = "editor8-2", @Style = "display: none;" } })
                     <div class="col-sm-2">
@@ -675,33 +676,31 @@
             @if (ViewBag.IsTitleTrack == "Yes")
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new {@class = "control-label col-md-4", style = "width:28%"})
+                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width:28%" })
                     <div class="col-md-2">
                         <div class="checkbox">
-                            @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new {@id = "rdYes", @class = "titleReceived"}) Yes @*, @checked = "checked"*@
-                            @Html.RadioButtonFor(model => model.TitleReceived, "No", new {@id = "rdNo", @class = "titleReceived"}) No
-                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new {@class = "text-danger"})
+                            @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
+                            @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
+                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
             }
             @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
             {
-                <div class="form-group">
-                    <div id="fileUploader">
-                        @Html.HiddenFor(i => i.FileName)
-                        <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
+                <div class="form-group" id="fileUploader">
+                    @Html.HiddenFor(i => i.FileName)
+                    <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
 
-                        <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                            <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
-                            <br />
-                            <span id="spnFile" style="float: left; color: #FF0000"></span>
-                            @Html.ValidationMessage("File")
-                            @Html.Hidden("hdnFileUpload")
+                    <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
+                        <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
+                        <br />
+                        <span id="spnFile" style="float: left; color: #FF0000"></span>
+                        @Html.ValidationMessage("File")
+                        @Html.Hidden("hdnFileUpload")
 
-                            <div class="control-section" style="padding: 0px;">
-                                <div id="selectedFiles"></div>
-                            </div>
+                        <div class="control-section" style="padding: 0px;">
+                            <div id="selectedFiles"></div>
                         </div>
                     </div>
                 </div>
@@ -769,6 +768,10 @@
     function getResult(data) {
         $(location).attr('href', '/Unit/AddUnit?flag=1');
     }
+
+    //$("#txtCost").on('click', function(e) {
+    //    alert(e.which);
+    //});
 
     //$( "#div-combobox1-1" ).focus(function(){
     //    alert("dcd");
@@ -851,7 +854,7 @@
                 $('#vehicleyear span').fadeIn();
                 $('#vehicleyear span').text("year required");
                 $('#vehicleyear span').delay(1000).fadeOut();
-               
+
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -861,7 +864,7 @@
                 $('#vehiclemake span').fadeIn();
                 $('#vehiclemake span').text("make required");
                 $('#vehiclemake span').delay(1000).fadeOut();
-               
+
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1002,7 +1005,7 @@
                     e.preventDefault();
                 }
             }
-        
+
 
         } else if (unitType == "6") {
             var vin = document.getElementById("motorcycleVin").value;
@@ -1291,7 +1294,7 @@
     // -------------------------
     //focusout functions End
     function focusoutcall(span,vareditor,varcombo, val){
-       // $('#editor1-1').trigger('change');
+        // $('#editor1-1').trigger('change');
 
         var len = val.length;
         if(len == 4){
@@ -1305,7 +1308,7 @@
             }
             else{
                 $(span).text("");
-        }
+            }
         }
         else if(len > 4){
             //$(span).fadeIn();
@@ -1394,8 +1397,8 @@
                 success: function (data) {
                     var year = data;
                     if(year != 0){
-                    $('#combobox1-1').next().children('input').val(year);
-                    document.getElementById('editor1-1').value = year;
+                        $('#combobox1-1').next().children('input').val(year);
+                        document.getElementById('editor1-1').value = year;
                     }
                 },
                 error: function (reponse) {
@@ -1434,10 +1437,10 @@
                 success: function (data) {
                     var year = data;
                     if(year != 0){
-                    $('#combobox1-1').next().children('input').val(year);
-                    document.getElementById('editor1-1').value = year;
+                        $('#combobox1-1').next().children('input').val(year);
+                        document.getElementById('editor1-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -2222,19 +2225,12 @@
     var storedFiles = [];
     var upc = 0;
 
-
-
-    $(function () {
-
-        //    $(":file").attr('title', '  ');
-        //    var $loading = $('#loadingDiv').hide();
-
     $("input[id^='fileToUpload']").change(function (e) {
+
         doReCreate(e);
     });
 
     var selDiv = $("#selectedFiles");
-    });
 
 
     function doReCreate(e) {

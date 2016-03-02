@@ -53,17 +53,17 @@
                     if (ViewBag.RegisteredBranchId.Items.Count == 1)
                     {
                         @Html.HiddenFor(model => model.RegisteredBranchId)
-                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" })
+                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style= "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                         @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
-                    }
+                   }
                     else
                     {
-                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
                     }
 
 
 
-                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
 
                 }
             </div>
@@ -71,17 +71,17 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-               
+
 
                 @if (ViewBag.ThisCompanyType == "Lender")
-                {
+                            {
                     <label for="RegisteredBranchId">Dealer Branch</label>
                 }
                 else {
                     <label for="RegisteredBranchId">Lender Branch</label>
                 }
 @if (ViewBag.nonRegisteredBranchId.Items.Count != 1)
-{
+                        {
     <span style="color:red">*</span>
 } 
 
@@ -95,9 +95,9 @@
             <div class="col-xs-8">
 
                 @if (ViewBag.nonRegisteredBranchId.Items.Count == 1)
-                {
-                @Html.HiddenFor(model => model.nonRegisteredBranchId)
-                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" })
+                        {
+                            @Html.HiddenFor(model => model.nonRegisteredBranchId)
+                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                 @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                 } else {
                 @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
@@ -134,15 +134,12 @@
             </div>
 
 
-            <div class="col-xs-8" id="startDateDiv" style="display:none">
+            <div class="col-xs-8" id="startDateDiv" >
                 @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate" , autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-8" id="startDateDivDisplay" >
-                @Html.EditorFor(model => model.DisplayStartDate, new { htmlAttributes = new {placeholder="MM/DD/YYYY", @class = "form-control", onclick = "$('#startDateDivDisplay').hide();$('#startDateDiv').show();$('#startDateDiv').children('input').val('').focus();" } })
-                @Html.ValidationMessageFor(model => model.DisplayStartDate, "", new { @class = "text-danger" })
-            </div>
+            
         </div>
 
         <div class="form-group">
@@ -151,15 +148,12 @@
                 @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
-            <div class="col-xs-8" id="maturityDateDiv" style="display:none">
+            <div class="col-xs-8" id="maturityDateDiv" >
                 @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-8" id="maturityDateDivDisplay">
-                @Html.EditorFor(model => model.DisplayStartDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#maturityDateDivDisplay').hide();$('#maturityDateDiv').show();$('#maturityDateDiv').children('input').val('').focus();" } })
-                @Html.ValidationMessageFor(model => model.DisplayStartDate, "", new { @class = "text-danger" })
-            </div>
+          
         </div>
 
     <div class="form-group">
@@ -519,7 +513,7 @@
         },
  updateEndDate = function () {
      startPicker.setEndRange(endDate);
-
+     
      var maxNextDate = new Date(endDate);
      //alert(minNextDate);
      maxNextDate.setDate(endDate.getDate() - 1);
@@ -758,14 +752,7 @@
 @{ 
     if(Model.loanNumber != null)
     {
-        <script>
-            $("#loanNumber").removeAttr("disabled");
-            $("#startDateDiv").show();
-            $("#startDateDivDisplay").hide();
-            $("#maturityDateDiv").show();
-            $("#maturityDateDivDisplay").hide();
-
-        </script>
+       
 
    
     if (Model.autoReminderEmail != "")
@@ -784,6 +771,18 @@
 
         </script>
         }
+    }
+    else
+    {
+        <script>
+            $('#loanAmount').val('');
+            $('#advancePercentage').val('');
+            $('#startDate').val('');
+            $('#maturityDate').val('');
+            $('#payOffPeriod').val('');
+
+           
+        </script>
     }
 
 }
