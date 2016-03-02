@@ -428,6 +428,11 @@
                             if (chk) {
                                 var gg = $('<div />').attr({ id: 'someID' }).html(' Deselect ');
                                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
+                               
+                                //$("#btnAdvanceAll")
+                                $("#btnAdvanceAll").removeAttr("disabled");
+                                   // $("#startDate").removeAttr("disabled");
+                                
                             } else {
                                 var gg = $('<div />').attr({ id: 'someID' }).html(' Select ');
                                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
@@ -739,6 +744,7 @@
                     
                     $("#cbSelectAll").removeAttr("checked");
                 }
+                
             }
 
             function ChangeCheckBoxText(value) {
