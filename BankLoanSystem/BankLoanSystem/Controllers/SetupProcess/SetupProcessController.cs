@@ -1078,13 +1078,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //Get all non reg companies
                 List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
-                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
+                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName",1);
 
                 NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-
+                nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
+                nonRegCompanyBranch.CompanyBranch.Company = new Company(); 
                 //Get all non registered branches by company id
                 List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
                 if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
 
@@ -1092,7 +1094,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 var adminBonRegBranches = new List<NonRegBranch>();
                 adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
                 nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
-
+                
                 return PartialView(nonRegCompanyBranch);
             }
             return RedirectToAction("UserLogin", "Login");
