@@ -9,8 +9,60 @@ using System.Web;
 
 namespace BankLoanSystem.DAL
 {
+    /// <summary>
+    /// 
+    /// 
+    /// UpdatedBy : nadeeka
+    /// UpdatedDate: 2016/03/03
+    /// removed existing connection open method in all the functions
+    /// call DataHandler class to save user object
+    /// </summary>
     public class UserAccess
     {
+        /// <summary>
+        /// CreatedBy : Kanishka SHM
+        /// CreatedDate: 2016/01/16
+        /// 
+        /// Insert User details
+        /// 
+        /// argument : user (User)
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to save user object
+        /// </summary>
+        /// <returns>1</returns>
+        public int InsertUser(User user)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", user.UserId });
+            paramertList.Add(new object[] { "@user_name", user.UserName });
+            paramertList.Add(new object[] { "@password", user.Password });
+            paramertList.Add(new object[] { "@first_name", user.FirstName });
+            paramertList.Add(new object[] { "@last_name", user.LastName });
+            paramertList.Add(new object[] { "@email", user.Email });
+            paramertList.Add(new object[] { "@phone_no", user.PhoneNumber });
+            paramertList.Add(new object[] { "@status", user.Status });
+            paramertList.Add(new object[] { "@is_delete", user.IsDelete });
+            paramertList.Add(new object[] { "@created_by", user.CreatedBy });
+            paramertList.Add(new object[] { "@create_Date", DateTime.Now });
+            paramertList.Add(new object[] { "@branch_id", user.BranchId });
+            paramertList.Add(new object[] { "@role_id", user.RoleId });
+            paramertList.Add(new object[] { "@Company_id", user.Company_Id });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertUser", paramertList) ? 1 : 0;               
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// CreatedBy : MAM. IRFAN
         /// CreatedDate: 2016/01/13
@@ -19,68 +71,51 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : user_id (int)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// create and return user object using that dataset
+        /// 
         /// </summary>
         /// <returns>User object</returns>
-
         public User retreiveUserByUserId(int id)
         {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", id });
 
-
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataSet dataSet = dataHandler.GetDataSet("spRetrieveUserByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spRetrieveUserByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                User user = new User();
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
+                user.UserId = int.Parse(dataRow["user_id"].ToString());
+                user.FirstName = dataRow["first_name"].ToString();
+                user.LastName = dataRow["last_name"].ToString();
+                user.Email = dataRow["email"].ToString();
+                user.PhoneNumber = dataRow["phone_no"].ToString();
+                user.Status = (bool)dataRow["status"];
+                user.CreatedDate = (DateTime)dataRow["created_date"];
 
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        User user = new User();
-
-                        while (reader.Read())
-                        {
-                            user.UserId = int.Parse(reader["user_id"].ToString());
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.PhoneNumber = reader["phone_no"].ToString();
-                            user.Status = (bool) reader["status"];
-                            user.CreatedDate = (DateTime) reader["created_date"];
-
-                            user.IsDelete = (bool) reader["is_delete"];
-                            user.CreatedBy = int.Parse(reader["created_by"].ToString());
-                            user.BranchId = int.Parse(reader["branch_id"].ToString());
-                            user.RoleId = int.Parse(reader["role_id"].ToString());
-                            user.UserName = reader["user_name"].ToString();
-                            user.UneditUserName = reader["user_name"].ToString();
-                            user.Password = reader["password"].ToString();
-                            user.Company_Id = int.Parse(reader["company_id"].ToString());
-
-                        }
-                        return user;
-
-                    }
-                }
+                user.IsDelete = (bool)dataRow["is_delete"];
+                user.CreatedBy = int.Parse(dataRow["created_by"].ToString());
+                user.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                user.RoleId = int.Parse(dataRow["role_id"].ToString());
+                user.UserName = dataRow["user_name"].ToString();
+                user.UneditUserName = dataRow["user_name"].ToString();
+                user.Password = dataRow["password"].ToString();
+                user.Company_Id = int.Parse(dataRow["company_id"].ToString());
 
 
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return user;
             }
-
-
-
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -91,70 +126,37 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : user_id (int)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to update given user details
         /// </summary>
-        /// <returns>User object</returns>
-
+        /// <returns>boolean value</returns>
         public bool updateUserDetails(int userId, string userName, string firstName, string lastName, string email,
             string phone, bool isActive, int branchId, DateTime modifiedDate)
         {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", userId });
+            paramertList.Add(new object[] { "@user_name", userName });           
+            paramertList.Add(new object[] { "@first_name", firstName });
+            paramertList.Add(new object[] { "@last_name", lastName });
+            paramertList.Add(new object[] { "@email", email });
+            paramertList.Add(new object[] { "@phone_no", phone });
+            paramertList.Add(new object[] { "@status", isActive });
+            paramertList.Add(new object[] { "@modified_date", DateTime.Now });
+            paramertList.Add(new object[] { "@branch_id", branchId });          
 
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdateUserDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
-                        cmd.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = firstName;
-                        cmd.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = lastName;
-                        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
-                        cmd.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = phone;
-                        cmd.Parameters.Add("@status", SqlDbType.Bit).Value = isActive;
-                        cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
-                        cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = modifiedDate;
-                        
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int) returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQL("spUpdateUserDetails", paramertList) ? true : false;
+                
             }
-
-
-
-            return true;
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -165,65 +167,34 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : user_id (int)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to update given user details
         /// </summary>
         /// <returns>User object</returns>
-
-
         public bool updateProfileDetails(int userId, string userName, string firstName, string lastName, string email,
             string phone, DateTime modifiedDate)
         {
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", userId });
+            paramertList.Add(new object[] { "@user_name", userName });
+            paramertList.Add(new object[] { "@first_name", firstName });
+            paramertList.Add(new object[] { "@last_name", lastName });
+            paramertList.Add(new object[] { "@email", email });
+            paramertList.Add(new object[] { "@phone_no", phone });
+            paramertList.Add(new object[] { "@modified_date", DateTime.Now });           
+
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdateProfileDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
-                        cmd.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = firstName;
-                        cmd.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = lastName;
-                        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
-                        cmd.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = phone;
-                        cmd.Parameters.Add("@modified_date", SqlDbType.DateTime).Value = modifiedDate;
-                        
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int) returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQL("spUpdateProfileDetails", paramertList);                
             }
-
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -234,27 +205,20 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : userName (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting boolean value,
+        /// 
         /// </summary>
         /// <returns>true/false</returns>
         public bool IsUniqueUserName(string userName)
         {
-            using (
-                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spIsUniqueUserName", con) {CommandType = CommandType.StoredProcedure};
-                command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = userName;
-                con.Open();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_name", userName });
+            return dataHandler.GetDataExistance("spIsUniqueUserName", paramertList);
         }
 
         /// <summary>
@@ -265,75 +229,21 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : email (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting boolean value,
+        /// 
         /// </summary>
         /// <returns>true/false</returns>
         public bool IsUniqueEmail(string email)
         {
-            using (
-                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spIsUniqueEmail", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
-                con.Open();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@email", email });
+            return dataHandler.GetDataExistance("spIsUniqueEmail", paramertList);            
         }
-
-        /// <summary>
-        /// CreatedBy : Kanishka SHM
-        /// CreatedDate: 2016/01/16
-        /// 
-        /// Insert User details
-        /// 
-        /// argument : user (User)
-        /// 
-        /// </summary>
-        /// <returns>1</returns>
-
-        public int InsertUser(User user)
-        {
-            using (
-                var con =
-                    new SqlConnection(
-                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                try
-                {
-                    var command = new SqlCommand("spInsertUser", con) {CommandType = CommandType.StoredProcedure};
-                    command.Parameters.Add("@user_Id", SqlDbType.NVarChar).Value = user.UserId;
-                    command.Parameters.Add("@user_name", SqlDbType.NVarChar).Value = user.UserName;
-                    command.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
-                    command.Parameters.Add("@first_name", SqlDbType.NVarChar).Value = user.FirstName;
-                    command.Parameters.Add("@last_name", SqlDbType.NVarChar).Value = user.LastName;
-                    command.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.Email;
-                    command.Parameters.Add("@phone_no", SqlDbType.NVarChar).Value = user.PhoneNumber;
-                    command.Parameters.Add("@status", SqlDbType.Bit).Value = user.Status;
-                    command.Parameters.Add("@is_delete", SqlDbType.Bit).Value = user.IsDelete;
-                    command.Parameters.Add("@created_by", SqlDbType.Int).Value = user.CreatedBy;
-                    command.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
-                    command.Parameters.Add("@branch_id", SqlDbType.Int).Value = user.BranchId;
-                    command.Parameters.Add("@role_id", SqlDbType.Int).Value = user.RoleId;
-                    command.Parameters.Add("@Company_id", SqlDbType.Int).Value = user.Company_Id;
-                    con.Open();
-                    return command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-            }
-        }
-
 
         /// <summary>
         /// CreatedBy : irfan
@@ -343,52 +253,27 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : email (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return user id using dataset object
         /// </summary>
         /// <returns>1</returns>
         public int getUserId(string email)
         {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@email", email });
 
-
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataSet dataSet = dataHandler.GetDataSet("spGetUserIdByemail", paramertList);
+            if (dataSet != null && dataSet.Tables.Count!=0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserIdByemail", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-
-                        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
-
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int userId = 0;
-
-                        while (reader.Read())
-                        {
-                            userId = int.Parse(reader["user_id"].ToString());
-                        }
-
-
-                        return userId;
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                int userId = int.Parse(dataSet.Tables[0].Rows[0]["user_id"].ToString());               
+                return userId;
             }
-
+            return 0;
         }
 
         /// <summary>
@@ -399,37 +284,31 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : userId (int)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to update given user details
+        /// 
+        /// 
         /// </summary>
-        /// <returns>true/false</returns>
+        /// <returns>0 or 1</returns>
         public int UpdateUserSatus(int userId, string activationCode)
         {
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", userId });
+            paramertList.Add(new object[] { "@activation_code", activationCode });          
+
+            try
             {
-                try
-                {
-                    var command = new SqlCommand("spUpdateUserStatus", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@activation_code", activationCode);
-
-                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                    con.Open();
-                    command.ExecuteNonQuery();
-
-                    int res = (int)returnParameter.Value;
-                    return (int) returnParameter.Value;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
+                return dataHandler.ExecuteSQL("spUpdateUserStatus", paramertList) ? 1 : 0;
+               
             }
-
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -437,41 +316,35 @@ namespace BankLoanSystem.DAL
         /// CreatedDate: 2016/01/21
         /// 
         /// Insert new created user to user_activation table
+        /// 
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to insert activation code for user
+        /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="activationCode"></param>
         /// <returns></returns>
         public int InsertUserActivation(int userId, string activationCode)
         {
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", userId });
+            paramertList.Add(new object[] { "@activation_code", activationCode });           
+
+            try
             {
-                try
-                {
-                    var command = new SqlCommand("spInsertUserActivation", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@activation_code", activationCode);
-
-                    SqlParameter returnParameter = command.Parameters.Add("@return_val", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                    con.Open();
-                    command.ExecuteNonQuery();
-
-                    int res = (int)returnParameter.Value;
-                    return (int)returnParameter.Value;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return dataHandler.ExecuteSQL("spInsertUserActivation", paramertList) ? 1 : 0;
             }
-
+            catch
+            {
+                return 0;
+            }
         }
-
-
+        
         /// <summary>
         /// CreatedBy : MAM. IRFAN
         /// CreatedDate: 2016/01/20
@@ -480,55 +353,28 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : user_id (int)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return user name using dataset object
+        /// 
         /// </summary>
         /// <returns>Company EMployee Name</returns>
-
-
         public string getCompanyEmployeeName(int userId)
         {
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@system_admin_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyEmployeeDetails", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetCompanyEmployeeDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@system_admin_id", SqlDbType.Int).Value = userId;
-                        
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        string employeeName = "";
-
-                        while (reader.Read())
-                        {
-                            employeeName = reader["user_name"].ToString();
-                        }
-
-
-                        return employeeName;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataSet.Tables[0].Rows[0]["user_name"].ToString();
+               
             }
-
+            return "";
         }
 
         /// <summary>
@@ -536,55 +382,49 @@ namespace BankLoanSystem.DAL
         /// CreatedDate: 2016/02/08
         /// 
         /// Get Users by user role
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// create and return user object list using that dataset
+        /// 
         /// </summary>
         /// <param name="companyId"></param>
         /// <param name="curUserRoleId"></param>
-        /// <returns></returns>
+        /// <returns>user object list</returns>
         public List<User> GetUserList(int companyId, int curUserRoleId)
         {
-            List<User> users = new List<User>(); 
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", companyId });
 
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataSet dataSet = dataHandler.GetDataSet("spGetUsersbyCompany", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-
-                try
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    var command = new SqlCommand("spGetUsersbyCompany", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@company_id", companyId);
+                    User user = new User();
+                    user.UserId = Convert.ToInt32(dataRow["user_id"].ToString());
+                    user.UserName = dataRow["user_name"].ToString();
+                    user.Password = dataRow["password"].ToString();
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.NewEmail = dataRow["email"].ToString();
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    user.RoleId = Convert.ToInt32(dataRow["role_id"].ToString());
 
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            User user = new User();
-                            user.UserId = Convert.ToInt32(reader["user_id"]);
-                            user.UserName = reader["user_name"].ToString();
-                            user.Password = reader["password"].ToString();
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
-                            user.NewEmail = reader["email"].ToString();
-                            user.PhoneNumber = reader["phone_no"].ToString();
-                            user.BranchId = Convert.ToInt32(reader["branch_id"]);
-                            user.RoleId = Convert.ToInt32(reader["role_id"]);
-
-                            users.Add(user);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+                    users.Add(user);
                 }
 
+                return users;
             }
-
-            return users;
-        } 
-
-
+            else
+            {
+                return null;
+            }
+        }
     }
 }

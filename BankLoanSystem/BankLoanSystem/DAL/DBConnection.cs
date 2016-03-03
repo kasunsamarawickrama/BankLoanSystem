@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data;
 
 namespace BankLoanSystem.DAL
 {
@@ -13,39 +14,254 @@ namespace BankLoanSystem.DAL
     /// CreatedDate: 2016/01/14
     /// 
     /// DB connection Initialize
+    /// 
+    /// UpdatedBy : Nadeeka
+    /// UpdatedDate : 2016/03/03
+    /// Implement ConnectDB and DisconnectDB methods
     /// </summary>
     public class DBConnection : IDisposable
     {
         public SqlConnection connection;
+
         public DBConnection() {
 
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString);
-            
-            
-
         }
-
-        public SqlConnection CreateConnection() {
-
+        
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate : 2016/03/03
+        /// Open database connection
+        /// </summary>
+        /// <returns></returns>
+        public bool ConnectDB()
+        {
             try
             {
-                connection.Open();
+                if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
+                    connection.Open();
+                return true;
             }
-            catch (Exception)
+            catch
             {
-                Console.WriteLine("Connection failed");
+                return false;
             }
-            return connection;
         }
 
-        public void CloseConnection()
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate : 2016/03/03
+        /// Close database connection
+        /// </summary>
+        /// <returns></returns>
+        public void DisconnectDB()
         {
-            connection.Close();
-        }
+            try
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+            catch(Exception exp)
+            {
+                throw exp;
+                
+            }           
+        }       
 
         public void Dispose()
         {
             connection.Close();
         }
+    }
+
+    /// <summary>
+    /// CreatedBy :Nadeeka
+    /// CreatedDate :2016/03/03
+    /// 
+    /// Implemented common data hander functions such as insert/update/retrive
+    /// </summary>
+    public class DataHandler
+    {
+        private Connection connection = new Connection();
+        private SqlDataAdapter dataAdapter;
+        private SqlCommand command;
+        private DataSet dataSet = new DataSet();
+
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return boolean value
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// <returns></returns>
+        public bool ExecuteSQL(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandText = SQL;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                    }
+                   
+                    command.ExecuteNonQuery();                   
+                    return  true;
+                }
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }        
+
+        /// <summary>
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return dataset 
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// </summary>        
+        /// <returns>dataset object</returns>
+        public DataSet GetDataSet(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                    }
+
+                    dataAdapter = new SqlDataAdapter(command);
+                    dataSet.Clear();
+                    dataAdapter.Fill(dataSet);
+                    dataAdapter.Dispose();
+                    mPara = null;
+                    return dataSet;
+                }
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return dataset 
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <returns>dataset object</returns>
+        public DataSet GetDataSet(string SQL)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    dataAdapter = new SqlDataAdapter(command);
+                    dataSet.Clear();
+                    dataAdapter.Fill(dataSet);
+                    dataAdapter.Dispose();
+                    return dataSet;
+                }
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return true if record exist, otherwise false 
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// </summary>        
+        /// <returns>boolean value</returns>
+        public bool GetDataExistance(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                    }
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows ? false : true;
+                    }
+                }
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }        
     }
 }
