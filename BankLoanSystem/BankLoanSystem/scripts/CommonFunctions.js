@@ -9,6 +9,8 @@
     
     $('#clear').click(function () {
 
+        // reset the form
+        document.getElementsByTagName("form")[0].reset();
         // for all input field
         $('input').next('span').children('span').text('');
 
