@@ -90,14 +90,15 @@
                             <a onclick="CreateNewBranch()">create new branch</a>
                         </div>
                     }
-                    else
-                    {
+                    else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                    {                         
                         <div class="control-label col-sm-2">
                             @Html.Label("Same details as company", htmlAttributes: new { })
                         </div>
                         <div class="control-label col-sm-2">
                             @Html.CheckBox("Previous", new { @id = "Previous" })
                         </div>
+
                     }
                 </div>
 
@@ -109,7 +110,13 @@
                             @Html.LabelFor(model => model.RegBranchId, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownListFor(model => model.RegBranchId, null, "Select branch", htmlAttributes : new { @class = "form-control", id = "RegBranchId" } )
+                            @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
+                            {
+                                @Html.DropDownListFor(model => model.RegBranchId, null,  htmlAttributes: new { @class = "form-control", id = "RegBranchId" })
+                            }
+                            else {
+                                @Html.DropDownListFor(model => model.RegBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegBranchId" })
+                            }
                             @Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -120,7 +127,13 @@
                         @Html.LabelFor(model => model.NonRegCompanyId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-8">
-                        @Html.DropDownListFor(model => model.NonRegCompanyId, null, "Select non registered comapny", htmlAttributes : new { @class = "form-control", @id = "NonRegCompanyId" })
+                        @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                        {
+                            @Html.DropDownListFor(model => model.NonRegCompanyId, null,  htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId" })
+                        }
+                        else {
+                            @Html.DropDownListFor(model => model.NonRegCompanyId, null, "Select non registered comapny", htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId" })
+                        }                        
                         @Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })
                     </div>
                 </div>
