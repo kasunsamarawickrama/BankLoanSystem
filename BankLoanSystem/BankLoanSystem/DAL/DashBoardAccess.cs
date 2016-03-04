@@ -23,7 +23,6 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public int GetUserLevelByUserId(int userId)
         {
-
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 try

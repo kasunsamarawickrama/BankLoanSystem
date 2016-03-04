@@ -10,6 +10,10 @@ using System.Web;
 namespace BankLoanSystem.DAL
 {
     /// <summary>
+    /// 
+    /// CreatedBy : nadeeka
+    /// CreatedDate: 2016/02/09
+    /// 
     /// Loan curtailment related operation define inside the class
     /// </summary>
     public class CurtailmentAccess
@@ -24,119 +28,33 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>curtailment list</returns>
-
-        public List<Curtailment> retreiveCurtailmentByLoanId(int id)
+        public List<Curtailment> retreiveCurtailmentByLoanId(int loanId)
         {
+            List<Curtailment> lstCurtailment = new List<Curtailment>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
 
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataSet dataSet = dataHandler.GetDataSet("spRetrieveCurtailmentByLoanId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                try
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spRetrieveCurtailmentByLoanId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = id;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        List<Curtailment> lstCurtailment = new List<Curtailment>();
-
-                        while (reader.Read())
-                        {
-                            Curtailment curtailment = new Curtailment();
-                            curtailment.CurtailmentId = int.Parse(reader["curtailment_id"].ToString());
-                            curtailment.LoanId = int.Parse(reader["loan_id"].ToString());
-                            curtailment.TimePeriod = Convert.ToInt32(reader["time_period"]);
-                            curtailment.Percentage = Convert.ToInt32(reader["percentage"].ToString());
-                            lstCurtailment.Add(curtailment);
-
-                        }
-                        return lstCurtailment;
-
-                    }
+                    Curtailment curtailment = new Curtailment();
+                    curtailment.CurtailmentId = int.Parse(dataRow["curtailment_id"].ToString());
+                    curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                    curtailment.TimePeriod = Convert.ToInt32(dataRow["time_period"]);
+                    curtailment.Percentage = Convert.ToInt32(dataRow["percentage"].ToString());
+                    lstCurtailment.Add(curtailment);
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return lstCurtailment;
             }
-
-
-
-        }
-
-        /// <summary>
-        /// CreatedBy : Nadeeka
-        /// CreatedDate: 2016/02/09
-        /// 
-        /// update curtailment Details of timePeriod, percentage
-        /// 
-        /// argument : curtailment_id (int)
-        /// 
-        /// </summary>
-        /// <returns>curtailment object</returns>
-
-        public bool updateUserDetails(int curtailmentId, string timePeriod, float percentage)
-        {
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            else
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdateUserDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailmentId;
-                        cmd.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = timePeriod;
-                        cmd.Parameters.Add("@percentage", SqlDbType.Float).Value = percentage;
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return null;
             }
-
-
-
-            return true;
         }
-
+                
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/02/09
@@ -147,53 +65,38 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>1</returns>
-
         public LoanSetupStep1 GetLoanDetailsByLoanId(int loanId)
         {
             LoanSetupStep1 loan = new LoanSetupStep1();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
 
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                loan.loanNumber = dataRow["loan_number"].ToString();
+                loan.startDate = Convert.ToDateTime(dataRow["start_date"]);
+                loan.maturityDate = Convert.ToDateTime(dataRow["maturity_date"]);
+                loan.loanAmount = Convert.ToDecimal(dataRow["loan_amount"]);
+                loan.advancePercentage = Convert.ToInt32(dataRow["advance"]);
+                //0 - day, 1 - month
+                loan.payOffPeriodType = 1;
+                if (dataRow["pay_off_type"].ToString() == "d")
+                    loan.payOffPeriodType = 0;
 
-                try
-                {
-                    var command = new SqlCommand("spGetLoanDetailsByLoanId", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@loan_id", loanId);
+                loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
+                loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
 
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            loan.loanNumber = reader["loan_number"].ToString();
-                            loan.startDate = Convert.ToDateTime(reader["start_date"]);
-                            loan.maturityDate = Convert.ToDateTime(reader["maturity_date"]);
-                            loan.loanAmount = Convert.ToDecimal(reader["loan_amount"]);
-                            loan.advancePercentage = Convert.ToInt32(reader["advance"]);
+                loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
 
-                            //0 - day, 1 - month
-                            loan.payOffPeriodType = 1;
-                            if (reader["pay_off_type"].ToString() == "d")
-                                loan.payOffPeriodType = 0;
-                            
-                            loan.payOffPeriod = Convert.ToInt32(reader["pay_off_period"]);
-                            loan.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
-
-                            loan.isEditAllowable = Convert.ToBoolean(reader["is_edit_allowable"]);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
+                return loan;
             }
-
-            return loan;
+            else
+            {
+                return null;
+            }           
         }
 
         /// <summary>
@@ -206,45 +109,39 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>1</returns>
-
         public int InsertCurtailment(List<Curtailment> lstCurtailment, int loanId)
         {
-            int flag = 0;
-            int delFlag = 0;
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            //int flag = 0;
+            //int delFlag = 0;
+
+            int executeCount = 0;
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            if (dataHandler.ExecuteSQL("spDeleteCurtailment", paramertList))
             {
-                con.Open();
-
-                var commandDelete = new SqlCommand("spDeleteCurtailment", con) { CommandType = CommandType.StoredProcedure };
-                commandDelete.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                SqlParameter returnDelParameter = commandDelete.Parameters.Add("@return", SqlDbType.Int);
-                returnDelParameter.Direction = ParameterDirection.ReturnValue;
-                commandDelete.ExecuteNonQuery();
-
-                delFlag = (int)returnDelParameter.Value;
-
-                var command = new SqlCommand("spInsertCurtailment", con) { CommandType = CommandType.StoredProcedure };
-
                 foreach (Curtailment curtailment in lstCurtailment)
                 {
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                    command.Parameters.Add("@curtailment_id", SqlDbType.Int).Value = curtailment.CurtailmentId;
-                    command.Parameters.Add("@time_period", SqlDbType.NVarChar).Value = curtailment.TimePeriod;
-                    command.Parameters.Add("@percentage", SqlDbType.Float).Value = curtailment.Percentage;
+                    List<object[]> paramertList2 = new List<object[]>();
+                    paramertList2.Add(new object[] { "@loan_id", loanId });
+                    paramertList2.Add(new object[] { "@curtailment_id", curtailment.TimePeriod });
+                    paramertList2.Add(new object[] { "@time_period", curtailment.Percentage });
+                    paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
 
-
-                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-                    command.ExecuteNonQuery();
-
-                    flag = (int)returnParameter.Value;
-
-                    command.Parameters.Clear();
+                    try
+                    {
+                        executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList) ? executeCount + 1 : executeCount;
+                    }
+                    catch
+                    {
+                        return 0;
+                    }
                 }
             }
-            if (delFlag == 2) flag = delFlag;
-            return flag; ;
+            return executeCount;
+            //if (delFlag == 2) flag = delFlag;
+            //return flag; 
         }
     }
 }
