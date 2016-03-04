@@ -70,6 +70,7 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "Pay Off Period Type")]
+        [Range(0, 1, ErrorMessage = "Pay Off Period Type is Required")]
         public int payOffPeriodType { get; set; }
 
         [Required]
@@ -120,7 +121,7 @@ namespace BankLoanSystem.Models
         [Range(1, int.MaxValue, ErrorMessage = "Auto Reminder Period must be greater than zero")]
         public int autoReminderPeriod { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [Display(Name = "Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage")]
         public bool isEditAllowable
         {
@@ -128,9 +129,16 @@ namespace BankLoanSystem.Models
 
         }
 
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [Display(Name = "Do you want to track the interest")]
         public bool isInterestCalculate
+        {
+            get; set;
+
+        }
+
+        [Required(ErrorMessage = "Required")]
+        public bool autoReminder
         {
             get; set;
 

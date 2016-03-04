@@ -42,7 +42,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (Session["userId"].ToString() == "")
                 {
-                    return RedirectToAction("UserLogin", "Login");
+                    return new HttpStatusCodeResult(404, "Your Session Expired");
                 }
                 userId = int.Parse(Session["userId"].ToString());
                 stepNo = (new StepAccess()).getStepNumberByUserId(userId);
@@ -108,7 +108,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step1(int? edit)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             int userId = Convert.ToInt32(Session["userId"]);
 
@@ -157,7 +157,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            return RedirectToAction("UserLogin", "Login");
+            return new HttpStatusCodeResult(404, "Your Session Expired");
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step3(User user)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             int currentUser = int.Parse(Session["userId"].ToString());
 
@@ -794,7 +794,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // Defaul loan setup form and default dates
             LoanSetupStep1 loanSetupStep1 = new LoanSetupStep1();
             loanSetupStep1.startDate = DateTime.Today;
-            loanSetupStep1.maturityDate = DateTime.Today.AddYears(1);
+            loanSetupStep1.maturityDate = DateTime.Today.AddDays(1);
 
             // get loan Id for each user
             LoanSetupAccess la = new LoanSetupAccess();
@@ -847,7 +847,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-                ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "BranchName");
+                ViewBag.NonRegisteredBranchId = new SelectList(newNonRegList, "NonRegBranchId", "CompanyNameBranchName");
 
 
             }
@@ -863,7 +863,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
                 ViewBag.RegisteredBranchId = new SelectList(RegisteredBranchLists, "BranchId", "BranchName");
-                ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "BranchName");
+                ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "CompanyNameBranchName");
 
             }
 
@@ -918,7 +918,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
 
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             int userId = Convert.ToInt32(Session["userId"]);
 
@@ -968,7 +968,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step4(CompanyViewModel nonRegComModel, string companyCode)
         {
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             nonRegComModel.Company.CompanyCode = companyCode;
 
@@ -1078,13 +1078,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //Get all non reg companies
                 List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
-                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName");
+                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName",1);
 
                 NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-
+                nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
+                nonRegCompanyBranch.CompanyBranch.Company = new Company(); 
                 //Get all non registered branches by company id
                 List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
                 if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
 
@@ -1092,10 +1094,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 var adminBonRegBranches = new List<NonRegBranch>();
                 adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
                 nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
-
+                
                 return PartialView(nonRegCompanyBranch);
             }
-            return RedirectToAction("UserLogin", "Login");
+            return new HttpStatusCodeResult(404, "Your Session Expired");
         }
 
         /// <summary>
@@ -1519,7 +1521,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             if (Session["userId"] == null)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
             }
             var userId = (int)Session["userId"];
 
@@ -1970,7 +1972,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             //Check current session is not null or empty
             if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             int userId = Convert.ToInt32(Session["userId"]);
 
@@ -2027,7 +2029,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewData["objmodel"] = _gCurtailment;
                 return PartialView(_gCurtailment);
             }
-            return RedirectToAction("UserLogin", "Login");
+            return new HttpStatusCodeResult(404, "Your Session Expired");
         }
 
         [HttpPost]
@@ -2070,7 +2072,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = Convert.ToInt32(Session["userId"]);
 
             if(string.IsNullOrEmpty(userId.ToString()))
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Your Session Expired");
 
             if (isError) return PartialView("Step10", _gCurtailment);
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();

@@ -34,208 +34,208 @@ namespace BankLoanSystem.DAL
         }
     }
 
-    public class DataHandler
-    {
-        private Connection mConn = new Connection();
-        private SqlDataAdapter mDataAdapter;
-        private SqlCommand mCommand;
-        private DataSet mDataSet = new DataSet();
+    //public class DataHandler
+    //{
+    //    private Connection mConn = new Connection();
+    //    private SqlDataAdapter mDataAdapter;
+    //    private SqlCommand mCommand;
+    //    private DataSet mDataSet = new DataSet();
 
-        public DataSet GetDataSet(string SQL, List<object[]> mPara)
-        {
-            try
-            {
-                mConn.DisconnectDB();
-                mConn.ConnectDB();
-                if (mConn.ConnectDB() == true)
-                {
-                    mCommand = new SqlCommand(SQL, mConn.m_Connection);
-                    mCommand.CommandType = CommandType.StoredProcedure;
+    //    public DataSet GetDataSet(string SQL, List<object[]> mPara)
+    //    {
+    //        try
+    //        {
+    //            mConn.DisconnectDB();
+    //            mConn.ConnectDB();
+    //            if (mConn.ConnectDB() == true)
+    //            {
+    //                mCommand = new SqlCommand(SQL, mConn.m_Connection);
+    //                mCommand.CommandType = CommandType.StoredProcedure;
 
-                    if (mPara != null)
-                    {
-                        foreach (object[] Parameters in mPara)
-                        {
-                            mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
-                        }
-                    }
+    //                if (mPara != null)
+    //                {
+    //                    foreach (object[] Parameters in mPara)
+    //                    {
+    //                        mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+    //                    }
+    //                }
 
-                    mDataAdapter = new SqlDataAdapter(mCommand);
-                    mDataSet.Clear();
-                    mDataAdapter.Fill(mDataSet);
-                    mDataAdapter.Dispose();
-                    mPara = null;
-                    return mDataSet;
-                }
-                else
-                    return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+    //                mDataAdapter = new SqlDataAdapter(mCommand);
+    //                mDataSet.Clear();
+    //                mDataAdapter.Fill(mDataSet);
+    //                mDataAdapter.Dispose();
+    //                mPara = null;
+    //                return mDataSet;
+    //            }
+    //            else
+    //                return null;
+    //        }
+    //        catch
+    //        {
+    //            return null;
+    //        }
+    //    }
 
-        public DataSet GetDataSet(string SQL, int startingRecord, int pageSize, string tableName, List<object[]> mPara)
-        {
-            try
-            {
-                mConn.DisconnectDB();
-                mConn.ConnectDB();
-                if (mConn.ConnectDB() == true)
-                {
-                    mCommand = new SqlCommand(SQL, mConn.m_Connection);
-                    mCommand.CommandType = CommandType.StoredProcedure;
+    //    public DataSet GetDataSet(string SQL, int startingRecord, int pageSize, string tableName, List<object[]> mPara)
+    //    {
+    //        try
+    //        {
+    //            mConn.DisconnectDB();
+    //            mConn.ConnectDB();
+    //            if (mConn.ConnectDB() == true)
+    //            {
+    //                mCommand = new SqlCommand(SQL, mConn.m_Connection);
+    //                mCommand.CommandType = CommandType.StoredProcedure;
 
-                    if (mPara != null)
-                    {
-                        foreach (object[] Parameters in mPara)
-                        {
-                            mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
-                        }
-                    }
+    //                if (mPara != null)
+    //                {
+    //                    foreach (object[] Parameters in mPara)
+    //                    {
+    //                        mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+    //                    }
+    //                }
 
-                    mDataAdapter = new SqlDataAdapter(mCommand);
-                    mDataSet.Clear();
-                    mDataAdapter.Fill(mDataSet, startingRecord, pageSize, tableName);
-                    mDataAdapter.Dispose();
-                    mPara = null;
-                    return mDataSet;
-                }
-                else
-                    return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+    //                mDataAdapter = new SqlDataAdapter(mCommand);
+    //                mDataSet.Clear();
+    //                mDataAdapter.Fill(mDataSet, startingRecord, pageSize, tableName);
+    //                mDataAdapter.Dispose();
+    //                mPara = null;
+    //                return mDataSet;
+    //            }
+    //            else
+    //                return null;
+    //        }
+    //        catch
+    //        {
+    //            return null;
+    //        }
+    //    }
 
-        public DataSet GetDataSet(string SQL)
-        {
-            try
-            {
-                mConn.DisconnectDB();
-                mConn.ConnectDB();
-                if (mConn.ConnectDB() == true)
-                {
-                    mCommand = new SqlCommand(SQL, mConn.m_Connection);
-                    mCommand.CommandType = CommandType.StoredProcedure;
-                    mDataAdapter = new SqlDataAdapter(mCommand);
-                    mDataSet.Clear();
-                    mDataAdapter.Fill(mDataSet);
-                    mDataAdapter.Dispose();
-                    return mDataSet;
-                }
-                else
-                    return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+    //    public DataSet GetDataSet(string SQL)
+    //    {
+    //        try
+    //        {
+    //            mConn.DisconnectDB();
+    //            mConn.ConnectDB();
+    //            if (mConn.ConnectDB() == true)
+    //            {
+    //                mCommand = new SqlCommand(SQL, mConn.m_Connection);
+    //                mCommand.CommandType = CommandType.StoredProcedure;
+    //                mDataAdapter = new SqlDataAdapter(mCommand);
+    //                mDataSet.Clear();
+    //                mDataAdapter.Fill(mDataSet);
+    //                mDataAdapter.Dispose();
+    //                return mDataSet;
+    //            }
+    //            else
+    //                return null;
+    //        }
+    //        catch
+    //        {
+    //            return null;
+    //        }
+    //    }
 
-        public bool ExecuteSQL(string SQL, List<object[]> mPara)
-        {
-            try
-            {
-                mConn.DisconnectDB();
-                mConn.ConnectDB();
-                if (mConn.ConnectDB() == true)
-                {
-                    mCommand = new SqlCommand(SQL, mConn.m_Connection);
-                    mCommand.CommandText = SQL;
-                    mCommand.CommandType = CommandType.StoredProcedure;
+    //    public bool ExecuteSQL(string SQL, List<object[]> mPara)
+    //    {
+    //        try
+    //        {
+    //            mConn.DisconnectDB();
+    //            mConn.ConnectDB();
+    //            if (mConn.ConnectDB() == true)
+    //            {
+    //                mCommand = new SqlCommand(SQL, mConn.m_Connection);
+    //                mCommand.CommandText = SQL;
+    //                mCommand.CommandType = CommandType.StoredProcedure;
 
-                    if (mPara != null)
-                    {
-                        foreach (object[] Parameters in mPara)
-                        {
-                            mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
-                        }
-                    }
-                    mCommand.ExecuteNonQuery();
-                    return true;
-                }
-                else
-                    return false;
-            }
-            catch
-            {
-                return false;
-            }
+    //                if (mPara != null)
+    //                {
+    //                    foreach (object[] Parameters in mPara)
+    //                    {
+    //                        mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+    //                    }
+    //                }
+    //                mCommand.ExecuteNonQuery();
+    //                return true;
+    //            }
+    //            else
+    //                return false;
+    //        }
+    //        catch
+    //        {
+    //            return false;
+    //        }
 
-        }
+    //    }
 
-        public SqlDataReader GetDataReader(string StrSp, List<object[]> mPara)
-        {
-            try
-            {
-                mConn.DisconnectDB();
-                mConn.ConnectDB();
+    //    public SqlDataReader GetDataReader(string StrSp, List<object[]> mPara)
+    //    {
+    //        try
+    //        {
+    //            mConn.DisconnectDB();
+    //            mConn.ConnectDB();
 
-                if (mConn.ConnectDB())
-                {
-                    mCommand = new SqlCommand(StrSp, mConn.m_Connection);
-                    mCommand.CommandType = CommandType.StoredProcedure;
-                    try
-                    {
-                        if (mPara != null)
-                        {
-                            foreach (object[] Parameters in mPara)
-                            {
-                                mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
-                            }
-                        }
-                        return mCommand.ExecuteReader();
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }
-                return (null);
-            }
-            catch
-            {
-                return (null);
-            }
-        }
+    //            if (mConn.ConnectDB())
+    //            {
+    //                mCommand = new SqlCommand(StrSp, mConn.m_Connection);
+    //                mCommand.CommandType = CommandType.StoredProcedure;
+    //                try
+    //                {
+    //                    if (mPara != null)
+    //                    {
+    //                        foreach (object[] Parameters in mPara)
+    //                        {
+    //                            mCommand.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+    //                        }
+    //                    }
+    //                    return mCommand.ExecuteReader();
+    //                }
+    //                catch
+    //                {
+    //                    return null;
+    //                }
+    //            }
+    //            return (null);
+    //        }
+    //        catch
+    //        {
+    //            return (null);
+    //        }
+    //    }
 
-        public void InsertUser(User user)
-        {
-            List<object[]> mPara = new List<object[]>();
-            mPara.Add(new object[] { "@user_Id", user.UserId });
-            mPara.Add(new object[] { "@user_name", user.UserName });
-            mPara.Add(new object[] { "@password", user.Password });
-            mPara.Add(new object[] { "@first_name", user.FirstName });
-            mPara.Add(new object[] { "@last_name", user.LastName });
-            mPara.Add(new object[] { "@email", user.Email });
-            mPara.Add(new object[] { "@phone_no", user.PhoneNumber });
-            mPara.Add(new object[] { "@status", user.Status });
-            mPara.Add(new object[] { "@is_delete", user.IsDelete });
-            mPara.Add(new object[] { "@created_by", user.CreatedBy });
-            mPara.Add(new object[] { "@create_Date", DateTime.Now });
-            mPara.Add(new object[] { "@branch_id", user.BranchId });
-            mPara.Add(new object[] { "@role_id", user.RoleId });
-            mPara.Add(new object[] { "@Company_id", user.Company_Id });
+    //    public void InsertUser(User user)
+    //    {
+    //        List<object[]> mPara = new List<object[]>();
+    //        mPara.Add(new object[] { "@user_Id", user.UserId });
+    //        mPara.Add(new object[] { "@user_name", user.UserName });
+    //        mPara.Add(new object[] { "@password", user.Password });
+    //        mPara.Add(new object[] { "@first_name", user.FirstName });
+    //        mPara.Add(new object[] { "@last_name", user.LastName });
+    //        mPara.Add(new object[] { "@email", user.Email });
+    //        mPara.Add(new object[] { "@phone_no", user.PhoneNumber });
+    //        mPara.Add(new object[] { "@status", user.Status });
+    //        mPara.Add(new object[] { "@is_delete", user.IsDelete });
+    //        mPara.Add(new object[] { "@created_by", user.CreatedBy });
+    //        mPara.Add(new object[] { "@create_Date", DateTime.Now });
+    //        mPara.Add(new object[] { "@branch_id", user.BranchId });
+    //        mPara.Add(new object[] { "@role_id", user.RoleId });
+    //        mPara.Add(new object[] { "@Company_id", user.Company_Id });
 
-            //try
-            //{
-            //    if (dh.ExecuteSQL("spInsertUser", mPara))
-            //    {
-            //        return 1;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //}
-            //catch
-            //{
-            //    return 0;
-            //}
-        }
-    }
+    //        //try
+    //        //{
+    //        //    if (dh.ExecuteSQL("spInsertUser", mPara))
+    //        //    {
+    //        //        return 1;
+    //        //    }
+    //        //    else
+    //        //    {
+    //        //        return 0;
+    //        //    }
+    //        //}
+    //        //catch
+    //        //{
+    //        //    return 0;
+    //        //}
+    //    }
+    //}
 }

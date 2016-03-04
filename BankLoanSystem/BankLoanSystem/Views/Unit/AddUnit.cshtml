@@ -45,8 +45,10 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
+<script src="~/scripts/jquery-1.10.2.js"></script>
+@*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+<script src="~/scripts/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
 
 <link href="~/Content/combo.css" rel="stylesheet" />
@@ -2045,7 +2047,9 @@
 
     //Reset the data and clear just the form
     $('#btnCancel').click(function() {
+        var unitType  = document.getElementById("unitType").value
         document.getElementById("form").reset();
+        changeUnitType(unitType);
         _previousMakeYear = "";
         _previousMake     = "";
 

@@ -53,17 +53,17 @@
                     if (ViewBag.RegisteredBranchId.Items.Count == 1)
                     {
                         @Html.HiddenFor(model => model.RegisteredBranchId)
-                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" })
+                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style= "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                         @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
-                    }
+                   }
                     else
                     {
-                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
                     }
 
 
 
-                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
 
                 }
             </div>
@@ -71,17 +71,17 @@
 
         <div class="form-group">
             <div class="control-label col-sm-2">
-               
+
 
                 @if (ViewBag.ThisCompanyType == "Lender")
-                {
+                            {
                     <label for="RegisteredBranchId">Dealer Branch</label>
                 }
                 else {
                     <label for="RegisteredBranchId">Lender Branch</label>
                 }
 @if (ViewBag.nonRegisteredBranchId.Items.Count != 1)
-{
+                        {
     <span style="color:red">*</span>
 } 
 
@@ -95,12 +95,12 @@
             <div class="col-xs-8">
 
                 @if (ViewBag.nonRegisteredBranchId.Items.Count == 1)
-                {
-                @Html.HiddenFor(model => model.nonRegisteredBranchId)
-                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" })
+                        {
+                            @Html.HiddenFor(model => model.nonRegisteredBranchId)
+                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].CompanyNameBranchName, htmlAttributes: new { @class = "form-control" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                 @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                 } else {
-                @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
+                @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
                 @Html.ValidationMessageFor(model => model.nonRegisteredBranchId, "", new { @class = "text-danger" })
 
                 }
@@ -134,15 +134,13 @@
             </div>
 
 
-            <div class="col-xs-8" id="startDateDiv" style="display:none">
+            <div class="col-xs-3" id="startDateDiv" style="float:left;margin-left: 170px;" >
                 @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate" , autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-8" id="startDateDivDisplay" >
-                @Html.EditorFor(model => model.DisplayStartDate, new { htmlAttributes = new {placeholder="MM/DD/YYYY", @class = "form-control", onclick = "$('#startDateDivDisplay').hide();$('#startDateDiv').show();$('#startDateDiv').children('input').val('').focus();" } })
-                @Html.ValidationMessageFor(model => model.DisplayStartDate, "", new { @class = "text-danger" })
-            </div>
+           
+            
         </div>
 
         <div class="form-group">
@@ -151,15 +149,13 @@
                 @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
-            <div class="col-xs-8" id="maturityDateDiv" style="display:none">
+            <div class="col-xs-3" id="maturityDateDiv" style="float:left;margin-left: 146px;">
                 @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-8" id="maturityDateDivDisplay">
-                @Html.EditorFor(model => model.DisplayStartDate, new { htmlAttributes = new { placeholder = "MM/DD/YYYY", @class = "form-control", onclick = "$('#maturityDateDivDisplay').hide();$('#maturityDateDiv').show();$('#maturityDateDiv').children('input').val('').focus();" } })
-                @Html.ValidationMessageFor(model => model.DisplayStartDate, "", new { @class = "text-danger" })
-            </div>
+
+          
         </div>
 
     <div class="form-group">
@@ -167,18 +163,27 @@
             @Html.LabelFor(model => model.payOffPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
         </div>
       @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem
-        {
-            Text = "Months",
-            Value = "1"
-        });
-        listItems.Add(new SelectListItem
-        {
-            Text = "Days",
-            Value = "0",
-            Selected = true
-        });
+          List<SelectListItem> listItems = new List<SelectListItem>();
+
+          listItems.Add(new SelectListItem
+          {
+              Text = "--Select--",
+              Value = "-1",
+              Selected = true
+
+          });
+          listItems.Add(new SelectListItem
+          {
+              Text = "Months",
+              Value = "1"
+          });
+          listItems.Add(new SelectListItem
+          {
+              Text = "Days",
+              Value = "0"
+
+          });
+
     }
 
     <div class="col-xs-3" style="float:left;margin-left: 140px;">
@@ -193,7 +198,7 @@
     </div>
 
     <div class="col-xs-3" style="float:left">
-            @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" , @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)"} })
+            @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" ,min =1, @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)"} })
             @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })
             
         <span id="outOffRangeError" class="text-danger field-validation-error" style="display:none" >The pay off period is out of Range.</span>
@@ -211,12 +216,12 @@
             @Html.LabelFor(model => model.loanAmount, htmlAttributes: new { })<span style="color:red"> *</span>
         </div>
 
-
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount" , maxlength = 20 } })
+        <span style="float:left;margin-left: 130px;margin-top: 10px;font-size: 26px;">$</span>
+        <div class="col-xs-4" style="float:left;">
+            @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", placeholder="0.00", @id = "loanAmount" , maxlength = 15 , style="text-align:right"} })
             @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" })
         </div>
-        <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
+        
     </div>
 
     <div class="form-group">
@@ -225,7 +230,7 @@
         </div>
 
         <div class="col-xs-2" style="float:left;margin-left: 98px;">
-            @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" , maxlength = 3 } })
+            @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control" , max = 100, maxlength = 3 ,min=1, @id= "advancePercentage"  } })
             @Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })
         </div>
         <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -238,7 +243,7 @@
             </div>
 
             <div class="col-xs-8">
-                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "Select a Payment Method", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Payment Method--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -277,7 +282,7 @@
 
 
 
-                @Html.ValidationMessageFor(model => model.defaultUnitType, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.defaultUnitType, "", new { @class = "text-danger", @id="unitTypeError" })
             </div>
           
 
@@ -287,6 +292,12 @@
        
             @{
                 List<SelectListItem> yesOrNoList = new List<SelectListItem>();
+
+                yesOrNoList.Add(new SelectListItem
+                {
+                    Text = "--Select--",
+                    Value = ""
+                });
                 yesOrNoList.Add(new SelectListItem
                 {
                     Text = "Yes",
@@ -295,37 +306,41 @@
                 yesOrNoList.Add(new SelectListItem
                 {
                     Text = "No",
-                    Value = "false",
-                    Selected = true
+                    Value = "false"
                 });
 
                 List<SelectListItem> yesOrNoList2 = yesOrNoList;
                 List<SelectListItem> yesOrNoList3 = new List<SelectListItem>();
                 yesOrNoList3.Add(new SelectListItem
                 {
+                    Text = "--Select--",
+                    Value = ""
+                });
+                yesOrNoList3.Add(new SelectListItem
+                {
                     Text = "Yes",
                     Value = "true"
                 });
                 yesOrNoList3.Add(new SelectListItem
                 {
                     Text = "No",
-                    Value = "false",
-                    Selected = true
+                    Value = "false"
                 });
             }
     
 
 
         <div class="form-group">
-            <div class="col-xs-9" style="margin-top: 18px;float:left">
+            <div class="col-xs-9" style="margin-top: 18px;float:left;">
 
-                @Html.LabelFor(m => m.isEditAllowable)
+                @Html.LabelFor(m => m.isEditAllowable, new { style = "display: initial;" })<span style="color:red;"> *</span>
 
             </div>
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-2" >
                
                 
-               @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control" })
+               @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control", @id = "isEditAllowable" })
+                @Html.ValidationMessageFor(model => model.isEditAllowable, "", new { @class = "text-danger" })
 
             </div>
 
@@ -335,13 +350,13 @@
         <div class="form-group">
         <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-            @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })
+            @Html.LabelFor(model => model.isInterestCalculate, htmlAttributes: new { })<span style="color:red"> *</span>
 
         </div>
         <div class="control-label col-sm-2">
 
 
-            @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.isInterestCalculate, yesOrNoList2, htmlAttributes: new { @class = "form-control",@id= "isInterestCalculate" })
             @Html.ValidationMessageFor(model => model.isInterestCalculate, "", new { @class = "text-danger" })
 
 
@@ -355,15 +370,15 @@
     <div class="form-group">
         <div class="col-xs-9" style="margin-top: 18px;float:left">
 
-           @Html.Label("Do you want auto reminder for renewal")
+           @Html.Label("Do you want auto reminder for renewal")<span style="color:red"> *</span>
 
         </div>
         <div class="control-label col-sm-2">
 
+            @Html.DropDownListFor(model => model.autoReminder, yesOrNoList3, htmlAttributes: new { @class = "form-control", @id = "autoRem", @onchange = "javascript:showAutoReminderEmail(this.value)" })
+            @*@Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })*@
 
-            @Html.DropDownList("auto reminder", yesOrNoList3, htmlAttributes: new {@id="autoRem", @class = "form-control", @onchange = "javascript:showAutoReminderEmail(this.value)" })
-
-
+            @Html.ValidationMessageFor(model => model.autoReminder, "", new { @class = "text-danger" })
 
 
         </div>
@@ -373,10 +388,10 @@
 
         
 
-        <div id="AutoReminderEmail" style="display:none">
+        <div id="AutoReminderEmail" class="internal-panel" style="display:none">
             <div class="form-group">
                 <div class="control-label col-sm-2">
-                    @Html.LabelFor(model => model.autoReminderPeriod, htmlAttributes: new { })<span style="color:red"> *</span>
+                    @Html.LabelFor(model => model.autoReminderPeriod, htmlAttributes: new { })
                 </div>
 
                 <div class="col-xs-4" style="float:right;margin-left: 28px;">
@@ -409,7 +424,7 @@
                     <ul class="pager">
 
                         <li>
-                            <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                            <input type="submit" value="Next" class="btn btn-primary m-b" id="Next" style="float: right; margin-left: 10px" />
                         </li>
                         <li>
                             <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
@@ -423,6 +438,53 @@
 }
 
 <script>
+
+    $("#Next").click(function (e) {
+
+        var valid = 0;
+        $('.form-horizontal :input[type="text"]').each(function () {
+            if ($(this).val() != "") valid += 1;
+        });
+
+        $('.form-horizontal :input[type="datetime"]').each(function () {
+            if ($(this).val() != "") valid += 1;
+        });
+
+        $('.form-horizontal :input[type="number"]').each(function () {
+            if ($(this).val() != "") valid += 1;
+        });
+
+        $('.form-horizontal select').each(function () {
+            if (($(this).val() == "" || $(this).val() < 0)) {} else valid += 1;
+        });
+        
+
+        if (valid >= 11) {
+            if ($("input:checked").length == 0 ) {
+                $("#unitTypeError").text('Select Atleast One unit type');
+                e.preventDefault();
+            }
+        } else {
+            if ($("input:checked").length == 0) {
+                $("#unitTypeError").text('Select Atleast One unit type');
+                
+            }
+        }
+       
+        
+        
+    });
+
+    $('#advancePercentage').keypress(function(evt){
+    // preventing to type 'e' or 'E'
+        if (evt.keyCode == 101 || evt.keyCode == 69 || $(this).val() > 100 ) {
+            evt.preventDefault();
+        }
+        
+      
+    });
+
+   
     $('#clear').click(function () {
 
         document.getElementsByTagName("form")[0].reset();
@@ -438,14 +500,36 @@
                 $("#radioStyle-" + i).hide();
 
             }
+            $('input').next('span').children('span').text('');
+            $('select').next('span').children('span').text('');
+            $("#unitTypeError").text('');
+            $('#loanNumberForDisplayError').hide(); 
+            $("#outOffRangeError").text('');
+            $("#payOffPeriod").removeClass('input-validation-error');
+            @if(Model.loanNumber == null){
+                <text>
+            $('#loanAmount').val('');
+            $('#advancePercentage').val('');
+            $('#startDate').val('');
+            $('#maturityDate').val('');
+            $('#payOffPeriod').val('');
+            $('#payOffPeriodType').val('-1');
+            $('#isEditAllowable').val(''); 
+            $('#isInterestCalculate').val(''); 
+            $('#autoRem').val(''); 
+
+            </text>
+            }
         }
+
+
 
         @if(Model.autoReminderEmail == null || Model.autoReminderEmail == "")
         {
 
              <text>$("#AutoEmail").val("");</text>
             <text>$("#AutoReminderEmail").hide();</text>
-            <text>$("#emailPeriod").val("0");</text>
+            <text>$("#emailPeriod").val("");</text>
         <text>$("#errorAutoEmail").text("");</text>
 
         }
@@ -533,8 +617,9 @@
 
      onSelect: function () {
          startDate = this.getDate();
-         $("#payOffPeriod").val("0");
+         $("#payOffPeriod").val("");
          $("#outOffRangeError").hide();
+         $("#payOffPeriod").removeClass('input-validation-error');
          updateStartDate();
          endPicker.enableDayFn();
 
@@ -546,8 +631,9 @@
 
      onSelect: function () {
          endDate = this.getDate();
-         $("#payOffPeriod").val("0");
+         $("#payOffPeriod").val("");
          $("#outOffRangeError").hide();
+         $("#payOffPeriod").removeClass('input-validation-error');
          updateEndDate();
      }
  }),
@@ -609,12 +695,22 @@
                 $("#radioStyle-" + value).show();
                 $("#radio-" + value).show();
 
+                // if($(this).children().length == 1))
 
+                //  $("#radio-" + value).closest('.col-xs-7').siblings().children('.col-xs-5').find('input')
+                if ($("input:checked").length == 1) {
+                    $("#radio-" + value).prop("checked", true);
+                    $("#unitTypeError").text('');
+                }
 
             } else {
                 $("#radio-" + value).prop("checked", false);
                 $("#radio-" + value).hide();
                 $("#radioStyle-" + value).hide();
+
+                if ($("input:checked").length == 1) {
+                    $("input:checked").parent().children('.col-xs-5').find('input').prop("checked", true);
+                }
 
             }
             
@@ -624,7 +720,7 @@
         function showAutoReminderEmail(value) {
             if (value == "true") {
                 $("#AutoReminderEmail").show();
-                
+                $("#emailPeriod").val("");
 
 
 
@@ -632,7 +728,7 @@
             } else {
                 $("#AutoEmail").val("");
                 $("#AutoReminderEmail").hide();
-                $("#emailPeriod").val("0");
+                $("#emailPeriod").val("");
                 $("#errorAutoEmail").text("");
             }
 
@@ -640,8 +736,9 @@
 
         function setPayOffPeriod() {
             
-            $("#payOffPeriod").val("0");
+            $("#payOffPeriod").val("");
             $("#outOffRangeError").hide();
+            $("#payOffPeriod").removeClass('input-validation-error');
         }
 
         function checkTheRange(value) {
@@ -656,9 +753,11 @@
                 var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
                 if (value > diffDays) {
                     $("#outOffRangeError").show();
+                    $("#payOffPeriod").addClass('input-validation-error');
                     
                 } else {
                     $("#outOffRangeError").hide();
+                    $("#payOffPeriod").removeClass('input-validation-error');
                 }
                 
             } else {
@@ -666,9 +765,11 @@
        + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
                 if (value > diffMonths) {
                     $("#outOffRangeError").show();
+                    $("#payOffPeriod").addClass('input-validation-error');
                     
                 } else {
                     $("#outOffRangeError").hide();
+                    $("#payOffPeriod").removeClass('input-validation-error');
                 }
             }
             
@@ -686,11 +787,12 @@
             
                 var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
                 if (value > diffDays) {
-                    $("#emailReminderError").removeClass("hidden");
-                  
+                    $("#emailReminderError").removeClass("hidden"); 
+                    $("#emailPeriod").addClass("input-validation-error");
 
                 } else {
                     $("#emailReminderError").addClass("hidden");
+                    $("#emailPeriod").removeClass("input-validation-error");
 
                    
 
@@ -758,14 +860,9 @@
 @{ 
     if(Model.loanNumber != null)
     {
-        <script>
-            $("#loanNumber").removeAttr("disabled");
-            $("#startDateDiv").show();
-            $("#startDateDivDisplay").hide();
-            $("#maturityDateDiv").show();
-            $("#maturityDateDivDisplay").hide();
-
-        </script>
+       <script>
+           $('#clear').prop('value', 'Reset');
+       </script>
 
    
     if (Model.autoReminderEmail != "")
@@ -785,5 +882,21 @@
         </script>
         }
     }
+    else
+    {
+        <script>
+            $('#loanAmount').val('');
+            $('#advancePercentage').val('');
+            $('#startDate').val('');
+            $('#maturityDate').val('');
+            $('#payOffPeriod').val('');
+            $('#payOffPeriodType').val('-1');
+            $('#isEditAllowable').val(''); 
+            $('#isInterestCalculate').val(''); 
+            $('#autoRem').val(''); 
+            $('#emailPeriod').val('');
+        </script>
+    }
 
 }
+<script src="~/scripts/commonFunctions.js"></script>

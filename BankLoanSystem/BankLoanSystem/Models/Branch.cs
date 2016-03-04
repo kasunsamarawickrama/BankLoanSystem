@@ -91,5 +91,6 @@ namespace BankLoanSystem.Models
     public class NonRegBranch : Branch
     {
         public int NonRegBranchId { get; set; }
+        public string CompanyNameBranchName { get; set; }
     }
 }

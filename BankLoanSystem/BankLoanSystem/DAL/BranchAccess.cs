@@ -44,9 +44,10 @@ namespace BankLoanSystem.DAL
                         {
                             Branch branch = new Branch();
                             branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString() + " - " + reader["branch_code"].ToString();
+                            branch.BranchName = reader["branch_name"].ToString();
                             branch.BranchCode = reader["branch_code"].ToString();
-
+                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
+                            
                             branchesLists.Add(branch);
 
                         }
@@ -872,7 +873,7 @@ namespace BankLoanSystem.DAL
                             branch.StateId = Convert.ToInt32(reader["state_id"].ToString());
                             branch.BranchCity = reader["city"].ToString();
                             branch.BranchZip = reader["zip"].ToString();
-
+                            branch.CompanyNameBranchName = reader["company_name"].ToString() + " - " + reader["branch_name"].ToString();
                             string[] zipWithExtention = branch.BranchZip.Split('-');
 
                             if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
@@ -1068,6 +1069,7 @@ namespace BankLoanSystem.DAL
                             branch.BranchAddress1 = reader["branch_address_1"].ToString();
                             branch.BranchAddress2 = reader["branch_address_2"].ToString();
                             branch.BranchCity = reader["city"].ToString();
+                            branch.CompanyNameBranchName = reader["company_name"].ToString() + " - " + reader["branch_name"].ToString();
 
                         }
                         return branch;
