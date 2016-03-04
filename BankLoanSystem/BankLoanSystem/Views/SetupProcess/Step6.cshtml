@@ -58,7 +58,7 @@
                    }
                     else
                     {
-                                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                        @Html.DropDownListFor(model => model.RegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
                     }
 
 
@@ -97,10 +97,10 @@
                 @if (ViewBag.nonRegisteredBranchId.Items.Count == 1)
                         {
                             @Html.HiddenFor(model => model.nonRegisteredBranchId)
-                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
+                @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].CompanyNameBranchName, htmlAttributes: new { @class = "form-control" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                 @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                 } else {
-                @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
+                @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
                 @Html.ValidationMessageFor(model => model.nonRegisteredBranchId, "", new { @class = "text-danger" })
 
                 }
@@ -198,7 +198,7 @@
     </div>
 
     <div class="col-xs-3" style="float:left">
-            @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" , @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)"} })
+            @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" ,min =1, @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)"} })
             @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })
             
         <span id="outOffRangeError" class="text-danger field-validation-error" style="display:none" >The pay off period is out of Range.</span>
@@ -860,7 +860,9 @@
 @{ 
     if(Model.loanNumber != null)
     {
-       
+       <script>
+           $('#clear').prop('value', 'Reset');
+       </script>
 
    
     if (Model.autoReminderEmail != "")
