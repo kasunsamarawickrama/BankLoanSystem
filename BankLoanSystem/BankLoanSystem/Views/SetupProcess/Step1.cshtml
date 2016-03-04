@@ -220,6 +220,7 @@
         var res = CheckMaxLenth(this, this.value, 50);
         if (res === 0) {
             e.preventDefault();
+            return;
         }
     });
 
@@ -227,6 +228,12 @@
         var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
         }
     });
 
@@ -234,8 +241,32 @@
         var res = CheckMaxLenth(this, this.value, 4);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
         }
     });
 
+    //Check maximum length for email address
+    $('#txtEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtPhoneNum1').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+    
+    $('input').prop('autocomplete', 'off');
 </script>
 

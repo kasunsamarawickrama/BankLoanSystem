@@ -6,7 +6,7 @@
     $(':input[type="number"]').css('text-align', 'right');
 
     // clear error messages if you use ValidationMaessageFor function to handle error
-    
+
     $('#clear').click(function () {
 
         // reset the form
@@ -24,7 +24,7 @@
     $('input').click(function () {
         $(this).next("span").children("span").text("");
     });
-    
+
     $('input').on('input', function () {
         $(this).next("span").children("span").text("");
     });
@@ -66,11 +66,28 @@ function ChangeToCapital(id, val) {
 
 // CreatedBy :: Kanishka
 // Prevent input for phone number
-function PhoneNumber(val) {
+function PhoneNumber(id, val) {
     if ((48 <= val && val <= 57) || val === 40 || val === 41 || val === 45)
         return 1;
+    $(id).siblings('div').children('span').fadeIn();
+    $(id).siblings('div').children('span').text("Not valid character for phone number");
+    $(id).siblings('div').children('span').delay(100).fadeOut();
     return 0;
 }
+
+//function Phone(id, val, code) {//
+//    var phoneText = val + String.fromCharCode(code);
+//    var regPhoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+//    if (phoneText.match(regPhoneno)) {
+//        return 1;
+//    }
+
+//    $(id).siblings('div').children('span').fadeIn();
+//    $(id).siblings('div').children('span').text("Not valid character for phone number");
+//    $(id).siblings('div').children('span').delay(100).fadeOut();
+//    return 0;
+//}
 
 // CreatedBy :: Kanishka
 // Remove default input value
@@ -88,9 +105,9 @@ function RemoveText(id, val) {
 // Prevent input for user name
 // return 0 - allow this character
 // return 1 - not allow this character
-function BlockText(val) { //val, vals
-    if ((32 <= val && val <= 47) || (58 <= val && val <= 64)
-        || (91 <= val && val <= 96) || (123 <= val && val <= 126))
+function BlockText(code) { //val, vals
+    if ((32 <= code && code <= 47) || (58 <= code && code <= 64)
+        || (91 <= code && code <= 96) || (123 <= code && code <= 126))
         return 1;
     return 0;
 }
@@ -113,13 +130,11 @@ function CheckMaxLenth(id, val, maxLenght) {
 // Check max length
 // return 0 - not allow to enter
 // return 1 - allow to enter
-function AllowNumbers() {
-
-    //if (val.length < maxLenght) {
-    //    return 1;
-    //}
-    //$(id).siblings('div').children('span').fadeIn();
-    //$(id).siblings('div').children('span').text("Maximum length reached");
-    //$(id).siblings('div').children('span').delay(100).fadeOut();
-    //return 0;
+function AllowNumbers(id, code) {
+    if (47 <= code && code <= 58)
+        return 1;
+    $(id).siblings('div').children('span').fadeIn();
+    $(id).siblings('div').children('span').text("Allow only numbers");
+    $(id).siblings('div').children('span').delay(100).fadeOut();
+    return 0;
 }

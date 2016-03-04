@@ -34,7 +34,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns>Return the view</returns>
         public ActionResult Index()
-
         {
             int stepNo;
             int userId;
