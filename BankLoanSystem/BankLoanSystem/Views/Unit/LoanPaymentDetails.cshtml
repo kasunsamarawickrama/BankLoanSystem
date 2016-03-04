@@ -6,48 +6,49 @@
     <h5><strong>Loan Details</strong></h5>
 
 
-    <table class="loandetails" style="text-align: left;
+    <table class="loandetails" style="text-align: right;
     color: #07BB9B;
     font-weight: bold;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 10px;font-size: 85%;width: 125%;">
-       
+    margin-bottom: 10px;font-size: 100%;">
+
         <tr>
-            <td>Amount</td>
-            <td>-</td>
-            <td>$@Model.Amount</td>
+            <td style="text-align: left;">Amount</td>
+            <td style="width: 60px;padding-right:25px;">-</td>
+            <td>$@(String.Format("{0:0.00}", Model.Amount))</td>
         </tr>
         <tr>
-            <td>Used</td>
-            <td>-</td>
-            <td>$@Model.UsedAmount</td>
+            <td style="text-align: left;">Used</td>
+            <td style="width: 60px;padding-right:25px;">-</td>
+            <td>$@(String.Format("{0:0.00}", Model.UsedAmount))</td>
         </tr>
 
         <tr>
-            <td>Balance</td>
-            <td>-</td>
-            <td>$@(Model.BalanceAmount = Model.Amount - Model.UsedAmount)</td>
+            <td style="text-align: left;">Balance</td>
+            <td style="width: 60px;padding-right:25px;">-</td>
+            @{
+                Model.BalanceAmount = Model.Amount - Model.UsedAmount;
+            }
+            <td style="text-align:right">$@(String.Format("{0:0.00}", Model.BalanceAmount))</td>
         </tr>
 
         <tr>
-            <td>Pending</td>
-            <td>-</td>
-            <td>$@Model.PendingAmount</td>
+            <td style="text-align: left;">Pending</td>
+            <td style="width: 60px;padding-right:25px;">-</td>
+            <td>$@(String.Format("{0:0.00}", Model.PendingAmount))</td>
         </tr>
-      
-    </table>
-    <table style="text-align: left;
-    color: #07BB9B;
-    font-weight: bold;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;font-size: 85%;">
-        <tr>
-            <td style="width:60%">Balance After Pending</td>
+ 
 
-            <td>$@(Model.BalanceAfterPending = Model.BalanceAmount - Model.PendingAmount )</td>
-        </tr>
+            <tr colspan="1" style="width:100%">
+                <td style="text-align: left;">Balance After Pending</td>
+
+                <td style="width: 60px;padding-right:25px;">-</td>
+                <td>$@(String.Format("{0:0.00}", (Model.BalanceAfterPending = Model.BalanceAmount - Model.PendingAmount)))</td>
+            </tr>
+
+           
+
 
 
         </table>
