@@ -7,119 +7,186 @@
 
 <link href="~/Content/steps.css" rel="stylesheet" />
 
-
-
-
-
-            <h2>Sign up</h2>
-            @using (Html.BeginForm())
+<h2>Sign up</h2>
+@using (Html.BeginForm())
             {
-                @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
-
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.UserName, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.UserName, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.UserName, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.LastName, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.NewEmail, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.NewEmail, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.NewEmail, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-4">
-                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.Password, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-4">
-                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.ConfirmPassword, new {htmlAttributes = new {@class = "form-control"}})
-                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
+    <div class="form-horizontal">
 
 
-                    <div class="form-group">
-                        <div>
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
 
-                            <nav>
-                                <ul class="pager">
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "txtUserName" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
+            </div>
+        </div>
 
-                                    <li>
-                                        <input type="submit" value="Sign-up" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
-                                    </li>
-                                    <li>
-                                        <input type="button" value="Clear" id="clear" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
-                                    </li>
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
 
-                                    
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "txtFirstName" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnFirstName" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @id = "txtLastName" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnLastName" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.NewEmail, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control", @id = "txtNewEmail" } })
+                @Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnNewEmail" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnPhoneNumber" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnPassword" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnConfirmPassword" class="text-danger"></span></div>
+            </div>
+        </div>
 
 
-                </div>
-            }
+        <div class="form-group">
+            <div>
+
+                <nav>
+                    <ul class="pager">
+                        <li>
+                            <input type="submit" value="Sign-up" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
+                        </li>
+                        <li>
+                            <input type="button" value="Clear" id="clear" class="btn btn-primary cancel" style="float:right;margin-left:10px" />
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+@*<script src="~/scripts/CustomValidation.js"></script>
+
+<script type="text/javascript">
+
+    //clear all input fields
+    $("#clear").click(function () {
+        //alert('Hi');
+        $(this).closest('form').find("input[type=text], textarea").val("");
+    });
+
+    $('#txtUserName').keypress(function (e) {
+        var res = BlockText(e.which);
+        if (res === 1) {
+            $("#customError span[id^='spnUserName']").fadeIn();
+            $("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+            $("#customError span[id^='spnUserName']").delay(100).fadeOut();
+            e.preventDefault();
+        }
+    });
+
+    //$('#txtUserName').keyup(function (e) {
+    //    //alert(e.which + ' ' + this.value.length);
+    //    var code = e.which;
+    //    if (this.value.length === 1 && (48 <= code && code <= 57)) {
+    //        $("#customError span[id^='spnUserName']").fadeIn();
+    //        $("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+    //        $("#customError span[id^='spnUserName']").delay(100).fadeOut();
+    //        e.preventDefault();
+    //    }
+    //});
+
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
+
+    $('#txtPhoneNumber').keypress(function (e) {
+        //var val = this.value + (e.which - 48);
+        var res = PhoneNumber(e.which);
+        if (res === 0) {
+            $(this).siblings('div').children('span').fadeIn();
+            $(this).siblings('div').children('span').text("Invalid character.");
+            $(this).siblings('div').children('span').delay(100).fadeOut();
+            e.preventDefault();
+        }
+    });
+
+    $('#txtUserName, #txtFirstName, #txtLastName, #txtNewEmail, #txtPassword, #txtConfirmPassword').keypress(function (e) {
+        var res = CheckMaxLenth(this.value, 30);
+        if (res === 0) {
+            $(this).siblings('div').children('span').fadeIn();
+            $(this).siblings('div').children('span').text("Maximum length reached");
+            $(this).siblings('div').children('span').delay(100).fadeOut();
+            e.preventDefault();
+        }
+    });
+
+    $('input').on('click', function () {
+        ClearErrorMessegeOnClickEvent(this);
+    });
+
+    $('input').on('input', function () {
+        ClearErrorMessegeOnClickEvent(this);
+    });
+
+    $('input').prop('autocomplete', 'off');
+
+</script>*@

@@ -568,6 +568,8 @@ namespace BankLoanSystem.DAL
 
 
                             loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
+                            loanSetupStep1.RegisteredBranchId = Convert.ToInt32(reader["branch_id"]);
+                            loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                         }
 
                         reader.Close();

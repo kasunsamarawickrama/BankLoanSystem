@@ -5,6 +5,25 @@
     ViewBag.Title = "Step2";
 
 }
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    table, td {
+        border: 1px solid black;
+        text-align: left;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: paleturquoise;
+    }
+
+    tr {
+        text-align: left;
+    }
+</style>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -45,7 +64,8 @@
                                 <td class="control-label col-sm-2">
                                     @Html.Label("Branch Address1")
                                 </td>
-
+                                <td class="control-label col-sm-2"></td>
+                                <td class="control-label col-sm-2"></td>
                             </tr>
 
                             @for (var i = 0; i < Model.SubBranches.Count; i++)
@@ -88,7 +108,7 @@
                         </div>
                     }
                 </div>
-
+                <div id="branchDiv">
                 @*this for keep branch code*@
                 <input id="branchCode" name="branchCode" type="hidden" value="" />
                 <div class="form-group">
@@ -222,18 +242,18 @@
          
 
 
-                    <div class="form-group">
+                <div class="form-group">
                         <div class="button-panel">
 
                             <input type="button" value="Back" name="subBack" id="btnPreStep2" class="btn btn-default left-button" />
                             <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%"/>
-                            
+
                             <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
 
-                        </div>
                     </div>
-                   
                 </div>
+
+            </div>
 
            
 
@@ -245,6 +265,9 @@
 
 <script type="text/javascript">
     $(function () {
+        $(document).ready(function () {
+            $('#branchDiv').hide();
+        });
         $('#Previous').on('change', function () {
             if ($(this).is(':checked')) {
                 var model = @Html.Raw(Json.Encode(Model));
@@ -312,7 +335,8 @@
 
 <script type="text/javascript">
     function EditBranch(index) {
-
+        $('#branchDiv').show();
+        $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
         console.log(model);
         console.log(index);
@@ -346,6 +370,8 @@
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
         document.getElementById("branchCode").value = "";
+        $('#btnNext').val('Next');
+        $('#branchDiv').show();
     }
 
    
