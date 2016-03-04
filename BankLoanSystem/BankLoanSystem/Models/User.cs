@@ -18,8 +18,8 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "User Name")]
         [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
-        [StringLength(30, ErrorMessage = "Name cannot be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
-        [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "User name can't be start with !*@#$%^&*()_+-= and any number.")]
+        [StringLength(30, ErrorMessage = "User name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Please use only letters (a-z) and numbers.")]
         public string UserName { get; set; }
 
         [Required]
@@ -28,10 +28,12 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "First Name")]
+        [StringLength(30, ErrorMessage = "First name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required]
         [Display(Name = "Last Name")]
+        [StringLength(30, ErrorMessage = "Last name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
         public string LastName { get; set; }
 
         [Required]

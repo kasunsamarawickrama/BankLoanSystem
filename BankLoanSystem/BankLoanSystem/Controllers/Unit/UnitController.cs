@@ -133,6 +133,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId);
+            flag = 1;
             if (res)
             {
                 //Handling file attachments
@@ -140,7 +141,7 @@ namespace BankLoanSystem.Controllers.Unit
                 GetDetails user = uma.getUserById(userId);
 
                 //Check directory is already exists, if not create new
-                string mapPath = "~/Images/UnitImages/" + user.CompanyCode + "/" + user.BranchCode + "/";
+                string mapPath = "~/Images/UnitImages/" + user.CompanyCode + "/" + _loan.RegisteredBranchCode + "/";
                 if (!Directory.Exists(Server.MapPath(mapPath)))
                 {
                     Directory.CreateDirectory(Server.MapPath(mapPath));
@@ -201,12 +202,13 @@ namespace BankLoanSystem.Controllers.Unit
                     }
                 }
                 ViewBag.Msg = "Success";
-                return RedirectToAction("AddUnit", new {flag = flag});
+                //return Json(new {flag = 1}, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("AddUnit");
             }
             ViewBag.Msg = "Error";
             return RedirectToAction("AddUnit", unit);
 
-            //return RedirectToAction("AddUnit");
+            //return Json(new { flag = 0 }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

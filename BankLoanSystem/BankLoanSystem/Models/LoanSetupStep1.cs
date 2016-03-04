@@ -23,6 +23,8 @@ namespace BankLoanSystem.Models
         [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
         public int RegisteredBranchId { get; set; }
 
+        public string RegisteredBranchCode { get; set; }
+
         [Required]
         [RegularExpression(@"^[^<>@#$'{}!*?~;`%""]*$", ErrorMessage = "Invalid Character")]
         [StringLength(30, MinimumLength = 5, ErrorMessage = "Minimum 5 and Maximum 30 characters required")]

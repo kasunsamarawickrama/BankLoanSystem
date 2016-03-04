@@ -17,6 +17,20 @@
     .ui-state-default {
         background-color: white;
     }
+
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 20px 20px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+
 </style>
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
@@ -29,7 +43,7 @@
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+@*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -37,14 +51,13 @@
 
 <link href="~/Content/combo.css" rel="stylesheet" />
 <script src="~/scripts/combo.js"></script>
+<script src="~/scripts/CustomValidation.js"></script>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
-    OnSuccess = "getResult",
+    OnComplete = "function(data) { alert(data.get_response().get_object().Result); }",
     OnFailure = "handleError",
     HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
     LoadingElementId = "loadingDiv"
 }, new { enctype = "multipart/form-data", id = "form" }))
 {
@@ -643,7 +656,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-3">
-                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                     <div id="tagscloud"><span class="text-danger"></span></div>
                 </div>
@@ -652,11 +665,11 @@
                 <div class="col-md-3">
                     @if (ViewBag.Editable == "Yes")
                 {
-                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount" } })
+                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", autocomplete = "off", @style = "text-align: right;" } })
                     }
                     else
                     {
-                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount" } })
+                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", autocomplete = "off", @style = "text-align: right;" } })
                     }
                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                     <div id="tagscloudAdvance"><span class="text-danger"></span></div>
@@ -693,7 +706,7 @@
                     <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
 
                     <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                        <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" style="float: left;" />
+                        <input type="file" id="fileToUpload" name="fileUpload" style="float: left;" />
                         <br />
                         <span id="spnFile" style="float: left; color: #FF0000"></span>
                         @Html.ValidationMessage("File")
@@ -766,12 +779,13 @@
     _previousMake     = "";
 
     function getResult(data) {
-        $(location).attr('href', '/Unit/AddUnit?flag=1');
+        alert(data.get_response().get_object().Result);
+        //$(location).attr('href', '/Unit/AddUnit?flag=1');
+        if(data === 1)
+            $(location).attr('href', '/Unit/AddUnit?flag=1');
+        else if (data === 0)
+            alert(data);
     }
-
-    //$("#txtCost").on('click', function(e) {
-    //    alert(e.which);
-    //});
 
     //$( "#div-combobox1-1" ).focus(function(){
     //    alert("dcd");
@@ -1483,7 +1497,7 @@
                         $('#combobox2-1').next().children('input').val(year);
                         document.getElementById('editor2-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1523,7 +1537,7 @@
                         $('#combobox2-1').next().children('input').val(year);
                         document.getElementById('editor2-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1564,7 +1578,7 @@
                         $('#combobox3-1').next().children('input').val(year);
                         document.getElementById('editor3-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1604,7 +1618,7 @@
                         $('#combobox3-1').next().children('input').val(year);
                         document.getElementById('editor3-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1644,7 +1658,7 @@
                         $('#combobox4-1').next().children('input').val(year);
                         document.getElementById('editor4-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1683,7 +1697,7 @@
                         $('#combobox4-1').next().children('input').val(year);
                         document.getElementById('editor4-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1723,7 +1737,7 @@
                         $('#combobox5-1').next().children('input').val(year);
                         document.getElementById('editor5-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1762,7 +1776,7 @@
                         $('#combobox5-1').next().children('input').val(year);
                         document.getElementById('editor5-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1803,7 +1817,7 @@
                         $('#combobox6-1').next().children('input').val(year);
                         document.getElementById('editor6-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1843,7 +1857,7 @@
                         $('#combobox6-1').next().children('input').val(year);
                         document.getElementById('editor6-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1883,7 +1897,7 @@
                         $('#combobox7-1').next().children('input').val(year);
                         document.getElementById('editor7-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -1922,7 +1936,7 @@
                         $('#combobox7-1').next().children('input').val(year);
                         document.getElementById('editor7-1').value = year;
                     }
-                    
+
                 },
                 error: function (reponse) {
                 }
@@ -2041,6 +2055,14 @@
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
     var maxCost = model.Balance * 100 / advancePt;
+
+    $("#txtCost").on('click', function(e) {
+        RemoveText(this.id, this.value);
+    });
+
+    $("#txtAdvanceAmount").on('click', function(e) {
+        RemoveText(this.id, this.value);
+    });
 
     //calculate advance
     $('#txtCost').keypress(function(e) {
@@ -2296,17 +2318,3 @@
     startPicker.setMinDate(new Date("@Model.StartDate"));
     startPicker.setMaxDate(new Date("@Model.EndDate"));
 </script>
-<style>
-    .info-unit {
-        margin-left: 0px;
-        margin-right: 20px;
-        border-radius: 15px;
-        border: 2px solid #8D987E;
-        padding: 20px 20px 20px 20px;
-    }
-
-    .form-horizontal .control-label {
-        text-align: left;
-        padding-left: 60px;
-    }
-</style>
