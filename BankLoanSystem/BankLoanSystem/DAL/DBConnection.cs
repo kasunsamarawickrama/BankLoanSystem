@@ -118,14 +118,16 @@ namespace BankLoanSystem.DAL
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
                     }
-                   
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
                     command.ExecuteNonQuery();                   
                     return  true;
                 }
                 else
                     return false;
             }
-            catch
+            catch(Exception exp)
             {
                 return false;
             }
@@ -175,7 +177,7 @@ namespace BankLoanSystem.DAL
                 else
                     return null;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
