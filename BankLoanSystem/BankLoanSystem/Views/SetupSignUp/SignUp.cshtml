@@ -7,6 +7,11 @@
 
 <link href="~/Content/steps.css" rel="stylesheet" />
 
+@if (ViewBag.ErrorMsg != "")
+{
+    @ViewBag.ErrorMsg
+}
+
 <h2>Sign up</h2>
 @using (Html.BeginForm())
             {
@@ -123,17 +128,20 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
-@*<script src="~/scripts/CustomValidation.js"></script>
+<script src="~/scripts/CommonFunctions.js"></script>
 
 <script type="text/javascript">
-
-    //clear all input fields
-    $("#clear").click(function () {
-        //alert('Hi');
-        $(this).closest('form').find("input[type=text], textarea").val("");
-    });
-
+    // User name validate
     $('#txtUserName').keypress(function (e) {
+        var code = e.which;
+        if (this.value.length === 0 && (48 <= code && code <= 57)) {
+            $("#customError span[id^='spnUserName']").fadeIn();
+            $("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+            $("#customError span[id^='spnUserName']").delay(100).fadeOut();
+            this.focus();
+            e.preventDefault();
+        }
+
         var res = BlockText(e.which);
         if (res === 1) {
             $("#customError span[id^='spnUserName']").fadeIn();
@@ -143,50 +151,47 @@
         }
     });
 
-    //$('#txtUserName').keyup(function (e) {
-    //    //alert(e.which + ' ' + this.value.length);
-    //    var code = e.which;
-    //    if (this.value.length === 1 && (48 <= code && code <= 57)) {
-    //        $("#customError span[id^='spnUserName']").fadeIn();
-    //        $("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
-    //        $("#customError span[id^='spnUserName']").delay(100).fadeOut();
-    //        e.preventDefault();
-    //    }
-    //});
-
+    // Capitalize first letter 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
         ChangeToCapital(this.id, this.value);
     });
 
-    $('#txtPhoneNumber').keypress(function (e) {
-        //var val = this.value + (e.which - 48);
-        var res = PhoneNumber(e.which);
+    //Phone number validate
+    //$('#txtPhoneNumber').keypress(function (e) {
+    //    var res = PhoneNumber(e.which);
+    //    if (res === 0) {
+    //        $(this).siblings('div').children('span').fadeIn();
+    //        $(this).siblings('div').children('span').text("Invalid character.");
+    //        $(this).siblings('div').children('span').delay(100).fadeOut();
+    //        e.preventDefault();
+    //    }
+    //});
+
+    //Check maximum length
+    $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 30);
         if (res === 0) {
-            $(this).siblings('div').children('span').fadeIn();
-            $(this).siblings('div').children('span').text("Invalid character.");
-            $(this).siblings('div').children('span').delay(100).fadeOut();
             e.preventDefault();
         }
     });
 
-    $('#txtUserName, #txtFirstName, #txtLastName, #txtNewEmail, #txtPassword, #txtConfirmPassword').keypress(function (e) {
-        var res = CheckMaxLenth(this.value, 30);
+    //Check maximum length for email address
+    $('#txtNewEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
         if (res === 0) {
-            $(this).siblings('div').children('span').fadeIn();
-            $(this).siblings('div').children('span').text("Maximum length reached");
-            $(this).siblings('div').children('span').delay(100).fadeOut();
             e.preventDefault();
         }
     });
 
-    $('input').on('click', function () {
-        ClearErrorMessegeOnClickEvent(this);
-    });
+    //// clear error messages if you use ValidationMaessageFor function to handle error
+    //$('input').on('click', function () {
+    //    ClearErrorMessegeOnClickEvent(this);
+    //});
 
-    $('input').on('input', function () {
-        ClearErrorMessegeOnClickEvent(this);
-    });
+    //$('input').on('input', function () {
+    //    ClearErrorMessegeOnClickEvent(this);
+    //});
 
     $('input').prop('autocomplete', 'off');
 
-</script>*@
+</script>
