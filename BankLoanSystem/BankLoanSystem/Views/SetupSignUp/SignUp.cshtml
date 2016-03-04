@@ -140,6 +140,7 @@
             $("#customError span[id^='spnUserName']").delay(100).fadeOut();
             this.focus();
             e.preventDefault();
+            return;
         }
 
         var res = BlockText(e.which);
@@ -148,6 +149,7 @@
             $("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
             $("#customError span[id^='spnUserName']").delay(100).fadeOut();
             e.preventDefault();
+            return;
         }
     });
 
@@ -172,6 +174,7 @@
         var res = CheckMaxLenth(this, this.value, 30);
         if (res === 0) {
             e.preventDefault();
+            return;
         }
     });
 
@@ -180,6 +183,7 @@
         var res = CheckMaxLenth(this, this.value, 100);
         if (res === 0) {
             e.preventDefault();
+            return;
         }
     });
 

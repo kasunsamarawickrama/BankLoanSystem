@@ -15,7 +15,7 @@ namespace BankLoanSystem.Models
         /// </summary>
         public int BranchId { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Branch Name")]
         [Required(ErrorMessage = "Branch Name Required!")]
         public string BranchName { get; set; }
 
