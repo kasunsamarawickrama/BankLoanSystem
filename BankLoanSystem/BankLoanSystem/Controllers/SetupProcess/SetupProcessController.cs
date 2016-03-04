@@ -2009,7 +2009,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int? totalPercentage = 0;
 
                 int curId = 0;
-                if (curtailments.Count > 0)
+                if (curtailments !=null && curtailments.Count > 0)
                 {
                     for (int i = 0; i < curtailments.Count; i++)
                     {

@@ -72,7 +72,7 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@loan_id", loanId });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 DataRow dataRow = dataSet.Tables[0].Rows[0];

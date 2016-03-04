@@ -87,7 +87,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@user_Id", id });
 
             DataSet dataSet = dataHandler.GetDataSet("spRetrieveUserByUserId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 User user = new User();
                 DataRow dataRow = dataSet.Tables[0].Rows[0];
@@ -385,7 +385,7 @@ namespace BankLoanSystem.DAL
         /// 
         /// UpdatedBy : nadeeka
         /// UpdatedDate: 2016/03/03
-        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name to
         /// call DataHandler class method and getting dataset object,
         /// create and return user object list using that dataset
         /// 
