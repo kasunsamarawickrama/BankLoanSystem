@@ -25,53 +25,22 @@ namespace BankLoanSystem.DAL
         /// <returns>true : success, false : fail</returns>
         public bool updateToken(int userId, string token)
         {
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@token", token });
+            paramertList.Add(new object[] { "@expired_date", DateTime.Now.AddHours(24) });
+           
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdateOrInsertToken", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                return dataHandler.ExecuteSQLWithReturnVal("spUpdateOrInsertToken", paramertList)>0 ? true : false;
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@token", SqlDbType.NVarChar).Value = token;
-                        cmd.Parameters.Add("@expired_date", SqlDbType.DateTime).Value = DateTime.Now.AddHours(24);
-
-
-                        con.Open();
-                        
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        cmd.ExecuteNonQuery();
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal > 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+            }
+            catch
+            {
+                return false;
             }
         }
-
 
         /// <summary>
         /// CreatedBy : MAM. IRFAN
@@ -83,54 +52,23 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <returns>true : success, false : fail</returns>
-        public bool verifyAccount(int userId, string token) {
+        public bool verifyAccount(int userId, string token)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@token", token });
+            paramertList.Add(new object[] { "@expired_date", DateTime.Now.AddHours(24) });
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spverifyAccountBytoken", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@token", SqlDbType.NVarChar).Value = token;
-                        cmd.Parameters.Add("@expired_date", SqlDbType.DateTime).Value = DateTime.Now;
-
-
-                        con.Open();
-                        
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        cmd.ExecuteNonQuery();
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal > 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQLWithReturnVal("spverifyAccountBytoken", paramertList) > 0 ? true : false;
+            }
+            catch
+            {
+                return false;
             }
         }
-
 
         /// <summary>
         /// CreatedBy : MAM. IRFAN
@@ -144,55 +82,23 @@ namespace BankLoanSystem.DAL
         /// <returns>true : success, false : fail</returns>
         public bool resetPassword(int userId, ResetPassword resetPasswordModel)
         {
-
-
+            DataHandler dataHandler = new DataHandler();
             string newSalt = PasswordEncryption.RandomString();
             resetPasswordModel.Password = PasswordEncryption.encryptPassword(resetPasswordModel.Password, newSalt);
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@password", resetPasswordModel.Password });
+            paramertList.Add(new object[] { "@expired_date", DateTime.Now.AddHours(24) });
+
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdatePassword", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = resetPasswordModel.Password;
-
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        cmd.ExecuteNonQuery();
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal > 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQLWithReturnVal("spUpdatePassword", paramertList) > 0 ? true : false;
             }
-
+            catch
+            {
+                return false;
+            } 
         }
     }
 }

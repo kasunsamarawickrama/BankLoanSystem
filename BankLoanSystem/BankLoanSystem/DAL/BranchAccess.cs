@@ -10,6 +10,9 @@ using System.Web.Mvc;
 
 namespace BankLoanSystem.DAL
 {
+    /// <summary>
+    /// Main Branch and partner branch related operation define inside the class
+    /// </summary>
     public class BranchAccess
     {
 
