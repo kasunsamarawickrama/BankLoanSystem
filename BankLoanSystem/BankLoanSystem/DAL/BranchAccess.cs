@@ -19,431 +19,446 @@ namespace BankLoanSystem.DAL
         /// 
         /// Getting all branches
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name to
+        /// call DataHandler class method and getting dataset object,
+        /// create and return branche object list using that dataset
+        /// 
         /// </summary>
         /// <returns> a list contain all branches</returns>
         /// 
         public List<Branch> getBranches(int companyId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            List<Branch> branchesLists = new List<Branch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@companyId", companyId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                try
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetBranchesByCompanyId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                    Branch branch = new Branch();
+                    branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
 
-                        cmd.Parameters.Add("@companyId", SqlDbType.Int).Value = companyId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<Branch> branchesLists = new List<Branch>();
-
-
-                        while (reader.Read())
-                        {
-                            Branch branch = new Branch();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            
-                            branchesLists.Add(branch);
-
-                        }
-                        return branchesLists;
-
-                    }
+                    branchesLists.Add(branch);
                 }
 
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return branchesLists;
             }
-
-        }
-
-        /// <summary>
-        /// CreatedBy: Piyumi
-        /// CreatedDate: 2016/1/17
-        /// Insert branch details
-        /// </summary>
-        /// <param name="branch object"></param>
-        /// <param name="id"></param>
-        /// <returns>true/false</returns>
-        public bool insertBranchDetails(Branch branch, int id)
-        {
-            string companyCode = getCompanyCodeByUserId(id);
-            branch.BranchCode = createBranchCode(companyCode);
-            branch.BranchCompany = getCompanyIdByUserId(id);
-            branch.BranchCreatedDate = DateTime.Now;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            else
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spInsertBranch", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = branch.BranchCode;
-                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = branch.BranchName;
-                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = branch.BranchAddress1;
-                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = branch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = branch.StateId;
-                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = branch.BranchCity;
-                        if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
-                        {
-                            branch.BranchZip = branch.ZipPre + "-" + branch.Extention;
-                        }
-                        else
-                        {
-                            branch.BranchZip = branch.ZipPre;
-                        }
-                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = branch.BranchZip;
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = branch.BranchEmail;
-                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = branch.BranchPhoneNum1;
-                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = branch.BranchPhoneNum2;
-                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = branch.BranchPhoneNum3;
-                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = branch.BranchFax;
-                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = branch.BranchCreatedDate;
-                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = branch.BranchCompany;
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return null;
             }
         }
 
-        /// <summary>
-        /// CreatedBy: Piyumi
-        /// CreatedDate: 2016/1/26
-        /// Insert branch details
-        /// </summary>
-        /// <param name="branch object"></param>
-        /// <param name="userCompany3"></param>
-        /// <param name="id"></param>
-        /// <returns>true/false</returns>
-        public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
-        {
-            string companyCode = userCompany3.Company.CompanyCode;
-            //userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
-            userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
-            userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spInsertBranch", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCode;
-                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchName;
-                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress1;
-                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = userCompany3.MainBranch.StateId;
-                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCity;
-                        if ((userCompany3.MainBranch.Extention != null) && (userCompany3.MainBranch.Extention.ToString() != ""))
-                        {
-                            userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre + "-" + userCompany3.MainBranch.Extention;
-                        }
-                        else
-                        {
-                            userCompany3.MainBranch.BranchZip = userCompany3.MainBranch.ZipPre;
-                        }
-                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchZip;
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchEmail;
-                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum1;
-                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum2;
-                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchPhoneNum3;
-                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchFax;
-                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = userCompany3.MainBranch.BranchCreatedDate;
-                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = userCompany3.MainBranch.BranchCompany;
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal >= 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/27
         /// get company Id by company code
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return company id using dataset object 
+        /// 
+        /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">company code</param>
         /// <returns>compId</returns>
         public int getCompanyIdByCompanyCode(string compCode)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code", compCode });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetCompanyIdByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = compCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int compId = 0;
-
-                        while (reader.Read())
-                        {
-
-                            compId = int.Parse(reader["company_id"].ToString());
-
-                        }
-                        return compId;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
             }
+            return 0;
         }
+
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/1/27
         /// get company Id by company code
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return partner company id using dataset object 
+        /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>compId</returns>
         public int getNonRegCompanyIdByCompanyCode(string compCode)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code", compCode });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetNonRegCompanyIdByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = compCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int compId = 0;
-
-                        while (reader.Read())
-                        {
-
-                            compId = int.Parse(reader["company_id"].ToString());
-
-                        }
-                        return compId;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
             }
-        }
-        /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/1/27
-        /// Insert non registered branch
-        /// </summary>
-        /// <param name="nonRegBranch"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
-        {
-            nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spInsertNonRegisteredBranch", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
-                        cmd.Parameters.Add("@branch_name", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchName;
-                        cmd.Parameters.Add("@branch_address_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress1;
-                        cmd.Parameters.Add("@branch_address_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchAddress2;
-                        cmd.Parameters.Add("@state_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.StateId;
-                        cmd.Parameters.Add("@city", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCity;
-                        if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
-                        {
-                            nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre + "-" + nonRegBranch.MainBranch.Extention;
-                        }
-                        else
-                        {
-                            nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre;
-                        }
-                        cmd.Parameters.Add("@zip", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchZip;
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchEmail;
-                        cmd.Parameters.Add("@phone_num_1", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum1;
-                        cmd.Parameters.Add("@phone_num_2", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum2;
-                        cmd.Parameters.Add("@phone_num_3", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchPhoneNum3;
-                        cmd.Parameters.Add("@fax", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchFax;
-                        cmd.Parameters.Add("@created_date", SqlDbType.DateTime).Value = nonRegBranch.MainBranch.BranchCreatedDate;
-                        cmd.Parameters.Add("@company_id", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCompany;
-                        cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = nonRegBranch.MainBranch.BranchCreatedBy;
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
+            return 0;
         }
 
         /// <summary>
         /// CreatedBy: Piyumi
         /// CreatedDate: 2016/1/17
         /// Get CompanyId By UserId
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return company id using dataset object 
+        /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>compId</returns>
         public int getCompanyIdByUserId(int id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", id });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
+
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// CreatedBy:piyumi
+        /// CreatedDate:2016/1/27
+        /// update branch id when first branch is created
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/03
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to update given branch details 
+        /// 
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public bool updateUserBranchId(CompanyBranchModel nonRegBranch, int userId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spUpdateBranchId", paramertList) ? true : false;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Get company type of a given user
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return company type id using dataset object  
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int getCompanyTypeByUserId(int userId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyTypeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
+
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// CreatedBy : kasun Samarawickrama
+        /// CreatedDate: 2016/02/03
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name to
+        /// call DataHandler class method and getting dataset object,
+        /// create and return branch object list using that dataset          
+        /// 
+        /// 
+        /// get Branchs by company code 
+        /// </summary>
+        /// <returns>branches list</returns>
+        /// 
+        public IList<Branch> getBranchesByCompanyCode(string companyCode)
+        {
+            List<Branch> branchesLists = new List<Branch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code", companyCode });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetCompanyCodeByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                    Branch branch = new Branch();
+                    branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = int.Parse(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.VarChar).Value = id;
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
 
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int compId = 0;
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
 
-                        while (reader.Read())
-                        {
-
-                            compId = int.Parse(reader["company_id"].ToString());
-
-                        }
-                        return compId;
-
-                    }
+                    branchesLists.Add(branch);
                 }
 
+                return branchesLists;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-                catch (Exception ex)
-                {
-                    throw ex;
+        /// <summary>
+        /// CreatedBy: MAM. IRFAN
+        /// CreatedDate: 2016/02/05
+        /// 
+        /// Getting all non reistered company branches by Registered company id
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name to
+        /// call DataHandler class method and getting dataset object,
+        /// create and return partner branch object list using that dataset   
+        /// 
+        /// </summary>
+        /// <returns> a list contain all branches</returns>
+        /// 
+        public List<NonRegBranch> getNonRegBranches(int companyId)
+        {
+            List<NonRegBranch> branchesLists = new List<NonRegBranch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@companyId", companyId });
 
-                }
-                finally
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    con.Close();
+                    NonRegBranch branch = new NonRegBranch();
+                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
+
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
+
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
+                    branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
+                    branchesLists.Add(branch);
                 }
+                return branchesLists;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy: MAM. IRFAN
+        /// CreatedDate: 2016/02/05
+        /// 
+        /// Getting all non reistered company branches by Registered company id
+        /// 
+        /// </summary>
+        /// <returns> a list contain all branches</returns>
+        /// 
+        public List<NonRegBranch> getNonRegBranchesNonCompId(int nonRegCompanyId)
+        {
+            List<NonRegBranch> branchesLists = new List<NonRegBranch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@non_reg_companyId", nonRegCompanyId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByNonRegCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    NonRegBranch branch = new NonRegBranch();
+                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
+                    branch.CompanyNameBranchName = dataRow["company_name"].ToString() + " - " + dataRow["branch_name"].ToString();
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
+
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
+                    branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
+                    branchesLists.Add(branch);
+                }
+
+                return branchesLists;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/02/11
+        /// Get Branch by branch Id
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return branch object using dataset object   
+        /// 
+        /// </summary>
+        /// <param name="branch Id"></param>
+        /// <returns></returns>
+        public Branch getBranchByBranchId(int branchId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@branch_id", branchId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                Branch branch = new Branch();
+
+                branch.BranchCode = dataRow["branch_code"].ToString();
+                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                branch.BranchName = dataRow["branch_name"].ToString();
+
+                return branch;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/02/11
+        /// Get Non Reg Branch by non reg branch Id
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return partner branch object using dataset object    
+        /// 
+        /// </summary>
+        /// <param name="branch Id"></param>
+        /// <returns></returns>
+        public NonRegBranch getNonRegBranchByNonRegBranchId(int nonRegBranchId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@non_reg_branch_id", nonRegBranchId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchByNonRegBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                NonRegBranch branch = new NonRegBranch();
+                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                branch.BranchCode = dataRow["branch_code"].ToString();
+                branch.BranchName = dataRow["branch_name"].ToString();
+                branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                branch.BranchCity = dataRow["city"].ToString();
+
+                return branch;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -459,7 +474,6 @@ namespace BankLoanSystem.DAL
             try
             {
                 string branchCode = "";
-               // int latestBranchId = getLatestBranchCode(companyCode);
                 string latestBranchCode = getLatestBranchCode(companyCode);
                 int latestBranchId = 0;
 
@@ -468,8 +482,8 @@ namespace BankLoanSystem.DAL
                     string[] s = latestBranchCode.Split('_');
                     latestBranchId = int.Parse(s[1]);
                 }
-                
-                
+
+
                 if ((latestBranchId >= 0) && (latestBranchId < 9))
                 {
                     branchCode = companyCode + "_0" + (latestBranchId + 1).ToString();
@@ -486,6 +500,50 @@ namespace BankLoanSystem.DAL
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// Get branchId of a company
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <returns>topId</returns>
+        public string getLatestBranchCode(string companyCode)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code", companyCode });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopBranchIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
+
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/17
+        /// Get branchId of a company
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <returns>topId</returns>
+        public string getLatestNonRegBranchCode(string companyCode)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code", companyCode });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopNonRegBranchIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
+
+            }
+            return "";
         }
 
         /// <summary>
@@ -507,7 +565,7 @@ namespace BankLoanSystem.DAL
                     string[] s = latestBranchCode.Split('_');
                     latestBranchId = int.Parse(s[1]);
                 }
-                
+
 
                 if ((latestBranchId >= 0) && (latestBranchId < 9))
                 {
@@ -526,99 +584,141 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
+
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/1/17
-        /// Get branchId of a company
+        /// CreatedBy : nadeeka
+        /// UpdatedDate: 2016/03/04
+        /// set parameter's to object list and pass stored procedure name to DataHandler class to save branch object
+        /// 
         /// </summary>
-        /// <param name="companyCode"></param>
-        /// <returns>topId</returns>
-        public string getLatestBranchCode(string companyCode)
+        /// <param name="branch">branch object</param>
+        /// <param name="id"> user id</param>
+        /// <returns></returns>
+        public bool insertBranch(Branch branch, int id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
+            branch.BranchCompany = getCompanyIdByUserId(id);
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", id });
+            paramertList.Add(new object[] { "@branch_code", branch.BranchCode });
+            paramertList.Add(new object[] { "@branch_name", branch.BranchName });
+            paramertList.Add(new object[] { "@branch_address_1", branch.BranchAddress1 });
+            paramertList.Add(new object[] { "@branch_address_2", branch.BranchAddress2 });
+            paramertList.Add(new object[] { "@state_id", branch.StateId });
+            paramertList.Add(new object[] { "@city", branch.BranchCity });
+            if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetTopBranchIdByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                branch.BranchZip = branch.ZipPre + "-" + branch.Extention;
+            }
+            else
+            {
+                branch.BranchZip = branch.ZipPre;
+            }
+            paramertList.Add(new object[] { "@zip", branch.BranchZip });
+            paramertList.Add(new object[] { "@email", branch.BranchEmail });
+            paramertList.Add(new object[] { "@phone_num_1", branch.BranchPhoneNum1 });
+            paramertList.Add(new object[] { "@phone_num_2", branch.BranchPhoneNum2 });
+            paramertList.Add(new object[] { "@phone_num_3", branch.BranchPhoneNum3 });
+            paramertList.Add(new object[] { "@fax", branch.BranchFax });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@company_id", branch.BranchCompany });
 
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        string topId = "";
-
-                        while (reader.Read())
-                        {
-
-                            topId = reader["branch_code"].ToString();
-
-                        }
-                        return topId;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertBranch", paramertList);
+            }
+            catch
+            {
+                return false;
             }
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/1/17
-        /// Get branchId of a company
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 2016/1/17
+        /// Insert branch details
         /// </summary>
-        /// <param name="companyCode"></param>
-        /// <returns>topId</returns>
-        public string getLatestNonRegBranchCode(string companyCode)
+        /// <param name="branch object"></param>
+        /// <param name="id"></param>
+        /// <returns>true/false</returns>
+        public bool insertBranchDetails(Branch branch, int id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
+            branch.BranchCompany = getCompanyIdByUserId(id);
+            branch.BranchCreatedDate = DateTime.Now;
+
+            return this.insertBranch(branch, id);
+        }
+
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 2016/1/26
+        /// Insert branch details
+        /// </summary>
+        /// <param name="branch object"></param>
+        /// <param name="userCompany3"></param>
+        /// <param name="id"></param>
+        /// <returns>true/false</returns>
+        public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
+        {
+            string companyCode = userCompany3.Company.CompanyCode;
+            //userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
+            userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
+            userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
+
+            return this.insertBranch(userCompany3.MainBranch, id);
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/1/27
+        /// Insert non registered branch
+        /// </summary>
+        /// <param name="nonRegBranch"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
+        {
+            nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode });
+            paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName });
+            paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1 });
+            paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 });
+            paramertList.Add(new object[] { "@state_id", nonRegBranch.StateId });
+            paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity });
+            if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetTopNonRegBranchIdByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre + "-" + nonRegBranch.MainBranch.Extention;
+            }
+            else
+            {
+                nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre;
+            }
+            paramertList.Add(new object[] { "@zip", nonRegBranch.MainBranch.BranchZip });
+            paramertList.Add(new object[] { "@email", nonRegBranch.MainBranch.BranchEmail });
+            paramertList.Add(new object[] { "@phone_num_1", nonRegBranch.MainBranch.BranchPhoneNum1 });
+            paramertList.Add(new object[] { "@phone_num_2", nonRegBranch.MainBranch.BranchPhoneNum2 });
+            paramertList.Add(new object[] { "@phone_num_3", nonRegBranch.MainBranch.BranchPhoneNum3 });
+            paramertList.Add(new object[] { "@fax", nonRegBranch.MainBranch.BranchFax });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@company_id", nonRegBranch.MainBranch.BranchCompany });
+            paramertList.Add(new object[] { "@branch_id", nonRegBranch.MainBranch.BranchCreatedBy });
 
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        string topId = "";
-
-                        while (reader.Read())
-                        {
-
-                            topId = reader["branch_code"].ToString();
-
-                        }
-                        return topId;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertNonRegisteredBranch", paramertList);
+            }
+            catch
+            {
+                return false;
             }
         }
+
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:17/1/2016
@@ -628,467 +728,17 @@ namespace BankLoanSystem.DAL
         /// <returns>BranchCompanyCode</returns>
         public string getCompanyCodeByUserId(int id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", id });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetCompanyCodeByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        Branch branch = new Branch();
-
-                        while (reader.Read())
-                        {
-
-                            branch.BranchCompanyCode = reader["company_code"].ToString();
-
-                        }
-                        return branch.BranchCompanyCode;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
             }
+            return "";
         }
-        /// <summary>
-        /// CreatedBy:piyumi
-        /// CreatedDate:2016/1/27
-        /// update branch id when first branch is created
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        public bool updateUserBranchId(CompanyBranchModel nonRegBranch, int userId)
-        {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUpdateBranchId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@branch_code", SqlDbType.VarChar).Value = nonRegBranch.MainBranch.BranchCode;
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/1/27
-        /// Get company type of a given user
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public int getCompanyTypeByUserId(int userId)
-        {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetCompanyTypeByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.VarChar).Value = userId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int compType = 0;
-
-                        while (reader.Read())
-                        {
-
-                            compType = int.Parse(reader["company_type"].ToString());
-
-                        }
-                        return compType;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// CreatedBy : kasun Samarawickrama
-        /// CreatedDate: 2016/02/03
-        /// 
-        /// get Branchs by company code 
-        /// </summary>
-        /// <returns>branches list</returns>
-        /// 
-        public IList<Branch> getBranchesByCompanyCode(string companyCode)
-        {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetBranchesByCompanyCode", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@company_code", SqlDbType.VarChar).Value = companyCode;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<Branch> branchesLists = new List<Branch>();
-
-
-                        while (reader.Read())
-                        {
-                            Branch branch = new Branch();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
-                            branch.StateId = int.Parse(reader["state_id"].ToString());
-                            branch.BranchCity = reader["city"].ToString();
-                            branch.BranchZip = reader["zip"].ToString();
-
-                            string[] zipWithExtention = branch.BranchZip.Split('-');
-
-                            if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
-
-                            branch.BranchEmail = reader["email"].ToString();
-                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
-                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
-                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
-                            branch.BranchFax = reader["fax"].ToString();
-                            branchesLists.Add(branch);
-
-                        }
-                        return branchesLists;
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// CreatedBy: MAM. IRFAN
-        /// CreatedDate: 2016/02/05
-        /// 
-        /// Getting all non reistered company branches by Registered company id
-        /// 
-        /// </summary>
-        /// <returns> a list contain all branches</returns>
-        /// 
-        public List<NonRegBranch> getNonRegBranches(int companyId)
-        {
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchesByCompanyId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@companyId", SqlDbType.Int).Value = companyId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<NonRegBranch> branchesLists = new List<NonRegBranch>();
-
-
-                        while (reader.Read())
-                        {
-                            NonRegBranch branch = new NonRegBranch();
-                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
-                            
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
-                            branch.StateId = Convert.ToInt32(reader["state_id"].ToString());
-                            branch.BranchCity = reader["city"].ToString();
-                            branch.BranchZip = reader["zip"].ToString();
-                            branch.CompanyNameBranchName = reader["company_name"].ToString() + " - " + reader["branch_name"].ToString();
-                            string[] zipWithExtention = branch.BranchZip.Split('-');
-
-                            if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
-
-                            branch.BranchEmail = reader["email"].ToString();
-                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
-                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
-                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
-                            branch.BranchFax = reader["fax"].ToString();
-                            branch.BranchCompany = Convert.ToInt32(reader["company_id"]);
-                            //branch.BranchCreatedBy = 
-                            branchesLists.Add(branch);
-
-                        }
-                        return branchesLists;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-
-        }
-
-
-        /// <summary>
-        /// CreatedBy: MAM. IRFAN
-        /// CreatedDate: 2016/02/05
-        /// 
-        /// Getting all non reistered company branches by Registered company id
-        /// 
-        /// </summary>
-        /// <returns> a list contain all branches</returns>
-        /// 
-        public List<NonRegBranch> getNonRegBranchesNonCompId(int nonRegCompanyId)
-        {
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchesByNonRegCompanyId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@non_reg_companyId", SqlDbType.Int).Value = nonRegCompanyId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<NonRegBranch> branchesLists = new List<NonRegBranch>();
-
-
-                        while (reader.Read())
-                        {
-                            NonRegBranch branch = new NonRegBranch();
-                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
-
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
-                            branch.StateId = Convert.ToInt32(reader["state_id"].ToString());
-                            branch.BranchCity = reader["city"].ToString();
-                            branch.BranchZip = reader["zip"].ToString();
-
-                            string[] zipWithExtention = branch.BranchZip.Split('-');
-
-                            if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
-
-                            branch.BranchEmail = reader["email"].ToString();
-                            branch.BranchPhoneNum1 = reader["phone_num_1"].ToString();
-                            branch.BranchPhoneNum2 = reader["phone_num_2"].ToString();
-                            branch.BranchPhoneNum3 = reader["phone_num_3"].ToString();
-                            branch.BranchFax = reader["fax"].ToString();
-                            branch.BranchCompany = Convert.ToInt32(reader["company_id"]);
-                            //branch.BranchCreatedBy = 
-                            branchesLists.Add(branch);
-
-                        }
-                        return branchesLists;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// CreatedBy:Irfan
-        /// CreatedDate:2016/02/11
-        /// Get Branch by branch Id
-        /// </summary>
-        /// <param name="branch Id"></param>
-        /// <returns></returns>
-        public Branch getBranchByBranchId(int branchId)
-        {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetBranchByBranchId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@branch_id", SqlDbType.VarChar).Value = branchId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        Branch branch = new Branch();
-                        
-
-                        while (reader.Read())
-                        {
-
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.BranchName = reader["branch_name"].ToString();
-
-                        }
-                        return branch;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// CreatedBy:Irfan
-        /// CreatedDate:2016/02/11
-        /// Get Non Reg Branch by non reg branch Id
-        /// </summary>
-        /// <param name="branch Id"></param>
-        /// <returns></returns>
-        public NonRegBranch getNonRegBranchByNonRegBranchId(int nonRegBranchId)
-        {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetNonRegBranchByNonRegBranchId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = nonRegBranchId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        NonRegBranch branch = new NonRegBranch();
-
-
-                        while (reader.Read())
-                        {
-
-                            branch.BranchId = int.Parse(reader["branch_id"].ToString());
-                            branch.NonRegBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
-                            branch.BranchCode = reader["branch_code"].ToString();
-                            branch.BranchName = reader["branch_name"].ToString();
-                            branch.BranchAddress1 = reader["branch_address_1"].ToString();
-                            branch.BranchAddress2 = reader["branch_address_2"].ToString();
-                            branch.BranchCity = reader["city"].ToString();
-                            branch.CompanyNameBranchName = reader["company_name"].ToString() + " - " + reader["branch_name"].ToString();
-
-                        }
-                        return branch;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
-
     }
 }
