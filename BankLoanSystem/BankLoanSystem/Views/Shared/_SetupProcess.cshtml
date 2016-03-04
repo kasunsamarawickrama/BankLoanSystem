@@ -41,7 +41,7 @@
             var response = ajaxContext.statusText;
             // var statusCode = response.get_statusCode();
             if (response.indexOf("Session") > 0) {
-                alert("Some thing went wrong... You have to Login again");
+               // alert("Some thing went wrong... You have to Login again");
                 window.location.href = "/Login/UserLogin";
             } else {
                 alert(response);
@@ -191,6 +191,24 @@
     border: 2px solid rgb(21, 33, 119);
     padding: 20px;
     display: block;
+        }
+
+        .left-button{
+            float:left;
+            margin-left:15px;
+        }
+        .right-button{
+            float:right;
+            margin-right:15px;
+        }
+        .btn-next{
+           
+            margin: 0px -50px; width:100px;
+            position:relative;
+            top:50%; left:50%;
+        }
+        .button-panel{
+                margin-top: 15px;
         }
     </style>
 
