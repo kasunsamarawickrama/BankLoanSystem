@@ -4,6 +4,7 @@
     ViewBag.Title = "Add Unit Page";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 <style type="text/css">
     .validation-summary {
@@ -15,6 +16,7 @@
         }
 
     .ui-state-default {
+        background:none;
         background-color: white;
     }
 
@@ -39,21 +41,23 @@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
+<script src="~/scripts/CommonFunctions.js"></script>
 <script src="~/scripts/jquery-1.10.2.js"></script>
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 @*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
 <script src="~/scripts/jquery-1.10.2.js"></script>
 @*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
 <script src="~/scripts/jquery-ui.js"></script>
+
+<script src="~/scripts/CommonFunctions.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
 
 <link href="~/Content/combo.css" rel="stylesheet" />
 <script src="~/scripts/combo.js"></script>
-<script src="~/scripts/CustomValidation.js"></script>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
@@ -365,7 +369,28 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.camper.HitchStyle, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.camper.HitchStyle, new { htmlAttributes = new { @class = "form-control", @id = "camperhitch" } })
+                        <div >
+                            @{
+                                List<SelectListItem> hitchlist = new List<SelectListItem>();
+
+                                hitchlist.Add(new SelectListItem
+                                {
+                                    Text = "Bumper Pull",
+                                    Value = "Bumper Pull"
+                                });
+                                hitchlist.Add(new SelectListItem
+                                {
+                                    Text = "5th Wheel",
+                                    Value = "5th Wheel"
+                                });
+                                hitchlist.Add(new SelectListItem
+                                {
+                                    Text = "Gooseneck",
+                                    Value = "Gooseneck"
+                                });
+                            }
+                            @Html.DropDownListFor(model => model.camper.HitchStyle, hitchlist, "-- select style --", new { @class = "form-control", @id = "camperhitch" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.camper.HitchStyle, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -776,6 +801,7 @@
     </div>
                             }
 
+
 <script type="text/javascript">
     _previousMakeYear = "";
     _previousMake     = "";
@@ -934,13 +960,13 @@
 
             var vin = document.getElementById("camperVin").value;
             var length = document.getElementById("camperlength").value;
-            var miles = document.getElementById("camperhitch").value;
+            var hitch = document.getElementById("camperhitch").value;
 
             if($('#combobox3-1').next().children('input').val() == ""){
                 $('#camperyear span').fadeIn();
                 $('#camperyear span').text("year required");
                 $('#camperyear span').delay(1000).fadeOut();
-                if(vin == "" || length == "" || miles == ""){
+                if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
                 }
@@ -949,7 +975,7 @@
                 $('#campermake span').fadeIn();
                 $('#campermake span').text("make required");
                 $('#campermake span').delay(1000).fadeOut();
-                if(vin == "" || length == "" || miles == ""){
+                if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
                 }
@@ -958,7 +984,7 @@
                 $('#campermodel span').fadeIn();
                 $('#campermodel span').text("model required");
                 $('#campermodel span').delay(1000).fadeOut();
-                if(vin == "" || length == "" || miles == ""){
+                if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
                 }
@@ -2052,6 +2078,13 @@
         changeUnitType(unitType);
         _previousMakeYear = "";
         _previousMake     = "";
+
+        // for all input field
+        $('input').next('span').children('span').text('');
+
+        // for dropdown field
+        $('select').next('span').children('span').text('');
+
 
     });
 
