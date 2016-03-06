@@ -1086,7 +1086,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //Get all non registered branches by company id
                 List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-                //nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
                 if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
 

@@ -51,13 +51,13 @@ namespace BankLoanSystem.Controllers.CreateBranch
             int id = (int)Session["userId"];
             //branch.StateId = branch.StateId2;
             BranchAccess br = new BranchAccess();
-            bool reslt = br.insertBranchDetails(branch, id);
+            int reslt = br.insertBranchDetails(branch, id);
 
             CompanyAccess ca = new CompanyAccess();
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (reslt)
+            if (reslt>0)
             {
                 ViewBag.SuccessMsg = "Branch is successfully added";
                 return RedirectToAction("CreateBranch", "CreateBranch", new {success = 1 });
