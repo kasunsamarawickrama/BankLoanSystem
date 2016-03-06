@@ -309,7 +309,7 @@
                 $('#paidDateDiv').hide();
             });
             
-            if($('#NeedReminder').prop('checked')==true){
+            if($('#needReminder option:selected').text()=="Yes"){
 
                 $('#autoRemind').show();
             }
