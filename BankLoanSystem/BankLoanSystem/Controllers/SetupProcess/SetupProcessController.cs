@@ -314,11 +314,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 userCompany.MainBranch = userCompany2.MainBranch;
             }
 
-            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if (reslt)
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            userCompany2.MainBranch.BranchId = reslt;
+            if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 3))
+                if (sa.UpdateCompanySetupStep(userCompany2.Company.CompanyId,userCompany2.MainBranch.BranchId, 3))
                 {
                     bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
                     if (reslt2)
@@ -1085,7 +1086,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //Get all non registered branches by company id
                 List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+                //nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
                 if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
 
@@ -1398,7 +1399,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Interest intrst = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
-
+            //yes no list
+            List<SelectListItem> yesOrNoList = new List<SelectListItem>();
+          
+            yesOrNoList.Add(new SelectListItem
+            {
+                Text = "Yes",
+                Value = "true"
+            });
+            yesOrNoList.Add(new SelectListItem
+            {
+                Text = "No",
+                Value = "false"
+            });
+            ViewBag.NeedReminder = new SelectList(yesOrNoList, "Value", "Text");
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
