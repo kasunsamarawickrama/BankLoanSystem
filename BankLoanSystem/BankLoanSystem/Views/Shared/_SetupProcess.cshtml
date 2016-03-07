@@ -43,14 +43,14 @@
         function handleErrorMsg(ajaxContext) {
 
             var response = ajaxContext.statusText;
-            // var statusCode = response.get_statusCode();
-            if (response.indexOf("Session") > 0) {
-               // alert("Some thing went wrong... You have to Login again");
-                window.location.href = "/Login/UserLogin";
-            } else {
-                alert(response);
-            }
-
+            //// var statusCode = response.get_statusCode();
+            //if (response.indexOf("Session") > 0) {
+            //   // alert("Some thing went wrong... You have to Login again");
+            //    window.location.href = "/Login/UserLogin";
+            //} else {
+            //    alert(response);
+            //}
+            window.location.href = "/Login/UserLogin";
         }
 
 

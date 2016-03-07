@@ -38,11 +38,11 @@
         InsertionMode = InsertionMode.Replace,
         UpdateTargetId = "changeContainer",
         LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
+    }, new { id = "form", style= "clear: both;" }))
     {
         @Html.AntiForgeryToken()
-        @ViewBag.SuccessMsg
-        <div class="form-group">
+        <span class="text-success">@ViewBag.SuccessMsg</span>
+        <div class="form-group" >
 
             <div class="button-panel">
 
@@ -74,7 +74,7 @@
                     },
 
                     error: function (request, status, error) {
-                        handleErrorMsg(request.responseText);
+                        //handleErrorMsg(request.responseText);
 
                     }
                 });
@@ -98,7 +98,7 @@
                             Progress(4);
                         },
                         error: function (request, status, error) {
-                            handleErrorMsg(request.responseText);
+                            //handleErrorMsg(request.responseText);
 
                         }
                     });
@@ -290,7 +290,7 @@ else
                     Progress(4);
                 },
                 error: function (request, status, error) {
-                    handleErrorMsg(request.responseText);
+                    //handleErrorMsg(request.responseText);
 
                 }
             });
@@ -315,7 +315,7 @@ else
 
                 },
                 error: function (request, status, error) {
-                    handleErrorMsg(request.responseText);
+                    //handleErrorMsg(request.responseText);
 
                 }
             });

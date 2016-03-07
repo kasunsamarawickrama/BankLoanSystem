@@ -235,7 +235,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int companyId = ca.InsertCompany(company, type);
 
-            if (companyId >0)
+            if (companyId > 0)
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
@@ -515,7 +515,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.SuccessMsg = "User Successfully Created";
                 //sa.updateStepNumberByUserId(userId, 4);
                 sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
-                return PartialView();
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
             }
 
             UserAccess ua = new UserAccess();
@@ -735,7 +744,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
-                return PartialView();
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
             }
         }
 
@@ -1041,12 +1059,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step4(int? edit)
         {
-
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return new HttpStatusCodeResult(404, "Your Session Expired");
-
-            int userId = Convert.ToInt32(Session["userId"]);
-
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo < 0)
@@ -1062,7 +1074,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
-                int comType = ba.getCompanyTypeByUserId(userId);
+                int comType = ba.getCompanyTypeByUserId(userData.UserId);
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
                 //Get states to list
@@ -1103,9 +1115,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step4(CompanyViewModel nonRegComModel, string companyCode)
         {
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return new HttpStatusCodeResult(404, "Your Session Expired");
-
             nonRegComModel.Company.CompanyCode = companyCode;
 
             if (string.IsNullOrEmpty(companyCode))
@@ -1158,92 +1167,71 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step5()
         {
-            //int userId = 68;
-            if ((Session["userId"] != null) && (Session["userId"].ToString() != ""))
-            //if (userId > 0)
+            int userId = userData.UserId;
+            BranchAccess ba = new BranchAccess();
+            int compType = ba.getCompanyTypeByUserId(userId);
+            if (compType == 1)
             {
-                int userId = (int)Session["userId"];
-                BranchAccess ba = new BranchAccess();
-                int compType = ba.getCompanyTypeByUserId(userId);
-                if (compType == 1)
-                {
-                    ViewBag.compType = "Create Dealer Branch";
-                }
-                else if (compType == 2)
-                {
-                    ViewBag.compType = "Create Lender Branch";
-                }
-                else
-                {
-                    ViewBag.compType = "";
-                }
-                StepAccess cs = new StepAccess();
-                int stepNo = Convert.ToInt32(Session["companyStep"]);
-                if (stepNo < 0)
-                {
-                    stepNo = Convert.ToInt32(Session["companyStep"]);
-                }
+                ViewBag.compType = "Create Dealer Branch";
+            }
+            else if (compType == 2)
+            {
+                ViewBag.compType = "Create Lender Branch";
+            }
+            else
+            {
+                ViewBag.compType = "";
+            }
+            StepAccess cs = new StepAccess();
+            int stepNo = Convert.ToInt32(Session["companyStep"]);
+            if (stepNo < 0)
+            {
+                stepNo = Convert.ToInt32(Session["companyStep"]);
+            }
 
-                if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
-                userNonRegCompany = new CompanyBranchModel();
-                if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
-                {
-                    
-
-                    userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
-                    userNonRegCompany.MainBranch = new Branch();
-                    if (userNonRegCompany.Company.Extension == null)
-                        userNonRegCompany.Company.Extension = "";
-                }
-
-                UserAccess ua = new UserAccess();
-                User curUser = ua.retreiveUserByUserId(userId);
+            if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
+            userNonRegCompany = new CompanyBranchModel();
+            if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+            {
 
 
-                ViewBag.CurrUserRoleType = curUser.RoleId;
-                _curUserRoleId = curUser.RoleId;
-                _curBranchId = curUser.BranchId;
+                userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
+                userNonRegCompany.MainBranch = new Branch();
+                if (userNonRegCompany.Company.Extension == null)
+                    userNonRegCompany.Company.Extension = "";
+            }
 
-                //Get states to list
-                CompanyAccess ca = new CompanyAccess();
-                List<State> stateList = ca.GetAllStates();
-                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+            UserAccess ua = new UserAccess();
+            User curUser = ua.retreiveUserByUserId(userId);
 
-                // get all branches
-                List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-                ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
-                //Get all non reg companies
-                List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
-                ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+            ViewBag.CurrUserRoleType = curUser.RoleId;
+            _curUserRoleId = curUser.RoleId;
+            _curBranchId = curUser.BranchId;
 
-                NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
-                nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
-                nonRegCompanyBranch.CompanyBranch.Company = new Company();
-                //Get all non registered branches by company id
-                List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
-                nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            //Get states to list
+            CompanyAccess ca = new CompanyAccess();
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-                if (curUser.RoleId != 2) {
-                    if (HttpContext.Request.IsAjaxRequest())
-                    {
-                        ViewBag.AjaxRequest = 1;
-                        return PartialView(nonRegCompanyBranch);
-                    }
-                    else
-                    {
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
-                        return View(nonRegCompanyBranch);
-                    }
+            //Get all non reg companies
+            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
+            ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
 
-                } 
+            NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
+            nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
+            nonRegCompanyBranch.CompanyBranch.Company = new Company();
+            //Get all non registered branches by company id
+            List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
+            nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+            nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
-                //Select non registered branch for admin's branch
-                var adminBonRegBranches = new List<NonRegBranch>();
-                adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
-                nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
-
+            if (curUser.RoleId != 2)
+            {
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
@@ -1256,7 +1244,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-            return new HttpStatusCodeResult(404, "Your Session Expired");
+
+            //Select non registered branch for admin's branch
+            var adminBonRegBranches = new List<NonRegBranch>();
+            adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
+            nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(nonRegCompanyBranch);
+            }
+            else
+            {
+
+                return View(nonRegCompanyBranch);
+            }
         }
 
         /// <summary>
@@ -1273,7 +1276,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
-            int userId = (int)Session["userId"];
+            int userId = userData.UserId;
             //int userId = 68;
             BranchAccess ba = new BranchAccess();
             CompanyAccess ca = new CompanyAccess();

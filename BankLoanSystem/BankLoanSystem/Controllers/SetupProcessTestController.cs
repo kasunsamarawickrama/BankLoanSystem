@@ -70,7 +70,7 @@ namespace BankLoanSystem.Controllers
                     //----------
                     Company preCompany = new Company();
                     DataSet dsCompany = new DataSet();
-                    dsCompany = ca.GetCompanyDetailsByFirstSpUserId(userData);
+                    dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                     if (dsCompany.Tables[0].Rows.Count > 0)
                     {
                         preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
@@ -131,7 +131,9 @@ namespace BankLoanSystem.Controllers
             //check this record is new one or exitsting one
             //string type = (edit == 1) ? "UPDATE" : "INSERT";
 
-            if (ca.InsertCompany(company, type))
+            int companyId = ca.InsertCompany(company, type);
+
+            if (companyId > 0)
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
