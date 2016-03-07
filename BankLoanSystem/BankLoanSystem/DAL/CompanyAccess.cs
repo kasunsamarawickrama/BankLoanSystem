@@ -234,7 +234,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public DataSet GetCompanyDetailsCompanyId(int companyId)
+        public Company GetCompanyDetailsCompanyId(int companyId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -242,7 +242,32 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_id", companyId });
             try
             {
-                return dataHandler.GetDataSet("spGetCompanyDetailsCompanyId", paramertList);
+                Company company = new Company();
+                DataSet dsCompany = dataHandler.GetDataSet("spGetCompanyDetailsCompanyId", paramertList);
+
+                company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+                company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+
+                string[] zipWithExtention = company.Zip.Split('-');
+
+                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
+
+                return company;
             }
             catch
             {
