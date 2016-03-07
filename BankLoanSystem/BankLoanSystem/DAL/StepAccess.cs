@@ -184,8 +184,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
 
-            paramertList.Add(new object[] { "@company_id", user.UserName });
-            paramertList.Add(new object[] { "@branch_id", user.UserName });
+            paramertList.Add(new object[] { "@company_id", user.Company_Id });
+            paramertList.Add(new object[] { "@branch_id", user.BranchId });
             try
             {
                 return dataHandler.GetDataSet("spCheckUserLoginWhileCompanySetup1", paramertList);

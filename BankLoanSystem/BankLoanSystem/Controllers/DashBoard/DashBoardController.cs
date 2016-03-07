@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BankLoanSystem.Models;
+﻿using System.Web.Mvc;
 using BankLoanSystem.DAL;
+using BankLoanSystem.Models;
 
 namespace BankLoanSystem.Controllers.DashBoard
 {
     public class DashBoardController : Controller
     {
 
-
+        User userData = new User();
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/14
@@ -20,32 +16,44 @@ namespace BankLoanSystem.Controllers.DashBoard
         /// </summary>
         /// <param name="id">userid fromlogin page</param>
         /// <returns></returns>
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                }
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
+
         public ActionResult UserDashBoard()
         {
             ViewBag.login = false;
 
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
-
-            var id = (int)Session["userId"];
+            var id = userData.UserId;
 
             var dashBoardModel = new Models.DashBoard();
 
             var newDashDAL = new DashBoardAccess();
 
-            if (id <= 0 )
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
             if (id >0) {
 
                 ///get level id by userid
                 int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
                 dashBoardModel.userId = id;
-                dashBoardModel.userName = (new UserAccess()).retreiveUserByUserId(id).UserName;
+                dashBoardModel.userName = userData.UserName;
                 dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
                 if (userLevelId == 1) {
 
