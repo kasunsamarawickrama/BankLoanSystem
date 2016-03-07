@@ -7,13 +7,18 @@
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
-    }
+}
 }
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/scripts/CommonFunctions.js"></script>
+<style>
+.col-xs-8 {
+    padding-right: 300px;
+}
+</style>
 @*<script src="~/scripts/jquery-ui.js"></script>
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
 
@@ -47,27 +52,23 @@
                         </div>
                         <div class="col-xs-8">
                             @{
-                                List<SelectListItem> listItems = new List<SelectListItem>();
-                                listItems.Add(new SelectListItem
-                                {
-                                    Text = "-- select --",
-                                    Value = "2",
-                                    Selected = true
-                                });
-                                listItems.Add(new SelectListItem
+                                List<SelectListItem> listItemsoption = new List<SelectListItem>();
+     
+                                listItemsoption.Add(new SelectListItem
                                 {
                                     Text = "Yes",
                                     Value = "1"
                                 });
-                                listItems.Add(new SelectListItem
+                                listItemsoption.Add(new SelectListItem
                                 {
                                     Text = "No",
-                                    Value = "0"
+                                    Value = "2"
                                 });
+
                             }
                             @Html.HiddenFor(model => model.LoanId)
                             @Html.HiddenFor(model => model.isEdit)
-                            @Html.DropDownListFor(model => model.AdvanceId, listItems, new { @id = "dropDownAdvance", @class = "form-control col-sm-2", onChange = "changeDropDownValueAdvance();" })
+                            @Html.DropDownListFor(model => model.AdvanceId, listItemsoption, "-- select --", new { @id = "dropDownAdvance", @class = "form-control col-sm-2", onChange = "changeDropDownValueAdvance();" })
                             @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -78,7 +79,7 @@
                                 @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " Amount" } })
+                                @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", placeholder = " 0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -126,7 +127,7 @@
                                         @Html.LabelFor(model => model.AdvanceFeeDealerEmail, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "Dealer Email" } })
+                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
                                         @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmail, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -204,7 +205,7 @@
                                     @Html.LabelFor(model => model.AdvanceDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDueEmail", placeholder = "Remind Email" } })
+                                    @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -226,7 +227,7 @@
                             <h3>@Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })</h3>
                         </div>
                         <div class="col-xs-8">
-                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItems, new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
+                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -236,7 +237,7 @@
                                 @Html.LabelFor(model => model.MonthlyLoanAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "Amount" } })
+                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control", @id = "loanAmount", placeholder = "0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -262,7 +263,7 @@
                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmail, htmlAttributes: new { })
                                         </div>
                                         <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "Dealer Email " } })
+                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "example@example.com" } })
                                             @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmail, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -342,7 +343,7 @@
                                     @Html.LabelFor(model => model.MonthlyLoanDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDueEmail", placeholder = "Remind Email" } })
+                                    @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -365,7 +366,7 @@
                         </div>
                         <div class="col-xs-8">
 
-                            @Html.DropDownListFor(model => model.LotInspectionId, listItems, new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
+                            @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
                             @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -375,7 +376,7 @@
                                 @Html.LabelFor(model => model.LotInspectionAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "Amount" } })
+                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control", @id = "lotAmount", placeholder = "0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -402,7 +403,7 @@
                                         @Html.LabelFor(model => model.LotInspectionFeeDealerEmail, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "Dealer Email" } })
+                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "example@example.com" } })
                                         @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmail, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -472,6 +473,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="lotRemEmail">
                         <div class="form-group">
                             <div class="control-label col-sm-2">
                                 @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
@@ -486,7 +488,7 @@
                                     @Html.LabelFor(model => model.LotInspectionDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDueEmail", placeholder = "Remind Email" } })
+                                        @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.LotInspectionDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -500,6 +502,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                     <hr>
                 </div>
@@ -544,13 +547,16 @@
         }
     }
     function changeDropDownValueDueLot() {
-
+        $("#lotRemEmail").show("slow");
         if (document.getElementById("lotDue").value == "Monthly") {
             $("#monthLot").show("slow");
         }
         else {
             document.getElementById("lotDueDate").value = "";
             $("#monthLot").hide("slow");
+            if (document.getElementById("lotDue").value == "Random") {
+                $("#lotRemEmail").hide("slow");
+            }
         }
     }
     $('#needReminderAdvanceComplete').change(function () {
@@ -615,7 +621,7 @@
     });
     function changeDropDownValueAdvance() {
         var drop1 = document.getElementById("dropDownAdvance").value;
-        if (drop1 == "0"||drop1 == "2") {
+        if (drop1 != "1") {
             $('#advance').hide("slow");
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
@@ -642,7 +648,7 @@
     }
     function changeDropDownValueLoan() {
         var drop2 = document.getElementById("dropDownLoan").value;
-        if (drop2 == "0"||drop2 == "2") {
+        if (drop2 != "1") {
             $('#loan').hide("slow");
             $('#remindEmailLoanComplete').hide();
             $('#remindEmailLoanDue').hide();
@@ -668,7 +674,7 @@
     }
     function changeDropDownValueLot() {
         var drop3 = document.getElementById("dropDownLot").value;
-        if (drop3 == "0"||drop3 == "2") {
+        if (drop3 != "1") {
             $('#lot').hide("slow");
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
@@ -730,6 +736,7 @@
                 }
             }
             else{
+                document.getElementById("dropDownAdvance").value = "2";
                 $('#advance').hide();
                 $("#monthAdvance").hide();
                 $('#remindEmailAdvanceComplete').hide();
@@ -776,6 +783,7 @@
                 }
             }
             else{
+                document.getElementById("dropDownLoan").value = "2";
                 $('#loan').hide();
                 $("#monthLoan").hide();
                 $('#remindEmailLoanComplete').hide();
@@ -800,6 +808,9 @@
                 else{
                     $("#monthLot").hide();
                     document.getElementById("lotDueDate").value = "";
+                    if (model.LotInspectionDue == "Random") {
+                        $("#lotRemEmail").hide();
+                    }
                 }
                 if(model.IsLotFeeCompleteEmailReminder == true ){
                     $("#needReminderLotComplete").attr("checked");
@@ -821,6 +832,7 @@
                 }
             }
             else{
+                document.getElementById("dropDownLot").value = "2";
                 $('#lot').hide();
                 $("#monthLot").hide();
                 $('#remindEmailLotComplete').hide();
@@ -888,6 +900,7 @@
     }
     $('#clear').click(function () {
         document.getElementById("form").reset();
+
         $('#advance').hide();
         $("#monthAdvance").hide();
         $('#remindEmailAdvanceComplete').hide();
@@ -960,7 +973,7 @@
         });
     });
 
-    Progress(8);
+    $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     skipProgress(8);
 
 </script>

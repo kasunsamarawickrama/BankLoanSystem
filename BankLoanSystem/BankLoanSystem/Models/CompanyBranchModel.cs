@@ -25,11 +25,11 @@ namespace BankLoanSystem.Models
         public List<NonRegBranch> NonRegBranches { get; set; }
 
         [Required]
-        [Display(Name = "Branch")]
+        [Display(Name = "Branch Name")]
         public int RegBranchId { get; set; }
 
         [Required]
-        [Display(Name = "Company")]
+        [Display(Name = "Company Name")]
         public int NonRegCompanyId { get; set; }
     }
 }

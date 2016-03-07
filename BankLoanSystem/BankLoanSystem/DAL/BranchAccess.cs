@@ -40,27 +40,27 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@companyId", companyId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0)
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                        Branch branch = new Branch();
-                        branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
-                        branch.BranchName = dataRow["branch_name"].ToString();
-                        branch.BranchCode = dataRow["branch_code"].ToString();
-                        branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    Branch branch = new Branch();
+                    branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
 
-                        branchesLists.Add(branch);
-                    }
+                    branchesLists.Add(branch);
+                }
 
-                    return branchesLists;
-                }
-                else
-                {
-                    return null;
-                }
+                return branchesLists;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -91,14 +91,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_code", compCode });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyIdByCompanyCode", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
-                }
-                return 0;
             }
+            return 0;
+        }
 
             catch
             {
@@ -127,14 +127,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_code", compCode });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyIdByCompanyCode", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
-                }
-                return 0;
             }
+            return 0;
+        }
 
             catch
             {
@@ -164,19 +164,19 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@user_id", id });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
-                }
+            }
                 return 0;
             }
 
             catch
             {
-                return 0;
-            }
+            return 0;
+        }
         }
 
         /// <summary>
@@ -232,19 +232,19 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@user_id", userId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyTypeByUserId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyTypeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
 
-                }
+            }
                 return 0;
             }
 
             catch
             {
-                return 0;
-            }
+            return 0;
+        }
         }
 
         /// <summary>
@@ -270,41 +270,41 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_code", companyCode });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyCode", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0)
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                        Branch branch = new Branch();
-                        branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
-                        branch.BranchName = dataRow["branch_name"].ToString();
-                        branch.BranchCode = dataRow["branch_code"].ToString();
-                        branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
-                        branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
-                        branch.StateId = int.Parse(dataRow["state_id"].ToString());
-                        branch.BranchCity = dataRow["city"].ToString();
-                        branch.BranchZip = dataRow["zip"].ToString();
+                    Branch branch = new Branch();
+                    branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = int.Parse(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
 
-                        string[] zipWithExtention = branch.BranchZip.Split('-');
-                        if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                        if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
 
-                        branch.BranchEmail = dataRow["email"].ToString();
-                        branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
-                        branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
-                        branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
-                        branch.BranchFax = dataRow["fax"].ToString();
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
 
-                        branchesLists.Add(branch);
-                    }
-
-                    return branchesLists;
+                    branchesLists.Add(branch);
                 }
-                else
-                {
-                    return null;
-                }
+
+                return branchesLists;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -336,43 +336,45 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@companyId", companyId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByCompanyId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0)
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                        NonRegBranch branch = new NonRegBranch();
-                        branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                    NonRegBranch branch = new NonRegBranch();
 
-                        branch.BranchName = dataRow["branch_name"].ToString();
-                        branch.BranchCode = dataRow["branch_code"].ToString();
-                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                        branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
-                        branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
-                        branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
-                        branch.BranchCity = dataRow["city"].ToString();
-                        branch.BranchZip = dataRow["zip"].ToString();
+                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
 
-                        string[] zipWithExtention = branch.BranchZip.Split('-');
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
 
-                        if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                        if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
 
-                        branch.BranchEmail = dataRow["email"].ToString();
-                        branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
-                        branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
-                        branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
-                        branch.BranchFax = dataRow["fax"].ToString();
-                        branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
-                        branchesLists.Add(branch);
-                    }
-                    return branchesLists;
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+
+                    branch.CompanyNameBranchName = dataRow["company_name"].ToString() +" - " + dataRow["branch_name"].ToString();
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
+                    branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
+                    branchesLists.Add(branch);
                 }
-                else
-                {
-                    return null;
-                }
+                return branchesLists;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -397,44 +399,44 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@non_reg_companyId", nonRegCompanyId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByNonRegCompanyId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0)
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByNonRegCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                        NonRegBranch branch = new NonRegBranch();
-                        branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                    NonRegBranch branch = new NonRegBranch();
+                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
 
-                        branch.BranchName = dataRow["branch_name"].ToString();
-                        branch.BranchCode = dataRow["branch_code"].ToString();
-                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                        branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
-                        branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
-                        branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
-                        branch.BranchCity = dataRow["city"].ToString();
-                        branch.BranchZip = dataRow["zip"].ToString();
-                        branch.CompanyNameBranchName = dataRow["company_name"].ToString() + " - " + dataRow["branch_name"].ToString();
-                        string[] zipWithExtention = branch.BranchZip.Split('-');
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.StateId = Convert.ToInt32(dataRow["state_id"].ToString());
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.BranchZip = dataRow["zip"].ToString();
+                    branch.CompanyNameBranchName = dataRow["company_name"].ToString() + " - " + dataRow["branch_name"].ToString();
+                    string[] zipWithExtention = branch.BranchZip.Split('-');
 
-                        if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                        if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                    if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
 
-                        branch.BranchEmail = dataRow["email"].ToString();
-                        branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
-                        branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
-                        branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
-                        branch.BranchFax = dataRow["fax"].ToString();
-                        branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
-                        branchesLists.Add(branch);
-                    }
-
-                    return branchesLists;
+                    branch.BranchEmail = dataRow["email"].ToString();
+                    branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
+                    branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
+                    branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
+                    branch.BranchFax = dataRow["fax"].ToString();
+                    branch.BranchCompany = Convert.ToInt32(dataRow["company_id"]);
+                    branchesLists.Add(branch);
                 }
-                else
-                {
-                    return null;
-                }
+
+                return branchesLists;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -463,23 +465,23 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_id", branchId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dataRow = dataSet.Tables[0].Rows[0];
-                    Branch branch = new Branch();
+            DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                Branch branch = new Branch();
 
-                    branch.BranchCode = dataRow["branch_code"].ToString();
-                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                    branch.BranchName = dataRow["branch_name"].ToString();
+                branch.BranchCode = dataRow["branch_code"].ToString();
+                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                branch.BranchName = dataRow["branch_name"].ToString();
 
-                    return branch;
-                }
-                else
-                {
-                    return null;
-                }
+                return branch;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -508,26 +510,26 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@non_reg_branch_id", nonRegBranchId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchByNonRegBranchId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dataRow = dataSet.Tables[0].Rows[0];
-                    NonRegBranch branch = new NonRegBranch();
-                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
-                    branch.BranchCode = dataRow["branch_code"].ToString();
-                    branch.BranchName = dataRow["branch_name"].ToString();
-                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
-                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
-                    branch.BranchCity = dataRow["city"].ToString();
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchByNonRegBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                NonRegBranch branch = new NonRegBranch();
+                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                branch.BranchCode = dataRow["branch_code"].ToString();
+                branch.BranchName = dataRow["branch_name"].ToString();
+                branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                branch.BranchCity = dataRow["city"].ToString();
 
-                    return branch;
-                }
-                else
-                {
-                    return null;
-                }
+                return branch;
             }
+            else
+            {
+                return null;
+            }
+        }
 
             catch
             {
@@ -589,14 +591,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_code", companyCode });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetTopBranchIdByCompanyCode", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopBranchIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
 
-                }
-                return "";
             }
+            return "";
+        }
 
             catch
             {
@@ -617,14 +619,14 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", companyCode });
             try {
-                DataSet dataSet = dataHandler.GetDataSet("spGetTopNonRegBranchIdByCompanyCode", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopNonRegBranchIdByCompanyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["branch_code"].ToString();
 
-                }
-                return "";
-            } 
+            }
+            return "";
+        }
             catch
             {
                 return "";
@@ -682,10 +684,10 @@ namespace BankLoanSystem.DAL
         public int insertBranch(Branch branch, int id)
         {
             if (string.IsNullOrEmpty(branch.BranchCode))
-            {
+        {
                 branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
             }
-
+           
             //branch.BranchCompany = getCompanyIdByUserId(id);
 
             DataHandler dataHandler = new DataHandler();
@@ -778,7 +780,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName });
             paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1 });
             paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 });
-            paramertList.Add(new object[] { "@state_id", nonRegBranch.StateId });
+            paramertList.Add(new object[] { "@state_id", nonRegBranch.MainBranch.StateId });
             paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity });
             if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
             {
@@ -821,19 +823,19 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", id });
             try {
-                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
 
-                }
+            }
                 return "";
             }
 
             catch
             {
-                return "";
-            }
+            return "";
         }
     }
+}
 }

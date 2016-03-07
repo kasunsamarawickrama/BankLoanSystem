@@ -123,6 +123,8 @@ namespace BankLoanSystem.Controllers
                             {
                                 //check branch count in view and step table row count
                                 //IF more than branch count and has step record ask question
+
+
                                 DataSet dsStepNo = new DataSet();
                                 dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
                                 if (dsStepNo.Tables[0].Rows.Count > 0)

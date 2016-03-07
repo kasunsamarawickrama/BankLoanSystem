@@ -229,7 +229,7 @@ namespace BankLoanSystem.DAL
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read()) {                          
-                            fees.AdvanceAmount = double.Parse(reader["advance_fee_amount"].ToString());
+                            fees.AdvanceAmount = decimal.Parse(reader["advance_fee_amount"].ToString());
                             fees.AdvanceFeeCalculateType = reader["advance_fee_calculate_type"].ToString();
                             fees.AdvanceNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.AdvanceDue = reader["payment_due_method"].ToString();
@@ -257,7 +257,7 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            fees.MonthlyLoanAmount = double.Parse(reader["monthly_loan_fee_amount"].ToString());
+                            fees.MonthlyLoanAmount = decimal.Parse(reader["monthly_loan_fee_amount"].ToString());
                             fees.MonthlyLoanNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.MonthlyLoanDue = reader["payment_due_method"].ToString();
                             fees.MonthlyLoanDueDate = reader["payment_due_date"].ToString();
@@ -284,7 +284,7 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            fees.LotInspectionAmount = double.Parse(reader["lot_inspection_amount"].ToString());
+                            fees.LotInspectionAmount = decimal.Parse(reader["lot_inspection_amount"].ToString());
                             fees.LotInspectionNeedReceipt = bool.Parse(reader["receipt"].ToString());
                             fees.LotInspectionDue = reader["payment_due_method"].ToString();
                             fees.LotInspectionDueDate = reader["payment_due_date"].ToString();
