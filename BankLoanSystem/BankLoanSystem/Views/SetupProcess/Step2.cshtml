@@ -3,6 +3,10 @@
 @{
 
     ViewBag.Title = "Step2";
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
 
 }
 <style>
@@ -418,6 +422,6 @@
 
    
 
-        $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(2);
    
 </script>

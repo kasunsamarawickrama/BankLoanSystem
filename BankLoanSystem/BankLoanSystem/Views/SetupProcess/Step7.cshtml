@@ -2,7 +2,11 @@
 
 @{
     ViewBag.Title = "Step7";
-    
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
+
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -18,7 +22,7 @@
         {
 
             
-            OnSuccess = "Progress(8);",
+            
             OnFailure = "handleErrorMsg",
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace,
@@ -375,5 +379,5 @@
 
     });
 
-    $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(7);
 </script>

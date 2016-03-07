@@ -1,5 +1,10 @@
 ﻿@using BankLoanSystem.Models
 
+@if (ViewBag.AjaxRequest == null)
+{
+    ViewBag.Title = "Step9";
+    Layout = "~/Views/Shared/_SetupProcess.cshtml";
+}
 @model BankLoanSystem.Models.LoanSetupStep1
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -12,7 +17,7 @@
 
 @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
 {
-    OnSuccess = "Progress(7) ;",
+    
     OnFailure = "handleErrorMsg",
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
@@ -805,13 +810,8 @@
 
 
 
-
-        $(".tab").parent("li").removeClass("active");
-        $(".tab.6").parent("li").addClass("active").siblings().removeClass('active');
-        $(".main-tab.1").addClass('collapsed');
-        $("#demo").removeClass("in");
-        $(".main-tab.2").removeClass('collapsed');
-        $("#demo2").addClass("in");
+        Progress(6);
+        
 
 </script>
 
