@@ -299,6 +299,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     NonRegBranch branch = new NonRegBranch();
+
                     branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
 
                     branch.BranchName = dataRow["branch_name"].ToString();
@@ -315,6 +316,7 @@ namespace BankLoanSystem.DAL
                     if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
                     if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
 
+                    branch.CompanyNameBranchName = dataRow["company_name"].ToString() +" - " + dataRow["branch_name"].ToString();
                     branch.BranchEmail = dataRow["email"].ToString();
                     branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
                     branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
@@ -696,7 +698,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName });
             paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1 });
             paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 });
-            paramertList.Add(new object[] { "@state_id", nonRegBranch.StateId });
+            paramertList.Add(new object[] { "@state_id", nonRegBranch.MainBranch.StateId });
             paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity });
             if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
             {
