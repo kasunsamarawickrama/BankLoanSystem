@@ -1405,18 +1405,48 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SetupDashBoard()
         {
             ViewBag.login = false;
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                }
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+
+            var id = userData.UserId;
+
             var dashBoardModel = new Models.DashBoard();
 
-            //var newDashDAL = new DashBoardAccess();
+            var newDashDAL = new DashBoardAccess();
+
+            if (id <= 0)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+            else
+            {
 
                 ///get level id by userid
-                int userLevelId = userData.RoleId;
+                int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
-                dashBoardModel.userId = userData.UserId;
-                dashBoardModel.userName = userData.UserName; 
-                dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(userData.UserId);
+                dashBoardModel.userId = id;
+                dashBoardModel.userName = (new UserManageAccess()).getUserNameById(id);
+                dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
                 dashBoardModel.levelId = userLevelId;
-                return PartialView(dashBoardModel);    
+                return PartialView(dashBoardModel);
+
+
+
+            }
+
         }
 
         /// <summary>
