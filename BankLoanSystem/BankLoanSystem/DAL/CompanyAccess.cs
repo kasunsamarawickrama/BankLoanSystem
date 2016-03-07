@@ -232,24 +232,22 @@ namespace BankLoanSystem.DAL
         /// return company object using dataset object  
         /// 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="companyId"></param>
         /// <returns></returns>
-
-        public DataSet GetCompanyDetailsByFirstSpUserId(User user)
+        public DataSet GetCompanyDetailsCompanyId(int companyId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
 
-            paramertList.Add(new object[] { "@user_id", user.UserId });
+            paramertList.Add(new object[] { "@company_id", companyId });
             try
             {
-                return dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
+                return dataHandler.GetDataSet("spGetCompanyDetailsCompanyId", paramertList);
             }
             catch
             {
                 return null;
             }
-
         }
 
         /// <summary>
@@ -267,7 +265,7 @@ namespace BankLoanSystem.DAL
         /// <param name="company"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool InsertCompany(Company company, string type)
+        public int InsertCompany(Company company, string type)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -293,11 +291,11 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertCompany", paramertList);
+                return dataHandler.ExecuteSQLWithReturnVal("spInsertCompany", paramertList);
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 

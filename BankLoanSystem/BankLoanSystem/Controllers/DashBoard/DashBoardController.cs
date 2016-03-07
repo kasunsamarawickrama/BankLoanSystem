@@ -62,7 +62,7 @@ namespace BankLoanSystem.Controllers.DashBoard
                 int userLevelId = newDashDAL.GetUserLevelByUserId(id);
 
                 dashBoardModel.userId = id;
-                dashBoardModel.userName = (new UserAccess()).retreiveUserByUserId(id).UserName;
+                dashBoardModel.userName = userData.UserName;
                 dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
                 if (userLevelId == 1) {
 
