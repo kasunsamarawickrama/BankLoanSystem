@@ -523,6 +523,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.SuccessMsg = "User Successfully Created";
                 //sa.updateStepNumberByUserId(userId, 4);
                 sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                Session["companyStep"] = 4;
+
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
@@ -1065,18 +1067,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// CreatedDate: 2016/01/27
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step4(int? edit)
+        public ActionResult Step4()
         {
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo < 0)
             {
                 stepNo = Convert.ToInt32(Session["companyStep"]);
-            }
-
-            if (edit == 1)
-            {
-                _isEdit = 1;
             }
 
             if (stepNo >= 3)
@@ -1135,7 +1132,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (nonRegComModel.Company.Extension != null)
                 nonRegComModel.Company.Zip += "-" + nonRegComModel.Company.Extension;
 
-            int userId = Convert.ToInt32(Session["userId"]);
+            int userId = userData.UserId;
             nonRegComModel.Company.CreatedBy = Convert.ToInt32(Session["userId"]);
             nonRegComModel.Company.TypeId = (CompanyType == "Lender") ? 2 : 1;
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
@@ -1153,7 +1150,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                sa.updateStepNumberByUserId(userId, 5);
+                //sa.updateStepNumberByUserId(userId, 5);
+                sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 5);
+                Session["companyStep"] = 5;
 
                 //Send company detail to step 2
                 CompanyBranchModel comBranch = new CompanyBranchModel();

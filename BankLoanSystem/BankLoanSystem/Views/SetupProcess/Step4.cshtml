@@ -21,240 +21,358 @@
 
 
 
-        <h2>Create @ViewBag.ThisCompanyType Company</h2>
+<h2>Create @ViewBag.ThisCompanyType Company</h2>
 
-        @if (ViewBag.SuccessMsg != null)
+@if (ViewBag.SuccessMsg != null)
             {
-            @ViewBag.SuccessMsg
-        }
-        else if (@ViewBag.ErrorMsg != null)
-        {
-            @ViewBag.ErrorMsg
-        }
+    @ViewBag.SuccessMsg
+}
+else if (@ViewBag.ErrorMsg != null)
+{
+    @ViewBag.ErrorMsg
+}
 
-        @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
+@using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
+{
+
+    OnFailure = "handleErrorMsg",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "changeContainer",
+    LoadingElementId = "loadingDiv"
+}, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*@if (ViewBag.SuccessMsg == null)
+            {*@
+
+        <div class="form-group">
+            @if (Model.Companies.Count > 0)
             {
-                
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
-            @Html.AntiForgeryToken()
+                <table>
+                    <tr>
+                        <td class="control-label col-sm-2">
+                            @Html.Label("Company Name")
+                        </td>
+                        <td class="control-label col-sm-2">
+                            @Html.Label("Company Address1")
+                        </td>
 
-            <div class="form-horizontal">
-                @*@if (ViewBag.SuccessMsg == null)
-                    {*@
+                    </tr>
 
-                <div class="form-group">
-                    @if (Model.Companies.Count > 0)
+                    @for (var i = 0; i < Model.Companies.Count; i++)
                     {
-                        <table>
-                            <tr>
-                                <td class="control-label col-sm-2">
-                                    @Html.Label("Company Name")
-                                </td>
-                                <td class="control-label col-sm-2">
-                                    @Html.Label("Company Address1")
-                                </td>
+                        <tr>
+                            <td class="control-label col-sm-2">
+                                @Html.DisplayFor(x => x.Companies[i].CompanyName)
+                            </td>
+                            <td class="control-label col-sm-2">
+                                @Html.DisplayFor(x => x.Companies[i].CompanyAddress1)
+                            </td>
 
-                            </tr>
-
-                            @for (var i = 0; i < Model.Companies.Count; i++)
-                            {
-                                <tr>
-                                    <td class="control-label col-sm-2">
-                                        @Html.DisplayFor(x => x.Companies[i].CompanyName)
-                                    </td>
-                                    <td class="control-label col-sm-2">
-                                        @Html.DisplayFor(x => x.Companies[i].CompanyAddress1)
-                                    </td>
-
-                                    <td class="control-label col-sm-2">
-                                        <a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a>
-                                    </td>
-                                    <td class="control-label col-sm-2">
-                                        <a>Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+                            <td class="control-label col-sm-2">
+                                <a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a>
+                            </td>
+                            <td class="control-label col-sm-2">
+                                <a>Delete</a>
+                            </td>
+                        </tr>
                     }
-                </div>
+                </table>
+            }
+        </div>
 
 
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                @if (Model.Companies.Count > 0)
+        @if (Model.Companies.Count > 0)
                 {
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            <a onclick="CreateNewCompany()">create new company</a>
-                        </div>
-                    </div>
-                }
-
-                <input id="companyCode" name="companyCode" type="hidden" value="" />
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "CompanyName" } })
-                        @Html.ValidationMessageFor(model => model.Company.CompanyName, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    <a onclick="CreateNewCompany()">create new company</a>
                 </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control", @id = "CompanyAddress1" } })
-                        @Html.ValidationMessageFor(model => model.Company.CompanyAddress1, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.CompanyAddress2, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control", @id = "CompanyAddress2" } })
-                        @Html.ValidationMessageFor(model => model.Company.CompanyAddress2, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.City, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control", @id = "City" } })
-                        @Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-4" style="width:32.2%">
-                        @Html.EditorFor(model => model.Company.Extension, new { htmlAttributes = new { @class = "form-control", placeholder = "Extension", @id = "Extension" } })
-                        @Html.ValidationMessageFor(model => model.Company.Extension, "", new { @class = "text-danger" })
-                    </div>
-                    <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
-                    <div class="col-xs-4">
-                        @Html.EditorFor(model => model.Company.ZipPre, new { htmlAttributes = new { @class = "form-control", placeholder = "Zip Code", @id = "ZipPre" } })
-                        @Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.PhoneNum1, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum1" } })
-                        @Html.ValidationMessageFor(model => model.Company.PhoneNum1, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.PhoneNum2, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.PhoneNum2, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum2" } })
-                        @Html.ValidationMessageFor(model => model.Company.PhoneNum2, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.PhoneNum3, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.PhoneNum3, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum3" } })
-                        @Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.Fax, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.Fax, new { htmlAttributes = new { @class = "form-control", @id = "Fax" } })
-                        @Html.ValidationMessageFor(model => model.Company.Fax, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.Email, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
-                        @Html.ValidationMessageFor(model => model.Company.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.LabelFor(model => model.Company.WebsiteUrl, htmlAttributes: new { })
-                    </div>
-                    <div class="col-xs-8">
-                        @Html.EditorFor(model => model.Company.WebsiteUrl, new { htmlAttributes = new { @class = "form-control", @id = "WebsiteUrl" } })
-                        @Html.ValidationMessageFor(model => model.Company.WebsiteUrl, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="button-panel">
-                        <input type="button" value="Back" name="subBack" id="btnPreStep4" class="btn btn-default left-button" />
-
-
-                        <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-                    </div>
-
-                   
-                </div>
-
-
             </div>
         }
 
- 
+        <input id="companyCode" name="companyCode" type="hidden" value="" />
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "CompanyName" } })
+                @Html.ValidationMessageFor(model => model.Company.CompanyName, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control", @id = "CompanyAddress1" } })
+                @Html.ValidationMessageFor(model => model.Company.CompanyAddress1, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.CompanyAddress2, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control", @id = "CompanyAddress2" } })
+                @Html.ValidationMessageFor(model => model.Company.CompanyAddress2, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.City, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control", @id = "City" } })
+                @Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-4" style="width:32.2%">
+                @Html.EditorFor(model => model.Company.Extension, new { htmlAttributes = new { @class = "form-control", placeholder = "Extension", @id = "Extension" } })
+                @Html.ValidationMessageFor(model => model.Company.Extension, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+            <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
+            <div class="col-xs-4">
+                @Html.EditorFor(model => model.Company.ZipPre, new { htmlAttributes = new { @class = "form-control", placeholder = "Zip Code", @id = "ZipPre" } })
+                @Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.PhoneNum1, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum1" } })
+                @Html.ValidationMessageFor(model => model.Company.PhoneNum1, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.PhoneNum2, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.PhoneNum2, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum2" } })
+                @Html.ValidationMessageFor(model => model.Company.PhoneNum2, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.PhoneNum3, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.PhoneNum3, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNum3" } })
+                @Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.Fax, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.Fax, new { htmlAttributes = new { @class = "form-control", @id = "Fax" } })
+                @Html.ValidationMessageFor(model => model.Company.Fax, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.Email, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
+                @Html.ValidationMessageFor(model => model.Company.Email, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-2">
+                @Html.LabelFor(model => model.Company.WebsiteUrl, htmlAttributes: new { })
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Company.WebsiteUrl, new { htmlAttributes = new { @class = "form-control", @id = "WebsiteUrl" } })
+                @Html.ValidationMessageFor(model => model.Company.WebsiteUrl, "", new { @class = "text-danger" })
+                <div id="customError"><span class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="button-panel">
+                <input type="button" value="Back" name="subBack" id="btnPreStep4" class="btn btn-default left-button" />
 
 
-<script>
+                <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
+                <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+}
+
+<script src="~/scripts/CommonFunctions.js"></script>
+
+<script type="text/javascript">
+
+    // Capitalize first letter
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
+
+    //Check maximum length
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            $(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#ZipPre').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 5);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#Extension').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    //Check maximum length for email address and valid characters
+    $('#Email').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            $(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#PhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    //$('#txtFirstName, #txtLastName').keypress(function (e) {
+    //    //var array = [' ', '/', '`', '~', '!'];
+    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+    //    var res = InvalidCharacters(this, array, e.which);
+
+    //    if (res === 1) {
+    //        e.preventDefault();
+    //        return;
+    //    }
+    //});
+
+    $('input').keypress(function (e) {
+        var array = [' '];
+        if (this.value.length === 0) {
+            var res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+        }
+    });
+
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
     });
 
     Progress(4);
-</script>
 
-<script type="text/javascript">
+
     $(function() {
         $('#btnPreStep4').click(function() {
 
@@ -318,5 +436,5 @@
         document.getElementById("companyCode").value = "";
     }
 
-    
+
 </script>
