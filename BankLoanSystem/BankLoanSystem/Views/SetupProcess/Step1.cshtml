@@ -259,7 +259,7 @@
         }
     });
 
-    $('#txtPhoneNum1').keypress(function (e) {
+    $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
         if (res === 0) {
             e.preventDefault();
