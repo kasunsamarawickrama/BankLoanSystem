@@ -5,6 +5,11 @@
 <script>
     globalProgress(@ViewBag.Step);
     Progress(@ViewBag.Step);
+
+    @if (ViewBag.CurrentStep != null) {
+
+        ViewBag.Step = ViewBag.CurrentStep;
+    }
 </script>
 
 @if(ViewBag.Step == 1){

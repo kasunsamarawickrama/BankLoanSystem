@@ -31,7 +31,8 @@ namespace BankLoanSystem.DAL
             List<CompanyType> ctList = new List<CompanyType>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -41,11 +42,17 @@ namespace BankLoanSystem.DAL
                     ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
                     ct.TypeName = dataRow["company_type_name"].ToString();
 
-                        ctList.Add(ct);
-                    }
-                return ctList;
+                    ctList.Add(ct);
                 }
+                return ctList;
+            }
             else
+            {
+                return null;
+            }
+        }
+
+            catch
             {
                 return null;
             }
@@ -67,7 +74,8 @@ namespace BankLoanSystem.DAL
             List<State> stateList = new List<State>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetState");
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -77,11 +85,17 @@ namespace BankLoanSystem.DAL
                     state.StateId = Convert.ToInt32(dataRow["state_id"]);
                     state.StateName = dataRow["state_name"].ToString();
 
-                        stateList.Add(state);
-                    }
-                return stateList;
+                    stateList.Add(state);
                 }
+                return stateList;
+            }
             else
+            {
+                return null;
+            }
+        }
+
+            catch
             {
                 return null;
             }
@@ -108,8 +122,16 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_name", companyName });
+            try
+            {
             return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
-                    }
+        }
+
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -133,15 +155,26 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code_prefix", prefix });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodebyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
+            {
                 return dataSet.Tables[0].Rows[0]["company_code"].ToString();
 
-                    }
+            }
+                else
+                {
             return "";
-                }
+        }
+            }
+
+            catch
+            {
+                return "";
+            }
+        }
+        
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -166,13 +199,23 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code_prefix", prefix });
 
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyCodebyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 return dataSet.Tables[0].Rows[0]["company_code"].ToString();
-
+                }
+                else
+                {
+                    return "";
+                }
             }
+            catch
+            {
             return "";
+        }
+
         }
 
         /// <summary>
@@ -201,18 +244,24 @@ namespace BankLoanSystem.DAL
             try
             {
                 return dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
-                }
+            }
             catch
-                {
+            {
                 return null;
             }
+            }
+            catch
+            {
+                return null;
+            }
+
         }
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 01/26/2016
         /// 
-        /// Insert company in setup process 
+        /// Insert company in setup process
         /// 
         /// UpdatedBy : nadeeka
         /// UpdatedDate: 2016/03/06
@@ -247,15 +296,15 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_status", company.CompanyStatus });
             paramertList.Add(new object[] { "@transaction_type", type });
 
-                try
-                {
+            try
+            {
                 return dataHandler.ExecuteSQL("spInsertCompany", paramertList);
-                }
-            catch
-                {
-                    return false;
-                }
             }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// CreatedBy : Kanishka SHM

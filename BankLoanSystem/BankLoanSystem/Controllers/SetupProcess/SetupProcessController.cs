@@ -62,6 +62,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId = userData.UserId;
 
             ViewBag.Step = stepNo;
+            Session["stepNo"] = stepNo;
             //Get company details if branch same as company
 
             if (stepNo == 2)
@@ -118,7 +119,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 comBranch.Company = nonRegCompany;
                 TempData["NonRegCompany"] = comBranch;
 
-                return View();
+                //return View();
+                return RedirectToAction("Step2");
             }
 
             else if (stepNo == 0)
@@ -127,7 +129,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                return View();
+                return RedirectToAction("Step"+ stepNo);
             }
         }
 
@@ -185,9 +187,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     ViewBag.Edit = "Yes";
                     _isEdit = 1;
 
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
                     return PartialView(preCompany);
                 }
+                    else
+                    {
 
+                        return View(preCompany);
+                    }
+                    
+                }
             return new HttpStatusCodeResult(404, "Your Session Expired");
         }
 
@@ -328,7 +339,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     List<State> stateList = ca.GetAllStates();
                     ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
                     return PartialView(userCompany);
+                    }
+                    else
+                    {
+
+                        return View(userCompany);
+                }
+                    
 
                 }
                 else
@@ -428,7 +449,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
             return PartialView();
+        }
+            else
+            {
+
+                return View();
+            }
+
         }
 
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
@@ -502,7 +534,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
             //return PartialView(userViewModel);
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
             return PartialView();
+        }
+            else
+            {
+
+                return View();
+            }
+
         }
 
 
@@ -796,6 +839,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // if Session is expired throw an error
             
 
+            
+
             //getting user role
             UserAccess ua = new UserAccess();
             User curUser = ua.retreiveUserByUserId(userId);
@@ -960,8 +1005,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(loanSetupStep1);
+            }
+            else
+            {
 
-            return PartialView(loanSetupStep1);
+                return View(loanSetupStep1);
+            }
+
 
         }
 
@@ -1008,7 +1062,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 CompanyViewModel companyViewModel = new CompanyViewModel();
                 companyViewModel.Companies = nonRegCompanies;
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
                 return PartialView(companyViewModel);
+            }
+                else
+                {
+
+                    return View(companyViewModel);
+                }
+                
             }
 
             return new HttpStatusCodeResult(404, "You are not allowed");
@@ -1152,7 +1217,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
                 nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
                 
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
                 return PartialView(nonRegCompanyBranch);
+            }
+                else
+                {
+
+                    return View(nonRegCompanyBranch);
+                }
+                
             }
             return new HttpStatusCodeResult(404, "Your Session Expired");
         }
@@ -1469,7 +1544,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
             //yes no list
             List<SelectListItem> yesOrNoList = new List<SelectListItem>();
-
+          
             yesOrNoList.Add(new SelectListItem
             {
                 Text = "Yes",
@@ -1507,7 +1582,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         }
                         ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
                         //ViewBag.Email = intrst.AutoRemindEmail;
+                        
+                        if (HttpContext.Request.IsAjaxRequest())
+                        {
+                            ViewBag.AjaxRequest = 1;
                         return PartialView(intrstobj);
+                    }
+                        else
+                        {
+
+                            return View(intrstobj);
+                        }
                     }
 
                     else
@@ -1519,7 +1604,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.Email = defaultEmail;
                         //intrst.AutoRemindEmail = defaultEmail;
 
+                        if (HttpContext.Request.IsAjaxRequest())
+                        {
+                            ViewBag.AjaxRequest = 1;
                         return PartialView();
+                    }
+                        else
+                        {
+
+                            return View();
+                        }
+                        
                     }
                     //return PartialView();
                 }
@@ -1658,7 +1753,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     hasLoan.IsLotFeeDueEmailReminder = true;
                 }
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
                 return PartialView(hasLoan);
+            }
+            else
+            {
+
+                    return View(hasLoan);
+                }
+                
             }
             else
             {
@@ -1683,7 +1789,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     hasLoan.IsLotFeeDueEmailReminder = false;
                     hasLoan.IsLoanFeeDueEmailReminder = false;
 
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
                     return PartialView(feeNew);
+                }
+                else
+                {
+
+                        return View(feeNew);
+                    }
+                    
                 }
                 else
                 {
@@ -1910,7 +2026,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
                         ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
                         ViewBag.DefaultEmail = titleObj.RemindEmail;
+
+                        if (HttpContext.Request.IsAjaxRequest())
+                        {
+                            ViewBag.AjaxRequest = 1;
                         return PartialView(titleObj);
+                    }
+                        else
+                        {
+
+                            return View(titleObj);
+                        }
+                        
                     }
 
                     else
@@ -1923,7 +2050,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         ViewBag.Email = defaultEmail;
                         //title.LoanId = loanId;
+
+                        if (HttpContext.Request.IsAjaxRequest())
+                        {
+                            ViewBag.AjaxRequest = 1;
                         return PartialView();
+                    }
+                        else
+                        {
+
+                            return View();
+                        }
+                        
                     }
                     //return PartialView(title);
                 }
@@ -2136,7 +2274,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (_gCurtailment.RemainingPercentage > 0)
                     _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId + 1 });
                 ViewData["objmodel"] = _gCurtailment;
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
                 return PartialView(_gCurtailment);
+            }
+                else
+                {
+                    
+                    return View(_gCurtailment);
+                }
             }
             return new HttpStatusCodeResult(404, "Your Session Expired");
         }

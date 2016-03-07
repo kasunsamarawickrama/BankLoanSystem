@@ -2,7 +2,10 @@
 
 @{
     ViewBag.Title = "Step4";
-
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
 }
 
 
@@ -31,7 +34,7 @@
 
         @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(5)",
+                
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -248,7 +251,7 @@
         document.getElementsByTagName("form")[0].reset();
     });
 
-    $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(4);
 </script>
 
 <script type="text/javascript">
@@ -314,4 +317,6 @@
         document.getElementById("WebsiteUrl").value = "";
         document.getElementById("companyCode").value = "";
     }
+
+    
 </script>
