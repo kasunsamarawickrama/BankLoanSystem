@@ -18,65 +18,74 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : None
         /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method
+        /// call DataHandler class method and getting dataset object,
+        /// create and return company type object list using that dataset
+        /// 
         /// </summary>
         /// <returns>List<CompanyType></returns>
         public List<CompanyType> GetAllCompanyType()
         {
             List<CompanyType> ctList = new List<CompanyType>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
 
-            using (
-                var con =
-                    new SqlConnection(
-                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                var command = new SqlCommand("spGetAllCompanyType", con) { CommandType = CommandType.StoredProcedure };
-                con.Open();
-                using (var reader = command.ExecuteReader())
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    while (reader.Read())
-                    {
-                        CompanyType ct = new CompanyType()
-                        {
-                            TypeId = Convert.ToInt32(reader["company_type_id"]),
-                            TypeName = reader["company_type_name"].ToString()
-                        };
-                        ctList.Add(ct);
-                    }
-                }
-            }
+                    CompanyType ct = new CompanyType();
+                    ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
+                    ct.TypeName = dataRow["company_type_name"].ToString();
 
-            return ctList;
+                    ctList.Add(ct);
+                }
+                return ctList;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method
+        /// call DataHandler class method and getting dataset object,
+        /// create and return state object list using that dataset 
+        /// </summary>
+        /// <returns></returns>
         public List<State> GetAllStates()
         {
             List<State> stateList = new List<State>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
 
-            using (
-                var con =
-                    new SqlConnection(
-                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            DataSet dataSet = dataHandler.GetDataSet("spGetState");
+            if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                var command = new SqlCommand("spGetState", con) { CommandType = CommandType.StoredProcedure };
-                con.Open();
-                using (var reader = command.ExecuteReader())
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    while (reader.Read())
-                    {
-                        State state = new State()
-                        {
-                            StateId = Convert.ToInt32(reader["state_id"]),
-                            StateName = reader["state_name"].ToString()
-                        };
-                        stateList.Add(state);
-                    }
+                    State state = new State();
+                    state.StateId = Convert.ToInt32(dataRow["state_id"]);
+                    state.StateName = dataRow["state_name"].ToString();
+
+                    stateList.Add(state);
                 }
+                return stateList;
             }
-
-            return stateList;
+            else
+            {
+                return null;
+            }
         }
-
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -86,26 +95,20 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : companyName (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting boolean value,
+        /// 
         /// </summary>
         /// <returns>true/false</returns>
         public bool IsUniqueCompanyName(string companyName)
         {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spIsUniqueCompanyName", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@company_name", SqlDbType.NVarChar).Value = companyName;
-                con.Open();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_name", companyName });
+            return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
         }
 
         /// <summary>
@@ -116,26 +119,28 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : companyName (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return company code using dataset object  
+        /// 
         /// </summary>
         /// <returns>true/false</returns>
         public string GetLatestCompanyCode(string prefix)
         {
-            string latestCompanyCode = "";
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spGetCompanyCodebyCode", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@company_code_prefix", SqlDbType.NVarChar).Value = prefix;
-                con.Open();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code_prefix", prefix });
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        latestCompanyCode = reader["company_code"].ToString();
-                    }
-                }
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodebyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+
             }
-            return latestCompanyCode;
+            return "";
         }
 
         /// <summary>
@@ -146,26 +151,28 @@ namespace BankLoanSystem.DAL
         /// 
         /// argument : companyName (string)
         /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return non registered company code using dataset object  
+        /// 
         /// </summary>
         /// <returns>true/false</returns>
         public string GetLatestNonRegCompanyCode(string prefix)
         {
-            string latestCompanyCode = "";
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spGetNonRegCompanyCodebyCode", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@company_code_prefix", SqlDbType.NVarChar).Value = prefix;
-                con.Open();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_code_prefix", prefix });
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        latestCompanyCode = reader["company_code"].ToString();
-                    }
-                }
+            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyCodebyCode", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+
             }
-            return latestCompanyCode;
+            return "";
         }
 
         /// <summary>
@@ -173,107 +180,103 @@ namespace BankLoanSystem.DAL
         /// CreatedDate: 01/26/2016
         /// 
         /// Get company details
+        /// 
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter to object list and pass stored procedure name
+        /// call DataHandler class method and getting dataset object,
+        /// return company object using dataset object  
+        /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public Company GetCompanyDetailsByFirstSpUserId(int userId)
         {
-            Company company = new Company();
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
-                {
-                    var command = new SqlCommand("spGetCompanyDetailsBySUserId", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    con.Open();
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                Company company = new Company();
 
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            company.CompanyId = Convert.ToInt32(reader["company_Id"]);
-                            company.CompanyName = reader["company_name"].ToString();
-                            company.CompanyCode = reader["company_code"].ToString();
-                            company.CompanyAddress1 = reader["company_address_1"].ToString();
-                            company.CompanyAddress2 = reader["company_address_2"].ToString();
-                            company.StateId = Convert.ToInt32(reader["stateId"]);
-                            company.City = reader["city"].ToString();
-                            company.Zip = reader["zip"].ToString();
+                company.CompanyId = Convert.ToInt32(dataRow["company_Id"]);
+                company.CompanyName = dataRow["company_name"].ToString();
+                company.CompanyCode = dataRow["company_code"].ToString();
+                company.CompanyAddress1 = dataRow["company_address_1"].ToString();
+                company.CompanyAddress2 = dataRow["company_address_2"].ToString();
+                company.StateId = Convert.ToInt32(dataRow["stateId"]);
+                company.City = dataRow["city"].ToString();
+                company.Zip = dataRow["zip"].ToString();
 
-                            string[] zipWithExtention = company.Zip.Split('-');
+                string[] zipWithExtention = company.Zip.Split('-');
 
-                            if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                            company.Email = reader["email"].ToString();
-                            company.PhoneNum1 = reader["phone_num_1"].ToString();
-                            company.PhoneNum2 = reader["phone_num_2"].ToString();
-                            company.PhoneNum3 = reader["phone_num_3"].ToString();
-                            company.Fax = reader["fax"].ToString();
-                            company.WebsiteUrl = reader["website_url"].ToString();
-                            company.TypeId = Convert.ToInt32(reader["company_type"]);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                company.Email = dataRow["email"].ToString();
+                company.PhoneNum1 = dataRow["phone_num_1"].ToString();
+                company.PhoneNum2 = dataRow["phone_num_2"].ToString();
+                company.PhoneNum3 = dataRow["phone_num_3"].ToString();
+                company.Fax = dataRow["fax"].ToString();
+                company.WebsiteUrl = dataRow["website_url"].ToString();
+                company.TypeId = Convert.ToInt32(dataRow["company_type"]);
+
+                return company;
             }
-            return company;
+            else
+            {
+                return null;
+            }
         }
-
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 01/26/2016
         /// 
-        /// Insert company in setup process 
+        /// Insert company in setup process
+        /// 
+        /// UpdatedBy : nadeeka
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to save company object
+        /// 
         /// </summary>
         /// <param name="company"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public bool InsertCompany(Company company, string type)
         {
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    var command = new SqlCommand("spInsertCompany", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@company_name", company.CompanyName ?? "");
-                    command.Parameters.AddWithValue("@company_code", company.CompanyCode ?? "");
-                    command.Parameters.AddWithValue("@company_address_1", company.CompanyAddress1 ?? "");
-                    command.Parameters.AddWithValue("@company_address_2", company.CompanyAddress2 ?? "");
-                    command.Parameters.AddWithValue("@stateId", company.StateId);
-                    command.Parameters.AddWithValue("@city", company.City ?? "");
-                    command.Parameters.AddWithValue("@zip", company.Zip ?? "");
-                    command.Parameters.AddWithValue("@email", company.Email ?? "");
-                    command.Parameters.AddWithValue("@phone_num_1", company.PhoneNum1 ?? "");
-                    command.Parameters.AddWithValue("@phone_num_2", company.PhoneNum2 ?? "");
-                    command.Parameters.AddWithValue("@phone_num_3", company.PhoneNum3 ?? "");
-                    command.Parameters.AddWithValue("@fax", company.Fax ?? "");
-                    command.Parameters.AddWithValue("@website_url", company.WebsiteUrl ?? "");
-                    command.Parameters.AddWithValue("@created_by", company.CreatedBy);
-                    command.Parameters.AddWithValue("@created_date", DateTime.Now);
-                    command.Parameters.AddWithValue("@company_type", company.TypeId);
-                    command.Parameters.AddWithValue("@first_super_admin_id", company.FirstSuperAdminId);
-                    command.Parameters.AddWithValue("@company_status", company.CompanyStatus);
-                    command.Parameters.AddWithValue("@transaction_type", type);
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_name", company.CompanyName ?? "" });
+            paramertList.Add(new object[] { "@company_code", company.CompanyCode ?? "" });
+            paramertList.Add(new object[] { "@company_address_1", company.CompanyAddress1 ?? "" });
+            paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2 ?? "" });
+            paramertList.Add(new object[] { "@city", company.City ?? "" });
+            paramertList.Add(new object[] { "@zip", company.Zip ?? "" });
+            paramertList.Add(new object[] { "@email", company.Email ?? "" });
+            paramertList.Add(new object[] { "@phone_num_1", company.PhoneNum1 ?? "" });
+            paramertList.Add(new object[] { "@phone_num_2", company.PhoneNum2 ?? "" });
+            paramertList.Add(new object[] { "@phone_num_3", company.PhoneNum3 ?? "" });
+            paramertList.Add(new object[] { "@website_url", company.WebsiteUrl ?? "" });
+            paramertList.Add(new object[] { "@created_by", company.CreatedBy });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@company_type", company.TypeId });
+            paramertList.Add(new object[] { "@first_super_admin_id", company.FirstSuperAdminId });
+            paramertList.Add(new object[] { "@company_status", company.CompanyStatus });
+            paramertList.Add(new object[] { "@transaction_type", type });
 
-                    con.Open();
-                    command.ExecuteNonQuery();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertCompany", paramertList);
+            }
+            catch
+            {
+                return false;
             }
         }
 
