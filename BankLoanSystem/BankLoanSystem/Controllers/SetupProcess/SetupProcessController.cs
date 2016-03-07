@@ -150,8 +150,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is a super admin or admin
             if (roleId != 1)
             {
-                //disabled step 1
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Could not authenticate you." });
             }
 
             // Get company types to list
@@ -174,14 +173,28 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                 if (dsCompany.Tables[0].Rows.Count > 0)
                 {
+                    preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                    preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
                     preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                    preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                    preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                    preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                    preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
                     preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+
+                    string[] zipWithExtention = preCompany.Zip.Split('-');
+
+                    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+
+                    preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                    preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                    preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                    preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                    preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                    preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                    preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
                 }
-
-                string[] zipWithExtention = preCompany.Zip.Split('-');
-
-                if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
 
                 _comCode = preCompany.CompanyCode;
                 ViewBag.Edit = "Yes";
@@ -199,7 +212,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-            return new HttpStatusCodeResult(404, "Your Session Expired");
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
         /// <summary>
