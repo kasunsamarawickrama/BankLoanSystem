@@ -1,7 +1,10 @@
 ﻿@model BankLoanSystem.Models.CurtailmentModel
 @{
     ViewBag.Title = "Step5";
-
+    if(ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
 }
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -482,4 +485,6 @@
             });
         });
     });
+
+    Progress(10);
 </script>

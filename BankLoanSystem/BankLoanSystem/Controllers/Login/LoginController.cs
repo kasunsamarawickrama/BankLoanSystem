@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using System.Data;
 using BankLoanSystem.Models;
 using BankLoanSystem.DAL;
+using BankLoanSystem.Code;
 
 namespace BankLoanSystem.Controllers
 {
@@ -28,11 +27,11 @@ namespace BankLoanSystem.Controllers
             {
                 var loginlbl = new UserLogin();
                 loginlbl.lbl = lbl;
-                Session["userId"] = "";
+                Session["AuthenticatedUser"] = null;
                 return View(loginlbl);
             }
             else {
-                Session["userId"] = "";
+                Session["AuthenticatedUser"] = null;
                 return View();
             }
         }
@@ -64,15 +63,9 @@ namespace BankLoanSystem.Controllers
         /// 
         /// User Login Controller
         /// 
-        /// Updated: kasun
-        /// Reason : to add step processes
-        /// 
-        /// step1 => company setup -> type 1
-        /// step2 => create branch
-        /// step3 => create Admin/user
-        /// step4 => company setup -> type 2
-        /// step5 => create branch
-        /// step6 => loan setup
+
+        /// UpdatedBy : Asanka
+        /// UpdatedDate: 2016/03/04
         /// 
         /// </summary>
         /// <param name="user">login user details</param>
@@ -80,49 +73,133 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult UserLogin(UserLogin user)
         {
-            var login = new LoginAccess();
-            var step = new StepAccess();
-
-            int userId = login.CheckUserLogin(user.userName, user.password);
-
-            if (userId > 0)
+            try
             {
-                //check wether the company setup is ongoing 
+                DataSet dsUser = new DataSet();
+                var login = new LoginAccess();
+                var step = new StepAccess();
+                User userData = new User();
+                userData.UserName = user.userName;
 
-                Session["userId"] = userId;
-                //get the step nomber if the user is in company setup process
-                int stepNo = step.getStepNumberByUserId(userId);
-                
-                if (stepNo < 0) {
-                    stepNo = step.checkUserLoginWhileCompanySetup(userId);
-                }
-                if (stepNo > 0)
+                //pass user name to database and get user details
+                dsUser = login.CheckUserLogin(userData);
+                if (dsUser.Tables[0].Rows.Count > 0)
                 {
-                    Session["stepNo"] = stepNo;
-                    int branchId = step.getBranchIdByUserId(userId);
-                    if (branchId > 0)
+                    userData.UserId = int.Parse(dsUser.Tables[0].Rows[0]["user_id"].ToString());
+                    userData.UserName = dsUser.Tables[0].Rows[0]["user_name"].ToString();
+                    userData.Password = dsUser.Tables[0].Rows[0]["password"].ToString();
+                    userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
+                    userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
+                    userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+
+                    //To compair Database password and user enter password
+                    string passwordFromDB = (string)userData.Password;
+                    char[] delimiter = { ':' };
+                    string[] split = passwordFromDB.Split(delimiter);
+                    var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
+                    if (passwordFromDB == null || (checkCharHave == false))
                     {
-                        Session["branchId"] = branchId;
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
+                    }
+
+                    string passwordEncripted = PasswordEncryption.encryptPassword(user.password, split[1]);
+                    if (string.Compare(passwordEncripted, passwordFromDB) == 0)
+                    {
+                        //user object pass to session
+                        Session["AuthenticatedUser"] = userData;
+
+                        //check Company setup process
+                        //Check SuperAdmin
+                        //company ID null or 0 then redirect to step process 1
+                        if (userData.Company_Id == 0)
+                        {
+                            Session["companyStep"] = 1;
+                            return RedirectToAction("Index", "SetupProcess");
+                        }
+                        else if (userData.Company_Id > 0)
+                        {
+                            //check branch count more than one and 
+                            if (userData.RoleId == 1)
+                            {
+                                //check branch count in view and step table row count
+                                //IF more than branch count and has step record ask question
+
+
+                                DataSet dsStepNo = new DataSet();
+                                dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
+                                if (dsStepNo.Tables[0].Rows.Count > 0)
+                                {
+                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                    return RedirectToAction("Index", "SetupProcess");
+                                }
+                                else
+                                {
+                                    //Redirect to Super Admin dashboard
+                                    return RedirectToAction("UserDetails", "UserManagement");
+                                }
+
+                            }
+                            else
+                            {
+                                //if step table has record pass(company id and branch id)
+                                DataSet dsStepNo = new DataSet();
+                                dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
+                                if (dsStepNo.Tables[0].Rows.Count > 0)
+                                {
+                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                    if (userData.RoleId == 2)
+                                    {
+                                        return RedirectToAction("Index", "SetupProcess");
+                                    }
+                                    else
+                                    {
+                                        return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
+                                    }
+                                }
+                                else
+                                {
+                                    //No Step recor in relavent Company and branch
+                                    //Check Loan Step This Point
+                                    if (userData.RoleId == 2)
+                                    {
+                                        //Redirect to Branch Admin dashboard
+                                        return RedirectToAction("UserDetails", "UserManagement");
+                                    }
+                                    else
+                                    {
+                                        //Redirect to User dashboard
+                                        return RedirectToAction("UserDetails", "UserManagement");
+                                    }
+                                }
+
+                            }
+                        }
+
+                        //Check Loan Setup process
+
+                        //Load Super Admin dashboard
+                        //Branch Admin dashboard
+                        //User dashboard
                     }
                     else
                     {
-                        Session["branchId"] = 0;
+                        //User Name Correct but user enter password does not match with database password value
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
                     }
-                    return RedirectToAction("Index", "SetupProcess");
                 }
-                else if(stepNo == 0)
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
-
-                //delete just added unit if exists
-                UnitAccess ua = new UnitAccess();
-                ua.DeleteJustAddedUnits(userId);
-                return RedirectToAction("UserDetails", "UserManagement");
+                else
+                {
+                    //Incorrect UserName
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password" });
+                }     
             }
-            else {
-
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password" });
+            catch
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "An error has occurred.Please try again later" });
             }
+            return RedirectToAction("UserLogin", "Login");
         }
+
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/14

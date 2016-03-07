@@ -1,7 +1,10 @@
 ﻿@model BankLoanSystem.Models.Title
 @{
     ViewBag.Title = "Step9";
-    
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
 }
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -14,7 +17,7 @@
         <h2>Step 4 - Title</h2>
         @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(10)",
+                
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -358,6 +361,6 @@
         });
     });
 
-    $(".tab.9").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(9);
 </script>
 

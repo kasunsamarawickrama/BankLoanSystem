@@ -19,76 +19,29 @@ namespace BankLoanSystem.DAL
         /// CreatedDate: 2016/01/14
         /// 
         /// user login authentication
+        /// 
+        /// UpdatedBy : Asanka
+        /// UpdatedDate: 2016/03/04
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to save user object
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// 
         /// <returns>userid</returns>
-        public int CheckUserLogin(string username, string password)
+        public DataSet CheckUserLogin(User user)
         {
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            
+            paramertList.Add(new object[] { "@userName", user.UserName });
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spUserLogin", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@userName", SqlDbType.VarChar).Value = username;
-
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        //SqlParameter idOut = cmd.Parameters.Add("@IdOut", SqlDbType.Int);
-                        //SqlParameter passwordOut = cmd.Parameters.Add("@PasswordOut", SqlDbType.VarChar);
-                        //idOut.Direction = ParameterDirection.ReturnValue;
-                        //passwordOut.Direction = ParameterDirection.ReturnValue;
-                        //cmd.ExecuteNonQuery();
-                        int idOut = 0;
-                        string passwordOut = "";
-                        var reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            idOut = Convert.ToInt32(reader["user_id"]);
-                            passwordOut = reader["password"].ToString();
-                        }
-
-
-                        int idFromDB = (int)idOut;
-                        string passwordFromDB = (string)passwordOut;
-
-                        char[] delimiter = { ':' };
-
-                        string[] split = passwordFromDB.Split(delimiter);
-
-                        var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
-
-                        if (passwordFromDB == null ||( checkCharHave == false)) {
-                            return -1;
-                        }
-
-                        string passwordEncripted = PasswordEncryption.encryptPassword(password, split[1]);
-
-                        if (string.Compare(passwordEncripted, passwordOut) == 0)
-                        {
-                            return idFromDB;
-                        }
-                        else {
-                            return -1;
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.GetDataSet("spUserLogin", paramertList);
+            }
+            catch
+            {
+                return null;
             }
         }
         /// <summary>

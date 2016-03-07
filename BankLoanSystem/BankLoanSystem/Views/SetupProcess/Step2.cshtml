@@ -3,6 +3,10 @@
 @{
 
     ViewBag.Title = "Step2";
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
 
 }
 <style>
@@ -319,6 +323,7 @@
         });
         $('#Previous').on('change', function () {
             if ($(this).is(':checked')) {
+               
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.Company.City;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
@@ -352,6 +357,10 @@
 
 
     $('#clear').click(function () {
+        if($('#btnNext').val()=="Update")
+        {
+            $('#btnNext').val('Next');
+        }
         document.getElementsByTagName("form")[0].reset();
     });
 
@@ -425,6 +434,6 @@
 
    
 
-        $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(2);
    
 </script>
