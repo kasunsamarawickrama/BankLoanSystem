@@ -575,7 +575,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Your Session is Expired");
+                return new RedirectResult("~/Login/UserLogin");
             }
             LoanSelection loanSelection = new LoanSelection();
             //getting user role
