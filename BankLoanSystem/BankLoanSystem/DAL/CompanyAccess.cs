@@ -256,12 +256,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_code", company.CompanyCode ?? "" });
             paramertList.Add(new object[] { "@company_address_1", company.CompanyAddress1 ?? "" });
             paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2 ?? "" });
+            paramertList.Add(new object[] { "@stateId", company.StateId });
             paramertList.Add(new object[] { "@city", company.City ?? "" });
             paramertList.Add(new object[] { "@zip", company.Zip ?? "" });
             paramertList.Add(new object[] { "@email", company.Email ?? "" });
             paramertList.Add(new object[] { "@phone_num_1", company.PhoneNum1 ?? "" });
             paramertList.Add(new object[] { "@phone_num_2", company.PhoneNum2 ?? "" });
             paramertList.Add(new object[] { "@phone_num_3", company.PhoneNum3 ?? "" });
+            paramertList.Add(new object[] { "@fax", company.Fax ?? "" });
             paramertList.Add(new object[] { "@website_url", company.WebsiteUrl ?? "" });
             paramertList.Add(new object[] { "@created_by", company.CreatedBy });
             paramertList.Add(new object[] { "@created_date", DateTime.Now });
