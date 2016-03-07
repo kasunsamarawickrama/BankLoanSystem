@@ -567,24 +567,17 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult Selectloan(string type)
         {
-            int userId;
+            int userId = userData.UserId; ;
             // if Session is expired throw an error
-            try
-            {
-                userId = int.Parse(Session["userId"].ToString());
-            }
-            catch (Exception)
-            {
-                return new RedirectResult("~/Login/UserLogin");
-            }
+            
             LoanSelection loanSelection = new LoanSelection();
             //getting user role
             UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
+            
 
 
             // curUser.Company_Id
-            loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId(curUser.Company_Id);
+            loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId(userData.Company_Id);
 
             if (loanSelection.NonRegCompanies.Count() == 1)
             {

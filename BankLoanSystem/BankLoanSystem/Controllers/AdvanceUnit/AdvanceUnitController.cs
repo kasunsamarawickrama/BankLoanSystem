@@ -64,13 +64,13 @@ namespace BankLoanSystem.Controllers
         /// <returns>Return partial view</returns>
         public ActionResult Advance(int? flag)
         {
-            int userId;
+            int userId = userData.UserId;
             string loanCode;
-            Session["userId"] = 62;
-            Session["loanCode"] = "LEN01_01-323432";
+            //Session["userId"] = 62;
+            //Session["loanCode"] = "LEN01_01-323432";
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                
 
                 loanCode = Session["loanCode"].ToString();
             }
@@ -78,19 +78,6 @@ namespace BankLoanSystem.Controllers
             {
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
-            //int userId = 57;
-
-           // LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-
-
-            //Session["userId"] = 2;
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
-            //int userId = Convert.ToInt32(Session["userId"]);
-
-            //Session["userId"] = 2;
-
-            //string loanCode = "COM04_01-00001";// Session["loanCode"].ToString();
 
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();

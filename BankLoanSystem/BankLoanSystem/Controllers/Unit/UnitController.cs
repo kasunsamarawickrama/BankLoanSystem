@@ -15,6 +15,27 @@ namespace BankLoanSystem.Controllers.Unit
     public class UnitController : Controller
     {
         private static LoanSetupStep1 _loan;
+        User userData = new Models.User();
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                }
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
 
         public ActionResult setLoanCode(string loancode) {
             Session["loanCode"]= loancode;
@@ -37,10 +58,9 @@ namespace BankLoanSystem.Controllers.Unit
                     ViewBag.Msg = "Error";
                 }
             }
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return RedirectToAction("UserLogin", "Login");
+           
 
-            int userId = Convert.ToInt32(Session["userId"].ToString());
+            int userId = userData.UserId;
 
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return new HttpStatusCodeResult(404, "Failed find loan.");
@@ -115,10 +135,9 @@ namespace BankLoanSystem.Controllers.Unit
         public ActionResult AddUnitPost(Models.Unit unit, string btnAdd, List<HttpPostedFileBase> fileUpload)
         {
             int flag = 0;
-            if (string.IsNullOrEmpty(Session["userId"].ToString()))
-                RedirectToAction("UserLogin", "Login");
+           
 
-            int userId = Convert.ToInt16(Session["userId"]);
+           int userId = userData.UserId;
 
             switch (btnAdd)
             {
@@ -276,7 +295,7 @@ namespace BankLoanSystem.Controllers.Unit
             int userId;
             string loanCode;
             try {
-                userId = int.Parse(Session["userId"].ToString());
+               userId = userData.UserId;
 
                 loanCode = Session["loanCode"].ToString();
             }
@@ -309,7 +328,7 @@ namespace BankLoanSystem.Controllers.Unit
             string loanCode;
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                userId = userData.UserId;
 
                 loanCode = Session["loanCode"].ToString();
             }
@@ -329,18 +348,7 @@ namespace BankLoanSystem.Controllers.Unit
         public ActionResult GetLinkBar()
         {
 
-            int userId;
-
-            try
-            {
-                userId = int.Parse(Session["userId"].ToString());
-
-
-            }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(404, "Session Expired");
-            }
+            int userId = userData.UserId;
 
 
             var access = new UserRightsAccess();
@@ -414,7 +422,7 @@ namespace BankLoanSystem.Controllers.Unit
             string loanCode;
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                userId = userData.UserId;
 
                 loanCode = Session["loanCode"].ToString();
             }

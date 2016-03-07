@@ -96,6 +96,15 @@
             <text> $('.centered span').text('Error in page');</text>
         }
         // show popup when you click on the link
+
+        $('input').click(function () {
+            $('.centered1 span').text('');
+        });
+
+        $('select').change(function () {
+            $('.centered1 span').text('');
+        });
+
         $('.show-logout-popup').click(function (event) {
 
 
