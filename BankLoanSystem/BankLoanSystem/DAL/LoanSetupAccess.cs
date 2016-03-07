@@ -566,10 +566,10 @@ namespace BankLoanSystem.DAL
                             //loanSetupStep1.selectedUnitTypes
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
 
-
+                            
                             loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
-                            loanSetupStep1.RegisteredBranchId = Convert.ToInt32(reader["branch_id"]);
-                            loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
+                            //loanSetupStep1.RegisteredBranchId = reader["branch_id"] != null ? Convert.ToInt32(reader["branch_id"].ToString()) : 0;
+                            //loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                         }
 
                         reader.Close();
