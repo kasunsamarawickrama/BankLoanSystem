@@ -1125,9 +1125,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
                 if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
+                userNonRegCompany = new CompanyBranchModel();
                 if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
                 {
-                    userNonRegCompany = new CompanyBranchModel();
+                    
 
                     userNonRegCompany = (CompanyBranchModel)TempData["NonRegCompany"];
                     userNonRegCompany.MainBranch = new Branch();
@@ -1164,7 +1165,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegCompanyBranch.NonRegBranches = nonRegBranches;
                 nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
-                if (curUser.RoleId != 2) return PartialView(nonRegCompanyBranch);
+                if (curUser.RoleId != 2) {
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
+                        return PartialView(nonRegCompanyBranch);
+                    }
+                    else
+                    {
+
+                        return View(nonRegCompanyBranch);
+                    }
+
+                } 
 
                 //Select non registered branch for admin's branch
                 var adminBonRegBranches = new List<NonRegBranch>();
