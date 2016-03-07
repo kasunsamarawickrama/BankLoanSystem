@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
+using System.Data;
 
 namespace BankLoanSystem.Controllers
 {
@@ -15,6 +15,28 @@ namespace BankLoanSystem.Controllers
         private static CompanyBranchModel userNonRegCompany = null;
         private static string CompanyType = "Lender";
         private static string _comCode;
+        User userData = new User();
+
+        // Check session in page initia stage
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                }
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
 
         // GET: SetupProcessTest
         public ActionResult Step1(int? edit)
@@ -35,7 +57,7 @@ namespace BankLoanSystem.Controllers
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (sa.getStepNumberByUserId(userId) == 1 && edit != 1)
+            if (Convert.ToInt32(Session["companyStep"]) == 1 && edit != 1)
             {
                 return View();
             }
@@ -45,9 +67,17 @@ namespace BankLoanSystem.Controllers
                 if (!string.IsNullOrEmpty(Session["userId"].ToString()))
                 {
                     userId = Convert.ToInt32(Session["userId"]);
-                    Company preCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
+                    //----------
+                    Company preCompany = new Company();
+                    DataSet dsCompany = new DataSet();
+                    dsCompany = ca.GetCompanyDetailsByFirstSpUserId(userData);
+                    if (dsCompany.Tables[0].Rows.Count > 0)
+                    {
+                        preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                        preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                    }
 
-                    string[] zipWithExtention = preCompany.Zip.Split('-');
+                        string[] zipWithExtention = preCompany.Zip.Split('-');
 
                     if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
                     if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
@@ -143,7 +173,7 @@ namespace BankLoanSystem.Controllers
             {
                 int userId = (int)Session["userId"];
                 StepAccess cs = new StepAccess();
-                int reslt = cs.getStepNumberByUserId(userId);
+                int reslt = Convert.ToInt32(Session["companyStep"]);
                 if (reslt == 2)
                 {
                     if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))

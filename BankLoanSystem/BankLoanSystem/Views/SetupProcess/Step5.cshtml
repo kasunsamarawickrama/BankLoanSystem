@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Step5";
 
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+    }
+
 }
 
 
@@ -32,7 +37,7 @@
 
         @using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
             {
-                OnSuccess = "Progress(6)",
+                
                 OnFailure = "handleErrorMsg",
                 HttpMethod = "POST",
                 InsertionMode = InsertionMode.Replace,
@@ -393,6 +398,6 @@
         document.getElementById("NonRegCompanyId").value = "";
     }
 
-    $(".tab.5").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(5);
 </script>
 

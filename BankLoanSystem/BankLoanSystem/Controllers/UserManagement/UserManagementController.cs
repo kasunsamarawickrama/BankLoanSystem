@@ -19,18 +19,39 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
+
+        User userData = new User();
+
+        // Check session in page initia stage
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                }
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
+
         public ActionResult UserList()
         {
 
             int idval;
             int typeval = 0;
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
+            
             try
             {
-                idval = (int)Session["userId"];
+                idval = userData.UserId;
 
                 if ((string)Session["searchType"] == "SuperAdmin")
                 {
@@ -49,7 +70,7 @@ namespace BankLoanSystem.Controllers
                 }
 
                 UserManageAccess obj1 = new UserManageAccess();
-                int role = obj1.getUserRole(idval);
+                int role = userData.RoleId;
                 if ((typeval > 0) && (idval > 0))
                 {
 
@@ -114,14 +135,11 @@ namespace BankLoanSystem.Controllers
         {
             int id;
             int logId;
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
+            
             try
             {
                 id = (int)Session["rowId"];
-                logId = (int)Session["userId"];
+                logId = userData.UserId;
                 UserManageAccess obj1 = new UserManageAccess();
                 if (id != 0)
                 {
@@ -161,7 +179,7 @@ namespace BankLoanSystem.Controllers
         /// 
         public ActionResult UserDetails()
         {
-            Session["rowId"] = int.Parse(Session["userId"].ToString());
+            Session["rowId"] = userData.UserId;
 
 
             return View();
@@ -483,14 +501,14 @@ namespace BankLoanSystem.Controllers
         public ActionResult DashBoard()
         {
 
-            int userId = int.Parse(Session["userId"].ToString());
+            int userId = userData.UserId;
 
             var access = new UserRightsAccess();
 
             ///retrive all rights
             List<Right> rights = access.getRights();
 
-            int userRole = (new UserManageAccess()).getUserRole(userId);
+            int userRole = userData.RoleId;
 
             if (userRole == 3)
             {
