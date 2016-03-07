@@ -460,9 +460,9 @@ namespace BankLoanSystem.DAL
                     }
                     return true;
                 }
-                catch (SqlException sEx)
+                catch (SqlException )
                 {
-                    //throw sEx;
+                   
                     return false;
 
                 }
@@ -632,7 +632,7 @@ namespace BankLoanSystem.DAL
                         return false;
                     }
                 }
-                catch (SqlException sEx)
+                catch (SqlException)
                 {
                     return false;
                 }
@@ -790,10 +790,10 @@ namespace BankLoanSystem.DAL
                     tran.Commit();
                     return true;
                 }
-                catch (SqlException sEx)
+                catch (SqlException )
                 {
                     tran.Rollback();
-                    //throw sEx;
+                   
                     return false;
                 }
             }
