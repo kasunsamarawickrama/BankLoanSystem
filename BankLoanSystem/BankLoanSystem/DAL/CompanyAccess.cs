@@ -33,24 +33,24 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             try
             {
-            DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    CompanyType ct = new CompanyType();
-                    ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
-                    ct.TypeName = dataRow["company_type_name"].ToString();
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        CompanyType ct = new CompanyType();
+                        ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
+                        ct.TypeName = dataRow["company_type_name"].ToString();
 
-                    ctList.Add(ct);
+                        ctList.Add(ct);
+                    }
+                    return ctList;
                 }
-                return ctList;
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
-        }
 
             catch
             {
@@ -458,9 +458,9 @@ namespace BankLoanSystem.DAL
                     }
                     return true;
                 }
-                catch (SqlException sEx)
+                catch (SqlException )
                 {
-                    //throw sEx;
+                   
                     return false;
 
                 }
@@ -630,7 +630,7 @@ namespace BankLoanSystem.DAL
                         return false;
                     }
                 }
-                catch (SqlException sEx)
+                catch (SqlException)
                 {
                     return false;
                 }
@@ -788,10 +788,10 @@ namespace BankLoanSystem.DAL
                     tran.Commit();
                     return true;
                 }
-                catch (SqlException sEx)
+                catch (SqlException )
                 {
                     tran.Rollback();
-                    //throw sEx;
+                   
                     return false;
                 }
             }

@@ -17,65 +17,7 @@
    
 }
 <style type="text/css">
-    .gridtable {
-        margin: 30px;
-        border-collapse: collapse;
-        width: 800px;
-        background-color: aliceblue;
-    }
-    .webgrid-header {
-        background-color:paleturquoise;
-        font-weight: bold;
-        color:#337ab7;
-    }
-
-    .gridtable th, .gridtable td {
-        border: 1px solid cadetblue;
-        padding: 5px;
-    }
-
-    .webgrid-alternating-row {
-        background-color:aliceblue;
-        color: #000;
-        font-weight:normal;
-    }
-    .webgrid-row-style
-    {
-        padding: 3px 7px 2px;
-    }
-    .gridHead a:hover {
-        text-decoration: underline;
-    }
-
-    .description {
-        width: auto;
-    }
-
-    .select {
-        background-color:mediumaquamarine;
-    }
-
-    .hidden {
-        display: none;
-    }
-     .gridColumn {
-       text-align:right ;
-    }
-
-
-   
-    .info-unit {
-        margin-left: 0px;
-        margin-right: 20px;
-        border-radius: 15px;
-        border: 2px solid #8D987E;
-        padding: 20px 20px 10px 20px;
-    }
-
-    .form-horizontal .control-label {
-        text-align: left;
-        padding-left: 60px;
-    }
+    
 
 </style>
 
@@ -332,8 +274,7 @@
         $("#btnAdvanceAll").attr("disabled", "disabled");
         $("#advanceDate").attr("disabled", "disabled");
         $("#startDate").attr("disabled", "disabled");
-
-        
+                
         var count = 0;
         $("#checkableGrid").find("input:checkbox").each(function () {
             this.checked = false;
@@ -343,23 +284,25 @@
             count++;
         });
         document.getElementById('all').checked = false;
-        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;        
+       
+        $("#someID span").html('select');
+
+        ClearSearchRelatedData();
         
-       
-        $(".someID span").html('tst');
-       
-        //GridUpdate();
     });
 
     $("#btnClear").click(function () {
+        ClearSearchRelatedData();
+    });
 
-       $("#identificationNumberSearch").val('');
+    function ClearSearchRelatedData() {
+        $("#identificationNumberSearch").val('');
         $("#yearSearch").val('');
         $("#makeSearch").val('');
-        $("#vehicleModelSearch").val('');
-        
-
-    });
+        $("#vehicleModelSearch").val(''); 
+        $("#searchGrid1").hide();
+    }
 
     $("#btnSearch").click(function () {
         
@@ -445,7 +388,7 @@
                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
 
 
-                               } else {
+                               } else {                                   
                                    var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                                    $("#btnAdvanceAll").attr("disabled", "disabled");
@@ -466,8 +409,10 @@
                                    }
                                    
                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                                   $("#btnAdvanceAll").removeAttr("disabled");
-                                   $("#startDate").removeAttr("disabled");
+                                   if (checkCount > 0) {
+                                       $("#btnAdvanceAll").removeAttr("disabled");
+                                       $("#startDate").removeAttr("disabled");
+                                   }
 
                                });
                                
@@ -496,9 +441,7 @@
                             checkCount--;
                             $(this).parents('tr').css('background', 'transparent');
                         }
-
-                        alert('a');
-                        alert(checkCount);
+                       
                         if (checkCount == 1) {
                             if (checked) {
                                 SetTextBoxValues(tr);

@@ -105,8 +105,9 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value >=1) {
-                        return true ;
+                    if ((int)returnParameter.Value >= 1)
+                    {
+                        return true;
                     }
                     else {
                         return false;
@@ -131,7 +132,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber,int branchId)
+        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber, int branchId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -195,7 +196,7 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
-        
+
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/02/03
@@ -315,7 +316,7 @@ namespace BankLoanSystem.DAL
 
                 }
             }
-           
+
         }
         /// <summary>
         /// CreatedBy:Piyumi
@@ -326,14 +327,14 @@ namespace BankLoanSystem.DAL
         /// <param name="branchId"></param>
         /// <param name="stepNumber"></param>
         /// <returns></returns>
-        public bool UpdateCompanySetupStep(int companyId,int branchId,int stepNumber)
+        public bool UpdateCompanySetupStep(int companyId, int branchId, int stepNumber)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_id", companyId });
             paramertList.Add(new object[] { "@branch_id", branchId });
             paramertList.Add(new object[] { "@step_number", stepNumber });
-            
+
 
             try
             {

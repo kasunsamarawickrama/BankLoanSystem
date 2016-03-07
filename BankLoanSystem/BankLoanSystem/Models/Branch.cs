@@ -86,6 +86,8 @@ namespace BankLoanSystem.Models
         public DateTime BranchCreatedDate { get; set; }
         public int BranchCompany { get; set; }
         public string BranchCompanyCode { get; set; }
+
+        public int NonRegBranchId { get; set; }
     }
 
     public class NonRegBranch : Branch

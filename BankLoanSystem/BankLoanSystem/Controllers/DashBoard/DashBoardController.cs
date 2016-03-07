@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BankLoanSystem.Models;
+﻿using System.Web.Mvc;
 using BankLoanSystem.DAL;
+using BankLoanSystem.Models;
 
 namespace BankLoanSystem.Controllers.DashBoard
 {
     public class DashBoardController : Controller
     {
-        User userData = new User();
 
-        // Check session in page initia stage
+        User userData = new User();
+        /// <summary>
+        /// CreatedBy : Kasun Smarawickrama
+        /// CreatedDate: 2016/01/14
+        /// 
+        /// user dashboard view
+        /// </summary>
+        /// <param name="id">userid fromlogin page</param>
+        /// <returns></returns>
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (Session["AuthenticatedUser"] != null)
@@ -33,15 +37,6 @@ namespace BankLoanSystem.Controllers.DashBoard
             }
         }
 
-
-        /// <summary>
-        /// CreatedBy : Kasun Smarawickrama
-        /// CreatedDate: 2016/01/14
-        /// 
-        /// user dashboard view
-        /// </summary>
-        /// <param name="id">userid fromlogin page</param>
-        /// <returns></returns>
         public ActionResult UserDashBoard()
         {
             ViewBag.login = false;
@@ -52,11 +47,8 @@ namespace BankLoanSystem.Controllers.DashBoard
 
             var newDashDAL = new DashBoardAccess();
 
-            if (id <= 0 )
+            if (id > 0)
             {
-                return RedirectToAction("UserLogin", "Login");
-            }
-            if (id >0) {
 
                 ///get level id by userid
                 int userLevelId = newDashDAL.GetUserLevelByUserId(id);
@@ -64,20 +56,25 @@ namespace BankLoanSystem.Controllers.DashBoard
                 dashBoardModel.userId = id;
                 dashBoardModel.userName = userData.UserName;
                 dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(id);
-                if (userLevelId == 1) {
+                if (userLevelId == 1)
+                {
 
                     dashBoardModel.levelId = 1;
-                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml", dashBoardModel);
 
-                } else if (userLevelId == 2) {
+                }
+                else if (userLevelId == 2)
+                {
 
                     dashBoardModel.levelId = 2;
-                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml", dashBoardModel);
 
-                } else if (userLevelId == 3) {
+                }
+                else if (userLevelId == 3)
+                {
 
                     dashBoardModel.levelId = 3;
-                    return PartialView("~/Views/Shared/_UserDetail.cshtml",dashBoardModel);
+                    return PartialView("~/Views/Shared/_UserDetail.cshtml", dashBoardModel);
                 }
                 else {
                     return RedirectToAction("UserLogin", "Login");
@@ -103,17 +100,17 @@ namespace BankLoanSystem.Controllers.DashBoard
                 return RedirectToAction("EmployeeLogin", "Login");
             }
             var id = (int)Session["employeeId"];
-            
+
             var dashBoardModel = new Models.DashBoard();
-            dashBoardModel.userName =(new UserAccess().getCompanyEmployeeName(id));
-            if (id <=0)
+            dashBoardModel.userName = (new UserAccess().getCompanyEmployeeName(id));
+            if (id <= 0)
             {
                 return RedirectToAction("EmployeeLogin", "Login");
             }
             else
             {
                 dashBoardModel.userId = id;
-                return PartialView("~/Views/Shared/_EmployeeDetail.cshtml",dashBoardModel);
+                return PartialView("~/Views/Shared/_EmployeeDetail.cshtml", dashBoardModel);
             }
 
 
@@ -192,7 +189,8 @@ namespace BankLoanSystem.Controllers.DashBoard
             }
         }
 
-        public ActionResult EmployeeDetail() {
+        public ActionResult EmployeeDetail()
+        {
 
             return View();
         }
