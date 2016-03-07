@@ -176,54 +176,21 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Company GetCompanyDetailsByFirstSpUserId(int userId)
+
+        public DataSet GetCompanyDetailsByFirstSpUserId(User user)
         {
-            Company company = new Company();
-            using (
-                SqlConnection con =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@user_id", user.UserId });
+            try
             {
-                try
-                {
-                    var command = new SqlCommand("spGetCompanyDetailsBySUserId", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    con.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            company.CompanyId = Convert.ToInt32(reader["company_Id"]);
-                            company.CompanyName = reader["company_name"].ToString();
-                            company.CompanyCode = reader["company_code"].ToString();
-                            company.CompanyAddress1 = reader["company_address_1"].ToString();
-                            company.CompanyAddress2 = reader["company_address_2"].ToString();
-                            company.StateId = Convert.ToInt32(reader["stateId"]);
-                            company.City = reader["city"].ToString();
-                            company.Zip = reader["zip"].ToString();
-
-                            string[] zipWithExtention = company.Zip.Split('-');
-
-                            if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                            if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
-
-                            company.Email = reader["email"].ToString();
-                            company.PhoneNum1 = reader["phone_num_1"].ToString();
-                            company.PhoneNum2 = reader["phone_num_2"].ToString();
-                            company.PhoneNum3 = reader["phone_num_3"].ToString();
-                            company.Fax = reader["fax"].ToString();
-                            company.WebsiteUrl = reader["website_url"].ToString();
-                            company.TypeId = Convert.ToInt32(reader["company_type"]);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
             }
-            return company;
+            catch
+            {
+                return null;
+            }
         }
 
 
