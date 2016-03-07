@@ -2376,5 +2376,13 @@
     startPicker.setMinDate(new Date("@Model.StartDate"));
     startPicker.setMaxDate(new Date("@Model.EndDate"));
     $('#advanceDate').val('');
+     // onclick remove success msg
+    $('.ui-button').click(function () {
+        $('.centered1 span').text('');
+    });
+
+    $('textarea').click(function () {
+        $('.centered1 span').text('');
+    });
 </script>
 
