@@ -140,9 +140,9 @@ namespace BankLoanSystem.Controllers.CreateUser
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
             user.Email = user.NewEmail;
 
-
+            //Check this
             CompanyAccess ca = new CompanyAccess();
-            Company company = ca.GetCompanyDetailsByFirstSpUserId(currentUser);
+            Company company = new Company();//ca.GetCompanyDetailsByFirstSpUserId(currentUser);
             //Insert user
             user.Company_Id = company.CompanyId;
             int res = ua.InsertUser(user);

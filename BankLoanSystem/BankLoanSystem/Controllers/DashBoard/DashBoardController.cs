@@ -10,6 +10,28 @@ namespace BankLoanSystem.Controllers.DashBoard
 {
     public class DashBoardController : Controller
     {
+        User userData = new User();
+
+        // Check session in page initia stage
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                }
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
 
 
         /// <summary>
@@ -24,12 +46,7 @@ namespace BankLoanSystem.Controllers.DashBoard
         {
             ViewBag.login = false;
 
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
-
-            var id = (int)Session["userId"];
+            var id = userData.UserId;
 
             var dashBoardModel = new Models.DashBoard();
 
