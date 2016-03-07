@@ -13,6 +13,7 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/CommonFunctions.js"></script>
 @*<script src="~/scripts/jquery-ui.js"></script>
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
 
@@ -49,14 +50,19 @@
                                 List<SelectListItem> listItems = new List<SelectListItem>();
                                 listItems.Add(new SelectListItem
                                 {
+                                    Text = "-- select --",
+                                    Value = "2",
+                                    Selected = true
+                                });
+                                listItems.Add(new SelectListItem
+                                {
                                     Text = "Yes",
                                     Value = "1"
                                 });
                                 listItems.Add(new SelectListItem
                                 {
                                     Text = "No",
-                                    Value = "0",
-                                    Selected = true
+                                    Value = "0"
                                 });
                             }
                             @Html.HiddenFor(model => model.LoanId)
@@ -501,7 +507,7 @@
                 <div class="form-group">
 
                     <div class="button-panel">
-
+                        <input type="button" value="Back" name="subBack" id="btnPreStep8" class="btn btn-default left-button" />
                         @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
                         <input type="submit" value="Next" class="btn btn-primary btn-next" @*style="left:40%"*@ />
 
@@ -609,7 +615,7 @@
     });
     function changeDropDownValueAdvance() {
         var drop1 = document.getElementById("dropDownAdvance").value;
-        if (drop1 == "0") {
+        if (drop1 == "0"||drop1 == "2") {
             $('#advance').hide("slow");
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
@@ -626,12 +632,17 @@
             document.getElementById("advanceDue").value = "";
         }
         else {
+            $('input').next('span').children('span').text('');
+            // for dropdown field
+            $('select').next('span').children('span').text('');
+
+            document.getElementById('advanceAmount').value = "";
             $('#advance').show("slow");
         }
     }
     function changeDropDownValueLoan() {
         var drop2 = document.getElementById("dropDownLoan").value;
-        if (drop2 == "0") {
+        if (drop2 == "0"||drop2 == "2") {
             $('#loan').hide("slow");
             $('#remindEmailLoanComplete').hide();
             $('#remindEmailLoanDue').hide();
@@ -647,12 +658,17 @@
             document.getElementById("loanDue").value = "";
         }
         else {
+            $('input').next('span').children('span').text('');
+
+            // for dropdown field
+            $('select').next('span').children('span').text('');
+            document.getElementById('loanAmount').value = "";
             $('#loan').show("slow");
         }
     }
     function changeDropDownValueLot() {
         var drop3 = document.getElementById("dropDownLot").value;
-        if (drop3 == "0") {
+        if (drop3 == "0"||drop3 == "2") {
             $('#lot').hide("slow");
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
@@ -668,6 +684,11 @@
             document.getElementById("lotDue").value = "";
         }
         else {
+            $('input').next('span').children('span').text('');
+
+            // for dropdown field
+            $('select').next('span').children('span').text('');
+            document.getElementById('lotAmount').value = "";
             $('#lot').show("slow");
         }
     }
@@ -912,6 +933,31 @@
         document.getElementById("lotDueEmailRemindPeriod").value = "";
         document.getElementById("lotAmount").value = "";
         document.getElementById("lotDue").value = "";
+    });
+
+
+    //Back Button
+    $(function () {
+        $('#btnPreStep8').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("Step7", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
     });
 
     Progress(8);

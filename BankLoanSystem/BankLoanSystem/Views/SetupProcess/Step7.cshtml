@@ -42,7 +42,7 @@
                         @Html.LabelFor(model => model.InterestRate, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
-                    <div class="col-xs-4" style="float:left;margin-left: 80px;">
+                    <div class="col-xs-2" style="float:left;margin-left: 145px;">
                         @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "return focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
                     </div>
@@ -64,11 +64,11 @@
                         @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
                     </div>
                     <div id="paidDateDiv">
-                        <div class="control-label col-sm-2" style="margin-top:25px">
-                            @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
+                        <div class="control-label col-sm-2" style="margin-top:25px;margin-left:-150px">
+                            @Html.LabelFor(model => model.PaidDate, htmlAttributes: new {})<span style="color: red">*</span>
                         </div>
-                        <div class="col-xs-8">
-                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate" })
+                        <div class="col-xs-4">
+                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-270px" })
                             @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
                         </div>
                         
@@ -99,8 +99,8 @@
                     <div class="control-label col-sm-2" style="margin-top:10px">
                         @Html.LabelFor(model => model.AccrualMethodId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
-                    <div class="col-xs-8">
-                        @Html.DropDownListFor(model => model.AccrualMethodId, null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId" })
+                    <div class="col-xs-4">
+                        @Html.DropDownListFor(model => model.AccrualMethodId, null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId", @style = "margin-left:-270px" })
                         @Html.ValidationMessageFor(model => model.AccrualMethodId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -112,15 +112,8 @@
                     </div>
 
                     <div class="control-label col-sm-2">
-                        @*@if (ViewBag.CheckBoxVal == true)
-                        {
-                            @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = true } })
-                        }
-                        else
-                        {
-                            @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = false } })
-                        }*@
-                        @Html.CheckBox("NeedReminder", new { htmlAttributes = new { @id = "NeedReminder", Value = false } })
+                      @Html.DropDownListFor(model => model.NeedReminder, null, "--Select--", htmlAttributes: new { @class = "form-control", id = "needReminder" , @style = "margin-left:20px;margin-top:5px" })
+                    @Html.ValidationMessageFor(model => model.NeedReminder, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div id="autoRemind">
@@ -132,15 +125,15 @@
 
                         @if (ViewBag.Edit == 1)
                         {
-                            <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
+                            <div class="col-xs-5" style="margin-left:135px">
+                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" ,@maxlength =100} })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
                             </div>
                         }
                         else
                         {
-                            <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@Value = ViewBag.Email } })
+                            <div class="col-xs-5" style="margin-left:135px">
+                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@Value = ViewBag.Email, @maxlength = 100 } })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
                             </div>
                         }
@@ -151,7 +144,7 @@
                                 @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })<span style="color: red">*</span>
 
                             </div>
-                            <div class="col-xs-8">
+                            <div class="col-xs-5" style="margin-left:285px;margin-top:10px">
                                 @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod" } })
                                 @Html.ValidationMessageFor(model => model.RemindPeriod, "", new { @class = "text-danger" })
                             </div>
@@ -185,8 +178,34 @@
             </div>
 
         }
+<script src="~/scripts/CommonFunctions.js"></script>
+<script>
+    //Check maximum Email
+    $('#autoRemindEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    function passvalue(e){
+        //alert(e);
+        if(e == "Yes"){
+            $('#autoRemind').show();
 
-
+        }
+       
+        else{
+            $('#autoRemind').hide();
+        }
+    }
+    $('#autoRemindPeriod').click(function(){
+        var va = $('#autoRemindPeriod').val();
+        if(va==0)
+        {
+            $('#autoRemindPeriod').val('');
+        }
+    });
+</script>
 <script language="javascript" type="text/javascript">
     // Except only numbers and dot (.) for interest rate textbox
     function onlyDotsAndNumbers(event) {
@@ -278,7 +297,13 @@
       
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
-            
+            var e = $('#needReminder option:selected').text();
+            passvalue(e);
+            $('#needReminder').change(function(){
+                var e = $('#needReminder option:selected').text();
+                //alert(e);
+                passvalue(e);
+            });
             
             $('#onceMonth').click(function () {
                 $('#paidDateDiv').show();
@@ -288,7 +313,7 @@
                 $('#paidDateDiv').hide();
             });
             
-            if($('#NeedReminder').prop('checked')==true){
+            if($('#needReminder option:selected').text()=="Yes"){
 
                 $('#autoRemind').show();
             }
@@ -331,22 +356,11 @@
             
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
-            $('#NeedReminder').change(function () {
-
-                if (this.checked) {
-
-
-                    $('#autoRemind').show();
-
-
-                }
-
-                else {
-
-                    $('#autoRemind').hide();
-
-                }
-
+            
+            $('#needReminder').change(function(){
+                var e = $('#needReminder option:selected').text();
+                //alert(e);
+                passvalue(e);
             });
 
             $('#onceMonth').click(function () {
