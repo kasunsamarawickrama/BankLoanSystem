@@ -20,6 +20,28 @@ namespace BankLoanSystem.DAL
         public List<AccrualMethods> GetAllAccrualMethods()
         {
             List<AccrualMethods> methodList = new List<AccrualMethods>();
+            DataHandler dataHandler = new DataHandler();            
+
+            DataSet dataSet = dataHandler.GetDataSetBySQL("spGetAllAccrualMethods");
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    AccrualMethods methods = new AccrualMethods()
+                    {
+                        MethodId = Convert.ToInt32(dataRow["accrual_method_id"]),
+                        MethodName = dataRow["accrual_method_name"].ToString()
+                    };
+                    methodList.Add(methods);
+                }
+
+                return methodList;
+            }
+            else
+            {
+                return null;
+            }
+           
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -50,55 +72,25 @@ namespace BankLoanSystem.DAL
         /// <returns>countval</returns>
         public int insertInterestDetails(Interest interest)
         {
-           
-            //interest.InterestRate = Double.Parse(rate);
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();            
+
+            paramertList.Add(new object[] { "@interest_rate", interest.InterestRate });
+            paramertList.Add(new object[] { "@paid_date", interest.PaidDate });
+            paramertList.Add(new object[] { "@payment_period", interest.PaymentPeriod });
+            paramertList.Add(new object[] { "@auto_remind_email", interest.AutoRemindEmail });
+            paramertList.Add(new object[] { "@auto_remind_period", interest.RemindPeriod });
+            paramertList.Add(new object[] { "@loan_id", interest.LoanId });
+            paramertList.Add(new object[] { "@accrual_method_id", interest.AccrualMethodId });           
+
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spInsertInterestDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@interest_rate", SqlDbType.Decimal).Value = interest.InterestRate;
-                        cmd.Parameters.Add("@paid_date", SqlDbType.VarChar).Value = interest.PaidDate;
-                        cmd.Parameters.Add("@payment_period", SqlDbType.VarChar).Value = interest.PaymentPeriod;
-
-                        cmd.Parameters.Add("@auto_remind_email", SqlDbType.VarChar).Value = interest.AutoRemindEmail;
-
-                        cmd.Parameters.Add("@auto_remind_period", SqlDbType.Int).Value = interest.RemindPeriod;
-
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = interest.LoanId;
-                        cmd.Parameters.Add("@accrual_method_id", SqlDbType.Int).Value = interest.AccrualMethodId;
-
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        return countVal;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQL("spInsertInterestDetails", paramertList) ? 1 : 0;
             }
+            catch
+            {
+                return 0;
+            }            
         }
 
         /// <summary>
@@ -110,68 +102,42 @@ namespace BankLoanSystem.DAL
         /// <returns>InterestObject</returns>
         public Interest getInterestDetails(int loanId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetInterestDetailsByLoanId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                Interest interest = new Interest();
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+
+                interest.InterestRate = Math.Round(decimal.Parse(dataRow["interest_rate"].ToString()), 3);
+                if ((dataRow["paid_date"].ToString().Contains("payoff")))
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetInterestDetailsByLoanId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-
-                        Interest obj1 = null;
-
-                        while (reader.Read())
-                        {
-                            obj1 = new Interest();
-                            obj1.InterestRate = Math.Round(Double.Parse(reader["interest_rate"].ToString()),3);
-                            if ((reader["paid_date"].ToString().Contains("payoff")))
-                            {
-                                obj1.option = "payoff";
-                                obj1.PaidDate = "payoff";
-                            }
-                            else
-                            {
-                               
-                                obj1.option = "once a month";
-                                obj1.PaidDate = reader["paid_date"].ToString();
-                            }
-
-                            obj1.PaymentPeriod = reader["payment_period"].ToString();
-                            obj1.AccrualMethodId = int.Parse(reader["accrual_method_id"].ToString());
-                            obj1.AutoRemindEmail = reader["auto_remind_email"].ToString();
-                            if((obj1.AutoRemindEmail!=null)&& (obj1.AutoRemindEmail != ""))
-                            {
-                                obj1.NeedReminder = true;
-                            }
-                            obj1.RemindPeriod = int.Parse(reader["auto_remind_period"].ToString());
-                            obj1.LoanId = int.Parse(reader["loan_id"].ToString());
-
-
-
-
-                        }
-                        return obj1;
-
-                    }
+                    interest.option = "payoff";
+                    interest.PaidDate = "payoff";
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
-
+                    interest.option = "once a month";
+                    interest.PaidDate = dataRow["paid_date"].ToString();
                 }
-                finally
+                interest.PaymentPeriod = dataRow["payment_period"].ToString();
+                interest.AccrualMethodId = int.Parse(dataRow["accrual_method_id"].ToString());
+                interest.AutoRemindEmail = dataRow["auto_remind_email"].ToString();
+                if ((interest.AutoRemindEmail != null) && (interest.AutoRemindEmail != ""))
                 {
-                    con.Close();
+                    interest.NeedReminder = true;
                 }
+                interest.RemindPeriod = int.Parse(dataRow["auto_remind_period"].ToString());
+                interest.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                return interest;
             }
+            else
+            {
+                return null;
+            }           
         }
     }
 }

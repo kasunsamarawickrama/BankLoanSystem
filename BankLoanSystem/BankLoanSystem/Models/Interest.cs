@@ -21,7 +21,7 @@ namespace BankLoanSystem.Models
         [Range(0.001, 100, ErrorMessage = "Interest must be between 0 and {2}.")]
         //[DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^[0-9]+.?[0-9]{0,3}$", ErrorMessage = "Invalid; Maximum 3 Decimal Points.")]
-        public Double InterestRate { get; set; }
+        public decimal InterestRate { get; set; }
 
         [Display(Name = "Paid Date")]
         [Required(ErrorMessage = "Paid Date is required.")]
@@ -38,12 +38,12 @@ namespace BankLoanSystem.Models
         public bool NeedReminder { get; set; }
 
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Email Address is required.")]
         public String AutoRemindEmail { get; set; }
 
         [Required(ErrorMessage = "Remind Period is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Remind Period must be a positive value.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Remind Period must be greater than 0")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Invalid Remind Period")]
         public int RemindPeriod { get; set; }
 

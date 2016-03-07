@@ -10,6 +10,9 @@ using System.Web.Mvc;
 
 namespace BankLoanSystem.DAL
 {
+    /// <summary>
+    /// Main Branch and partner branch related operation define inside the class
+    /// </summary>
     public class BranchAccess
     {
 
@@ -594,10 +597,14 @@ namespace BankLoanSystem.DAL
         /// <param name="branch">branch object</param>
         /// <param name="id"> user id</param>
         /// <returns></returns>
-        public bool insertBranch(Branch branch, int id)
+        public int insertBranch(Branch branch, int id)
         {
-            branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
-            branch.BranchCompany = getCompanyIdByUserId(id);
+        if(string.IsNullOrEmpty(branch.BranchCode)) 
+        {
+                branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
+            }
+           
+            //branch.BranchCompany = getCompanyIdByUserId(id);
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -627,11 +634,11 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertBranch", paramertList);
+                return dataHandler.ExecuteSQLReturn("spInsertBranch", paramertList);
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 
@@ -643,7 +650,7 @@ namespace BankLoanSystem.DAL
         /// <param name="branch object"></param>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
-        public bool insertBranchDetails(Branch branch, int id)
+        public int insertBranchDetails(Branch branch, int id)
         {
             branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
             branch.BranchCompany = getCompanyIdByUserId(id);
@@ -661,7 +668,7 @@ namespace BankLoanSystem.DAL
         /// <param name="userCompany3"></param>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
-        public bool insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
+        public int insertFirstBranchDetails(CompanyBranchModel userCompany3, int id)
         {
             string companyCode = userCompany3.Company.CompanyCode;
             //userCompany3.MainBranch.BranchCode = createBranchCode(companyCode);
