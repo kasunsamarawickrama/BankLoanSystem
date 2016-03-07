@@ -152,8 +152,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is a super admin or admin
             if (roleId != 1)
             {
-                //disabled step 1
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Could not authenticate you." });
             }
 
             // Get company types to list
@@ -203,7 +202,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-            return new HttpStatusCodeResult(404, "Your Session Expired");
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
         /// <summary>

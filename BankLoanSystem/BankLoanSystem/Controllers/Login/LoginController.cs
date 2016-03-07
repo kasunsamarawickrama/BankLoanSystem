@@ -160,6 +160,8 @@ namespace BankLoanSystem.Controllers
                                 {
                                     //No Step recor in relavent Company and branch
                                     //Check Loan Step This Point
+
+
                                     if (userData.RoleId == 2)
                                     {
                                         //Redirect to Branch Admin dashboard
