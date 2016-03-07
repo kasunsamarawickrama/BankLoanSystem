@@ -20,31 +20,31 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>step number</returns>
         /// 
-        public int getStepNumberByUserId(int userId)
-        {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                try
-                {
-                    var command = new SqlCommand("spGetStepNumberByUserId", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
+        //public int getStepNumberByUserId(int userId)
+        //{
+        //    using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+        //    {
+        //        try
+        //        {
+        //            var command = new SqlCommand("spGetStepNumberByUserId", con);
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@user_id", userId);
 
-                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
+        //            SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Int);
+        //            returnParameter.Direction = ParameterDirection.ReturnValue;
 
-                    con.Open();
-                    command.ExecuteNonQuery();
+        //            con.Open();
+        //            command.ExecuteNonQuery();
 
-                    return (int)returnParameter.Value;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+        //            return (int)returnParameter.Value;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -105,8 +105,9 @@ namespace BankLoanSystem.DAL
 
                     con.Open();
                     command.ExecuteNonQuery();
-                    if ((int)returnParameter.Value >=1) {
-                        return true ;
+                    if ((int)returnParameter.Value >= 1)
+                    {
+                        return true;
                     }
                     else {
                         return false;
@@ -131,7 +132,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber,int branchId)
+        public bool updateStepNumberByUserId(int userId, int stepNumber, int loanNumber, int branchId)
         {
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
@@ -171,35 +172,31 @@ namespace BankLoanSystem.DAL
         /// CreatedDate: 2016/01/27
         /// 
         /// check the User Login While Company Setup is ongoing by super Admin
+        /// 
+        /// Edit Asanka Senarathna
+        /// UpdatedDate: 2016/03/06
+        /// removed existing connection open method and set parameter's to object list and pass stored procedure name to
+        /// call DataHandler class to save user object
         /// </summary>
         /// <returns>update true/false</returns>
         /// 
-        public int checkUserLoginWhileCompanySetup(int userId)
+        public DataSet checkUserLoginWhileCompanySetup(User user)
         {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@company_id", user.Company_Id });
+            paramertList.Add(new object[] { "@branch_id", user.BranchId });
+            try
             {
-                try
-                {
-                    var command = new SqlCommand("spCheckUserLoginWhileCompanySetup", con);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", userId);
-
-                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Bit);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                    con.Open();
-                    command.ExecuteNonQuery();
-                    return (int)returnParameter.Value;
-                  
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
+                return dataHandler.GetDataSet("spCheckUserLoginWhileCompanySetup1", paramertList);
+            }
+            catch
+            {
+                return null;
             }
         }
-        
+
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/02/03
@@ -319,7 +316,7 @@ namespace BankLoanSystem.DAL
 
                 }
             }
-           
+
         }
         /// <summary>
         /// CreatedBy:Piyumi
@@ -330,14 +327,14 @@ namespace BankLoanSystem.DAL
         /// <param name="branchId"></param>
         /// <param name="stepNumber"></param>
         /// <returns></returns>
-        public bool UpdateCompanySetupStep(int companyId,int branchId,int stepNumber)
+        public bool UpdateCompanySetupStep(int companyId, int branchId, int stepNumber)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_id", companyId });
             paramertList.Add(new object[] { "@branch_id", branchId });
             paramertList.Add(new object[] { "@step_number", stepNumber });
-            
+
 
             try
             {

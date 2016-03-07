@@ -38,7 +38,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@companyId", companyId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -56,6 +57,12 @@ namespace BankLoanSystem.DAL
                 return branchesLists;
             }
             else
+            {
+                return null;
+            }
+        }
+
+            catch
             {
                 return null;
             }
@@ -82,7 +89,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", compCode });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetCompanyIdByCompanyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -90,6 +98,12 @@ namespace BankLoanSystem.DAL
 
             }
             return 0;
+        }
+
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -111,7 +125,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", compCode });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyIdByCompanyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -119,6 +134,12 @@ namespace BankLoanSystem.DAL
 
             }
             return 0;
+        }
+
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -141,14 +162,21 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", id });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 return int.Parse(dataSet.Tables[0].Rows[0]["company_id"].ToString());
 
             }
+                return 0;
+            }
+
+            catch
+            {
             return 0;
+        }
         }
 
         /// <summary>
@@ -202,14 +230,21 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetCompanyTypeByUserId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 return int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
 
             }
+                return 0;
+            }
+
+            catch
+            {
             return 0;
+        }
         }
 
         /// <summary>
@@ -233,7 +268,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", companyCode });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -270,6 +306,12 @@ namespace BankLoanSystem.DAL
             }
         }
 
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// CreatedBy: MAM. IRFAN
         /// CreatedDate: 2016/02/05
@@ -292,7 +334,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@companyId", companyId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByCompanyId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -333,6 +376,12 @@ namespace BankLoanSystem.DAL
             }
         }
 
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// CreatedBy: MAM. IRFAN
         /// CreatedDate: 2016/02/05
@@ -348,7 +397,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@non_reg_companyId", nonRegCompanyId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchesByNonRegCompanyId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -388,6 +438,12 @@ namespace BankLoanSystem.DAL
             }
         }
 
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// CreatedBy:Irfan
         /// CreatedDate:2016/02/11
@@ -407,7 +463,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@branch_id", branchId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -421,6 +478,12 @@ namespace BankLoanSystem.DAL
                 return branch;
             }
             else
+            {
+                return null;
+            }
+        }
+
+            catch
             {
                 return null;
             }
@@ -445,7 +508,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@non_reg_branch_id", nonRegBranchId });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchByNonRegBranchId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -462,6 +526,12 @@ namespace BankLoanSystem.DAL
                 return branch;
             }
             else
+            {
+                return null;
+            }
+        }
+
+            catch
             {
                 return null;
             }
@@ -519,7 +589,8 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", companyCode });
-
+            try
+            {
             DataSet dataSet = dataHandler.GetDataSet("spGetTopBranchIdByCompanyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -527,6 +598,12 @@ namespace BankLoanSystem.DAL
 
             }
             return "";
+        }
+
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -541,7 +618,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code", companyCode });
-
+            try {
             DataSet dataSet = dataHandler.GetDataSet("spGetTopNonRegBranchIdByCompanyCode", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
@@ -549,6 +626,11 @@ namespace BankLoanSystem.DAL
 
             }
             return "";
+        }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -601,7 +683,7 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public int insertBranch(Branch branch, int id)
         {
-        if(string.IsNullOrEmpty(branch.BranchCode)) 
+            if (string.IsNullOrEmpty(branch.BranchCode))
         {
                 branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
             }
@@ -740,14 +822,20 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", id });
-
+            try {
             DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 return dataSet.Tables[0].Rows[0]["company_code"].ToString();
 
             }
+                return "";
+            }
+
+            catch
+            {
             return "";
         }
     }
+}
 }
