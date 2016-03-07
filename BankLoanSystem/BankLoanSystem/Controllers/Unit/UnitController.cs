@@ -22,14 +22,20 @@ namespace BankLoanSystem.Controllers.Unit
             return RedirectToAction("AddUnit");
         }
 
-        public ActionResult AddUnit(int? Flag)
+        public ActionResult AddUnit()
         {
-            if(Flag == 1)
+            int Flag = 0;
+            if (TempData["Msg"] != null)
             {
-                ViewBag.Msg = "Success";
-            }else if (Flag == 0)
-            {
-                ViewBag.Msg = "Error";
+                Flag = int.Parse(TempData["Msg"].ToString());
+                if (Flag == 1)
+                {
+                    ViewBag.Msg = "Success";
+                }
+                else if (Flag == 0)
+                {
+                    ViewBag.Msg = "Error";
+                }
             }
             if (Session["userId"] == null || Session["userId"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login");
@@ -201,11 +207,11 @@ namespace BankLoanSystem.Controllers.Unit
                         throw ex;
                     }
                 }
-                ViewBag.Msg = "Success";
-                //return Json(new {flag = 1}, JsonRequestBehavior.AllowGet);
+                TempData["Msg"] = 1;
+                
                 return RedirectToAction("AddUnit");
             }
-            ViewBag.Msg = "Error";
+            TempData["Msg"] = 1;
             return RedirectToAction("AddUnit", unit);
 
             //return Json(new { flag = 0 }, JsonRequestBehavior.AllowGet);
