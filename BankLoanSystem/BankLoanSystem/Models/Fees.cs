@@ -17,7 +17,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Amount")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
-        public double AdvanceAmount { get; set; }
+        public decimal AdvanceAmount { get; set; }
 
         [Display(Name = "Recipt for Advance Paid")]
         public bool AdvanceNeedReceipt { get; set; }
@@ -70,7 +70,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         [Required(ErrorMessage = "Loan Amount is required.")]
         [Display(Name = "Amount")]
-        public double MonthlyLoanAmount { get; set; }
+        public decimal MonthlyLoanAmount { get; set; }
 
         [Display(Name = "Recipt for Loan Paid")]
         public bool MonthlyLoanNeedReceipt { get; set; }
@@ -119,7 +119,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         [Required(ErrorMessage = "Lot Amount is required.")]
         [Display(Name = "Amount")]
-        public double LotInspectionAmount { get; set; }
+        public decimal LotInspectionAmount { get; set; }
 
         [Display(Name = "Recipt for Lot Inspection Paid")]
         public bool LotInspectionNeedReceipt { get; set; }
