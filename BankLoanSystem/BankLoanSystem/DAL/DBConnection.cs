@@ -117,21 +117,66 @@ namespace BankLoanSystem.DAL
                         {
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
-                    }
-                   
+                    }                    
                     command.ExecuteNonQuery();                   
                     return  true;
                 }
                 else
                     return false;
             }
-            catch
+            catch(Exception exp)
             {
                 return false;
             }
 
-        }        
+        }
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return boolean value
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// <returns></returns>
+        public int ExecuteSQLReturn(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandText = SQL;
+                    command.CommandType = CommandType.StoredProcedure;
 
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                       
+                    }
+                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    command.ExecuteNonQuery();
+                    int branchId = int.Parse(returnParameter.Value.ToString());
+                    return branchId;
+                }
+                else
+                    return 0;
+            }
+            catch (Exception exp)
+            {
+                return 0;
+            }
+
+        }
         /// <summary>
         /// <summary>
         /// CreatedBy :Nadeeka
@@ -170,6 +215,42 @@ namespace BankLoanSystem.DAL
                     dataAdapter.Fill(dataSet);
                     dataAdapter.Dispose();
                     mPara = null;
+                    return dataSet;
+                }
+                else
+                    return null;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/04
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return dataset 
+        /// </summary>
+        /// <param name="SQL"></param>
+        /// <returns></returns>
+        public DataSet GetDataSetBySQL(string SQL)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    dataAdapter = new SqlDataAdapter(command);
+                    dataSet.Clear();
+                    dataAdapter.Fill(dataSet);
+                    dataAdapter.Dispose();
                     return dataSet;
                 }
                 else
@@ -262,6 +343,54 @@ namespace BankLoanSystem.DAL
             {
                 return false;
             }
-        }        
+        }
+
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return boolean value
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// <returns>return int value</returns>
+        public int ExecuteSQLWithReturnVal(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandText = SQL;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                    }
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    command.ExecuteNonQuery();
+                    int retunVal = int.Parse(returnParameter.Value.ToString());
+                    return retunVal;
+                }
+                else
+                    return 0;
+            }
+            catch (Exception exp)
+            {
+                return 0;
+            }
+
+        }
     }
 }

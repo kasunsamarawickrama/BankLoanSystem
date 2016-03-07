@@ -225,8 +225,8 @@ namespace BankLoanSystem.Controllers
             userCompany2.MainBranch.StateId = userCompany2.StateId;
             userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
             userCompany.MainBranch = userCompany2.MainBranch;
-            bool reslt = ba.insertFirstBranchDetails(userCompany, userId);
-            if (reslt)
+            int reslt = ba.insertFirstBranchDetails(userCompany, userId);
+            if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 3))

@@ -12,251 +12,247 @@
 
 
 
-
-
+<div class="form-group">
+    <div class="control-label col-sm-5">
         <h2>Create User</h2>
+    </div>
+    @if (ViewBag.SuccessMsg == null)
+    {
+        <div class="col-xs-7">
+            <span></span> <input type="button" id="skip" value="Skip" class="btn btn-info right-button" />
+        </div>
 
-        @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
-        {
-            using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-            {
+    }
+</div>
 
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                @ViewBag.SuccessMsg
-                <div class="form-group">
-                    <div>
+@if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+{
+    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+    {
 
-                        <nav>
-                            <ul class="pager">
+        OnFailure = "handleErrorMsg",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer",
+        LoadingElementId = "loadingDiv"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @ViewBag.SuccessMsg
+        <div class="form-group">
 
+            <div class="button-panel">
 
-                                <li>
-                                    <input type="button" id="createNewUser" value="Create a New User" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
-                                </li>
+                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
 
-                                <li>
-                                    <input type="button" id="step4" value="Next" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            }
+                <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
 
-            <script>
-                $(function () {
-                    $('#createNewUser').click(function () {
-
-                        $('#loadingDiv').show();
-                        $.ajax({
-                            url: '@Url.Action("Step3")',
-                            type: 'GET',
-
-
-                            success: function (partialView) {
-                                $('#loadingDiv').hide();
-                                $('#changeContainer').html(partialView);
-                                $('#changeContainer').show();
-                            },
-
-                            error: function (request, status, error) {
-                                handleErrorMsg(request.responseText);
-
-                            }
-                        });
-
-
-                    });
-
-                    $(function () {
-                        $('#step4').click(function () {
-
-                            $('#loadingDiv').show();
-                            $.ajax({
-                                url: '@Url.Action("Step4")',
-                                type: 'GET',
-
-
-                                success: function (partialView) {
-                                    $('#loadingDiv').hide();
-                                    $('#changeContainer').html(partialView);
-                                    $('#changeContainer').show();
-                                    Progress(4);
-                                },
-                                error: function (request, status, error) {
-                                    handleErrorMsg(request.responseText);
-
-                                }
-                            });
-                        });
-                    });
-                });
-
-            </script>
-
-
-        }
-
-        else
-        {
-
-            using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-            {
-
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.NewEmail, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @if (ViewBag.CurrUserRoleType != 2)
-                    {
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-                                @Html.LabelFor(model => model.BranchId, htmlAttributes: new { })<span style="color:red">*</span>
-                            </div>
-
-                            <div class="col-xs-8">
-                                @Html.DropDownListFor(model => model.BranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "BranchId" })
-                                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    }
-
-                    <div class="form-group">
-                        <div class="control-label col-sm-2">
-                            @Html.LabelFor(model => model.RoleId, htmlAttributes: new { })<span style="color:red">*</span>
-                        </div>
-
-                        <div class="col-xs-8">
-                            @Html.DropDownListFor(model => model.RoleId, null, "Select role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
-                            @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div>
-
-                            <nav>
-                                <ul class="pager">
-
-
-                                    <li>
-                                        <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float:left;margin-left:10px" />
-                                    </li>
-                                    <li>
-                                        <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
-                                    </li>
-                                    <li>
-                                        <input type="button" id="skip" value="Skip" class="btn btn-primary m-b" style="float:right;margin-left:10px" />
-                                    </li>
-
-                                    <li>
-                                        <input type="submit" value="Create" class="btn btn-primary m-b" style="float:right" />
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-            }
-
-            <div>
 
             </div>
 
-        }
-  
+
+        </div>
+    }
+
+    <script>
+        $(function () {
+            $('#createNewUser').click(function () {
+
+                $('#loadingDiv').show();
+                $.ajax({
+                    url: '@Url.Action("Step3")',
+                    type: 'GET',
+
+
+                    success: function (partialView) {
+                        $('#loadingDiv').hide();
+                        $('#changeContainer').html(partialView);
+                        $('#changeContainer').show();
+                    },
+
+                    error: function (request, status, error) {
+                        handleErrorMsg(request.responseText);
+
+                    }
+                });
+
+
+            });
+
+            $(function () {
+                $('#step4').click(function () {
+
+                    $('#loadingDiv').show();
+                    $.ajax({
+                        url: '@Url.Action("Step4")',
+                        type: 'GET',
+
+
+                        success: function (partialView) {
+                            $('#loadingDiv').hide();
+                            $('#changeContainer').html(partialView);
+                            $('#changeContainer').show();
+                            Progress(4);
+                        },
+                        error: function (request, status, error) {
+                            handleErrorMsg(request.responseText);
+
+                        }
+                    });
+                });
+            });
+        });
+
+    </script>
+
+
+}
+
+else
+{
+
+    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+    {
+
+        OnFailure = "handleErrorMsg",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer",
+        LoadingElementId = "loadingDiv"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="control-label col-sm-2" style="clear:both">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.NewEmail, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { })<span style="color: red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { })<span style="color:red">*</span>
+                </div>
+
+                <div class="col-xs-8">
+                    @Html.DropDownListFor(model => model.RoleId, null, "Select role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
+                </div>
+            </div>
+
+            @if (ViewBag.CurrUserRoleType != 2)
+                    {
+                <div class="form-group">
+                    <div class="control-label col-sm-2">
+                        @Html.LabelFor(model => model.BranchId, htmlAttributes: new { })<span style="color:red">*</span>
+                    </div>
+
+                    <div class="col-xs-8">
+                        @Html.DropDownListFor(model => model.BranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "BranchId" })
+                        @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+
+
+            <div class="form-group">
+
+                <div class="button-panel">
+                    <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-default left-button" />
+
+
+                    <input type="submit" value="Create" class="btn btn-primary btn-next" style="left:40%" />
+                    <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+
+                </div>
+
+            </div>
+        </div>
+
+    }
+
+    <div>
+
+    </div>
+
+}
+
 
 
 
@@ -318,6 +314,12 @@
     });
 
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
+
+
+    //$('#RoleId').change(function() {
+    //    var val = $(this).
+    //});
+
 </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

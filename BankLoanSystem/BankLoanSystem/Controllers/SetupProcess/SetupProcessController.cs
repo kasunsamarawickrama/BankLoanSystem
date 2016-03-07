@@ -40,8 +40,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             if (Session["AuthenticatedUser"] != null)
             {
-                try
-                {
+            try
+            {
                     userData = ((User)Session["AuthenticatedUser"]);
                 }
                 catch
@@ -81,10 +81,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     company.City = dsCompany.Tables[0].Rows[0]["city"].ToString(); 
                     company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
 
-                    string[] zipWithExtention = company.Zip.Split('-');
+                string[] zipWithExtention = company.Zip.Split('-');
 
-                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
                     company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
                     company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString(); 
@@ -143,7 +143,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
             int roleId = userData.RoleId;
-           CompanyAccess ca = new CompanyAccess();
+            CompanyAccess ca = new CompanyAccess();
 
             // check he is a super admin or admin
             if (roleId != 1)
@@ -176,7 +176,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
                 }
 
-                string[] zipWithExtention = preCompany.Zip.Split('-');
+                    string[] zipWithExtention = preCompany.Zip.Split('-');
 
                     if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
                     if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
@@ -186,7 +186,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     _isEdit = 1;
 
                     return PartialView(preCompany);
-            }
+                }
 
             return new HttpStatusCodeResult(404, "Your Session Expired");
         }
@@ -288,7 +288,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     //Get company details by user id
                     userId = userData.UserId;
-                CompanyAccess ca = new CompanyAccess();
+                    CompanyAccess ca = new CompanyAccess();
                 Company preCompany = new Company();
                 DataSet dsCompany = new DataSet();
                 dsCompany = ca.GetCompanyDetailsByFirstSpUserId(userData);
@@ -318,7 +318,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
 
-                userCompany.Company = preCompany;
+                    userCompany.Company = preCompany;
 
                     BranchAccess ba = new BranchAccess();
                     IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
@@ -335,7 +335,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return new HttpStatusCodeResult(404, "Your Session is Expired");
                 }
-        }
+            }
 
         //Post Branch
         /// <summary>
@@ -362,11 +362,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 userCompany.MainBranch = userCompany2.MainBranch;
             }
 
-            bool reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if (reslt)
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            userCompany2.MainBranch.BranchId = reslt;
+            if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 3))
+                if (sa.UpdateCompanySetupStep(userCompany2.Company.CompanyId,userCompany2.MainBranch.BranchId, 3))
                 {
                     bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
                     if (reslt2)
@@ -1466,7 +1467,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Interest intrst = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
+            //yes no list
+            List<SelectListItem> yesOrNoList = new List<SelectListItem>();
 
+            yesOrNoList.Add(new SelectListItem
+            {
+                Text = "Yes",
+                Value = "true"
+            });
+            yesOrNoList.Add(new SelectListItem
+            {
+                Text = "No",
+                Value = "false"
+            });
+            ViewBag.NeedReminder = new SelectList(yesOrNoList, "Value", "Text");
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -1776,32 +1790,60 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int uId = int.Parse(Session["userId"].ToString());
             int branchId = int.Parse(Session["branchId"].ToString());
+            //yes no list
+            List<SelectListItem> isTitleTrackList = new List<SelectListItem>();
+
+            isTitleTrackList.Add(new SelectListItem
+            {
+                Text = "Yes",
+                Value = "true"
+            });
+            isTitleTrackList.Add(new SelectListItem
+            {
+                Text = "No",
+                Value = "false"
+            });
+            ViewBag.isTitleTrack = new SelectList(isTitleTrackList, "Value", "Text");
+
+            List<SelectListItem> isReceiptList = new List<SelectListItem>();
+
+            isReceiptList.Add(new SelectListItem
+            {
+                Text = "Yes",
+                Value = "true"
+            });
+            isReceiptList.Add(new SelectListItem
+            {
+                Text = "No",
+                Value = "false"
+            });
+            ViewBag.IsReceipRequired = new SelectList(isReceiptList, "Value", "Text");
             //Accept Methods
             List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
 
             acceptMethodsList.Add(new SelectListItem
             {
-                Text = "title present to advance",
-                Value = "title present to advance"
+                Text = "Title Present To Advance",
+                Value = "Title Present To Advance"
             });
 
 
             acceptMethodsList.Add(new SelectListItem
             {
-                Text = "scanned title adequate",
-                Value = "scanned title adequate"
+                Text = "Scanned Title Adequate",
+                Value = "Scanned Title Adequate"
             });
 
             acceptMethodsList.Add(new SelectListItem
             {
-                Text = "title can arrive at any time",
-                Value = "title can arrive at any time"
+                Text = "Title Can Arrive At Any Time",
+                Value = "Title Can Arrive At Any Time"
             });
 
             acceptMethodsList.Add(new SelectListItem
             {
-                Text = "title can arrive within a set time",
-                Value = "title can arrive within a set time"
+                Text = "Title Can Arrive Within A Set Time",
+                Value = "Title Can Arrive Within A Set Time"
             });
 
 
@@ -1810,21 +1852,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "at advance date",
-                Value = "at advance date"
+                Text = "At Advance Date",
+                Value = "At Advance Date"
             });
 
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "with in 7 days",
-                Value = "with in 7 days"
+                Text = "With In 7 Days",
+                Value = "With In 7 Days"
             });
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "at any time",
-                Value = "at any time"
+                Text = "At Any Time",
+                Value = "At Any Time"
             });
 
             //Receipt required methods
@@ -1832,21 +1874,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "physically",
-                Value = "physically"
+                Text = "Physically",
+                Value = "Physically"
             });
 
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "scan copy",
-                Value = "scan copy"
+                Text = "Scan Copy",
+                Value = "Scan Copy"
             });
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "physically and scan copy",
-                Value = "physically and scan copy"
+                Text = "Physically And Scan Copy",
+                Value = "Physically And Scan Copy"
             });
             if (uId > 0)
             {
@@ -2077,7 +2119,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int? totalPercentage = 0;
 
                 int curId = 0;
-                if (curtailments.Count > 0)
+                if (curtailments !=null && curtailments.Count > 0)
                 {
                     for (int i = 0; i < curtailments.Count; i++)
                     {

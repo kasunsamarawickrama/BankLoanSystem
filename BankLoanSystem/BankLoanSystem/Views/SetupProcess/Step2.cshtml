@@ -5,6 +5,25 @@
     ViewBag.Title = "Step2";
 
 }
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    table, td {
+        border: 1px solid black;
+        text-align: left;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: paleturquoise;
+    }
+
+    tr {
+        text-align: left;
+    }
+</style>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -37,7 +56,7 @@
                 @if (Model.SubBranches.Count > 0)
                 {
                     <div class="form-group">
-                        <table>
+                        <table id="branchTable">
                             <tr>
                                 <td class="control-label col-sm-2">
                                     @Html.Label("Branch Name")
@@ -45,7 +64,8 @@
                                 <td class="control-label col-sm-2">
                                     @Html.Label("Branch Address1")
                                 </td>
-
+                                <td class="control-label col-sm-2"></td>
+                                <td class="control-label col-sm-2"></td>
                             </tr>
 
                             @for (var i = 0; i < Model.SubBranches.Count; i++)
@@ -88,7 +108,7 @@
                         </div>
                     }
                 </div>
-
+                <div id="branchDiv">
                 @*this for keep branch code*@
                 <input id="branchCode" name="branchCode" type="hidden" value="" />
                 <div class="form-group">
@@ -130,7 +150,7 @@
                         @Html.LabelFor(model => model.MainBranch.BranchCity, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
-                    <div class="col-xs-8">
+                    <div class="col-xs-5" style="margin-left:207px">
                         @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control", @id = "branchCity" } })
                         @Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" })
 
@@ -141,7 +161,7 @@
                     <div class="control-label col-sm-2">
                         @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
-                    <div class="col-xs-8">
+                    <div class="col-xs-5" style="margin-left:199px">
                         @Html.DropDownList("StateId", null, "--Select state--", htmlAttributes: new { @class = "form-control", id = "StateId" })
                         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                     </div>
@@ -219,37 +239,84 @@
                 </div>
 
 
+         
+
+
                 <div class="form-group">
-                    <div>
-                        <nav>
-                            <ul class="pager">
-                                <li>
-                                    <input type="submit" value="Next" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
+                        <div class="button-panel">
 
-                                <li>
-                                    <input type="button" value="Back" name="subBack" id="btnPreStep2" class="btn btn-primary m-b cancel" style="float: right; margin-left: 10px" />
-                                </li>
+                            <input type="button" value="Back" name="subBack" id="btnPreStep2" class="btn btn-default left-button" />
+                            <input type="submit" value="Next" id="btnNext"class="btn btn-primary btn-next" style="left:40%"/>
 
-                                <li>
-                                    <input type="button" id="clear" value="Clear" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
+                            <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
 
-                            </ul>
-                        </nav>
                     </div>
                 </div>
 
             </div>
+
+           </div>
 
         }
  
 
 
 
+<script src="~/scripts/CommonFunctions.js"></script>
+<script>
+    // Capitalize first letter 
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
+    //Check maximum length
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    //Check maximum Email
+    $('#branchEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    //Check maximum PhoneNumbers
+    $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
 
+    //Check maximum ZipExtension
+    $('#branchZipExten').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    //Check maximum ZipCode
+    $('#branchZipPre').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 5);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+</script>
 <script type="text/javascript">
     $(function () {
+        $(document).ready(function () {
+            var c = $('#branchTable').children('tbody').children('tr').length;
+            if(c>0){
+                $('#branchDiv').hide();
+            }
+            else{
+                $('#branchDiv').show();
+            }
+           // $('#branchDiv').hide();
+        });
         $('#Previous').on('change', function () {
             if ($(this).is(':checked')) {
                 var model = @Html.Raw(Json.Encode(Model));
@@ -317,7 +384,8 @@
 
 <script type="text/javascript">
     function EditBranch(index) {
-
+        $('#branchDiv').show();
+        $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
         console.log(model);
         console.log(index);
@@ -351,6 +419,8 @@
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
         document.getElementById("branchCode").value = "";
+        $('#btnNext').val('Next');
+        $('#branchDiv').show();
     }
 
    

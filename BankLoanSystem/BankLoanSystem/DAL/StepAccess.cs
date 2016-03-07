@@ -317,6 +317,63 @@ namespace BankLoanSystem.DAL
             }
            
         }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/3/4
+        /// Update company setup step table
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="stepNumber"></param>
+        /// <returns></returns>
+        public bool UpdateCompanySetupStep(int companyId,int branchId,int stepNumber)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", companyId });
+            paramertList.Add(new object[] { "@branch_id", branchId });
+            paramertList.Add(new object[] { "@step_number", stepNumber });
+            
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spUpdateCompanySetupStep", paramertList) ? true : false;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:2016/3/4
+        /// Update loan setup step table
+        /// </summary>
+        /// <param name="nonRegisteredBranchId"></param>
+        /// <param name="loanId"></param>
+        /// <param name="stepNumber"></param>
+        /// <returns></returns>
+        public bool UpdateLoanSetupStep(int nonRegisteredBranchId, int loanId, int stepNumber)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@non_registered_branch_id", nonRegisteredBranchId });
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@step_number", stepNumber });
+
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spUpdateLoanSetupStep", paramertList) ? true : false;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
     }
 }
