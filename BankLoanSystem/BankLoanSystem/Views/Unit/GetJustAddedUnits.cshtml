@@ -1,46 +1,46 @@
 ﻿@model IEnumerable<BankLoanSystem.Models.JustAddedUnit>
 
 @if (Model.Count() != 0) {
-<div class="side-panel" style="overflow-x: hidden;
-    overflow-y: scroll;
-    height: 200px;" >
+<div class="side-panel"  >
 
     <h5><strong>Just Added Units</strong></h5>
+    <div style="overflow-x: hidden;
+    overflow-y: scroll;
+    height: 181px;">
 
-
-    <table  style="text-align: left;color: #07BB9B;font-weight: bold;
+        <table style="text-align: left;color: #07BB9B;font-weight: bold;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 10px;font-size: 85%;width: 125%;">
-        <tr>
-            <th></th>
-        </tr>
-        @{int i = 1;}
-            @foreach (var item in Model)
-        {
+    margin-bottom: 10px;font-size: 90%;width: 93%;">
             <tr>
-                <td>
-                    @if (item.isAdvance == true)
-                    {
-                        <span>*</span>
-                    }
-                </td>
-                <td>
-                    @(i++)
-                </td>
-
-                <td>
-                    @item.model
-                </td>
-
-                <td>
-                    $@item.advanceAmount
-                </td>
+                <th></th>
             </tr>
-        }
+            @{int i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.isAdvance == true)
+                    {
+                            <span>*</span>
+                        }
+                    </td>
+                    <td>
+                        @(i++).
+                    </td>
 
-    </table>
+                    <td>
+                        @item.model
+                    </td>
 
+                    <td style="text-align:right;">
+                        $@item.advanceAmount
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 
 </div>
 }
