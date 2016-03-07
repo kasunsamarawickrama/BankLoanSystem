@@ -68,19 +68,8 @@ namespace BankLoanSystem.Controllers
                 {
                     userId = Convert.ToInt32(Session["userId"]);
                     //----------
-                    Company preCompany = new Company();
-                    DataSet dsCompany = new DataSet();
-                    dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                    if (dsCompany.Tables[0].Rows.Count > 0)
-                    {
-                        preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                        preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
-                    }
-
-                        string[] zipWithExtention = preCompany.Zip.Split('-');
-
-                    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+                    Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                    
 
                     _comCode = preCompany.CompanyCode;
                     ViewBag.Edit = "Yes";

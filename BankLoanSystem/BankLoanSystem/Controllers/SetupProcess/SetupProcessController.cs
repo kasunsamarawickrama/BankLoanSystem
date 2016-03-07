@@ -68,33 +68,35 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (stepNo == 2)
             {
                 CompanyAccess ca = new CompanyAccess();
-                Company company = new Company();
-                DataSet dsCompany = new DataSet();
-                dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                if (dsCompany.Tables[0].Rows.Count > 0)
-                {
-                    company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
-                    company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                    company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                    company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-                    company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
-                    company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-                    company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-                    company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                Company company = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                //CompanyAccess ca = new CompanyAccess();
+                //Company company = new Company();
+                //DataSet dsCompany = new DataSet();
+                //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                //if (dsCompany.Tables[0].Rows.Count > 0)
+                //{
+                //    company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                //    company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                //    company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                //    company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                //    company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                //    company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                //    company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+                //    company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
 
-                    string[] zipWithExtention = company.Zip.Split('-');
+                //    string[] zipWithExtention = company.Zip.Split('-');
 
-                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                //    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                //    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                    company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                    company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                    company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                    company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                    company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
-                    company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
-                    company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
-                }
+                //    company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                //    company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                //    company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                //    company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                //    company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                //    company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                //    company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
+                //}
 
                 //CompanyBranchModel comBranch = new CompanyBranchModel(); asanka
                 //comBranch.Company = company;
@@ -169,19 +171,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (edit == 1)
             {
-                Company preCompany = new Company();
-                DataSet dsCompany = new DataSet();
-                dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                if (dsCompany.Tables[0].Rows.Count > 0)
-                {
-                    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
-                }
+                //Company preCompany = new Company();
+                //DataSet dsCompany = new DataSet();
+                //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                string[] zipWithExtention = preCompany.Zip.Split('-');
+                Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                //if (preCompany.Tables[0].Rows.Count > 0)
+                //{
+                //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                //}
 
-                if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+                //string[] zipWithExtention = preCompany.Zip.Split('-');
+
+                //if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+                //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
 
                 _comCode = preCompany.CompanyCode;
                 ViewBag.Edit = "Yes";
@@ -306,36 +310,38 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 userCompany.MainBranch = new Branch();
                 ViewBag.BranchIndex = 0;
 
-                //Get company details by user id
-                userId = userData.UserId;
+                //Get company details by company id
                 CompanyAccess ca = new CompanyAccess();
-                Company preCompany = new Company();
-                DataSet dsCompany = new DataSet();
-                dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                if (dsCompany.Tables[0].Rows.Count > 0)
-                {
-                    preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
-                    preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                    preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-                    preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
-                    preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-                    preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-                    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                    string[] zipWithExtention = preCompany.Zip.Split('-');
+                //CompanyAccess ca = new CompanyAccess();
+                //Company preCompany = new Company();
+                //DataSet dsCompany = new DataSet();
+                //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                //if (dsCompany.Tables[0].Rows.Count > 0)
+                //{
+                //    preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                //    preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                //    preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                //    preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                //    preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                //    preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+                //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
 
-                    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+                //    string[] zipWithExtention = preCompany.Zip.Split('-');
 
-                    preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                    preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                    preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                    preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                    preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
-                    preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
-                    preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
-                }
+                //    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+                //    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+
+                //    preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                //    preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                //    preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                //    preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                //    preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                //    preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                //    preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
+                //}
 
 
                 userCompany.Company = preCompany;
@@ -423,34 +429,37 @@ namespace BankLoanSystem.Controllers.SetupProcess
             userId = userData.UserId;
 
             // need common method for that - asanka
+
             CompanyAccess ca = new CompanyAccess();
-            Company preCompany = new Company();
-            DataSet dsCompany = new DataSet();
-            dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-            if (dsCompany.Tables[0].Rows.Count > 0)
-            {
-                preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
-                preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-                preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
-                preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-                preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-                preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+            Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+            //CompanyAccess ca = new CompanyAccess();
+            //Company preCompany = new Company();
+            //DataSet dsCompany = new DataSet();
+            //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+            //if (dsCompany.Tables[0].Rows.Count > 0)
+            //{
+            //    preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+            //    preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+            //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+            //    preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+            //    preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+            //    preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+            //    preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+            //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
 
-                string[] zipWithExtention = preCompany.Zip.Split('-');
+            //    string[] zipWithExtention = preCompany.Zip.Split('-');
 
-                if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
+            //    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
+            //    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
 
-                preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
-                preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
-                preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
-            }
+            //    preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+            //    preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+            //    preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+            //    preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+            //    preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+            //    preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+            //    preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
+            //}
 
 
             userCompany.Company = preCompany;

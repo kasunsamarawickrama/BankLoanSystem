@@ -369,20 +369,42 @@ else
         }
     });
 
-    //Check maximum length for email address
+    //Check maximum length for email address and valid characters
     $('#txtNewEmail').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 100);
         if (res === 0) {
             e.preventDefault();
             return;
         }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' '];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            $(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
     });
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
-        var array = [' ', '/', '`', '~', '!'];
+        //var array = [' ', '/', '`', '~', '!'];
+        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
         var res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtPhoneNumber').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
             e.preventDefault();
             return;
         }
