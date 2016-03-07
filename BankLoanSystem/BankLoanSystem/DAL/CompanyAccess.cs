@@ -31,21 +31,28 @@ namespace BankLoanSystem.DAL
             List<CompanyType> ctList = new List<CompanyType>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-
-            DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
-            if (dataSet != null && dataSet.Tables.Count != 0)
+            try
             {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spGetAllCompanyType");
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    CompanyType ct = new CompanyType();
-                    ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
-                    ct.TypeName = dataRow["company_type_name"].ToString();
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        CompanyType ct = new CompanyType();
+                        ct.TypeId = Convert.ToInt32(dataRow["company_type_id"]);
+                        ct.TypeName = dataRow["company_type_name"].ToString();
 
-                    ctList.Add(ct);
+                        ctList.Add(ct);
+                    }
+                    return ctList;
                 }
-                return ctList;
+                else
+                {
+                    return null;
+                }
             }
-            else
+
+            catch
             {
                 return null;
             }
@@ -67,21 +74,28 @@ namespace BankLoanSystem.DAL
             List<State> stateList = new List<State>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-
-            DataSet dataSet = dataHandler.GetDataSet("spGetState");
-            if (dataSet != null && dataSet.Tables.Count != 0)
+            try
             {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spGetState");
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    State state = new State();
-                    state.StateId = Convert.ToInt32(dataRow["state_id"]);
-                    state.StateName = dataRow["state_name"].ToString();
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        State state = new State();
+                        state.StateId = Convert.ToInt32(dataRow["state_id"]);
+                        state.StateName = dataRow["state_name"].ToString();
 
-                    stateList.Add(state);
+                        stateList.Add(state);
+                    }
+                    return stateList;
                 }
-                return stateList;
+                else
+                {
+                    return null;
+                }
             }
-            else
+
+            catch
             {
                 return null;
             }
@@ -108,7 +122,15 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_name", companyName });
-            return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
+            try
+            {
+                return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
+            }
+
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -133,15 +155,26 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code_prefix", prefix });
-
-            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodebyCode", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            try
             {
-                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodebyCode", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    return dataSet.Tables[0].Rows[0]["company_code"].ToString();
 
+                }
+                else
+                {
+                    return "";
+                }
             }
-            return "";
+
+            catch
+            {
+                return "";
+            }
         }
+        
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -166,13 +199,23 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_code_prefix", prefix });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyCodebyCode", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            try
             {
-                return dataSet.Tables[0].Rows[0]["company_code"].ToString();
-
+                DataSet dataSet = dataHandler.GetDataSet("spGetNonRegCompanyCodebyCode", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+                }
+                else
+                {
+                    return "";
+                }
             }
-            return "";
+            catch
+            {
+                return "";
+            }
+            
         }
 
         /// <summary>
@@ -197,40 +240,48 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            try
             {
-                DataRow dataRow = dataSet.Tables[0].Rows[0];
-                Company company = new Company();
+                DataSet dataSet = dataHandler.GetDataSet("spGetCompanyDetailsBySUserId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    Company company = new Company();
 
-                company.CompanyId = Convert.ToInt32(dataRow["company_Id"]);
-                company.CompanyName = dataRow["company_name"].ToString();
-                company.CompanyCode = dataRow["company_code"].ToString();
-                company.CompanyAddress1 = dataRow["company_address_1"].ToString();
-                company.CompanyAddress2 = dataRow["company_address_2"].ToString();
-                company.StateId = Convert.ToInt32(dataRow["stateId"]);
-                company.City = dataRow["city"].ToString();
-                company.Zip = dataRow["zip"].ToString();
+                    company.CompanyId = Convert.ToInt32(dataRow["company_Id"]);
+                    company.CompanyName = dataRow["company_name"].ToString();
+                    company.CompanyCode = dataRow["company_code"].ToString();
+                    company.CompanyAddress1 = dataRow["company_address_1"].ToString();
+                    company.CompanyAddress2 = dataRow["company_address_2"].ToString();
+                    company.StateId = Convert.ToInt32(dataRow["stateId"]);
+                    company.City = dataRow["city"].ToString();
+                    company.Zip = dataRow["zip"].ToString();
 
-                string[] zipWithExtention = company.Zip.Split('-');
+                    string[] zipWithExtention = company.Zip.Split('-');
 
-                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                company.Email = dataRow["email"].ToString();
-                company.PhoneNum1 = dataRow["phone_num_1"].ToString();
-                company.PhoneNum2 = dataRow["phone_num_2"].ToString();
-                company.PhoneNum3 = dataRow["phone_num_3"].ToString();
-                company.Fax = dataRow["fax"].ToString();
-                company.WebsiteUrl = dataRow["website_url"].ToString();
-                company.TypeId = Convert.ToInt32(dataRow["company_type"]);
+                    company.Email = dataRow["email"].ToString();
+                    company.PhoneNum1 = dataRow["phone_num_1"].ToString();
+                    company.PhoneNum2 = dataRow["phone_num_2"].ToString();
+                    company.PhoneNum3 = dataRow["phone_num_3"].ToString();
+                    company.Fax = dataRow["fax"].ToString();
+                    company.WebsiteUrl = dataRow["website_url"].ToString();
+                    company.TypeId = Convert.ToInt32(dataRow["company_type"]);
 
-                return company;
+                    return company;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch
             {
                 return null;
             }
+
         }
 
         /// <summary>
