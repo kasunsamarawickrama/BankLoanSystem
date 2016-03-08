@@ -13,19 +13,26 @@
     }
     .form-group{
         margin:auto;
+        margin-bottom: 10px;
     }
 
     .col-xs-11{
-    float:unset;
-}
-    .col-xs-11>input{
+    
     width:60%;
 }
 
-        .col-xs-10{
-    float:unset;
+    .col-xs-10 {
+    float: unset;
 }
-    .col-xs-10>input , .col-xs-10>select{
+    .col-xs-11>input{
+    /*width:60%;*/
+}
+
+        .col-xs-9{
+           
+    
+}
+    .col-xs-9>input , .col-xs-9>select{
     width:28%;
 }
 
@@ -100,17 +107,17 @@ else if (@ViewBag.ErrorMsg != null)
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.City, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-10" >
+            <div class="col-xs-9" >
                 @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @id = "txtCity" } })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" , style = "left:93%" })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
 
                
-                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { style="margin-left:18px" })<span style="color: red">*</span>
+                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { style="margin-left:14.5%" })<span style="color: red">*</span>
               
                     @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control", id = "StateId" })
                     
-                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "top:70%" })
+                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
                     <div id="customError"><span class="text-danger"></span></div>
                
             </div>
@@ -118,9 +125,7 @@ else if (@ViewBag.ErrorMsg != null)
 
         </div>
 
-        <div class="form-group">
-            
-        </div>
+       
 
         <div class="form-group">
             <div class="control-label col-sm-3">
@@ -129,11 +134,11 @@ else if (@ViewBag.ErrorMsg != null)
 
             <div class="col-xs-11" >
 
-                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { style = "width:15%" ,@class = "form-control", placeholder = "Zip Code", @id = "txtZipPre" } })
-                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger", style = "left: 57%;" })
+                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { style = "width:19%" ,@class = "form-control", placeholder = "Zip Code", @id = "txtZipPre" } })
+                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
                 @*<span class="glyphicons glyphicon-minus" style="margin-top:25px"></span>*@
-                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { style = "width:15%", @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
+                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
                 @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
@@ -145,18 +150,18 @@ else if (@ViewBag.ErrorMsg != null)
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-10" >
+            <div class="col-xs-9" >
                 @Html.EditorFor(model => model.PhoneNum1, new { htmlAttributes = new { style= "width:23%;", @class = "form-control", @id = "txtPhoneNum1" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" , style = "left:93%" })
+                @Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
 
                
-                    @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new { style = "margin-left:12px;" })
+                    @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
                
                     @Html.EditorFor(model => model.PhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum2" } })
 
                     
-                    @Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" , style = "top:70%" })
+                    @Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
                     <div id="customError"><span class="text-danger"></span></div>
                 
             </div>
@@ -168,24 +173,20 @@ else if (@ViewBag.ErrorMsg != null)
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.PhoneNum3, htmlAttributes: new { })
             </div>
-            <div class="col-xs-10" >
+            <div class="col-xs-9" >
                 @Html.EditorFor(model => model.PhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum3" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
                 @*<div id="customError"><span class="text-warning"></span></div>*@
 
         
-                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { style = "margin-left:95px;" })
+                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { style = "margin-left:27%;" })
                 
                     @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtFax" } })
-                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
                     <div id="customError"><span class="text-danger"></span></div>
                 
 
             </div>
-        </div>
-
-        <div class="form-group">
-            
         </div>
 
         <div class="form-group">
@@ -214,9 +215,9 @@ else if (@ViewBag.ErrorMsg != null)
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.TypeId, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-10">
-                @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { style="width:35%", @class = "form-control", id = "TypeId" })
-                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
+            <div class="col-xs-9">
+                @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { style="width:37%", @class = "form-control", id = "TypeId" })
+                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger", style = "top:100%;left:2%" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
         </div>
@@ -272,6 +273,7 @@ else if (@ViewBag.ErrorMsg != null)
     });
 
     $('#txtZipPre').keypress(function (e) {
+        //alert(e.which);
         var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();

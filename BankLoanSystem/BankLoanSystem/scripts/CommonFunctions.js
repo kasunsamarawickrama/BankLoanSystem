@@ -24,14 +24,14 @@
     // clear error messages when clicked input field if you use custum validation message function to handle error
     $('input').click(function () {
         $(this).next("span").children("span").text("");
-        $(this).siblings('div').children('span').text('');
-        $('input').siblings('div').children('span').text('');
+        //$(this).siblings('div').children('span').text('');
+        //$('input').siblings('div').children('span').text('');
     });
-
+   
     $('input').on('input', function () {
         $(this).next("span").children("span").text("");
-        $(this).siblings('div').children('span').text('');
-        $('input').siblings('div').children('span').text('');
+        //$(this).siblings('div').children('span').text('');
+        //$('input').siblings('div').children('span').text('');
     });
 
     //$('select').click(function () {
@@ -130,10 +130,6 @@ function InvalidCharacters(id, array, code) {
     return 0;
 }
 
-function RemoveValidationMsg(id) {
-    
-}
-
 // CreatedBy :: Kanishka
 // Check max length
 // return 0 - not allow to enter
@@ -151,7 +147,7 @@ function CheckMaxLenth(id, val, maxLenght) {
 // return 0 - not allow to enter
 // return 1 - allow to enter
 function AllowNumbers(id, code) {
-    if (47 <= code && code <= 58)
+    if (48 <= code && code <= 58)
         return 1;
     //$(id).siblings('div').children('span').text("Allow only numbers");
     return 0;
