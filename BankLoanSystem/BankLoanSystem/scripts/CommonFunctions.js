@@ -13,9 +13,10 @@
         document.getElementsByTagName("form")[0].reset();
         // for all input field
         $('input').next('span').children('span').text('');
-
+        $('input').removeClass('valid');
         // for dropdown field
         $('select').next('span').children('span').text('');
+        $('select').removeClass('valid');
     });
 
 
@@ -132,7 +133,11 @@ function CheckMaxLenth(id, val, maxLenght) {
     if (val.length < maxLenght) {
         return 1;
     }
+    //$(id).siblings('div').children('span').fadeOut();
+    //$(id).siblings('div').children('span').fadeIn();
     $(id).siblings('div').children('span').text("Maximum length reached");
+    //$(id).siblings('div').children('span').fadeOut();
+    
     return 0;
 }
 
