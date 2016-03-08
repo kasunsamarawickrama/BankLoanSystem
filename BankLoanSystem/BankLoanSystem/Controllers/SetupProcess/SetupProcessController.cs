@@ -852,11 +852,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             //getting user role
-            UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
+            //UserAccess ua = new UserAccess();
+            //User curUser = ua.retreiveUserByUserId(userId);
 
             UserManageAccess uma = new UserManageAccess();
-            int userrole = curUser.RoleId;
+            int userrole = userData.RoleId;
 
             // if he is a user throw a error
             if (userrole == 3)
@@ -866,13 +866,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if step is less than 6, not allowed to this page...
             StepAccess sa = new StepAccess();
-            int stepNo = Convert.ToInt32(Session["companyStep"]);
-            if (stepNo < 0)
+            int stepNo = loanData.stepId;
+            if (stepNo > 0)
             {
-                stepNo = Convert.ToInt32(Session["companyStep"]);
+                stepNo = loanData.stepId;
             }
 
-            if (stepNo < 6)
+            if (stepNo < 0)
             {
                 return new HttpStatusCodeResult(404, "You are not allowed");
             }
@@ -893,8 +893,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // retrieve registered branches, nonregistered branches using his company Id
 
-            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
 
             // get the payments method for front End View
             List<string> paymentMethods = new List<string>();
@@ -914,7 +914,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (userrole == 2)
             {
-                loanId = la.getLoanIdByBranchId(curUser.BranchId);
+                loanId = la.getLoanIdByBranchId(userData.BranchId);
             }
             else if (userrole == 1)
             {
@@ -931,16 +931,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (userrole == 2)
             {
                 // if user is a admin, his branch id is registerd branch id
-                loanSetupStep1.RegisteredBranchId = curUser.BranchId;
+                loanSetupStep1.RegisteredBranchId = userData.BranchId;
 
                 // the get registered branch detail from the company branches list
                 foreach (Branch branch in RegisteredBranchLists)
                 {
-                    if (branch.BranchId == curUser.BranchId)
+                    if (branch.BranchId == userData.BranchId)
                     {
                         var newList = new List<Branch>();
                         newList.Add(branch);
-                        ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", curUser.BranchId);
+                        ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", userData.BranchId);
                     }
                 }
                 var newNonRegList = new List<Branch>();
@@ -948,7 +948,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 // the get non registered branches details for perticular branch  from the non registeres branches list
                 foreach (NonRegBranch branch in NonRegisteredBranchLists)
                 {
-                    if (branch.BranchId == curUser.BranchId)
+                    if (branch.BranchId == userData.BranchId)
                     {
 
                         newNonRegList.Add(branch);
@@ -1351,7 +1351,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // check if   step is 6...
             StepAccess sa = new StepAccess();
-            if (Convert.ToInt32(Session["companyStep"]) < 6)
+            if (loanData.stepId < 1)
             {
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
@@ -1493,8 +1493,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // GET: Interest
         public ActionResult Step7(int? edit)
         {
-            int uId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
+            int uId = userData.UserId;
+            int branchId = loanData.BranchId;
             //int branchId = 35;
             List<SelectListItem> listdates = new List<SelectListItem>();
             for (int i = 1; i <= 28; i++)
@@ -1534,7 +1534,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
-                int loanId = la.getLoanIdByBranchId(branchId);
+                int loanId = loanData.loanId;
 
                 //int loanId = 1;
                 if (loanId > 0)
@@ -1618,8 +1618,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step7(Interest interest)
         {
 
-            int userId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
+            int userId = userData.UserId;
+            int branchId = loanData.BranchId;
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
@@ -1627,7 +1627,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             InterestAccess ia = new InterestAccess();
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
+            //int loanId = la.getLoanIdByBranchId(branchId);
+            int loanId = loanData.loanId;
             if (!interest.NeedReminder)
             {
                 interest.AutoRemindEmail = null;
@@ -1639,14 +1640,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 8, interest.LoanId, branchId))
+                if (sa.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanData.nonRegisteredBranchId,loanData.loanId,3))
                 {
+                    loanData.stepId = 3;
                     return RedirectToAction("Step8");
+                    
                 }
                 else
                 {
                     return new HttpStatusCodeResult(404, "error message");
                 }
+
             }
             //else if (reslt == 0)
             //{
@@ -1661,20 +1665,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
         /// <summary>
         /// CreatedBy :kasun samarawickrama
-        /// CreatedDate: 2016/08/02
+        /// CreatedDate: 2016/02/08
         /// 
         /// loan fees section -step 8
+        /// EditedBy :Piyumi
+        /// EditedDate :2016/3/8
         /// 
+        /// remove session variables and unwanted method calls
         /// return: step8 view
         /// </summary>
         /// <returns></returns>
         public ActionResult Step8()
         {
-            if (Session["userId"] == null)
-            {
-                return new HttpStatusCodeResult(404, "Your Session Expired");
-            }
-            var userId = (int)Session["userId"];
+
+            var userId = userData.UserId;
 
             BranchAccess branch = new BranchAccess();
             int companyType = branch.getCompanyTypeByUserId(userId);
@@ -1688,8 +1692,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
-            fee.LoanId = loan.getLoanIdByUserId(userId);
-
+            //fee.LoanId = loan.getLoanIdByUserId(userId);
+            fee.LoanId = loanData.loanId;
             var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
 
             if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
@@ -1785,10 +1789,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
         /// <summary>
         /// CreatedBy :kasun samarawickrama
-        /// CreatedDate: 2016/09/02
+        /// CreatedDate: 2016/02/09
         /// 
         /// loan fees section step post method
-        /// 
+        /// EditedBy :Piyumi
+        /// EditedDate :2016/03/08
         /// return: step8 view 
         /// </summary>
         /// <param name="fees"></param>
@@ -1846,15 +1851,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             if (step.InsertFeesDetails(fees))
             {
-                var userId = (int)Session["userId"];
-                var branchId = (int)Session["branchId"];
+                var userId = userData.UserId;
+                var branchId = loanData.loanId;
 
                 if (fees.isEdit == true)
                 {
                     return RedirectToAction("Step9");
                 }
-                else if (step.updateStepNumberByUserId(userId, 9, fees.LoanId, branchId))
+                else if (step.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanData.nonRegisteredBranchId,loanData.loanId,4))
                 {
+                    loanData.stepId = 4;
                     return RedirectToAction("Step9");
                 }
                 else
@@ -1879,8 +1885,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // GET: Interest
         public ActionResult Step9(int? edit)
         {
-            int uId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
+            int uId = userData.UserId;
+            int branchId = loanData.BranchId;
             //yes no list
             List<SelectListItem> isTitleTrackList = new List<SelectListItem>();
 
@@ -1986,9 +1992,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 LoanSetupAccess la = new LoanSetupAccess();
                 TitleAccess ta = new TitleAccess();
                 Title title = new Title();
-                int loanId = la.getLoanIdByBranchId(branchId);
+                //int loanId = la.getLoanIdByBranchId(branchId);
 
-                //int loanId = 1;
+                int loanId = loanData.loanId;
                 if (loanId > 0)
                 {
                     var titleObj = ta.getTitleDetails(loanId);
@@ -2063,8 +2069,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step9(Title title)
         {
-            int userId = int.Parse(Session["userId"].ToString());
-            int branchId = int.Parse(Session["branchId"].ToString());
+            int userId = userData.UserId;
+            int branchId = loanData.BranchId;
             //int loanId = 1;
 
 
@@ -2080,8 +2086,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
 
-                if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
+                if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
+                    loanData.stepId = 5;
                     return RedirectToAction("Step10");
                 }
                 else
@@ -2192,17 +2199,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step10()
         {
-            //Check current session is not null or empty
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return new HttpStatusCodeResult(404, "Your Session Expired");
 
-            int userId = Convert.ToInt32(Session["userId"]);
+            int userId = userData.UserId;
 
             //check user step is valid for this step
             StepAccess sa = new StepAccess();
-            if (Convert.ToInt32(Session["companyStep"]) == 10)
+            if (loanData.stepId == 5)
             {
-                int branchId = int.Parse(Session["branchId"].ToString());
+                int branchId = loanData.BranchId;
 
                 LoanSetupAccess la = new LoanSetupAccess();
                 int loanId = la.getLoanIdByBranchId(branchId);
@@ -2267,8 +2271,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step10(string submit)
         {
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-                return new HttpStatusCodeResult(404, "Your Session is Expired");
             ViewBag.CalMode = _calMode;
             return PartialView(_gCurtailment);
         }
@@ -2301,7 +2303,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            int userId = Convert.ToInt32(Session["userId"]);
+            int userId = userData.UserId;
 
             if (string.IsNullOrEmpty(userId.ToString()))
                 return new HttpStatusCodeResult(404, "Your Session Expired");

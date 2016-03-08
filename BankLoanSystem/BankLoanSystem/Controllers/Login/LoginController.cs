@@ -28,10 +28,12 @@ namespace BankLoanSystem.Controllers
                 var loginlbl = new UserLogin();
                 loginlbl.lbl = lbl;
                 Session["AuthenticatedUser"] = null;
+                Session["loanStep"] = null;
                 return View(loginlbl);
             }
             else {
                 Session["AuthenticatedUser"] = null;
+                Session["loanStep"] = null;
                 return View();
             }
         }
@@ -134,8 +136,36 @@ namespace BankLoanSystem.Controllers
                                 }
                                 else
                                 {
-                                    //Redirect to Super Admin dashboard
-                                    return RedirectToAction("UserDetails", "UserManagement");
+                                    //------------
+                                    LoanSetupStep loanStep = new LoanSetupStep();
+                                    DataSet dsLoanStepNo = new DataSet();
+                                    dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
+                                    if (dsLoanStepNo.Tables[0].Rows.Count > 0)
+                                    {
+                                        loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
+                                        loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
+                                        loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                                        if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
+                                        {
+                                            loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
+                                        }
+                                        else
+                                        {
+                                            loanStep.loanId = 0;
+                                        }
+                                        Session["loanStep"] = loanStep;
+                                        if (userData.RoleId == 1)
+                                        {
+                                            return RedirectToAction("Step6", "SetupProcess");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Redirect to Super Admin dashboard
+                                        return RedirectToAction("UserDetails", "UserManagement");
+                                    }
+                                       
                                 }
 
                             }
@@ -164,15 +194,24 @@ namespace BankLoanSystem.Controllers
                                     dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
                                     if (dsLoanStepNo.Tables[0].Rows.Count > 0)
                                     {
-                                        loanStep.CompanyId = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
-                                        loanStep.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
-                                        loanStep.nonRegisteredBranchId = int.Parse(dsUser.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
-                                        loanStep.loanId = int.Parse(dsUser.Tables[0].Rows[0]["loan_id"].ToString());
-                                        loanStep.stepId = int.Parse(dsUser.Tables[0].Rows[0]["step_number"].ToString());
-                                        Session["loanStep"] = 6;
+                                        loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
+                                        loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
+                                        loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                                        if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
+                                        {
+                                            loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
+                                        }
+                                        else
+                                        {
+                                            loanStep.loanId = 0;
+                                        }
+                                        
+                                        Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 2)
                                         {
-                                            return RedirectToAction("Index", "SetupProcess");
+                                            //return RedirectToAction("Index", "SetupProcess");
+                                            return RedirectToAction("Step6", "SetupProcess");
                                         }
                                     }
                                     else
