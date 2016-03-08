@@ -1477,9 +1477,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public JsonResult IsLoanNumberExists(string loanNumber, int RegisteredBranchId)
         {
             //check user name is already exist.  
-            int userId = int.Parse(Session["userId"].ToString());
-            User user = (new UserAccess()).retreiveUserByUserId(userId);
-            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, user), JsonRequestBehavior.AllowGet);
+            int userId = userData.UserId;
+            //User user = (new UserAccess()).retreiveUserByUserId(userId);
+            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userData), JsonRequestBehavior.AllowGet);
         }
 
 
