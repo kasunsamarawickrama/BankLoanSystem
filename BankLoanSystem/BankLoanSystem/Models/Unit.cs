@@ -53,7 +53,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
         [Required]
@@ -197,7 +197,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -228,7 +228,7 @@ namespace BankLoanSystem.Models
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Length { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -259,7 +259,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -285,7 +285,7 @@ namespace BankLoanSystem.Models
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -312,7 +312,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -342,7 +342,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
@@ -364,7 +364,7 @@ namespace BankLoanSystem.Models
         [Required]
         public string Model { get; set; }
 
-        [Display(Name = "Brand New")]
+        [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
     }
