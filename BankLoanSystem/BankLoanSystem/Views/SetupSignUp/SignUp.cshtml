@@ -22,13 +22,37 @@
 
         <div class="form-group">
             <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color: red">*</span>
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new {})<span style="color: red">*</span>
             </div>
 
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "txtUserName" } })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.UserName, new {htmlAttributes = new {@class = "form-control", @id = "txtUserName"}})
+                @Html.ValidationMessageFor(model => model.UserName, "", new {@class = "text-danger"})
                 <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnPassword" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnConfirmPassword" class="text-danger"></span></div>
             </div>
         </div>
 
@@ -81,31 +105,6 @@
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                <div id="customError"><span id="spnPassword" class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-4">
-                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
-                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                <div id="customError"><span id="spnConfirmPassword" class="text-danger"></span></div>
-            </div>
-        </div>
-
-
-        <div class="form-group">
             <div>
 
                 <nav>
@@ -135,7 +134,7 @@
     $('#txtUserName').keypress(function (e) {
         var code = e.which;
         if (this.value.length === 0 && (48 <= code && code <= 57)) {
-            $("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+            //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
             this.focus();
             e.preventDefault();
             return;
@@ -143,15 +142,15 @@
 
         var res = BlockText(e.which);
         if (res === 1) {
-            $("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+            //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
             e.preventDefault();
             return;
         }
     });
 
-    // Capitalize first letter 
-    $('#txtFirstName, #txtLastName').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+    // title case
+    $('#txtFirstName, #txtLastName').keyup(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //Phone number validate
@@ -174,15 +173,54 @@
         }
     });
 
+    $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
+        if (this.value.length === 0 && e.which === 32) {
+            e.preventDefault();
+            return;
+        }
+        var array = ['~', '`', '!', '#', '$', '%', '*', '&', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        var res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        if (this.value.length === 0 && e.which === 32) {
+            e.preventDefault();
+            return;
+        }
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        var res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
     //Check maximum length for email address and valid characters
     $('#txtNewEmail').keypress(function (e) {
+        
         var res = CheckMaxLenth(this, this.value, 100);
         if (res === 0) {
             e.preventDefault();
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' '];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
@@ -190,7 +228,21 @@
             return;
         }
         else if (e.which === 92 || e.which === 39) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtPhoneNumber').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
             e.preventDefault();
             return;
         }

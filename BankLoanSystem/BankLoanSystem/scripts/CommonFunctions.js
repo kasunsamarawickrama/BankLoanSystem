@@ -25,11 +25,13 @@
     $('input').click(function () {
         $(this).next("span").children("span").text("");
         $(this).siblings('div').children('span').text('');
+        $('input').siblings('div').children('span').text('');
     });
 
     $('input').on('input', function () {
         $(this).next("span").children("span").text("");
         $(this).siblings('div').children('span').text('');
+        $('input').siblings('div').children('span').text('');
     });
 
     //$('select').click(function () {
@@ -68,11 +70,18 @@ function ChangeToCapital(id, val) {
 }
 
 // CreatedBy :: Kanishka
+// replace to title case
+function ToTitleCase(id, str) {
+    var val = str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    document.getElementById(id).value = val;
+}
+
+// CreatedBy :: Kanishka
 // Prevent input for phone number
 function PhoneNumber(id, val) {
     if ((48 <= val && val <= 57) || val === 40 || val === 41 || val === 45)
         return 1;
-    $(id).siblings('div').children('span').text("Not valid character for phone number");
+    //$(id).siblings('div').children('span').text("Not valid character for phone number");
     return 0;
 }
 
@@ -114,7 +123,7 @@ function BlockText(code) { //val, vals
 function InvalidCharacters(id, array, code) {
     for (var i = 0; i < array.length; i++) {
         if (array[i] === String.fromCharCode(code)) {
-            $(id).siblings('div').children('span').text("Invalid character.");
+            //$(id).siblings('div').children('span').text("Invalid character.");
             return 1;
         }
     }
@@ -133,11 +142,7 @@ function CheckMaxLenth(id, val, maxLenght) {
     if (val.length < maxLenght) {
         return 1;
     }
-    //$(id).siblings('div').children('span').fadeOut();
-    //$(id).siblings('div').children('span').fadeIn();
-    $(id).siblings('div').children('span').text("Maximum length reached");
-    //$(id).siblings('div').children('span').fadeOut();
-    
+    //$(id).siblings('div').children('span').text("Maximum length reached");
     return 0;
 }
 
@@ -148,6 +153,6 @@ function CheckMaxLenth(id, val, maxLenght) {
 function AllowNumbers(id, code) {
     if (47 <= code && code <= 58)
         return 1;
-    $(id).siblings('div').children('span').text("Allow only numbers");
+    //$(id).siblings('div').children('span').text("Allow only numbers");
     return 0;
 }
