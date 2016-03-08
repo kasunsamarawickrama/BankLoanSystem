@@ -12,7 +12,37 @@
 
 
     </script>*@
+<style>
 
+      .form-control{
+        display:inline;
+    }
+    .form-group{
+        margin:auto;
+        margin-bottom: 10px;
+    }
+
+    .col-xs-11{
+    
+    width:60%;
+}
+
+    .col-xs-10 {
+    float: unset;
+}
+    .col-xs-11>input{
+    /*width:60%;*/
+}
+
+        .col-xs-9{
+           
+    
+}
+    .col-xs-9>input , .col-xs-9>select{
+    width:28%;
+}
+
+</style>
 
 
 <div class="form-group">
@@ -131,11 +161,11 @@ else
         <div class="form-horizontal">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                <div class="control-label col-sm-2" style="clear:both">
+                <div class="control-label col-sm-3" style="clear:both">
                     @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "txtUserName" } })
                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                     <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
@@ -143,11 +173,11 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     <div id="customError"><span class="text-danger"></span></div>
@@ -155,11 +185,11 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     <div id="customError"><span class="text-danger"></span></div>
@@ -167,11 +197,11 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "txtFirstName" } })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     <div id="customError"><span class="text-danger"></span></div>
@@ -179,11 +209,11 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @id = "txtLastName" } })
                     @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     <div id="customError"><span class="text-danger"></span></div>
@@ -191,11 +221,11 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.NewEmail, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-11">
                     @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control", @id = "txtNewEmail" } })
                     @Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })
                     <div id="customError"><span class="text-danger"></span></div>
@@ -203,25 +233,23 @@ else
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
-                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { })<span style="color: red">*</span>
-                </div>
-
-                <div class="col-xs-3">
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
-                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
+               
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-3">
                     @Html.LabelFor(model => model.RoleId, htmlAttributes: new { })<span style="color:red">*</span>
                 </div>
 
-                <div class="col-xs-3">
-                    @Html.DropDownListFor(model => model.RoleId, null, "Select role", htmlAttributes: new { @class = "form-control", id = "RoleId" })
-                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })
+                <div class="col-xs-9">
+                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control", id = "RoleId" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate", style = "left:2%;bottom:-40%;" })
+                    @*<div id="customError"><span class="text-danger"></span></div>*@
+               
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { style = "margin-left:3%" })<span style="color: red">*</span>
+               
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
                     <div id="customError"><span class="text-danger"></span></div>
                 </div>
             </div>
@@ -230,12 +258,12 @@ else
             @if (ViewBag.CurrUserRoleType != 2)
                     {
                 <div class="form-group">
-                    <div class="control-label col-sm-2">
+                    <div class="control-label col-sm-3">
                             @Html.LabelFor(model => model.BranchId, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
                         <div class="col-xs-3">
-                        @Html.DropDownListFor(model => model.BranchId, null, "Select branch", htmlAttributes: new { @class = "form-control", id = "BranchId" })
+                        @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
                         @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
                             <div id="customError"><span class="text-danger"></span></div>
                     </div>

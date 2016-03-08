@@ -41,7 +41,6 @@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
-<script src="~/scripts/CommonFunctions.js"></script>
 <script src="~/scripts/jquery-1.10.2.js"></script>
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -52,8 +51,6 @@
 <script src="~/scripts/jquery-1.10.2.js"></script>
 @*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
 <script src="~/scripts/jquery-ui.js"></script>
-
-<script src="~/scripts/CommonFunctions.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
 
 <link href="~/Content/combo.css" rel="stylesheet" />
@@ -147,7 +144,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox1-1" })
                             @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                            <div id="vehicleyear"><span class="text-danger"></span></div>
+                            <div id="vehicleyear"><span id="vehicleyearspan" class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -241,8 +238,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.vehicle.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @Style = "margin-left: 0px;" })
                             </div>
                         </div>
@@ -310,8 +308,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.rv.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.rv.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -399,8 +398,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.camper.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.camper.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -459,8 +459,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.atv.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.atv.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -514,8 +515,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.boat.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.boat.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -583,8 +585,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.motorcycle.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -637,8 +640,9 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.snowmobile.NewOrUsed)
+                            <div>
+                                @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
+                                @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false) Used
                                 @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -814,73 +818,72 @@
             alert(data);
     }
 
-    //$( "#div-combobox1-1" ).focus(function(){
-    //    alert("dcd");
-    //    $('#vehicleyear span').text("");
-    //});
-    //$( "#div-combobox1-2" ).focus(function(){
-    //    $('#vehiclenake span').text("");
-    //});
-    //$( "#div-combobox1-3" ).focus(function(){
-    //    $('#vehiclemodel span').text("");
-    //});
-    //$( "#div-combobox2-1" ).focus(function(){
-    //    $('#rvyear span').text("");
-    //});
-    //$( "#div-combobox2-2" ).focus(function(){
-    //    $('#rvmake span').text("");
-    //});
-    //$( "#div-combobox2-3" ).focus(function(){
-    //    $('#rvmodel span').text("");
-    //});
-    //$( "#div-combobox3-1" ).focus(function(){
-    //    $('#camperyear span').text("");
-    //});
-    //$( "#div-combobox3-2" ).focus(function(){
-    //    $('#campermake span').text("");
-    //});
-    //$( "#div-combobox3-3" ).focus(function(){
-    //    $('#campermodel span').text("");
-    //});
-    //$( "#div-combobox4-1" ).focus(function(){
-    //    $('#atvyear span').text("");
-    //});
-    //$( "#div-combobox4-2" ).focus(function(){
-    //    $('#atvmake span').text("");
-    //});
-    //$( "#div-combobox4-3" ).focus(function(){
-    //    $('#atvmodel span').text("");
-    //});
-    //$( "#div-combobox5-1" ).focus(function(){
-    //    $('#boatyear span').text("");
-    //});
-    //$( "#div-combobox5-2" ).focus(function(){
-    //    $('#boatmake span').text("");
-    //});
-    //$( "#div-combobox6-1" ).focus(function(){
-    //    $('#motercycleyear span').text("");
-    //});
-    //$( "#div-combobox6-2" ).focus(function(){
-    //    $('#motercyclemake span').text("");
-    //});
-    //$( "#div-combobox6-3" ).focus(function(){
-    //    $('#motercyclemodel span').text("");
-    //});
-    //$( "#div-combobox7-1" ).focus(function(){
-    //    $('#snowmobileyear span').text("");
-    //});
-    //$( "#div-combobox7-2" ).focus(function(){
-    //    $('#snowmobilemake span').text("");
-    //});
-    //$( "#div-combobox7-3" ).focus(function(){
-    //    $('#snowmobilemodel span').text("");
-    //});
-    //$( "#div-combobox8-1" ).focus(function(){
-    //    $('#heavyequipmentyear span').text("");
-    //});
-    //$( "#div-combobox8-2" ).focus(function(){
-    //    $('#heavyequipmentmake span').text("");
-    //});
+    $( "#div-combobox1-1" ).focusin(function(){
+        $('#vehicleyear').children('span').text("");
+    });
+    $( "#div-combobox1-2" ).focusin(function(){
+        $('#vehiclemake').children('span').text("");
+    });
+    $( "#div-combobox1-3" ).focusin(function(){
+        $('#vehiclemodel').children('span').text("");
+    });
+    $( "#div-combobox2-1" ).focusin(function(){
+        $('#rvyear').children('span').text("");
+    });
+    $( "#div-combobox2-2" ).focusin(function(){
+        $('#rvmake').children('span').text("");
+    });
+    $( "#div-combobox2-3" ).focusin(function(){
+        $('#rvmodel').children('span').text("");
+    });
+    $( "#div-combobox3-1" ).focusin(function(){
+        $('#camperyear').children('span').text("");
+    });
+    $( "#div-combobox3-2" ).focusin(function(){
+        $('#campermake').children('span').text("");
+    });
+    $( "#div-combobox3-3" ).focusin(function(){
+        $('#campermodel').children('span').text("");
+    });
+    $( "#div-combobox4-1" ).focusin(function(){
+        $('#atvyear').children('span').text("");
+    });
+    $( "#div-combobox4-2" ).focusin(function(){
+        $('#atvmake').children('span').text("");
+    });
+    $( "#div-combobox4-3" ).focusin(function(){
+        $('#atvmodel').children('span').text("");
+    });
+    $( "#div-combobox5-1" ).focusin(function(){
+        $('#boatyear').children('span').text("");
+    });
+    $( "#div-combobox5-2" ).focusin(function(){
+        $('#boatmake').children('span').text("");
+    });
+    $( "#div-combobox6-1" ).focusin(function(){
+        $('#motorcycleyear').children('span').text("");
+    });
+    $( "#div-combobox6-2" ).focusin(function(){
+        $('#motorcyclemake').children('span').text("");
+    });
+    $( "#div-combobox6-3" ).focusin(function(){
+        $('#motorcyclemodel').children('span').text("");
+    });
+    $( "#div-combobox7-1" ).focusin(function(){
+        $('#snowmobileyear').children('span').text("");
+    });
+    $( "#div-combobox7-2" ).focusin(function(){
+        $('#snowmobilemake').children('span').text("");
+    });
+    $( "#div-combobox7-3" ).focusin(function(){
+        $('#snowmobilemodel').children('span').text("");
+    });
+    $( "#div-combobox8-1" ).focusin(function(){
+        $('#heavyequipmentyear').children('span').text("");
+    });
+    $( "#div-combobox8-2" ).focusin(function(){
+        $('#heavyequipmentmake').children('span').text("");
+    });
 
     $('#btnSubmit').click(function(e){
 
@@ -892,9 +895,9 @@
             var miles = document.getElementById("vehiclemiles").value;
 
             if($('#combobox1-1').next().children('input').val() == ""){
-                $('#vehicleyear span').fadeIn();
+                //$('#vehicleyear span').fadeIn();
                 $('#vehicleyear span').text("year required");
-                $('#vehicleyear span').delay(1000).fadeOut();
+                //$('#vehicleyear span').delay(1000).fadeOut();
 
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
@@ -902,9 +905,9 @@
                 }
             }
             if($('#combobox1-2').next().children('input').val() == ""){
-                $('#vehiclemake span').fadeIn();
+                //$('#vehiclemake span').fadeIn();
                 $('#vehiclemake span').text("make required");
-                $('#vehiclemake span').delay(1000).fadeOut();
+               // $('#vehiclemake span').delay(1000).fadeOut();
 
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
@@ -912,9 +915,9 @@
                 }
             }
             if($('#combobox1-3').next().children('input').val() == ""){
-                $('#vehiclemodel span').fadeIn();
+               // $('#vehiclemodel span').fadeIn();
                 $('#vehiclemodel span').text("model required");
-                $('#vehiclemodel span').delay(1000).fadeOut();
+                //$('#vehiclemodel span').delay(1000).fadeOut();
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -927,27 +930,27 @@
             var miles = document.getElementById("rvmiles").value;
 
             if($('#combobox2-1').next().children('input').val() == ""){
-                $('#rvyear span').fadeIn();
+                //$('#rvyear span').fadeIn();
                 $('#rvyear span').text("year required");
-                $('#rvyear span').delay(1000).fadeOut();
+                //$('#rvyear span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox2-2').next().children('input').val() == ""){
-                $('#rvmake span').fadeIn();
+                //$('#rvmake span').fadeIn();
                 $('#rvmake span').text("make required");
-                $('#rvmake span').delay(1000).fadeOut();
+                //$('#rvmake span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox2-3').next().children('input').val() == ""){
-                $('#rvmodel span').fadeIn();
+                //$('#rvmodel span').fadeIn();
                 $('#rvmodel span').text("model required");
-                $('#rvmodel span').delay(1000).fadeOut();
+                //$('#rvmodel span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -962,27 +965,27 @@
             var hitch = document.getElementById("camperhitch").value;
 
             if($('#combobox3-1').next().children('input').val() == ""){
-                $('#camperyear span').fadeIn();
+                //$('#camperyear span').fadeIn();
                 $('#camperyear span').text("year required");
-                $('#camperyear span').delay(1000).fadeOut();
+                //$('#camperyear span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox3-2').next().children('input').val() == ""){
-                $('#campermake span').fadeIn();
+                //$('#campermake span').fadeIn();
                 $('#campermake span').text("make required");
-                $('#campermake span').delay(1000).fadeOut();
+                //$('#campermake span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox3-3').next().children('input').val() == ""){
-                $('#campermodel span').fadeIn();
+                //$('#campermodel span').fadeIn();
                 $('#campermodel span').text("model required");
-                $('#campermodel span').delay(1000).fadeOut();
+                //$('#campermodel span').delay(1000).fadeOut();
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
@@ -995,27 +998,27 @@
             var miles = document.getElementById("atvmiles").value;
 
             if($('#combobox4-1').next().children('input').val() == ""){
-                $('#atvyear span').fadeIn();
+                //$('#atvyear span').fadeIn();
                 $('#atvyear span').text("year required");
-                $('#atvyear span').delay(1000).fadeOut();
+                //$('#atvyear span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox4-2').next().children('input').val() == ""){
-                $('#atvmake span').fadeIn();
+                //$('#atvmake span').fadeIn();
                 $('#atvmake span').text("make required");
-                $('#atvmake span').delay(1000).fadeOut();
+                //$('#atvmake span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox4-3').next().children('input').val() == ""){
-                $('#atvmodel span').fadeIn();
+                //$('#atvmodel span').fadeIn();
                 $('#atvmodel span').text("model required");
-                $('#atvmodel span').delay(1000).fadeOut();
+                //$('#atvmodel span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1029,18 +1032,18 @@
             var serial = document.getElementById("boatserial").value;
 
             if($('#combobox5-1').next().children('input').val() == ""){
-                $('#boatyear span').fadeIn();
+                //$('#boatyear span').fadeIn();
                 $('#boatyear span').text("year required");
-                $('#boatyear span').delay(1000).fadeOut();
+                //$('#boatyear span').delay(1000).fadeOut();
                 if(vin == "" || trailer == ""|| serial ==""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox5-2').next().children('input').val() == ""){
-                $('#boatmake span').fadeIn();
+                //$('#boatmake span').fadeIn();
                 $('#boatmake span').text("make required");
-                $('#boatmake span').delay(1000).fadeOut();
+                //$('#boatmake span').delay(1000).fadeOut();
                 if(vin == "" || trailer == ""|| serial ==""){
                 }else{
                     e.preventDefault();
@@ -1053,27 +1056,27 @@
             var miles = document.getElementById("motorcyclemiles").value;
 
             if($('#combobox6-1').next().children('input').val() == ""){
-                $('#motorcycleyear span').fadeIn();
+                //$('#motorcycleyear span').fadeIn();
                 $('#motorcycleyear span').text("year required");
-                $('#motorcycleyear span').delay(1000).fadeOut();
+                //$('#motorcycleyear span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox6-2').next().children('input').val() == ""){
-                $('#motorcyclemake span').fadeIn();
+                //$('#motorcyclemake span').fadeIn();
                 $('#motorcyclemake span').text("make required");
-                $('#motorcyclemake span').delay(1000).fadeOut();
+                //$('#motorcyclemake span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox6-3').next().children('input').val() == ""){
-                $('#motorcyclemodel span').fadeIn();
+                //$('#motorcyclemodel span').fadeIn();
                 $('#motorcyclemodel span').text("make required");
-                $('#motorcyclemodel span').delay(1000).fadeOut();
+                //$('#motorcyclemodel span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1084,27 +1087,27 @@
             var vin = document.getElementById("snowmobileVin").value;
 
             if($('#combobox7-1').next().children('input').val() == ""){
-                $('#snowmobileyear span').fadeIn();
+                //$('#snowmobileyear span').fadeIn();
                 $('#snowmobileyear span').text("year required");
-                $('#snowmobileyear span').delay(1000).fadeOut();
+                //$('#snowmobileyear span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox7-2').next().children('input').val() == ""){
-                $('#snowmobilemake span').fadeIn();
+                //$('#snowmobilemake span').fadeIn();
                 $('#snowmobilemake span').text("make required");
-                $('#snowmobilemake span').delay(1000).fadeOut();
+                //$('#snowmobilemake span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox7-3').next().children('input').val() == ""){
-                $('#snowmobilemodel span').fadeIn();
+                //$('#snowmobilemodel span').fadeIn();
                 $('#snowmobilemodel span').text("make required");
-                $('#snowmobilemodel span').delay(1000).fadeOut();
+                //$('#snowmobilemodel span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1114,18 +1117,18 @@
             var vin = document.getElementById("heavyequipmentSerial").value;
 
             if($('#combobox8-1').next().children('input').val() == ""){
-                $('#heavyequipmentyear span').fadeIn();
+                //$('#heavyequipmentyear span').fadeIn();
                 $('#heavyequipmentyear span').text("year required");
-                $('#heavyequipmentyear span').delay(1000).fadeOut();
+                //$('#heavyequipmentyear span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
                 }
             }
             if($('#combobox8-2').next().children('input').val() == ""){
-                $('#heavyequipmentmake span').fadeIn();
+                //$('#heavyequipmentmake span').fadeIn();
                 $('#heavyequipmentmake span').text("make required");
-                $('#heavyequipmentmake span').delay(1000).fadeOut();
+                //$('#heavyequipmentmake span').delay(1000).fadeOut();
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1492,6 +1495,7 @@
         $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
         if($('#vehicleVin').val().length == 17){
             var vin =document.getElementById('vehicleVin').value;
+            $('#vehicleVIN span').text("");
             $.ajax({
                 url: '/Unit/GetYearByVin',
                 type: 'POST',
@@ -1574,6 +1578,7 @@
     $('#rvVin').change(function () {
         $("#rvVin").val(($("#rvVin").val()).toUpperCase());
         if($('#rvVin').val().length == 17){
+            $('#rvVIN span').text("");
             var vin =document.getElementById('rvVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1655,6 +1660,7 @@
     $('#camperVin').change(function () {
         $("#camperVin").val(($("#camperVin").val()).toUpperCase());
         if($('#camperVin').val().length == 17){
+            $('#camperVIN span').text("");
             var vin =document.getElementById('camperVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1734,6 +1740,7 @@
     $('#atvVin').change(function () {
         $("#atvVin").val(($("#atvVin").val()).toUpperCase());
         if($('#atvVin').val().length == 17){
+            $('#atvVIN span').text("");
             var vin =document.getElementById('atvVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1813,6 +1820,7 @@
     $('#boatVin').change(function () {
         $("#boatVin").val(($("#boatVin").val()).toUpperCase());
         if($('#boatVin').val().length == 17){
+            $('#boatVIN span').text("");
             var vin =document.getElementById('boatVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1894,6 +1902,7 @@
     $('#motorcycleVin').change(function () {
         $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
         if($('#motorcycleVin').val().length == 17){
+            $('#motorcycleVIN span').text("");
             var vin =document.getElementById('motorcycleVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -1973,6 +1982,7 @@
     $('#snowmobileVin').change(function () {
         $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         if($('#snowmobileVin').val().length == 17){
+            $('#snowmobileVIN span').text("");
             var vin =document.getElementById('snowmobileVin').value;
             $.ajax({
                 url: '/Unit/GetYearByVin',
@@ -2021,6 +2031,7 @@
     }
     function valueChangeUnitType(){
         var unitType  = document.getElementById("unitType").value
+        clearform();
         changeUnitType(unitType);
     }
     function changeUnitType(unitType) {
@@ -2094,6 +2105,11 @@
 
     //Reset the data and clear just the form
     $('#btnCancel').click(function() {
+        clearform();
+        
+    });
+
+    function clearform(){
         var unitType  = document.getElementById("unitType").value
         document.getElementById("form").reset();
         changeUnitType(unitType);
@@ -2106,8 +2122,50 @@
         // for dropdown field
         $('select').next('span').children('span').text('');
 
+        $('#vehicleVIN').children('span').text('');
+        $('#vehicleyear').children('span').text("");
+        $('#vehiclemake').children('span').text("");
+        $('#vehiclemodel').children('span').text("");
 
-    });
+        $('#rvVIN').children('span').text('');
+        $('#rvyear').children('span').text("");
+        $('#rvmake').children('span').text("");
+        $('#rvmodel').children('span').text("");
+
+        $('#camperVIN').children('span').text('');
+        $('#camperyear').children('span').text("");
+        $('#campermake').children('span').text("");
+        $('#campermodel').children('span').text("");
+
+        $('#atvVIN').children('span').text('');
+        $('#atvyear').children('span').text("");
+        $('#atvmake').children('span').text("");
+        $('#atvmodel').children('span').text("");
+
+        $('#boatVIN').children('span').text('');
+        $('#boatyear').children('span').text("");
+        $('#boatmake').children('span').text("");
+
+        $('#motorcycleVIN').children('span').text('');
+        $('#motorcycleyear').children('span').text("");
+        $('#motorcyclemake').children('span').text("");
+        $('#motorcyclemodel').children('span').text("");
+
+        $('#snowmobileVIN').children('span').text('');
+        $('#snowmobileyear').children('span').text("");
+        $('#snowmobilemake').children('span').text("");
+        $('#snowmobilemodel').children('span').text("");
+
+        $('#heavyequipmentVIN').children('span').text('');
+        $('#heavyequipmentyear').children('span').text("");
+        $('#heavyequipmentmake').children('span').text("");
+
+        $('#tagscloudAdvance').children('span').text('');
+        $('#tagscloud').children('span').text('');
+
+        $('.centered span').text('');
+        
+    };
 
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
@@ -2115,11 +2173,21 @@
     var maxCost = model.Balance * 100 / advancePt;
 
     $("#txtCost").on('click', function(e) {
-        RemoveText(this.id, this.value);
+        if (this.value === "0.00") {
+            document.getElementById(this.id).value = "";
+        }
+        else if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
     });
 
     $("#txtAdvanceAmount").on('click', function(e) {
-        RemoveText(this.id, this.value);
+        if (this.value === "0.00") {
+            document.getElementById(this.id).value = "";
+        }
+        else if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
     });
 
     //calculate advance
@@ -2131,9 +2199,9 @@
                 if (val <= maxCost) {
                     var advanceAmount = (advancePt * val) / 100;
                     document.getElementById('txtAdvanceAmount').value = advanceAmount;
-                    $("#tagscloudAdvance span").fadeOut();
+                    //$("#tagscloudAdvance span").fadeOut();
                     $('#txtAdvanceAmount').removeClass('input-validation-error');
-                    $("#tagscloudAdvance span").text("");
+                    //$("#tagscloudAdvance span").text("");
                     $('#txtAdvanceAmount').next('span').children('span').text('');
                 } else {
                     $("#tagscloud span").fadeIn();
@@ -2147,10 +2215,10 @@
             }
 
         } else {
-            $("#tagscloud span").fadeIn();
+            //$("#tagscloud span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Invalid character");
-            $("#tagscloud span").delay(1000).fadeOut();
+            //$("#tagscloud span").delay(1000).fadeOut();
             $(this).removeClass('input-validation-error');
             $("#tagscloud span");
 
@@ -2185,26 +2253,31 @@
 
         if (isNaN(num)) {
 
-            $("#tagscloud span").fadeIn();
+            //$("#tagscloud span").fadeIn();
             $(this).addClass('input-validation-error');
-            $("#tagscloud span").text("Cost must be a positive number");
+            //$("#tagscloud span").text("Cost must be a positive number");
 
         }
         else if (Number(num) > Number(maxCost)) {
-            $("#tagscloud span").fadeIn();
+            //$("#tagscloud span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be less than balance");
         }
+        else if (Number(num) == ""||Number(num) == 0.00) {
+            //$("#tagscloudAdvance span").fadeIn();
+            //$(this).addClass('input-validation-error');
+            $("#tagscloud span").text("");
+        }
         else if (Number(num) <= 0) {
-            $("#tagscloud span").fadeIn();
+            //$("#tagscloud span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be greater than zero");
         } else {
-            $("#tagscloud span").fadeOut();
+            //$("#tagscloud span").fadeOut();
             $(this).removeClass('input-validation-error');
             $("#tagscloud span").text("");
 
-            $("#tagscloudAdvance span").fadeOut();
+            //$("#tagscloudAdvance span").fadeOut();
             $('#txtAdvanceAmount').removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
@@ -2227,19 +2300,19 @@
             //alert(cost + ' ' + val);
             if (e.which !== 46 && e.which !== 8) {
                 if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
-                    $("#tagscloudAdvance span").fadeIn();
+                    //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloudAdvance span").text("Advance amount must be less than cost");
-                    $("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //$("#tagscloudAdvance span").delay(1000).fadeOut();
                     $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             }
         } else {
-            $("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Invalid character");
-            $("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
             $(this).removeClass('input-validation-error');
             e.preventDefault();
         }
@@ -2271,22 +2344,27 @@
 
         if (isNaN(num)) {
 
-            $("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance amount must be a positive number");
 
         }
         else if (Number(num) > Number(cost)) {
-            $("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance amount must be less than cost");
         }
+        else if (Number(num) == "") {
+            //$("#tagscloudAdvance span").fadeIn();
+            //$(this).addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("");
+        }
         else if (Number(num) <= 0) {
-            $("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be greater than zero");
         } else {
-            $("#tagscloudAdvance span").fadeOut();
+            //$("#tagscloudAdvance span").fadeOut();
             $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
