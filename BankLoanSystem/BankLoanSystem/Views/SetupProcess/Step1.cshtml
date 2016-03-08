@@ -139,7 +139,7 @@ else if (@ViewBag.ErrorMsg != null)
                 @*<div id="customError"><span class="text-danger"></span></div>*@
                 @*<span class="glyphicons glyphicon-minus" style="margin-top:25px"></span>*@
                 @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
-                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger", style = "top: 50%;" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
             
