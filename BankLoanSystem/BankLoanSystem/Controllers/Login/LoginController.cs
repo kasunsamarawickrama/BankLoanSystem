@@ -159,19 +159,31 @@ namespace BankLoanSystem.Controllers
                                 else
                                 {
                                     //No Step recor in relavent Company and branch
-                                    //Check Loan Step This Point
-
-
-                                    if (userData.RoleId == 2)
+                                    DataSet dsLoanStepNo = new DataSet();
+                                    dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
+                                    if (dsLoanStepNo.Tables[0].Rows.Count > 0)
                                     {
-                                        //Redirect to Branch Admin dashboard
-                                        return RedirectToAction("UserDetails", "UserManagement");
+                                        Session["loanStep"] = 6;
+                                        if (userData.RoleId == 2)
+                                        {
+                                            return RedirectToAction("Index", "SetupProcess");
+                                        }
                                     }
                                     else
                                     {
-                                        //Redirect to User dashboard
-                                        return RedirectToAction("UserDetails", "UserManagement");
+                                        if (userData.RoleId == 2)
+                                        {
+                                            //Redirect to Branch Admin dashboard
+                                            return RedirectToAction("UserDetails", "UserManagement");
+                                        }
+                                        else
+                                        {
+                                            //Redirect to User dashboard
+                                            return RedirectToAction("UserDetails", "UserManagement");
+                                        }
                                     }
+
+                                    
                                 }
 
                             }
