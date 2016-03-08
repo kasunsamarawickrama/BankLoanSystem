@@ -24,7 +24,6 @@ namespace BankLoanSystem.DAL
         {
             List<Right> RightsLists = new List<Right>();
             DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
             try
             {
                 DataSet dataSet = dataHandler.GetDataSet("spGetRights");
