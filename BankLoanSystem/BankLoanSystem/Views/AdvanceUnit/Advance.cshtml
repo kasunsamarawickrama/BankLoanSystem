@@ -110,12 +110,12 @@
                 </div>
 
                 @Html.LabelFor(model => model.vehicle.Year, htmlAttributes: new { @class = "control-label col-md-2" })               
-                <div class="col-sm-2" id="div-combobox1-1">
+                <div class="col-sm-4" id="div-combobox1-1">
                     @{
                         List<SelectListItem> yearList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
                         {
-                            if (!yearList.Exists(a => a.Value == type.Year.ToString()))
+                            if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
                             {
                                 yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
                             }
@@ -137,7 +137,7 @@
                         @{List<SelectListItem> makeList = new List<SelectListItem>();
                             foreach (var type in ViewBag.advanceList)
                             {
-                                if (!makeList.Exists(a => a.Value == type.Make.ToString()))
+                                if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
                                 {
                                     makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                 }
@@ -151,12 +151,12 @@
 
                 @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                
-                <div class="col-sm-2" id="div-combobox1-3">
+                <div class="col-sm-4" id="div-combobox1-3">
 
                     @{List<SelectListItem> modelList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
                         {
-                            if (!modelList.Exists(a => a.Value == type.Model.ToString()))
+                            if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
                             {
                                 modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                             }
