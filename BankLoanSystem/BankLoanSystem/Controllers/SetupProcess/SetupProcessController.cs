@@ -108,7 +108,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 CompanyAccess ca = new CompanyAccess();
                 Company company = new Company();
-                Company nonRegCompany = ca.GetNonRegCompanyDetailsByRegCompanyId(company.CompanyId)[0];
+                Company nonRegCompany = ca.GetNonRegCompanyDetailsByRegCompanyId(userData.Company_Id)[0];
 
                 if (string.IsNullOrEmpty(nonRegCompany.CompanyName)) return RedirectToAction("Step4", "SetupProcess");
 
@@ -122,7 +122,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TempData["NonRegCompany"] = comBranch;
 
                 //return View();
-                return RedirectToAction("Step2");
+                return RedirectToAction("Step5");
             }
 
             else if (stepNo == 0)
@@ -1133,7 +1133,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegComModel.Company.Zip += "-" + nonRegComModel.Company.Extension;
 
             int userId = userData.UserId;
-            nonRegComModel.Company.CreatedBy = Convert.ToInt32(Session["userId"]);
+            nonRegComModel.Company.CreatedBy = userId;
             nonRegComModel.Company.TypeId = (CompanyType == "Lender") ? 2 : 1;
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
 
@@ -1315,8 +1315,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegBranch.MainBranch.BranchCreatedBy = _curBranchId;
             }
 
-            bool reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
-            if (reslt)
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
+            if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 6))
@@ -1329,7 +1329,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
                     }
-                    return RedirectToAction("Step6");
+                    //return RedirectToAction("Step5");
                     //ViewBag.SuccessMsg = "First Branch is created successfully";
                 }
 
