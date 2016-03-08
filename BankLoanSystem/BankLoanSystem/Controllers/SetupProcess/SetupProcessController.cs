@@ -494,16 +494,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
-
-            ViewBag.CurrUserRoleType = curUser.RoleId;
+            ViewBag.CurrUserRoleType = roleId;
 
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
 
-            for (int i = curUser.RoleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
                 UserRole tempRole = new UserRole()
                 {
@@ -516,7 +513,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
             // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
 
 
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
