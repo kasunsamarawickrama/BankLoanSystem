@@ -47,6 +47,22 @@
         @if (ViewBag.SuccessMsg != null)
             {
             @ViewBag.SuccessMsg
+            @*<span class="text-success">@ViewBag.SuccessMsg</span>
+            <div class="form-group">
+
+                <div class="button-panel">
+                    <div class="control-label col-sm-2">
+                        @Html.Label("Do you need to continue to loan setup", htmlAttributes: new { })<span style="color: red">*</span>
+                    </div>
+                    <input type="button" id="btnYes" value="Yes" class="btn btn-info left-button" />
+
+                    <input type="button" id="btnNo" value="No" class="btn btn-primary btn-next" style="left:30%" />
+
+
+                </div>
+
+
+            </div>*@
         }
         else if (@ViewBag.ErrorMsg != null)
         {
@@ -65,22 +81,7 @@
             {
 
             @Html.AntiForgeryToken()
-            <span class="text-success">@ViewBag.SuccessMsg</span>
-            <div class="form-group">
-
-                <div class="button-panel">
-                    <div class="control-label col-sm-2">
-                        @Html.Label("Do you need to continue to loan setup", htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <input type="button" id="btnYes" value="Yes" class="btn btn-info left-button" />
-
-                    <input type="button" id="btnNo" value="No" class="btn btn-primary btn-next" style="left:30%" />
-
-
-                </div>
-
-
-            </div>
+           
 
             <div class="form-horizontal">
 
