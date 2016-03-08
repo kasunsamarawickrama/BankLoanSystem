@@ -471,7 +471,7 @@
                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                                    $("#iAdvance").attr("disabled", "disabled");
 
-                               } else {                                   
+                               } else {                                  
                                    var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                                    $("#btnAdvanceAll").attr("disabled", "disabled");
@@ -518,7 +518,7 @@
                        })
 
 
-                    var gg = $('<div />').attr({ id: 'someID' }).html('Select ');
+               var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                     $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
                 
               
@@ -570,7 +570,7 @@
                         }
 
                         if (checkCount > 0) {
-                            var chkText = $('<div />').attr({ id: 'someID' }).html(' Select');
+                            var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                             $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                             //ChangeCheckBoxText('select ');
 
@@ -578,7 +578,7 @@
                             var checked = $("#checkableGrid td :checkbox:checked").length;
 
                             if (checked == totalRows) {
-                                var chkText = $('<div />').attr({ id: 'someID' }).html(' Deselect');
+                                var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
                                 $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                             }
                         }
@@ -742,7 +742,7 @@
                 var checked = $("#checkableGrid td :checkbox:checked").length;
 
                 if (checked == totalRows) {
-                    var chkText = $('<div />').attr({ id: 'someID' }).html(' Deselect');
+                    var chkText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                     $("#checkableGrid").find("input:checkbox").each(function () {
                         this.checked = true;
                     });                    
