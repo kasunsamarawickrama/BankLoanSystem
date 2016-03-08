@@ -1282,8 +1282,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 6))
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 6))
                 {
+                    //Session["companyStep"] = 6;
                     if (compType == 1)
                     {
                         ViewBag.SuccessMsg = "Create A Dealer Branch Successfully";
