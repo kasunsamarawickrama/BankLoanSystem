@@ -398,21 +398,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            userCompany2.MainBranch.BranchId = reslt;
+            userData.BranchId = reslt;
             if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateCompanySetupStep(userCompany2.Company.CompanyId, userCompany2.MainBranch.BranchId, 3))
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 3))
                 {
                     Session["companyStep"] = 3;
                     //user object pass to session
                     userData.BranchId = reslt;
                     Session["AuthenticatedUser"] = userData;
-                    bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
-                    if (reslt2)
-                    {
+                   // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
+                   
                         return RedirectToAction("Step3");
-                    }
+                    
                 }
             }
             else
@@ -1319,7 +1318,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(userId, 6))
+                if (sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId,reslt,0, 1))
                 {
                     if (compType == 1)
                     {
@@ -1351,9 +1350,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// CreatedDate: 2016/01/26
         /// 
         /// update the loan
-        /// 
-        /// 
-        /// 
+        /// EditedBy : Piyumi
+        /// EditedDate : 2016/03/08
+        /// remove getLoanIdByBranchId, getLoanIdByUserId method call
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -1396,20 +1395,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
-
+            //int loanId = 1;
             if (loanId > 0)
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
             }
             else
             {
-                loanId = la.getLoanIdByUserId(userId);
+                //loanId = la.getLoanIdByUserId(userId);
 
 
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
+                //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.updateStepNumberByUserId(userId, Convert.ToInt32(Session["companyStep"]), loanId, loanSetupStep1.RegisteredBranchId);
+                    sa.UpdateLoanSetupStep(userData.Company_Id,loanSetupStep1.RegisteredBranchId,loanSetupStep1.nonRegisteredBranchId,loanId,2);
                 }
             }
 
