@@ -845,36 +845,23 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         public ActionResult Step6()
         {
-            int userId = userData.UserId;
-            // if Session is expired throw an error
-
-
-
-
-            //getting user role
-            //UserAccess ua = new UserAccess();
-            //User curUser = ua.retreiveUserByUserId(userId);
-
-            UserManageAccess uma = new UserManageAccess();
             int userrole = userData.RoleId;
+            int userId = userData.UserId;
 
-            // if he is a user throw a error
             if (userrole == 3)
             {
-                return new HttpStatusCodeResult(404, "You are not Allowed");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
 
+            UserManageAccess uma = new UserManageAccess();
+           
             // check if step is less than 6, not allowed to this page...
-            StepAccess sa = new StepAccess();
-            int stepNo = loanData.stepId;
-            if (stepNo > 0)
-            {
-                stepNo = loanData.stepId;
-            }
 
+            int stepNo = loanData.stepId;
+            
             if (stepNo < 0)
             {
-                return new HttpStatusCodeResult(404, "You are not allowed");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
 
 
@@ -886,11 +873,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
-
-
-
-
-
+ 
             // retrieve registered branches, nonregistered branches using his company Id
 
             List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(userData.Company_Id);
@@ -912,15 +895,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = 0;
 
-            if (userrole == 2)
+            if ((userrole == 1) ||(userrole == 2))
             {
-                loanId = la.getLoanIdByBranchId(userData.BranchId);
+                loanId = la.getLoanIdByBranchId(userId);
             }
-            else if (userrole == 1)
-            {
-                loanId = la.getLoanIdByUserId(userId);
-            }
-
 
             // if loan number exists get the loan details
             if (loanId > 0)
@@ -984,12 +962,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 loanSetupStep1.nonRegisteredBranchId = NonRegisteredBranchLists[0].NonRegBranchId;
             }
 
-
-
-
-
-
-
             loanSetupStep1.allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
             if (loanId > 0)
@@ -1025,8 +997,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 return View(loanSetupStep1);
             }
-
-
         }
 
 
