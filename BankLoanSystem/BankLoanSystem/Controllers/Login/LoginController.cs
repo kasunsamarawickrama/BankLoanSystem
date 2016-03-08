@@ -159,10 +159,16 @@ namespace BankLoanSystem.Controllers
                                 else
                                 {
                                     //No Step recor in relavent Company and branch
+                                    LoanSetupStep loanStep = new LoanSetupStep();
                                     DataSet dsLoanStepNo = new DataSet();
                                     dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
                                     if (dsLoanStepNo.Tables[0].Rows.Count > 0)
                                     {
+                                        loanStep.CompanyId = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                                        loanStep.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
+                                        loanStep.nonRegisteredBranchId = int.Parse(dsUser.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                                        loanStep.loanId = int.Parse(dsUser.Tables[0].Rows[0]["loan_id"].ToString());
+                                        loanStep.stepId = int.Parse(dsUser.Tables[0].Rows[0]["step_number"].ToString());
                                         Session["loanStep"] = 6;
                                         if (userData.RoleId == 2)
                                         {

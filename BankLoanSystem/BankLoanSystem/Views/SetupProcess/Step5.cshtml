@@ -379,14 +379,28 @@
 </script>
 
 <script type="text/javascript">
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
+        ToTitleCase(this.id, this.value);
     });
     //Check maximum length
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
         }
     });
     //Check maximum Email
@@ -394,6 +408,20 @@
         var res = CheckMaxLenth(this, this.value, 100);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
         }
     });
     //Check maximum PhoneNumbers
@@ -401,6 +429,12 @@
         var res = CheckMaxLenth(this, this.value, 15);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+        res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
         }
     });
 
@@ -409,6 +443,13 @@
         var res = CheckMaxLenth(this, this.value, 4);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
         }
     });
     //Check maximum ZipCode
@@ -416,6 +457,12 @@
         var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
         }
     });
     $(function () {
@@ -542,8 +589,8 @@
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
         document.getElementById("branchCode").value = "";
-        //document.getElementById("RegBranchId").value = "";
-        //document.getElementById("NonRegCompanyId").value = "";
+        document.getElementById("RegBranchId").value = "";
+        document.getElementById("NonRegCompanyId").value = "";
         $('#btnNext').val('Next');
         $('#nonRegBranchDiv').show();
     }

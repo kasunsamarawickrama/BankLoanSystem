@@ -355,8 +355,8 @@ else
         }
     });
 
-    // Capitalize first letter
-    $('#txtFirstName, #txtLastName').keypress(function (e) {
+    // change to title case
+    $('#txtFirstName, #txtLastName').keyup(function (e) {
         ToTitleCase(this.id, this.value);
     });
 

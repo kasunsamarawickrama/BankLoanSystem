@@ -261,7 +261,7 @@ else if (@ViewBag.ErrorMsg != null)
 <script type="text/javascript">
 
     // Capitalize first letter
-    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keyup(function (e) {
         ToTitleCase(this.id, this.value);
     });
 
