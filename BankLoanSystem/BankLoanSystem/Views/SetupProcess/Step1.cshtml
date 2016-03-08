@@ -294,6 +294,12 @@ else if (@ViewBag.ErrorMsg != null)
             e.preventDefault();
             return;
         }
+
+        res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
     });
 
     //$('#txtFirstName, #txtLastName').keypress(function (e) {
