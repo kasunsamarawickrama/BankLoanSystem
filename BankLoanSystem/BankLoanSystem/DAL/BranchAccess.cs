@@ -770,7 +770,7 @@ namespace BankLoanSystem.DAL
         /// <param name="nonRegBranch"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public bool insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
+        public int insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
         {
             nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
             DataHandler dataHandler = new DataHandler();
@@ -802,11 +802,11 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertNonRegisteredBranch", paramertList);
+                return dataHandler.ExecuteSQLReturn("spInsertNonRegisteredBranch", paramertList);
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 

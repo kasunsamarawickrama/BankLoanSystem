@@ -69,7 +69,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 CompanyAccess ca = new CompanyAccess();
                 Company company = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                
+
                 return View();
             }
 
@@ -1096,7 +1096,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegComModel.Company.Zip += "-" + nonRegComModel.Company.Extension;
 
             int userId = userData.UserId;
-            nonRegComModel.Company.CreatedBy = Convert.ToInt32(Session["userId"]);
+            nonRegComModel.Company.CreatedBy = userId;
             nonRegComModel.Company.TypeId = (CompanyType == "Lender") ? 2 : 1;
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
 
@@ -1278,8 +1278,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegBranch.MainBranch.BranchCreatedBy = _curBranchId;
             }
 
-            bool reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
-            if (reslt)
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
+            if (reslt>0)
             {
                 StepAccess sa = new StepAccess();
                 if (sa.updateStepNumberByUserId(userId, 6))
@@ -1292,7 +1292,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
                     }
-                    return RedirectToAction("Step6");
+                    //return RedirectToAction("Step5");
                     //ViewBag.SuccessMsg = "First Branch is created successfully";
                 }
 
