@@ -281,7 +281,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
@@ -321,7 +321,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {

@@ -69,7 +69,7 @@ function ChangeToCapital(id, val) {
 }
 
 // CreatedBy :: Kanishka
-// Capitalize the first letter of a text
+// replace to title case
 function ToTitleCase(id, str) {
     var val = str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     document.getElementById(id).value = val;
