@@ -367,6 +367,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
             if (string.IsNullOrEmpty(branchCode))
             {
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
                 userCompany.MainBranch = userCompany2.MainBranch;
             }
 
