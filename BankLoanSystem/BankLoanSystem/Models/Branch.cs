@@ -78,7 +78,7 @@ namespace BankLoanSystem.Models
         public string BranchPhoneNum3 { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Fax Number")]
+        [Display(Name = "Fax")]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Fax format is not valid.")]
         public string BranchFax { get; set; }
 
