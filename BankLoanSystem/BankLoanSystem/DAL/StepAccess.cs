@@ -197,6 +197,30 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        ///<summary>
+        ///CreatedBy: Asanka Senarathna
+        ///CreatedDate : 2016/03/08
+        ///
+        /// While the User login check loan step 
+        ///</summary>
+        public DataSet checkUserLoginWhileLoanSetup(User user)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@company_id", user.Company_Id });
+            paramertList.Add(new object[] { "@branch_id", user.BranchId });
+            try
+            {
+                return dataHandler.GetDataSet("spCheckUserLoginWhileLoanSetup", paramertList);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/02/03
