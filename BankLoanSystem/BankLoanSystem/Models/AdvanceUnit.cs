@@ -28,5 +28,10 @@ namespace BankLoanSystem.Models
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Model")]
         public string Model { get; set; }
-    }
+
+        [Display(Name = "Unit Type")]
+        public int UnitTypeId { get; set; }
+
+        public vehicle vehicle { get; set; }
+    }   
 }

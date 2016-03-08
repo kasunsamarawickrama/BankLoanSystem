@@ -261,8 +261,8 @@ else if (@ViewBag.ErrorMsg != null)
 <script type="text/javascript">
 
     // Capitalize first letter
-    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keyup(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length
@@ -281,7 +281,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
@@ -321,7 +321,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
@@ -329,7 +329,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92 || e.which === 39) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
@@ -337,6 +337,12 @@ else if (@ViewBag.ErrorMsg != null)
 
     $('#PhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 15);
         if (res === 0) {
             e.preventDefault();
             return;
