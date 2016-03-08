@@ -15,11 +15,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static CompanyBranchModel userNonRegCompany = null;
         public static string CompanyType = "Lender";
         private static string _comCode;
-        private static string _branchCode;
         private static int _isEdit;
-
-        private static int _curBranchId;
-        private static int _curUserRoleId;
 
         private static string _calMode;
         User userData = new User();
@@ -356,7 +352,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
             if (string.IsNullOrEmpty(branchCode))
             {
-                _branchCode = userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
                 userCompany.MainBranch = userCompany2.MainBranch;
             }
 
@@ -503,8 +498,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             User curUser = ua.retreiveUserByUserId(userId);
 
             ViewBag.CurrUserRoleType = curUser.RoleId;
-            _curUserRoleId = curUser.RoleId;
-            _curBranchId = curUser.BranchId;
 
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
@@ -662,9 +655,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             user.Company_Id = userData.Company_Id;//  company.CompanyId;  - asanka
 
             //Set admin branch to new user 
-            if (_curUserRoleId == 2)
+            if (roleId == 2)
             {
-                user.BranchId = _curBranchId;
+                user.BranchId = userData.BranchId;
             }
 
             //Insert user
@@ -1175,8 +1168,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             ViewBag.CurrUserRoleType = curUser.RoleId;
-            _curUserRoleId = curUser.RoleId;
-            _curBranchId = curUser.BranchId;
 
             //Get states to list
             CompanyAccess ca = new CompanyAccess();
@@ -1272,9 +1263,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
 
             //Set admin branch to new user 
-            if (_curUserRoleId == 2)
+            if (userData.RoleId == 2)
             {
-                nonRegBranch.MainBranch.BranchCreatedBy = _curBranchId;
+                nonRegBranch.MainBranch.BranchCreatedBy = userData.BranchId;
             }
 
             int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
