@@ -214,8 +214,8 @@ else if (@ViewBag.ErrorMsg != null)
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
     // Capitalize first letter
-    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length
@@ -282,7 +282,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92 || e.which === 39) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }

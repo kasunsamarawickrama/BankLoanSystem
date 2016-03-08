@@ -262,7 +262,7 @@ else if (@ViewBag.ErrorMsg != null)
 
     // Capitalize first letter
     $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+        ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length
@@ -329,7 +329,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92 || e.which === 39) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
