@@ -197,7 +197,7 @@
                         
                             @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
                         
-                            @Html.DropDownList(model => model.StateId, null, "--Select state--", htmlAttributes: new { @class = "form-control", id = "StateId" })
+                            @Html.DropDownListFor(model => model.StateId, null, "--Select state--", htmlAttributes: new { @class = "form-control", id = "StateId" })
                             @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
                         
                     </div>

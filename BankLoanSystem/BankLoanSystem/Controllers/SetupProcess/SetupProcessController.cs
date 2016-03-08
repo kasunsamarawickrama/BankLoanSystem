@@ -509,16 +509,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
-
-            ViewBag.CurrUserRoleType = curUser.RoleId;
+            ViewBag.CurrUserRoleType = roleId;
 
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
 
-            for (int i = curUser.RoleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
                 UserRole tempRole = new UserRole()
                 {
@@ -531,7 +528,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
             // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
 
 
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
@@ -1178,11 +1175,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     userNonRegCompany.Company.Extension = "";
             }
 
-            UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
 
-
-            ViewBag.CurrUserRoleType = curUser.RoleId;
+            ViewBag.CurrUserRoleType = userData.RoleId;
 
             //Get states to list
             CompanyAccess ca = new CompanyAccess();
@@ -1190,22 +1184,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
             // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
             ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
             //Get all non reg companies
-            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(curUser.Company_Id);
+            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
             ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
 
             NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch.Company = new Company();
             //Get all non registered branches by company id
-            List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(curUser.Company_Id);
+            List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
             nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
 
-            if (curUser.RoleId != 2)
+            if (userData.RoleId != 2)
             {
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -1222,7 +1216,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             //Select non registered branch for admin's branch
             var adminBonRegBranches = new List<NonRegBranch>();
-            adminBonRegBranches.AddRange(nonRegBranches.Where(t => curUser.BranchId == t.BranchId));
+            adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
             nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
 
             if (HttpContext.Request.IsAjaxRequest())
