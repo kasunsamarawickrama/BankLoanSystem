@@ -148,10 +148,15 @@
         }
     });
 
-    // title case
+    // change to title case
     $('#txtFirstName, #txtLastName').keyup(function (e) {
         ToTitleCase(this.id, this.value);
     });
+
+    //// title case
+    //$('#txtFirstName, #txtLastName').keypress(function (e) {
+    //    ToTitleCase(this.id, this.value);
+    //});
 
     //Phone number validate
     //$('#txtPhoneNumber').keypress(function (e) {
