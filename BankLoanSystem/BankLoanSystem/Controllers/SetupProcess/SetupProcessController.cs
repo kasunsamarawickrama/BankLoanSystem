@@ -851,11 +851,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
             //getting user role
-            UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
+            //UserAccess ua = new UserAccess();
+            //User curUser = ua.retreiveUserByUserId(userId);
 
             UserManageAccess uma = new UserManageAccess();
-            int userrole = curUser.RoleId;
+            int userrole = userData.RoleId;
 
             // if he is a user throw a error
             if (userrole == 3)
@@ -892,8 +892,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // retrieve registered branches, nonregistered branches using his company Id
 
-            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(curUser.Company_Id);
-            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+            List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
 
             // get the payments method for front End View
             List<string> paymentMethods = new List<string>();
@@ -913,7 +913,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (userrole == 2)
             {
-                loanId = la.getLoanIdByBranchId(curUser.BranchId);
+                loanId = la.getLoanIdByBranchId(userData.BranchId);
             }
             else if (userrole == 1)
             {
@@ -930,16 +930,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (userrole == 2)
             {
                 // if user is a admin, his branch id is registerd branch id
-                loanSetupStep1.RegisteredBranchId = curUser.BranchId;
+                loanSetupStep1.RegisteredBranchId = userData.BranchId;
 
                 // the get registered branch detail from the company branches list
                 foreach (Branch branch in RegisteredBranchLists)
                 {
-                    if (branch.BranchId == curUser.BranchId)
+                    if (branch.BranchId == userData.BranchId)
                     {
                         var newList = new List<Branch>();
                         newList.Add(branch);
-                        ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", curUser.BranchId);
+                        ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", userData.BranchId);
                     }
                 }
                 var newNonRegList = new List<Branch>();
@@ -947,7 +947,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 // the get non registered branches details for perticular branch  from the non registeres branches list
                 foreach (NonRegBranch branch in NonRegisteredBranchLists)
                 {
-                    if (branch.BranchId == curUser.BranchId)
+                    if (branch.BranchId == userData.BranchId)
                     {
 
                         newNonRegList.Add(branch);
