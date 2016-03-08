@@ -39,31 +39,31 @@
     <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
         <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
             @grid.GetHtml(
-               tableStyle: "gridtable",
-              headerStyle: "webgrid-header",
+            tableStyle: "gridtable",
+           headerStyle: "webgrid-header",
 
-              alternatingRowStyle: "webgrid-alternating-row",
-              rowStyle: "webgrid-row-style",
-              htmlAttributes: new { id = "checkableGrid" },
-              columns: grid.Columns(
-              grid.Column(
-                   format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                      , header: "{checkall}"
+           alternatingRowStyle: "webgrid-alternating-row",
+           rowStyle: "webgrid-row-style",
+           htmlAttributes: new { id = "checkableGrid" },
+           columns: grid.Columns(
+           grid.Column(
+                format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
+                   , header: "{checkall}"
 
-              ),
-                   grid.Column(
-                      "CreatedDate",
-                      "Date Entered",
-                      format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
-                  ),
-              grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                   grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                   grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                  grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                  grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
-                   grid.Column("Advance Amount", "Advance Amount", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
-     )
- )
+           ),
+                grid.Column(
+                   "CreatedDate",
+                   "Date Entered",
+                   format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
+               ),
+           grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+               grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+               grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@item.Cost</label>}</text>),
+                grid.Column("Advance Amount", "Advance Amount", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@item.AdvanceAmount</label>}</text>)
+  )
+)
 
         </div>
         <div id="subtotal"> Current Total to Advance : $ 0 </div>
@@ -103,7 +103,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new {@class = "control-label col-md-2" })
+                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-sm-4">
                     @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
@@ -115,7 +115,10 @@
                         List<SelectListItem> yearList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
                         {
-                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                            if (!yearList.Exists(a => a.Value == type.Year.ToString()))
+                            {
+                                yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                            }
                         }
                     }
 
@@ -134,7 +137,10 @@
                         @{List<SelectListItem> makeList = new List<SelectListItem>();
                             foreach (var type in ViewBag.advanceList)
                             {
-                                makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                if (!makeList.Exists(a => a.Value == type.Make.ToString()))
+                                {
+                                    makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                }
                             }
                         }
                     </div>
@@ -150,10 +156,12 @@
                     @{List<SelectListItem> modelList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
                         {
-                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                            if (!modelList.Exists(a => a.Value == type.Model.ToString()))
+                            {
+                                modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                            }
                         }
-                    }<SelectListItem>
-                        <SelectListItem>
+                    }
                             @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
                             <div id="vehiclemodel"><span class="text-danger"></span></div>
@@ -334,7 +342,7 @@
         document.getElementById('all').checked = false;
         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;        
        
-        $("#someID span").html('select');
+        $("#someID span").html('Select');
 
         ClearSearchRelatedData();
         
@@ -473,11 +481,13 @@
                                    }
 
                                });
-                               
-                               if (checkCount > 1 || checkCount == 0 || totalRecCount ==0) {
-                                   ClearTextBoxValues();
+                               if (checkCount > 1) {
+                                   ClearTextBoxValues();                                  
+                               }
+                               else if (checkCount == 0 || totalRecCount == 0) {
                                    $("#btnAdvanceAll").attr("disabled", "disabled");
                                    $("#startDate").attr("disabled", "disabled");
+                                   ClearTextBoxValues();
                                }
 
                            }
@@ -527,7 +537,7 @@
                             $("#btnAdvanceAll").attr("disabled", "disabled");
                             $("#startDate").attr("disabled", "disabled");
                             $("#iAdvance").attr("disabled", "disabled");
-                            $("#someID span").html('select')
+                            $("#someID span").html('Select')
                            
                         }
                         else {
@@ -674,9 +684,9 @@
                 $('#iCost').val('');
                 $('#iAdvance').val('');
                 $("#btnAdvance").attr("disabled", "disabled");
-                $("#btnAdvanceAll").removeAttr("disabled");
+                //$("#btnAdvanceAll").removeAttr("disabled");
                 $("#advanceDate").attr("disabled", "disabled");
-                $("#startDate").removeAttr("disabled");
+                //$("#startDate").removeAttr("disabled");
             }
 
             function SetTextBoxValues(tr) {
@@ -708,14 +718,10 @@
 
                 if (checked == totalRows) {
                     var chkText = $('<div />').attr({ id: 'someID' }).html(' Deselect');
-                    //alert(chkText);
-                    //$('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                    //$('#checkableGrid thead tr th:first').html(chkText.prepend(ctrl));
-
                     $("#checkableGrid").find("input:checkbox").each(function () {
                         this.checked = true;
-
-                    });
+                    });                    
+                    $("#someID span").html('Deselect');
                 }
                 else {
                     
