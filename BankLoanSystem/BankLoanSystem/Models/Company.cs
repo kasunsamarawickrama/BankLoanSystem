@@ -52,15 +52,15 @@ namespace BankLoanSystem.Models
 
         [Required]
         //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-        [Display(Name = "Phone Number1")]
+        [Display(Name = "Phone Number 1")]
         public string PhoneNum1 { get; set; }
 
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-        [Display(Name = "Phone Number2")]
+        [Display(Name = "Phone Number 2")]
         public string PhoneNum2 { get; set; }
 
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-        [Display(Name = "Phone Number3")]
+        [Display(Name = "Phone Number 3")]
         public string PhoneNum3 { get; set; }
 
         [Phone]
