@@ -360,6 +360,8 @@
         $("#cmbMake").val('');
         $("#cmbModel").val('');
         $("#noDataLabelDiv").hide();
+        $("#searchGrid1").hide();
+        
     }
 
     $("#btnSearch").click(function () {
@@ -371,6 +373,28 @@
         Search(para1, para2, para3, para4);
 
     });
+
+    $("#identificationNumberSearch").click(function () {
+        ClearLabelMessages();
+    });
+
+    $("#div-combobox1-1").click(function () {
+        ClearLabelMessages();
+    });
+
+    $("#div-combobox1-2").click(function () {
+        ClearLabelMessages();
+    });
+
+    $("#div-combobox1-3").click(function () {
+        ClearLabelMessages();
+    });
+
+    function ClearLabelMessages() {
+        $('#noDataLabelDiv').text("");
+        $('.label-success').text("");
+    }
+   
 
     function Search(para1, para2, para3, para4) {
 
@@ -560,8 +584,7 @@
                         }
 
                     });
-                }
-           
+                }           
 
             $(function () {               
                 GridUpdate();
@@ -576,8 +599,10 @@
                     var ColIndex = $td.parent().children().index($td);
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-                    
+                    ClearLabelMessages();
+                  
                     if (ColIndex != 0) {
+                       
                         var checked = row.find("#all").prop('checked');                       
                         if (!checked) {
                             row.find("#all").prop('checked', true);
@@ -594,7 +619,7 @@
                                 ClearTextBoxValues();
                             } 
                             document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                           
+                            
                             $("#btnAdvanceAll").removeAttr("disabled");                           
                             $("#startDate").removeAttr("disabled");
                         }
@@ -648,7 +673,7 @@
             });
 
             $('#btnAdvanceAll').click(function () {
-                if (checkCount > 1) {
+                if (checkCount >= 1) {
                     var data = { ItemList: [] };
                     $('.advanceAmount').each(function () {
                         var tr = $(this).parents('tr:first');
