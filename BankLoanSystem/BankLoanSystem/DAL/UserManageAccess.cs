@@ -21,75 +21,65 @@ namespace BankLoanSystem.DAL
         /// <returns>userLogin object</returns>
         public List<UserLogin> getUserByType(int levelId,int userId)
         {
-
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            List<UserLogin> UserList = new List<UserLogin>();
+            DataHandler dataHandler = new DataHandler();
+            int userRole = getUserRole(userId);
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@level_id", levelId });
+            paramertList.Add(new object[] { "@user_id", userId });
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserLoginDetailsByType");
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    int userRole = getUserRole(userId);
-                    using (SqlCommand cmd = new SqlCommand("spGetUserLoginDetailsByType", con))
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        UserLogin user = new UserLogin();
+                        user.loginId = userId;
+                        user.userId = int.Parse(dataRow["user_id"].ToString());
+                        user.userName = dataRow["user_name"].ToString();
 
-                        cmd.Parameters.Add("@level_id", SqlDbType.Int).Value = levelId;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
+                        user.createdBy = int.Parse(dataRow["created_by"].ToString());
+                        user.createdByRole = getUserRole(user.createdBy);
 
+                        user.createdName = getUserNameById(user.createdBy);
+                        user.roleId = int.Parse(dataRow["role_id"].ToString());
 
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        List<UserLogin> UserList = new List<UserLogin>();
-                        UserLogin user;
-                        
-                        while (reader.Read())
+                        if (userRole == 1)
                         {
-                            user = new UserLogin();
-                            user.loginId = userId;
-                            user.userId = int.Parse(reader["user_id"].ToString());
-                            user.userName = reader["user_name"].ToString();
-                            
-                            user.createdBy = int.Parse(reader["created_by"].ToString());
-                            user.createdByRole = getUserRole(user.createdBy);
-                            
-                            user.createdName = getUserNameById(user.createdBy);
-                            user.roleId = int.Parse(reader["role_id"].ToString());
-                            
-                             if (userRole == 1)
-                            {
-                                user.isEdit = true;
-                            }
-                           
-                            else if ((userRole == 2) && (levelId==1))
-                            {
-                                user.isEdit = false;
-                            }
-                            else if ((userRole == 2) && (levelId == 2))
-                            {
-                                user.isEdit = true;
-                            }
-                            else if ((userRole == 2) && (levelId == 3))
-                            {
-                                user.isEdit = true;
-                            }
-                            
-                            UserList.Add(user);
+                            user.isEdit = true;
                         }
 
-                        return UserList;
+                        else if ((userRole == 2) && (levelId == 1))
+                        {
+                            user.isEdit = false;
+                        }
+                        else if ((userRole == 2) && (levelId == 2))
+                        {
+                            user.isEdit = true;
+                        }
+                        else if ((userRole == 2) && (levelId == 3))
+                        {
+                            user.isEdit = true;
+                        }
+
+                        UserList.Add(user);
                     }
-                }
 
-
-                catch (Exception ex)
-                {
-                    throw ex;
+                    return UserList;
                 }
-                finally
+                else
                 {
-                    con.Close();
+                    return null;
                 }
             }
+
+            catch
+            {
+                return null;
+            }            
         }
+       
         /// <summary>
         /// CreatedBy: Piyumi
         /// CreatedDate:2016/1/18/
@@ -99,49 +89,18 @@ namespace BankLoanSystem.DAL
         /// <returns>true/false</returns>
         public bool deleteUser(int id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", id });
+           
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spDeleteUser", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
-                        
-                        con.Open();
-                        
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        cmd.ExecuteNonQuery();
-                        int countVal = (int)returnParameter.Value;
-
-                        if (countVal == 1)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-
-                        }
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQL("spDeleteUser", paramertList);
             }
+            catch
+            {
+                return false;
+            }            
         }
 
         /// <summary>
@@ -162,8 +121,6 @@ namespace BankLoanSystem.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = createdBy;
-
-
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
                         UserLogin dtl = new UserLogin();

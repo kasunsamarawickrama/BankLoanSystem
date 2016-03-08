@@ -7,6 +7,36 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
+<style>
+    .form-control{
+        display:inline;
+    }
+    .form-group{
+        margin:auto;
+        margin-bottom: 10px;
+    }
+
+    .col-xs-11{
+    
+    width:60%;
+}
+
+    .col-xs-10 {
+    float: unset;
+}
+    .col-xs-11>input{
+    /*width:60%;*/
+}
+
+        .col-xs-9{
+           
+    
+}
+    .col-xs-9>input , .col-xs-9>select{
+    width:28%;
+}
+
+</style>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -41,21 +71,21 @@ else if (@ViewBag.ErrorMsg != null)
             {*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-11">
                 @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyName" } })
                 @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
+                <div id="customError"><span class="text-warning"></span></div>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-11">
                 @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyAddress1" } })
                 @Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -63,10 +93,10 @@ else if (@ViewBag.ErrorMsg != null)
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.CompanyAddress2, htmlAttributes: new { })
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-11">
                 @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyAddress2" } })
                 @Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -74,94 +104,96 @@ else if (@ViewBag.ErrorMsg != null)
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.City, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-3" style="margin-left:180px">
+            <div class="col-xs-9" >
                 @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @id = "txtCity" } })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
+                @*<div id="customError"><span class="text-danger"></span></div>*@
+
+               
+                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { style="margin-left:14.5%" })<span style="color: red">*</span>
+              
+                    @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control", id = "StateId" })
+                    
+                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
+                    <div id="customError"><span class="text-danger"></span></div>
+               
             </div>
+
+
         </div>
 
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-3" style="margin-left:172px">
-                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
+       
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
 
-            <div class="col-xs-4" style="width:32.2%">
-                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
-                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })
+            <div class="col-xs-11" >
+
+                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { style = "width:19%" ,@class = "form-control", placeholder = "Zip Code", @id = "txtZipPre" } })
+                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
+                @*<div id="customError"><span class="text-danger"></span></div>*@
+                @*<span class="glyphicons glyphicon-minus" style="margin-top:25px"></span>*@
+                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
+                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger", style = "top: 50%;" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
-            <span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>
-            <div class="col-xs-4" style="margin-left:150px">
-                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control", placeholder = "Zip Code", @id = "txtZipPre" } })
-                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
+            
+           
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-3" style="margin-left:98px">
-                @Html.EditorFor(model => model.PhoneNum1, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNum1" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
+            <div class="col-xs-9" >
+                @Html.EditorFor(model => model.PhoneNum1, new { htmlAttributes = new { style= "width:23%;", @class = "form-control", @id = "txtPhoneNum1" } })
+                @Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
+                @*<div id="customError"><span class="text-danger"></span></div>*@
+
+               
+                    @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
+               
+                    @Html.EditorFor(model => model.PhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum2" } })
+
+                    
+                    @Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
+                    <div id="customError"><span class="text-danger"></span></div>
+                
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-3" style="margin-left:100px">
-                @Html.EditorFor(model => model.PhoneNum2, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNum2" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
+       
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.PhoneNum3, htmlAttributes: new { })
             </div>
-            <div class="col-xs-3" style="margin-left:100px">
-                @Html.EditorFor(model => model.PhoneNum3, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNum3" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
+            <div class="col-xs-9" >
+                @Html.EditorFor(model => model.PhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum3" } })
+                @Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
+                @*<div id="customError"><span class="text-warning"></span></div>*@
+
+        
+                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { style = "margin-left:27%;" })
+                
+                    @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtFax" } })
+                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
+                    <div id="customError"><span class="text-danger"></span></div>
+                
+
             </div>
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.LabelFor(model => model.Fax, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-3" style="margin-left:184px">
-                @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control", @id = "txtFax" } })
-                @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.Email, htmlAttributes: new { })
             </div>
-            <div class="col-xs-6" style="margin-left:102px">
+            <div class="col-xs-11" >
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "txtEmail" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -169,10 +201,10 @@ else if (@ViewBag.ErrorMsg != null)
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.WebsiteUrl, htmlAttributes: new { })
             </div>
-            <div class="col-xs-6" style="margin-left:102px">
+            <div class="col-xs-11" >
                 @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control", @id = "txtWebsiteUrl" } })
                 @Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -180,12 +212,12 @@ else if (@ViewBag.ErrorMsg != null)
         </div>
 
         <div class="form-group">
-            <div class="control-label col-sm-2">
+            <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.TypeId, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
-            <div class="col-xs-3">
-                @Html.DropDownListFor(model => model.TypeId, null, "Select company type", htmlAttributes: new { @class = "form-control", id = "TypeId" })
-                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
+            <div class="col-xs-9">
+                @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { style="width:37%", @class = "form-control", id = "TypeId" })
+                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger", style = "top:100%;left:2%" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
         </div>
@@ -213,9 +245,9 @@ else if (@ViewBag.ErrorMsg != null)
 
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
-    // Capitalize first letter
-    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
+    // change to title case
+    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length
@@ -234,13 +266,14 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
     });
 
     $('#txtZipPre').keypress(function (e) {
+        //alert(e.which);
         var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();
@@ -266,6 +299,8 @@ else if (@ViewBag.ErrorMsg != null)
         }
     });
 
+   
+
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 100);
@@ -274,7 +309,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
@@ -282,7 +317,7 @@ else if (@ViewBag.ErrorMsg != null)
             return;
         }
         else if (e.which === 92 || e.which === 39) {
-            $(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }
@@ -290,6 +325,12 @@ else if (@ViewBag.ErrorMsg != null)
 
     $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 15);
         if (res === 0) {
             e.preventDefault();
             return;
@@ -323,4 +364,6 @@ else if (@ViewBag.ErrorMsg != null)
 
     Progress(1);
 
+
+   
 </script>

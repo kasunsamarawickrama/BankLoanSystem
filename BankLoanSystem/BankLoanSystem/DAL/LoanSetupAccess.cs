@@ -163,7 +163,13 @@ namespace BankLoanSystem.DAL
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/12
         /// get loanId by branchId from step table
+        /// EditedBy:Piyumi
+        /// EditedDate:2016/3/8
+        /// change input parameters
         /// </summary>
+        /// <param name="companyId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="nonRegBranchId"></param>
         /// <returns>loanId</returns>
         public int getLoanIdByBranchId(int branchId)
         {
@@ -175,8 +181,9 @@ namespace BankLoanSystem.DAL
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
+                        //cmd.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
                         cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
-
+                        //cmd.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = nonRegBranchId;
                         con.Open();
 
                         SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);

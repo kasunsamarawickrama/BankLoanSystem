@@ -67,7 +67,7 @@ namespace BankLoanSystem.Controllers
             int userId = userData.UserId;
             string loanCode;
             //Session["userId"] = 62;
-            //Session["loanCode"] = "LEN01_01-323432";
+            Session["loanCode"] = "COM06_01-00001";
             try
             {
                 
@@ -88,6 +88,7 @@ namespace BankLoanSystem.Controllers
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
             Session["notAdvancedList"] = advanceUnit.NotAdvanced;
+            ViewBag.advanceList = advanceUnit.NotAdvanced;
 
             if (flag > 0)
             {
