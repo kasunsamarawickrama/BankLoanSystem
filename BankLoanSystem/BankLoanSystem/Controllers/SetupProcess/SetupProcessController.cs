@@ -19,6 +19,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
         private static string _calMode;
         User userData = new User();
+        LoanSetupStep loanData = new LoanSetupStep();
 
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -34,11 +35,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (Session["AuthenticatedUser"] != null)
+            if ((Session["AuthenticatedUser"] != null)|| (Session["loanStep"] != null))
             {
                 try
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
+                   if(Session["loanStep"] != null)
+                    {
+                        loanData = ((LoanSetupStep)Session["loanStep"]);
+                    }
+                  
+                      
+
                 }
                 catch
                 {
@@ -50,6 +58,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
+           
+            //else
+            //{
+            //    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+            //    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            //}
+
         }
 
         public ActionResult Index()
@@ -1311,7 +1326,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [ActionName("Step6")]
         public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
-            int userId = int.Parse(Session["userId"].ToString());
+            int userId = userData.UserId;
             //int branchId = int.Parse(Session["branchId"].ToString());
 
 
@@ -1346,7 +1361,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
 
             LoanSetupAccess la = new LoanSetupAccess();
-            int loanId = la.getLoanIdByBranchId(loanSetupStep1.RegisteredBranchId);
+            int loanId = loanData.loanId;
 
             if (loanId > 0)
             {
@@ -1361,18 +1376,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.UpdateLoanSetupStep(userData.Company_Id,loanSetupStep1.RegisteredBranchId,loanSetupStep1.nonRegisteredBranchId,loanId,2);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanSetupStep1.nonRegisteredBranchId,loanId,2);
+                    loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
+                    loanData.loanId = loanId;
+                    loanData.stepId = 2;
                 }
             }
 
-            Session["branchId"] = loanSetupStep1.RegisteredBranchId;
+            Session["loanStep"] = loanData;
             if (loanSetupStep1.isInterestCalculate)
             {
                 return RedirectToAction("step7");
             }
             else
             {
-                sa.updateStepNumberByUserId(userId, 8, loanId, loanSetupStep1.RegisteredBranchId);
+                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId,3);
                 return RedirectToAction("step8");
             }
 
