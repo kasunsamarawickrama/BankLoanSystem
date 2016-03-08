@@ -159,19 +159,37 @@ namespace BankLoanSystem.Controllers
                                 else
                                 {
                                     //No Step recor in relavent Company and branch
-                                    //Check Loan Step This Point
-
-
-                                    if (userData.RoleId == 2)
+                                    LoanSetupStep loanStep = new LoanSetupStep();
+                                    DataSet dsLoanStepNo = new DataSet();
+                                    dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
+                                    if (dsLoanStepNo.Tables[0].Rows.Count > 0)
                                     {
-                                        //Redirect to Branch Admin dashboard
-                                        return RedirectToAction("UserDetails", "UserManagement");
+                                        loanStep.CompanyId = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                                        loanStep.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
+                                        loanStep.nonRegisteredBranchId = int.Parse(dsUser.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                                        loanStep.loanId = int.Parse(dsUser.Tables[0].Rows[0]["loan_id"].ToString());
+                                        loanStep.stepId = int.Parse(dsUser.Tables[0].Rows[0]["step_number"].ToString());
+                                        Session["loanStep"] = 6;
+                                        if (userData.RoleId == 2)
+                                        {
+                                            return RedirectToAction("Index", "SetupProcess");
+                                        }
                                     }
                                     else
                                     {
-                                        //Redirect to User dashboard
-                                        return RedirectToAction("UserDetails", "UserManagement");
+                                        if (userData.RoleId == 2)
+                                        {
+                                            //Redirect to Branch Admin dashboard
+                                            return RedirectToAction("UserDetails", "UserManagement");
+                                        }
+                                        else
+                                        {
+                                            //Redirect to User dashboard
+                                            return RedirectToAction("UserDetails", "UserManagement");
+                                        }
                                     }
+
+                                    
                                 }
 
                             }
