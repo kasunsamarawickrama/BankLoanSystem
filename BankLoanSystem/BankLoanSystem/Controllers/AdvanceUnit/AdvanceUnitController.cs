@@ -67,7 +67,7 @@ namespace BankLoanSystem.Controllers
             int userId = userData.UserId;
             string loanCode;
             //Session["userId"] = 62;
-            //Session["loanCode"] = "LEN01_01-323432";
+            Session["loanCode"] = "COM06_01-00001";
             try
             {
                 
