@@ -273,6 +273,7 @@ else if (@ViewBag.ErrorMsg != null)
     });
 
     $('#txtZipPre').keypress(function (e) {
+        //alert(e.which);
         var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();
