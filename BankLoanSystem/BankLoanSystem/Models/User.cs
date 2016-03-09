@@ -92,6 +92,8 @@ namespace BankLoanSystem.Models
         public int RoleId { get; set; }
 
         public int Company_Id { get; set; }
+
+        public int CompanyType { get; set; }
     }
 
     /// <summary>

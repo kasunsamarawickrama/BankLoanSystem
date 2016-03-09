@@ -93,9 +93,10 @@ namespace BankLoanSystem.Controllers
                     userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
                     userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
                     userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                    userData.CompanyType = int.Parse(dsUser.Tables[0].Rows[0]["company_type"].ToString());
 
                     //To compair Database password and user enter password
-                    string passwordFromDB = (string)userData.Password;
+                    string passwordFromDB = userData.Password;
                     char[] delimiter = { ':' };
                     string[] split = passwordFromDB.Split(delimiter);
                     var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
