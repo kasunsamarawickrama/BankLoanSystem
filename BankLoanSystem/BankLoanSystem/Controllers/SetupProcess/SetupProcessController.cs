@@ -81,7 +81,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyAccess ca = new CompanyAccess();
                 Company company = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                return View();
+                //return View();
+                return RedirectToAction("Step2");
             }
 
             else if (stepNo == 5)
