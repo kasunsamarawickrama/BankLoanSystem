@@ -132,15 +132,25 @@ namespace BankLoanSystem.Controllers
 
 
                                 DataSet dsStepNo = new DataSet();
-                                dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
+                                dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
                                 if (dsStepNo.Tables[0].Rows.Count > 0)
                                 {
-                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                    return RedirectToAction("Index", "SetupProcess");
+                                    int bcount= int.Parse(dsStepNo.Tables[0].Rows[0]["branchCount"].ToString());
+                                    int scount= int.Parse(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString());
+                                    if (bcount <= scount)
+                                    {
+                                        Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        return RedirectToAction("Index", "SetupProcess");
+                                    }
+                                    else
+                                    {
+                                        //message: Not complete Step, Do you want to complete it.
+                                        Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        return RedirectToAction("Index", "SetupProcess");
+                                    } 
                                 }
                                 else
                                 {
-                                    //------------
                                     LoanSetupStep loanStep = new LoanSetupStep();
                                     DataSet dsLoanStepNo = new DataSet();
                                     dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
@@ -238,11 +248,6 @@ namespace BankLoanSystem.Controllers
                             }
                         }
 
-                        //Check Loan Setup process
-
-                        //Load Super Admin dashboard
-                        //Branch Admin dashboard
-                        //User dashboard
                     }
                     else
                     {

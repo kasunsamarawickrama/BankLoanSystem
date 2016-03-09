@@ -198,6 +198,28 @@ namespace BankLoanSystem.DAL
         }
 
         ///<summary>
+        ///Created By : Asanka Senarathna
+        ///CreatedDate : 2016/03/09
+        ///
+        /// Check the Super Admin Login While Company setup and branch count
+        ///</summary>
+        public DataSet checkSuperAdminLoginWhileCompanySetup(User user)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@company_id", user.Company_Id });
+            try
+            {
+                return dataHandler.GetDataSet("spCheckUserLoginWhileCompanySetup2", paramertList);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        ///<summary>
         ///CreatedBy: Asanka Senarathna
         ///CreatedDate : 2016/03/08
         ///
