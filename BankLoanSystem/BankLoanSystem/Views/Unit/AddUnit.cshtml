@@ -45,6 +45,8 @@
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/CommonFunctions.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
 @*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
@@ -806,6 +808,7 @@
 
 
 <script type="text/javascript">
+
     _previousMakeYear = "";
     _previousMake     = "";
     
@@ -898,7 +901,7 @@
                 //$('#vehicleyear span').fadeIn();
                 $('#vehicleyear span').text("year required");
                 //$('#vehicleyear span').delay(1000).fadeOut();
-
+                $('.centered span').text('Error');
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -908,7 +911,7 @@
                 //$('#vehiclemake span').fadeIn();
                 $('#vehiclemake span').text("make required");
                // $('#vehiclemake span').delay(1000).fadeOut();
-
+                $('.centered span').text('Error');
                 if(vin == "" || trim == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -933,6 +936,7 @@
                 //$('#rvyear span').fadeIn();
                 $('#rvyear span').text("year required");
                 //$('#rvyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -942,6 +946,7 @@
                 //$('#rvmake span').fadeIn();
                 $('#rvmake span').text("make required");
                 //$('#rvmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -951,6 +956,7 @@
                 //$('#rvmodel span').fadeIn();
                 $('#rvmodel span').text("model required");
                 //$('#rvmodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -968,6 +974,7 @@
                 //$('#camperyear span').fadeIn();
                 $('#camperyear span').text("year required");
                 //$('#camperyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
@@ -977,6 +984,7 @@
                 //$('#campermake span').fadeIn();
                 $('#campermake span').text("make required");
                 //$('#campermake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
@@ -986,6 +994,7 @@
                 //$('#campermodel span').fadeIn();
                 $('#campermodel span').text("model required");
                 //$('#campermodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || length == "" || hitch == ""){
                 }else{
                     e.preventDefault();
@@ -1001,6 +1010,7 @@
                 //$('#atvyear span').fadeIn();
                 $('#atvyear span').text("year required");
                 //$('#atvyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1010,6 +1020,7 @@
                 //$('#atvmake span').fadeIn();
                 $('#atvmake span').text("make required");
                 //$('#atvmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1019,6 +1030,7 @@
                 //$('#atvmodel span').fadeIn();
                 $('#atvmodel span').text("model required");
                 //$('#atvmodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1035,6 +1047,7 @@
                 //$('#boatyear span').fadeIn();
                 $('#boatyear span').text("year required");
                 //$('#boatyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || trailer == ""|| serial ==""){
                 }else{
                     e.preventDefault();
@@ -1044,6 +1057,7 @@
                 //$('#boatmake span').fadeIn();
                 $('#boatmake span').text("make required");
                 //$('#boatmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || trailer == ""|| serial ==""){
                 }else{
                     e.preventDefault();
@@ -1059,6 +1073,7 @@
                 //$('#motorcycleyear span').fadeIn();
                 $('#motorcycleyear span').text("year required");
                 //$('#motorcycleyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1068,6 +1083,7 @@
                 //$('#motorcyclemake span').fadeIn();
                 $('#motorcyclemake span').text("make required");
                 //$('#motorcyclemake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1077,6 +1093,7 @@
                 //$('#motorcyclemodel span').fadeIn();
                 $('#motorcyclemodel span').text("make required");
                 //$('#motorcyclemodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1090,6 +1107,7 @@
                 //$('#snowmobileyear span').fadeIn();
                 $('#snowmobileyear span').text("year required");
                 //$('#snowmobileyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1099,6 +1117,7 @@
                 //$('#snowmobilemake span').fadeIn();
                 $('#snowmobilemake span').text("make required");
                 //$('#snowmobilemake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1108,6 +1127,7 @@
                 //$('#snowmobilemodel span').fadeIn();
                 $('#snowmobilemodel span').text("make required");
                 //$('#snowmobilemodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1120,6 +1140,7 @@
                 //$('#heavyequipmentyear span').fadeIn();
                 $('#heavyequipmentyear span').text("year required");
                 //$('#heavyequipmentyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1129,6 +1150,7 @@
                 //$('#heavyequipmentmake span').fadeIn();
                 $('#heavyequipmentmake span').text("make required");
                 //$('#heavyequipmentmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
                 if(vin == "" || miles == ""){
                 }else{
                     e.preventDefault();
@@ -1371,9 +1393,12 @@
                 $(varcombo).next().children('input').val("");
                 $(vareditor).val("");
                 //$(span).delay(3000).fadeOut();
+                $('.centered span').text('Error');
             }
             else{
                 $(span).text("");
+                $('.centered span').text('');
+                middleSpanCheck();
             }
         }
         else if(len > 4){
@@ -1382,11 +1407,14 @@
             $(varcombo).next().children('input').val("");
             $(vareditor).val("");
             //$(span).delay(3000).fadeOut();
+            $('.centered span').text('Error');
 
         }
         else if(len == 0){
             $(varcombo).next().children('input').val("");
             $(vareditor).val("");
+            $('.centered span').text('');
+            middleSpanCheck();
 
         }
         else{
@@ -1395,6 +1423,7 @@
             $(varcombo).next().children('input').val("");
             $(vareditor).val("");
             //$(span).delay(3000).fadeOut();
+            $('.centered span').text('Error');
         }
     }
 
@@ -1940,6 +1969,7 @@
         }
     });
     $('#snowmobileVin').keyup(function () {
+
         $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         if($('#snowmobileVin').val().length == 17){
             $('#snowmobileVIN span').text("");
@@ -2267,6 +2297,9 @@
             //$("#tagscloudAdvance span").fadeIn();
             //$(this).addClass('input-validation-error');
             $("#tagscloud span").text("");
+
+            $('#txtAdvanceAmount').removeClass('input-validation-error');
+            $("#tagscloudAdvance span").text("");
         }
         else if (Number(num) <= 0) {
             //$("#tagscloud span").fadeIn();
@@ -2459,6 +2492,18 @@
 
     $('textarea').click(function () {
         $('.centered1 span').text('');
+        middleSpanCheck();
     });
+
+    function middleSpanCheck(){
+        if ($('input').next('span').children('span').text().length > 0) {
+            $('.centered span').text('Error');
+        }
+        else{
+            $('.centered span').text('');
+        }
+    }
+
+
 </script>
 

@@ -106,6 +106,10 @@
         });
 
       
+        //$(document).on("click", function () {
+        //    alert("click bound to document listening for #test-element");
+        //    middleSpanCheck();
+        //});
 
        
 
@@ -170,8 +174,8 @@
 
         $('input').blur(function () {
             var isError = false;
-            if ($(this).next('span').children('span').length > 0) {
-                $('.centered span').text('Error');
+            if ($(this).next('span').children('span').text().length > 0) {
+               $('.centered span').text('Error');
                 isError = true;
             }
             //else if ($(this).siblings().next('span').children('span').length === 0) {
@@ -215,6 +219,8 @@
                 $('.centered span').text('');
         });
     });
+
+
 </script>
 
 
