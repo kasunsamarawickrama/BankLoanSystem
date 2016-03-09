@@ -96,7 +96,8 @@
         <div class="form-group">
             <div class="button-panel">
                 <input type="button" id="createNewNonRegBranch" value="Create a New Partner Branch" class="btn btn-info left-button" />
-                <input type="button" id="step6" value="Next" class="btn btn-primary btn-next" style="left:30%" />
+                <input type="button" id="step6" value="Loan Setup" class="btn btn-primary btn-next" style="left: 30%"/>
+                <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary right-button" style="left:30%" />
             </div>
         </div>
     }
@@ -375,6 +376,10 @@ else
             });
 
 
+        });
+
+        $('#dashBoard').click(function () {
+            window.location.replace('@Url.Action("UserDetails", "UserManagement")');
         });
 
         $(function () {

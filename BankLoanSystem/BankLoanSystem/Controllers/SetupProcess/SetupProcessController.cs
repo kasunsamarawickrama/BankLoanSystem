@@ -220,7 +220,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+                bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
                 Session["companyStep"] = 2;
 
                 //user object pass to session
@@ -874,8 +874,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
 
             // get the Company type for front end view
-            //int comType = ba.getCompanyTypeByUserId(userId);
-            int comType = userData.CompanyType;
+            int comType = ba.getCompanyTypeByUserId(userId);
+            //int comType = userData.CompanyType;
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
 
             // retrieve registered branches, nonregistered branches using his company Id
@@ -1021,8 +1021,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
-                //int comType = ba.getCompanyTypeByUserId(userData.UserId);
-                int comType = userData.CompanyType;
+               int comType = ba.getCompanyTypeByUserId(userData.UserId);
+                //int comType = userData.CompanyType;
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
                 //Get states to list
@@ -1119,8 +1119,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
             BranchAccess ba = new BranchAccess();
-            //int compType = ba.getCompanyTypeByUserId(userId);
-            int compType = userData.CompanyType;
+            int compType = ba.getCompanyTypeByUserId(userId);
+            //int compType = userData.CompanyType;
             if (compType == 1)
             {
                 ViewBag.compType = "Create Dealer Branch";
@@ -1194,7 +1194,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //Get all non registered branches by company id
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-            nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+            {
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            }
+            else {
+                nonRegCompanyBranch.CompanyBranch.Company = nonRegCompanyList[0];
+            }
+            
 
             if (userData.RoleId != 2)
             {
@@ -1210,11 +1217,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-
             //Select non registered branch for admin's branch
-            var adminBonRegBranches = new List<NonRegBranch>();
-            adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
-            nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+           
+            if (nonRegBranches != null) {
+                var adminBonRegBranches = new List<NonRegBranch>();
+                adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
+                nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+            }
+            
 
             if (HttpContext.Request.IsAjaxRequest())
             {
@@ -1247,8 +1257,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
             CompanyAccess ca = new CompanyAccess();
 
-            //int compType = ba.getCompanyTypeByUserId(userId);
-            int compType = userData.CompanyType;
+            int compType = ba.getCompanyTypeByUserId(userId);
+            //int compType = userData.CompanyType;
 
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
 
@@ -1342,7 +1352,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check he is super admin or admin
-            if (new UserManageAccess().getUserRole(userId) > 2)
+            if (userData.RoleId > 2)
             {
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
@@ -1477,7 +1487,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //check user name is already exist.  
             int userId = userData.UserId;
             //User user = (new UserAccess()).retreiveUserByUserId(userId);
-            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userData), JsonRequestBehavior.AllowGet);
+            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userData,loanData.loanId), JsonRequestBehavior.AllowGet);
         }
 
 
@@ -1666,8 +1676,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             var userId = userData.UserId;
 
             BranchAccess branch = new BranchAccess();
-            //int companyType = branch.getCompanyTypeByUserId(userId);
-            int companyType = userData.CompanyType;
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            //int companyType = userData.CompanyType;
             if (companyType == 1)
             {
                 ViewBag.isLender = true;
