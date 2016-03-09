@@ -93,7 +93,7 @@ namespace BankLoanSystem.Controllers
                     userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
                     userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
                     userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
-                    userData.CompanyType = int.Parse(dsUser.Tables[0].Rows[0]["company_type"].ToString());
+                    //userData.CompanyType = int.Parse(dsUser.Tables[0].Rows[0]["company_type"].ToString());
 
                     //To compair Database password and user enter password
                     string passwordFromDB = userData.Password;
@@ -110,6 +110,10 @@ namespace BankLoanSystem.Controllers
                     {
                         //user object pass to session
                         Session["AuthenticatedUser"] = userData;
+
+                        //delete just added unit if exists
+                        UnitAccess ua = new UnitAccess();
+                        ua.DeleteJustAddedUnits(userData.UserId);
 
                         //check Company setup process
                         //Check SuperAdmin
