@@ -918,44 +918,57 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+        }
 
-                // --------------------------------
-            //    try
-            //    {
-            //        var command = new SqlCommand("spGetNonRegCompanyDetailsByRegCompanyId", con);
-            //        command.CommandType = CommandType.StoredProcedure;
-            //        command.Parameters.AddWithValue("@reg_company_id", regCompanyId);
-            //        con.Open();
 
-            //        using (var reader = command.ExecuteReader())
-            //        {
-            //            while (reader.Read())
-            //            {
-            //                Company company = new Company();
-            //                company.CompanyId = Convert.ToInt32(reader["company_id"]);
-            //                company.CompanyName = reader["company_name"].ToString();
-            //                company.CompanyCode = reader["company_code"].ToString();
-            //                company.CompanyAddress1 = reader["company_address_1"].ToString();
-            //                company.CompanyAddress2 = reader["company_address_2"].ToString();
-            //                company.StateId = Convert.ToInt32(reader["stateId"]);
-            //                company.City = reader["city"].ToString();
-            //                company.Zip = reader["zip"].ToString();
-            //                company.Email = reader["email"].ToString();
-            //                company.PhoneNum1 = reader["phone_num_1"].ToString();
-            //                company.PhoneNum2 = reader["phone_num_2"].ToString();
-            //                company.PhoneNum3 = reader["phone_num_3"].ToString();
-            //                company.Fax = reader["fax"].ToString();
-            //                companyList.Add(company);
-            //            }
-                        
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw ex;
-            //    }
-            //}
-            //return companyList;
+        /// <summary>
+        ///  CreatedBy : Asanka Senarathna
+        ///  CreatedDate: 9/03/201
+        ///  Pass company list object to addunit page
+        /// </summary>
+        /// <param name="regCompanyId"></param>
+        /// <returns></returns>
+        public List<Company> GetNonRegCompanyDetailsByRegCompanyId1(int regCompanyId)
+        {
+            List<Company> companyList = new List<Company>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@reg_company_id", regCompanyId });
+
+            try
+            {
+                DataSet dsCompany = dataHandler.GetDataSet("spGetNonRegCompanyDetailsByRegCompanyId", paramertList);
+                if (dsCompany != null && dsCompany.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dsCompany.Tables[0].Rows)
+                    {
+                        Company company = new Company();
+                        company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                        company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                        company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                        company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                        company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                        company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                        company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+                        company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                        company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                        company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                        company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                        company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                        company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                        companyList.Add(company);
+                    }
+                    return companyList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
