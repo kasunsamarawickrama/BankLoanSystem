@@ -34,6 +34,7 @@ namespace BankLoanSystem.DAL
                 if (user.RoleId == 2)
                 {
                     loanId = la.getLoanIdByBranchId(user.BranchId);
+                    
                 }
                 else if (user.RoleId == 1)
                 {

@@ -9,7 +9,7 @@ namespace BankLoanSystem.Models
     public class Title
     {
         [EmailAddress]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email address for a reminder to be sent if the title has not been received in the timeframe")]
         [Required(ErrorMessage = "Email is required.")]
         public string RemindEmail { get; set; }
 

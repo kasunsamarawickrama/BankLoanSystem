@@ -157,7 +157,7 @@ namespace BankLoanSystem.Controllers
                                         Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 1)
                                         {
-                                            return RedirectToAction("Step6", "SetupProcess");
+                                            return RedirectToAction("Step"+(loanStep.stepId+5), "SetupProcess");
                                         }
                                     }
                                     else
@@ -211,7 +211,7 @@ namespace BankLoanSystem.Controllers
                                         if (userData.RoleId == 2)
                                         {
                                             //return RedirectToAction("Index", "SetupProcess");
-                                            return RedirectToAction("Step6", "SetupProcess");
+                                            return RedirectToAction("Step" + (loanStep.stepId+5), "SetupProcess");
                                         }
                                     }
                                     else

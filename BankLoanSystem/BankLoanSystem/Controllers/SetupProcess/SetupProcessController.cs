@@ -2034,7 +2034,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             TitleAccess ta = new TitleAccess();
             LoanSetupAccess la = new LoanSetupAccess();
             StepAccess sa = new StepAccess();
-            int loanId = la.getLoanIdByBranchId(branchId);
+            //int loanId = la.getLoanIdByBranchId(branchId);
+            int loanId = loanData.loanId;
             title.LoanId = loanId;
 
             //if (title.IsReceipRequired || title.IsTitleTrack)
@@ -2166,8 +2167,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int branchId = loanData.BranchId;
 
                 LoanSetupAccess la = new LoanSetupAccess();
-                int loanId = la.getLoanIdByBranchId(branchId);
-
+                //int loanId = la.getLoanIdByBranchId(branchId);
+                int loanId = loanData.loanId;
                 CurtailmentAccess curAccess = new CurtailmentAccess();
                 _loan = curAccess.GetLoanDetailsByLoanId(loanId);
                 _loan.loanId = loanId;
