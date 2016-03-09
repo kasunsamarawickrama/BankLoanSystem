@@ -29,11 +29,13 @@ namespace BankLoanSystem.Controllers
                 loginlbl.lbl = lbl;
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
+                Session["companyStep"] = null;
                 return View(loginlbl);
             }
             else {
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
+                Session["companyStep"] = null;
                 return View();
             }
         }
@@ -135,8 +137,16 @@ namespace BankLoanSystem.Controllers
                                 dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
                                 if (dsStepNo.Tables[0].Rows.Count > 0)
                                 {
-                                    int bcount= int.Parse(dsStepNo.Tables[0].Rows[0]["branchCount"].ToString());
-                                    int scount= int.Parse(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString());
+                                    int bcount = 0;
+                                    if (dsStepNo.Tables[0].Rows[0]["branchCount"].ToString() != "")
+                                    {
+                                        bcount = int.Parse(dsStepNo.Tables[0].Rows[0]["branchCount"].ToString());
+                                    }
+                                    int scount = 0;
+                                    if(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString()!="")
+                                    {
+                                        scount = int.Parse(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString());
+                                    } 
                                     if (bcount <= scount)
                                     {
                                         Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
