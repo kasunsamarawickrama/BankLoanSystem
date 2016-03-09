@@ -17,28 +17,22 @@ namespace BankLoanSystem.DAL
         /// check the loan number is unique for a branch
         /// </summary>
         /// <returns>true or false</returns>
-        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user)
+        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user,int loanId)
         {
 
             using (
                 var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
 
-                
-                LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
-
-                LoanSetupAccess la = new LoanSetupAccess();
-                int loanId=0;
-
-
-                if (user.RoleId == 2)
-                {
-                    loanId = la.getLoanIdByBranchId(user.BranchId);
-                }
-                else if (user.RoleId == 1)
-                {
-                    loanId = la.getLoanIdByUserId(user.UserId);
-                }
+                //if (user.RoleId == 2)
+                //{
+                //    loanId = la.getLoanIdByBranchId(user.BranchId);
+                    
+                //}
+                //else if (user.RoleId == 1)
+                //{
+                //    loanId = la.getLoanIdByUserId(user.UserId);
+                //}
                 //loanId = la.getLoanIdByBranchId(user.BranchId);
                 
                
@@ -393,13 +387,13 @@ namespace BankLoanSystem.DAL
                         command.Parameters.Add("@is_interest_calculate", SqlDbType.Bit).Value = loanSetupStep1.isInterestCalculate;
                         command.Parameters.Add("@loan_amount", SqlDbType.Decimal).Value = loanSetupStep1.loanAmount;
 
-                        command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanSetupStep1.loanNumber;
+                        command.Parameters.Add("@loan_number", SqlDbType.VarChar).Value = loanSetupStep1.loanNumber;
                         command.Parameters.Add("@maturity_date", SqlDbType.DateTime).Value = loanSetupStep1.maturityDate;
                         command.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = loanSetupStep1.nonRegisteredBranchId;
-                        command.Parameters.Add("@payment_method", SqlDbType.NVarChar).Value = loanSetupStep1.paymentMethod;
+                        command.Parameters.Add("@payment_method", SqlDbType.VarChar).Value = loanSetupStep1.paymentMethod;
                         command.Parameters.Add("@pay_off_period", SqlDbType.Int).Value = loanSetupStep1.payOffPeriod;
                         command.Parameters.Add("@pay_off_type", SqlDbType.Char).Value = ((loanSetupStep1.payOffPeriodType == 0) ? 'd':'m');
-                        command.Parameters.Add("@loan_code", SqlDbType.NVarChar).Value = (new BranchAccess()).getBranchByBranchId(loanSetupStep1.RegisteredBranchId).BranchCode + "-" + loanSetupStep1.loanNumber;
+                        command.Parameters.Add("@loan_code", SqlDbType.VarChar).Value = (new BranchAccess()).getBranchByBranchId(loanSetupStep1.RegisteredBranchId).BranchCode + "-" + loanSetupStep1.loanNumber;
                         //command.Parameters.Add("@monthly_loan_lender_remind_period", SqlDbType.NVarChar).Value = loanSetupStep1.selectedUnitTypes;
 
                         command.Parameters.Add("@start_date", SqlDbType.DateTime).Value = loanSetupStep1.startDate;

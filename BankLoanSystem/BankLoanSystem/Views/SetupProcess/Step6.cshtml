@@ -21,7 +21,7 @@
     }
 
     .col-xs-11{
-    
+
     width:60%;
 }
 
@@ -79,16 +79,16 @@
 
                 @if (ViewBag.userroleName == "Admin")
                 {
-                    @Html.HiddenFor(model => model.RegisteredBranchId)
-                    @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                    @Html.HiddenFor(model => model.RegisteredBranchId , new { @Value = (int)ViewBag.RegisteredBranchId.Items[0].BranchId })
+                    @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })
                     @*@Html.DropDownListFor(model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @style = "disabled:disabled" })*@
                 }
                 else {
 
                     if (ViewBag.RegisteredBranchId.Items.Count == 1)
                     {
-                        @Html.HiddenFor(model => model.RegisteredBranchId)
-                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style= "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                        @Html.HiddenFor(model => model.RegisteredBranchId , new { @Value = (int)ViewBag.RegisteredBranchId.Items[0].BranchId })
+                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style= "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
                         @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                    }
                     else
@@ -172,14 +172,14 @@
             <div class="col-xs-9"  >
                 @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "startDate" , autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" ,  style = "left:2%;bottom:-40%;" })
-           
+
                 @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color:red"> *</span>
-       
+           
                 @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" , style = "left:60%;bottom:-50%;" })
             </div>
-           
-            
+
+
         </div>
 
 
@@ -220,7 +220,7 @@
 
 
 
-    
+
             @Html.EditorFor(model => model.payOffPeriod, new { htmlAttributes = new { @class = "form-control" ,min =1, @id= "payOffPeriod" ,@onblur="checkTheRange(this.value)" , style = "width:28%" } })
             @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger", style = "top: 50%;" })
             
@@ -245,7 +245,7 @@
             @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control", placeholder="0.00", @id = "loanAmount" , maxlength = 15 , style="text-align:right;width:54%"} })
             @Html.ValidationMessageFor(model => model.loanAmount, "", new { @class = "text-danger" ,style="top:50%"})
         </div>
-       
+        
         
     </div>
 
@@ -260,10 +260,10 @@
         </div>
         <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
 
-     
-            @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { style = "margin-left:4.5%" })<span style="color:red"> *</span>
 
-      
+            @Html.LabelFor(model => model.paymentMethod, htmlAttributes: new { style = "margin-left:4.5%" })<span style="color:red"> *</span>
+        
+
         <div class="col-xs-3" style="float: unset;display: inline;" >
             @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Payment Method--", htmlAttributes: new { @class = "form-control", style = "width:29%" })
             @Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" , style= "top: 197%;left: 7%; " })
@@ -319,7 +319,7 @@
             @{
                 List<SelectListItem> yesOrNoList = new List<SelectListItem>();
 
-            yesOrNoList.Add(new SelectListItem
+                yesOrNoList.Add(new SelectListItem
                 {
                     Text = "--Select--",
                     Value = ""
@@ -336,8 +336,8 @@
                 });
 
                 List<SelectListItem> yesOrNoList2 = yesOrNoList;
-            List<SelectListItem> yesOrNoList3 = new List<SelectListItem>();
-            yesOrNoList3.Add(new SelectListItem
+                List<SelectListItem> yesOrNoList3 = new List<SelectListItem>();
+                yesOrNoList3.Add(new SelectListItem
                 {
                     Text = "--Select--",
                     Value = ""
@@ -462,7 +462,7 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script>
-   
+
     $("#Next").click(function (e) {
 
         var valid = 0;
@@ -531,16 +531,16 @@
             
         }
 
-        $('input').next('span').children('span').text('');
-        $('select').next('span').children('span').text('');
-        $("#unitTypeError").text('');
-        $('#loanNumberForDisplayError').hide();
-        $("#outOffRangeError").text('');
-        $("#payOffPeriod").removeClass('input-validation-error');
+            $('input').next('span').children('span').text('');
+            $('select').next('span').children('span').text('');
+            $("#unitTypeError").text('');
+            $('#loanNumberForDisplayError').hide(); 
+            $("#outOffRangeError").text('');
+            $("#payOffPeriod").removeClass('input-validation-error');
 
-        @if(Model.loanNumber == null){
-            <text>
-        $('#loanAmount').val('');
+            @if(Model.loanNumber == null){
+                <text>
+            $('#loanAmount').val('');
             $('#advancePercentage').val('');
             $('#startDate').val('');
             $('#maturityDate').val('');
@@ -551,7 +551,7 @@
             $('#autoRem').val(''); 
 
             </text>
-        }
+            }
 
         @if(Model.autoReminderEmail == null || Model.autoReminderEmail == "")
         {

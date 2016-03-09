@@ -95,7 +95,7 @@ namespace BankLoanSystem.Controllers
                     userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
 
                     //To compair Database password and user enter password
-                    string passwordFromDB = (string)userData.Password;
+                    string passwordFromDB = userData.Password;
                     char[] delimiter = { ':' };
                     string[] split = passwordFromDB.Split(delimiter);
                     var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
@@ -157,7 +157,7 @@ namespace BankLoanSystem.Controllers
                                         Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 1)
                                         {
-                                            return RedirectToAction("Step6", "SetupProcess");
+                                            return RedirectToAction("Step"+(loanStep.stepId+5), "SetupProcess");
                                         }
                                     }
                                     else
@@ -211,7 +211,7 @@ namespace BankLoanSystem.Controllers
                                         if (userData.RoleId == 2)
                                         {
                                             //return RedirectToAction("Index", "SetupProcess");
-                                            return RedirectToAction("Step6", "SetupProcess");
+                                            return RedirectToAction("Step" + (loanStep.stepId+5), "SetupProcess");
                                         }
                                     }
                                     else
