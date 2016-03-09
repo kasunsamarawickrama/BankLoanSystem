@@ -111,10 +111,14 @@
 
                     </div>
 
-                    <div class="control-label col-sm-2">
-                      @Html.DropDownListFor(model => model.NeedReminder, null, "--Select--", htmlAttributes: new { @class = "form-control", id = "needReminder" , @style = "margin-left:20px;margin-top:5px" })
-                    @Html.ValidationMessageFor(model => model.NeedReminder, "", new { @class = "text-danger" })
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.NeedReminder, "true", new { id = "radioYes" }) Yes
                     </div>
+                    <div class="col-xs-8">
+                        @Html.RadioButtonFor(model => model.NeedReminder, "false", new { id = "radioNo" }) No
+                    </div>
+                    @Html.ValidationMessageFor(model => model.NeedReminder, "", new { @class = "text-danger" })
+                    
                 </div>
                 <div id="autoRemind">
                     <div class="form-group">
@@ -312,8 +316,13 @@
             $('#payOff').click(function () {
                 $('#paidDateDiv').hide();
             });
-            
-            if($('#needReminder option:selected').text()=="Yes"){
+            $('#radioYes').click(function () {
+                $('#autoRemind').show();
+            });
+            $('#radioNo').click(function () {
+                $('#autoRemind').hide();
+            });
+            if($('#radioYes').is(':checked')){
 
                 $('#autoRemind').show();
             }
@@ -369,6 +378,12 @@
 
             $('#payOff').click(function () {
                 $('#paidDateDiv').hide();
+            });
+            $('#radioYes').click(function () {
+                $('#autoRemind').show();
+            });
+            $('#radioNo').click(function () {
+                $('#autoRemind').hide();
             });
             $('#interest').focusout(function(){
                 var a = $('#interest').val().toString();

@@ -577,18 +577,20 @@ namespace BankLoanSystem.Controllers
 
 
             // curUser.Company_Id   asanka 8/3/2016
-            //loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId(userData.Company_Id);
+            //create list for nonRegisterCompaniers
 
-            //if (loanSelection.NonRegCompanies.Count() == 1)
-            //{
-            //    loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
+            loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId1(userData.Company_Id);
 
-            //    if (loanSelection.NonRegBranchList.Count() == 1)
-            //    {
-            //        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-            //        //if loans count is one redirect to add unit page
-            //    }
-            //}
+            if (loanSelection.NonRegCompanies.Count() == 1)
+            {
+                loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
+
+                if (loanSelection.NonRegBranchList.Count() == 1)
+                {
+                    loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                    //if loans count is one redirect to add unit page
+                }
+            }
 
             if (type == "asderruy") // for add unit page
             {

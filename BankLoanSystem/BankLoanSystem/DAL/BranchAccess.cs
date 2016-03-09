@@ -1,12 +1,8 @@
 ﻿using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace BankLoanSystem.DAL
 {
@@ -696,7 +692,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_code", branch.BranchCode });
             paramertList.Add(new object[] { "@branch_name", branch.BranchName });
             paramertList.Add(new object[] { "@branch_address_1", branch.BranchAddress1 });
-            paramertList.Add(new object[] { "@branch_address_2", branch.BranchAddress2 });
+            paramertList.Add(new object[] { "@branch_address_2", branch.BranchAddress2 ?? "" });
             paramertList.Add(new object[] { "@state_id", branch.StateId });
             paramertList.Add(new object[] { "@city", branch.BranchCity });
             if ((branch.Extention != null) && (branch.Extention.ToString() != ""))
@@ -710,9 +706,9 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@zip", branch.BranchZip });
             paramertList.Add(new object[] { "@email", branch.BranchEmail });
             paramertList.Add(new object[] { "@phone_num_1", branch.BranchPhoneNum1 });
-            paramertList.Add(new object[] { "@phone_num_2", branch.BranchPhoneNum2 });
-            paramertList.Add(new object[] { "@phone_num_3", branch.BranchPhoneNum3 });
-            paramertList.Add(new object[] { "@fax", branch.BranchFax });
+            paramertList.Add(new object[] { "@phone_num_2", branch.BranchPhoneNum2 ?? "" });
+            paramertList.Add(new object[] { "@phone_num_3", branch.BranchPhoneNum3 ?? "" });
+            paramertList.Add(new object[] { "@fax", branch.BranchFax ?? "" });
             paramertList.Add(new object[] { "@created_date", DateTime.Now });
             paramertList.Add(new object[] { "@company_id", branch.BranchCompany });
 
@@ -776,12 +772,12 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
-            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode });
-            paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName });
-            paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1 });
-            paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 });
+            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName.Trim() });
+            paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1.Trim() });
+            paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 ?? "" });
             paramertList.Add(new object[] { "@state_id", nonRegBranch.MainBranch.StateId });
-            paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity });
+            paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity ?? "" });
             if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
             {
                 nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre + "-" + nonRegBranch.MainBranch.Extention;
@@ -790,12 +786,12 @@ namespace BankLoanSystem.DAL
             {
                 nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre;
             }
-            paramertList.Add(new object[] { "@zip", nonRegBranch.MainBranch.BranchZip });
-            paramertList.Add(new object[] { "@email", nonRegBranch.MainBranch.BranchEmail });
-            paramertList.Add(new object[] { "@phone_num_1", nonRegBranch.MainBranch.BranchPhoneNum1 });
-            paramertList.Add(new object[] { "@phone_num_2", nonRegBranch.MainBranch.BranchPhoneNum2 });
-            paramertList.Add(new object[] { "@phone_num_3", nonRegBranch.MainBranch.BranchPhoneNum3 });
-            paramertList.Add(new object[] { "@fax", nonRegBranch.MainBranch.BranchFax });
+            paramertList.Add(new object[] { "@zip", nonRegBranch.MainBranch.BranchZip.Trim() });
+            paramertList.Add(new object[] { "@email", nonRegBranch.MainBranch.BranchEmail ?? "" });
+            paramertList.Add(new object[] { "@phone_num_1", nonRegBranch.MainBranch.BranchPhoneNum1.Trim() });
+            paramertList.Add(new object[] { "@phone_num_2", nonRegBranch.MainBranch.BranchPhoneNum2 ?? "" });
+            paramertList.Add(new object[] { "@phone_num_3", nonRegBranch.MainBranch.BranchPhoneNum3 ?? "" });
+            paramertList.Add(new object[] { "@fax", nonRegBranch.MainBranch.BranchFax ?? "" });
             paramertList.Add(new object[] { "@created_date", DateTime.Now });
             paramertList.Add(new object[] { "@company_id", nonRegBranch.MainBranch.BranchCompany });
             paramertList.Add(new object[] { "@branch_id", nonRegBranch.MainBranch.BranchCreatedBy });

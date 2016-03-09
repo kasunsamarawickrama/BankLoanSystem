@@ -72,20 +72,20 @@
                           
                 </div>
                     <div class="form-group" id="RemindEmailDiv">
-                        <div class="control-label col-sm-2" style="margin-top:20px">
+                        <div class="control-label col-sm-2" style="margin-top:5px">
                             @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { })<span style="color: red">*</span>
 
                         </div>
                         @if (ViewBag.Edit == 1)
                         {
-                        <div class="col-xs-5" style="margin-left: 202px;margin-top: -5px;">
+                        <div class="col-xs-5" style="margin-left: 335px;margin-top: -5px;">
                             @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" } })
                             @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
                         </div>
                         }
                         else
                         {
-                        <div class="col-xs-5" style="margin-left: 202px;margin-top: -5px;">
+                        <div class="col-xs-5" style="margin-left: 335px;margin-top: -5px;">
                             @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail", @Value = ViewBag.Email } })
                             @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
                         </div>
@@ -95,7 +95,7 @@
 
 </div>
                 <div class="form-group">
-                    <div class="control-label col-sm-2">
+                    <div class="control-label col-sm-2" style="margin-top: 10px;">
                         @Html.Label("Do you need receipt or invoice for advance?", htmlAttributes: new { })
                       
                     </div>
@@ -179,7 +179,7 @@
     function passvalue(e){
         //alert(e);
        
-        if(e == "title present to advance"){
+        if(e == "Title Present To Advance"){
             $('#ScannTitle').hide();
             $('#TimeLimit').hide();
             //alert(e.value);
