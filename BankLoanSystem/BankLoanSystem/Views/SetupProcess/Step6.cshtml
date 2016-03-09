@@ -12,6 +12,7 @@
 
 
 <style>
+    
             .form-control{
         display:inline;
     }
@@ -419,8 +420,10 @@
 
         
 
-        <div id="AutoReminderEmail" class="internal-panel" style="display:none">
+        <div id="AutoReminderEmail"  style="display:none">
+            <hr />
             <div class="form-group">
+                
                 <div class="control-label col-sm-9">
                     @Html.LabelFor(model => model.autoReminderPeriod, htmlAttributes: new { })
                 </div>
@@ -444,7 +447,7 @@
                     
                 </div>
             </div>
-
+            <hr />
         </div>
 
         
