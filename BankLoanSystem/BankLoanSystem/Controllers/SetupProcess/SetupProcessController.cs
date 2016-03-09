@@ -897,7 +897,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if ((userrole == 1) ||(userrole == 2))
             {
-                loanId = la.getLoanIdByBranchId(userId);
+                loanId = loanData.loanId;
             }
 
             // if loan number exists get the loan details
@@ -1487,20 +1487,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             Interest intrst = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
-            //yes no list
-            List<SelectListItem> yesOrNoList = new List<SelectListItem>();
-
-            yesOrNoList.Add(new SelectListItem
-            {
-                Text = "Yes",
-                Value = "true"
-            });
-            yesOrNoList.Add(new SelectListItem
-            {
-                Text = "No",
-                Value = "false"
-            });
-            ViewBag.NeedReminder = new SelectList(yesOrNoList, "Value", "Text");
+          
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
