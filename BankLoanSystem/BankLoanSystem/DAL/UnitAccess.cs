@@ -357,9 +357,14 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
                         cmd.Parameters.AddWithValue("@is_title_received", unit.IsTitleReceived);
                         cmd.Parameters.AddWithValue("@note", unit.Note);
-                        cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
                         cmd.Parameters.AddWithValue("@add_or_advance", unit.AddAndAdvance);
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
+                        if (unit.IsAdvanced == true) {
+                            cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
+                        }
+                        else {
+                            cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
+                        }                      
                         cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
                         cmd.Parameters.AddWithValue("@status", unit.Status);
 
@@ -373,7 +378,7 @@ namespace BankLoanSystem.DAL
 
                         if(Convert.ToInt32(returnParameter.Value) == 1)
                             return true;
-                        else if(Convert.ToInt32(returnParameter.Value) == 0)
+                        else
                         {
                             return false;
                         }
@@ -381,11 +386,10 @@ namespace BankLoanSystem.DAL
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    //return false;
                     throw ex;
                 }
             }
-            return false;
         }
 
         /// <summary>
