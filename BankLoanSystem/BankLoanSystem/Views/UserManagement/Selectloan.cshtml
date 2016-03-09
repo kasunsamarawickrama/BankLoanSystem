@@ -16,7 +16,9 @@
         actoinName = "Advance";
         controllerName = "AdvanceUnit";
     }
-
+<div id="load">
+    <strong><span>Loading... </span></strong>
+</div>
     @if (Model.LoanList != null && Model.LoanList.Count() == 1)
     {
         <script>
@@ -38,6 +40,9 @@
     }
     else if (Model.NonRegCompanies != null)
     {
+        <script>
+            $('#load').hide();
+        </script>
         <div>
             <h4>Select the Loan</h4>
             <hr />
