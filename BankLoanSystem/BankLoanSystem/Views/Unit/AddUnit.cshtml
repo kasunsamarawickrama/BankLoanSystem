@@ -111,7 +111,7 @@
                             }
                         }
                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
-                {
+                        {
                             @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })
                         }
                         else
@@ -2298,8 +2298,6 @@
             //$(this).addClass('input-validation-error');
             $("#tagscloud span").text("");
 
-            $('#txtAdvanceAmount').removeClass('input-validation-error');
-            $("#tagscloudAdvance span").text("");
         }
         else if (Number(num) <= 0) {
             //$("#tagscloud span").fadeIn();
@@ -2495,8 +2493,39 @@
         middleSpanCheck();
     });
 
+    $("#vehiclemiles").keypress(function(e){     
+        //numericAllow($("#vehiclemiles"),e);
+    });
+
+    function alphaNumericAllow(x,e){
+        var str = $.trim( x.val() );
+        if( str != "" ) {
+            var regx = /^[A-Za-z0-9]+$/;
+            if (!regx.test(str)) {
+                e.preventDefault();
+            }
+        }
+        else {
+            //empty value -- do something here
+        }
+    }
+    function numericAllow(x,e){
+        var str = $.trim( x.val() );
+        alert(str);
+        if( str != "" ) {
+            alert(str);
+            var regx = /^[0-9]+$/;
+            if (!regx.test(str)) {
+                alert(str);
+                e.preventDefault();
+            }
+        }
+        else {
+            //empty value -- do something here
+        }
+    }
     function middleSpanCheck(){
-        if ($('input').next('span').children('span').text().length > 0) {
+        if ($('input').next('span').children('span').text().length > 1) {
             $('.centered span').text('Error');
         }
         else{

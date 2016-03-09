@@ -110,6 +110,10 @@ namespace BankLoanSystem.Controllers
                         //user object pass to session
                         Session["AuthenticatedUser"] = userData;
 
+                        //delete just added unit if exists
+                        UnitAccess ua = new UnitAccess();
+                        ua.DeleteJustAddedUnits(userData.UserId);
+
                         //check Company setup process
                         //Check SuperAdmin
                         //company ID null or 0 then redirect to step process 1
