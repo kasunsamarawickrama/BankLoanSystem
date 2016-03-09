@@ -220,7 +220,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+                bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
                 Session["companyStep"] = 2;
 
                 //user object pass to session
@@ -1194,7 +1194,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //Get all non registered branches by company id
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-            nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+            {
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            }
+            else {
+                nonRegCompanyBranch.CompanyBranch.Company = nonRegCompanyList[0];
+            }
+            
 
             if (userData.RoleId != 2)
             {
@@ -1210,11 +1217,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-
             //Select non registered branch for admin's branch
-            var adminBonRegBranches = new List<NonRegBranch>();
-            adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
-            nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+           
+            if (nonRegBranches != null) {
+                var adminBonRegBranches = new List<NonRegBranch>();
+                adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
+                nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+            }
+            
 
             if (HttpContext.Request.IsAjaxRequest())
             {
@@ -1342,7 +1352,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check he is super admin or admin
-            if (new UserManageAccess().getUserRole(userId) > 2)
+            if (userData.RoleId > 2)
             {
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
