@@ -69,7 +69,7 @@
                             @Html.HiddenFor(model => model.LoanId)
                             @Html.HiddenFor(model => model.isEdit)
                             @Html.DropDownListFor(model => model.AdvanceId, listItemsoption, "-- select --", new { @id = "dropDownAdvance", @class = "form-control col-sm-2", onChange = "changeDropDownValueAdvance();" })
-                            @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" ,style="top:100%;left:3%" })
                         </div>
                     </div>
                     <div id="advance">
@@ -109,7 +109,7 @@
                         @if (ViewBag.isLender == true)
                         {
                             <div class="form-group">
-                                <div class="col-xs-8">
+                                <div class="col-xs-8" style="margin-top: 10px;">
                                     @Html.CheckBoxFor(model => model.AdvanceNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "advanceNeedReceipt" }) Need Reciept After Advance Paid
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
                         </div>
                         <div class="col-xs-8">
                             @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" , style = "top:100%;left:3%" })
                         </div>
                     </div>
                     <div id="loan">
@@ -245,7 +245,7 @@
                         @if (ViewBag.isLender == true)
                         {
                             <div class="form-group">
-                                <div class="col-xs-8">
+                                <div class="col-xs-8" style="margin-top:10px">
                                     @Html.CheckBoxFor(model => model.MonthlyLoanNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "monthlyLoanNeedReceipt" })  Need Reciept After Loan Paid
                                 </div>
                             </div>
@@ -367,7 +367,7 @@
                         <div class="col-xs-8">
 
                             @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
-                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
                         </div>
                     </div>
                     <div id="lot">
@@ -384,7 +384,7 @@
                         @if (ViewBag.isLender == true)
                         {
                             <div class="form-group">
-                                <div class="col-xs-8">
+                                <div class="col-xs-8" style="margin-top:10px">
                                     @Html.CheckBoxFor(model => model.LotInspectionNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "lotInspectionNeedReceipt" })  Need Reciept After Lot Inspection Paid
                                 </div>
                             </div>
