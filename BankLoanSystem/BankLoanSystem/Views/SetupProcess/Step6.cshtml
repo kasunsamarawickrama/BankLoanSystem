@@ -41,6 +41,11 @@
 }
 
 
+
+    .button-panel {
+    margin-top: 15px;
+    width: 92.5%;
+}
 </style>
 
 
@@ -80,7 +85,7 @@
                 @if (ViewBag.userroleName == "Admin")
                 {
                     @Html.HiddenFor(model => model.RegisteredBranchId , new { @Value = (int)ViewBag.RegisteredBranchId.Items[0].BranchId })
-                    @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })
+                    @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                     @*@Html.DropDownListFor(model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", @style = "disabled:disabled" })*@
                 }
                 else {
@@ -88,7 +93,7 @@
                     if (ViewBag.RegisteredBranchId.Items.Count == 1)
                     {
                         @Html.HiddenFor(model => model.RegisteredBranchId , new { @Value = (int)ViewBag.RegisteredBranchId.Items[0].BranchId })
-                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style= "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;" })
+                        @Html.LabelFor(model => model.RegisteredBranchId, (string)ViewBag.RegisteredBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                         @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                    }
                     else
