@@ -132,7 +132,6 @@ namespace BankLoanSystem.Controllers
                                 //check branch count in view and step table row count
                                 //IF more than branch count and has step record ask question
 
-
                                 DataSet dsStepNo = new DataSet();
                                 dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
                                 if (dsStepNo.Tables[0].Rows.Count > 0)
@@ -143,10 +142,10 @@ namespace BankLoanSystem.Controllers
                                         bcount = int.Parse(dsStepNo.Tables[0].Rows[0]["branchCount"].ToString());
                                     }
                                     int scount = 0;
-                                    if(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString()!="")
+                                    if (dsStepNo.Tables[0].Rows[0]["stepCount"].ToString() != "")
                                     {
                                         scount = int.Parse(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString());
-                                    } 
+                                    }
                                     if (bcount <= scount)
                                     {
                                         Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
@@ -157,7 +156,7 @@ namespace BankLoanSystem.Controllers
                                         //message: Not complete Step, Do you want to complete it.
                                         Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
                                         return RedirectToAction("Index", "SetupProcess");
-                                    } 
+                                    }
                                 }
                                 else
                                 {
@@ -181,7 +180,7 @@ namespace BankLoanSystem.Controllers
                                         Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 1)
                                         {
-                                            return RedirectToAction("Step"+(loanStep.stepId+5), "SetupProcess");
+                                            return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
                                         }
                                     }
                                     else
@@ -189,7 +188,7 @@ namespace BankLoanSystem.Controllers
                                         //Redirect to Super Admin dashboard
                                         return RedirectToAction("UserDetails", "UserManagement");
                                     }
-                                       
+
                                 }
 
                             }
