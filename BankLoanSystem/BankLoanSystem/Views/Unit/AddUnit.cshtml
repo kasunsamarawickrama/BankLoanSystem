@@ -1481,6 +1481,9 @@
     //key up for bind child text box value to hidden box
     $('#vehicleVin').keyup(function () {
         $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+        var vin1 =document.getElementById('vehicleVin').value;
+        var vin2 = vin1.replace(/\W/g, '');
+        $('#vehicleVin').val(vin2);
         if($('#vehicleVin').val().length == 17){
             $('#vehicleVIN span').text("");
             var vin =document.getElementById('vehicleVin').value;
@@ -1536,7 +1539,6 @@
                         $('#combobox1-1').next().children('input').val(year);
                         document.getElementById('editor1-1').value = year;
                     }
-
                 },
                 error: function (reponse) {
                 }
@@ -2196,7 +2198,45 @@
         $('.centered span').text('');
         
     };
+    // vin key press key block validation with 17 charactors and Miles 10 charactors   
 
+    $("#vehicleVin").keypress(function(e){ 
+    if($('#vehicleVin').val().length >= 17){
+        e.preventDefault();
+    }
+    else if(alphaNumericAllow(e)){
+            
+    }else{
+        e.preventDefault();
+    }
+    });
+    $("#vehiclemiles").keypress(function(e){     
+        if($('#vehiclemiles').val().length >= 10){
+            e.preventDefault();
+        }    
+        else if(numericAllow(e)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+
+    function alphaNumericAllow(e){
+        var ch = e.which;
+        if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) ){
+            return 1;
+        }
+        return 0;
+    }
+    function numericAllow(e){
+        var ch = e.which;
+        if (ch >= 48 && ch <= 57) {
+            return 1;
+        }
+        return 0;
+    }
+
+    // cost tab///
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
@@ -2493,37 +2533,7 @@
         middleSpanCheck();
     });
 
-    $("#vehiclemiles").keypress(function(e){     
-        //numericAllow($("#vehiclemiles"),e);
-    });
-
-    function alphaNumericAllow(x,e){
-        var str = $.trim( x.val() );
-        if( str != "" ) {
-            var regx = /^[A-Za-z0-9]+$/;
-            if (!regx.test(str)) {
-                e.preventDefault();
-            }
-        }
-        else {
-            //empty value -- do something here
-        }
-    }
-    function numericAllow(x,e){
-        var str = $.trim( x.val() );
-        alert(str);
-        if( str != "" ) {
-            alert(str);
-            var regx = /^[0-9]+$/;
-            if (!regx.test(str)) {
-                alert(str);
-                e.preventDefault();
-            }
-        }
-        else {
-            //empty value -- do something here
-        }
-    }
+   
     function middleSpanCheck(){
         if ($('input').next('span').children('span').text().length > 1) {
             $('.centered span').text('Error');
