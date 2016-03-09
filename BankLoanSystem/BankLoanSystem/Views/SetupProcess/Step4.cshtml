@@ -38,6 +38,24 @@
     .col-xs-9>input , .col-xs-9>select{
     width:28%;
 }
+
+      table {
+        border-collapse: collapse;
+    }
+
+    table, td {
+        border: 1px solid black;
+        text-align: left;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: paleturquoise;
+    }
+
+    tr {
+        text-align: left;
+    }
 </style>
 
 @*<script>
@@ -81,15 +99,16 @@ else if (@ViewBag.ErrorMsg != null)
         <div class="form-group">
             @if (Model.Companies.Count > 0)
             {
-                <table>
+                <table id="nonRegCompanyTable">
                     <tr>
                         <td class="control-label col-sm-3">
-                            @Html.Label("Company Name")
+                            @Html.Label("Partner Company Name")
                         </td>
                         <td class="control-label col-sm-3">
-                            @Html.Label("Company Address1")
+                            @Html.Label("Partner Company Address1")
                         </td>
-
+                        <td class="control-label col-sm-3">@Html.Label("Edit")</td>
+                        <td class="control-label col-sm-3">@Html.Label("Delete")</td>
                     </tr>
 
                     @for (var i = 0; i < Model.Companies.Count; i++)
@@ -126,7 +145,9 @@ else if (@ViewBag.ErrorMsg != null)
                 </div>
             </div>
         }
+        <div id="nonRegCompanyDiv">
 
+        
         <input id="companyCode" name="companyCode" type="hidden" value="" />
         <div class="form-group">
             <div class="control-label col-sm-3">
@@ -167,34 +188,34 @@ else if (@ViewBag.ErrorMsg != null)
             </div>
             <div class="col-xs-9">
                 @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control", @id = "City" } })
-                @Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger"  , style = "left:2%;bottom:-40%;" })
+                @Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
 
-        
-                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
-            
-                    @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
-                    <div id="customError"><span class="text-danger"></span></div>
-               
+
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
+
+                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger", style = "left:51%;bottom:-50%;" })
+                <div id="customError"><span class="text-danger"></span></div>
+
 
             </div>
         </div>
 
-       
+
 
         <div class="form-group">
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.Company.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
 
-            <div class="col-xs-11" >
-              
-                
-            @*<span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>*@
-          
+            <div class="col-xs-11">
+
+
+                @*<span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>*@
+
                 @Html.EditorFor(model => model.Company.ZipPre, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Zip Code", @id = "ZipPre" } })
-                @Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
+                @Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
 
                 @Html.EditorFor(model => model.Company.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "Extension" } })
                 @Html.ValidationMessageFor(model => model.Company.Extension, "", new { @class = "text-danger", style = "top: 50%;" })
@@ -211,9 +232,9 @@ else if (@ViewBag.ErrorMsg != null)
                 @Html.EditorFor(model => model.Company.PhoneNum1, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum1" } })
                 @Html.ValidationMessageFor(model => model.Company.PhoneNum1, "", new { @class = "text-danger", style = "top:100%;left:2%" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
-           
+
                 @Html.LabelFor(model => model.Company.PhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
-            
+
                 @Html.EditorFor(model => model.Company.PhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum2" } })
                 @Html.ValidationMessageFor(model => model.Company.PhoneNum2, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -228,11 +249,11 @@ else if (@ViewBag.ErrorMsg != null)
             </div>
             <div class="col-xs-9">
                 @Html.EditorFor(model => model.Company.PhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum3" } })
-                @Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
+                @Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
-            
+
                 @Html.LabelFor(model => model.Company.Fax, htmlAttributes: new { style = "margin-left:27%;" })
-            
+
                 @Html.EditorFor(model => model.Company.Fax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "Fax" } })
                 @Html.ValidationMessageFor(model => model.Company.Fax, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
                 <div id="customError"><span class="text-danger"></span></div>
@@ -240,7 +261,7 @@ else if (@ViewBag.ErrorMsg != null)
 
         </div>
 
-      
+
         <div class="form-group">
             <div class="control-label col-sm-3">
                 @Html.LabelFor(model => model.Company.Email, htmlAttributes: new { })
@@ -269,7 +290,7 @@ else if (@ViewBag.ErrorMsg != null)
                 <input type="button" value="Back" name="subBack" id="btnPreStep4" class="btn btn-default left-button" />
 
 
-                <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
+                <input type="submit" value="Next" id="btnNext" class="btn btn-primary btn-next" style="left:40%" />
                 <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
 
             </div>
@@ -277,8 +298,9 @@ else if (@ViewBag.ErrorMsg != null)
 
         </div>
 
-
     </div>
+        </div>
+
 }
 
 <script src="~/scripts/CommonFunctions.js"></script>
@@ -398,6 +420,10 @@ else if (@ViewBag.ErrorMsg != null)
     });
 
     $('#clear').click(function () {
+        if($('#btnNext').val()=="Update")
+        {
+            $('#btnNext').val('Next');
+        }
         document.getElementsByTagName("form")[0].reset();
     });
 
@@ -405,6 +431,16 @@ else if (@ViewBag.ErrorMsg != null)
 
 
     $(function() {
+        $(document).ready(function () {
+            var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
+            if(c>0){
+                $('#nonRegCompanyDiv').hide();
+            }
+            else{
+                $('#nonRegCompanyDiv').show();
+            }
+            // $('#branchDiv').hide();
+        });
         $('#btnPreStep4').click(function() {
 
             $('#loadingDiv').show();
@@ -430,7 +466,8 @@ else if (@ViewBag.ErrorMsg != null)
 
 <script type="text/javascript">
     function EditCompany(index) {
-
+        $('#nonRegCompanyDiv').show();
+        $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
         console.log(model);
         console.log(index);
@@ -465,6 +502,8 @@ else if (@ViewBag.ErrorMsg != null)
         document.getElementById("Email").value = "";
         document.getElementById("WebsiteUrl").value = "";
         document.getElementById("companyCode").value = "";
+        $('#btnNext').val('Next');
+        $('#nonRegCompanyDiv').show();
     }
 
 
