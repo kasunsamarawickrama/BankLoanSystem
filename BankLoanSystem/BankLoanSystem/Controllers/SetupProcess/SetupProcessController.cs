@@ -35,17 +35,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if ((Session["AuthenticatedUser"] != null)|| (Session["loanStep"] != null))
+            if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
             {
                 try
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
-                   if(Session["loanStep"] != null)
+                    if (Session["loanStep"] != null)
                     {
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                     }
-                  
-                      
+
+
 
                 }
                 catch
@@ -58,7 +58,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
-           
+
             //else
             //{
             //    filterContext.Result = new RedirectResult("~/Login/UserLogin");
@@ -375,19 +375,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             userData.BranchId = reslt;
             if (reslt > 0)
             {
+                Session["companyStep"] = 3;
+
+                //user object pass to session
+                userData.BranchId = reslt;
+                Session["AuthenticatedUser"] = userData;
+
                 StepAccess sa = new StepAccess();
                 if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 3))
                 {
-                    Session["companyStep"] = 3;
-                    //user object pass to session
-                    userData.BranchId = reslt;
-                    Session["AuthenticatedUser"] = userData;
-                   // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
-                   
-                        return RedirectToAction("Step3");
-                    
-                    }
+
+                    // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
+
+                    return RedirectToAction("Step3");
+
                 }
+            }
             else
             {
 
@@ -854,11 +857,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             UserManageAccess uma = new UserManageAccess();
-           
+
             // check if step is less than 6, not allowed to this page...
 
             int stepNo = loanData.stepId;
-            
+
             if (stepNo < 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
@@ -873,7 +876,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
- 
+
             // retrieve registered branches, nonregistered branches using his company Id
 
             List<Branch> RegisteredBranchLists = (new BranchAccess()).getBranches(userData.Company_Id);
@@ -895,7 +898,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = 0;
 
-            if ((userrole == 1) ||(userrole == 2))
+            if ((userrole == 1) || (userrole == 2))
             {
                 loanId = la.getLoanIdByBranchId(userId);
             }
@@ -1110,7 +1113,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Get Lender/Dealer branch details
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step5()
+        public ActionResult Step5(string lbls)
         {
             int userId = userData.UserId;
             BranchAccess ba = new BranchAccess();
@@ -1135,6 +1138,26 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
+
+            if (lbls != null && (lbls.Equals("Create A Dealer Branch Successfully") || lbls.Equals("Create A Lender Branch Successfully")))
+            {
+                ViewBag.SuccessMsg = lbls;
+                //sa.updateStepNumberByUserId(userId, 4);
+                //sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                //Session["companyStep"] = 4;
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
+
             userNonRegCompany = new CompanyBranchModel();
             if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
             {
@@ -1249,10 +1272,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
-            if (reslt>0)
+            if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId,reslt,0, 1))
+                if (sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1))
                 {
                     //Session["companyStep"] = 6;
                     if (compType == 1)
@@ -1263,6 +1286,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
                     }
+
+                    return RedirectToAction("Step5", new { lbls = ViewBag.SuccessMsg });
                     //return RedirectToAction("Step5");
                     //ViewBag.SuccessMsg = "First Branch is created successfully";
                 }
@@ -1344,7 +1369,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanSetupStep1.nonRegisteredBranchId,loanId,2);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
@@ -1358,7 +1383,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId,3);
+                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                 return RedirectToAction("step8");
             }
 
@@ -1610,11 +1635,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanData.nonRegisteredBranchId,loanData.loanId,3))
+                if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
                     loanData.stepId = 3;
                     return RedirectToAction("Step8");
-                    
+
                 }
                 else
                 {
@@ -1828,7 +1853,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return RedirectToAction("Step9");
                 }
-                else if (step.UpdateLoanSetupStep(loanData.CompanyId,loanData.BranchId,loanData.nonRegisteredBranchId,loanData.loanId,4))
+                else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     loanData.stepId = 4;
                     return RedirectToAction("Step9");
