@@ -874,8 +874,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
 
             // get the Company type for front end view
-            //int comType = ba.getCompanyTypeByUserId(userId);
-            int comType = userData.CompanyType;
+            int comType = ba.getCompanyTypeByUserId(userId);
+            //int comType = userData.CompanyType;
             ViewBag.ThisCompanyType = (comType == 1) ? "Lender" : "Dealer";//
 
             // retrieve registered branches, nonregistered branches using his company Id
@@ -1021,8 +1021,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
-                //int comType = ba.getCompanyTypeByUserId(userData.UserId);
-                int comType = userData.CompanyType;
+               int comType = ba.getCompanyTypeByUserId(userData.UserId);
+                //int comType = userData.CompanyType;
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
                 //Get states to list
@@ -1119,8 +1119,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
             BranchAccess ba = new BranchAccess();
-            //int compType = ba.getCompanyTypeByUserId(userId);
-            int compType = userData.CompanyType;
+            int compType = ba.getCompanyTypeByUserId(userId);
+            //int compType = userData.CompanyType;
             if (compType == 1)
             {
                 ViewBag.compType = "Create Dealer Branch";
@@ -1247,8 +1247,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             BranchAccess ba = new BranchAccess();
             CompanyAccess ca = new CompanyAccess();
 
-            //int compType = ba.getCompanyTypeByUserId(userId);
-            int compType = userData.CompanyType;
+            int compType = ba.getCompanyTypeByUserId(userId);
+            //int compType = userData.CompanyType;
 
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
 
@@ -1477,7 +1477,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //check user name is already exist.  
             int userId = userData.UserId;
             //User user = (new UserAccess()).retreiveUserByUserId(userId);
-            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userData), JsonRequestBehavior.AllowGet);
+            return Json((new LoanSetupAccess()).IsUniqueLoanNumberForBranch(loanNumber, RegisteredBranchId, userData,loanData.loanId), JsonRequestBehavior.AllowGet);
         }
 
 
@@ -1666,8 +1666,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             var userId = userData.UserId;
 
             BranchAccess branch = new BranchAccess();
-            //int companyType = branch.getCompanyTypeByUserId(userId);
-            int companyType = userData.CompanyType;
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            //int companyType = userData.CompanyType;
             if (companyType == 1)
             {
                 ViewBag.isLender = true;

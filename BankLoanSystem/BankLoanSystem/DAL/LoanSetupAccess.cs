@@ -17,29 +17,22 @@ namespace BankLoanSystem.DAL
         /// check the loan number is unique for a branch
         /// </summary>
         /// <returns>true or false</returns>
-        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user)
+        public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user,int loanId)
         {
 
             using (
                 var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
 
-                
-                LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
-
-                LoanSetupAccess la = new LoanSetupAccess();
-                int loanId=0;
-
-
-                if (user.RoleId == 2)
-                {
-                    loanId = la.getLoanIdByBranchId(user.BranchId);
+                //if (user.RoleId == 2)
+                //{
+                //    loanId = la.getLoanIdByBranchId(user.BranchId);
                     
-                }
-                else if (user.RoleId == 1)
-                {
-                    loanId = la.getLoanIdByUserId(user.UserId);
-                }
+                //}
+                //else if (user.RoleId == 1)
+                //{
+                //    loanId = la.getLoanIdByUserId(user.UserId);
+                //}
                 //loanId = la.getLoanIdByBranchId(user.BranchId);
                 
                
