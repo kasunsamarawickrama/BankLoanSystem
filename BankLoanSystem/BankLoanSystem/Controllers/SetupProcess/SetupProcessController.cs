@@ -1449,15 +1449,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId;
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                userId = userData.UserId;
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
             UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
-            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+            //User curUser = ua.retreiveUserByUserId(userId);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
             List<NonRegBranch> newNonRegList = new List<NonRegBranch>();
 
             foreach (NonRegBranch nonRegBranch in NonRegisteredBranchLists)
