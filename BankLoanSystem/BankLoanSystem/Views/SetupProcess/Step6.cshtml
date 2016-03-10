@@ -521,8 +521,40 @@
       
     });
 
-     $('#advancePercentage').keypress(function(evt){
+ 
+    $('#AutoEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!','&', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+
+
+
+    $('#emailPeriod').keypress(function (evt) {
     // preventing to type 'e' or 'E'
+         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+             evt.preventDefault();
+         }
+     });
+
+     $('#advancePercentage').keypress(function (evt) {
+         // preventing to type 'e' or 'E'
          if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
              evt.preventDefault();
          }
