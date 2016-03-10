@@ -1289,7 +1289,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
                     }
-
+                    loanData.stepId = 1;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step5", new { lbls = ViewBag.SuccessMsg });
                     //return RedirectToAction("Step5");
                     //ViewBag.SuccessMsg = "First Branch is created successfully";
@@ -2255,59 +2256,43 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return new HttpStatusCodeResult(404, "Your Session Expired");
         }
 
-        [HttpPost]
-        public ActionResult Step10(string submit)
-        {
-            ViewBag.CalMode = _calMode;
-            return PartialView(_gCurtailment);
-        }
+        //[HttpPost]
+        //public ActionResult Step10(string submit)
+        //{
+        //    ViewBag.CalMode = _calMode;
+        //    if (HttpContext.Request.IsAjaxRequest())
+        //    {
+        //        ViewBag.AjaxRequest = 1;
+        //        return PartialView(_gCurtailment);
+        //    }
+        //    else
+        //    {
+
+        //        return View(_gCurtailment);
+        //    }
+        //}
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
-        /// CreatedDate: 02/19/2016
-        /// 
-        /// save data 
-        /// 
+        /// CreatedDate: 03/10/2016
         /// </summary>
+        /// 
+        /// Save curtailment data
+        /// 
+        /// <param name="curtailmentList"></param>
         /// <returns></returns>
-        public ActionResult AddCurtailment()
+        public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
         {
-            bool isError = false;
-
-            if (_gCurtailment.RemainingPercentage != 0) return PartialView("Step10", _gCurtailment);
-            foreach (Curtailment item in _gCurtailment.InfoModel)
-            {
-                if (item.TimePeriod == 0 || item.TimePeriod == null)
-                {
-                    isError = true;
-                    break;
-                }
-                if ((item.Percentage == 0 || item.Percentage == null) &&
-                    (item.TimePeriod != 0 || item.TimePeriod != null))
-                {
-                    isError = true;
-                    break;
-                }
-            }
-
-            int userId = userData.UserId;
-
-            if (string.IsNullOrEmpty(userId.ToString()))
-                return new HttpStatusCodeResult(404, "Your Session Expired");
-
-            if (isError) return PartialView("Step10", _gCurtailment);
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-
-            bool loanActive = _gCurtailment.Activate == "Yes";
-
-            if (curtailmentAccess.InsertCurtailment(_gCurtailment.InfoModel, _loan.loanId) == 1)
+            if (curtailmentAccess.InsertCurtailment(curtailmentList, _loan.loanId) == 1)
             {
 
 
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                StepAccess stepAccess = new StepAccess();
+                StepAccess sa = new StepAccess();
 
-                stepAccess.updateStepNumberByUserId(userId, 11);
+                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
+                    loanData.loanId, 6);
                 ViewBag.Redirect = 1;
                 //return RedirectToAction("UserDetails", "UserManagement");
             }
@@ -2315,12 +2300,91 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
-            LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.updateLoanActivation(loanActive, _loan.loanId);
-
-            ViewBag.CalMode = _calMode;
-            return PartialView("Step10", _gCurtailment);
+            return Json(1);
         }
+
+        ///// <summary>
+        ///// CreatedBy : Kanishka SHM
+        ///// CreatedDate: 02/19/2016
+        ///// 
+        ///// save data 
+        ///// 
+        ///// </summary>
+        ///// <returns></returns>
+        //public ActionResult AddCurtailment()
+        //{
+        //    bool isError = false;
+
+        //    if (_gCurtailment.RemainingPercentage != 0) return PartialView("Step10", _gCurtailment);
+        //    foreach (Curtailment item in _gCurtailment.InfoModel)
+        //    {
+        //        if (item.TimePeriod == 0 || item.TimePeriod == null)
+        //        {
+        //            isError = true;
+        //            break;
+        //        }
+        //        if ((item.Percentage == 0 || item.Percentage == null) &&
+        //            (item.TimePeriod != 0 || item.TimePeriod != null))
+        //        {
+        //            isError = true;
+        //            break;
+        //        }
+        //    }
+
+        //    int userId = userData.UserId;
+
+        //    if (string.IsNullOrEmpty(userId.ToString()))
+        //        return new HttpStatusCodeResult(404, "Your Session Expired");
+
+        //    if (isError)
+        //    {
+        //        if (HttpContext.Request.IsAjaxRequest())
+        //        {
+        //            ViewBag.AjaxRequest = 1;
+        //            return PartialView("Step10", _gCurtailment);
+        //        }
+        //        else
+        //        {
+
+        //            return View("Step10", _gCurtailment);
+        //        }
+                
+        //    }
+        //    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+
+        //    bool loanActive = _gCurtailment.Activate == "Yes";
+
+        //    if (curtailmentAccess.InsertCurtailment(_gCurtailment.InfoModel, _loan.loanId) == 1)
+        //    {
+
+
+        //        ViewBag.SuccessMsg = "Curtailment Details added successfully";
+        //        StepAccess stepAccess = new StepAccess();
+
+        //        stepAccess.updateStepNumberByUserId(userId, 11);
+        //        ViewBag.Redirect = 1;
+        //        //return RedirectToAction("UserDetails", "UserManagement");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.SuccessMsg = "Curtailment Details updated successfully";
+        //    }
+        //    LoanSetupAccess loanAccess = new LoanSetupAccess();
+        //    loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+
+        //    ViewBag.CalMode = _calMode;
+
+        //    if (HttpContext.Request.IsAjaxRequest())
+        //    {
+        //        ViewBag.AjaxRequest = 1;
+        //        return PartialView("Step10", _gCurtailment);
+        //    }
+        //    else
+        //    {
+
+        //        return View("Step10", _gCurtailment);
+        //    }
+        //}
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -2340,7 +2404,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (model.TimePeriod == 0 || model.TimePeriod == null)
             {
                 ViewBag.ErrorMsg = "Invalid TimePeriod found.";
-                return PartialView("Step10", _gCurtailment);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView("Step10", _gCurtailment);
+                }
+                else
+                {
+
+                    return View("Step10", _gCurtailment);
+                }
             }
             else if (model.CurtailmentId > 1 &&
                      model.TimePeriod <=
@@ -2348,23 +2421,59 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
                 ViewBag.ErrorMsg = "Entered time period is invalid!";
-                return PartialView("Step10", _gCurtailment);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView("Step10", _gCurtailment);
+                }
+                else
+                {
+
+                    return View("Step10", _gCurtailment);
+                }
             }
             if (model.TimePeriod > _gCurtailment.RemainingTime)
             {
                 ViewBag.ErrorMsg = "TimePeriod must be less than pay off period";
-                return PartialView("Step10", _gCurtailment);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView("Step10", _gCurtailment);
+                }
+                else
+                {
+
+                    return View("Step10", _gCurtailment);
+                }
             }
 
             if ((model.Percentage == 0 || model.Percentage == null) && (model.TimePeriod != 0 || model.TimePeriod != null))
             {
                 ViewBag.ErrorMsg = "Invalid Percentage found.";
-                return PartialView("Step10", _gCurtailment);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView("Step10", _gCurtailment);
+                }
+                else
+                {
+
+                    return View("Step10", _gCurtailment);
+                }
             }
             if (model.Percentage > 0 && _gCurtailment.RemainingPercentage - model.Percentage + prePercentage < 0)
             {
                 ViewBag.ErrorMsg = "Invalid percentage found!";
-                return PartialView("Step10", _gCurtailment);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView("Step10", _gCurtailment);
+                }
+                else
+                {
+
+                    return View("Step10", _gCurtailment);
+                }
             }
 
             //update curtailment grid row
@@ -2379,7 +2488,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = model.CurtailmentId + 1 });
 
             ViewBag.CalMode = _calMode;
-            return PartialView("Step10", _gCurtailment);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
 
         /// <summary>
@@ -2406,7 +2524,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (curRmeinpt != null && curRmeinpt == 0 && preCout > model.CurtailmentId)
                 _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = _gCurtailment.InfoModel.Count + 1 });
-            return PartialView("Step10", _gCurtailment);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
 
         /// <summary>
@@ -2440,7 +2567,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             ViewBag.CalMode = _calMode;
             _gCurtailment.InfoModel[model.CurtailmentId - 1].TimePeriod = model.TimePeriod;
-            return PartialView("Step10", _gCurtailment);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
 
         /// <summary>
@@ -2483,7 +2619,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             ViewBag.CalMode = _calMode;
 
-            return PartialView("Step10", _gCurtailment);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
 
         /// <summary>
@@ -2496,7 +2641,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             _gCurtailment.Activate = loanStatus == "Yes" ? "Yes" : "No";
 
             ViewBag.CalMode = _calMode;
-            return PartialView("Step10", _gCurtailment);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
     }
 }
