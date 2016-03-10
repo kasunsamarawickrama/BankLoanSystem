@@ -1192,6 +1192,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch.Company = new Company();
+            nonRegCompanyBranch.NonRegCompany= new Company();
             //Get all non registered branches by company id
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
@@ -1202,8 +1203,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else {
                 nonRegCompanyBranch.CompanyBranch.Company = nonRegCompanyList[0];
             }
-            
 
+            if (nonRegCompanyList != null)
+            {
+                if (nonRegCompanyList.Count() == 1)
+                {
+                    nonRegCompanyBranch.NonRegCompany.CompanyId = nonRegCompanyList[0].CompanyId;
+                }
+            }
             if (userData.RoleId != 2)
             {
                 if (HttpContext.Request.IsAjaxRequest())
@@ -1225,8 +1232,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
                 nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
             }
-            
 
+            
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -1251,6 +1258,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
+            if (nonRegCompanyBranch.NonRegCompanyId == 0)
+            {
+                nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            }
+            
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
             int userId = userData.UserId;
@@ -1393,7 +1405,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    if (loanSetupStep1.isInterestCalculate)
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    }
+                    else
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    }
+                    
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
@@ -1407,7 +1427,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                //sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                 return RedirectToAction("step8");
             }
 

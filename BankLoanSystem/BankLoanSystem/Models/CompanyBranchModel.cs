@@ -31,5 +31,7 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Company Name")]
         public int NonRegCompanyId { get; set; }
+
+        public Company NonRegCompany { get; set; }
     }
 }
