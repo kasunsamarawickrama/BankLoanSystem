@@ -1192,6 +1192,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch.Company = new Company();
+            nonRegCompanyBranch.NonRegCompany= new Company();
             //Get all non registered branches by company id
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
@@ -1202,8 +1203,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else {
                 nonRegCompanyBranch.CompanyBranch.Company = nonRegCompanyList[0];
             }
-            
 
+            if (nonRegCompanyList != null)
+            {
+                if (nonRegCompanyList.Count() == 1)
+                {
+                    nonRegCompanyBranch.NonRegCompany.CompanyId = nonRegCompanyList[0].CompanyId;
+                }
+            }
             if (userData.RoleId != 2)
             {
                 if (HttpContext.Request.IsAjaxRequest())
@@ -1225,8 +1232,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
                 nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
             }
-            
 
+            
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -1251,6 +1258,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
+            if (nonRegCompanyBranch.NonRegCompanyId == 0)
+            {
+                nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            }
+            
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
             int userId = userData.UserId;
