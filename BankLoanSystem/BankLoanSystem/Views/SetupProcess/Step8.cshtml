@@ -552,13 +552,13 @@
                         @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
                         <input type="submit" value="Next" class="btn btn-primary btn-next" @*style="left:40%"*@ />
 
-                        <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" />
+                        <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" onclick="clear();" />
 
                     </div>
                     
                 </div>
             </div>
-                                        }
+  }
 
 
 
@@ -961,6 +961,12 @@
     }
     $('#clearx').click(function () {
         document.getElementById("form").reset();
+        // for all input field
+        $('input').next('span').children('span').text('');
+        $('input').removeClass('valid');
+        // for dropdown field
+        $('select').next('span').children('span').text('');
+        $('select').removeClass('valid');
 
         $('#advance').hide();
         $("#monthAdvance").hide();
