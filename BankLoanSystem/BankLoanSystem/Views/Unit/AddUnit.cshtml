@@ -799,12 +799,12 @@
 
             <div class="form-group" id="advanceDateFormDiv" hidden>
 
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                <div class="control-label col-sm-3" style = "text-align:right;margin-left: 10px;">
+                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new {  })<span style="color:red"> *</span>
                 </div>
 
 
-                <div class="col-xs-4" id="advanceDateDiv">
+                <div class="col-xs-3" id="advanceDateDiv">
                     @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
                 </div>

@@ -22,7 +22,7 @@
                     <td>
                         @if (item.isAdvance == true)
                     {
-                            <span>*</span>
+                            <span class="glyphicon glyphicon-asterisk"></span>
                         }
                     </td>
                     <td>
@@ -33,7 +33,7 @@
                         @item.model
                     </td>
                     <td style="text-align:right;">$&nbsp;</td>
-                    <td style="text-align:right;">
+                    <td style="text-align:right;width: 38%;">
                         @Convert.ToDecimal(item.advanceAmount).ToString("#,##0.00")
                     </td>
                 </tr>
