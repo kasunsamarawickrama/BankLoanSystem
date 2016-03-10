@@ -1126,7 +1126,7 @@
     }
     
     $(".x").keypress(function(e){     
-        if($('#advanceDealerEmailRemindPeriod').val().length >= 5){
+        if($(this).val().length >= 5){
             e.preventDefault();
         }    
         else if(numericAllow(e)){
