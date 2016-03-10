@@ -50,7 +50,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
                             @{
                                 List<SelectListItem> listItemsoption = new List<SelectListItem>();
      
@@ -72,7 +72,7 @@
                             @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" ,style="top:100%;left:3%" })
                         </div>
                     </div>
-                    <div id="advance">
+                    <div id="advance" style="line-height: 162%;">
                         <div class="form-group">
 
                             <div class="control-label col-sm-2" style="margin-top:10px">
@@ -147,7 +147,7 @@
                                         @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                         @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                     </div>
 
@@ -228,7 +228,7 @@
                                     @Html.LabelFor(model => model.AdvanceDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
                             @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" , style = "top:100%;left:3%" })
                         </div>
@@ -296,7 +296,7 @@
                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                         </div>
                                         <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                             @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -379,7 +379,7 @@
                                     @Html.LabelFor(model => model.MonthlyLoanDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -390,7 +390,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
 
                             @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
                             @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
@@ -448,7 +448,7 @@
                                         @Html.LabelFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                         @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -535,7 +535,7 @@
                                     @Html.LabelFor(model => model.LotInspectionDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.LotInspectionDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -552,7 +552,7 @@
                         @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
                         <input type="submit" value="Next" class="btn btn-primary btn-next" @*style="left:40%"*@ />
 
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+                        <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" />
 
                     </div>
                     
@@ -659,9 +659,12 @@
             $('#advance').hide("slow");
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
-            $("#needReminderAdvanceDue").prop("checked", false);
-            $("#needReminderAdvanceComplete").prop("checked", false);
-            $("#advanceNeedReceipt").prop("checked", false);
+            $("#needReminderAdvanceDueT").prop("checked", false);
+            $("#needReminderAdvanceCompleteT").prop("checked", false);
+            $("#advanceNeedReceiptT").prop("checked", false);
+            $("#needReminderAdvanceDueF").prop("checked", false);
+            $("#needReminderAdvanceCompleteF").prop("checked", false);
+            $("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -686,9 +689,12 @@
             $('#loan').hide("slow");
             $('#remindEmailLoanComplete').hide();
             $('#remindEmailLoanDue').hide();
-            $("#needReminderLoanDue").prop("checked", false);
-            $("#needReminderLoanComplete").prop("checked", false);
-            $("#monthlyLoanNeedReceipt").prop("checked", false);
+            $("#needReminderLoanDueT").prop("checked", false);
+            $("#needReminderLoanCompleteT").prop("checked", false);
+            $("#monthlyLoanNeedReceiptT").prop("checked", false);
+            $("#needReminderLoanDueF").prop("checked", false);
+            $("#needReminderLoanCompleteF").prop("checked", false);
+            $("#monthlyLoanNeedReceiptF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -712,9 +718,12 @@
             $('#lot').hide("slow");
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
-            $("#needReminderLotDue").prop("checked", false);
-            $("#needReminderLotComplete").prop("checked", false);
-            $("#lotInspectionNeedReceipt").prop("checked", false);
+            $("#needReminderLotDueT").prop("checked", false);
+            $("#needReminderLotCompleteT").prop("checked", false);
+            $("#lotInspectionNeedReceiptT").prop("checked", false);
+            $("#needReminderLotDueF").prop("checked", false);
+            $("#needReminderLotCompleteF").prop("checked", false);
+            $("#lotInspectionNeedReceiptF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -751,7 +760,7 @@
                     document.getElementById("advanceDueDate").value = "";
                 }
                 if(model.IsAdvanceFeeCompleteEmailReminder == true ){
-                    $("#needReminderAdvanceComplete").attr("checked");
+                    $("#needReminderAdvanceCompleteT").attr("checked");
                     $("#remindEmailAdvanceComplete").show();
                 }
                 else{
@@ -760,7 +769,7 @@
                     document.getElementById("advanceDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsAdvanceFeeDueEmailReminder == true ){
-                    $("#needReminderAdvanceDue").attr("checked");
+                    $("#needReminderAdvanceDueT").attr("checked");
                     $("#remindEmailAdvanceDue").show();
                 }
                 else{
@@ -775,9 +784,12 @@
                 $("#monthAdvance").hide();
                 $('#remindEmailAdvanceComplete').hide();
                 $('#remindEmailAdvanceDue').hide();
-                $("#needReminderAdvanceDue").prop("checked", false);
-                $("#needReminderAdvanceComplete").prop("checked", false);
-                $("#advanceNeedReceipt").prop("checked", false);
+                $("#needReminderAdvanceDueT").prop("checked", false);
+                $("#needReminderAdvanceCompleteT").prop("checked", false);
+                $("#advanceNeedReceiptT").prop("checked", false);
+                $("#needReminderAdvanceDueF").prop("checked", false);
+                $("#needReminderAdvanceCompleteF").prop("checked", false);
+                $("#advanceNeedReceiptF").prop("checked", false);
                 document.getElementById("advanceDueDate").value = "";
                 document.getElementById("advanceDealerEmail").value = "";
                 document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -798,7 +810,7 @@
                     document.getElementById("loanDueDate").value = "";
                 }
                 if(model.IsLoanFeeCompleteEmailReminder == true ){
-                    $("#needReminderLoanComplete").attr("checked");
+                    $("#needReminderLoanCompleteT").attr("checked");
                     $("#remindEmailLoanComplete").show();
                 }
                 else{
@@ -807,7 +819,7 @@
                     document.getElementById("loanDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLoanFeeDueEmailReminder == true ){
-                    $("#needReminderLoanDue").attr("checked");
+                    $("#needReminderLoanDueT").attr("checked");
                     $("#remindEmailLoanDue").show();
                 }
                 else{
@@ -822,9 +834,12 @@
                 $("#monthLoan").hide();
                 $('#remindEmailLoanComplete').hide();
                 $('#remindEmailLoanDue').hide();
-                $("#needReminderLoanDue").prop("checked", false);
-                $("#needReminderLoanComplete").prop("checked", false);
-                $("#monthlyLoanNeedReceipt").prop("checked", false);
+                $("#needReminderLoanDueT").prop("checked", false);
+                $("#needReminderLoanCompleteT").prop("checked", false);
+                $("#monthlyLoanNeedReceiptT").prop("checked", false);
+                $("#needReminderLoanDueF").prop("checked", false);
+                $("#needReminderLoanCompleteF").prop("checked", false);
+                $("#monthlyLoanNeedReceiptF").prop("checked", false);
                 document.getElementById("loanDueDate").value = "";
                 document.getElementById("loanDealerEmail").value = "";
                 document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -847,7 +862,7 @@
                     }
                 }
                 if(model.IsLotFeeCompleteEmailReminder == true ){
-                    $("#needReminderLotComplete").attr("checked");
+                    $("#needReminderLotCompleteT").attr("checked");
                     $("#remindEmailLotComplete").show();
                 }
                 else{
@@ -856,7 +871,7 @@
                     document.getElementById("lotDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLotFeeDueEmailReminder == true ){
-                    $("#needReminderLotDue").attr("checked");
+                    $("#needReminderLotDueT").attr("checked");
                     $("#remindEmailLotDue").show();
                 }
                 else{
@@ -871,9 +886,12 @@
                 $("#monthLot").hide();
                 $('#remindEmailLotComplete').hide();
                 $('#remindEmailLotDue').hide();
-                $("#needReminderLotDue").prop("checked", false);
-                $("#needReminderLotComplete").prop("checked", false);
-                $("#lotInspectionNeedReceipt").prop("checked", false);
+                $("#needReminderLotDueT").prop("checked", false);
+                $("#needReminderLotCompleteT").prop("checked", false);
+                $("#lotInspectionNeedReceiptT").prop("checked", false);
+                $("#needReminderLotDueF").prop("checked", false);
+                $("#needReminderLotCompleteF").prop("checked", false);
+                $("#lotInspectionNeedReceiptF").prop("checked", false);
                 document.getElementById("lotDueDate").value = "";
                 document.getElementById("lotDealerEmail").value = "";
                 document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -941,16 +959,19 @@
             document.getElementById("lotDue").value = "";
         }
     }
-    $('#clear').click(function () {
+    $('#clearx').click(function () {
         document.getElementById("form").reset();
 
         $('#advance').hide();
         $("#monthAdvance").hide();
         $('#remindEmailAdvanceComplete').hide();
         $('#remindEmailAdvanceDue').hide();
-        $("#needReminderAdvanceDue").prop("checked", false);
-        $("#needReminderAdvanceComplete").prop("checked", false);
-        $("#advanceNeedReceipt").prop("checked", false);
+        $("#needReminderAdvanceDueT").prop("checked", false);
+        $("#needReminderAdvanceCompleteT").prop("checked", false);
+        $("#advanceNeedReceiptT").prop("checked", false);
+        $("#needReminderAdvanceDueF").prop("checked", false);
+        $("#needReminderAdvanceCompleteF").prop("checked", false);
+        $("#advanceNeedReceiptF").prop("checked", false);
         document.getElementById("advanceDueDate").value = "";
         document.getElementById("advanceDealerEmail").value = "";
         document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -964,9 +985,12 @@
         $("#monthLoan").hide();
         $('#remindEmailLoanComplete').hide();
         $('#remindEmailLoanDue').hide();
-        $("#needReminderLoanDue").prop("checked", false);
-        $("#needReminderLoanComplete").prop("checked", false);
-        $("#monthlyLoanNeedReceipt").prop("checked", false);
+        $("#needReminderLoanDueT").prop("checked", false);
+        $("#needReminderLoanCompleteT").prop("checked", false);
+        $("#monthlyLoanNeedReceiptT").prop("checked", false);
+        $("#needReminderLoanDueF").prop("checked", false);
+        $("#needReminderLoanCompleteF").prop("checked", false);
+        $("#monthlyLoanNeedReceiptF").prop("checked", false);
         document.getElementById("loanDueDate").value = "";
         document.getElementById("loanDealerEmail").value = "";
         document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -979,9 +1003,12 @@
         $("#monthLot").hide();
         $('#remindEmailLotComplete').hide();
         $('#remindEmailLotDue').hide();
-        $("#needReminderLotDue").prop("checked", false);
-        $("#needReminderLotComplete").prop("checked", false);
-        $("#lotInspectionNeedReceipt").prop("checked", false);
+        $("#needReminderLotDueT").prop("checked", false);
+        $("#needReminderLotCompleteT").prop("checked", false);
+        $("#lotInspectionNeedReceiptT").prop("checked", false);
+        $("#needReminderLotDueF").prop("checked", false);
+        $("#needReminderLotCompleteF").prop("checked", false);
+        $("#lotInspectionNeedReceiptF").prop("checked", false);
         document.getElementById("lotDueDate").value = "";
         document.getElementById("lotDealerEmail").value = "";
         document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -1088,6 +1115,25 @@
             if (ch >= 48 && ch <= 57 ) {
                 return 1;
             }
+        }
+        return 0;
+    }
+    
+    $(".x").keypress(function(e){     
+        if($('#advanceDealerEmailRemindPeriod').val().length >= 5){
+            e.preventDefault();
+        }    
+        else if(numericAllow(e)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    
+    function numericAllow(e){
+        var ch = e.which;
+        if (ch >= 48 && ch <= 57) {
+            return 1;
         }
         return 0;
     }
