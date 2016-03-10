@@ -9,7 +9,7 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+<script src="~/scripts/CommonFunctions.js"></script>
 
 <style>
     
@@ -81,7 +81,7 @@
                 
             </div>
 
-            <div class="col-xs-11">
+            <div class="col-xs-4" style="float:left">
 
                 @if (ViewBag.userroleName == "Admin")
                 {
@@ -104,7 +104,7 @@
 
 
 
-                                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.RegisteredBranchId, "", new { @class = "text-danger" , style = "top: 100%;left: 6%;" })
 
                 }
             </div>
@@ -133,7 +133,7 @@
 
                 <img src="~/Images/small_loading.gif" />
             </span>
-            <div class="col-xs-11">
+            <div class="col-xs-4" style="float:left">
 
                 @if (ViewBag.nonRegisteredBranchId.Items.Count == 1)
                         {
@@ -142,7 +142,7 @@
                 @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                 } else {
                 @Html.DropDownListFor(model => model.nonRegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control", id = "NonRegisteredBranchId" })
-                @Html.ValidationMessageFor(model => model.nonRegisteredBranchId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.nonRegisteredBranchId, "", new { @class = "text-danger" , style= "top: 100%;left: 6%;"})
 
                 }
             </div>
@@ -180,7 +180,7 @@
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" ,  style = "left:2%;bottom:-40%;" })
 
                 @Html.LabelFor(model => model.maturityDate, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color:red"> *</span>
-           
+
                 @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.maturityDate, "", new { @class = "text-danger" , style = "left:60%;bottom:-50%;" })
             </div>
@@ -196,7 +196,7 @@
       @{
           List<SelectListItem> listItems = new List<SelectListItem>();
 
-          listItems.Add(new SelectListItem
+                listItems.Add(new SelectListItem
           {
               Text = "--Select--",
               Value = "-1",
@@ -467,7 +467,7 @@
         </div>
     </div>
 }
-<script src="~/scripts/CommonFunctions.js"></script>
+
 
 <script>
 
@@ -515,11 +515,79 @@
         if (evt.keyCode == 101 || evt.keyCode == 69 || $(this).val() > 100 ) {
             evt.preventDefault();
         }
+
+
         
       
     });
 
+ 
+    $('#AutoEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!','&', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
+
+
+
+    $('#emailPeriod').keypress(function (evt) {
+    // preventing to type 'e' or 'E'
+         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+             evt.preventDefault();
+         }
+     });
+
+     $('#advancePercentage').keypress(function (evt) {
+         // preventing to type 'e' or 'E'
+         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+             evt.preventDefault();
+         }
+     });
+
+     $('#payOffPeriod').keypress(function (evt) {
+         // preventing to type 'e' or 'E'
+         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+             evt.preventDefault();
+         }
+     });
+
     $(document).ready(function () {
+
+        $('#loanNumber').keypress(function (e) {
+
+            var charCode = !e.charCode ? e.which : e.charCode;
+
+            if ((charCode > 46 && charCode < 59) || charCode == 45 || charCode == 95 || (charCode > 96 && charCode < 122) || (charCode > 64 && charCode < 91)) { }
+            else
+                e.preventDefault();
+
+        });
+
+        $('#loanAmount').keypress(function (e) {
+
+            var charCode = !e.charCode ? e.which : e.charCode;
+
+            if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
+            else
+                e.preventDefault();
+
+        });
     $('#clear').click(function () {
 
         document.getElementsByTagName("form")[0].reset();

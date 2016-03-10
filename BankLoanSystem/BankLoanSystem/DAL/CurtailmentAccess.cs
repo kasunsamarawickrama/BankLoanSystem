@@ -125,15 +125,15 @@ namespace BankLoanSystem.DAL
                 {
                     List<object[]> paramertList2 = new List<object[]>();
                     paramertList2.Add(new object[] { "@loan_id", loanId });
-                    paramertList2.Add(new object[] { "@curtailment_id", curtailment.TimePeriod });
-                    paramertList2.Add(new object[] { "@time_period", curtailment.Percentage });
+                    paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
+                    paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
                     paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
 
                     try
                     {
-                        executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList) ? executeCount + 1 : executeCount;
+                        executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         return 0;
                     }
