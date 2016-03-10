@@ -40,6 +40,24 @@
     //});
 });
 
+// CreatedBy :: kasun
+// prevent keypress dot charactors twise in amount
+//
+
+function numericAllowDecimal(e, val) {
+    var ch = e.which;
+    if (val.indexOf('.') === -1) {
+        if ((ch >= 48 && ch <= 57) || ch == 46) {
+            return 1;
+        }
+    } else {
+        if (ch >= 48 && ch <= 57) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 // CreatedBy :: Kanishka
 // Clears error messege on click event
 // Call: $('input').on('click', function () {

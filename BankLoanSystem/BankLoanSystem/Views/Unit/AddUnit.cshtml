@@ -6,34 +6,7 @@
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
-<style type="text/css">
-    .validation-summary {
-        display: none;
-    }
 
-        .validation-summary.validation-summary-errors {
-            display: block;
-        }
-
-    .ui-state-default {
-        background:none;
-        background-color: white;
-    }
-
-    .info-unit {
-        margin-left: 0px;
-        margin-right: 20px;
-        border-radius: 15px;
-        border: 2px solid #8D987E;
-        padding: 20px 20px 20px 20px;
-    }
-
-    .form-horizontal .control-label {
-        text-align: left;
-        padding-left: 60px;
-    }
-
-</style>
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
@@ -57,6 +30,52 @@
 
 <link href="~/Content/combo.css" rel="stylesheet" />
 <script src="~/scripts/combo.js"></script>
+
+
+<style type="text/css">
+    .validation-summary {
+        display: none;
+    }
+
+     
+
+        .validation-summary.validation-summary-errors {
+            display: block;
+        }
+
+    .ui-state-default {
+        background: none;
+        background-color: white;
+    }
+
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 20px 20px;
+    }
+    .validation-error{
+        z-index: 10001;
+    font-weight: bold;
+    position: absolute;
+    font-size:12px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+
+    .ui-autocomplete {
+    max-height: 500px;
+    overflow-y: auto;   /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index:10005 !important;
+
+   
+}
+</style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
@@ -128,7 +147,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin" } })
                             @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="vehicleVIN"><span class="text-danger"></span></div>
+                            <div id="vehicleVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -146,7 +165,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox1-1" })
                             @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                            <div id="vehicleyear"><span id="vehicleyearspan" class="text-danger"></span></div>
+                            <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -156,7 +175,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
-                            <div id="vehiclemake"><span class="text-danger"></span></div>
+                            <div id="vehiclemake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -168,7 +187,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox1-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                            <div id="vehiclemodel"><span class="text-danger"></span></div>
+                            <div id="vehiclemodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.vehicle.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -243,7 +262,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @Style = "margin-left: 0px;" })
+                                @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 11%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -256,7 +275,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "rvVin" } })
                             @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="rvVIN"><span class="text-danger"></span></div>
+                            <div id="rvVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -267,7 +286,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox2-1" })
                             @Html.ValidationMessageFor(model => model.rv.Year, "", new { @class = "text-danger" })
-                            <div id="rvyear"><span class="text-danger"></span></div>
+                            <div id="rvyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -277,7 +296,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.rv.Make, "", new { @class = "text-danger" })
-                            <div id="rvmake"><span class="text-danger"></span></div>
+                            <div id="rvmake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -289,7 +308,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.rv.Model, "", new { @class = "text-danger" })
-                            <div id="rvmodel"><span class="text-danger"></span></div>
+                            <div id="rvmodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -313,7 +332,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.rv.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -336,7 +355,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox3-1" })
                             @Html.ValidationMessageFor(model => model.camper.Year, "", new { @class = "text-danger" })
-                            <div id="camperyear"><span class="text-danger"></span></div>
+                            <div id="camperyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -346,7 +365,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.camper.Make, "", new { @class = "text-danger" })
-                            <div id="campermake"><span class="text-danger"></span></div>
+                            <div id="campermake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -358,7 +377,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.camper.Model, "", new { @class = "text-danger" })
-                            <div id="campermodel"><span class="text-danger"></span></div>
+                            <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -404,19 +423,23 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.camper.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger" , style= "top: 89%;left: 11%;width: 120%; " })
+                                                        </div>
+                            
+                                                    </div>
+                            
+                                                </div>
+                            
+                                            </div>
+                            
 
-                <div class="info-unit" id="atv">
+                                            <div class="info-unit" id="atv">
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "atvVin" } })
                             @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="atvVIN"><span class="text-danger"></span></div>
+                            <div id="atvVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -427,7 +450,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox4-1" })
                             @Html.ValidationMessageFor(model => model.atv.Year, "", new { @class = "text-danger" })
-                            <div id="atvyear"><span class="text-danger"></span></div>
+                            <div id="atvyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -437,7 +460,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox4-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Make, "", new { @class = "text-danger" })
-                            <div id="atvmake"><span class="text-danger"></span></div>
+                            <div id="atvmake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -449,7 +472,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox4-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
-                            <div id="atvmodel"><span class="text-danger"></span></div>
+                            <div id="atvmodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -465,7 +488,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.atv.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 5%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -477,7 +500,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "boatVin" } })
                             @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="boatVIN"><span class="text-danger"></span></div>
+                            <div id="boatVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -488,7 +511,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox5-1" })
                             @Html.ValidationMessageFor(model => model.boat.Year, "", new { @class = "text-danger" })
-                            <div id="boatyear"><span class="text-danger"></span></div>
+                            <div id="boatyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.boat.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -498,7 +521,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.boat.Make, "", new { @class = "text-danger" })
-                            <div id="boatmake"><span class="text-danger"></span></div>
+                            <div id="boatmake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -521,7 +544,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.boat.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -533,7 +556,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "motorcycleVin" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="motorcycleVIN"><span class="text-danger"></span></div>
+                            <div id="motorcycleVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -544,7 +567,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox6-1" })
                             @Html.ValidationMessageFor(model => model.motorcycle.Year, "", new { @class = "text-danger" })
-                            <div id="motorcycleyear"><span class="text-danger"></span></div>
+                            <div id="motorcycleyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -554,7 +577,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Make, "", new { @class = "text-danger" })
-                            <div id="motorcyclemake"><span class="text-danger"></span></div>
+                            <div id="motorcyclemake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -566,7 +589,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
-                            <div id="motorcyclemodel"><span class="text-danger"></span></div>
+                            <div id="motorcyclemodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -591,7 +614,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -603,7 +626,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "snowmobileVin" } })
                             @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger" })
-                            <div id="snowmobileVIN"><span class="text-danger"></span></div>
+                            <div id="snowmobileVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -614,7 +637,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox7-1" })
                             @Html.ValidationMessageFor(model => model.snowmobile.Year, "", new { @class = "text-danger" })
-                            <div id="snowmobileyear"><span class="text-danger"></span></div>
+                            <div id="snowmobileyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -624,7 +647,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Make, "", new { @class = "text-danger" })
-                            <div id="snowmobilemake"><span class="text-danger"></span></div>
+                            <div id="snowmobilemake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -636,7 +659,7 @@
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Model, "", new { @class = "text-danger" })
-                            <div id="snowmobilemodel"><span class="text-danger"></span></div>
+                            <div id="snowmobilemodel" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
 
@@ -646,7 +669,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -658,7 +681,7 @@
                         <div class="col-sm-4">
                             @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control", @id = "heavyequipmentSerial" } })
                             @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
-                            <div id="heavyequipmentVIN"><span class="text-danger"></span></div>
+                            <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -669,7 +692,7 @@
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
                             @Html.ValidationMessageFor(model => model.heavyequipment.Year, "", new { @class = "text-danger" })
-                            <div id="heavyequipmentyear"><span class="text-danger"></span></div>
+                            <div id="heavyequipmentyear" class="validation-error"><span class="text-danger"></span></div>
                         </div>
 
                         @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -679,7 +702,7 @@
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.heavyequipment.Make, "", new { @class = "text-danger" })
-                            <div id="heavyequipmentmake"><span class="text-danger"></span></div>
+                            <div id="heavyequipmentmake" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </div>
                 </div>
@@ -693,7 +716,7 @@
                     <div class="col-md-3">
                         @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                         @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
-                        <div id="tagscloud"><span class="text-danger"></span></div>
+                        <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                     </div>
 
                     @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -707,7 +730,7 @@
                             @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", autocomplete = "off", @style = "text-align: right;" } })
                         }
                         @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
-                        <div id="tagscloudAdvance"><span class="text-danger"></span></div>
+                        <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
                     </div>
                 </div>
 
@@ -729,7 +752,7 @@
                             <div class="checkbox">
                                 @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                                 @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
-                                @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" ,style="top:100%;left:18%" })
                             </div>
                         </div>
                     </div>
@@ -762,7 +785,7 @@
                 <div class="col-md-2">
                     @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                     @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
-                    @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" , style = "top:100%;left:18%" })
                 </div>
             </div>
 
@@ -776,12 +799,12 @@
 
             <div class="form-group" id="advanceDateFormDiv" hidden>
 
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                <div class="control-label col-sm-3" style = "text-align:right;margin-left: 10px;">
+                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new {  })<span style="color:red"> *</span>
                 </div>
 
 
-                <div class="col-xs-4" id="advanceDateDiv">
+                <div class="col-xs-3" id="advanceDateDiv">
                     @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
                 </div>
@@ -2709,9 +2732,11 @@
 
     $('textarea').click(function () {
         $('.centered1 span').text('');
-        middleSpanCheck();
+        
     });
-
+    $(document).on('click', '.ui-button', function(){
+        $('.centered1 span').text('');
+    });
    
     function middleSpanCheck(){
         if ($('input').next('span').children('span').text().length > 1) {
