@@ -67,24 +67,20 @@
 
 
         // change Url
-        function onAjaxSuccess() {
+        //function onAjaxSuccess() {
 
 
-            var array = $(this).attr('class').split(' ');
+        //    var array = $(this).attr('class').split(' ');
 
-            var step = array[1];
+        //    var step = array[1];
 
 
-            if (typeof (history.pushState) != "undefined") {
-                var obj = {  Page: 'Step' + step, Url: 'Step' + step };
-                //alert(obj.Content);
-                history.pushState(obj, obj.Page, obj.Url);
-            }
+            
 
 
 
 
-        }
+        //}
 
 
 
@@ -103,7 +99,11 @@
 
         function Progress(step) {
 
-
+            if (typeof (history.pushState) != "undefined") {
+                var obj = { Page: 'Step' + step, Url: 'Step' + step };
+                //alert(obj.Content);
+                history.pushState(obj, obj.Page, obj.Url);
+            }
 
             if (global <= step){
 
@@ -126,6 +126,9 @@
                     if (i >= 6) {
                         $(".main-tab.2").removeClass('collapsed');
                         $("#demo2").addClass("in");
+                        $('#demo').children('ul').children('li').removeClass('active');
+                        $(".main-tab.1").addClass('collapsed');
+                        $("#demo").removeClass("in").addClass("collapse");
                     } else {
                         $(".main-tab.1").removeClass('collapsed');
                         $("#demo").addClass("in");
@@ -318,36 +321,40 @@
 
         <script>
 
-        $(".tab").append("<span style='float:right'>&#128274;  </span>");
-        $(".tab").css("pointer-events", "none").css("cursor", "default");
+            $(".tab").append("<span style='float:right'>&#128274;  </span>");
+            $(".tab").css("pointer-events", "none").css("cursor", "default");
 
-        $(".tab").click(function () {
+            $(".tab").click(function () {
 
-            $(this).parent("li").addClass("active").siblings().removeClass('active');
-            $(this).parent("li").parent("ul").parent("div").siblings("div").children("ul").children("li").removeClass('active');
-        });
+                $(this).parent("li").addClass("active").siblings().removeClass('active');
+                $(this).parent("li").parent("ul").parent("div").siblings("div").children("ul").children("li").removeClass('active');
+            });
 
-        $(".main-tab.1").click(function () {
+            $(".main-tab.1").click(function () {
 
-            $(".main-tab.2").addClass('collapsed');
-            $("#demo2").removeClass("in");
-        });
+                $(".main-tab.2").addClass('collapsed');
+                $("#demo2").removeClass("in").addClass("collapse");
+            });
 
-        $(".main-tab.2").click(function () {
+            $(".main-tab.2").click(function () {
 
-            $(".main-tab.1").addClass('collapsed');
-            $("#demo").removeClass("in");
-        });
-
-
-       
-      globalProgress(@Session["stepNo"]);
-      Progress(@Session["stepNo"]);
+                $(".main-tab.1").addClass('collapsed');
+                $("#demo").removeClass("in").addClass("collapse");
+            });
 
 
-    
-        
-        
+
+
+
+            @if(Session["companyStep"] != null) {
+                <text>globalProgress(@Session["companyStep"]);
+            Progress(@Session["companyStep"]);</text>
+            }else if(Session["loanStep"] != null)
+            {
+                 <text>globalProgress( 5+  @Session["loanStep"]);
+                Progress(5+ @Session["loanStep"]);</text>
+            }
+
 
         </script>
 

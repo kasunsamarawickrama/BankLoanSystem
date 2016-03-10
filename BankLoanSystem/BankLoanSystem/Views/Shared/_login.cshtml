@@ -10,9 +10,39 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+    <script src="~/scripts/CommonFunctions.js"></script>
     <style>
+        .form-signin input[type="password"]{
+            margin-bottom:0px !important;
+        }
+            .input-validation-error {
+            border: 1px solid #ff0000;
+        }
+         .valid{
+             border: 1px solid green;
+        }
+         .field-validation-error{
+             /*z-index:1000;
+             background: #0A1219;
+             width:270px;
+             opacity: 0.9;
+		padding: 1%;
+		font-weight: bold;
+		position: absolute;
+		top: 0%;
+		left: 100%;
+		margin: 0 0 0 -20%; /* add negative left margin for half the width to center the div */
+		/*cursor: default;
+		
+		border-radius: 4px;
+		box-shadow: 0 0 5px rgba(0,0,0,0.9);*/
             
+    z-index: 10001;
+    font-weight: bold;
+    position: absolute;
+    font-size:12px;
+    left:42%;
+         }
         .login-container {
             max-width: 400px;
             z-index: 100;
