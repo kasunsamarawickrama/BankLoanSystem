@@ -1405,7 +1405,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    if (loanSetupStep1.isInterestCalculate)
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    }
+                    else
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    }
+                    
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
@@ -1419,7 +1427,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                //sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                 return RedirectToAction("step8");
             }
 

@@ -154,6 +154,24 @@
 
 <script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript" type="text/javascript">
+    $("#autoRemindEmail").keypress(function(e){   
+      
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) ||(ch >= 65 && ch <= 90) ||(ch >= 97 && ch <= 122)|| (ch == 46) ||(ch == 64)) {
+            return 1;
+        }
+        else{
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
+
+    $('#autoRemindEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
     function passvalueTitle(e1){
         //alert(e);
         if(e1 == "Yes"){
