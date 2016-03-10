@@ -67,11 +67,9 @@ namespace BankLoanSystem.Controllers
             int userId = userData.UserId;
             string loanCode;
             //Session["userId"] = 62;
-            Session["loanCode"] = "COM06_01-00001";
+            //Session["loanCode"] = "COM06_01-00001";
             try
             {
-                
-
                 loanCode = Session["loanCode"].ToString();
             }
             catch (Exception)
@@ -87,16 +85,20 @@ namespace BankLoanSystem.Controllers
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
-            Session["notAdvancedList"] = advanceUnit.NotAdvanced;
+            //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
 
-            if (flag > 0)
+            if (flag == 1)
             {
                 ViewBag.Msg = "Success";
             }
             else if (flag == 0)
             {
                 ViewBag.Msg = "Error";
+            }
+            else if (flag == 2)
+            {
+                ViewBag.Msg = "Advance Error";
             }
             return View(advanceUnit);
         }
@@ -174,7 +176,7 @@ namespace BankLoanSystem.Controllers
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
 
-            return unitAccess.AdvanceSelectedItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
+            return unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
            
         }
 
@@ -203,7 +205,7 @@ namespace BankLoanSystem.Controllers
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();           
-            return unitAccess.AdvanceAllSelectedItems(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);           
+            return unitAccess.AdvanceItemList(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);           
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
