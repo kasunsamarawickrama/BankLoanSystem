@@ -350,17 +350,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            userData.BranchId = reslt;
+            //userData.BranchId = reslt;
             if (reslt > 0)
             {
                 Session["companyStep"] = 3;
 
                 //user object pass to session
-                userData.BranchId = reslt;
+                if(userData.BranchId == 0)
+                {
+                    userData.BranchId = reslt;
+                }
+                
                 Session["AuthenticatedUser"] = userData;
 
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 3))
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, reslt, 3))
                 {
 
                     // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
@@ -476,7 +480,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
                 //sa.updateStepNumberByUserId(userId, 4);
-                sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                int rol = int.Parse(Session["abcRol"].ToString());
+                int br = int.Parse(Session["abcBrnc"].ToString());
+                if ((rol == 1) && (br == 0))
+                {
+                    sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                }
+                else if ((rol == 2) && (br != 0))
+                {
+                    sa.UpdateCompanySetupStep(userData.Company_Id, br, 4);
+                }
+                Session["abcRol"] = "";
+                Session["abcBrnc"] = "";
                 Session["companyStep"] = 4;
 
                 if (HttpContext.Request.IsAjaxRequest())
@@ -672,6 +687,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(user.Email);
+                
+                Session["abcRol"] = user.RoleId;
+                Session["abcBrnc"] = user.BranchId;
                 email.SendMail(body, "Account details");
 
 
@@ -991,8 +1009,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
-            if (stepNo < 0)
+            if (stepNo == 3)
             {
+
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4))
+                {
+                    Session["companyStep"] = 4;
+                }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
 
@@ -1266,7 +1289,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1))
+                bool reslt2 = false;
+                if(userData.RoleId == 2)
+                {
+                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1);
+                }
+
+                else if(userData.RoleId == 1)
+                {
+                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, nonRegCompanyBranch.RegBranchId, reslt, 0, 1);
+                }
+                if (reslt2)
                 {
                     //Session["companyStep"] = 6;
                     if (compType == 1)
