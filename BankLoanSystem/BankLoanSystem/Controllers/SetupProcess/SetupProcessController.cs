@@ -129,32 +129,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (Convert.ToInt32(Session["companyStep"]) >= 1 && edit != 1)
+            if (Convert.ToInt32(Session["companyStep"]) >= 1)
             {
-                return PartialView();
-            }
-
-            if (edit == 1)
-            {
-                //Company preCompany = new Company();
-                //DataSet dsCompany = new DataSet();
-                //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                //if (preCompany.Tables[0].Rows.Count > 0)
-                //{
-                //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
-                //}
+               
 
-                //string[] zipWithExtention = preCompany.Zip.Split('-');
-
-                //if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
-
-                _comCode = preCompany.CompanyCode;
-                ViewBag.Edit = "Yes";
-                _isEdit = 1;
+                if (preCompany != null)
+                {
+                    _comCode = preCompany.CompanyCode;
+                    ViewBag.Edit = "Yes";
+                    _isEdit = 1;
+                }
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -166,8 +151,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     return View(preCompany);
                 }
-
             }
+
+            
             return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
