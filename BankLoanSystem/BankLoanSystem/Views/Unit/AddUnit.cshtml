@@ -888,278 +888,7 @@
         $('#heavyequipmentmake').children('span').text("");
     });
 
-    $('#btnSubmit').click(function(e){
-
-        var unitType = document.getElementById("unitType").value;
-
-        if (unitType == "1") {
-            var vin = document.getElementById("vehicleVin").value;
-            var trim = document.getElementById("vehicletrim").value;
-            var miles = document.getElementById("vehiclemiles").value;
-
-            if($('#combobox1-1').next().children('input').val() == ""){
-                //$('#vehicleyear span').fadeIn();
-                $('#vehicleyear span').text("year required");
-                //$('#vehicleyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox1-2').next().children('input').val() == ""){
-                //$('#vehiclemake span').fadeIn();
-                $('#vehiclemake span').text("make required");
-               // $('#vehiclemake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox1-3').next().children('input').val() == ""){
-               // $('#vehiclemodel span').fadeIn();
-                $('#vehiclemodel span').text("model required");
-                //$('#vehiclemodel span').delay(1000).fadeOut();
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-        } else if (unitType == "2") {
-
-            var vin = document.getElementById("rvVin").value;
-            var length = document.getElementById("rvlength").value;
-            var miles = document.getElementById("rvmiles").value;
-
-            if($('#combobox2-1').next().children('input').val() == ""){
-                //$('#rvyear span').fadeIn();
-                $('#rvyear span').text("year required");
-                //$('#rvyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox2-2').next().children('input').val() == ""){
-                //$('#rvmake span').fadeIn();
-                $('#rvmake span').text("make required");
-                //$('#rvmake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox2-3').next().children('input').val() == ""){
-                //$('#rvmodel span').fadeIn();
-                $('#rvmodel span').text("model required");
-                //$('#rvmodel span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-
-        } else if (unitType == "3") {
-
-            var vin = document.getElementById("camperVin").value;
-            var length = document.getElementById("camperlength").value;
-            var hitch = document.getElementById("camperhitch").value;
-
-            if($('#combobox3-1').next().children('input').val() == ""){
-                //$('#camperyear span').fadeIn();
-                $('#camperyear span').text("year required");
-                //$('#camperyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox3-2').next().children('input').val() == ""){
-                //$('#campermake span').fadeIn();
-                $('#campermake span').text("make required");
-                //$('#campermake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox3-3').next().children('input').val() == ""){
-                //$('#campermodel span').fadeIn();
-                $('#campermodel span').text("model required");
-                //$('#campermodel span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-        } else if (unitType == "4") {
-
-            var vin = document.getElementById("atvVin").value;
-            var miles = document.getElementById("atvmiles").value;
-
-            if($('#combobox4-1').next().children('input').val() == ""){
-                //$('#atvyear span').fadeIn();
-                $('#atvyear span').text("year required");
-                //$('#atvyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox4-2').next().children('input').val() == ""){
-                //$('#atvmake span').fadeIn();
-                $('#atvmake span').text("make required");
-                //$('#atvmake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox4-3').next().children('input').val() == ""){
-                //$('#atvmodel span').fadeIn();
-                $('#atvmodel span').text("model required");
-                //$('#atvmodel span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-        } else if (unitType == "5") {
-
-            var vin = document.getElementById("boatVin").value;
-            var trailer = document.getElementById("boattrailer").value;
-            var serial = document.getElementById("boatserial").value;
-
-            if($('#combobox5-1').next().children('input').val() == ""){
-                //$('#boatyear span').fadeIn();
-                $('#boatyear span').text("year required");
-                //$('#boatyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || trailer == ""|| serial ==""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox5-2').next().children('input').val() == ""){
-                //$('#boatmake span').fadeIn();
-                $('#boatmake span').text("make required");
-                //$('#boatmake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || trailer == ""|| serial ==""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-
-        } else if (unitType == "6") {
-            var vin = document.getElementById("motorcycleVin").value;
-            var miles = document.getElementById("motorcyclemiles").value;
-
-            if($('#combobox6-1').next().children('input').val() == ""){
-                //$('#motorcycleyear span').fadeIn();
-                $('#motorcycleyear span').text("year required");
-                //$('#motorcycleyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox6-2').next().children('input').val() == ""){
-                //$('#motorcyclemake span').fadeIn();
-                $('#motorcyclemake span').text("make required");
-                //$('#motorcyclemake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox6-3').next().children('input').val() == ""){
-                //$('#motorcyclemodel span').fadeIn();
-                $('#motorcyclemodel span').text("make required");
-                //$('#motorcyclemodel span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-        } else if (unitType == "7") {
-            var vin = document.getElementById("snowmobileVin").value;
-
-            if($('#combobox7-1').next().children('input').val() == ""){
-                //$('#snowmobileyear span').fadeIn();
-                $('#snowmobileyear span').text("year required");
-                //$('#snowmobileyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox7-2').next().children('input').val() == ""){
-                //$('#snowmobilemake span').fadeIn();
-                $('#snowmobilemake span').text("make required");
-                //$('#snowmobilemake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox7-3').next().children('input').val() == ""){
-                //$('#snowmobilemodel span').fadeIn();
-                $('#snowmobilemodel span').text("make required");
-                //$('#snowmobilemodel span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-        } else if (unitType == "8") {
-            var vin = document.getElementById("heavyequipmentSerial").value;
-
-            if($('#combobox8-1').next().children('input').val() == ""){
-                //$('#heavyequipmentyear span').fadeIn();
-                $('#heavyequipmentyear span').text("year required");
-                //$('#heavyequipmentyear span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-            if($('#combobox8-2').next().children('input').val() == ""){
-                //$('#heavyequipmentmake span').fadeIn();
-                $('#heavyequipmentmake span').text("make required");
-                //$('#heavyequipmentmake span').delay(1000).fadeOut();
-                $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
-                    e.preventDefault();
-                }
-            }
-
-        } else {
-        }
-    })
+   
 
     function GetModels(var1,var2,var3)
     {
@@ -2370,6 +2099,7 @@
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
     var maxCost = model.Balance * 100 / advancePt;
+    var maxAdvance = model.Balance ;
 
     $("#txtCost").on('click', function(e) {
         if (this.value === "0.00") {
@@ -2393,9 +2123,10 @@
     $('#txtCost').keypress(function(e) {
         $("#tagscloud span").text("");
         if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
-            var val = this.value + (e.which - 48);
+            //var val = this.value + (e.which - 48);
+            var cost = document.getElementById('txtCost').value;
             if (e.which !== 46 && e.which !== 8) {
-                if (val <= maxCost) {
+                if (cost <= maxCost) {
                     var advanceAmount = (advancePt * val) / 100;
                     document.getElementById('txtAdvanceAmount').value = advanceAmount;
                     //$("#tagscloudAdvance span").fadeOut();
@@ -2403,10 +2134,10 @@
                     //$("#tagscloudAdvance span").text("");
                     $('#txtAdvanceAmount').next('span').children('span').text('');
                 } else {
-                    $("#tagscloud span").fadeIn();
+                    //$("#tagscloud span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Cost must be less than balance");
-                    $("#tagscloud span").delay(1000).fadeOut();
+                    //$("#tagscloud span").delay(1000).fadeOut();
                     $(this).removeClass('input-validation-error');
                     $("#tagscloud span");
                     e.preventDefault();
@@ -2415,11 +2146,11 @@
 
         } else {
             //$("#tagscloud span").fadeIn();
-            $(this).addClass('input-validation-error');
-            $("#tagscloud span").text("Invalid character");
+            //$(this).addClass('input-validation-error');
+            //$("#tagscloud span").text("Invalid character");
             //$("#tagscloud span").delay(1000).fadeOut();
-            $(this).removeClass('input-validation-error');
-            $("#tagscloud span");
+            //$(this).removeClass('input-validation-error');
+            //$("#tagscloud span");
 
             e.preventDefault();
 
@@ -2487,24 +2218,41 @@
         var advanceAmount = (advancePt * num) / 100;
 
         advanceAmount = parseFloat(advanceAmount);
-        advanceAmount = advanceAmount.toFixed(2);
+        advanceAmountRoundUp = advanceAmount.toFixed(2);
 
-        document.getElementById('txtAdvanceAmount').value = advanceAmount;
+        document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
+
+        if(advanceAmount > maxCost){
+            //$("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+        }
     });
 
     $('#txtAdvanceAmount').keypress(function(e) {
         var cost = document.getElementById('txtCost').value;
         //alert(e.which);
+        var advance = document.getElementById('txtAdvanceAmount').value;
         if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
-            var val = this.value + (e.which - 48);
+            //var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
             if (e.which !== 46 && e.which !== 8) {
-                if (val > model.LoanAmount || cost === 0.00 || Number(val) > Number(cost)) {
+                if (cost === 0.00 || Number(advance) > Number(cost)) {
                     //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
-                    $("#tagscloudAdvance span").text("Advance amount must be less than cost");
+                    $("#tagscloudAdvance span").text("Advance must be less than cost");
                     //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                    $(this).removeClass('input-validation-error');
+                    //$(this).removeClass('input-validation-error');
+                    e.preventDefault();
+                }
+                if (advance > maxAdvance) {
+                    //$("#tagscloudAdvance span").fadeIn();
+                    $(this).addClass('input-validation-error');
+                    $("#tagscloudAdvance span").text("Advance must be less than balance");
+                    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //$(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             }
@@ -2530,6 +2278,7 @@
 
     $('#txtAdvanceAmount').blur(function () {
         var cost = document.getElementById('txtCost').value;
+        var advance = document.getElementById('txtAdvanceAmount').value;
         var val = $.trim($(this).val());
 
         if (val.indexOf(',') > -1) {
@@ -2546,13 +2295,13 @@
 
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
-            $("#tagscloudAdvance span").text("Advance amount must be a positive number");
+            $("#tagscloudAdvance span").text("Advance must be a positive number");
 
         }
         else if (Number(num) > Number(cost)) {
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
-            $("#tagscloudAdvance span").text("Advance amount must be less than cost");
+            $("#tagscloudAdvance span").text("Advance  must be less than cost");
         }
         else if (Number(num) == "") {
             //$("#tagscloudAdvance span").fadeIn();
@@ -2563,7 +2312,16 @@
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be greater than zero");
-        } else {
+        } 
+        if (advance > maxAdvance) {
+            //$("#tagscloudAdvance span").fadeIn();
+            $(this).addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+            e.preventDefault();
+        }
+        else {
             //$("#tagscloudAdvance span").fadeOut();
             $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
@@ -2572,6 +2330,297 @@
         $(this).val(num);
     });
 
+    $('#btnSubmit').click(function(e){
+
+        var unitType = document.getElementById("unitType").value;
+
+        if (unitType == "1") {
+            var vin = document.getElementById("vehicleVin").value;
+            var trim = document.getElementById("vehicletrim").value;
+            var miles = document.getElementById("vehiclemiles").value;
+
+            if($('#combobox1-1').next().children('input').val() == ""){
+                //$('#vehicleyear span').fadeIn();
+                $('#vehicleyear span').text("year required");
+                //$('#vehicleyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || trim == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox1-2').next().children('input').val() == ""){
+                //$('#vehiclemake span').fadeIn();
+                $('#vehiclemake span').text("make required");
+                // $('#vehiclemake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || trim == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox1-3').next().children('input').val() == ""){
+                // $('#vehiclemodel span').fadeIn();
+                $('#vehiclemodel span').text("model required");
+                //$('#vehiclemodel span').delay(1000).fadeOut();
+                if(vin == "" || trim == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+        } else if (unitType == "2") {
+
+            var vin = document.getElementById("rvVin").value;
+            var length = document.getElementById("rvlength").value;
+            var miles = document.getElementById("rvmiles").value;
+
+            if($('#combobox2-1').next().children('input').val() == ""){
+                //$('#rvyear span').fadeIn();
+                $('#rvyear span').text("year required");
+                //$('#rvyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox2-2').next().children('input').val() == ""){
+                //$('#rvmake span').fadeIn();
+                $('#rvmake span').text("make required");
+                //$('#rvmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox2-3').next().children('input').val() == ""){
+                //$('#rvmodel span').fadeIn();
+                $('#rvmodel span').text("model required");
+                //$('#rvmodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+
+        } else if (unitType == "3") {
+
+            var vin = document.getElementById("camperVin").value;
+            var length = document.getElementById("camperlength").value;
+            var hitch = document.getElementById("camperhitch").value;
+
+            if($('#combobox3-1').next().children('input').val() == ""){
+                //$('#camperyear span').fadeIn();
+                $('#camperyear span').text("year required");
+                //$('#camperyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || hitch == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox3-2').next().children('input').val() == ""){
+                //$('#campermake span').fadeIn();
+                $('#campermake span').text("make required");
+                //$('#campermake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || hitch == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox3-3').next().children('input').val() == ""){
+                //$('#campermodel span').fadeIn();
+                $('#campermodel span').text("model required");
+                //$('#campermodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || length == "" || hitch == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+        } else if (unitType == "4") {
+
+            var vin = document.getElementById("atvVin").value;
+            var miles = document.getElementById("atvmiles").value;
+
+            if($('#combobox4-1').next().children('input').val() == ""){
+                //$('#atvyear span').fadeIn();
+                $('#atvyear span').text("year required");
+                //$('#atvyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox4-2').next().children('input').val() == ""){
+                //$('#atvmake span').fadeIn();
+                $('#atvmake span').text("make required");
+                //$('#atvmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox4-3').next().children('input').val() == ""){
+                //$('#atvmodel span').fadeIn();
+                $('#atvmodel span').text("model required");
+                //$('#atvmodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+        } else if (unitType == "5") {
+
+            var vin = document.getElementById("boatVin").value;
+            var trailer = document.getElementById("boattrailer").value;
+            var serial = document.getElementById("boatserial").value;
+
+            if($('#combobox5-1').next().children('input').val() == ""){
+                //$('#boatyear span').fadeIn();
+                $('#boatyear span').text("year required");
+                //$('#boatyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || trailer == ""|| serial ==""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox5-2').next().children('input').val() == ""){
+                //$('#boatmake span').fadeIn();
+                $('#boatmake span').text("make required");
+                //$('#boatmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || trailer == ""|| serial ==""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+
+        } else if (unitType == "6") {
+            var vin = document.getElementById("motorcycleVin").value;
+            var miles = document.getElementById("motorcyclemiles").value;
+
+            if($('#combobox6-1').next().children('input').val() == ""){
+                //$('#motorcycleyear span').fadeIn();
+                $('#motorcycleyear span').text("year required");
+                //$('#motorcycleyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox6-2').next().children('input').val() == ""){
+                //$('#motorcyclemake span').fadeIn();
+                $('#motorcyclemake span').text("make required");
+                //$('#motorcyclemake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox6-3').next().children('input').val() == ""){
+                //$('#motorcyclemodel span').fadeIn();
+                $('#motorcyclemodel span').text("make required");
+                //$('#motorcyclemodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+        } else if (unitType == "7") {
+            var vin = document.getElementById("snowmobileVin").value;
+
+            if($('#combobox7-1').next().children('input').val() == ""){
+                //$('#snowmobileyear span').fadeIn();
+                $('#snowmobileyear span').text("year required");
+                //$('#snowmobileyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox7-2').next().children('input').val() == ""){
+                //$('#snowmobilemake span').fadeIn();
+                $('#snowmobilemake span').text("make required");
+                //$('#snowmobilemake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox7-3').next().children('input').val() == ""){
+                //$('#snowmobilemodel span').fadeIn();
+                $('#snowmobilemodel span').text("make required");
+                //$('#snowmobilemodel span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+        } else if (unitType == "8") {
+            var vin = document.getElementById("heavyequipmentSerial").value;
+
+            if($('#combobox8-1').next().children('input').val() == ""){
+                //$('#heavyequipmentyear span').fadeIn();
+                $('#heavyequipmentyear span').text("year required");
+                //$('#heavyequipmentyear span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+            if($('#combobox8-2').next().children('input').val() == ""){
+                //$('#heavyequipmentmake span').fadeIn();
+                $('#heavyequipmentmake span').text("make required");
+                //$('#heavyequipmentmake span').delay(1000).fadeOut();
+                $('.centered span').text('Error');
+                if(vin == "" || miles == ""){
+                }else{
+                    e.preventDefault();
+                }
+            }
+
+        } else {
+
+        }
+        var cost = document.getElementById('txtCost').value;
+        var advance = document.getElementById('txtAdvanceAmount').value;
+
+        if(cost > maxCost){
+            //$("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+            e.preventDefault();
+        }
+
+        if (advance > maxAdvance) {
+            //$("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+            e.preventDefault();
+        }
+    })
     $('input').blur(function() {
 
     });
