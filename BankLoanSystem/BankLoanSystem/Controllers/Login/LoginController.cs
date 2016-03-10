@@ -18,6 +18,14 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult UserLogin(string lbl, string lbl3)
         {
+
+            // for show the popup message in login page
+            if(Session["isNotCompleteStep"] != null && int.Parse(Session["isNotCompleteStep"].ToString()) == 1)
+                {
+                Session["isNotCompleteStep"] = null;
+                return View();
+            }
+
             ViewBag.login = true;
             if (lbl3 != null)
             {
@@ -150,12 +158,14 @@ namespace BankLoanSystem.Controllers
                                     {
                                         Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
                                         return RedirectToAction("Index", "SetupProcess");
+                                        
                                     }
                                     else
                                     {
                                         //message: Not complete Step, Do you want to complete it.
+                                        Session["isNotCompleteStep"] = 1;
                                         Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                        return RedirectToAction("Index", "SetupProcess");
+                                        return RedirectToAction("UserLogin", "Login");
                                     }
                                 }
                                 else
