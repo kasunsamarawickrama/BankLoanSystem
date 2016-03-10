@@ -103,8 +103,8 @@
                                 <td class="control-label col-sm-3">
                                     @Html.Label("Branch Address1")
                                 </td>
-                                <td class="control-label col-sm-3"></td>
-                                <td class="control-label col-sm-3"></td>
+                                <td class="control-label col-sm-3">@Html.Label("Edit")</td>
+                                <td class="control-label col-sm-3">@Html.Label("Delete")</td>
                             </tr>
 
                             @for (var i = 0; i < Model.SubBranches.Count; i++)
@@ -332,7 +332,7 @@
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
@@ -513,5 +513,5 @@
    
 
     Progress(2);
-   
+    $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
 </script>

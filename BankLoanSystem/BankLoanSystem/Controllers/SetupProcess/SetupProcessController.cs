@@ -44,27 +44,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                     }
-
-
-
                 }
                 catch
                 {
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
             }
-
-            //else
-            //{
-            //    filterContext.Result = new RedirectResult("~/Login/UserLogin");
-            //    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-            //}
-
         }
 
         public ActionResult Index()
@@ -81,7 +72,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyAccess ca = new CompanyAccess();
                 Company company = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                return View();
+                //return View();
+                return RedirectToAction("Step2");
             }
 
             else if (stepNo == 5)
@@ -137,32 +129,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (Convert.ToInt32(Session["companyStep"]) >= 1 && edit != 1)
+            if (Convert.ToInt32(Session["companyStep"]) >= 1)
             {
-                return PartialView();
-            }
-
-            if (edit == 1)
-            {
-                //Company preCompany = new Company();
-                //DataSet dsCompany = new DataSet();
-                //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-                //if (preCompany.Tables[0].Rows.Count > 0)
-                //{
-                //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
-                //}
+               
 
-                //string[] zipWithExtention = preCompany.Zip.Split('-');
-
-                //if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-                //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
-
-                _comCode = preCompany.CompanyCode;
-                ViewBag.Edit = "Yes";
-                _isEdit = 1;
+                if (preCompany != null)
+                {
+                    _comCode = preCompany.CompanyCode;
+                    ViewBag.Edit = "Yes";
+                    _isEdit = 1;
+                }
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -174,8 +151,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     return View(preCompany);
                 }
-
             }
+
+            
             return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
@@ -220,7 +198,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+                bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
                 Session["companyStep"] = 2;
 
                 //user object pass to session
@@ -372,17 +350,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            userData.BranchId = reslt;
+            //userData.BranchId = reslt;
             if (reslt > 0)
             {
                 Session["companyStep"] = 3;
 
                 //user object pass to session
-                userData.BranchId = reslt;
+                if(userData.BranchId == 0)
+                {
+                    userData.BranchId = reslt;
+                }
+                
                 Session["AuthenticatedUser"] = userData;
 
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 3))
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, reslt, 3))
                 {
 
                     // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
@@ -498,7 +480,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
                 //sa.updateStepNumberByUserId(userId, 4);
-                sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                int rol = int.Parse(Session["abcRol"].ToString());
+                int br = int.Parse(Session["abcBrnc"].ToString());
+                if ((rol == 1) && (br == 0))
+                {
+                    sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                }
+                else if ((rol == 2) && (br != 0))
+                {
+                    sa.UpdateCompanySetupStep(userData.Company_Id, br, 4);
+                }
+                Session["abcRol"] = "";
+                Session["abcBrnc"] = "";
                 Session["companyStep"] = 4;
 
                 if (HttpContext.Request.IsAjaxRequest())
@@ -694,6 +687,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(user.Email);
+                
+                Session["abcRol"] = user.RoleId;
+                Session["abcBrnc"] = user.BranchId;
                 email.SendMail(body, "Account details");
 
 
@@ -1013,8 +1009,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
-            if (stepNo < 0)
+            if (stepNo == 3)
             {
+
+                if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4))
+                {
+                    Session["companyStep"] = 4;
+                }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
 
@@ -1191,11 +1192,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
             NonRegCompanyBranchModel nonRegCompanyBranch = new NonRegCompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch = new CompanyBranchModel();
             nonRegCompanyBranch.CompanyBranch.Company = new Company();
+            nonRegCompanyBranch.NonRegCompany= new Company();
             //Get all non registered branches by company id
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-            nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
+            {
+                nonRegCompanyBranch.CompanyBranch.Company = userNonRegCompany.Company;
+            }
+            else {
+                nonRegCompanyBranch.CompanyBranch.Company = nonRegCompanyList[0];
+            }
 
+            if (nonRegCompanyList != null)
+            {
+                if (nonRegCompanyList.Count() == 1)
+                {
+                    nonRegCompanyBranch.NonRegCompany.CompanyId = nonRegCompanyList[0].CompanyId;
+                }
+            }
             if (userData.RoleId != 2)
             {
                 if (HttpContext.Request.IsAjaxRequest())
@@ -1210,12 +1225,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-
             //Select non registered branch for admin's branch
-            var adminBonRegBranches = new List<NonRegBranch>();
-            adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
-            nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+           
+            if (nonRegBranches != null) {
+                var adminBonRegBranches = new List<NonRegBranch>();
+                adminBonRegBranches.AddRange(nonRegBranches.Where(t => userData.BranchId == t.BranchId));
+                nonRegCompanyBranch.NonRegBranches = adminBonRegBranches;
+            }
 
+            
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -1240,6 +1258,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
+            if (nonRegCompanyBranch.NonRegCompanyId == 0)
+            {
+                nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            }
+            
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
             int userId = userData.UserId;
@@ -1278,7 +1301,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1))
+                bool reslt2 = false;
+                if(userData.RoleId == 2)
+                {
+                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1);
+                }
+
+                else if(userData.RoleId == 1)
+                {
+                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, nonRegCompanyBranch.RegBranchId, reslt, 0, 1);
+                }
+                if (reslt2)
                 {
                     //Session["companyStep"] = 6;
                     if (compType == 1)
@@ -1343,7 +1376,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             // check he is super admin or admin
-            if (new UserManageAccess().getUserRole(userId) > 2)
+            if (userData.RoleId > 2)
             {
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
@@ -1373,7 +1406,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //need to update loanSetup object
                 if (loanId > 0)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    if (loanSetupStep1.isInterestCalculate)
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    }
+                    else
+                    {
+                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    }
+                    
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
@@ -1387,7 +1428,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                //sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                 return RedirectToAction("step8");
             }
 
@@ -1440,15 +1481,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userId;
             try
             {
-                userId = int.Parse(Session["userId"].ToString());
+                userId = userData.UserId;
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(404, "Your Session is Expired");
             }
             UserAccess ua = new UserAccess();
-            User curUser = ua.retreiveUserByUserId(userId);
-            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(curUser.Company_Id);
+            //User curUser = ua.retreiveUserByUserId(userId);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
             List<NonRegBranch> newNonRegList = new List<NonRegBranch>();
 
             foreach (NonRegBranch nonRegBranch in NonRegisteredBranchLists)

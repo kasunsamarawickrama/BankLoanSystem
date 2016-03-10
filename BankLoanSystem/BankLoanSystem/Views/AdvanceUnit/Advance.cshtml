@@ -75,7 +75,7 @@
             <div class="control-label col-sm-3" style="text-align:right;padding-top:5px">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
-            <div class="col-xs-3" id="advanceDateAll" >
+            <div class="col-xs-3" id="advanceDateAll" style="width:30%">
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate", autocomplete = "off", @disabled = "disabled" } })
         </div>
             <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" disabled/>
@@ -269,14 +269,14 @@
 
             </div>
             <div class="col-xs-4">
-                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" ,style = "text-align:right;"} })
 
                
                 <div id="tagscloud"><span class="text-danger"></span></div>
             </div>
         </div>
         <div class="form-group">
-            <div class="control-label col-sm-3">
+            <div class="control-label col-sm-3" style="width: 19%;">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 

@@ -94,6 +94,10 @@ namespace BankLoanSystem.Models
 
         public string Note { get; set; }
 
+
+        [Required]
+        [Display(Name = "Advance Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AdvanceDate { get; set; }
 
         [Required(ErrorMessage = "The Advance Date is required")]
@@ -348,7 +352,6 @@ namespace BankLoanSystem.Models
     }
     public class snowmobile
     {
-
         [Display(Name = "VIN")]
         [Required(ErrorMessage = "Enter 17 characters for VIN")]
         [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]

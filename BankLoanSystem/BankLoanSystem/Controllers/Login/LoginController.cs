@@ -18,6 +18,14 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         public ActionResult UserLogin(string lbl, string lbl3)
         {
+
+            // for show the popup message in login page
+            if(Session["isNotCompleteStep"] != null && int.Parse(Session["isNotCompleteStep"].ToString()) == 1)
+                {
+                Session["isNotCompleteStep"] = null;
+                return View();
+            }
+
             ViewBag.login = true;
             if (lbl3 != null)
             {
@@ -29,11 +37,15 @@ namespace BankLoanSystem.Controllers
                 loginlbl.lbl = lbl;
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
+                Session["companyStep"] = null;
+                Session["loanCode"] = null;
                 return View(loginlbl);
             }
             else {
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
+                Session["companyStep"] = null;
+                Session["loanCode"] = null;
                 return View();
             }
         }
@@ -110,6 +122,10 @@ namespace BankLoanSystem.Controllers
                         //user object pass to session
                         Session["AuthenticatedUser"] = userData;
 
+                        //delete just added unit if exists
+                        UnitAccess ua = new UnitAccess();
+                        ua.DeleteJustAddedUnits(userData.UserId);
+
                         //check Company setup process
                         //Check SuperAdmin
                         //company ID null or 0 then redirect to step process 1
@@ -126,17 +142,36 @@ namespace BankLoanSystem.Controllers
                                 //check branch count in view and step table row count
                                 //IF more than branch count and has step record ask question
 
-
                                 DataSet dsStepNo = new DataSet();
-                                dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
+                                dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
                                 if (dsStepNo.Tables[0].Rows.Count > 0)
                                 {
-                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                    return RedirectToAction("Index", "SetupProcess");
+                                    int bcount = 0;
+                                    if (dsStepNo.Tables[0].Rows[0]["branchCount"].ToString() != "")
+                                    {
+                                        bcount = int.Parse(dsStepNo.Tables[0].Rows[0]["branchCount"].ToString());
+                                    }
+                                    int scount = 0;
+                                    if (dsStepNo.Tables[0].Rows[0]["stepCount"].ToString() != "")
+                                    {
+                                        scount = int.Parse(dsStepNo.Tables[0].Rows[0]["stepCount"].ToString());
+                                    }
+                                    if (bcount <= scount)
+                                    {
+                                        Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        return RedirectToAction("Index", "SetupProcess");
+                                        
+                                    }
+                                    else
+                                    {
+                                        //message: Not complete Step, Do you want to complete it.
+                                        Session["isNotCompleteStep"] = 1;
+                                        Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                                        return RedirectToAction("UserLogin", "Login");
+                                    }
                                 }
                                 else
                                 {
-                                    //------------
                                     LoanSetupStep loanStep = new LoanSetupStep();
                                     DataSet dsLoanStepNo = new DataSet();
                                     dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
@@ -157,7 +192,7 @@ namespace BankLoanSystem.Controllers
                                         Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 1)
                                         {
-                                            return RedirectToAction("Step"+(loanStep.stepId+5), "SetupProcess");
+                                            return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
                                         }
                                     }
                                     else
@@ -165,7 +200,7 @@ namespace BankLoanSystem.Controllers
                                         //Redirect to Super Admin dashboard
                                         return RedirectToAction("UserDetails", "UserManagement");
                                     }
-                                       
+
                                 }
 
                             }
@@ -234,11 +269,6 @@ namespace BankLoanSystem.Controllers
                             }
                         }
 
-                        //Check Loan Setup process
-
-                        //Load Super Admin dashboard
-                        //Branch Admin dashboard
-                        //User dashboard
                     }
                     else
                     {

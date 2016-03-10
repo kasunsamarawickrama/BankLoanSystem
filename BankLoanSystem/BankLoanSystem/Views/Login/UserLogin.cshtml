@@ -3,8 +3,24 @@
     ViewBag.Title = "UserLogin";
     Layout = "~/Views/Shared/_login.cshtml";
 }
-<style>
 
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+<script>
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 14 + '%' }); //show the appropriate popup and set the content 20px from the window top
+    }
+   
+
+</script>
+<style>
+    .overlay-content{
+        top:14%;
+        width:600px;
+    }
     .validation-summary{
     display:none;
 }
@@ -17,6 +33,29 @@
 
 
 </style>
+
+
+    @if ( Session["companyStep"] != null && int.Parse(Session["companyStep"].ToString()) > 0)
+    {
+        <div class="overlay-bg">
+        </div>
+<div class="overlay-content popup1" style="left:55%" >
+    <h3>Company Setup is on Progress</h3>
+
+    <span class="text-warning">Do you wish to continue the Company Setup?</span><br />
+    <span> Press YES to Complete the Setupprocess, or NO to go to Dashboard.</span><br />
+    <br />
+    @Html.ActionLink("YES", "Index", "SetupProcess" , null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+    @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
+</div>
+<script>
+       
+    showPopup(1);
+
+       
+</script>
+
+    }
 
        
             <div>
@@ -67,7 +106,31 @@
 
 
             }
+<script>
 
+
+        
+
+        // function to close our popups
+        function closePopup() {
+            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        }
+
+        // show popup when you click on the link
+        $('.show-popup').click(function (event) {
+            //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+            showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+        });
+
+        $('.close-btn').click(function () {
+            closePopup();
+        });
+
+
+
+</script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

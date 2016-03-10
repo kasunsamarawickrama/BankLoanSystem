@@ -12,7 +12,17 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<style>
 
+    
+            .form-control{
+        display:inline;
+    }
+    .form-group{
+        margin:auto;
+        margin-bottom: 10px;
+    }
+</style>
 
 
 
@@ -43,8 +53,8 @@
                     </div>
 
                     <div class="col-xs-2" style="float:left;margin-left: 145px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest", @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "return focusFunction()" } })
-                        @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
+                        @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" ,style= "width: 200%;" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
                 </div>
@@ -57,29 +67,35 @@
 
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "once a month", new { id = "onceMonth" }) Once a month
-                        @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
+                       
                     </div>
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.option, "payoff", new { id = "payOff" }) Pay off date
-                        @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.option, "", new { @class = "text-danger" , style= "left: 23%;top: 28 %;" })
                     </div>
-                    <div id="paidDateDiv">
-                        <div class="control-label col-sm-2" style="margin-top:25px;margin-left:-150px">
-                            @Html.LabelFor(model => model.PaidDate, htmlAttributes: new {})<span style="color: red">*</span>
-                        </div>
-                        <div class="col-xs-4">
-                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-270px" })
-                            @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
-                        </div>
-                        
-                        
-                    </div>
+                   
                     
                    
                     
                     
 
                 </div>
+               
+                <div id="paidDateDiv">
+                    <hr />
+                    <div class="form-group">
+                       
+                        <div class="control-label col-sm-2" >
+                            @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
+                        </div>
+                        <div class="col-xs-4">
+                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-270px" })
+                            @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" , style = "left: -94%;top: 100%;" })
+                        </div>
+                       
+                    </div>
+                    <hr />
+                    </div>
 
                 <div class="form-group">
                     <div class="control-label col-sm-2">
@@ -91,8 +107,10 @@
                     </div>
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.PaymentPeriod, "payment date to payment date", false) Interest from payment date to payment date
+
+                        @Html.ValidationMessageFor(model => model.PaymentPeriod, "", new { @class = "text-danger" , style = "left: 3%;top: 100%;" })
                     </div>
-                    @Html.ValidationMessageFor(model => model.PaymentPeriod, "", new { @class = "text-danger" })
+                   
                 </div>
 
                 <div class="form-group">
@@ -101,7 +119,7 @@
                     </div>
                     <div class="col-xs-4">
                         @Html.DropDownListFor(model => model.AccrualMethodId, null, "--Select Method--", htmlAttributes: new { @class = "form-control", id = "MethodId", @style = "margin-left:-270px" })
-                        @Html.ValidationMessageFor(model => model.AccrualMethodId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.AccrualMethodId, "", new { @class = "text-danger", style = "left: -94%;top: 100%;" })
                     </div>
                 </div>
 
@@ -116,11 +134,13 @@
                     </div>
                     <div class="col-xs-8">
                         @Html.RadioButtonFor(model => model.NeedReminder, "false", new { id = "radioNo" }) No
+                        @Html.ValidationMessageFor(model => model.NeedReminder, "", new { @class = "text-danger" , style = "left: 3%;top: 100%;" })
                     </div>
-                    @Html.ValidationMessageFor(model => model.NeedReminder, "", new { @class = "text-danger" })
+                    
                     
                 </div>
                 <div id="autoRemind">
+                    <hr />
                     <div class="form-group">
                         <div class="control-label col-sm-2">
                             @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })<span style="color: red">*</span>
@@ -131,7 +151,7 @@
                         {
                             <div class="col-xs-5" style="margin-left:135px">
                                 @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" ,@maxlength =100} })
-                                @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" , style = "left: 3%;top: 100%;" })
                             </div>
                         }
                         else
@@ -144,19 +164,19 @@
 
 
                         <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-left:15px">
+                            <div class="control-label col-sm-2" style="margin-left:15px;margin-top:10px">
                                 @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })<span style="color: red">*</span>
 
                             </div>
-                            <div class="col-xs-5" style="margin-left:285px;margin-top:10px">
-                                @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod" } })
+                            <div class="col-xs-5" style="margin-left:285px;">
+                                @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod", @maxlength=5 } })
                                 @Html.ValidationMessageFor(model => model.RemindPeriod, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                     </div>
 
-
+                    <hr />
                 </div>
 
 
@@ -184,9 +204,58 @@
         }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
+    $("#interest").keypress(function(e){   
+        var interest = $('#interest').val();
+        if($('#interest').val().length >= 7){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,interest)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+
+    $("#autoRemindEmail").keypress(function(e){   
+      
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) ||(ch >= 65 && ch <= 90) ||(ch >= 97 && ch <= 122)|| (ch == 46) ||(ch == 64)) {
+            return 1;
+        }
+        
+        else{
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
+
+    $("#autoRemindPeriod").keypress(function(e){   
+      
+        var ch = e.which;
+        if (ch >= 48 && ch <= 57) {
+            return 1;
+        }
+        
+        else{
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
     //Check maximum Email
     $('#autoRemindEmail').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    $('#autoRemindPeriod').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 5);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    $('#interest').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 7);
         if (res === 0) {
             e.preventDefault();
         }

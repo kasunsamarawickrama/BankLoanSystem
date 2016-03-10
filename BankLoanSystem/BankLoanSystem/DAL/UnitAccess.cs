@@ -79,7 +79,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unitList"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceAllSelectedItems(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
+        public int AdvanceItemList(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
         {
             int countVal = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
@@ -100,7 +100,7 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                             cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
 
-                            
+
 
                             SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
 
@@ -114,7 +114,7 @@ namespace BankLoanSystem.DAL
                             //return countVal;
                         }
                         countVal = countVal + 1;
-                        
+
                     }
                     return countVal;
                 }
@@ -143,7 +143,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unitObj"></param>
         /// <param name="userId"></param>
         /// <returns>countVal</returns>
-        public int AdvanceSelectedItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
+        public int AdvanceItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
@@ -210,7 +210,8 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@unit_id", unit.UnitId);
                         cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
                         cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
-                        if (unit.UnitTypeId == 1) {
+                        if (unit.UnitTypeId == 1)
+                        {
                             cmd.Parameters.AddWithValue("@identification_number", unit.vehicle.IdentificationNumber);
                             cmd.Parameters.AddWithValue("@year", unit.vehicle.Year);
                             cmd.Parameters.AddWithValue("@make", unit.vehicle.Make);
@@ -224,7 +225,8 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.AddWithValue("@speed", unit.Speed);
                             cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
                             cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }else if (unit.UnitTypeId == 2)
+                        }
+                        else if (unit.UnitTypeId == 2)
                         {
                             cmd.Parameters.AddWithValue("@identification_number", unit.rv.IdentificationNumber);
                             cmd.Parameters.AddWithValue("@year", unit.rv.Year);
@@ -357,9 +359,15 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
                         cmd.Parameters.AddWithValue("@is_title_received", unit.IsTitleReceived);
                         cmd.Parameters.AddWithValue("@note", unit.Note);
-                        cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
                         cmd.Parameters.AddWithValue("@add_or_advance", unit.AddAndAdvance);
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
+                        if (unit.IsAdvanced == true)
+                        {
+                            cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
+                        }
+                        else {
+                            cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
+                        }
                         cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
                         cmd.Parameters.AddWithValue("@status", unit.Status);
 
@@ -371,9 +379,9 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        if(Convert.ToInt32(returnParameter.Value) == 1)
+                        if (Convert.ToInt32(returnParameter.Value) == 1)
                             return true;
-                        else if(Convert.ToInt32(returnParameter.Value) == 0)
+                        else
                         {
                             return false;
                         }
@@ -381,11 +389,10 @@ namespace BankLoanSystem.DAL
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    //return false;
                     throw ex;
                 }
             }
-            return false;
         }
 
         /// <summary>
@@ -579,7 +586,7 @@ namespace BankLoanSystem.DAL
                         while (reader.Read())
                         {
                             JustAddedUnit justAddedUnit = new JustAddedUnit();
-                            
+
                             justAddedUnit.model = reader["model"].ToString();
                             justAddedUnit.advanceAmount = (reader["advance_amount"]) != DBNull.Value ? (Decimal)reader["advance_amount"] : (Decimal)0.00;
                             justAddedUnit.isAdvance = Convert.ToBoolean(reader["is_advanced"]);
@@ -631,7 +638,7 @@ namespace BankLoanSystem.DAL
                             vym.VehicleModel = reader["model"].ToString();
                             modelList.Add(vym);
 
-                           
+
                         }
                     }
                     return modelList;
@@ -656,7 +663,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<UnitYearMakeModel> GetVehicleMakesByYear( int year)
+        public List<UnitYearMakeModel> GetVehicleMakesByYear(int year)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
@@ -868,9 +875,6 @@ namespace BankLoanSystem.DAL
             return year;
         }
 
-
-
-
         /// <summary>
         /// 
         /// CreatedBy:  Kanishka 
@@ -903,6 +907,22 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        //        private bool ValidateAdvanceAmount()
+        //        {
+        //            var advancePt = model.AdvancePt;
+        //            //var maxCost = model.LoanAmount * 100 / advancePt;
+        //            var maxCost = model.Balance * 100 / advancePt;
+        //            var maxAdvance = model.Balance;
+
+        //            if (cost <= maxCost)
+        //            {
+        //                var advanceAmount = (advancePt * val) / 100;
+
+
+        //else
+        //  $("#tagscloud span").text("Cost must be less than balance");
+        //            }
 
     }
 }

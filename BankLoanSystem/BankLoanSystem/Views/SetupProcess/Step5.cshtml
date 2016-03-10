@@ -131,8 +131,8 @@ else
                             <td class="control-label col-sm-3">
                                 @Html.Label("Partner Branch Address1")
                             </td>
-                            <td class="control-label col-sm-3"></td>
-                            <td class="control-label col-sm-3"></td>
+                            <td class="control-label col-sm-3">@Html.Label("Edit")</td>
+                            <td class="control-label col-sm-3">@Html.Label("Delete")</td>
                         </tr>
 
                         @for (var i = 0; i < Model.NonRegBranches.Count; i++)
@@ -164,7 +164,7 @@ else
                 @if (Model.NonRegBranches != null)
                 {
                     <div class="control-label col-sm-3">
-                        <a onclick="CreateNewBranch()">create new branch</a>
+                        <a onclick="CreateNewBranch()">create new partner branch</a>
                     </div>
                 }
                 else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
@@ -187,13 +187,15 @@ else
                             @Html.LabelFor(model => model.RegBranchId, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
                         <div class="col-xs-11">
-                            @*@if (Enumerable.Count(ViewBag.RegBranchId) == 1)
-                                {
-                                    @Html.DropDownListFor(model => model.RegBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegBranchId",@disabled =true })
+                            @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
+                            {
+                                @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
+                                @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                @*@Html.DropDownListFor(model => model.RegBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegBranchId",@disabled =true })*@
                                 }
-                                else {*@
-                            @Html.DropDownListFor(model => model.RegBranchId, null, "Select Branch", htmlAttributes: new { @class = "form-control", id = "RegBranchId" })
-                            @*}*@
+                                else {
+                            @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "RegBranchId" })
+                            }
                             @Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -204,13 +206,16 @@ else
                         @Html.Label("Partner Company Name", htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
                     <div class="col-xs-11">
-                        @*@if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                            {
-                                @Html.DropDownListFor(model => model.NonRegCompanyId, null, htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId", @disabled = true })
+                        @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                        {
+                            
+                            @Html.HiddenFor(model => model.NonRegCompany.CompanyId)
+                            @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                            @*@Html.DropDownListFor(model => model.NonRegCompanyId, null, htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId", @disabled = true })*@
                             }
-                            else {*@
+                            else {
                         @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId" })
-                        @*}*@
+                        }
                         @Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -652,6 +657,8 @@ else
     };
 
     function CreateNewBranch(){
+        $('#btnNext').val('Next');
+        $('#nonRegBranchDiv').show();
         document.getElementById("branchName").value = "";
         document.getElementById("branchAddress1").value = "";
         document.getElementById("branchAddress2").value = "";
@@ -667,8 +674,7 @@ else
         document.getElementById("branchCode").value = "";
         document.getElementById("RegBranchId").value = "";
         document.getElementById("NonRegCompanyId").value = "";
-        $('#btnNext').val('Next');
-        $('#nonRegBranchDiv').show();
+        
     }
 
     Progress(5);
