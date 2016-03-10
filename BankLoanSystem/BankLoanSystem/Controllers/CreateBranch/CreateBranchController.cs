@@ -12,6 +12,28 @@ namespace BankLoanSystem.Controllers.CreateBranch
     {
         private static string _type = "";
         private static UserCompanyModel _userCompany = null;
+        User userData = new User();
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                try
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                catch
+                {
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                }
+            }
+            else
+            {
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
+                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
+
         // GET: CreateBranch
         /// <summary>
         /// 
@@ -43,12 +65,8 @@ namespace BankLoanSystem.Controllers.CreateBranch
         public ActionResult CreateBranchPost(Branch branch)
         {
             ViewBag.Type = "";
-            if (Session["userId"] == null || Session["userId"].ToString() == "")
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
 
-            int id = (int)Session["userId"];
+            int id = userData.UserId;
             //branch.StateId = branch.StateId2;
             BranchAccess br = new BranchAccess();
             int reslt = br.insertBranchDetails(branch, id);

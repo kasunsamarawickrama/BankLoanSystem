@@ -27,12 +27,12 @@ namespace BankLoanSystem.Controllers.DashBoard
                 }
                 catch
                 {
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
                 //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
         }

@@ -44,27 +44,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                     }
-
-
-
                 }
                 catch
                 {
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
             }
-
-            //else
-            //{
-            //    filterContext.Result = new RedirectResult("~/Login/UserLogin");
-            //    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-            //}
-
         }
 
         public ActionResult Index()
@@ -81,7 +72,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyAccess ca = new CompanyAccess();
                 Company company = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                return View();
+                //return View();
+                return RedirectToAction("Step2");
             }
 
             else if (stepNo == 5)

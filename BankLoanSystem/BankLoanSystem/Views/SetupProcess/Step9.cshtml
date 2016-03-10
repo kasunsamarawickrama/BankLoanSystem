@@ -152,7 +152,7 @@
         }
  
 
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript" type="text/javascript">
     function passvalueTitle(e1){
         //alert(e);
@@ -167,7 +167,7 @@
     }
     function passvalueTimeLimit(e2){
         //alert(e);
-        if(e2 == "At Any Time"){
+        if((e2 == "At Any Time")||(e2 == "-- Select Time Limit --")){
             $('#RemindEmailDiv').hide();
            
         }
@@ -179,7 +179,7 @@
     function passvalue(e){
         //alert(e);
        
-        if(e == "Title Present To Advance"){
+        if((e == "Title Present To Advance")||(e == "-- Select Accepted Method --")){
             $('#ScannTitle').hide();
             $('#TimeLimit').hide();
             //alert(e.value);
@@ -218,7 +218,7 @@
             $('#needReceipt').hide();
             $('#ScannTitle').hide();
             $('#RemindEmailDiv').hide();
-
+            $('#TimeLimit').hide();
             
             $('#timeLimit').change(function(){
                 var e2 = $('#timeLimit option:selected').text();
