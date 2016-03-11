@@ -60,25 +60,26 @@ else
                 </span>
             }
 
-            <input type="hidden" id="cal" name="cal" />
+            <input type="hidden" id="cal" name="cal"/>
+
+
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new {})</td>
+                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
                         <td width="60%">
-                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new {@id = "rdFullPayment", @class = "payment"})
+                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                             Full payment
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new {@id = "rdAdvance", @class = "payment"})
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
                             Advance
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            </td>
+                        <td></td>
                         <td><div id="customErrorCalBase"><span class="text-danger"></span></div></td>
                     </tr>
                 </table>
-                
+
                 <div>
                     @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
                 </div>
@@ -88,20 +89,41 @@ else
 
 
             </div>
-            <br />
 
+            
+            <div class="form-group">
+                @if (Model.RemainingPercentage >= 0)
+                    {
+                    <span style="background-color: yellow" id="spnremainPt">
+                    </span>
+                    <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
+                        <span style="background-color: red" id="spnremainPtError"></span>
+                        <br />
+                        <span style="background-color: yellow">
+                            Advance Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                        </span>
+
+
+
+                }
+                <br />
+                <span style="background-color: yellow">
+                    Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
+                </span>
+            </div>
+            <br />
             <div id="CurtailmentGrid">
                 <div class="form-group">
                     <div style="text-align: center;">
                         <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 60%;">
                             <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
-                                <th style="width: 10%;" height="30px">
+                                <th style="width: 10%; text-align: center" height="30px">
                                     <p id="cuId"> Curt#</p>
                                 </th>
-                                <th style="width: 35%;" height="30px">
+                                <th style="width: 35%; text-align: center" height="30px">
                                     <p id="time">@Model.TimeBase</p>
                                 </th>
-                                <th style="width: 35%;" height="30px">
+                                <th style="width: 35%; text-align: center" height="30px">
                                     <p id="pecentage">Percentage(%)</p>
                                 </th>
                                 <th style="width: 20%;" height="30px">
@@ -112,18 +134,18 @@ else
                                 <tr>
                                     <td style="width: 10%;"><label id="lblCur">@*@Model.InfoModel[a].CurtailmentId*@1</label></td>
                                     <td style="width: 35%;">
-                                        <input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled">
+                                        <input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
                                     <td style="width: 35%;">
-                                        <input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled">
+                                        <input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
 
                                     <td style="width: 20%;">
                                         @*@if (a != 0)
                                             {*@
-                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" />
+                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px"/>
                                         @*}*@
                                     </td>
 
@@ -135,36 +157,18 @@ else
             </div>
 
             <div class="form-group">
-                @if (Model.RemainingPercentage >= 0)
-                {
-                    <span style="background-color: yellow" id="spnremainPt">
-                    </span>
-                    <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
-                    <span style="background-color: red" id="spnremainPtError"></span>
-                    <span style="background-color: red" id="spnremainTimeError"></span>
-                    <br />
-                    <span style="background-color: yellow">
-                        Advance Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
-                    </span>
-
-
-
-                }
+                <div id="customErrorTable"><span class="text-danger"></span></div>
                 <br />
-                <span style="background-color: yellow">
-                    Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-                </span>
+                <div id="spnremainTimeError"><span class="text-danger"></span></div>
             </div>
-
-            <br />
-            <br />
+            <br/>
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new {})</td>
+                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
                         <td width="60%">
-                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new {@id = "rdYes", @class = "Active"}) Yes
-                            @Html.RadioButtonFor(m => m.Activate, "No", new {@id = "rdNo", @class = "Active"}) No
+                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
+                            @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
                         </td>
                     </tr>
                     <tr>
@@ -172,7 +176,7 @@ else
                         <td><div id="customErrorLoanStatus"><span class="text-danger"></span></div></td>
                     </tr>
                 </table>
-                
+
             </div>
 
             <div class="form-group">
@@ -191,6 +195,11 @@ else
 }
 @*Grid view*@
 <script type="text/javascript">
+
+    $('#dashBoard').click(function () {
+        window.location.replace('@Url.Action("UserDetails", "UserManagement")');
+    });
+
     //Assign model details to global variable
     var model = @Html.Raw(Json.Encode(Model));
 
@@ -199,7 +208,7 @@ else
     var remainingTime = model.RemainingTime;
     var difPercentage = parseInt(100) - parseInt(model.AdvancePt);
     var id = 1;
-
+    var payPercentage = 0;
     var isFirst = true;
 
     var list = { currentList: [] };
@@ -210,11 +219,11 @@ else
             id +
             '</label></td>' +
             '<td style="width: 35%;">' +
-            '<input class="clstimePeriod" id="timePeriod" type="text" value="">' +
+            '<input class="clstimePeriod" id="timePeriod" type="text" value="" style="text-align: right">' +
             '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
             '</td>' +
             '<td style="width: 35%;">' +
-            '<input class="clsaddCuirtailment" id="percentage" type="text" value="">' +
+            '<input class="clsaddCuirtailment" id="percentage" type="text" value="" style="text-align: right">' +
             '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
             '</td>' +
             '<td style="width: 20%;">' +
@@ -222,6 +231,15 @@ else
             '</td>' +
             '</tr>';
     }
+
+    $(document).on('click', '.clsaddCuirtailment', function (e) {
+        $('#customErrorTable').children('span').text("");
+    });
+
+    $(document).on('click', '.clstimePeriod', function (e) {
+        $('#spnremainTimeError').children('span').text("");
+        $('#customErrorTable').children('span').text("");
+    });
 
     // allow to enter only numbers
     $(document).on('keypress', '.clsaddCuirtailment, .clstimePeriod', function (e) {
@@ -248,6 +266,7 @@ else
     });
 
     $(document).on('blur', '.clstimePeriod', function (e) {
+
         var tr = $(this).parents('tr:first');
 
         var curid = tr.find("#lblCur").html();
@@ -258,15 +277,18 @@ else
             previousTime = list.currentList[curid - 2].TimePeriod;
 
         if (timePeriod > remainingTime) {
-            $('#spnremainTimeError').text('You entered time is greater than paid of period');
-        } else if (timePeriod < previousTime && timePeriod > 0) {
-            $('#spnremainTimeError').text('You entered time should be greater than previous time');
+            //$('#spnremainTimeError').text('You entered time is greater than paid of period');
+            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+        } else if (timePeriod <= previousTime && timePeriod > 0) {
+            //$('#spnremainTimeError').text('You entered time should be greater than previous time');
+            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
         }
         //else if(timePeriod < previousTime){
         //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
         //}
         else {
-            $('#spnremainTimeError').text('');
+            //$('#spnremainTimeError').text('');
+            $('#spnremainTimeError').children('span').text("");
         }
 
         //if(timePeriod < list.currentList[j].TimePeriod)
@@ -316,7 +338,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
                 //$('#tblGrid').css('border-color', 'red');
                 document.getElementById("tblGrid").style.borderColor = "green";
@@ -361,7 +383,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
             } else {
                 //alert('blur ' + remainingPt);
@@ -378,7 +400,7 @@ else
     //update remaining percentage
     $('.payment').change(function() {
         $('#customErrorCalBase').children('span').text("");
-
+        $('#customErrorTable').children('span').text("");
         //enable textboxes
         $('.clstimePeriod').prop("disabled", false);
         $('.clsaddCuirtailment').prop("disabled", false);
@@ -388,23 +410,31 @@ else
         // track first time
         if (isFirst === true) {
             isFirst = false;
-
+            alert('true');
             if(calcMode === 'Full payment') {
+                payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(model.AdvancePt);
 
             }
             else if (calcMode === 'Advance') {
+                payPercentage = parseInt(100);
                 remainingPt = parseInt(100);
             }
         } else {
+            //alert('false');
             if(calcMode === 'Full payment') {
-                if (isFullFirst === true) {
-                    isFullFirst = false;
-                } else {
-                    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
-                }
+
+                payPercentage = parseInt(model.AdvancePt);
+                remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                //if (isFullFirst === true) {
+                //    isFullFirst = false;
+                //} else {
+                //    alert('false');
+                //    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                //}
             }
             else if (calcMode === 'Advance') {
+                payPercentage = parseInt(100);
                 isFullFirst = false;
                 remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
             }
@@ -418,7 +448,7 @@ else
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('');
 
-            if (val === 'Completed' && isRowAdded === false) {
+            if (val === 'Curtailment schedule Completed.' && isRowAdded === false) {
                 var strTr = createTableRow(id);
                 $('#tblGrid').append(strTr);
                 isRowAdded = true;
@@ -426,7 +456,7 @@ else
         }
         else if (parseInt(remainingPt) === 0) {
             $('#spnremainPt').text('');
-            $('#spnremainPtComplete').text('Completed');
+            $('#spnremainPtComplete').text('Curtailment schedule Completed.');
             $('#spnremainPtError').text('');
         } else {
             $('#spnremainPt').text('');
@@ -442,7 +472,7 @@ else
     //delete row
     $(document).on('click', '.btnDeleteRow', function () {
         var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
-
+        $('#customErrorTable').children('span').text("");
         if(tblLength > 1)
         {
             var tr = $(this).parents('tr:first');
@@ -493,7 +523,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
             } else {
                 $('#spnremainPt').text('');
@@ -508,8 +538,9 @@ else
     });
 
     $('#btnCreate').click(function() {
-
+        $('#customErrorTable').children('span').text("");
         var calBase = $('.payment').filter(':checked').val();
+
         //alert(calBase);
         if (calBase === 'Full payment' || calBase === 'Advance') {
             //alert(calBase);
@@ -534,7 +565,7 @@ else
                 var curid = $(this).find("#lblCur").html();
                 var timePeriod = $(this).find("#timePeriod").val();
                 var percentage = $(this).find("#percentage").val();
-                
+
                 data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
             });
 
@@ -550,13 +581,21 @@ else
                 }
             });
         }
-        if (remainingPt > 0) {
-            
+        if (remainingPt > 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No')) {
+            //$('#customErrorTable').children('span').text("Total curtailment % equals 2 but should be equal to 85. Please adjust the curtailment schedule.");
+            var currentListLenght = Object.keys(list.currentList).length;
+            var totatlPercentage = 0;
+            for (var j = 0; j < currentListLenght; j++) {
+                totatlPercentage = parseInt(totatlPercentage) + parseInt(list.currentList[j].Percentage);
+            }
+
+            $('#customErrorTable').children('span').text("Total curtailment % equals " + totatlPercentage + " but should be equal to " + payPercentage + ". Please adjust the curtailment schedule.");
         }
     });
 
     //set loan status
     $('.Active').change(function () {
+        //$('#customErrorTable').children('span').text("");
         $('#customErrorLoanStatus').children('span').text("");
 
         //$.ajax({
@@ -601,10 +640,6 @@ else
 
             }
         });
-    });
-
-    $('#dashBoard').click(function () {
-        window.location.replace('@Url.Action("UserDetails", "UserManagement")');
     });
 
     @*$(function () {

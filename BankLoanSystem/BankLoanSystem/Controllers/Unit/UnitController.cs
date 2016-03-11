@@ -74,7 +74,7 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             ViewBag.loanDetails = _loan;
-            if (ViewBag.loanDetails.selectedUnitTypes.Count == 1) {
+            if (_loan.selectedUnitTypes.Count == 1) {
                 ViewBag.UnitTypeId = _loan.selectedUnitTypes[0].unitTypeName;
             }
 
