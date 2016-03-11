@@ -195,6 +195,11 @@ else
 }
 @*Grid view*@
 <script type="text/javascript">
+
+    $('#dashBoard').click(function () {
+        window.location.replace('@Url.Action("UserDetails", "UserManagement")');
+    });
+
     //Assign model details to global variable
     var model = @Html.Raw(Json.Encode(Model));
 
@@ -273,14 +278,14 @@ else
 
         if (timePeriod > remainingTime) {
             //$('#spnremainTimeError').text('You entered time is greater than paid of period');
-            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
         } else if (timePeriod <= previousTime && timePeriod > 0) {
             //$('#spnremainTimeError').text('You entered time should be greater than previous time');
             $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
         }
-            //else if(timePeriod < previousTime){
-            //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
-            //}
+        //else if(timePeriod < previousTime){
+        //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
+        //}
         else {
             //$('#spnremainTimeError').text('');
             $('#spnremainTimeError').children('span').text("");
@@ -333,7 +338,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
                 //$('#tblGrid').css('border-color', 'red');
                 document.getElementById("tblGrid").style.borderColor = "green";
@@ -378,7 +383,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
             } else {
                 //alert('blur ' + remainingPt);
@@ -405,7 +410,7 @@ else
         // track first time
         if (isFirst === true) {
             isFirst = false;
-
+            alert('true');
             if(calcMode === 'Full payment') {
                 payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(model.AdvancePt);
@@ -416,13 +421,17 @@ else
                 remainingPt = parseInt(100);
             }
         } else {
+            //alert('false');
             if(calcMode === 'Full payment') {
+
                 payPercentage = parseInt(model.AdvancePt);
-                if (isFullFirst === true) {
-                    isFullFirst = false;
-                } else {
-                    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
-                }
+                remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                //if (isFullFirst === true) {
+                //    isFullFirst = false;
+                //} else {
+                //    alert('false');
+                //    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                //}
             }
             else if (calcMode === 'Advance') {
                 payPercentage = parseInt(100);
@@ -439,7 +448,7 @@ else
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('');
 
-            if (val === 'Completed' && isRowAdded === false) {
+            if (val === 'Curtailment schedule Completed.' && isRowAdded === false) {
                 var strTr = createTableRow(id);
                 $('#tblGrid').append(strTr);
                 isRowAdded = true;
@@ -447,7 +456,7 @@ else
         }
         else if (parseInt(remainingPt) === 0) {
             $('#spnremainPt').text('');
-            $('#spnremainPtComplete').text('Completed');
+            $('#spnremainPtComplete').text('Curtailment schedule Completed.');
             $('#spnremainPtError').text('');
         } else {
             $('#spnremainPt').text('');
@@ -514,7 +523,7 @@ else
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
             } else {
                 $('#spnremainPt').text('');
@@ -631,10 +640,6 @@ else
 
             }
         });
-    });
-
-    $('#dashBoard').click(function () {
-        window.location.replace('@Url.Action("UserDetails", "UserManagement")');
     });
 
     @*$(function () {
