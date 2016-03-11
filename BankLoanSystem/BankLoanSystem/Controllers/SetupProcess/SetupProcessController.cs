@@ -961,7 +961,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             if (NonRegisteredBranchLists.Count == 1)
-            {
+            {   
+                if(userData.RoleId == 1)
+                {
+                    // the get registered branch detail from the company branches list
+                    foreach (Branch branch in RegisteredBranchLists)
+                    {
+                        if (branch.BranchId == NonRegisteredBranchLists[0].BranchId)
+                        {
+                            var newList = new List<Branch>();
+                            newList.Add(branch);
+                            ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", userData.BranchId);
+                        }
+                    }
+                }
                 loanSetupStep1.nonRegisteredBranchId = NonRegisteredBranchLists[0].NonRegBranchId;
             }
 
@@ -1146,7 +1159,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
 
-            if (lbls != null && (lbls.Equals("Create A Dealer Branch Successfully") || lbls.Equals("Create A Lender Branch Successfully")))
+            if (lbls != null && (lbls.Equals("Dealer branch is successfully created") || lbls.Equals("Lender branch is successfully created")))
             {
                 ViewBag.SuccessMsg = lbls;
                 //sa.updateStepNumberByUserId(userId, 4);
@@ -1319,11 +1332,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     //Session["companyStep"] = 6;
                     if (compType == 1)
                     {
-                        ViewBag.SuccessMsg = "Create A Dealer Branch Successfully";
+                        ViewBag.SuccessMsg = "Dealer branch is successfully created";
                     }
                     else if (compType == 2)
                     {
-                        ViewBag.SuccessMsg = "Create A Lender Branch Successfully";
+                        ViewBag.SuccessMsg = "Lender branch is successfully created";
                     }
                     loanData.stepId = 1;
                     Session["loanStep"] = loanData;

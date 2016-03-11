@@ -2099,7 +2099,41 @@
             e.preventDefault();
         }
     });
-    
+    $("#rvlength").keypress(function(e){ 
+        var val = $("#rvlength").val();
+        if($('#rvlength').val().length >= 10){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,val)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    $("#camperlength").keypress(function(e){ 
+        var val = $("#camperlength").val();
+        if($('#camperlength').val().length >= 10){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,val)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    function numericAllowDecimal(e,val){
+        var ch = e.which;
+        if(val.indexOf('.')=== -1){
+            if ((ch >= 48 && ch <= 57 )|| ch == 46) {
+                return 1;
+            }
+        }else{
+            if (ch >= 48 && ch <= 57 ) {
+                return 1;
+            }
+        }
+        return 0;
+    }
     function alphaNumericAllow(e){
         var ch = e.which;
         if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) ){
