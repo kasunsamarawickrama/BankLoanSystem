@@ -109,17 +109,17 @@
                         @if (ViewBag.isLender == true)
                         {
                             
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Need Reciept After Advance Paid?", htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @*@Html.CheckBoxFor(model => model.IsAdvanceFeeCompleteEmailReminder, new { @id = "needReminderAdvanceComplete", htmlAttributes = new { Value = false } })*@
+                                    
                                     @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, true, new { @id = "advanceNeedReceiptT" }) Yes
                                     @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, false, new { @id = "advanceNeedReceiptF" }) No
                                     @Html.ValidationMessageFor(model => model.AdvanceNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
@@ -258,17 +258,16 @@
                         @if (ViewBag.isLender == true)
                         {
                             
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Need Reciept After Loan Paid?", htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @*@Html.CheckBoxFor(model => model.IsLoanFeeCompleteEmailReminder, new { @id = "needReminderLoanComplete", htmlAttributes = new { Value = false } })*@
                                     @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, true, new { @id = "monthlyLoanNeedReceiptT" }) Yes
                                     @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, false, new { @id = "monthlyLoanNeedReceiptF" }) No
                                     @Html.ValidationMessageFor(model => model.MonthlyLoanNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div>*@
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
                                         @Html.Label("Fee complete auto reminder?", htmlAttributes: new { })
@@ -409,17 +408,16 @@
                         </div>
                         @if (ViewBag.isLender == true)
                         {
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Need Reciept After Lot Inspection Paid?", htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @*@Html.CheckBoxFor(model => model.IsLotFeeCompleteEmailReminder, new { @id = "needReminderLotComplete", htmlAttributes = new { Value = false } })*@
                                     @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, true, new { @id = "lotInspectionNeedReceiptT" }) Yes
                                     @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, false, new { @id = "lotInspectionNeedReceiptF" }) No
                                     @Html.ValidationMessageFor(model => model.LotInspectionNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
@@ -661,10 +659,10 @@
             $('#remindEmailAdvanceDue').hide();
             $("#needReminderAdvanceDueT").prop("checked", false);
             $("#needReminderAdvanceCompleteT").prop("checked", false);
-            $("#advanceNeedReceiptT").prop("checked", false);
+            //$("#advanceNeedReceiptT").prop("checked", false);
             $("#needReminderAdvanceDueF").prop("checked", false);
             $("#needReminderAdvanceCompleteF").prop("checked", false);
-            $("#advanceNeedReceiptF").prop("checked", false);
+            //$("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -786,10 +784,10 @@
                 $('#remindEmailAdvanceDue').hide();
                 $("#needReminderAdvanceDueT").prop("checked", false);
                 $("#needReminderAdvanceCompleteT").prop("checked", false);
-                $("#advanceNeedReceiptT").prop("checked", false);
+                //$("#advanceNeedReceiptT").prop("checked", false);
                 $("#needReminderAdvanceDueF").prop("checked", false);
                 $("#needReminderAdvanceCompleteF").prop("checked", false);
-                $("#advanceNeedReceiptF").prop("checked", false);
+                //$("#advanceNeedReceiptF").prop("checked", false);
                 document.getElementById("advanceDueDate").value = "";
                 document.getElementById("advanceDealerEmail").value = "";
                 document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -909,10 +907,10 @@
             $('#remindEmailAdvanceDue').hide();
             $("#needReminderAdvanceDueT").prop("checked", false);
             $("#needReminderAdvanceCompleteT").prop("checked", false);
-            $("#advanceNeedReceiptT").prop("checked", false);
+            //$("#advanceNeedReceiptT").prop("checked", false);
             $("#needReminderAdvanceDueF").prop("checked", false);
             $("#needReminderAdvanceCompleteF").prop("checked", false);
-            $("#advanceNeedReceiptF").prop("checked", false);
+            //$("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -974,10 +972,10 @@
         $('#remindEmailAdvanceDue').hide();
         $("#needReminderAdvanceDueT").prop("checked", false);
         $("#needReminderAdvanceCompleteT").prop("checked", false);
-        $("#advanceNeedReceiptT").prop("checked", false);
+        //$("#advanceNeedReceiptT").prop("checked", false);
         $("#needReminderAdvanceDueF").prop("checked", false);
         $("#needReminderAdvanceCompleteF").prop("checked", false);
-        $("#advanceNeedReceiptF").prop("checked", false);
+        //$("#advanceNeedReceiptF").prop("checked", false);
         document.getElementById("advanceDueDate").value = "";
         document.getElementById("advanceDealerEmail").value = "";
         document.getElementById("advanceDealerEmailRemindPeriod").value = "";

@@ -1584,7 +1584,7 @@
         var vin1 =document.getElementById('boatVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#boatVin').val(vin2);
-        if($('#boatVin').val().length == 17){
+        if($('#boatVin').val().length == 12){
             $('#boatVIN span').text("");
             var vin =document.getElementById('boatVin').value;
             $.ajax({
@@ -1608,10 +1608,10 @@
             $('#boatVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
-        else if($('#boatVin').val().length < 17){
+        else if($('#boatVin').val().length < 12){
             var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text(17 - vinlen + " charactors remaining");
+            $('#boatVIN span').text(12 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
@@ -1627,7 +1627,7 @@
         var vin1 =document.getElementById('boatVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#boatVin').val(vin2);
-        if($('#boatVin').val().length == 17){
+        if($('#boatVin').val().length == 12){
             $('#boatVIN span').text("");
             var vin =document.getElementById('boatVin').value;
             $.ajax({
@@ -1651,10 +1651,10 @@
             $('#boatVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
-        else if($('#boatVin').val().length < 17){
+        else if($('#boatVin').val().length < 12){
             var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text(17 - vinlen + " charactors remaining");
+            $('#boatVIN span').text(12 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
@@ -2030,7 +2030,7 @@
         }
     });
     $("#boatVin").keypress(function(e){ 
-        if($('#boatVin').val().length >= 17){
+        if($('#boatVin').val().length >= 12){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
