@@ -2320,12 +2320,12 @@
         }
         else if (Number(num) > Number(cost)) {
             //$("#tagscloudAdvance span").fadeIn();
-            $(this).removeClass('input-validation-error');
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance  must be less than cost");
         }
         else if (Number(num) == "") {
             //$("#tagscloudAdvance span").fadeIn();
-            $(this).addClass('input-validation-error');
+            $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
         else if (Number(num) <= 0) {
