@@ -33,7 +33,7 @@
                 Model.BalanceAmount = Model.Amount - Model.UsedAmount;
             }
             <td>$&nbsp;</td>
-            <td style="text-align:right">@Convert.ToDecimal(Model.BalanceAmount).ToString("#,##0.00")</td>
+            <td id="blc" style="text-align:right">@Convert.ToDecimal(Model.BalanceAmount).ToString("#,##0.00")</td>
         </tr>
 
         <tr>

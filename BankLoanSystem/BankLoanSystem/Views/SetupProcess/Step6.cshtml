@@ -496,9 +496,9 @@
                 $("#unitTypeError").text('Select Atleast One unit type');
                 e.preventDefault();
             }
-            else if ($("#outOffRangeError").text().length > 0) {
+            else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
                 e.preventDefault();
-            }
+            } 
         } else {
             if ($("input:checked").length == 0) {
                 $("#unitTypeError").text('Select Atleast One unit type');
@@ -692,6 +692,9 @@
 
     #outOffRangeError{
        top:50%;
+    }
+    .pika-single{
+        z-index:10005 !important;
     }
 </style>
 
