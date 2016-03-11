@@ -662,11 +662,11 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
                         success: function (View) {
-                            //$('#container').html(View);
+                            if (View != '2') {
                         $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            //$('#checkableGridDiv').html(View);
-                            //$('#container').show();
-                            
+                            } else {
+                                $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            }                            
                         }
                     });
                 }
@@ -693,8 +693,6 @@
                         success: function (View) {
 
                             $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            //$('#changeContainer').html(partialView);
-                            //$('#changeContainer').show();
                         }
                     });
                 }
@@ -914,7 +912,7 @@
                 }
             });
 
-                $('#iAdvance').blur(function () {
+            $('#iAdvance').blur(function () {
                 var cost = document.getElementById('iCost').value;
                 var advance = document.getElementById('iAdvance').value;
                 var val = $.trim($(this).val());
@@ -922,7 +920,7 @@
                 if (val.indexOf(',') > -1) {
                     val = val.replace(',', '');
                 }
-
+             
                 var num = parseFloat(val);
                 num = num.toFixed(2);
                 if (isNaN(num)) {
@@ -930,11 +928,11 @@
                 }
 
                 if (isNaN(num)) {
-
+                  
                     //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be a positive number");
-
+                   
                 }
                 else if (Number(num) > Number(cost)) {
                     //$("#tagscloudAdvance span").fadeIn();

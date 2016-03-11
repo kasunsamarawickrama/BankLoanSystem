@@ -1418,6 +1418,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
+                    Session["loanStep"] = loanData;
                 }
             }
 
@@ -1670,6 +1671,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
                     loanData.stepId = 3;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
 
                 }
@@ -1889,6 +1891,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     loanData.stepId = 4;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step9");
                 }
                 else
@@ -2118,6 +2121,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
                     loanData.stepId = 5;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step10");
                 }
                 else
@@ -2226,15 +2230,29 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step10()
+        public ActionResult Step10(string lbl)
         {
-
             int userId = userData.UserId;
 
             //check user step is valid for this step
             StepAccess sa = new StepAccess();
             if (loanData.stepId == 5)
             {
+                if (lbl == "Details added successfully")
+                {
+                    ViewBag.SuccessMsg = lbl;
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
+                        return PartialView();
+                    }
+                    else
+                    {
+
+                        return View();
+                    }
+                }
+
                 int branchId = loanData.BranchId;
 
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -2255,7 +2273,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _gCurtailment.TimeBase = "Months";
                 if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
 
-                _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+                //_gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
 
                 _gCurtailment.InfoModel = new List<Curtailment>();
 
@@ -2341,7 +2359,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
-            return Json(1);
+            return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
 
         ///// <summary>
