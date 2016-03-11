@@ -37,6 +37,7 @@ namespace BankLoanSystem.Models
         public int? Percentage { get; set; }
 
         public int LoanId { get; set; }
+        public string LoanStatus { get; set; }
     }
 
 

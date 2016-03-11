@@ -21,31 +21,19 @@
 
 <h2>Step 5 - Curtailment</h2>
 
-@if (ViewBag.SuccessMsg == "Details added successfully")
+@if (ViewBag.SuccessMsg == "Loan is setup successfully!")
 {
-    using (Ajax.BeginForm("Step10", null, new AjaxOptions()
-    {
-
-        OnFailure = "handleError",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <span class="text-success">@ViewBag.SuccessMsg</span>
-        <div class="form-group">
-            <div class="button-panel">
-                
-                <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary right-button" style="left: 30%"/>
-            </div>
+    <span class="text-success">@ViewBag.SuccessMsg</span>
+    <div class="form-group">
+        <div class="button-panel">
+            Click here to go dash board.
+            <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%" />
         </div>
-    }
+    </div>
 }
 else
 {
-    using (Ajax.BeginForm("Step10", null, new AjaxOptions()
+    using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
     {
 
         OnFailure = "handleError",
@@ -304,7 +292,7 @@ else
     //    if (timePeriod < previousTime) {
 
     //    } else {
-            
+
     //    }
 
     //    //if(timePeriod < list.currentList[j].TimePeriod)
@@ -419,7 +407,7 @@ else
 
         //enable textboxes
         $('.clstimePeriod').prop("disabled", false);
-        $('.clsaddCuirtailment').prop("disabled", false); 
+        $('.clsaddCuirtailment').prop("disabled", false);
 
         var calcMode = $(this).filter(':checked').val();
 
@@ -572,8 +560,8 @@ else
                 var curid = $(this).find("#lblCur").html();
                 var timePeriod = $(this).find("#timePeriod").val();
                 var percentage = $(this).find("#percentage").val();
-
-                data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
+                
+                data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
             });
 
             $.ajax({
@@ -581,8 +569,10 @@ else
                 data: JSON.stringify(data),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                success: function (res) {
-                    //alert('12www');
+                success: function (partialView) {
+                    $('#changeContainer').html(partialView);
+
+                    $('#changeContainer').show();
                 }
             });
         }
@@ -591,7 +581,17 @@ else
     //set loan status
     $('.Active').change(function () {
         $('#customErrorLoanStatus').children('span').text("");
-        var isaActive = $(this).filter(':checked').val();
+
+        //$.ajax({
+        //    url: '/SetupProcess/SetLoanStatus/',
+        //    data: { loanStatus: isaActive },
+        //    type: 'POST',
+        //    success: function (partialView) {
+        //        $('#changeContainer').html(partialView);
+
+        //        $('#changeContainer').show();
+        //    }
+        //});
     });
 
     function AllowNumbers(id, code) {

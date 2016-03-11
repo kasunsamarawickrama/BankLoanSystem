@@ -663,7 +663,7 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function (View) {
                             if (View != '2') {
-                                $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                             } else {
                                 $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                             }                            
@@ -691,7 +691,8 @@
                         contentType: 'application/json; charset=utf-8',
 
                         success: function (View) {
-                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);                            
+
+                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         }
                     });
                 }
@@ -781,43 +782,139 @@
 
 
 
-            $('#iAdvance').keypress(function (e) {
-                var cost = document.getElementById('iCost').value;
+            //$('#iAdvance').keypress(function (e) {
+            //    var cost = document.getElementById('iCost').value;
 
-                if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
-                    var val = this.value;
+            //    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
+            //        var val = this.value;
                     
-                    if (e.which === 46 || e.which === 8) {
+            //        if (e.which === 46 || e.which === 8) {
 
 
-                    } else {
-                        if (val.length + 1 > cost.length) {
-                            $("#tagscloud span").fadeIn();
+            //        } else {
+            //            if (val.length + 1 > cost.length) {
+            //                $("#tagscloud span").fadeIn();
+            //                $(this).addClass('input-validation-error');
+            //                $("#tagscloud span").text("Advance can not be higer than cost/ input two decimal point only");
+            //                $("#tagscloud span").delay(1000).fadeOut();
+            //                $(this).removeClass('input-validation-error');
+            //                $("#tagscloud span");
+            //                e.preventDefault();
+            //            }
+
+            //        }
+
+            //    } else {
+            //        $("#tagscloud span").fadeIn();
+            //        $(this).addClass('input-validation-error')
+            //        $("#tagscloud span").text("Advance must be a positive number");
+            //        $("#tagscloud span").delay(1000).fadeOut();
+            //        $(this).removeClass('input-validation-error');
+            //        e.preventDefault();
+            //    }
+            //});
+
+            //$('#iAdvance').blur(function () {
+
+            //    var cost = document.getElementById('iCost').value;
+  
+
+            //    var val = $.trim($(this).val());
+
+            //    if (val.indexOf(',') > -1) {
+            //        val = val.replace(',', '');
+            //    }
+             
+            //    var num = parseFloat(val);
+            //    var num = num.toFixed(2);
+            //    if (isNaN(num)) {
+            //        num = '';
+            //    }
+
+
+               
+
+            //    if (isNaN(num)) {
+                  
+            //        $("#tagscloud span").fadeIn();
+            //        $(this).addClass('input-validation-error');
+            //        $("#tagscloud span").text("Advance must be a positive number");
+                   
+            //    }
+            //    else if (Number(num) > Number(cost)) {
+
+            //        $("#tagscloud span").fadeIn();
+            //        $(this).addClass('input-validation-error');
+            //        $("#tagscloud span").text("Advance must be less than cost");
+
+
+            //    }
+
+            //    else if (Number(num) <= 0) {
+            //        $("#tagscloud span").fadeIn();
+            //        $(this).addClass('input-validation-error');
+            //        $("#tagscloud span").text("Advance must be greater than zero");
+                 
+            //    } else {
+            //        $("#tagscloud span").fadeOut();
+            //        $(this).removeClass('input-validation-error');
+            //        $("#tagscloud span").text("");
+
+            //    }
+
+
+            //    $(this).val(num);
+            //});
+
+            var maxAdvance =  parseFloat($('#blc').text().replace(',', ''))
+                $('#iAdvance').keypress(function (e) {
+                var cost = document.getElementById('iCost').value;
+                //alert(e.which);
+                var advance = document.getElementById('iAdvance').value;
+                if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
+                    //var val = this.value + (e.which - 48);
+                    //alert(cost + ' ' + val);
+                    if (e.which !== 46 && e.which !== 8) {
+                        if (cost === 0.00 || Number(advance) > Number(cost)) {
+                            //$("#tagscloudAdvance span").fadeIn();
                             $(this).addClass('input-validation-error');
-                            $("#tagscloud span").text("Advance can not be higer than cost/ input two decimal point only");
-                            $("#tagscloud span").delay(1000).fadeOut();
-                            $(this).removeClass('input-validation-error');
-                            $("#tagscloud span");
+                            $("#tagscloud span").text("Advance must be less than cost");
+                            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                            //$(this).removeClass('input-validation-error');
                             e.preventDefault();
                         }
-
+                        if (advance > maxAdvance) {
+                            //$("#tagscloudAdvance span").fadeIn();
+                            $(this).addClass('input-validation-error');
+                            $("#tagscloud span").text("Advance must be less than balance");
+                            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                            //$(this).removeClass('input-validation-error');
+                            e.preventDefault();
+                        }
                     }
-
                 } else {
-                    $("#tagscloud span").fadeIn();
-                    $(this).addClass('input-validation-error')
-                    $("#tagscloud span").text("Advance must be a positive number");
-                    $("#tagscloud span").delay(1000).fadeOut();
+                    //$("#tagscloudAdvance span").fadeIn();
+                    $(this).addClass('input-validation-error');
+                    $("#tagscloudAdvance span").text("Invalid character");
+                    //$("#tagscloudAdvance span").delay(1000).fadeOut();
                     $(this).removeClass('input-validation-error');
                     e.preventDefault();
                 }
             });
 
+            //claculate advance when click back-space
+                $('#iAdvance').keyup(function (e) {
+                //alert(e.keyCode);
+                if (e.keyCode === 8) {
+                    var val = this.value;
+                    //document.getElementById('txtAdvanceAmount').value = val;
+                    $("#tagscloud span").text("");
+                }
+            });
+
             $('#iAdvance').blur(function () {
-
                 var cost = document.getElementById('iCost').value;
-  
-
+                var advance = document.getElementById('iAdvance').value;
                 var val = $.trim($(this).val());
 
                 if (val.indexOf(',') > -1) {
@@ -825,42 +922,46 @@
                 }
              
                 var num = parseFloat(val);
-                var num = num.toFixed(2);
+                num = num.toFixed(2);
                 if (isNaN(num)) {
                     num = '';
                 }
 
-
-               
-
                 if (isNaN(num)) {
                   
-                    $("#tagscloud span").fadeIn();
+                    //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be a positive number");
                    
                 }
                 else if (Number(num) > Number(cost)) {
-
-                    $("#tagscloud span").fadeIn();
+                    //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
-                    $("#tagscloud span").text("Advance must be less than cost");
-
-
+                    $("#tagscloud span").text("Advance  must be less than cost");
                 }
-
+                else if (Number(num) == "") {
+                    //$("#tagscloudAdvance span").fadeIn();
+                    //$(this).addClass('input-validation-error');
+                    $("#tagscloud span").text("");
+                }
                 else if (Number(num) <= 0) {
-                    $("#tagscloud span").fadeIn();
+                    //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be greater than zero");
-                 
-                } else {
-                    $("#tagscloud span").fadeOut();
+                }
+                if (advance > maxAdvance) {
+                    //$("#tagscloudAdvance span").fadeIn();
+                    $(this).addClass('input-validation-error');
+                    $("#tagscloud span").text("Advance must be less than balance");
+                    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //$(this).removeClass('input-validation-error');
+                    e.preventDefault();
+                }
+                else {
+                    //$("#tagscloudAdvance span").fadeOut();
                     $(this).removeClass('input-validation-error');
                     $("#tagscloud span").text("");
-
                 }
-
 
                 $(this).val(num);
             });
