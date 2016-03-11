@@ -2240,7 +2240,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (lbl == "Details added successfully")
                 {
-                    ViewBag.SuccessMsg = lbl;
+                    ViewBag.SuccessMsg = "Loan is setup successfully!";
                     if (HttpContext.Request.IsAjaxRequest())
                     {
                         ViewBag.AjaxRequest = 1;
@@ -2359,7 +2359,35 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
+
+            bool loanActive = curtailmentList[0].LoanStatus == "Yes";
+
+            LoanSetupAccess loanAccess = new LoanSetupAccess();
+            loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanStatus"></param>
+        /// <returns></returns>
+        public ActionResult SetLoanStatus(string loanStatus)
+        {
+            _gCurtailment.Activate = loanStatus == "Yes" ? "Yes" : "No";
+
+            //return Json(1);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView("Step10", _gCurtailment);
+            }
+            else
+            {
+
+                return View("Step10", _gCurtailment);
+            }
         }
 
         ///// <summary>
@@ -2407,7 +2435,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
         //            return View("Step10", _gCurtailment);
         //        }
-                
+
         //    }
         //    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
 
@@ -2678,28 +2706,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             ViewBag.CalMode = _calMode;
 
-            if (HttpContext.Request.IsAjaxRequest())
-            {
-                ViewBag.AjaxRequest = 1;
-                return PartialView("Step10", _gCurtailment);
-            }
-            else
-            {
-
-                return View("Step10", _gCurtailment);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loanStatus"></param>
-        /// <returns></returns>
-        public ActionResult SetLoanStatus(string loanStatus)
-        {
-            _gCurtailment.Activate = loanStatus == "Yes" ? "Yes" : "No";
-
-            ViewBag.CalMode = _calMode;
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
