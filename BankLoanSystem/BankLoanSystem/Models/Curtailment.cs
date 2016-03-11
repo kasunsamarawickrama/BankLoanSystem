@@ -19,7 +19,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Curtailment Calculated By")]
         public string TimeBase { get; set; }
 
-        [Display(Name = "Activate Loan")]
+        [Display(Name = "DO you want Activate Loan?")]
         public string Activate { get; set; }
     }
 

@@ -50,7 +50,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
                             @{
                                 List<SelectListItem> listItemsoption = new List<SelectListItem>();
      
@@ -72,7 +72,7 @@
                             @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" ,style="top:100%;left:3%" })
                         </div>
                     </div>
-                    <div id="advance">
+                    <div id="advance" style="line-height: 162%;">
                         <div class="form-group">
 
                             <div class="control-label col-sm-2" style="margin-top:10px">
@@ -108,17 +108,27 @@
                         </div>
                         @if (ViewBag.isLender == true)
                         {
+                            
                             <div class="form-group">
-                                <div class="col-xs-8" style="margin-top: 10px;">
-                                    @Html.CheckBoxFor(model => model.AdvanceNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "advanceNeedReceipt" }) Need Reciept After Advance Paid
+                                <div class="control-label col-sm-2">
+                                    @Html.Label("Need Reciept After Advance Paid?", htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @*@Html.CheckBoxFor(model => model.IsAdvanceFeeCompleteEmailReminder, new { @id = "needReminderAdvanceComplete", htmlAttributes = new { Value = false } })*@
+                                    @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, true, new { @id = "advanceNeedReceiptT" }) Yes
+                                    @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, false, new { @id = "advanceNeedReceiptF" }) No
+                                    @Html.ValidationMessageFor(model => model.AdvanceNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
                                 </div>
-                                <div class="control-label col-sm-2">
-                                    @Html.CheckBoxFor(model => model.IsAdvanceFeeCompleteEmailReminder, new { @id = "needReminderAdvanceComplete", htmlAttributes = new { Value = false } })
+                                <div class="col-xs-8">
+                                    @*@Html.CheckBoxFor(model => model.IsAdvanceFeeCompleteEmailReminder, new { @id = "needReminderAdvanceComplete", htmlAttributes = new { Value = false } })*@
+                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, true, new { @id = "needReminderAdvanceCompleteT" }) Yes
+                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, false, new { @id = "needReminderAdvanceCompleteF" }) No
+                                    @Html.ValidationMessageFor(model => model.IsAdvanceFeeCompleteEmailReminder, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div id="remindEmailAdvanceComplete">
@@ -127,7 +137,7 @@
                                         @Html.LabelFor(model => model.AdvanceFeeDealerEmail, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
+                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
                                         @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmail, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -137,7 +147,7 @@
                                         @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                         @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                     </div>
 
@@ -195,8 +205,11 @@
                             <div class="control-label col-sm-2">
                                 @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
                             </div>
-                            <div class="control-label col-sm-2">
-                                @Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })
+                            <div class="col-xs-8">
+                                @*@Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })*@
+                                @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, true, new { @id = "needReminderAdvanceDueT" }) Yes
+                                @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, false, new { @id = "needReminderAdvanceDueF" }) No
+                                @Html.ValidationMessageFor(model => model.IsAdvanceFeeDueEmailReminder, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div id="remindEmailAdvanceDue">
@@ -205,7 +218,7 @@
                                     @Html.LabelFor(model => model.AdvanceDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "advanceDueEmail", placeholder = "example@example.com" } })
+                                    @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "advanceDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -215,7 +228,7 @@
                                     @Html.LabelFor(model => model.AdvanceDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -226,7 +239,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
                             @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
                             @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" , style = "top:100%;left:3%" })
                         </div>
@@ -244,17 +257,27 @@
                         </div>
                         @if (ViewBag.isLender == true)
                         {
+                            
                             <div class="form-group">
-                                <div class="col-xs-8" style="margin-top:10px">
-                                    @Html.CheckBoxFor(model => model.MonthlyLoanNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "monthlyLoanNeedReceipt" })  Need Reciept After Loan Paid
+                                <div class="control-label col-sm-2">
+                                    @Html.Label("Need Reciept After Loan Paid?", htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @*@Html.CheckBoxFor(model => model.IsLoanFeeCompleteEmailReminder, new { @id = "needReminderLoanComplete", htmlAttributes = new { Value = false } })*@
+                                    @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, true, new { @id = "monthlyLoanNeedReceiptT" }) Yes
+                                    @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, false, new { @id = "monthlyLoanNeedReceiptF" }) No
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
                                         @Html.Label("Fee complete auto reminder?", htmlAttributes: new { })
                                     </div>
-                                    <div class="control-label col-sm-2">
-                                        @Html.CheckBoxFor(model => model.IsLoanFeeCompleteEmailReminder, new { @id = "needReminderLoanComplete", htmlAttributes = new { Value = false } })
+                                    <div class="col-xs-8">
+                                        @*@Html.CheckBoxFor(model => model.IsLoanFeeCompleteEmailReminder, new { @id = "needReminderLoanComplete", htmlAttributes = new { Value = false } })*@
+                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, true, new { @id = "needReminderLoanCompleteT" }) Yes
+                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, false, new { @id = "needReminderLoanCompleteF" }) No
+                                        @Html.ValidationMessageFor(model => model.IsLoanFeeCompleteEmailReminder, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div id="remindEmailLoanComplete">
@@ -263,7 +286,7 @@
                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmail, htmlAttributes: new { })
                                         </div>
                                         <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmail", placeholder = "example@example.com" } })
+                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "loanDealerEmail", placeholder = "example@example.com" } })
                                             @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmail, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -273,7 +296,7 @@
                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                         </div>
                                         <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                             @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -333,8 +356,11 @@
                             <div class="control-label col-sm-2">
                                 @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
                             </div>
-                            <div class="control-label col-sm-2">
-                                @Html.CheckBoxFor(model => model.IsLoanFeeDueEmailReminder, new { @id = "needReminderLoanDue", htmlAttributes = new { Value = false } })
+                            <div class="col-xs-8">
+                                @*@Html.CheckBoxFor(model => model.IsLoanFeeDueEmailReminder, new { @id = "needReminderLoanDue", htmlAttributes = new { Value = false } })*@
+                                @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, true, new { @id = "needReminderLoanDueT" }) Yes
+                                @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, false, new { @id = "needReminderLoanDueF" }) No
+                                @Html.ValidationMessageFor(model => model.IsLoanFeeDueEmailReminder, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div id="remindEmailLoanDue">
@@ -343,7 +369,7 @@
                                     @Html.LabelFor(model => model.MonthlyLoanDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "loanDueEmail", placeholder = "example@example.com" } })
+                                    @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "loanDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -353,7 +379,7 @@
                                     @Html.LabelFor(model => model.MonthlyLoanDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -364,7 +390,7 @@
                         <div class="control-label col-sm-2" style="margin-top:10px">
                             <h3>@Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })</h3>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="col-xs-8" style="margin-top: 26px;">
 
                             @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
                             @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
@@ -384,16 +410,25 @@
                         @if (ViewBag.isLender == true)
                         {
                             <div class="form-group">
-                                <div class="col-xs-8" style="margin-top:10px">
-                                    @Html.CheckBoxFor(model => model.LotInspectionNeedReceipt, new { htmlAttributes = new { @class = "form-control" }, @id = "lotInspectionNeedReceipt" })  Need Reciept After Lot Inspection Paid
+                                <div class="control-label col-sm-2">
+                                    @Html.Label("Need Reciept After Lot Inspection Paid?", htmlAttributes: new { })
+                                </div>
+                                <div class="col-xs-8">
+                                    @*@Html.CheckBoxFor(model => model.IsLotFeeCompleteEmailReminder, new { @id = "needReminderLotComplete", htmlAttributes = new { Value = false } })*@
+                                    @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, true, new { @id = "lotInspectionNeedReceiptT" }) Yes
+                                    @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, false, new { @id = "lotInspectionNeedReceiptF" }) No
+                                    @Html.ValidationMessageFor(model => model.LotInspectionNeedReceipt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="control-label col-sm-2">
                                     @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
                                 </div>
-                                <div class="control-label col-sm-2">
-                                    @Html.CheckBoxFor(model => model.IsLotFeeCompleteEmailReminder, new { @id = "needReminderLotComplete", htmlAttributes = new { Value = false } })
+                                <div class="col-xs-8">
+                                    @*@Html.CheckBoxFor(model => model.IsLotFeeCompleteEmailReminder, new { @id = "needReminderLotComplete", htmlAttributes = new { Value = false } })*@
+                                    @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, true, new { @id = "needReminderLotCompleteT" }) Yes
+                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmail, "", new { @class = "text-danger" })
+                                    @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, false, new { @id = "needReminderLotCompleteF" }) No
                                 </div>
                             </div>
                             <div id="remindEmailLotComplete">
@@ -403,7 +438,7 @@
                                         @Html.LabelFor(model => model.LotInspectionFeeDealerEmail, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmail", placeholder = "example@example.com" } })
+                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "lotDealerEmail", placeholder = "example@example.com" } })
                                         @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmail, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -413,7 +448,7 @@
                                         @Html.LabelFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                     </div>
                                     <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
                                         @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -478,8 +513,11 @@
                             <div class="control-label col-sm-2">
                                 @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
                             </div>
-                            <div class="control-label col-sm-2">
-                                @Html.CheckBoxFor(model => model.IsLotFeeDueEmailReminder, new { @id = "needReminderLotDue", htmlAttributes = new { Value = false } })
+                            <div class="col-xs-8">
+                                @*@Html.CheckBoxFor(model => model.IsLotFeeDueEmailReminder, new { @id = "needReminderLotDue", htmlAttributes = new { Value = false } })*@
+                                @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, true, new { @id = "needReminderLotDueT" }) Yes
+                                @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, false, new { @id = "needReminderLotDueF" }) No
+                                @Html.ValidationMessageFor(model => model.IsLotFeeDueEmailReminder, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div id="remindEmailLotDue">
@@ -488,7 +526,7 @@
                                     @Html.LabelFor(model => model.LotInspectionDueEmail, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control", @id = "lotDueEmail", placeholder = "example@example.com" } })
+                                        @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "lotDueEmail", placeholder = "example@example.com" } })
                                     @Html.ValidationMessageFor(model => model.LotInspectionDueEmail, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -497,7 +535,7 @@
                                     @Html.LabelFor(model => model.LotInspectionDueEmailRemindPeriod, htmlAttributes: new { })
                                 </div>
                                 <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                    @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
                                     @Html.ValidationMessageFor(model => model.LotInspectionDueEmailRemindPeriod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -514,13 +552,13 @@
                         @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
                         <input type="submit" value="Next" class="btn btn-primary btn-next" @*style="left:40%"*@ />
 
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+                        <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" onclick="clear();" />
 
                     </div>
                     
                 </div>
             </div>
-                                        }
+  }
 
 
 
@@ -559,57 +597,53 @@
             }
         }
     }
-    $('#needReminderAdvanceComplete').change(function () {
-        if ((this.checked)) {
+    $('#needReminderAdvanceCompleteT').change(function () {
             $('#remindEmailAdvanceComplete').show("slow");
-        }
-        else {
+    });
+    $('#needReminderAdvanceCompleteF').change(function () {
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceComplete').hide("slow");
-        }
     });
-    $('#needReminderLoanComplete').change(function () {
-        if ((this.checked)) {
+    $('#needReminderLoanCompleteT').change(function () {
             $('#remindEmailLoanComplete').show("slow");
-        }
-        else {
+    });
+    $('#needReminderLoanCompleteF').change(function () {
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             $('#remindEmailLoanComplete').hide("slow");
-        }
     });
-    $('#needReminderLotComplete').change(function () {
-        if ((this.checked)) {
+    $('#needReminderLotCompleteT').change(function () {
             $('#remindEmailLotComplete').show("slow");
-        }
-        else {
+    });
+    $('#needReminderLotCompleteF').change(function () {
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             $('#remindEmailLotComplete').hide("slow");
-        }
     });
-    $('#needReminderAdvanceDue').change(function () {
-        if ((this.checked)) {
+    $('#needReminderAdvanceDueT').change(function () {
             $('#remindEmailAdvanceDue').show("slow");
-        }
-        else {
+    });
+    $('#needReminderAdvanceDueF').change(function () {
             document.getElementById("advanceDueEmail").value = "";
             document.getElementById("advanceDueEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceDue').hide("slow");
-        }
     });
-    $('#needReminderLoanDue').change(function () {
-        if ((this.checked)) {
+    $('#needReminderLoanDueT').change(function () {
             $('#remindEmailLoanDue').show("slow");
-        }
-        else {
+      
+    });
+    $('#needReminderLoanDueF').change(function () {
             document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             $('#remindEmailLoanDue').hide("slow");
-        }
     });
-    $('#needReminderLotDue').change(function () {
+    $('#needReminderLotDueT').change(function () {
+
+         $('#remindEmailLotDue').show("slow");
+
+    });
+    $('#needReminderLotDueF').change(function () {
         if ((this.checked)) {
             $('#remindEmailLotDue').show("slow");
         }
@@ -625,9 +659,12 @@
             $('#advance').hide("slow");
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
-            $("#needReminderAdvanceDue").prop("checked", false);
-            $("#needReminderAdvanceComplete").prop("checked", false);
-            $("#advanceNeedReceipt").prop("checked", false);
+            $("#needReminderAdvanceDueT").prop("checked", false);
+            $("#needReminderAdvanceCompleteT").prop("checked", false);
+            $("#advanceNeedReceiptT").prop("checked", false);
+            $("#needReminderAdvanceDueF").prop("checked", false);
+            $("#needReminderAdvanceCompleteF").prop("checked", false);
+            $("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -652,9 +689,12 @@
             $('#loan').hide("slow");
             $('#remindEmailLoanComplete').hide();
             $('#remindEmailLoanDue').hide();
-            $("#needReminderLoanDue").prop("checked", false);
-            $("#needReminderLoanComplete").prop("checked", false);
-            $("#monthlyLoanNeedReceipt").prop("checked", false);
+            $("#needReminderLoanDueT").prop("checked", false);
+            $("#needReminderLoanCompleteT").prop("checked", false);
+            $("#monthlyLoanNeedReceiptT").prop("checked", false);
+            $("#needReminderLoanDueF").prop("checked", false);
+            $("#needReminderLoanCompleteF").prop("checked", false);
+            $("#monthlyLoanNeedReceiptF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -678,9 +718,12 @@
             $('#lot').hide("slow");
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
-            $("#needReminderLotDue").prop("checked", false);
-            $("#needReminderLotComplete").prop("checked", false);
-            $("#lotInspectionNeedReceipt").prop("checked", false);
+            $("#needReminderLotDueT").prop("checked", false);
+            $("#needReminderLotCompleteT").prop("checked", false);
+            $("#lotInspectionNeedReceiptT").prop("checked", false);
+            $("#needReminderLotDueF").prop("checked", false);
+            $("#needReminderLotCompleteF").prop("checked", false);
+            $("#lotInspectionNeedReceiptF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -717,7 +760,7 @@
                     document.getElementById("advanceDueDate").value = "";
                 }
                 if(model.IsAdvanceFeeCompleteEmailReminder == true ){
-                    $("#needReminderAdvanceComplete").attr("checked");
+                    $("#needReminderAdvanceCompleteT").attr("checked");
                     $("#remindEmailAdvanceComplete").show();
                 }
                 else{
@@ -726,7 +769,7 @@
                     document.getElementById("advanceDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsAdvanceFeeDueEmailReminder == true ){
-                    $("#needReminderAdvanceDue").attr("checked");
+                    $("#needReminderAdvanceDueT").attr("checked");
                     $("#remindEmailAdvanceDue").show();
                 }
                 else{
@@ -741,9 +784,12 @@
                 $("#monthAdvance").hide();
                 $('#remindEmailAdvanceComplete').hide();
                 $('#remindEmailAdvanceDue').hide();
-                $("#needReminderAdvanceDue").prop("checked", false);
-                $("#needReminderAdvanceComplete").prop("checked", false);
-                $("#advanceNeedReceipt").prop("checked", false);
+                $("#needReminderAdvanceDueT").prop("checked", false);
+                $("#needReminderAdvanceCompleteT").prop("checked", false);
+                $("#advanceNeedReceiptT").prop("checked", false);
+                $("#needReminderAdvanceDueF").prop("checked", false);
+                $("#needReminderAdvanceCompleteF").prop("checked", false);
+                $("#advanceNeedReceiptF").prop("checked", false);
                 document.getElementById("advanceDueDate").value = "";
                 document.getElementById("advanceDealerEmail").value = "";
                 document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -764,7 +810,7 @@
                     document.getElementById("loanDueDate").value = "";
                 }
                 if(model.IsLoanFeeCompleteEmailReminder == true ){
-                    $("#needReminderLoanComplete").attr("checked");
+                    $("#needReminderLoanCompleteT").attr("checked");
                     $("#remindEmailLoanComplete").show();
                 }
                 else{
@@ -773,7 +819,7 @@
                     document.getElementById("loanDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLoanFeeDueEmailReminder == true ){
-                    $("#needReminderLoanDue").attr("checked");
+                    $("#needReminderLoanDueT").attr("checked");
                     $("#remindEmailLoanDue").show();
                 }
                 else{
@@ -788,9 +834,12 @@
                 $("#monthLoan").hide();
                 $('#remindEmailLoanComplete').hide();
                 $('#remindEmailLoanDue').hide();
-                $("#needReminderLoanDue").prop("checked", false);
-                $("#needReminderLoanComplete").prop("checked", false);
-                $("#monthlyLoanNeedReceipt").prop("checked", false);
+                $("#needReminderLoanDueT").prop("checked", false);
+                $("#needReminderLoanCompleteT").prop("checked", false);
+                $("#monthlyLoanNeedReceiptT").prop("checked", false);
+                $("#needReminderLoanDueF").prop("checked", false);
+                $("#needReminderLoanCompleteF").prop("checked", false);
+                $("#monthlyLoanNeedReceiptF").prop("checked", false);
                 document.getElementById("loanDueDate").value = "";
                 document.getElementById("loanDealerEmail").value = "";
                 document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -813,7 +862,7 @@
                     }
                 }
                 if(model.IsLotFeeCompleteEmailReminder == true ){
-                    $("#needReminderLotComplete").attr("checked");
+                    $("#needReminderLotCompleteT").attr("checked");
                     $("#remindEmailLotComplete").show();
                 }
                 else{
@@ -822,7 +871,7 @@
                     document.getElementById("lotDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLotFeeDueEmailReminder == true ){
-                    $("#needReminderLotDue").attr("checked");
+                    $("#needReminderLotDueT").attr("checked");
                     $("#remindEmailLotDue").show();
                 }
                 else{
@@ -837,9 +886,12 @@
                 $("#monthLot").hide();
                 $('#remindEmailLotComplete').hide();
                 $('#remindEmailLotDue').hide();
-                $("#needReminderLotDue").prop("checked", false);
-                $("#needReminderLotComplete").prop("checked", false);
-                $("#lotInspectionNeedReceipt").prop("checked", false);
+                $("#needReminderLotDueT").prop("checked", false);
+                $("#needReminderLotCompleteT").prop("checked", false);
+                $("#lotInspectionNeedReceiptT").prop("checked", false);
+                $("#needReminderLotDueF").prop("checked", false);
+                $("#needReminderLotCompleteF").prop("checked", false);
+                $("#lotInspectionNeedReceiptF").prop("checked", false);
                 document.getElementById("lotDueDate").value = "";
                 document.getElementById("lotDealerEmail").value = "";
                 document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -855,9 +907,12 @@
             $("#monthAdvance").hide();
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
-            $("#needReminderAdvanceDue").prop("checked", false);
-            $("#needReminderAdvanceComplete").prop("checked", false);
-            $("#advanceNeedReceipt").prop("checked", false);
+            $("#needReminderAdvanceDueT").prop("checked", false);
+            $("#needReminderAdvanceCompleteT").prop("checked", false);
+            $("#advanceNeedReceiptT").prop("checked", false);
+            $("#needReminderAdvanceDueF").prop("checked", false);
+            $("#needReminderAdvanceCompleteF").prop("checked", false);
+            $("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -871,9 +926,12 @@
             $("#monthLoan").hide();
             $('#remindEmailLoanComplete').hide();
             $('#remindEmailLoanDue').hide();
-            $("#needReminderLoanDue").prop("checked", false);
-            $("#needReminderLoanComplete").prop("checked", false);
-            $("#monthlyLoanNeedReceipt").prop("checked", false);
+            $("#needReminderLoanDueT").prop("checked", false);
+            $("#needReminderLoanCompleteT").prop("checked", false);
+            $("#monthlyLoanNeedReceiptT").prop("checked", false);
+            $("#needReminderLoanDueF").prop("checked", false);
+            $("#needReminderLoanCompleteF").prop("checked", false);
+            $("#monthlyLoanNeedReceiptF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -886,9 +944,12 @@
             $("#monthLot").hide();
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
-            $("#needReminderLotDue").prop("checked", false);
-            $("#needReminderLotComplete").prop("checked", false);
-            $("#lotInspectionNeedReceipt").prop("checked", false);
+            $("#needReminderLotDueT").prop("checked", false);
+            $("#needReminderLotCompleteT").prop("checked", false);
+            $("#lotInspectionNeedReceiptT").prop("checked", false);
+            $("#needReminderLotDueF").prop("checked", false);
+            $("#needReminderLotCompleteF").prop("checked", false);
+            $("#lotInspectionNeedReceiptF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -898,16 +959,25 @@
             document.getElementById("lotDue").value = "";
         }
     }
-    $('#clear').click(function () {
+    $('#clearx').click(function () {
         document.getElementById("form").reset();
+        // for all input field
+        $('input').next('span').children('span').text('');
+        $('input').removeClass('valid');
+        // for dropdown field
+        $('select').next('span').children('span').text('');
+        $('select').removeClass('valid');
 
         $('#advance').hide();
         $("#monthAdvance").hide();
         $('#remindEmailAdvanceComplete').hide();
         $('#remindEmailAdvanceDue').hide();
-        $("#needReminderAdvanceDue").prop("checked", false);
-        $("#needReminderAdvanceComplete").prop("checked", false);
-        $("#advanceNeedReceipt").prop("checked", false);
+        $("#needReminderAdvanceDueT").prop("checked", false);
+        $("#needReminderAdvanceCompleteT").prop("checked", false);
+        $("#advanceNeedReceiptT").prop("checked", false);
+        $("#needReminderAdvanceDueF").prop("checked", false);
+        $("#needReminderAdvanceCompleteF").prop("checked", false);
+        $("#advanceNeedReceiptF").prop("checked", false);
         document.getElementById("advanceDueDate").value = "";
         document.getElementById("advanceDealerEmail").value = "";
         document.getElementById("advanceDealerEmailRemindPeriod").value = "";
@@ -921,9 +991,12 @@
         $("#monthLoan").hide();
         $('#remindEmailLoanComplete').hide();
         $('#remindEmailLoanDue').hide();
-        $("#needReminderLoanDue").prop("checked", false);
-        $("#needReminderLoanComplete").prop("checked", false);
-        $("#monthlyLoanNeedReceipt").prop("checked", false);
+        $("#needReminderLoanDueT").prop("checked", false);
+        $("#needReminderLoanCompleteT").prop("checked", false);
+        $("#monthlyLoanNeedReceiptT").prop("checked", false);
+        $("#needReminderLoanDueF").prop("checked", false);
+        $("#needReminderLoanCompleteF").prop("checked", false);
+        $("#monthlyLoanNeedReceiptF").prop("checked", false);
         document.getElementById("loanDueDate").value = "";
         document.getElementById("loanDealerEmail").value = "";
         document.getElementById("loanDealerEmailRemindPeriod").value = "";
@@ -936,9 +1009,12 @@
         $("#monthLot").hide();
         $('#remindEmailLotComplete').hide();
         $('#remindEmailLotDue').hide();
-        $("#needReminderLotDue").prop("checked", false);
-        $("#needReminderLotComplete").prop("checked", false);
-        $("#lotInspectionNeedReceipt").prop("checked", false);
+        $("#needReminderLotDueT").prop("checked", false);
+        $("#needReminderLotCompleteT").prop("checked", false);
+        $("#lotInspectionNeedReceiptT").prop("checked", false);
+        $("#needReminderLotDueF").prop("checked", false);
+        $("#needReminderLotCompleteF").prop("checked", false);
+        $("#lotInspectionNeedReceiptF").prop("checked", false);
         document.getElementById("lotDueDate").value = "";
         document.getElementById("lotDealerEmail").value = "";
         document.getElementById("lotDealerEmailRemindPeriod").value = "";
@@ -972,7 +1048,117 @@
             });
         });
     });
-
+    $("#advanceAmount").keypress(function(e){   
+        var advanceAmount = $('#advanceAmount').val();
+        if($('#advanceAmount').val().length >= 15){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,advanceAmount)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    $("#advanceAmount").blur(function(){   
+        var advanceAmount = $('#advanceAmount').val();
+        if(advanceAmount > 0){  
+            if(advanceAmount.indexOf('.')=== -1){
+                var num = parseFloat(advanceAmount);
+                num = num.toFixed(2);
+                $('#advanceAmount').val(num);
+            }    
+        }
+    });
+    $("#loanAmount").keypress(function(e){   
+        var advanceAmount = $('#loanAmount').val();
+        if($('#loanAmount').val().length >= 15){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,advanceAmount)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    $("#loanAmount").blur(function(){ 
+        var loanAmount = $('#loanAmount').val();
+        if(loanAmount > 0){         
+        if(loanAmount.indexOf('.')=== -1){
+            var num = parseFloat(loanAmount);
+            num = num.toFixed(2);
+            $('#loanAmount').val(num);
+        }     
+        }       
+    });
+    $("#lotAmount").keypress(function(e){   
+        var advanceAmount = $('#lotAmount').val();
+        if($('#lotAmount').val().length >= 15){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,advanceAmount)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    $("#lotAmount").blur(function(){   
+        var lotAmount = $('#lotAmount').val();
+        if(lotAmount > 0){    
+            if(lotAmount.indexOf('.')=== -1){
+                var num = parseFloat(lotAmount);
+                num = num.toFixed(2);
+                $('#lotAmount').val(num);
+            } 
+        }
+    });
+    function numericAllowDecimal(e,val){
+        var ch = e.which;
+        if(val.indexOf('.')=== -1){
+            if ((ch >= 48 && ch <= 57 )|| ch == 46) {
+                return 1;
+            }
+        }else{
+            if (ch >= 48 && ch <= 57 ) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    
+    $(".x").keypress(function(e){     
+        if($(this).val().length >= 5){
+            e.preventDefault();
+        }    
+        else if(numericAllow(e)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    $(".e").keypress(function(e){     
+        if($(this).val().length >= 100){
+            e.preventDefault();
+        }    
+        else if(forEmail(e)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+    function numericAllow(e){
+        var ch = e.which;
+        if (ch >= 48 && ch <= 57) {
+            return 1;
+        }
+        return 0;
+    }
+    function forEmail(e){
+        var ch = e.which;
+        if ((ch >= 48 && ch <= 57)||((ch >= 97 && ch <= 122))||((ch >= 65 && ch <= 90))||ch == 46 ||ch == 64) {
+            return 1;
+        }
+        return 0;
+    }
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     skipProgress(8);
 

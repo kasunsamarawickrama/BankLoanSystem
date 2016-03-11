@@ -1,7 +1,7 @@
 ﻿@model BankLoanSystem.Models.CurtailmentModel
 @{
     ViewBag.Title = "Step5";
-    if(ViewBag.AjaxRequest == null)
+    if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
@@ -21,268 +21,622 @@
 
 <h2>Step 5 - Curtailment</h2>
 
-@using (Ajax.BeginForm("Step10", null, new AjaxOptions()
+@if (ViewBag.SuccessMsg == "Details added successfully")
 {
+    using (Ajax.BeginForm("Step10", null, new AjaxOptions()
+    {
 
-    OnFailure = "handleError",
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
-    LoadingElementId = "loadingDiv"
-}, new { id = "form" }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-
-        @if (ViewBag.SuccessMsg != null)
-                {
-            <span style="color: green">
-                @ViewBag.SuccessMsg
-            </span>
-        }
-        else if (ViewBag.ErrorMsg != null)
-        {
-            <span style="color: red">
-                @ViewBag.ErrorMsg
-            </span>
-        }
-
-        <input type="hidden" id="cal" name="cal" />
+        OnFailure = "handleError",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer",
+        LoadingElementId = "loadingDiv"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <span class="text-success">@ViewBag.SuccessMsg</span>
         <div class="form-group">
-            <table width="100%">
-                <tr>
-                    <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
-                    <td width="60%">
-                        :
-                        @if (ViewBag.CalMode == "Full Payment")
-                        {
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = "checked" })
-                            <text>Full payment</text>
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                            <text>Advance</text>
-                        }
-                        else
-                        {
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                            <text>Full payment</text>
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = "checked" })
-                            <text>Advance</text>
-}
-
-                    </td>
-                </tr>
-            </table>
-            <div>
-                @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-
-
-        </div>
-        <br />
-
-        @*<div class="form-group">
-                <div style="text-align: center;">
-                    <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
-                        <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
-                            <td style="width: 15%;" height="30px">
-                                <p id="cuId"> Curt#</p>
-                            </td>
-                            <td style="width: 30%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%">
-                                            <p id="time">@Model.TimeBase</p>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="width: 50%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%">
-                                            <p id="pecentage">Percentage(%)</p>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="width: 50%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%"></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        @for (int a = 0; a < Model.InfoModel.Count; a++)
-                        {
-                            <tr>
-                                <td style="width: 15%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
-                                <td style="width: 30%;">
-                                    @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "timePeriod" })
-                                    @Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })
-                                </td>
-                                <td style="width: 50%;">
-                                    @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment", @onkeydown = "return (event.keyCode!=13);" })
-                                    @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td style="width: 50%;">
-                                    <input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px" />
-                                </td>
-
-                            </tr>
-                        }
-                    </table>
-                </div>
-            </div>*@
-
-        <div id="CurtailmentGrid">
-            <div class="form-group">
-                <div style="text-align: center;">
-                    <table cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 90%;">
-                        <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
-                            <td style="width: 15%;" height="30px">
-                                <p id="cuId"> Curt#</p>
-                            </td>
-                            <td style="width: 30%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%">
-                                            <p id="time">@Model.TimeBase</p>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="width: 50%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%">
-                                            <p id="pecentage">Percentage(%)</p>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="width: 50%;" height="30px">
-                                <table>
-                                    <tr>
-                                        <td width="30%"></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        @for (int a = 0; a < Model.InfoModel.Count; a++)
-                        {
-                            <tr>
-                                <td style="width: 15%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
-                                <td style="width: 30%;">
-                                    @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "timePeriod" })
-                                    @Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })
-                                </td>
-                                <td style="width: 50%;">
-                                    @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "addCuirtailment", @onkeydown = "return (event.keyCode!=13);" })
-                                    @Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td style="width: 50%;">
-                                    @*<input type="image" src="~/Images/deleteRow.png" class="btnDeleteRow" name="" value="-" style="width: 12px; height: 30px"/>*@
-                                    <input type="button" class="btnDeleteRow" name="" value="-" title="Delete Row" style="width: 25px; height: 30px" />
-                                </td>
-
-                            </tr>
-                        }
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @if (Model.RemainingPercentage >= 0)
-            {
-                <span style="background-color: yellow">
-                    Remaining Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
-                </span>
-            }
-            else
-            {
-                <span style="background-color: red">
-                    Remaining Percentage: ???
-                </span><text>&nbsp;&nbsp;</text>
-                <span style="background-color: green">
-                    Maximum percentage is @Model.AdvancePt
-                </span>
-            }
-            <br />
-            <span style="background-color: yellow">
-                Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-            </span>
-        </div>
-
-        <br />
-        <br />
-        <div class="form-group">
-            <table width="100%">
-                <tr>
-                    <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
-                    <td width="60%">
-                        : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
-                        @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="form-group">
-
             <div class="button-panel">
-                <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" />
+                
+                <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary right-button" style="left: 30%"/>
+            </div>
+        </div>
+    }
+}
+else
+{
+    using (Ajax.BeginForm("Step10", null, new AjaxOptions()
+    {
 
+        OnFailure = "handleError",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer",
+        LoadingElementId = "loadingDiv"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
 
-               
-                @*<input type="button" id="clear" value="Clear" class="btn btn-default right-button" />*@
+        <div class="form-horizontal">
 
-                <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left:40%" />
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <span style="color: green">
+                    @ViewBag.SuccessMsg
+                </span>
+            }
+            else if (ViewBag.ErrorMsg != null)
+            {
+                <span style="color: red">
+                    @ViewBag.ErrorMsg
+                </span>
+            }
+
+            <input type="hidden" id="cal" name="cal" />
+            <div class="form-group">
+                <table width="100%">
+                    <tr>
+                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                        <td width="60%">
+                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                            Full payment
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                            Advance
+
+                            @*@if (ViewBag.CalMode == "Full Payment")
+                                {
+                                    @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = "checked" })
+                                    <text>Full payment</text>
+                                    @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                    <text>Advance</text>
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                    <text>Full payment</text>
+                                    @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = "checked" })
+                                    <text>Advance</text>
+                                }*@
+
+                        </td>
+                    </tr>
+                </table>
+                <div id="customErrorCalBase"><span class="text-danger"></span></div>
+                <div>
+                    @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+
 
             </div>
-            @*<div>
-                <nav>
-                    <ul class="pager">
-                        <li>
-                            <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                        </li>
-                        <li>
-                            <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                        </li>
-                    </ul>
-                </nav>
-            </div>*@
+            <br />
+
+            <div id="CurtailmentGrid">
+                <div class="form-group">
+                    <div style="text-align: center;">
+                        <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 60%;">
+                            <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
+                                <th style="width: 10%;" height="30px">
+                                    <p id="cuId"> Curt#</p>
+                                </th>
+                                <th style="width: 35%;" height="30px">
+                                    <p id="time">@Model.TimeBase</p>
+                                </th>
+                                <th style="width: 35%;" height="30px">
+                                    <p id="pecentage">Percentage(%)</p>
+                                </th>
+                                <th style="width: 20%;" height="30px">
+                                </th>
+                            </tr>
+                            @for (int a = 0; a < Model.InfoModel.Count; a++)
+                            {
+                                <tr>
+                                    <td style="width: 10%;"><label id="lblCur">@*@Model.InfoModel[a].CurtailmentId*@1</label></td>
+                                    <td style="width: 35%;">
+                                        @*@Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod" })*@
+                                        @*@Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })*@
+                                        <input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled">
+                                        <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
+                                    </td>
+                                    <td style="width: 35%;">
+                                        @*@Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment" })*@
+                                        @*@Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })*@
+                                        <input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled">
+                                        <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
+                                    </td>
+
+                                    <td style="width: 20%;">
+                                        @*@if (a != 0)
+                                            {*@
+                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" />
+                                        @*}*@
+                                    </td>
+
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @if (Model.RemainingPercentage >= 0)
+                {
+                    <span style="background-color: yellow" id="spnremainPt">
+                    </span>
+                    <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
+                    <span style="background-color: red" id="spnremainPtError"></span>
+                    <br />
+                    <span style="background-color: yellow">
+                        Advance Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                    </span>
+
+
+
+                }
+                @*else
+                    {
+                        <span style="background-color: red">
+                            Remaining Percentage: ???
+                        </span><text>&nbsp;&nbsp;</text>
+                        <span style="background-color: green">
+                            Maximum percentage is @Model.AdvancePt
+                        </span>
+                    }*@
+                <br />
+                <span style="background-color: yellow">
+                    Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
+                </span>
+            </div>
+
+            <br />
+            <br />
+            <div class="form-group">
+                <table width="100%">
+                    <tr>
+                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
+                        <td width="60%">
+                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
+                            @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
+                        </td>
+                    </tr>
+                </table>
+                <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="button-panel">
+                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" />
+
+
+
+                    @*<input type="button" id="clear" value="Clear" class="btn btn-default right-button" />*@
+
+                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left:40%" />
+
+                </div>
+                @*<div>
+                        <nav>
+                            <ul class="pager">
+                                <li>
+                                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                                <li>
+                                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>*@
+            </div>
         </div>
-    </div>
-                        }
+    }
+
+
+}
 @*Grid view*@
 <script type="text/javascript">
+    //Assign model details to global variable
+    var model = @Html.Raw(Json.Encode(Model));
 
-    $(function () {
+    //
+    var remainingPt = parseInt(model.AdvancePt);
+    var remainingTime = model.RemainingTime;
+    var difPercentage = parseInt(100) - parseInt(model.AdvancePt);
+    var id = 1;
+
+    var isFirst = true;
+
+    var list = { currentList: [] };
+
+    function createTableRow(id) {
+        return '<tr>' +
+            '<td style="width: 10%;"><label id="lblCur">' +
+            id +
+            '</label></td>' +
+            '<td style="width: 35%;">' +
+            '<input class="clstimePeriod" id="timePeriod" type="text" value="">' +
+            '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
+            '</td>' +
+            '<td style="width: 35%;">' +
+            '<input class="clsaddCuirtailment" id="percentage" type="text" value="">' +
+            '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
+            '</td>' +
+            '<td style="width: 20%;">' +
+            '<input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px"/>' +
+            '</td>' +
+            '</tr>';
+    }
+
+    // allow to enter only numbers
+    $(document).on('keypress', '.clsaddCuirtailment, .clstimePeriod', function (e) {
+        //alert(e.which);
+        var res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    //$(document).on('keypress', '.clstimePeriod', function (e) {
+    //    var tr = $(this).parents('tr:first');
+
+    //    var curid = tr.find("#lblCur").html();
+
+    //    //alert(String.fromCharCode(e.which));
+    //});
+
+    //$(document).on('blur', '.clstimePeriod', function (e) {
+    //    var tr = $(this).parents('tr:first');
+
+    //    var curid = tr.find("#lblCur").html();
+    //    var timePeriod = tr.find("#timePeriod").val();
+    //    var previousTime = list.currentList[curid - 2].TimePeriod;
+
+    //    if (timePeriod < previousTime) {
+
+    //    } else {
+            
+    //    }
+
+    //    //if(timePeriod < list.currentList[j].TimePeriod)
+    //    //alert(list.currentList[curid - 2].TimePeriod);
+    //});
+
+    $(document).on('blur', '.clsaddCuirtailment', function (e) {
+        //alert('Hi');
+        //alert('blur ' + remainingPt);
+
+        var tr = $(this).parents('tr:first');
+
+        var curid = tr.find("#lblCur").html();
+        var timePeriod = tr.find("#timePeriod").val();
+        var percentage = tr.find("#percentage").val();
+
+        var isNewRow = false;
+
+        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+
+        //alert(remainingTime);
+
+        var currentListLenght = Object.keys(list.currentList).length;
+
+        //for (var j = 0; j < currentListLenght; j++) {
+        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+        //}
+
+        if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
+            //alert('Hi');
+
+            list.currentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
+        }
+        else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '' ) {
+            var index = (parseInt(curid) - parseInt(1));
+            var prePercen = list.currentList[index].Percentage;
+            list.currentList[index].Percentage = percentage;
+
+            isNewRow = true;
+            remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
+
+            if(parseInt(remainingPt) > 0)
+            {
+                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('');
+            }
+            else if (parseInt(remainingPt) === 0) {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtError').text('');
+                //$('#tblGrid').css('border-color', 'red');
+                document.getElementById("tblGrid").style.borderColor = "green";
+            } else {
+                //alert(remainingPt);
+                //$(this).css('background', 'red');
+                //$(tr).css('background', 'red');
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
+            }
+
+            //alert(prePercen);
+        }
+
+
+
+        //alert(list.currentList[0].CurtailmentId);
+        //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
+
+        //alert('Curid: ' + curid + ' id: ' + id);
+
+        if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
+            //alert('new row');
+
+            if (isNewRow === false) {
+                remainingPt = parseInt(remainingPt) - parseInt(percentage);
+            }
+
+
+
+            isFirst = false;
+            if(parseInt(remainingPt) > 0)
+            {
+                var intId = parseInt(id);
+                id = isNaN(intId) ? 0 : intId;
+                id = id + 1;
+                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+
+                var strTr = createTableRow(id);
+                $('#tblGrid').append(strTr);
+            }
+            else if (parseInt(remainingPt) === 0) {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtError').text('');
+            } else {
+                //alert('blur ' + remainingPt);
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
+            }
+        }
+        //alert(remainingPt);
+    });
+
+    var isRowAdded = false;
+    var isFullFirst = true;
+    //update remaining percentage
+    $('.payment').change(function() {
+        $('#customErrorCalBase').children('span').text("");
+
+        //enable textboxes
+        $('.clstimePeriod').prop("disabled", false);
+        $('.clsaddCuirtailment').prop("disabled", false); 
+
+        var calcMode = $(this).filter(':checked').val();
+
+        // track first time
+        if (isFirst === true) {
+            isFirst = false;
+
+            if(calcMode === 'Full payment') {
+                remainingPt = parseInt(model.AdvancePt);
+
+            }
+            else if (calcMode === 'Advance') {
+                remainingPt = parseInt(100);
+            }
+        } else {
+            if(calcMode === 'Full payment') {
+                if (isFullFirst === true) {
+                    isFullFirst = false;
+                } else {
+                    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                }
+            }
+            else if (calcMode === 'Advance') {
+                isFullFirst = false;
+                remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
+            }
+        }
+
+        if(parseInt(remainingPt) > 0)
+        {
+            var val = document.getElementById('spnremainPtComplete').innerHTML;
+
+            $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+            $('#spnremainPtComplete').text('');
+            $('#spnremainPtError').text('');
+
+            if (val === 'Completed' && isRowAdded === false) {
+                var strTr = createTableRow(id);
+                $('#tblGrid').append(strTr);
+                isRowAdded = true;
+            }
+        }
+        else if (parseInt(remainingPt) === 0) {
+            $('#spnremainPt').text('');
+            $('#spnremainPtComplete').text('Completed');
+            $('#spnremainPtError').text('');
+        } else {
+            $('#spnremainPt').text('');
+            $('#spnremainPtComplete').text('');
+            $('#spnremainPtError').text('Error percentage found');
+        }
+
+        //alert(remainingPt);
+        //$('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+        //alert(calcMode);
+    });
+
+    //delete row
+    $(document).on('click', '.btnDeleteRow', function () {
+        var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
+
+        if(tblLength > 1)
+        {
+            var tr = $(this).parents('tr:first');
+
+            var curid = tr.find("#lblCur").html();
+            var timePeriod = tr.find("#timePeriod").val();
+            var percentage = tr.find("#percentage").val();
+
+            var gridTable = document.getElementById('tblGrid');
+            gridTable.deleteRow(curid);
+            id = id - 1;
+
+            for (var k = curid; k < id + 1; k++) {
+                gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
+            }
+
+
+            var removeIndex = (parseInt(curid) - parseInt(1));
+
+            //alert(removeIndex);
+            list.currentList.splice(removeIndex, 1);
+            var currentListLenght = Object.keys(list.currentList).length;
+            //alert(currentListLenght);
+            for (var i = removeIndex; i < currentListLenght; i++) {
+                list.currentList[i].CurtailmentId = removeIndex + 1;
+            }
+
+            //for (var j = 0; j < currentListLenght; j++) {
+            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+            //}
+
+            //document.getElementById("tblGrid").deleteRow(curid);
+            remainingPt = parseInt(remainingPt) + parseInt(percentage);
+
+            if(parseInt(remainingPt) > 0)
+            {
+                var val = document.getElementById('spnremainPtComplete').innerHTML;
+
+                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('');
+
+                //if (val === 'Complete' && isRowAdded === false) {
+                //    var strTr = createTableRow(id);
+                //    $('#tblGrid').append(strTr);
+                //    isRowAdded = true;
+                //}
+            }
+            else if (parseInt(remainingPt) === 0) {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('Completed');
+                $('#spnremainPtError').text('');
+            } else {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
+            }
+
+        }
+
+
+        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+    });
+
+    $('#btnCreate').click(function() {
+
+        var calBase = $('.payment').filter(':checked').val();
+        //alert(calBase);
+        if (calBase === 'Full payment' || calBase === 'Advance') {
+            //alert(calBase);
+            $('#customErrorCalBase').children('span').text("");
+        } else {
+            $('#customErrorCalBase').children('span').text("Please select Base of calculation.");
+        }
+
+
+        var loanStatus = $('.Active').filter(':checked').val();
+        //alert(loanStatus);
+        if (loanStatus === 'Yes' || loanStatus === 'No') {
+            $('#customErrorLoanStatus').children('span').text("");
+        } else {
+            $('#customErrorLoanStatus').children('span').text("Please select.");
+        }
+
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No'))
+        {
+            var data = { curtailmentList: [] };
+            $('table#tblGrid > tbody > tr').not(':first').each(function() {
+                var curid = $(this).find("#lblCur").html();
+                var timePeriod = $(this).find("#timePeriod").val();
+                var percentage = $(this).find("#percentage").val();
+
+                data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
+            });
+
+            $.ajax({
+                url: '/SetupProcess/AddCurtailment/',
+                data: JSON.stringify(data),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (res) {
+                    //alert('12www');
+                }
+            });
+        }
+    });
+
+    //set loan status
+    $('.Active').change(function () {
+        $('#customErrorLoanStatus').children('span').text("");
+        var isaActive = $(this).filter(':checked').val();
+    });
+
+    function AllowNumbers(id, code) {
+        if (48 <= code && code <= 58)
+            return 1;
+        return 0;
+    }
+
+    function CheckMaxLenth(id, val, maxLenght) {
+        if (val.length < maxLenght) {
+            return 1;
+        }
+        return 0;
+    }
+
+    $('#btnPreStep10').click(function () {
+        $('#loadingDiv').show();
+        $.ajax({
+            url: '@Url.Action("Step9", "SetupProcess")',
+            type: 'GET',
+
+            success: function (partialView) {
+                $('#loadingDiv').hide();
+                $('#changeContainer').html(partialView);
+                $('#changeContainer').show();
+
+            },
+            error: function (request, status, error) {
+                handleErrorMsg(request.responseText);
+
+            }
+        });
+    });
+
+    $('#dashBoard').click(function () {
+        window.location.replace('@Url.Action("UserDetails", "UserManagement")');
+    });
+
+    @*$(function () {
 
         //get calculation base type
         var gCalBase = $('.payment').filter(':checked').val();
         var gLoanStatus = $('.Active').filter(':checked').val();
 
         //Check time period valid
-        //$('.timePeriod').blur(function () {
         $('.timePeriod').bind('blur', function () {
             var tr = $(this).parents('tr:first');
 
@@ -484,7 +838,7 @@
                 }
             });
         });
-    });
+    });*@
 
     Progress(10);
 </script>

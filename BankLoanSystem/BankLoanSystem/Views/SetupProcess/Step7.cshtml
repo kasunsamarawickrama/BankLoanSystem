@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="col-xs-2" style="float:left;margin-left: 145px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onkeypress = "return onlyDotsAndNumbers(event)", @onfocusout = "return focusFunction()" } })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" ,style= "width: 200%;" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -169,7 +169,7 @@
 
                             </div>
                             <div class="col-xs-5" style="margin-left:285px;">
-                                @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod" } })
+                                @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod", @maxlength=5 } })
                                 @Html.ValidationMessageFor(model => model.RemindPeriod, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -204,9 +204,52 @@
         }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
+    $("#interest").keypress(function(e){   
+        var interest = $('#interest').val();
+        if($('#interest').val().length >= 7){
+            e.preventDefault();
+        }    
+        else if(numericAllowDecimal(e,interest)){
+            
+        }else{
+            e.preventDefault();
+        }
+    });
+
+    $("#autoRemindEmail").keypress(function(e){   
+      
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) ||(ch >= 65 && ch <= 90) ||(ch >= 97 && ch <= 122)|| (ch == 46) ||(ch == 64)) {
+            return 1;
+        }
+        
+        else{
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
+
+    $("#autoRemindPeriod").keypress(function(e){   
+      
+        var ch = e.which;
+        if (ch >= 48 && ch <= 57) {
+            return 1;
+        }
+        
+        else{
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
     //Check maximum Email
     $('#autoRemindEmail').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+        }
+    });
+    $('#autoRemindPeriod').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 5);
         if (res === 0) {
             e.preventDefault();
         }
@@ -434,5 +477,6 @@
 
     });
 
+    $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
     Progress(7);
 </script>

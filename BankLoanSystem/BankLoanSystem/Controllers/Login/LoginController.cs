@@ -38,12 +38,14 @@ namespace BankLoanSystem.Controllers
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
                 Session["companyStep"] = null;
+                Session["loanCode"] = null;
                 return View(loginlbl);
             }
             else {
                 Session["AuthenticatedUser"] = null;
                 Session["loanStep"] = null;
                 Session["companyStep"] = null;
+                Session["loanCode"] = null;
                 return View();
             }
         }
