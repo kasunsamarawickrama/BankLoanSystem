@@ -1418,6 +1418,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
+                    Session["loanStep"] = loanData;
                 }
             }
 
