@@ -432,7 +432,9 @@
                     @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new {@id= "emailPeriod", @class = "form-control" , @onblur = "checkTheEmailRange(this.value)" } })
                     @Html.ValidationMessageFor(model => model.autoReminderPeriod, "", new { @class = "text-danger"})
 
-                    @Html.ValidationMessage("Out of Range", "Out of Range", new { @class = "text-danger hidden", @id = "emailReminderError" })
+
+                    <span id="emailReminderError" class="text-danger field-validation-error"></span>
+                    @*@Html.ValidationMessage("Out of Range", "Out of Range", new { @class = "text-danger hidden", @id = "emailReminderError" })*@
                 </div>
                
             </div>
@@ -470,9 +472,8 @@
 
 
 <script>
-
     $("#Next").click(function (e) {
-
+        //alert('a');
         var valid = 0;
         $('.form-horizontal :input[type="text"]').each(function () {
             if ($(this).val() != "") valid += 1;
@@ -497,7 +498,9 @@
                 e.preventDefault();
             }
             else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
+                alert('1');
                 e.preventDefault();
+                alert('2');
             } 
         } else {
             if ($("input:checked").length == 0) {
@@ -843,11 +846,11 @@
             
                 var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
                 if (value > diffDays) {
-                    $("#emailReminderError").removeClass("hidden"); 
+                    $("#emailReminderError").text("Out of Range");
                     $("#emailPeriod").addClass("input-validation-error").removeClass('valid');
 
                 } else {
-                    $("#emailReminderError").addClass("hidden");
+                    $("#emailReminderError").text("");
                     $("#emailPeriod").removeClass("input-validation-error");
 
                    
@@ -984,7 +987,7 @@ startPicker = new Pikaday({
         $("#outOffRangeError").text('');
         $("#payOffPeriod").removeClass('input-validation-error');
         updateStartDate();
-        endPicker.enableDayFn();
+        
 
     }
 }),

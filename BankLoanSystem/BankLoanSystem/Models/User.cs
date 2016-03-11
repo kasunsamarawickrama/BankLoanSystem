@@ -52,6 +52,11 @@ namespace BankLoanSystem.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
+       
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Phone number is not valid.")]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber2 { get; set; }
+
         [Required]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]

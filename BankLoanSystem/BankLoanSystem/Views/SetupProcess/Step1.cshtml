@@ -245,20 +245,43 @@ else if (@ViewBag.ErrorMsg != null)
 
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
+    $('#txtCompanyName').keyup(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
     // change to title case
-    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
+        ChangeToCapital(this.id, this.value);
     });
 
-    //Check maximum length
-    $('#txtCompanyName, #txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
+    $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
         if (res === 0) {
             e.preventDefault();
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum length
+    $('#txtCompanyName, #txtCity').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {

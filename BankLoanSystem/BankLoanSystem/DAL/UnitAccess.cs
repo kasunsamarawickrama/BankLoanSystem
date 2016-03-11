@@ -113,7 +113,7 @@ namespace BankLoanSystem.DAL
 
                             //return countVal;
                         }
-                        countVal = countVal + 1;
+                        //countVal = countVal + 1;
 
                     }
                     return countVal;
