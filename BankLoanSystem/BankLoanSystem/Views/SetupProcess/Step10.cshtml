@@ -64,16 +64,21 @@ else
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new {})</td>
                         <td width="60%">
-                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new {@id = "rdFullPayment", @class = "payment"})
                             Full payment
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new {@id = "rdAdvance", @class = "payment"})
                             Advance
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            </td>
+                        <td><div id="customErrorCalBase"><span class="text-danger"></span></div></td>
+                    </tr>
                 </table>
-                <div id="customErrorCalBase"><span class="text-danger"></span></div>
+                
                 <div>
                     @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
                 </div>
@@ -156,14 +161,18 @@ else
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
+                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new {})</td>
                         <td width="60%">
-                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
-                            @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
+                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new {@id = "rdYes", @class = "Active"}) Yes
+                            @Html.RadioButtonFor(m => m.Activate, "No", new {@id = "rdNo", @class = "Active"}) No
                         </td>
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td><div id="customErrorLoanStatus"><span class="text-danger"></span></div></td>
+                    </tr>
                 </table>
-                <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
+                
             </div>
 
             <div class="form-group">
@@ -250,9 +259,13 @@ else
 
         if (timePeriod > remainingTime) {
             $('#spnremainTimeError').text('You entered time is greater than paid of period');
-        } else if (timePeriod < previousTime) {
+        } else if (timePeriod < previousTime && timePeriod > 0) {
             $('#spnremainTimeError').text('You entered time should be greater than previous time');
-        } else {
+        }
+        //else if(timePeriod < previousTime){
+        //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
+        //}
+        else {
             $('#spnremainTimeError').text('');
         }
 
@@ -536,6 +549,9 @@ else
                     $('#changeContainer').show();
                 }
             });
+        }
+        if (remainingPt > 0) {
+            
         }
     });
 
