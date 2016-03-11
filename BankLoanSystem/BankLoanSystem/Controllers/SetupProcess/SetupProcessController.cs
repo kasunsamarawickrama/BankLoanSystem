@@ -630,6 +630,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step3(User user)
         {
+            
+                user.PhoneNumber = user.PhoneNumber2;
+            
             int currentUser = userData.UserId;
 
             // check he is a super admin or admin
