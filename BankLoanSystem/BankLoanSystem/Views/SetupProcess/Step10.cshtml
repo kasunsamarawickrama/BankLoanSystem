@@ -21,7 +21,7 @@
 
 <h2>Curtailment</h2>
 
-@if (ViewBag.SuccessMsg == "Loan setup is completed")
+@if (ViewBag.SuccessMsg == "Loan is setup successfully!")
 {
     <span class="text-success">@ViewBag.SuccessMsg</span>
     <div class="form-group">
@@ -296,12 +296,6 @@ else
         }
     });
 
-    $(document).on('keypress', '.clstimePeriod', function (e) {
-        var tr = $(this).parents('tr:first');
-
-        var curid = tr.find("#lblCur").html();
-    });
-
     $(document).on('blur', '.clstimePeriod', function (e) {
 
         var tr = $(this).parents('tr:first');
@@ -564,8 +558,10 @@ else
                 var curid = $(this).find("#lblCur").html();
                 var timePeriod = $(this).find("#timePeriod").val();
                 var percentage = $(this).find("#percentage").val();
-
-                data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
+                if (timePeriod !== '' && percentage !== '') {
+                    data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
+                }
+                
             });
 
             $.ajax({
