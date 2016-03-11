@@ -961,7 +961,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             if (NonRegisteredBranchLists.Count == 1)
-            {
+            {   
+                if(userData.RoleId == 1)
+                {
+                    // the get registered branch detail from the company branches list
+                    foreach (Branch branch in RegisteredBranchLists)
+                    {
+                        if (branch.BranchId == NonRegisteredBranchLists[0].BranchId)
+                        {
+                            var newList = new List<Branch>();
+                            newList.Add(branch);
+                            ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", userData.BranchId);
+                        }
+                    }
+                }
                 loanSetupStep1.nonRegisteredBranchId = NonRegisteredBranchLists[0].NonRegBranchId;
             }
 
