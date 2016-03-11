@@ -94,6 +94,9 @@
         } else if (ViewBag.Msg == "Error") {
 
             <text> $('.centered span').text('Error in page');</text>
+        }else if (ViewBag.Msg == "Advance Error") {
+
+            <text> $('.centered span').text('Invalid amount found for advance');</text>
         }
         // show popup when you click on the link
 
@@ -105,13 +108,13 @@
             $('.centered1 span').text('');
         });
 
-      
+
         //$(document).on("click", function () {
         //    alert("click bound to document listening for #test-element");
         //    middleSpanCheck();
         //});
 
-       
+
 
         $('.show-logout-popup').click(function (event) {
 
@@ -182,7 +185,7 @@
 
             //    $('.centered span').text('');
             //}
-            
+
 
             $.each($('input').next('span'), function (i, obj) {
                 if ($(obj).children('span').length > 0) {

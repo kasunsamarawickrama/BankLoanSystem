@@ -662,11 +662,11 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
                         success: function (View) {
-                            //$('#container').html(View);
-                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            //$('#checkableGridDiv').html(View);
-                            //$('#container').show();
-                            
+                            if (View != '2') {
+                                $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            } else {
+                                $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            }                            
                         }
                     });
                 }
@@ -691,9 +691,7 @@
                         contentType: 'application/json; charset=utf-8',
 
                         success: function (View) {
-                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            //$('#changeContainer').html(partialView);
-                            //$('#changeContainer').show();
+                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);                            
                         }
                     });
                 }
