@@ -2216,7 +2216,8 @@
             //$("#tagscloudAdvance span").fadeIn();
             //$(this).addClass('input-validation-error');
             $("#tagscloud span").text("");
-
+            $(this).val("0.00");
+            $('#txtAdvanceAmount').val("0.00");
         }
         else if (Number(num) <= 0) {
             //$("#tagscloud span").fadeIn();
@@ -2316,7 +2317,6 @@
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be a positive number");
-
         }
         else if (Number(num) > Number(cost)) {
             //$("#tagscloudAdvance span").fadeIn();
@@ -2355,6 +2355,10 @@
         //    //$(this).removeClass('input-validation-error');
         //}
         $(this).val(num);
+        if (num == "") {
+        //$("#tagscloudAdvance span").fadeIn();
+            $(this).val("0.00");
+        }
     });
 
     $('#btnSubmit').click(function(e){
