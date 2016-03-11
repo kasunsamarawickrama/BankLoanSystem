@@ -1804,11 +1804,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     feeNew.isEdit = false;
                     var email = loan.getAutoRemindEmailByLoanId(feeNew.LoanId);
-
-                    feeNew.AdvanceDueEmail = email;
-                    feeNew.MonthlyLoanDueEmail = email;
-                    feeNew.LotInspectionDueEmail = email;
-
+                    if (email != null) { 
+                        feeNew.AdvanceDueEmail = email;
+                        feeNew.MonthlyLoanDueEmail = email;
+                        feeNew.LotInspectionDueEmail = email;
+                    }
                     hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
                     hasLoan.IsLotFeeCompleteEmailReminder = false;
                     hasLoan.IsLoanFeeCompleteEmailReminder = false;
