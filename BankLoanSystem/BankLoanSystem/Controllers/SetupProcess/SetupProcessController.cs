@@ -1404,24 +1404,26 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 //need to update loanSetup object
-                if (loanId > 0)
-                {
-                    if (loanSetupStep1.isInterestCalculate)
-                    {
-                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
-                    }
-                    else
-                    {
-                        sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
-                    }
-                    
-                    loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
-                    loanData.loanId = loanId;
-                    loanData.stepId = 2;
-                    Session["loanStep"] = loanData;
-                }
+               
             }
+            if (loanId > 0)
+            {
+                if (loanSetupStep1.isInterestCalculate)
+                {
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    loanData.stepId = 2;
+                }
+                else
+                {
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    loanData.stepId = 3;
+                }
 
+                loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
+                loanData.loanId = loanId;
+                
+                Session["loanStep"] = loanData;
+            }
             Session["loanStep"] = loanData;
             if (loanSetupStep1.isInterestCalculate)
             {

@@ -85,7 +85,7 @@ namespace BankLoanSystem.Controllers
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
-            //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
+            Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
 
             if (flag == 1)
