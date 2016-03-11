@@ -1670,6 +1670,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
                     loanData.stepId = 3;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
 
                 }
@@ -1889,6 +1890,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     loanData.stepId = 4;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step9");
                 }
                 else
@@ -2118,6 +2120,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
                     loanData.stepId = 5;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step10");
                 }
                 else

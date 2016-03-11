@@ -589,7 +589,7 @@ else
             if ($(this).is(':checked')) {
 
                 var model = @Html.Raw(Json.Encode(Model));
-                document.getElementById("branchName").value = model.CompanyBranch.Company.City;
+                document.getElementById("branchName").value = model.CompanyBranch.Company.CompanyName+"-"+model.CompanyBranch.Company.City;
                 document.getElementById("branchAddress1").value = model.CompanyBranch.Company.CompanyAddress1;
                 document.getElementById("branchAddress2").value = model.CompanyBranch.Company.CompanyAddress2;
                 document.getElementById("StateId").value = model.CompanyBranch.Company.StateId;
