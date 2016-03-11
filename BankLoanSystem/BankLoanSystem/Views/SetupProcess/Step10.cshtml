@@ -60,7 +60,7 @@ else
                 </span>
             }
 
-            <input type="hidden" id="cal" name="cal"/>
+            <input type="hidden" id="cal" name="cal" />
 
 
             <div class="form-group">
@@ -68,10 +68,28 @@ else
                     <tr>
                         <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
                         <td width="60%">
-                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                            Full payment
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                            Advance
+                            :@*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                Full payment
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                Advance*@
+                            @if (Model.CalculationBase == "Full payment")
+                            {
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
+                                <text>Full payment</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) <text>Advance</text>
+                            }
+                            else if (Model.CalculationBase == "Advance")
+                            {
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                <text>Full payment</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true }) <text>Advance</text>
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                <text>Full payment</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) <text>Advance</text>
+                            }
                         </td>
                     </tr>
                     <tr>
@@ -90,17 +108,17 @@ else
 
             </div>
 
-            
+
             <div class="form-group">
                 @if (Model.RemainingPercentage >= 0)
                     {
                     <span style="background-color: yellow" id="spnremainPt">
                     </span>
                     <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
-                        <span style="background-color: red" id="spnremainPtError"></span>
-                        <br />
+                    <span style="background-color: red" id="spnremainPtError"></span>
+                    <br />
                         <span style="background-color: yellow">
-                            Advance Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                            Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
                         </span>
 
 
@@ -132,20 +150,23 @@ else
                             @for (int a = 0; a < Model.InfoModel.Count; a++)
                             {
                                 <tr>
-                                    <td style="width: 10%;"><label id="lblCur">@*@Model.InfoModel[a].CurtailmentId*@1</label></td>
+                                    <td style="width: 10%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
                                     <td style="width: 35%;">
-                                        <input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">
+                                        @*<input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">*@
+                                        @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right" })
+
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
                                     <td style="width: 35%;">
-                                        <input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">
+                                        @*<input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">*@
+                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment", @disabled = "disabled", @style = "text-align: right" })
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
 
                                     <td style="width: 20%;">
                                         @*@if (a != 0)
                                             {*@
-                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px"/>
+                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" />
                                         @*}*@
                                     </td>
 
@@ -161,14 +182,31 @@ else
                 <br />
                 <div id="spnremainTimeError"><span class="text-danger"></span></div>
             </div>
-            <br/>
+            <br />
             <div class="form-group">
                 <table width="100%">
                     <tr>
                         <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
                         <td width="60%">
-                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
-                            @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
+                            :
+                            @if (Model.Activate == "Yes")
+                            {
+                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
+                                <text>Yes</text>
+                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) <text>No</text>
+                            }
+                            else if (Model.Activate == "No")
+                            {
+                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" })
+                                <text>Yes</text>
+                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active", @checked = true }) <text>No</text>
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" })
+                                <text>Yes</text>
+                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) <text>No</text>
+                            }
                         </td>
                     </tr>
                     <tr>
@@ -200,14 +238,16 @@ else
         window.location.replace('@Url.Action("UserDetails", "UserManagement")');
     });
 
+
+
     //Assign model details to global variable
     var model = @Html.Raw(Json.Encode(Model));
 
     //
-    var remainingPt = parseInt(model.AdvancePt);
+    var remainingPt = parseInt(model.RemainingPercentage);
     var remainingTime = model.RemainingTime;
     var difPercentage = parseInt(100) - parseInt(model.AdvancePt);
-    var id = 1;
+    var id = $('#tblGrid tr:last').find("#lblCur").html();
     var payPercentage = 0;
     var isFirst = true;
 
@@ -243,7 +283,6 @@ else
 
     // allow to enter only numbers
     $(document).on('keypress', '.clsaddCuirtailment, .clstimePeriod', function (e) {
-        //alert(e.which);
         var res = AllowNumbers(this, e.which);
         if (res === 0) {
             e.preventDefault();
@@ -261,8 +300,6 @@ else
         var tr = $(this).parents('tr:first');
 
         var curid = tr.find("#lblCur").html();
-
-        //alert(String.fromCharCode(e.which));
     });
 
     $(document).on('blur', '.clstimePeriod', function (e) {
@@ -277,27 +314,19 @@ else
             previousTime = list.currentList[curid - 2].TimePeriod;
 
         if (timePeriod > remainingTime) {
-            //$('#spnremainTimeError').text('You entered time is greater than paid of period');
             $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
         } else if (timePeriod <= previousTime && timePeriod > 0) {
-            //$('#spnremainTimeError').text('You entered time should be greater than previous time');
             $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
         }
-        //else if(timePeriod < previousTime){
-        //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
-        //}
+            //else if(timePeriod < previousTime){
+            //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
+            //}
         else {
-            //$('#spnremainTimeError').text('');
             $('#spnremainTimeError').children('span').text("");
         }
-
-        //if(timePeriod < list.currentList[j].TimePeriod)
-        //alert(list.currentList[curid - 2].TimePeriod);
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function (e) {
-        //alert('Hi');
-        //alert('blur ' + remainingPt);
 
         var tr = $(this).parents('tr:first');
 
@@ -309,16 +338,13 @@ else
 
         //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
 
-        //alert(remainingTime);
-
         var currentListLenght = Object.keys(list.currentList).length;
-
+        
         //for (var j = 0; j < currentListLenght; j++) {
         //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
         //}
 
         if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
-            //alert('Hi');
 
             list.currentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
         }
@@ -340,36 +366,22 @@ else
                 $('#spnremainPt').text('');
                 $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
-                //$('#tblGrid').css('border-color', 'red');
                 document.getElementById("tblGrid").style.borderColor = "green";
             } else {
-                //alert(remainingPt);
-                //$(this).css('background', 'red');
-                //$(tr).css('background', 'red');
                 $('#spnremainPt').text('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
-
-            //alert(prePercen);
         }
 
-
-
-        //alert(list.currentList[0].CurtailmentId);
         //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
-
-        //alert('Curid: ' + curid + ' id: ' + id);
-
+        
         if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
-            //alert('new row');
-
+           
             if (isNewRow === false) {
                 remainingPt = parseInt(remainingPt) - parseInt(percentage);
             }
-
-
-
+            //remainingPt = parseInt(remainingPt) - parseInt(percentage);
             isFirst = false;
             if(parseInt(remainingPt) > 0)
             {
@@ -386,13 +398,11 @@ else
                 $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
             } else {
-                //alert('blur ' + remainingPt);
                 $('#spnremainPt').text('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
         }
-        //alert(remainingPt);
     });
 
     var isRowAdded = false;
@@ -401,6 +411,7 @@ else
     $('.payment').change(function() {
         $('#customErrorCalBase').children('span').text("");
         $('#customErrorTable').children('span').text("");
+
         //enable textboxes
         $('.clstimePeriod').prop("disabled", false);
         $('.clsaddCuirtailment').prop("disabled", false);
@@ -410,22 +421,23 @@ else
         // track first time
         if (isFirst === true) {
             isFirst = false;
-            alert('true');
+            
             if(calcMode === 'Full payment') {
                 payPercentage = parseInt(model.AdvancePt);
-                remainingPt = parseInt(model.AdvancePt);
+                remainingPt = parseInt(remainingPt);
 
             }
             else if (calcMode === 'Advance') {
+                
                 payPercentage = parseInt(100);
-                remainingPt = parseInt(100);
+                remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
             }
         } else {
-            //alert('false');
             if(calcMode === 'Full payment') {
 
                 payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
+                
                 //if (isFullFirst === true) {
                 //    isFullFirst = false;
                 //} else {
@@ -439,7 +451,7 @@ else
                 remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
             }
         }
-
+        
         if(parseInt(remainingPt) > 0)
         {
             var val = document.getElementById('spnremainPtComplete').innerHTML;
@@ -449,9 +461,12 @@ else
             $('#spnremainPtError').text('');
 
             if (val === 'Curtailment schedule Completed.' && isRowAdded === false) {
-                var strTr = createTableRow(id);
+                
+                var newId = parseInt(id) + parseInt(1);
+                var strTr = createTableRow(newId);
                 $('#tblGrid').append(strTr);
                 isRowAdded = true;
+                id = parseInt(newId);
             }
         }
         else if (parseInt(remainingPt) === 0) {
@@ -463,10 +478,6 @@ else
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('Error percentage found');
         }
-
-        //alert(remainingPt);
-        //$('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-        //alert(calcMode);
     });
 
     //delete row
@@ -489,13 +500,11 @@ else
                 gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
             }
 
-
             var removeIndex = (parseInt(curid) - parseInt(1));
 
-            //alert(removeIndex);
             list.currentList.splice(removeIndex, 1);
             var currentListLenght = Object.keys(list.currentList).length;
-            //alert(currentListLenght);
+
             for (var i = removeIndex; i < currentListLenght; i++) {
                 list.currentList[i].CurtailmentId = removeIndex + 1;
             }
@@ -504,7 +513,6 @@ else
             //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
             //}
 
-            //document.getElementById("tblGrid").deleteRow(curid);
             remainingPt = parseInt(remainingPt) + parseInt(percentage);
 
             if(parseInt(remainingPt) > 0)
@@ -514,12 +522,6 @@ else
                 $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('');
-
-                //if (val === 'Complete' && isRowAdded === false) {
-                //    var strTr = createTableRow(id);
-                //    $('#tblGrid').append(strTr);
-                //    isRowAdded = true;
-                //}
             }
             else if (parseInt(remainingPt) === 0) {
                 $('#spnremainPt').text('');
@@ -541,9 +543,7 @@ else
         $('#customErrorTable').children('span').text("");
         var calBase = $('.payment').filter(':checked').val();
 
-        //alert(calBase);
         if (calBase === 'Full payment' || calBase === 'Advance') {
-            //alert(calBase);
             $('#customErrorCalBase').children('span').text("");
         } else {
             $('#customErrorCalBase').children('span').text("Please select Base of calculation.");
@@ -551,7 +551,6 @@ else
 
 
         var loanStatus = $('.Active').filter(':checked').val();
-        //alert(loanStatus);
         if (loanStatus === 'Yes' || loanStatus === 'No') {
             $('#customErrorLoanStatus').children('span').text("");
         } else {
@@ -582,7 +581,6 @@ else
             });
         }
         if (remainingPt > 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No')) {
-            //$('#customErrorTable').children('span').text("Total curtailment % equals 2 but should be equal to 85. Please adjust the curtailment schedule.");
             var currentListLenght = Object.keys(list.currentList).length;
             var totatlPercentage = 0;
             for (var j = 0; j < currentListLenght; j++) {
@@ -595,19 +593,7 @@ else
 
     //set loan status
     $('.Active').change(function () {
-        //$('#customErrorTable').children('span').text("");
         $('#customErrorLoanStatus').children('span').text("");
-
-        //$.ajax({
-        //    url: '/SetupProcess/SetLoanStatus/',
-        //    data: { loanStatus: isaActive },
-        //    type: 'POST',
-        //    success: function (partialView) {
-        //        $('#changeContainer').html(partialView);
-
-        //        $('#changeContainer').show();
-        //    }
-        //});
     });
 
     function AllowNumbers(id, code) {
@@ -641,216 +627,6 @@ else
             }
         });
     });
-
-    @*$(function () {
-
-        //get calculation base type
-        var gCalBase = $('.payment').filter(':checked').val();
-        var gLoanStatus = $('.Active').filter(':checked').val();
-
-        //Check time period valid
-        $('.timePeriod').bind('blur', function () {
-            var tr = $(this).parents('tr:first');
-
-            var id = tr.find("#lblCur").html();
-            var timePeriod = tr.find("#timePeriod").val();
-
-            var curtailmentTime = {
-                "CurtailmentId": id,
-                "TimePeriod": timePeriod
-            };
-
-            $.ajax({
-                url: '/SetupProcess/CheckTimePeriod/',
-                data: JSON.stringify(curtailmentTime),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else
-                    //    $('#rdFullPayment').prop('checked', true);
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        //add curtailment
-        $('.addCuirtailment').blur(function () {
-            var tr = $(this).parents('tr:first');
-
-            var id = tr.find("#lblCur").html();
-            var timePeriod = tr.find("#timePeriod").val();
-            var percentage = tr.find("#percentage").val();
-
-            var curtailment = {
-                "CurtailmentId": id,
-                "TimePeriod": timePeriod,
-                "Percentage": percentage,
-                "CalculationBase2": gCalBase
-            };
-
-            $.ajax({
-                url: '/SetupProcess/SetCurtailment/',
-                data: JSON.stringify(curtailment),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else
-                    //    $('#rdFullPayment').prop('checked', true);
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        //delete row
-        $('.btnDeleteRow').click(function () {
-            var tr = $(this).parents('tr:first');
-
-            var id = tr.find("#lblCur").html();
-            var timePeriod = tr.find("#timePeriod").val();
-            var percentage = tr.find("#percentage").val();
-            gCalBase = $('.payment').filter(':checked').val();
-            //alert(id + ' ' + timePeriod + ' ' + percentage);
-
-            var curtailment = {
-                "CurtailmentId": id,
-                "TimePeriod": timePeriod,
-                "Percentage": percentage,
-                "CalculationBase2": gCalBase
-            };
-
-            $.ajax({
-                url: '/SetupProcess/DeleteCurtailmentRow/',
-                data: JSON.stringify(curtailment),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else {
-                    //    $('#rdFullPayment').prop('checked', true);
-                    //}
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        //update remaining percentage
-        $('.payment').change(function () {
-            var calcMode = $(this).filter(':checked').val();
-
-            gCalBase = calcMode;
-            $.ajax({
-                url: '/SetupProcess/SetPercentage/',
-                data: { calcMode: calcMode },
-                type: 'POST',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else
-                    //    $('#rdFullPayment').prop('checked', true);
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        //set loan status
-        $('.Active').change(function () {
-            var isaActive = $(this).filter(':checked').val();
-
-            gLoanStatus = isaActive;
-            $.ajax({
-                url: '/SetupProcess/SetLoanStatus/',
-                data: { loanStatus: isaActive },
-                type: 'POST',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else
-                    //    $('#rdFullPayment').prop('checked', true);
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        $('#btnCreate').click(function () {
-            $.ajax({
-                url: '/SetupProcess/AddCurtailment/',
-                type: 'POST',
-                success: function (partialView) {
-                    $('#changeContainer').html(partialView);
-                    //if (gCalBase === "Advance") {
-                    //    $('#rdAdvance').prop('checked', true);
-                    //} else
-                    //    $('#rdFullPayment').prop('checked', true);
-
-                    if (gLoanStatus === "Yes")
-                        $('#rdYes').prop('checked', true);
-                    else
-                        $('#rdNo').prop('checked', true);
-
-                    $('#changeContainer').show();
-                }
-            });
-        });
-
-        $('#btnPreStep10').click(function () {
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("Step9", "SetupProcess")',
-                type: 'GET',
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-
-                },
-                error: function (request, status, error) {
-                    handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });*@
 
     Progress(10);
 </script>

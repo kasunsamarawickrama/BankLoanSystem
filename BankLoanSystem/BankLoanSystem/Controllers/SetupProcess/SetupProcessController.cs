@@ -2290,6 +2290,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         totalPercentage += curtailments[i].Percentage;
                         _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
+                    _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+
+                    _gCurtailment.CalculationBase = totalPercentage == 100 ? "Advance" : "Full payment";
                 }
 
                 _calMode = "Full Payment";
@@ -2326,19 +2329,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            StepAccess sa = new StepAccess();
             if (curtailmentAccess.InsertCurtailment(curtailmentList, _loan.loanId) == 1)
             {
-
-
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                StepAccess sa = new StepAccess();
-
                 sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
                 ViewBag.Redirect = 1;
             }
             else
             {
+                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
+                    loanData.loanId, 6);
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
 
