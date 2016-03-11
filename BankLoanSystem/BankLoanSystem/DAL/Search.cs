@@ -11,6 +11,8 @@ namespace BankLoanSystem.DAL
         public List<Unit> GetSearchResultsList(List<Unit> unitList, string identificationNumber, string year, string make, string vehicleModel)
         {
             List<Models.Unit> resultList = new List<Models.Unit>();
+
+
             foreach (Models.Unit unitElement in unitList)
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
@@ -64,7 +66,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
                 {
-                    
+
                     if (unitElement.Year.ToString().ToLower().StartsWith(year))
                     {
                         resultList.Add(unitElement);
@@ -115,6 +117,13 @@ namespace BankLoanSystem.DAL
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
                     if (unitElement.IdentificationNumber.ToLower().StartsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        resultList.Add(unitElement);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
