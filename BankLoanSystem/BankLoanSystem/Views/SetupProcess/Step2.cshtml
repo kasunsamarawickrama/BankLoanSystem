@@ -403,7 +403,7 @@
             if ($(this).is(':checked')) {
                
                 var model = @Html.Raw(Json.Encode(Model));
-                document.getElementById("branchName").value = model.Company.City;
+                document.getElementById("branchName").value = model.Company.CompanyName+"-"+model.Company.City;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
                 document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
                 document.getElementById("StateId").value = model.Company.StateId;

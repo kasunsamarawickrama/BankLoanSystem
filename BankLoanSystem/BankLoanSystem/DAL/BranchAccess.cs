@@ -355,7 +355,7 @@ namespace BankLoanSystem.DAL
                     if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
                     if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
 
-                    branch.CompanyNameBranchName = dataRow["company_name"].ToString() +" - " + dataRow["branch_name"].ToString();
+                    branch.CompanyNameBranchName = dataRow["branch_name"].ToString();
                     branch.BranchEmail = dataRow["email"].ToString();
                     branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
                     branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();

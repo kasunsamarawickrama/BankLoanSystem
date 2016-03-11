@@ -35,25 +35,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+            try
             {
-                try
-                {
+                if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+                 {    
                     userData = ((User)Session["AuthenticatedUser"]);
                     if (Session["loanStep"] != null)
                     {
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                     }
                 }
-                catch
+                else
                 {
-                    //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
-            else
+            catch
             {
-                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 filterContext.Controller.TempData.Add("UserLogin", "Login");
             }
         }
@@ -1418,6 +1418,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                     loanData.loanId = loanId;
                     loanData.stepId = 2;
+                    Session["loanStep"] = loanData;
                 }
             }
 
@@ -1670,6 +1671,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
                     loanData.stepId = 3;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
 
                 }
@@ -1889,6 +1891,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     loanData.stepId = 4;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step9");
                 }
                 else
@@ -2118,6 +2121,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
                     loanData.stepId = 5;
+                    Session["loanStep"] = loanData;
                     return RedirectToAction("Step10");
                 }
                 else
