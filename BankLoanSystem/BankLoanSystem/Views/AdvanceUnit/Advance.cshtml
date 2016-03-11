@@ -360,7 +360,9 @@
         document.getElementById('all').checked = false;
         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;        
        
-        $("#someID span").html('Select');
+        $("#someID span").html('Select');        
+        $("#tagscloud span").html('');
+        $('#iAdvance').removeClass('input-validation-error');
 
         ClearSearchRelatedData();
         
@@ -739,7 +741,7 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iCost').val(tr.find("#cost").text());
-                $('#iAdvance').val(tr.find("#am").text());
+                $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ "; 
                 @if(ViewBag.loanDetails.isEditAllowable == true)
@@ -888,9 +890,9 @@
 
             var maxAdvance =  parseFloat($('#blc').text().replace(',', ''))
                 $('#iAdvance').keypress(function (e) {
-                var cost = document.getElementById('iCost').value;
-                //alert(e.which);
-                var advance = document.getElementById('iAdvance').value;
+                    var cost = document.getElementById('iCost').value.replace(',', '');
+                
+                    var advance = document.getElementById('iAdvance').value.replace(',', '');
                 if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
                     //var val = this.value + (e.which - 48);
                     //alert(cost + ' ' + val);
@@ -933,8 +935,8 @@
             });
 
             $('#iAdvance').blur(function () {
-                var cost = document.getElementById('iCost').value;
-                var advance = document.getElementById('iAdvance').value;
+                var cost = document.getElementById('iCost').value.replace(',', '');
+                var advance = document.getElementById('iAdvance').value.replace(',', '');
                 var val = $.trim($(this).val());
 
                 if (val.indexOf(',') > -1) {

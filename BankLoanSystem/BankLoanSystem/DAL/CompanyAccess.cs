@@ -848,11 +848,11 @@ namespace BankLoanSystem.DAL
                     command.Parameters.AddWithValue("@stateId", company.StateId);
                     command.Parameters.AddWithValue("@city", company.City.Trim() ?? "");
                     command.Parameters.AddWithValue("@zip", company.Zip.Trim() ?? "");
-                    command.Parameters.AddWithValue("@email", company.Email ?? "");
-                    command.Parameters.AddWithValue("@phone_num_1", company.PhoneNum1 ?? "");
-                    command.Parameters.AddWithValue("@phone_num_2", company.PhoneNum2 ?? "");
-                    command.Parameters.AddWithValue("@phone_num_3", company.PhoneNum3 ?? "");
-                    command.Parameters.AddWithValue("@fax", company.Fax ?? "");
+                    command.Parameters.AddWithValue("@email", company.Email.Trim() ?? "");
+                    command.Parameters.AddWithValue("@phone_num_1", company.PhoneNum1.Trim() ?? "");
+                    command.Parameters.AddWithValue("@phone_num_2", company.PhoneNum2.Trim() ?? "");
+                    command.Parameters.AddWithValue("@phone_num_3", company.PhoneNum3.Trim() ?? "");
+                    command.Parameters.AddWithValue("@fax", company.Fax.Trim() ?? "");
                     command.Parameters.AddWithValue("@website_url", company.WebsiteUrl ?? "");
                     command.Parameters.AddWithValue("@created_by", company.CreatedBy);
                     command.Parameters.AddWithValue("@created_date", DateTime.Now);
@@ -905,10 +905,10 @@ namespace BankLoanSystem.DAL
                 if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
                 company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
+                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
                 company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
                 company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
 

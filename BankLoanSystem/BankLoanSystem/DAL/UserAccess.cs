@@ -102,7 +102,14 @@ namespace BankLoanSystem.DAL
 
                 user.IsDelete = (bool)dataRow["is_delete"];
                 user.CreatedBy = int.Parse(dataRow["created_by"].ToString());
-                user.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                if (dataRow["branch_id"].ToString()!="")
+                {
+                    user.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                }
+                else
+                {
+                    user.BranchId = 0;
+                }
                 user.RoleId = int.Parse(dataRow["role_id"].ToString());
                 user.UserName = dataRow["user_name"].ToString();
                 user.UneditUserName = dataRow["user_name"].ToString();
