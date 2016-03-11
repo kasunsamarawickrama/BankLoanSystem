@@ -701,64 +701,7 @@
 <script>
 
 
-    var startDate,
-        endDate,
-        updateStartDate = function () {
-            startPicker.setStartRange(startDate);
-            endPicker.setStartRange(startDate);
-            var minNextDate = new Date(startDate);
-            //alert(minNextDate);
-            minNextDate.setDate(startDate.getDate() + 1);
-            endPicker.setMinDate(minNextDate);
-        },
- updateEndDate = function () {
-     startPicker.setEndRange(endDate);
-     
-     var maxNextDate = new Date(endDate);
-     //alert(minNextDate);
-     maxNextDate.setDate(endDate.getDate() - 1);
-     startPicker.setMaxDate(maxNextDate);
-     endPicker.setEndRange(endDate);
- },
- startPicker = new Pikaday({
-     field: document.getElementById('startDate'),
-     format: 'l',
-     bound: true,
-
-     onSelect: function () {
-         startDate = this.getDate();
-         $("#payOffPeriod").val("");
-         $("#outOffRangeError").text('');
-         $("#payOffPeriod").removeClass('input-validation-error');
-         updateStartDate();
-         endPicker.enableDayFn();
-
-     }
- }),
- endPicker = new Pikaday({
-     field: document.getElementById('maturityDate'),
-     format: 'l',
-
-     onSelect: function () {
-         endDate = this.getDate();
-         $("#payOffPeriod").val("");
-         $("#outOffRangeError").text('');
-         $("#payOffPeriod").removeClass('input-validation-error');
-         updateEndDate();
-     }
- }),
- _startDate = startPicker.getDate(),
-        _endDate = endPicker.getDate();
-
-        if (_startDate) {
-            startDate = _startDate;
-            updateStartDate();
-        }
-
-        if (_endDate) {
-            endDate = _endDate;
-            updateEndDate();
-        }
+ 
 
 
         //function changeToTwoDecimal(number) {
@@ -1004,3 +947,67 @@
     }
 
 }
+
+
+<script>
+
+    var startDate,
+     endDate,
+     updateStartDate = function () {
+         startPicker.setStartRange(startDate);
+         endPicker.setStartRange(startDate);
+         var minNextDate = new Date(startDate);
+         //alert(minNextDate);
+         minNextDate.setDate(startDate.getDate() + 1);
+         endPicker.setMinDate(minNextDate);
+     },
+updateEndDate = function () {
+    startPicker.setEndRange(endDate);
+
+    var maxNextDate = new Date(endDate);
+    //alert(minNextDate);
+    maxNextDate.setDate(endDate.getDate() - 1);
+    startPicker.setMaxDate(maxNextDate);
+    endPicker.setEndRange(endDate);
+},
+startPicker = new Pikaday({
+    field: document.getElementById('startDate'),
+    format: 'l',
+    bound: true,
+
+    onSelect: function () {
+        startDate = this.getDate();
+        $("#payOffPeriod").val("");
+        $("#outOffRangeError").text('');
+        $("#payOffPeriod").removeClass('input-validation-error');
+        updateStartDate();
+        endPicker.enableDayFn();
+
+    }
+}),
+endPicker = new Pikaday({
+    field: document.getElementById('maturityDate'),
+    format: 'l',
+
+    onSelect: function () {
+        endDate = this.getDate();
+        $("#payOffPeriod").val("");
+        $("#outOffRangeError").text('');
+        $("#payOffPeriod").removeClass('input-validation-error');
+        updateEndDate();
+    }
+}),
+_startDate = startPicker.getDate(),
+     _endDate = endPicker.getDate();
+
+    if (_startDate) {
+        startDate = _startDate;
+        updateStartDate();
+    }
+
+    if (_endDate) {
+        endDate = _endDate;
+        updateEndDate();
+    }
+
+</script>

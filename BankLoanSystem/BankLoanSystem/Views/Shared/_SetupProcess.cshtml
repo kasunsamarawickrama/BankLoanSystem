@@ -351,8 +351,8 @@
             Progress(@Session["companyStep"]);</text>
             }else if(Session["loanStep"] != null)
             {
-                 <text>globalProgress( 5+  @Session["loanStep"]);
-                Progress(5+ @Session["loanStep"]);</text>
+                 <text>globalProgress( 5+  @(((LoanSetupStep)Session["loanStep"]).stepId));
+                Progress(5+ @(((LoanSetupStep)Session["loanStep"]).stepId));</text>
             }
 
 
