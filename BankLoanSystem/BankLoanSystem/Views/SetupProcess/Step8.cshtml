@@ -598,7 +598,7 @@
             $('#remindEmailAdvanceComplete').show("slow");
     });
     $('#needReminderAdvanceCompleteF').change(function () {
-            document.getElementById("advanceDealerEmail").value = "";
+            //document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceComplete').hide("slow");
     });
@@ -606,7 +606,7 @@
             $('#remindEmailLoanComplete').show("slow");
     });
     $('#needReminderLoanCompleteF').change(function () {
-            document.getElementById("loanDealerEmail").value = "";
+            //document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             $('#remindEmailLoanComplete').hide("slow");
     });
@@ -614,7 +614,7 @@
             $('#remindEmailLotComplete').show("slow");
     });
     $('#needReminderLotCompleteF').change(function () {
-            document.getElementById("lotDealerEmail").value = "";
+           // document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             $('#remindEmailLotComplete').hide("slow");
     });
@@ -658,7 +658,7 @@
             $("#needReminderAdvanceCompleteF").prop("checked", false);
             //$("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
-            document.getElementById("advanceDealerEmail").value = "";
+            //document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             //document.getElementById("advanceDueEmail").value = "";
             document.getElementById("advanceDueEmailRemindPeriod").value = "";
@@ -689,7 +689,7 @@
             $("#needReminderLoanCompleteF").prop("checked", false);
             $("#monthlyLoanNeedReceiptF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
-            document.getElementById("loanDealerEmail").value = "";
+            //document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
@@ -719,7 +719,7 @@
             $("#needReminderLotCompleteF").prop("checked", false);
             $("#lotInspectionNeedReceiptF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
-            document.getElementById("lotDealerEmail").value = "";
+            //document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
@@ -760,7 +760,7 @@
                 }
                 else{
                     $("#remindEmailAdvanceComplete").hide();
-                    document.getElementById("advanceDealerEmail").value = "";
+                    //document.getElementById("advanceDealerEmail").value = "";
                     document.getElementById("advanceDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsAdvanceFeeDueEmailReminder == true ){
@@ -769,7 +769,7 @@
                 }
                 else{
                     $("#remindEmailAdvanceDue").hide();
-                    document.getElementById("advanceDueEmail").value = "";
+                    //document.getElementById("advanceDueEmail").value = "";
                     document.getElementById("advanceDueEmailRemindPeriod").value = "";
                 }
             }
@@ -788,7 +788,7 @@
                 document.getElementById("advanceDueDate").value = "";
                 document.getElementById("advanceDealerEmail").value = "";
                 document.getElementById("advanceDealerEmailRemindPeriod").value = "";
-                document.getElementById("advanceDueEmail").value = "";
+                //document.getElementById("advanceDueEmail").value = "";
                 document.getElementById("advanceDueEmailRemindPeriod").value = "";
                 document.getElementById("advanceAmount").value = "";
                 document.getElementById("advanceCalculateType").value = "";
@@ -810,7 +810,7 @@
                 }
                 else{
                     $("#remindEmailLoanComplete").hide();
-                    document.getElementById("loanDealerEmail").value = "";
+                   // document.getElementById("loanDealerEmail").value = "";
                     document.getElementById("loanDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLoanFeeDueEmailReminder == true ){
@@ -819,7 +819,7 @@
                 }
                 else{
                     $("#remindEmailLoanDue").hide();
-                    document.getElementById("loanDueEmail").value = "";
+                    //document.getElementById("loanDueEmail").value = "";
                     document.getElementById("loanDueEmailRemindPeriod").value = "";
                 }
             }
@@ -836,9 +836,9 @@
                 $("#needReminderLoanCompleteF").prop("checked", false);
                 $("#monthlyLoanNeedReceiptF").prop("checked", false);
                 document.getElementById("loanDueDate").value = "";
-                document.getElementById("loanDealerEmail").value = "";
+                //document.getElementById("loanDealerEmail").value = "";
                 document.getElementById("loanDealerEmailRemindPeriod").value = "";
-                document.getElementById("loanDueEmail").value = "";
+                //document.getElementById("loanDueEmail").value = "";
                 document.getElementById("loanDueEmailRemindPeriod").value = "";
                 document.getElementById("loanAmount").value = "";
                 document.getElementById("loanDue").value = "";
@@ -862,7 +862,7 @@
                 }
                 else{
                     $("#remindEmailLotComplete").hide();
-                    document.getElementById("lotDealerEmail").value = "";
+                    //document.getElementById("lotDealerEmail").value = "";
                     document.getElementById("lotDealerEmailRemindPeriod").value = "";
                 }
                 if(model.IsLotFeeDueEmailReminder == true ){
@@ -871,7 +871,7 @@
                 }
                 else{
                     $("#remindEmailLotDue").hide();
-                    document.getElementById("lotDueEmail").value = "";
+                    //document.getElementById("lotDueEmail").value = "";
                     document.getElementById("lotDueEmailRemindPeriod").value = "";
                 }
             }
@@ -888,9 +888,9 @@
                 $("#needReminderLotCompleteF").prop("checked", false);
                 $("#lotInspectionNeedReceiptF").prop("checked", false);
                 document.getElementById("lotDueDate").value = "";
-                document.getElementById("lotDealerEmail").value = "";
+                //document.getElementById("lotDealerEmail").value = "";
                 document.getElementById("lotDealerEmailRemindPeriod").value = "";
-                document.getElementById("lotDueEmail").value = "";
+                //document.getElementById("lotDueEmail").value = "";
                 document.getElementById("lotDueEmailRemindPeriod").value = "";
                 document.getElementById("lotAmount").value = "";
                 document.getElementById("lotDue").value = "";
@@ -909,7 +909,7 @@
             $("#needReminderAdvanceCompleteF").prop("checked", false);
             //$("#advanceNeedReceiptF").prop("checked", false);
             document.getElementById("advanceDueDate").value = "";
-            document.getElementById("advanceDealerEmail").value = "";
+            //document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             //document.getElementById("advanceDueEmail").value = "";
             document.getElementById("advanceDueEmailRemindPeriod").value = "";
@@ -928,7 +928,7 @@
             $("#needReminderLoanCompleteF").prop("checked", false);
             $("#monthlyLoanNeedReceiptF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
-            document.getElementById("loanDealerEmail").value = "";
+           // document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
@@ -946,7 +946,7 @@
             $("#needReminderLotCompleteF").prop("checked", false);
             $("#lotInspectionNeedReceiptF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
-            document.getElementById("lotDealerEmail").value = "";
+            //document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
@@ -974,7 +974,7 @@
         $("#needReminderAdvanceCompleteF").prop("checked", false);
         //$("#advanceNeedReceiptF").prop("checked", false);
         document.getElementById("advanceDueDate").value = "";
-        document.getElementById("advanceDealerEmail").value = "";
+        //document.getElementById("advanceDealerEmail").value = "";
         document.getElementById("advanceDealerEmailRemindPeriod").value = "";
         //document.getElementById("advanceDueEmail").value = "";
         document.getElementById("advanceDueEmailRemindPeriod").value = "";
@@ -993,7 +993,7 @@
         $("#needReminderLoanCompleteF").prop("checked", false);
         $("#monthlyLoanNeedReceiptF").prop("checked", false);
         document.getElementById("loanDueDate").value = "";
-        document.getElementById("loanDealerEmail").value = "";
+        //document.getElementById("loanDealerEmail").value = "";
         document.getElementById("loanDealerEmailRemindPeriod").value = "";
         //document.getElementById("loanDueEmail").value = "";
         document.getElementById("loanDueEmailRemindPeriod").value = "";
@@ -1011,7 +1011,7 @@
         $("#needReminderLotCompleteF").prop("checked", false);
         $("#lotInspectionNeedReceiptF").prop("checked", false);
         document.getElementById("lotDueDate").value = "";
-        document.getElementById("lotDealerEmail").value = "";
+        //document.getElementById("lotDealerEmail").value = "";
         document.getElementById("lotDealerEmailRemindPeriod").value = "";
         //document.getElementById("lotDueEmail").value = "";
         document.getElementById("lotDueEmailRemindPeriod").value = "";
