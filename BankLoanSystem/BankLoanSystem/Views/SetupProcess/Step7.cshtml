@@ -27,7 +27,7 @@
 
 
 
-        <h2>Step 2 - Interest</h2>
+        <h2>Interest</h2>
         @using (Ajax.BeginForm("Step7", "SetupProcess", new AjaxOptions()
         {
 
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="col-xs-2" style="float:left;margin-left: 145px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" ,style= "width: 200%;" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -296,8 +296,8 @@
 
         //interest rate
        
-        var arr = x.toString().split(".");
-
+        var arr = x.toString();
+        arr = arr.split('.');
         if (arr.length==1) {
 
 
@@ -417,13 +417,27 @@
 
             });
             $('#interest').focusout(function(){
-                var a = $('#interest').val().toString();
-                if(a!=""){
-                    focusFunction( a);
+                if(($('#interest').val()!=null) ||($('#interest').val()!=""))
+                {
+                    var a = $('#interest').val().toString();
+                    if(a!=""){
+                        focusFunction( a);
                     
+                    }
+                }
+                else
+                {
+                    $('#interest').val('0.000');
                 }
                 
             
+            });
+            $('#interest').click(function(){
+                if(($('#interest').val()===null) ||($('#interest').val()===""))
+                {
+                    $('#interest').val('');
+                    
+                }
             });
 
         }
@@ -454,14 +468,36 @@
             $('#radioNo').click(function () {
                 $('#autoRemind').hide();
             });
-            $('#interest').focusout(function(){
-                var a = $('#interest').val().toString();
-                if(a!=""){
-                    focusFunction( a);
+            if(($('#interest').val()===null) ||($('#interest').val()===""))
+            {
+                $('#interest').val('0.000');
                     
+            }
+            $('#interest').focusout(function(){
+                
+                if(($('#interest').val()===null) ||($('#interest').val()===""))
+                {
+                    $('#interest').val('0.000');
+                    //$('#interest').val() = "0.000";
+                  
+                }
+                else
+                {
+                    var a = $('#interest').val();
+                    if(a!=""){
+                        focusFunction( a);
+                    
+                    }
                 }
                 
             
+            });
+            $('#interest').click(function(){
+                if($('#interest').val()==="0.000")
+                {
+                    $('#interest').val('');
+                    
+                }
             });
            
         }

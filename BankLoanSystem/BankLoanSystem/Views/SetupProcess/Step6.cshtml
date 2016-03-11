@@ -64,7 +64,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h2>Step 1 - Loan Setup</h2>
+        <h2>Loan Setup</h2>
        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -498,9 +498,9 @@
                 e.preventDefault();
             }
             else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
-                alert('1');
+              
                 e.preventDefault();
-                alert('2');
+               
             } 
         } else {
             if ($("input:checked").length == 0) {
@@ -595,6 +595,9 @@
 
         document.getElementsByTagName("form")[0].reset();
         for (var i = 0 ; i < 8; i++) {
+            if ($(':input[type="checkbox"]:checked').length == 1) {
+                break;
+            }
 
             if ($("#checkedBox_" + i).is(':checked')) {
 
@@ -751,15 +754,22 @@
 
         function showDefaultUnitOption(checked,value) {
             if (checked) {
-                $("#radioStyle-" + value).show();
-                $("#radio-" + value).show();
+                //$("#radioStyle-" + value).show();
+                //$("#radio-" + value).show();
 
                 // if($(this).children().length == 1))
 
                 //  $("#radio-" + value).closest('.col-xs-7').siblings().children('.col-xs-5').find('input')
-                if ($("input:checked").length == 1) {
+                if ($(':input[type="checkbox"]:checked').length == 1) {
                     $("#radio-" + value).prop("checked", true);
                     $("#unitTypeError").text('');
+
+                    //$("#radioStyle-" + value).hide();
+                    //$("#radio-" + value).hide();
+                } else {
+                    $(':input[type="radio"]').prop("checked", false);
+                    $(':input[type="checkbox"]:checked').parent().children('.col-xs-5').children('div').show().children().show().prop("checked", false);
+
                 }
 
             } else {
@@ -767,19 +777,24 @@
                 $("#radio-" + value).hide();
                 $("#radioStyle-" + value).hide();
 
-                if ($("input:checked").length == 1) {
-                    $("input:checked").parent().children('.col-xs-5').find('input').prop("checked", true);
+                if ($(':input[type="checkbox"]:checked').length == 1) {
+                    $(':input[type="checkbox"]:checked').parent().children('.col-xs-5').find('input').prop("checked", true);
+                    $(':input[type="checkbox"]:checked').parent().children('.col-xs-5').children('div').hide().children().hide();
                 }
 
             }
             
 
         }
-
+        $("#emailPeriod").click(function () {
+            if ($(this).val() == 0) {
+                $(this).val('');
+            }
+        });
         function showAutoReminderEmail(value) {
             if (value == "true") {
                 $("#AutoReminderEmail").show();
-                $("#emailPeriod").val("");
+                //$("#emailPeriod").val("");
 
 
 
@@ -925,15 +940,17 @@
             $('#autoRem').val("true");
             showAutoReminderEmail("true");
         </script>
-    }
+        }
+        if(Model.selectedUnitTypes.Count != 1) { 
+        foreach (UnitType UnitType in (List<UnitType>)Model.selectedUnitTypes)
+        {
 
-    foreach (UnitType UnitType in (List<UnitType>)Model.selectedUnitTypes)
-    {
         <script>
             $("#radioStyle-@(UnitType.unitTypeId-1)").show();
         $("#radio-@(UnitType.unitTypeId - 1)").show();
 
         </script>
+            }
         }
     }
     else

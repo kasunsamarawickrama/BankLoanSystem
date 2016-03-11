@@ -296,9 +296,8 @@ namespace BankLoanSystem.Models
     public class boat
     {
 
-        [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
-        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        [Display(Name = "HIN")]
+        [Required(ErrorMessage = "Enter 12 characters for HIN")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
