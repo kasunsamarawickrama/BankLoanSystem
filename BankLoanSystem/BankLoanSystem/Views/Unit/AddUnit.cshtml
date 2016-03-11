@@ -131,7 +131,10 @@
                         }
                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                         {
-                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })
+                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+
                         }
                         else
                         {
@@ -714,7 +717,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
+                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @style = "text-align: right;" } })
                         @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                         <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                     </div>
@@ -2145,8 +2148,6 @@
             var cost = document.getElementById('txtCost').value;
             if (e.which !== 46 && e.which !== 8) {
                 if (cost <= maxCost) {
-                    var advanceAmount = (advancePt * cost) / 100;
-                    document.getElementById('txtAdvanceAmount').value = advanceAmount;
                     //$("#tagscloudAdvance span").fadeOut();
                     $('#txtAdvanceAmount').removeClass('input-validation-error');
                     //$("#tagscloudAdvance span").text("");
@@ -2229,17 +2230,18 @@
             //$("#tagscloudAdvance span").fadeOut();
             $('#txtAdvanceAmount').removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
+            $(this).val(num);
+
+            var advanceAmount = (advancePt * num) / 100;
+
+            advanceAmount = parseFloat(advanceAmount);
+            advanceAmountRoundUp = advanceAmount.toFixed(2);
+            document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
+
+
         }
 
-        $(this).val(num);
-
-        var advanceAmount = (advancePt * num) / 100;
-
-        advanceAmount = parseFloat(advanceAmount);
-        advanceAmountRoundUp = advanceAmount.toFixed(2);
-
-        document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
-
+      
         if(advanceAmount > maxCost){
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');

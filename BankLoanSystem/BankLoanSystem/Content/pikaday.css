@@ -1,9 +1,5 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
-/*!
- * Pikaday
- * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/
- */
 
 .pika-single {
     z-index: 9999;
@@ -16,10 +12,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/*
-clear child float (pika-lendar), using the famous micro clearfix hack
-http://nicolasgallagher.com/micro-clearfix-hack/
-*/
+
 .pika-single:before,
 .pika-single:after {
     content: " ";

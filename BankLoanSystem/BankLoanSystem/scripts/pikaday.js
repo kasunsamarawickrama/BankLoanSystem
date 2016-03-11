@@ -115,7 +115,6 @@
 
     isLeapYear = function(year)
     {
-        // solution by Matti Virkkunen: http://stackoverflow.com/a/4881951
         return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
     },
 
@@ -315,7 +314,7 @@
     },
 
     renderWeek = function (d, m, y) {
-        // Lifted from http://javascript.about.com/library/blweekyear.htm, lightly modified.
+
         var onejan = new Date(y, 0, 1),
             weekNum = Math.ceil((((new Date(y, m, d) - onejan) / 86400000) + onejan.getDay()+1)/7);
         return '<td class="pika-week">' + weekNum + '</td>';
