@@ -461,10 +461,31 @@ else
 
 <script type="text/javascript">
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+        ChangeToCapital(this.id, this.value);
+    });
+
+    $('#branchAddress1, #branchAddress2').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
     });
     //Check maximum length
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+    $('#branchName, #branchCity').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
         if (res === 0) {
             e.preventDefault();
@@ -589,7 +610,7 @@ else
             if ($(this).is(':checked')) {
 
                 var model = @Html.Raw(Json.Encode(Model));
-                document.getElementById("branchName").value = model.CompanyBranch.Company.CompanyName+"-"+model.CompanyBranch.Company.City;
+                document.getElementById("branchName").value = model.CompanyBranch.Company.CompanyName;
                 document.getElementById("branchAddress1").value = model.CompanyBranch.Company.CompanyAddress1;
                 document.getElementById("branchAddress2").value = model.CompanyBranch.Company.CompanyAddress2;
                 document.getElementById("StateId").value = model.CompanyBranch.Company.StateId;

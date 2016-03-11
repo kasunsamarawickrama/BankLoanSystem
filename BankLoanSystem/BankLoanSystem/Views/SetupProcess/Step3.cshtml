@@ -246,10 +246,10 @@ else
                     @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate", style = "left:2%;bottom:-40%;" })
                     @*<div id="customError"><span class="text-danger"></span></div>*@
                
-                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { style = "margin-left:3%" })<span style="color: red">*</span>
+                    @Html.LabelFor(model => model.PhoneNumber2, htmlAttributes: new { style = "margin-left:3%" })
                
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
-                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
+                    @Html.EditorFor(model => model.PhoneNumber2, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
                     <div id="customError"><span class="text-danger"></span></div>
                 </div>
             </div>
@@ -398,7 +398,7 @@ else
 
     // change to title case
     $('#txtFirstName, #txtLastName').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+        ChangeToCapital(this.id, this.value);
     });
 
     //Check maximum length

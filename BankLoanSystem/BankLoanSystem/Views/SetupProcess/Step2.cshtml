@@ -299,9 +299,32 @@
 
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
+    $('#branchName').keyup(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
     // Capitalize first letter 
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+    $('#branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
+        ChangeToCapital(this.id, this.value);
+    });
+    $('#branchAddress1, #branchAddress2').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
     });
     //Check maximum length
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
@@ -403,7 +426,7 @@
             if ($(this).is(':checked')) {
                
                 var model = @Html.Raw(Json.Encode(Model));
-                document.getElementById("branchName").value = model.Company.CompanyName+"-"+model.Company.City;
+                document.getElementById("branchName").value = model.Company.CompanyName;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
                 document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
                 document.getElementById("StateId").value = model.Company.StateId;
