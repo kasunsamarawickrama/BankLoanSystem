@@ -2226,15 +2226,29 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Step10()
+        public ActionResult Step10(string lbl)
         {
-
             int userId = userData.UserId;
 
             //check user step is valid for this step
             StepAccess sa = new StepAccess();
             if (loanData.stepId == 5)
             {
+                if (lbl == "Details added successfully")
+                {
+                    ViewBag.SuccessMsg = lbl;
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
+                        return PartialView();
+                    }
+                    else
+                    {
+
+                        return View();
+                    }
+                }
+
                 int branchId = loanData.BranchId;
 
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -2255,7 +2269,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _gCurtailment.TimeBase = "Months";
                 if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
 
-                _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+                //_gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
 
                 _gCurtailment.InfoModel = new List<Curtailment>();
 
@@ -2341,7 +2355,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
-            return Json(1);
+            return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
 
         ///// <summary>
