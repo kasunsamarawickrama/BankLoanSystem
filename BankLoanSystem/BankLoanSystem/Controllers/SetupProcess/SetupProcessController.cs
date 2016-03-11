@@ -35,25 +35,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+            try
             {
-                try
-                {
+                if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+                 {    
                     userData = ((User)Session["AuthenticatedUser"]);
                     if (Session["loanStep"] != null)
                     {
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                     }
                 }
-                catch
+                else
                 {
-                    //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
-            else
+            catch
             {
-                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 filterContext.Controller.TempData.Add("UserLogin", "Login");
             }
         }
