@@ -967,7 +967,7 @@
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be greater than zero");
                 }
-                if (advance > maxAdvance) {
+                else if (advance > maxAdvance) {
                     //$("#tagscloudAdvance span").fadeIn();
                     $(this).addClass('input-validation-error');
                     $("#tagscloud span").text("Advance must be less than balance");
