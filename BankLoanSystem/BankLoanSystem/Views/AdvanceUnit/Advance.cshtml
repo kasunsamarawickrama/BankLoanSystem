@@ -502,7 +502,7 @@
                                    var tr = $(this).parents('tr:first');
                                    totalRecCount++;
                                    if (document.getElementById('all').checked) {
-                                       total = total + parseFloat(tr.find("#am").text());
+                                       total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                        checkCount++;
 
                                        $(this).parents('tr').css('background', 'lightblue');
@@ -542,14 +542,16 @@
               
                     $('.checkboxAll').change(function () {
                         var tr = $(this).parents('tr:first');
-
+                        //var fullcost = parseFloat(tr.find("#am").text().replace(',', ''));
+                        //var numValue = Number.parseFloat(tr.find("#am").text());
+                        //alert(fullcost);
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            total = total + parseFloat(tr.find("#am").text());
+                            total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                             checkCount++;
                             $(this).parents('tr').css('background', 'lightblue');
                         } else {
-                            total = total - parseFloat(tr.find("#am").text());
+                            total = total - parseFloat(tr.find("#am").text().replace(',', ''));
                             checkCount--;
                             $(this).parents('tr').css('background', 'transparent');
                         }
@@ -627,7 +629,7 @@
                             row.css('background', 'lightblue');
                             
                             checkCount++;
-                            total = total + parseFloat(row.find("#am").text());
+                            total = total + parseFloat(row.find("#am").text().replace(',', ''));
                            
                             if (checkCount == 1) {
                                 SetTextBoxValues(row); 
@@ -670,7 +672,7 @@
                     var unit = {
                         "UnitId": $('#unitid').text(),
                         "IdentificationNumber": $('#iVin').val(),
-                        "AdvanceAmount": $('#iAdvance').val(),
+                        "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
                         "AdvanceDate": $('#advanceDate').val()
                     };
 
@@ -697,7 +699,7 @@
                         var tr = $(this).parents('tr:first');
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text(), AdvanceDate: $('#startDate').val() });
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val() });
 
                         }
                     });
