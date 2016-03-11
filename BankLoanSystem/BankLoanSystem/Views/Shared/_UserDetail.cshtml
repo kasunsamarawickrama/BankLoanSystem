@@ -58,19 +58,19 @@
 
 
                         <li>
-                            @*@Html.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, null)*@
+                            @Html.ActionLink("Manage Company Details", "SearchUsers", "DashBoard", new { index = 2 }, null)
 
-                            @Ajax.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
+                            @*@Ajax.ActionLink("Create User", "SearchUsers", "DashBoard", new { index = 2 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })*@
                         </li>
 
                     }
 
-                    @if (@Model.levelId == 1)
-                    {
+                   @if (@Model.levelId == 1 || @Model.levelId == 2)
+                   {
                         <li>
 
-                            @Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })
-                            @*@Html.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, null)*@
+                            @*@Ajax.ActionLink("Create Branch", "SearchUsers", "DashBoard", new { index = 3 }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab" })*@
+                            @Html.ActionLink("Create Loan", "SearchUsers", "DashBoard", new { index = 3 }, null)
                         </li>
                     }
 

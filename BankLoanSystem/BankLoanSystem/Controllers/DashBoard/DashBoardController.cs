@@ -132,12 +132,6 @@ namespace BankLoanSystem.Controllers.DashBoard
         public ActionResult SearchUsers(int index)
         {
 
-
-            if (Session["userId"] == null)
-            {
-                return new HttpStatusCodeResult(404);
-            }
-
             if (index == 1)
             {
                 Session["type"] = "";
@@ -147,15 +141,15 @@ namespace BankLoanSystem.Controllers.DashBoard
 
             else if (index == 2)
             {
-                Session["type"] = "";
+                Session["companyStep"] = 5;
 
-                return RedirectToAction("Create", "CreateUser");
+                return RedirectToAction("Index", "SetupProcess");
             }
             else if (index == 3)
             {
-                Session["type"] = "";
+                Session["companyStep"] = 6;
 
-                return RedirectToAction("CreateBranch", "CreateBranch");
+                return RedirectToAction("Step6", "SetupProcess");
             }
 
             else if (index == 4 || index == 5 || index == 6)
