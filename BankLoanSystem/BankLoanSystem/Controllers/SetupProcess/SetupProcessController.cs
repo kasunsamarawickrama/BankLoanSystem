@@ -1413,15 +1413,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (loanSetupStep1.isInterestCalculate)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     loanData.stepId = 2;
                 }
                 else
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                     loanData.stepId = 3;
                 }
-
+                loanData.BranchId = loanSetupStep1.RegisteredBranchId;
                 loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                 loanData.loanId = loanId;
                 

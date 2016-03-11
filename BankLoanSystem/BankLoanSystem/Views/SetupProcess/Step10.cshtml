@@ -19,14 +19,14 @@
     </script>
 }
 
-<h2>Step 5 - Curtailment</h2>
+<h2>Curtailment</h2>
 
-@if (ViewBag.SuccessMsg == "Loan is setup successfully!")
+@if (ViewBag.SuccessMsg == "Loan setup is completed")
 {
     <span class="text-success">@ViewBag.SuccessMsg</span>
     <div class="form-group">
         <div class="button-panel">
-            Click here to go dash board.
+            Click <a href="/UserManagement/UserDetails">here</a> to go dashboard.
             <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%" />
         </div>
     </div>
