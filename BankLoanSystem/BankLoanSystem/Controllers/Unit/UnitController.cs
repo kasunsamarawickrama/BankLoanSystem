@@ -74,6 +74,10 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             ViewBag.loanDetails = _loan;
+            if (ViewBag.loanDetails.selectedUnitTypes.Count == 1) {
+                ViewBag.UnitTypeId = _loan.selectedUnitTypes[0].unitTypeName;
+            }
+
             Models.Unit unit = new Models.Unit();
 
             //int userRole = (new UserManageAccess()).getUserRole(userId);

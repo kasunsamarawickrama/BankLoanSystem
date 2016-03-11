@@ -64,32 +64,21 @@ else
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new {})</td>
                         <td width="60%">
-                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                            :@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new {@id = "rdFullPayment", @class = "payment"})
                             Full payment
-                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                            @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new {@id = "rdAdvance", @class = "payment"})
                             Advance
-
-                            @*@if (ViewBag.CalMode == "Full Payment")
-                                {
-                                    @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = "checked" })
-                                    <text>Full payment</text>
-                                    @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                    <text>Advance</text>
-                                }
-                                else
-                                {
-                                    @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                    <text>Full payment</text>
-                                    @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = "checked" })
-                                    <text>Advance</text>
-                                }*@
-
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            </td>
+                        <td><div id="customErrorCalBase"><span class="text-danger"></span></div></td>
+                    </tr>
                 </table>
-                <div id="customErrorCalBase"><span class="text-danger"></span></div>
+                
                 <div>
                     @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
                 </div>
@@ -123,14 +112,10 @@ else
                                 <tr>
                                     <td style="width: 10%;"><label id="lblCur">@*@Model.InfoModel[a].CurtailmentId*@1</label></td>
                                     <td style="width: 35%;">
-                                        @*@Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod" })*@
-                                        @*@Html.ValidationMessageFor(m => m.InfoModel[a].TimePeriod, "", new { @class = "text-danger" })*@
                                         <input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled">
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
                                     <td style="width: 35%;">
-                                        @*@Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment" })*@
-                                        @*@Html.ValidationMessageFor(m => m.InfoModel[a].Percentage, "", new { @class = "text-danger" })*@
                                         <input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled">
                                         <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                     </td>
@@ -156,6 +141,7 @@ else
                     </span>
                     <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
                     <span style="background-color: red" id="spnremainPtError"></span>
+                    <span style="background-color: red" id="spnremainTimeError"></span>
                     <br />
                     <span style="background-color: yellow">
                         Advance Percentage: @Html.DisplayFor(m => m.RemainingPercentage, new { htmlAttributes = new { @id = "remainingPercentage" } })
@@ -164,15 +150,6 @@ else
 
 
                 }
-                @*else
-                    {
-                        <span style="background-color: red">
-                            Remaining Percentage: ???
-                        </span><text>&nbsp;&nbsp;</text>
-                        <span style="background-color: green">
-                            Maximum percentage is @Model.AdvancePt
-                        </span>
-                    }*@
                 <br />
                 <span style="background-color: yellow">
                     Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
@@ -184,14 +161,18 @@ else
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
+                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new {})</td>
                         <td width="60%">
-                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" }) Yes
-                            @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) No
+                            : @Html.RadioButtonFor(m => m.Activate, "Yes", new {@id = "rdYes", @class = "Active"}) Yes
+                            @Html.RadioButtonFor(m => m.Activate, "No", new {@id = "rdNo", @class = "Active"}) No
                         </td>
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td><div id="customErrorLoanStatus"><span class="text-danger"></span></div></td>
+                    </tr>
                 </table>
-                <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
+                
             </div>
 
             <div class="form-group">
@@ -199,25 +180,9 @@ else
                 <div class="button-panel">
                     <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" />
 
-
-
-                    @*<input type="button" id="clear" value="Clear" class="btn btn-default right-button" />*@
-
                     <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left:40%" />
 
                 </div>
-                @*<div>
-                        <nav>
-                            <ul class="pager">
-                                <li>
-                                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
-                                <li>
-                                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary m-b" style="float: right; margin-left: 10px" />
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>*@
             </div>
         </div>
     }
@@ -274,30 +239,39 @@ else
         }
     });
 
-    //$(document).on('keypress', '.clstimePeriod', function (e) {
-    //    var tr = $(this).parents('tr:first');
+    $(document).on('keypress', '.clstimePeriod', function (e) {
+        var tr = $(this).parents('tr:first');
 
-    //    var curid = tr.find("#lblCur").html();
+        var curid = tr.find("#lblCur").html();
 
-    //    //alert(String.fromCharCode(e.which));
-    //});
+        //alert(String.fromCharCode(e.which));
+    });
 
-    //$(document).on('blur', '.clstimePeriod', function (e) {
-    //    var tr = $(this).parents('tr:first');
+    $(document).on('blur', '.clstimePeriod', function (e) {
+        var tr = $(this).parents('tr:first');
 
-    //    var curid = tr.find("#lblCur").html();
-    //    var timePeriod = tr.find("#timePeriod").val();
-    //    var previousTime = list.currentList[curid - 2].TimePeriod;
+        var curid = tr.find("#lblCur").html();
+        var timePeriod = tr.find("#timePeriod").val();
+        var previousTime = 0;
 
-    //    if (timePeriod < previousTime) {
+        if(curid > 1)
+            previousTime = list.currentList[curid - 2].TimePeriod;
 
-    //    } else {
+        if (timePeriod > remainingTime) {
+            $('#spnremainTimeError').text('You entered time is greater than paid of period');
+        } else if (timePeriod < previousTime && timePeriod > 0) {
+            $('#spnremainTimeError').text('You entered time should be greater than previous time');
+        }
+        //else if(timePeriod < previousTime){
+        //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
+        //}
+        else {
+            $('#spnremainTimeError').text('');
+        }
 
-    //    }
-
-    //    //if(timePeriod < list.currentList[j].TimePeriod)
-    //    //alert(list.currentList[curid - 2].TimePeriod);
-    //});
+        //if(timePeriod < list.currentList[j].TimePeriod)
+        //alert(list.currentList[curid - 2].TimePeriod);
+    });
 
     $(document).on('blur', '.clsaddCuirtailment', function (e) {
         //alert('Hi');
@@ -575,6 +549,9 @@ else
                     $('#changeContainer').show();
                 }
             });
+        }
+        if (remainingPt > 0) {
+            
         }
     });
 

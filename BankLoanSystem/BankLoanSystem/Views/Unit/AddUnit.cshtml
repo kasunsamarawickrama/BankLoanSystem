@@ -131,7 +131,10 @@
                         }
                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                         {
-                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })
+                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+
                         }
                         else
                         {
@@ -714,7 +717,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
+                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @style = "text-align: right;" } })
                         @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                         <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                     </div>
@@ -812,19 +815,13 @@
               
             </div>
 
-            <div class="form-group">
-                <div>
-                    <nav>
-                        <ul class="pager">
-                            <li>
-                                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info" />
-                            </li>
-                            <li>
-                                <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="margin-left:30px" />
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+            <div class="form-group btn-panel">
+                <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
+              
+                                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float:right;width:200px"/>
+                           
+                                
+                           
             </div>
         </div>
     </form>
@@ -2151,8 +2148,6 @@
             var cost = document.getElementById('txtCost').value;
             if (e.which !== 46 && e.which !== 8) {
                 if (cost <= maxCost) {
-                    var advanceAmount = (advancePt * val) / 100;
-                    document.getElementById('txtAdvanceAmount').value = advanceAmount;
                     //$("#tagscloudAdvance span").fadeOut();
                     $('#txtAdvanceAmount').removeClass('input-validation-error');
                     //$("#tagscloudAdvance span").text("");
@@ -2235,17 +2230,18 @@
             //$("#tagscloudAdvance span").fadeOut();
             $('#txtAdvanceAmount').removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
+            $(this).val(num);
+
+            var advanceAmount = (advancePt * num) / 100;
+
+            advanceAmount = parseFloat(advanceAmount);
+            advanceAmountRoundUp = advanceAmount.toFixed(2);
+            document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
+
+
         }
 
-        $(this).val(num);
-
-        var advanceAmount = (advancePt * num) / 100;
-
-        advanceAmount = parseFloat(advanceAmount);
-        advanceAmountRoundUp = advanceAmount.toFixed(2);
-
-        document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
-
+      
         if(advanceAmount > maxCost){
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
@@ -2314,7 +2310,7 @@
         if (isNaN(num)) {
             num = '';
         }
-
+       
         if (isNaN(num)) {
 
             //$("#tagscloudAdvance span").fadeIn();
@@ -2324,12 +2320,12 @@
         }
         else if (Number(num) > Number(cost)) {
             //$("#tagscloudAdvance span").fadeIn();
-            $(this).addClass('input-validation-error');
+            $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance  must be less than cost");
         }
         else if (Number(num) == "") {
             //$("#tagscloudAdvance span").fadeIn();
-            //$(this).addClass('input-validation-error');
+            $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
         else if (Number(num) <= 0) {
@@ -2337,7 +2333,7 @@
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be greater than zero");
         } 
-        if (advance > maxAdvance) {
+        else if (advance > maxAdvance) {
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be less than balance");
@@ -2350,7 +2346,14 @@
             $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
-
+        //if (advance > cost) {
+        //    alert("checked");
+        //    //$("#tagscloudAdvance span").fadeIn();
+        //    $("#tagscloudAdvance span").addClass('input-validation-error');
+        //    $("#tagscloudAdvance span").text("Advance must be less than balance");
+        //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+        //    //$(this).removeClass('input-validation-error');
+        //}
         $(this).val(num);
     });
 
@@ -2626,23 +2629,34 @@
         } else {
 
         }
+
         var cost = document.getElementById('txtCost').value;
         var advance = document.getElementById('txtAdvanceAmount').value;
-
-        if(cost > maxCost){
+        if (advance > cost) {
             //$("#tagscloudAdvance span").fadeIn();
-            //$("#tagscloudAdvance span").text("Advance must be less than balance");
+            $("#tagscloudAdvance span").addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("Advance must be less than cost");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+            e.preventDefault();
+        }
+        else if(cost > maxCost){
+            //$("#tagscloudAdvance span").fadeIn();
+            $("#tagscloudAdvance span").addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("Advance must be less than balance");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
         }
 
-        if (advance > maxAdvance) {
+        else if (advance > maxAdvance) {
             //$("#tagscloudAdvance span").fadeIn();
-            //$("#tagscloudAdvance span").text("Advance must be less than balance");
+            $("#tagscloudAdvance span").addClass('input-validation-error');
+            $("#tagscloudAdvance span").text("Advance must be less than balance");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
+        }else{
         }
     })
     $('input').blur(function() {
