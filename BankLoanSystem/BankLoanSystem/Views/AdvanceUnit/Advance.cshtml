@@ -60,8 +60,8 @@
                 grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                 grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-               grid.Column("Cost", "Cost", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@Convert.ToDecimal(item.Cost).ToString("#,##0.00")</label>}</text>),
-                grid.Column("Advance Amount", "Advance Amount", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>}</text>)
+               grid.Column("Cost", "Cost ($)", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@Convert.ToDecimal(item.Cost).ToString("#,##0.00")</label>}</text>),
+                grid.Column("Advance Amount", "Advance Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>}</text>)
   )
 )
 
@@ -72,7 +72,7 @@
 }
     <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px">
         <div class="form-group">
-            <div class="control-label col-sm-3" style="text-align:right;padding-top:5px">
+            <div class="control-label col-sm-2" style="text-align:right;padding-top:5px">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
             <div class="col-xs-3" id="advanceDateAll" style="width:30%">

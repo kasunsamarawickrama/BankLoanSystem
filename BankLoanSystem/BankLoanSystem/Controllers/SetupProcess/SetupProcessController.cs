@@ -961,7 +961,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             if (NonRegisteredBranchLists.Count == 1)
-            {
+            {   
+                if(userData.RoleId == 1)
+                {
+                    // the get registered branch detail from the company branches list
+                    foreach (Branch branch in RegisteredBranchLists)
+                    {
+                        if (branch.BranchId == NonRegisteredBranchLists[0].BranchId)
+                        {
+                            var newList = new List<Branch>();
+                            newList.Add(branch);
+                            ViewBag.RegisteredBranchId = new SelectList(newList, "BranchId", "BranchName", userData.BranchId);
+                        }
+                    }
+                }
                 loanSetupStep1.nonRegisteredBranchId = NonRegisteredBranchLists[0].NonRegBranchId;
             }
 
@@ -1413,15 +1426,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (loanSetupStep1.isInterestCalculate)
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     loanData.stepId = 2;
                 }
                 else
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                     loanData.stepId = 3;
                 }
-
+                loanData.BranchId = loanSetupStep1.RegisteredBranchId;
                 loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
                 loanData.loanId = loanId;
                 
@@ -2290,6 +2303,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         totalPercentage += curtailments[i].Percentage;
                         _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
+                    _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+
+                    _gCurtailment.CalculationBase = totalPercentage == 100 ? "Advance" : "Full payment";
                 }
 
                 _calMode = "Full Payment";
@@ -2326,19 +2342,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            StepAccess sa = new StepAccess();
             if (curtailmentAccess.InsertCurtailment(curtailmentList, _loan.loanId) == 1)
             {
-
-
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                StepAccess sa = new StepAccess();
-
                 sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
                 ViewBag.Redirect = 1;
             }
             else
             {
+                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
+                    loanData.loanId, 6);
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
 
