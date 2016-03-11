@@ -64,7 +64,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h2>Step 1 - Loan Setup</h2>
+        <h2>Loan Setup</h2>
        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -155,12 +155,12 @@
                 @Html.LabelFor(model => model.loanNumber, htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
 
-            <div class="col-xs-11" id="loanNumber" style="display:none; width: 67%;">
+            <div class="col-xs-11" id="loanNumber" style="display:none; width: 37%;">
                 @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber", maxlength = 30 } })
                 @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-xs-6" id="loanNumberDisplay" style="width: 67%;">
+            <div class="col-xs-6" id="loanNumberDisplay" style="width: 37%;">
                 @Html.HiddenFor(model => model.loanNumber)
                 @Html.EditorFor(model => model.loanNumberForDisplay, new { htmlAttributes = new { @class = "form-control", @id = "loanNumber", onclick = "$('#loanNumberDisplay').hide();$('#loanNumberForDisplayError').hide();$('#loanNumber').show();$('#loanNumber').children('input').focus();$('#loanNumber').children('input').val($('#loanNumber').children('input').val());" } })
                 @Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })

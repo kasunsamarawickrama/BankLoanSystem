@@ -9,10 +9,9 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
 }
 }
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/scripts/CommonFunctions.js"></script>
 <style>
 .col-xs-8 {
@@ -26,7 +25,7 @@
         <div class="form-group">
 
             <div>
-                <h2>@Html.Label("Step 3 - Fees", htmlAttributes: new { })</h2>
+                <h2>@Html.Label("Fees", htmlAttributes: new { })</h2>
             </div>
         </div>
         @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()

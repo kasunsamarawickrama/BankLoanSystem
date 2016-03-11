@@ -19,21 +19,24 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td style="width: 2%;">
                         @if (item.isAdvance == true)
                     {
-                            <span class="glyphicon glyphicon-asterisk"></span>
+                            <span class="glyphicon glyphicon-asterisk" style="color:#1D6F64;"></span>
                         }
                     </td>
-                    <td>
+                    <td style="width: 10%;">
                         @(i++).
                     </td>
 
-                    <td >
+                    
+                    <td  style="width:35%">
                         @item.model
                     </td>
+
+                    <td> - </td>
                     <td style="text-align:right;">$&nbsp;</td>
-                    <td style="text-align:right;width: 38%;">
+                    <td style="text-align:right;width: 29%;">
                         @Convert.ToDecimal(item.advanceAmount).ToString("#,##0.00")
                     </td>
                 </tr>
