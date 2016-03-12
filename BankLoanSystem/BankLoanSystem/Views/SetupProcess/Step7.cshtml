@@ -53,8 +53,9 @@
                     </div>
 
                     <div class="col-xs-2" style="float:left;margin-left: 145px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
-                        @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" ,style= "width: 200%;" })
+                        
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @placeholder = "0.000", @id = "interest", @maxlength = 7, @onfocusout = "return focusFunction()" } })
+                        @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger", style = "width: 200%;" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
                 </div>
@@ -88,8 +89,8 @@
                         <div class="control-label col-sm-2" >
                             @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
-                        <div class="col-xs-4">
-                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-270px" })
+                        <div class="col-xs-4" style="width:20%">
+                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-375px" })
                             @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" , style = "left: -94%;top: 100%;" })
                         </div>
                        
@@ -149,14 +150,14 @@
 
                         @if (ViewBag.Edit == 1)
                         {
-                            <div class="col-xs-5" style="margin-left:135px">
+                            <div class="col-xs-5" style="margin-left:135px;width:34%">
                                 @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail" ,@maxlength =100} })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" , style = "left: 3%;top: 100%;" })
                             </div>
                         }
                         else
                         {
-                            <div class="col-xs-5" style="margin-left:135px">
+                            <div class="col-xs-5" style="margin-left:135px;width:34%">
                                 @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@Value = ViewBag.Email, @maxlength = 100 } })
                                 @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
                             </div>
@@ -168,7 +169,7 @@
                                 @Html.Label("How many days prior to the due date do you need to remind?", htmlAttributes: new { })<span style="color: red">*</span>
 
                             </div>
-                            <div class="col-xs-5" style="margin-left:285px;">
+                            <div class="col-xs-5" style="margin-left:285px;width:20%">
                                 @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindPeriod", @maxlength=5 } })
                                 @Html.ValidationMessageFor(model => model.RemindPeriod, "", new { @class = "text-danger" })
                             </div>
