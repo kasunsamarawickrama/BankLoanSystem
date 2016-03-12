@@ -118,7 +118,7 @@ namespace BankLoanSystem.Controllers.Unit
                     ViewBag.IsTitleTrack = "Yes";
 
                 string upload = title.TitleAcceptMethod;
-                if (!string.IsNullOrEmpty(upload) && upload == "scanned title adequate")
+                if (!string.IsNullOrEmpty(upload) && upload == "Scanned Title Adequate")
                     ViewBag.Upload = "Yes";
 
             }
