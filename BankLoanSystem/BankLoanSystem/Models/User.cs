@@ -63,6 +63,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         [System.ComponentModel.DataAnnotations.Compare("Password")]

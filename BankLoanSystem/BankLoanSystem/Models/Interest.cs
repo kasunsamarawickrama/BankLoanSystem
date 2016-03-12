@@ -21,7 +21,7 @@ namespace BankLoanSystem.Models
         [Range(0.001, 100, ErrorMessage = "Interest must be between 0 and {2}.")]
         //[DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^[0-9]+.?[0-9]{0,3}$", ErrorMessage = "Invalid; Maximum 3 Decimal Points.")]
-        public decimal InterestRate { get; set; }
+        public double InterestRate { get; set; }
 
         [Display(Name = "Paid Date")]
         [Required(ErrorMessage = "Paid Date is required.")]
