@@ -1759,43 +1759,67 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loan = new LoanSetupAccess();
             //fee.LoanId = loan.getLoanIdByUserId(userId);
             fee.LoanId = loanData.loanId;
-            var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
-
-            if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
-            {
+            
+            if (loanData.stepId > 3) {
                 ViewBag.isEdit = "editable";
-                hasLoan.LoanId = fee.LoanId;
-                hasLoan.isEdit = true;
-                hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
-                hasLoan.IsLoanFeeCompleteEmailReminder = false;
-                hasLoan.IsLotFeeCompleteEmailReminder = false;
-                hasLoan.IsAdvanceFeeDueEmailReminder = false;
-                hasLoan.IsLoanFeeDueEmailReminder = false;
-                hasLoan.IsLotFeeDueEmailReminder = false;
+                var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
+                if (hasLoan.LotInspectionAmount == 0)
+                {
+                    hasLoan.AdvanceId = "2";
+                }
+                else {
+                    hasLoan.AdvanceId = "1";
+                }
+                if (hasLoan.MonthlyLoanAmount == 0)
+                {
+                    hasLoan.MonthlyLoanId = "2";
+                }
+                else {
+                    hasLoan.MonthlyLoanId = "1";
+                }
+                if (hasLoan.LotInspectionAmount == 0)
+                {
+                    hasLoan.LotInspectionId = "2";
+                }
+                else {
+                    hasLoan.LotInspectionId = "1";
+                }
 
-                if (hasLoan.AdvanceFeeDealerEmail != "")
+                if (hasLoan.AdvanceAmount > 0 || hasLoan.MonthlyLoanAmount > 0 || hasLoan.LotInspectionAmount > 0)
                 {
-                    hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
-                }
-                if (hasLoan.MonthlyLoanFeeDealerEmail != "")
-                {
-                    hasLoan.IsLoanFeeCompleteEmailReminder = true;
-                }
-                if (hasLoan.LotInspectionFeeDealerEmail != "")
-                {
-                    hasLoan.IsLotFeeCompleteEmailReminder = true;
-                }
-                if (hasLoan.AdvanceDueEmail != "")
-                {
-                    hasLoan.IsAdvanceFeeDueEmailReminder = true;
-                }
-                if (hasLoan.MonthlyLoanDueEmail != "")
-                {
-                    hasLoan.IsLoanFeeDueEmailReminder = true;
-                }
-                if (hasLoan.LotInspectionDueEmail != "")
-                {
-                    hasLoan.IsLotFeeDueEmailReminder = true;
+                    hasLoan.LoanId = fee.LoanId;
+                    hasLoan.isEdit = true;
+                    hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
+                    hasLoan.IsLoanFeeCompleteEmailReminder = false;
+                    hasLoan.IsLotFeeCompleteEmailReminder = false;
+                    hasLoan.IsAdvanceFeeDueEmailReminder = false;
+                    hasLoan.IsLoanFeeDueEmailReminder = false;
+                    hasLoan.IsLotFeeDueEmailReminder = false;
+
+                    if (hasLoan.AdvanceFeeDealerEmail != "")
+                    {
+                        hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
+                    }
+                    if (hasLoan.MonthlyLoanFeeDealerEmail != "")
+                    {
+                        hasLoan.IsLoanFeeCompleteEmailReminder = true;
+                    }
+                    if (hasLoan.LotInspectionFeeDealerEmail != "")
+                    {
+                        hasLoan.IsLotFeeCompleteEmailReminder = true;
+                    }
+                    if (hasLoan.AdvanceDueEmail != "")
+                    {
+                        hasLoan.IsAdvanceFeeDueEmailReminder = true;
+                    }
+                    if (hasLoan.MonthlyLoanDueEmail != "")
+                    {
+                        hasLoan.IsLoanFeeDueEmailReminder = true;
+                    }
+                    if (hasLoan.LotInspectionDueEmail != "")
+                    {
+                        hasLoan.IsLotFeeDueEmailReminder = true;
+                    }
                 }
 
                 if (HttpContext.Request.IsAjaxRequest())
@@ -1808,7 +1832,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     return View(hasLoan);
                 }
-
             }
             else
             {
@@ -1826,12 +1849,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         feeNew.MonthlyLoanDueEmail = email;
                         feeNew.LotInspectionDueEmail = email;
                     }
-                    hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
-                    hasLoan.IsLotFeeCompleteEmailReminder = false;
-                    hasLoan.IsLoanFeeCompleteEmailReminder = false;
-                    hasLoan.IsAdvanceFeeDueEmailReminder = false;
-                    hasLoan.IsLotFeeDueEmailReminder = false;
-                    hasLoan.IsLoanFeeDueEmailReminder = false;
+                    feeNew.IsAdvanceFeeCompleteEmailReminder = false;
+                    feeNew.IsLotFeeCompleteEmailReminder = false;
+                    feeNew.IsLoanFeeCompleteEmailReminder = false;
+                    feeNew.IsAdvanceFeeDueEmailReminder = false;
+                    feeNew.IsLotFeeDueEmailReminder = false;
+                    feeNew.IsLoanFeeDueEmailReminder = false;
 
                     if (HttpContext.Request.IsAjaxRequest())
                     {
@@ -1914,6 +1937,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 fees.LotInspectionDueEmail = "";
                 fees.LotInspectionDueEmailRemindPeriod = 0;
             }
+            fees.LoanId = loanData.loanId;
+
             if (step.InsertFeesDetails(fees))
             {
                 var userId = userData.UserId;
@@ -1925,7 +1950,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
-                    loanData.stepId = 4;
+                    
+                    if (loanData.stepId < 4) {
+                        loanData.stepId = 4;
+                    }
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step9");
                 }
