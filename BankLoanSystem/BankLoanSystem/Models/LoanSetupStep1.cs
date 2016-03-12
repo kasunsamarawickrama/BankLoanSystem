@@ -24,6 +24,7 @@ namespace BankLoanSystem.Models
         public int RegisteredBranchId { get; set; }
 
         public string RegisteredBranchCode { get; set; }
+        public string RegisteredCompanyCode { get; set; }
 
         [Required]
         [RegularExpression(@"^[^<>@#$'{}!*?~;`%""]*$", ErrorMessage = "Invalid Character")]

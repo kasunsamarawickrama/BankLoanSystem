@@ -769,10 +769,9 @@
                             <input type="file" id="fileToUpload" name="fileUpload" style="float: left;" />
                             <br />
                             <div><span id="spnFile" style="float: left; color: #FF0000"></span></div>
-
                             
-                                <div id="selectedFiles" class="control-section"></div>
-
+                                <div id="selectedFiles" class="control-section" style="width: 1000px"></div>
+                            
                             @Html.ValidationMessage("File")
                             @Html.Hidden("hdnFileUpload")
 
@@ -1925,12 +1924,20 @@
         }
     });
 
+    var files;
+    var storedFiles = [];
+    var upc = 0;
 
     //Reset the data and clear just the form
     $('#btnCancel').click(function() {
         clearform();
         $('#advanceDateFormDiv').hide();
         //$("#advanceDateFormDiv").attr('value', '');
+        files = null;
+        storedFiles = [];
+        upc = 0;
+        //$('#selectedFiles').children().parent().remove();
+        $('#selectedFiles').children().remove();
     });
 
     function clearform() {
@@ -2702,22 +2709,9 @@
 
     });
 
-</script>
-
-<script>
-    var files;
-    var storedFiles = [];
-    var upc = 0;
-
     $("input[id^='fileToUpload']").change(function (e) {
-
         var res = doReCreate(e);
-        //if (res === 0) return;
-
     });
-
-    //var selDiv = $("#selectedFiles");
-
 
     function doReCreate(e) {
         if(upc < 9)
@@ -2757,7 +2751,7 @@
 
             var f = files[i];
             var ext = f.name.split('.').pop().toLowerCase();
-            
+
             if($.inArray(ext, validExt) === -1) {
                 $('#tagscloudFileUpload span').fadeIn();
                 $("#tagscloudFileUpload span").text("invalid file type!");
@@ -2771,7 +2765,9 @@
                 return;
             }
 
-            selDiv.innerHTML += "<div>" + f.name + "<a onclick='removeAtt(this)'> X<img id='' src='~/Images/deleteRow.png'/> </a></div>";
+            selDiv.innerHTML += "<div>" + f.name + "<a id='imgLink' onclick='removeAtt(this)'> <b style='color: red'>   X </b> </a> </div>";
+
+            //<img id='' src='~/Images/deleteRow.png'/>
             storedFiles.push(f.name);
         }
         $('#@Html.IdFor(i => i.FileName)').val(storedFiles);
@@ -2789,6 +2785,9 @@
         upc = upc - 1;
     }
 
+</script>
+
+<script>
     //Add date picker
     var startPicker = new Pikaday({
         field: document.getElementById('advanceDate'),

@@ -166,11 +166,9 @@ namespace BankLoanSystem.Controllers.Unit
             if (res)
             {
                 //Handling file attachments
-                UserManageAccess uma = new UserManageAccess();
-                GetDetails user = uma.getUserById(userId);
 
                 //Check directory is already exists, if not create new
-                string mapPath = "~/Images/UnitImages/" + user.CompanyCode + "/" + _loan.RegisteredBranchCode + "/";
+                string mapPath = "~/Images/UnitImages/" + _loan.RegisteredCompanyCode + "/" + _loan.RegisteredBranchCode + "/";
                 if (!Directory.Exists(Server.MapPath(mapPath)))
                 {
                     Directory.CreateDirectory(Server.MapPath(mapPath));

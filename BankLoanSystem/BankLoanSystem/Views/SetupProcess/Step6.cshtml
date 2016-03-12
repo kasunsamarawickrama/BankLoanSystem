@@ -766,9 +766,13 @@
 
                     //$("#radioStyle-" + value).hide();
                     //$("#radio-" + value).hide();
-                } else {
+                } else if ($(':input[type="checkbox"]:checked').length == 2) {
                     $(':input[type="radio"]').prop("checked", false);
                     $(':input[type="checkbox"]:checked').parent().children('.col-xs-5').children('div').show().children().show().prop("checked", false);
+
+                } else {
+                    $("#radioStyle-" + value).show();
+                    $("#radio-" + value).show();
 
                 }
 
