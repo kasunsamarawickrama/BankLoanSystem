@@ -571,26 +571,99 @@ namespace BankLoanSystem.Controllers
             // if Session is expired throw an error
             
             LoanSelection loanSelection = new LoanSelection();
+
+
+            loanSelection.RegBranches = new List<Branch>();
+            loanSelection.NonRegBranchList = new List<NonRegBranch>();
+            loanSelection.LoanList = new List<LoanSetupStep1>();
             //getting user role
             UserAccess ua = new UserAccess();
-            
+
 
 
             // curUser.Company_Id   asanka 8/3/2016
             //create list for nonRegisterCompaniers
 
-            loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId1(userData.Company_Id);
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
 
-            if (loanSelection.NonRegCompanies.Count() == 1)
+            if (userData.RoleId == 1)
             {
-                loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
 
-                if (loanSelection.NonRegBranchList.Count() == 1)
+                loanSelection.RegBranches = (new BranchAccess()).getBranches(userData.Company_Id);
+
+                if (loanSelection.RegBranches.Count() == 1)
                 {
-                    loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-                    //if loans count is one redirect to add unit page
+
+                   
+
+                    // the get non registered branches details for perticular branch  from the non registeres branches list
+                    foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                    {
+                        if (branch.BranchId == loanSelection.RegBranches[0].BranchId)
+                        {
+
+                            loanSelection.NonRegBranchList.Add(branch);
+
+
+                        }
+                    }
+
+                    
+
+                    if (loanSelection.NonRegBranchList.Count() == 1)
+                    {
+                        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                        //if loans count is one redirect to add unit page
+                    }
                 }
+
+            }else if (userData.RoleId == 2)
+            {
+
+                loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
+
+                
+
+
+                    // the get non registered branches details for perticular branch  from the non registeres branches list
+                    foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                    {
+                        if (branch.BranchId == userData.BranchId)
+                        {
+
+                            loanSelection.NonRegBranchList.Add(branch);
+
+
+                        }
+                    }
+
+
+
+                    if (loanSelection.NonRegBranchList.Count() == 1)
+                    {
+                        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                        //if loans count is one redirect to add unit page
+                    }
+                
+
             }
+
+
+
+
+
+            //loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId1(userData.Company_Id);
+
+            //if (loanSelection.NonRegCompanies.Count() == 1)
+            //{
+            //    loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
+
+            //    if (loanSelection.NonRegBranchList.Count() == 1)
+            //    {
+            //        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+            //        //if loans count is one redirect to add unit page
+            //    }
+            //}
 
             if (type == "asderruy") // for add unit page
             {
@@ -626,8 +699,25 @@ namespace BankLoanSystem.Controllers
         }
 
 
-        public ActionResult getNonRegBranchesByNonRegComId(int NonRegCompId, string type)
+        public ActionResult getNonRegBranchesByRegBranchId(int RegBranchId, string type)
         {
+            List<NonRegBranch> NonRegisteredBranchLists = (new BranchAccess()).getNonRegBranches(userData.Company_Id);
+            LoanSelection loanSelection = new LoanSelection();
+
+            loanSelection.NonRegBranchList = new List<NonRegBranch>();
+            loanSelection.LoanList = new List<LoanSetupStep1>();
+
+            // the get non registered branches details for perticular branch  from the non registeres branches list
+            foreach (NonRegBranch branch in NonRegisteredBranchLists)
+            {
+                if (branch.BranchId == RegBranchId)
+                {
+
+                    loanSelection.NonRegBranchList.Add(branch);
+
+
+                }
+            }
 
             if (type == "AddUnit")
             {
@@ -637,7 +727,17 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.type = "Advance";
             }
-            return PartialView((new BranchAccess()).getNonRegBranchesNonCompId(NonRegCompId));
+
+            if (loanSelection.NonRegBranchList != null && loanSelection.NonRegBranchList.Count() == 1)
+            {
+   
+                    loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                    //if loans count is one redirect to add unit page
+                
+            }
+
+
+            return PartialView(loanSelection);
         }
 
 
