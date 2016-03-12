@@ -37,7 +37,7 @@
         display: none;
     }
 
-     
+
 
         .validation-summary.validation-summary-errors {
             display: block;
@@ -55,11 +55,12 @@
         border: 2px solid #8D987E;
         padding: 20px 20px 20px 20px;
     }
-    .validation-error{
+
+    .validation-error {
         z-index: 10001;
-    font-weight: bold;
-    position: absolute;
-    font-size:12px;
+        font-weight: bold;
+        position: absolute;
+        font-size: 12px;
     }
 
     .form-horizontal .control-label {
@@ -68,13 +69,11 @@
     }
 
     .ui-autocomplete {
-    max-height: 500px;
-    overflow-y: auto;   /* prevent horizontal scrollbar */
-    overflow-x: hidden; /* add padding to account for vertical scrollbar */
-    z-index:10005 !important;
-
-   
-}
+        max-height: 500px;
+        overflow-y: auto; /* prevent horizontal scrollbar */
+        overflow-x: hidden; /* add padding to account for vertical scrollbar */
+        z-index: 10005 !important;
+    }
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -335,7 +334,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.rv.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
+                                @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -416,7 +415,7 @@
                                 @Html.DropDownListFor(model => model.camper.HitchStyle, hitchlist, "-- select style --", new { @class = "form-control", @id = "camperhitch" })
                                 @Html.ValidationMessageFor(model => model.camper.HitchStyle, "", new { @class = "text-danger" })
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -426,17 +425,17 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.camper.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger" , style= "top: 89%;left: 11%;width: 120%; " })
-                                                        </div>
-                            
-                                                    </div>
-                            
-                                                </div>
-                            
-                                            </div>
-                            
+                                @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 11%;width: 120%; " })
+                            </div>
 
-                                            <div class="info-unit" id="atv">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-unit" id="atv">
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -491,7 +490,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.atv.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 5%;width: 120%; " })
+                                @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 5%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -547,7 +546,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.boat.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
+                                @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -617,7 +616,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
+                                @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -672,7 +671,7 @@
                             <div>
                                 @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
                                 @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false) Used
-                                @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger" , style = "top: 89%;left: 6%;width: 120%; " })
+                                @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
                             </div>
                         </div>
                     </div>
@@ -755,7 +754,7 @@
                             <div class="checkbox">
                                 @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                                 @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
-                                @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger" ,style="top:100%;left:18%" })
+                                @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "top:100%;left:18%" })
                             </div>
                         </div>
                     </div>
@@ -767,8 +766,8 @@
                         <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
 
                         <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                            <input type="file" id="fileToUpload" name="fileUpload" style="float: left;" />
-                            <br />
+                            <input type="file" id="fileToUpload" name="fileUpload" style="float: left;"/>
+                            <br/>
                             <span id="spnFile" style="float: left; color: #FF0000"></span>
                             @Html.ValidationMessage("File")
                             @Html.Hidden("hdnFileUpload")
@@ -776,7 +775,9 @@
                             <div class="control-section" style="padding: 0px;">
                                 <div id="selectedFiles"></div>
                             </div>
+                            <div id="tagscloudFileUpload" class="validation-error"><span class="text-danger"></span></div>
                         </div>
+                        
                     </div>
 
                 }
@@ -788,7 +789,7 @@
                 <div class="col-md-2">
                     @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                     @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
-                    @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger" , style = "top:100%;left:18%" })
+                    @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "top:100%;left:18%" })
                 </div>
             </div>
 
@@ -802,8 +803,8 @@
 
             <div class="form-group" id="advanceDateFormDiv" hidden style="margin-left: -71px;">
 
-                <div class="control-label col-sm-3" style = "text-align:right;margin-left: 10px;">
-                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new {  })<span style="color:red"> *</span>
+                <div class="control-label col-sm-3" style="text-align:right;margin-left: 10px;">
+                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
                 </div>
 
 
@@ -812,16 +813,16 @@
                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
                 </div>
 
-              
+
             </div>
 
             <div class="form-group btn-panel">
                 <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
-              
-                                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float:right;width:200px"/>
-                           
-                                
-                           
+
+                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float:right;width:200px" />
+
+
+
             </div>
         </div>
     </form>
@@ -832,7 +833,7 @@
 
     _previousMakeYear = "";
     _previousMake     = "";
-    
+
     function getResult(data) {
         alert(data.get_response().get_object().Result);
         //$(location).attr('href', '/Unit/AddUnit?flag=1');
@@ -909,7 +910,7 @@
         $('#heavyequipmentmake').children('span').text("");
     });
 
-   
+
 
     function GetModels(var1,var2,var3)
     {
@@ -1927,11 +1928,12 @@
     //Reset the data and clear just the form
     $('#btnCancel').click(function() {
         clearform();
-        
+        $('#advanceDateFormDiv').hide();
+        //$("#advanceDateFormDiv").attr('value', '');
     });
 
-    function clearform(){
-        var unitType  = document.getElementById("unitType").value
+    function clearform() {
+        var unitType = document.getElementById("unitType").value;
         document.getElementById("form").reset();
         changeUnitType(unitType);
         _previousMakeYear = "";
@@ -1985,138 +1987,138 @@
         $('#tagscloud').children('span').text('');
 
         $('.centered span').text('');
-        
-    };
-    // vin key press key block validation with 17 charactors and Miles 10 charactors   
 
-    $("#vehicleVin").keypress(function(e){ 
-    if($('#vehicleVin').val().length >= 17){
-        e.preventDefault();
-    }
-    else if(alphaNumericAllow(e)){
-            
-    }else{
-        e.preventDefault();
-    }
+    };
+    // vin key press key block validation with 17 charactors and Miles 10 charactors
+
+    $("#vehicleVin").keypress(function(e){
+        if($('#vehicleVin').val().length >= 17){
+            e.preventDefault();
+        }
+        else if(alphaNumericAllow(e)){
+
+        }else{
+            e.preventDefault();
+        }
     });
-    $("#rvVin").keypress(function(e){ 
+    $("#rvVin").keypress(function(e){
         if($('#rvVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#camperVin").keypress(function(e){ 
+    $("#camperVin").keypress(function(e){
         if($('#camperVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#atvVin").keypress(function(e){ 
+    $("#atvVin").keypress(function(e){
         if($('#atvVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#boatVin").keypress(function(e){ 
+    $("#boatVin").keypress(function(e){
         if($('#boatVin').val().length >= 12){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#motorcycleVin").keypress(function(e){ 
+    $("#motorcycleVin").keypress(function(e){
         if($('#motorcycleVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#snowmobileVin").keypress(function(e){ 
+    $("#snowmobileVin").keypress(function(e){
         if($('#snowmobileVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#vehiclemiles").keypress(function(e){     
+    $("#vehiclemiles").keypress(function(e){
         if($('#vehiclemiles').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#rvmiles").keypress(function(e){     
+    $("#rvmiles").keypress(function(e){
         if($('#rvmiles').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#atvmiles").keypress(function(e){     
+    $("#atvmiles").keypress(function(e){
         if($('#atvmiles').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#motorcyclemiles").keypress(function(e){     
+    $("#motorcyclemiles").keypress(function(e){
         if($('#motorcyclemiles').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllow(e)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#rvlength").keypress(function(e){ 
+    $("#rvlength").keypress(function(e){
         var val = $("#rvlength").val();
         if($('#rvlength').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllowDecimal(e,val)){
-            
+
         }else{
             e.preventDefault();
         }
     });
-    $("#camperlength").keypress(function(e){ 
+    $("#camperlength").keypress(function(e){
         var val = $("#camperlength").val();
         if($('#camperlength').val().length >= 10){
             e.preventDefault();
-        }    
+        }
         else if(numericAllowDecimal(e,val)){
-            
+
         }else{
             e.preventDefault();
         }
@@ -2276,7 +2278,7 @@
 
         }
 
-      
+
         if(advanceAmount > maxCost){
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
@@ -2345,7 +2347,7 @@
         if (isNaN(num)) {
             num = '';
         }
-       
+
         if (isNaN(num)) {
 
             //$("#tagscloudAdvance span").fadeIn();
@@ -2366,7 +2368,7 @@
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
             $("#tagscloudAdvance span").text("Advance must be greater than zero");
-        } 
+        }
         else if (advance > maxAdvance) {
             //$("#tagscloudAdvance span").fadeIn();
             $(this).addClass('input-validation-error');
@@ -2390,7 +2392,7 @@
         //}
         $(this).val(num);
         if (num == "") {
-        //$("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").fadeIn();
             $(this).val("0.00");
         }
     });
@@ -2739,7 +2741,7 @@
 
 
     function handleFileSelect(e) {
-
+        var validExt = ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'docx', 'xls'];
         //selDiv.innerHTML = ""; storedFiles = [];
         var selDiv = document.querySelector("#selectedFiles");
 
@@ -2750,7 +2752,16 @@
 
         for (var i = 0; i < files.length; i++) {
             //if (i == 0) { selDiv.innerHTML = ""; storedFiles = []; }
+
             var f = files[i];
+            var ext = f.name.split('.').pop().toLowerCase();
+            //alert(f.size);
+            if($.inArray(ext, validExt) === -1) {
+                //alert('invalid extension!');
+                //$("#tagscloudFileUpload span").text("invalid file type!");
+                return;
+            }
+
             selDiv.innerHTML += "<div>" + f.name + "<a onclick='removeAtt(this)'> X </a></div>";
             storedFiles.push(f.name);
         }
@@ -2779,17 +2790,17 @@
     startPicker.setMinDate(new Date("@Model.StartDate"));
     startPicker.setMaxDate(new Date("@Model.EndDate"));
     $('#advanceDate').val('');
-     // onclick remove success msg
- 
+    // onclick remove success msg
+
 
     $('textarea').click(function () {
         $('.centered1 span').text('');
-        
+
     });
     $(document).on('click', '.ui-button', function(){
         $('.centered1 span').text('');
     });
-   
+
     function middleSpanCheck(){
         if ($('input').next('span').children('span').text().length > 1) {
             $('.centered span').text('Error');

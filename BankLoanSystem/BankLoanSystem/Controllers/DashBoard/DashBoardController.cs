@@ -8,6 +8,8 @@ namespace BankLoanSystem.Controllers.DashBoard
     {
 
         User userData = new User();
+        LoanSetupStep loanStep = new LoanSetupStep();
+
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/14
@@ -148,7 +150,7 @@ namespace BankLoanSystem.Controllers.DashBoard
             else if (index == 3)
             {
                 Session["companyStep"] = 6;
-
+                Session["dashboard"] = 1;
                 return RedirectToAction("Step6", "SetupProcess");
             }
 
