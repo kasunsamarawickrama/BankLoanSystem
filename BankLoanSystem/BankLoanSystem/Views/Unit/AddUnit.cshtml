@@ -2672,16 +2672,16 @@
         var advance = document.getElementById('txtAdvanceAmount').value;
         if (advance > cost) {
             //$("#tagscloudAdvance span").fadeIn();
-            $("#tagscloudAdvance span").addClass('input-validation-error');
-            $("#tagscloudAdvance span").text("Advance must be less than cost");
+            //$("#tagscloudAdvance span").addClass('input-validation-error');
+            //$("#tagscloudAdvance span").text("Advance must be less than cost");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
         }
         else if(cost > maxCost){
             //$("#tagscloudAdvance span").fadeIn();
-            $("#tagscloudAdvance span").addClass('input-validation-error');
-            $("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").addClass('input-validation-error');
+            //$("#tagscloudAdvance span").text("Advance must be less than balance");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
@@ -2689,8 +2689,8 @@
 
         else if (advance > maxAdvance) {
             //$("#tagscloudAdvance span").fadeIn();
-            $("#tagscloudAdvance span").addClass('input-validation-error');
-            $("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").addClass('input-validation-error');
+            //$("#tagscloudAdvance span").text("Advance must be less than balance");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
