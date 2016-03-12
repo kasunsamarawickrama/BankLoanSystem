@@ -78,10 +78,6 @@
     .custom-combobox-input {
         text-transform: capitalize;
     }
-
-    /*#Note {
-        text-transform: capitalize;
-    }*/
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -749,7 +745,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.Note, 5, 85, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextAreaFor(model => model.Note, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
                         @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -2744,6 +2740,21 @@
 
     });
 
+    $('#Note').keyup(function(e) {
+        //alert(this.value.length);
+        if (this.value.length === 1) {
+            //alert(this.value.length);
+            document.getElementById('Note').value = this.value.toUpperCase();
+        }
+    });
+    $('#Note').keypress(function(e) {
+        //alert(this.value.length);
+        if (this.value.length === 0) {
+            //alert(this.value.length);
+            document.getElementById('Note').value = String.fromCharCode(e.which).toUpperCase();
+        }
+    });
+
     $("input[id^='fileToUpload']").change(function (e) {
         var res = doReCreate(e);
     });
@@ -2772,12 +2783,7 @@
         //return 0;
     }
 
-    $('#Note').keyup(function(e) {
-
-        if (this.value.length === 1) {
-            document.getElementById(id).value = this.value.toUpperCase();
-        }
-    });
+    
 
 
     function handleFileSelect(e) {
