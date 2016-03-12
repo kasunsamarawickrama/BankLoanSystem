@@ -8,20 +8,26 @@
 {
     actoinName = "addunit";
     controllerName = "unit";
-}else if(ViewBag.type == "Advance")
+} else if (ViewBag.type == "Advance")
 {
     actoinName = "Advance";
     controllerName = "AdvanceUnit";
 }
 
 <li><h5>Loan Number</h5></li>
-@foreach (var item in Model)
+@{var c = 0; }
+@if (Model.Count() == 0)
 {
-
+    <span class="text-danger"> No Loans Found</span>
+}
+else {
+foreach (var item in Model)
+{
+ 
     if (item.LoanStatus)
     {
         //@Html.ActionLink(modelItem => item.loanNumber)
-        
+        c++;
 
         <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
 
@@ -29,5 +35,24 @@
 
 
 }
+if (c == 0)
+{
+    <span class="text-danger"> No Active Loans Found</span>
+}
+
+}
+
+<script>
+
+    $("a").click(function () {
+
+        $(this).parent('li').addClass('active').siblings().removeClass('active');
+    });
+
+    $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+
+
+
+</script>
 
 

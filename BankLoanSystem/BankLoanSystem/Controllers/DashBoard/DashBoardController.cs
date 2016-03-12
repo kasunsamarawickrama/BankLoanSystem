@@ -8,6 +8,8 @@ namespace BankLoanSystem.Controllers.DashBoard
     {
 
         User userData = new User();
+        LoanSetupStep loanStep = new LoanSetupStep();
+
         /// <summary>
         /// CreatedBy : Kasun Smarawickrama
         /// CreatedDate: 2016/01/14
@@ -132,12 +134,6 @@ namespace BankLoanSystem.Controllers.DashBoard
         public ActionResult SearchUsers(int index)
         {
 
-
-            if (Session["userId"] == null)
-            {
-                return new HttpStatusCodeResult(404);
-            }
-
             if (index == 1)
             {
                 Session["type"] = "";
@@ -147,15 +143,15 @@ namespace BankLoanSystem.Controllers.DashBoard
 
             else if (index == 2)
             {
-                Session["type"] = "";
+                Session["companyStep"] = 5;
 
-                return RedirectToAction("Create", "CreateUser");
+                return RedirectToAction("Index", "SetupProcess");
             }
             else if (index == 3)
             {
-                Session["type"] = "";
-
-                return RedirectToAction("CreateBranch", "CreateBranch");
+                Session["companyStep"] = 6;
+                Session["dashboard"] = 1;
+                return RedirectToAction("Step6", "SetupProcess");
             }
 
             else if (index == 4 || index == 5 || index == 6)

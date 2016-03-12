@@ -1397,6 +1397,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
 
+            if (Session["dashboard"] !=null)
+            {
+                loanData.stepId = 1;
+            }
             // check if   step is 6...
             StepAccess sa = new StepAccess();
             if (loanData.stepId < 1)
@@ -1804,11 +1808,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     feeNew.isEdit = false;
                     var email = loan.getAutoRemindEmailByLoanId(feeNew.LoanId);
-
-                    feeNew.AdvanceDueEmail = email;
-                    feeNew.MonthlyLoanDueEmail = email;
-                    feeNew.LotInspectionDueEmail = email;
-
+                    if (email != null) { 
+                        feeNew.AdvanceDueEmail = email;
+                        feeNew.MonthlyLoanDueEmail = email;
+                        feeNew.LotInspectionDueEmail = email;
+                    }
                     hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
                     hasLoan.IsLotFeeCompleteEmailReminder = false;
                     hasLoan.IsLoanFeeCompleteEmailReminder = false;
