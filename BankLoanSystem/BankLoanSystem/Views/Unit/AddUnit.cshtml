@@ -81,6 +81,9 @@
     .trim {
         text-transform: capitalize;
     }
+    .cap {
+        text-transform: uppercase;
+    }
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -154,7 +157,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "vehicleVin" } })
+                            @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "vehicleVin" } })
                             @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="vehicleVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -282,7 +285,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "rvVin" } })
+                            @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "rvVin" } })
                             @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="rvVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -351,7 +354,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "camperVin" } })
+                            @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "camperVin" } })
                             @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="camperVIN"><span class="text-danger"></span></div>
                         </div>
@@ -446,7 +449,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "atvVin" } })
+                            @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "atvVin" } })
                             @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="atvVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -507,7 +510,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "boatVin" } })
+                            @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "boatVin" } })
                             @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="boatVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -536,13 +539,13 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.TrailerId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control", @id = "boattrailer", @maxlength = 17 } })
+                            @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap", @id = "boattrailer", @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                         </div>
 
                         @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control", @id = "boatserial", @maxlength = 17 } })
+                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap", @id = "boatserial", @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -563,7 +566,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "motorcycleVin" } })
+                            @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "motorcycleVin" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="motorcycleVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -633,7 +636,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "snowmobileVin" } })
+                            @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "snowmobileVin" } })
                             @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger" })
                             <div id="snowmobileVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -688,7 +691,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control", @id = "heavyequipmentSerial" } })
+                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "heavyequipmentSerial" } })
                             @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
                             <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -839,7 +842,7 @@
 <script type="text/javascript">
 
     _previousMakeYear = "";
-    _previousMake     = "";
+    _previousMake     = "";   
 
     function getResult(data) {
         alert(data.get_response().get_object().Result);
@@ -1238,7 +1241,7 @@
 
     //key up for bind child text box value to hidden box
     $('#vehicleVin').keyup(function () {
-        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+        //$("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
         var vin1 =document.getElementById('vehicleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#vehicleVin').val(vin2);
@@ -1282,7 +1285,7 @@
     });
     // mouseleave for check vin number and bind year to year text box
     $('#vehicleVin').change (function () {
-        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+        //$("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
         var vin1 =document.getElementById('vehicleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#vehicleVin').val(vin2);
@@ -1327,7 +1330,7 @@
     });
 
     $('#rvVin').keyup(function () {
-        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
+        //$("#rvVin").val(($("#rvVin").val()).toUpperCase());
         var vin1 =document.getElementById('rvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#rvVin').val(vin2);
@@ -1371,7 +1374,7 @@
         }
     });
     $('#rvVin').change(function () {
-        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
+        //$("#rvVin").val(($("#rvVin").val()).toUpperCase());
         var vin1 =document.getElementById('rvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#rvVin').val(vin2);
@@ -1415,7 +1418,7 @@
         }
     });
     $('#camperVin').keyup(function () {
-        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
+        //$("#camperVin").val(($("#camperVin").val()).toUpperCase());
         var vin1 =document.getElementById('camperVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#camperVin').val(vin2);
@@ -1459,7 +1462,7 @@
         }
     });
     $('#camperVin').change(function () {
-        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
+        //$("#camperVin").val(($("#camperVin").val()).toUpperCase());
         var vin1 =document.getElementById('camperVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#camperVin').val(vin2);
@@ -1502,7 +1505,7 @@
         }
     });
     $('#atvVin').keyup(function () {
-        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
+        //$("#atvVin").val(($("#atvVin").val()).toUpperCase());
         var vin1 =document.getElementById('atvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#atvVin').val(vin2);
@@ -1545,7 +1548,7 @@
         }
     });
     $('#atvVin').change(function () {
-        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
+        //$("#atvVin").val(($("#atvVin").val()).toUpperCase());
         var vin1 =document.getElementById('atvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#atvVin').val(vin2);
@@ -1588,7 +1591,7 @@
         }
     });
     $('#boatVin').keyup(function () {
-        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
+        //$("#boatVin").val(($("#boatVin").val()).toUpperCase());
         var vin1 =document.getElementById('boatVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#boatVin').val(vin2);
@@ -1631,7 +1634,7 @@
         }
     });
     $('#boatVin').change(function () {
-        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
+        //$("#boatVin").val(($("#boatVin").val()).toUpperCase());
         var vin1 =document.getElementById('boatVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#boatVin').val(vin2);
@@ -1675,7 +1678,7 @@
 
     });
     $('#motorcycleVin').keyup(function () {
-        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
+        //$("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
         var vin1 =document.getElementById('motorcycleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#motorcycleVin').val(vin2);
@@ -1719,7 +1722,7 @@
 
     });
     $('#motorcycleVin').change(function () {
-        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
+        //$("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
         var vin1 =document.getElementById('motorcycleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#motorcycleVin').val(vin2);
@@ -1763,7 +1766,7 @@
     });
     $('#snowmobileVin').keyup(function () {
 
-        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
+        //$("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         var vin1 =document.getElementById('snowmobileVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#snowmobileVin').val(vin2);
@@ -1806,7 +1809,7 @@
         }
     });
     $('#snowmobileVin').change(function () {
-        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
+        //$("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
         var vin1 =document.getElementById('snowmobileVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#snowmobileVin').val(vin2);
