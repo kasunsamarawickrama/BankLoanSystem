@@ -360,10 +360,9 @@ else if (@ViewBag.ErrorMsg != null)
     });
 
     $('#ZipPre').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 5);
+        var res = CheckMaxLenth(this, this.value, 4);
         if (res === 0) {
-            e.preventDefault();
-            return;
+            $("#Extension").focus();
         }
         res = AllowNumbers(this, e.which);
         if (res === 0) {

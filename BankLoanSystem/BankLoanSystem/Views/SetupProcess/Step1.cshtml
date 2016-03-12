@@ -301,10 +301,9 @@ else if (@ViewBag.ErrorMsg != null)
 
     $('#txtZipPre').keypress(function (e) {
         //alert(e.which);
-        var res = CheckMaxLenth(this, this.value, 5);
+        var res = CheckMaxLenth(this, this.value, 4);
         if (res === 0) {
-            e.preventDefault();
-            return;
+            $("#txtExtension").focus();
         }
         res = AllowNumbers(this, e.which);
         if (res === 0) {
