@@ -492,6 +492,17 @@
                 
             
             //});
+            $('#interest').focusout(function(){
+               
+                    $(this).attr('placeholder', '0.000');
+                    var a = $('#interest').val();
+                        if(a!=""){
+                            focusFunction( a);
+                    
+                        }
+                
+            
+            });
             $('#interest').click(function(){
                 if($('#interest').val()==="0.000")
                 {

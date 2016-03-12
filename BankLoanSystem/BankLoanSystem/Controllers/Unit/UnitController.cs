@@ -248,9 +248,9 @@ namespace BankLoanSystem.Controllers.Unit
         /// <param name="year"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GetModels(string make, int year)
+        public ActionResult GetModels(string make, int year,int unitId)
         {
-            List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year);
+            List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year, unitId);
 
             SelectList modelSelectList = new SelectList(modelList, "VehicleModel", "VehicleModel");
             //var obj = new
@@ -267,9 +267,9 @@ namespace BankLoanSystem.Controllers.Unit
         /// <param name="year"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GetMakes(string make, int year)
+        public ActionResult GetMakes(int year,int unitId)
         {
-            List<UnitYearMakeModel> makeList = (new UnitAccess()).GetVehicleMakesByYear(year);
+            List<UnitYearMakeModel> makeList = (new UnitAccess()).GetVehicleMakesByYear(year,unitId);
 
             SelectList makeSelectList = new SelectList(makeList, "VehicleMake", "VehicleMake");
             //var obj = new

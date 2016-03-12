@@ -172,7 +172,7 @@
 
                         @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
-                        <div class="col-sm-2" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2');" id="div-combobox1-2">
+                        <div class="col-sm-2" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" id="div-combobox1-2">
                             <div>
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })
                             </div>
@@ -184,7 +184,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Model, new { htmlAttributes = new { @id = "editor1-3", @Style = "display: none;" } })
-                        <div class="col-sm-4" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3');" id="div-combobox1-3">
+                        <div class="col-sm-4" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-3">
                             <div>
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox1-3" })
                             </div>
@@ -294,7 +294,7 @@
                         @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.rv.Make, new { htmlAttributes = new { @id = "editor2-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2');" id="div-combobox2-2">
+                            <div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2',2);" id="div-combobox2-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.rv.Make, "", new { @class = "text-danger" })
@@ -306,7 +306,7 @@
                         @Html.LabelFor(model => model.rv.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.rv.Model, new { htmlAttributes = new { @id = "editor2-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3');" id="div-combobox2-3">
+                            <div onmouseover="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.rv.Model, "", new { @class = "text-danger" })
@@ -363,7 +363,7 @@
                         @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.camper.Make, new { htmlAttributes = new { @id = "editor3-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2');" id="div-combobox3-2">
+                            <div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2',3);" id="div-combobox3-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.camper.Make, "", new { @class = "text-danger" })
@@ -375,7 +375,7 @@
                         @Html.LabelFor(model => model.camper.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.camper.Model, new { htmlAttributes = new { @id = "editor3-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3');" id="div-combobox3-3">
+                            <div onmouseover="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.camper.Model, "", new { @class = "text-danger" })
@@ -458,7 +458,7 @@
                         @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2');" id="div-combobox4-2">
+                            <div onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" id="div-combobox4-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox4-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Make, "", new { @class = "text-danger" })
@@ -470,7 +470,7 @@
                         @Html.LabelFor(model => model.atv.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.atv.Model, new { htmlAttributes = new { @id = "editor4-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3');" id="div-combobox4-3">
+                            <div onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox4-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
@@ -519,7 +519,7 @@
                         @Html.LabelFor(model => model.boat.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.boat.Make, new { htmlAttributes = new { @id = "editor5-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox5-1'),'#combobox5-2');" id="div-combobox5-2">
+                            <div onmouseover="GetMakes($('#combobox5-1'),'#combobox5-2',5);" id="div-combobox5-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.boat.Make, "", new { @class = "text-danger" })
@@ -575,7 +575,7 @@
                         @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Make, new { htmlAttributes = new { @id = "editor6-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2');" id="div-combobox6-2">
+                            <div onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" id="div-combobox6-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Make, "", new { @class = "text-danger" })
@@ -587,7 +587,7 @@
                         @Html.LabelFor(model => model.motorcycle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Model, new { htmlAttributes = new { @id = "editor6-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3');" id="div-combobox6-3">
+                            <div onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
@@ -645,7 +645,7 @@
                         @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.snowmobile.Make, new { htmlAttributes = new { @id = "editor7-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2');" id="div-combobox7-2">
+                            <div onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" id="div-combobox7-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Make, "", new { @class = "text-danger" })
@@ -657,7 +657,7 @@
                         @Html.LabelFor(model => model.snowmobile.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.snowmobile.Model, new { htmlAttributes = new { @id = "editor7-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3');" id="div-combobox7-3">
+                            <div onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',6);" id="div-combobox7-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Model, "", new { @class = "text-danger" })
@@ -700,7 +700,7 @@
                         @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.heavyequipment.Make, new { htmlAttributes = new { @id = "editor8-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2');" id="div-combobox8-2">
+                            <div onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.heavyequipment.Make, "", new { @class = "text-danger" })
@@ -766,19 +766,19 @@
                         <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:</label>
 
                         <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                            <input type="file" id="fileToUpload" name="fileUpload" style="float: left;"/>
-                            <br/>
+                            <input type="file" id="fileToUpload" name="fileUpload" style="float: left;" />
+                            <br />
                             <div><span id="spnFile" style="float: left; color: #FF0000"></span></div>
+
                             
+                                <div id="selectedFiles" class="control-section"></div>
+
                             @Html.ValidationMessage("File")
                             @Html.Hidden("hdnFileUpload")
 
-                            <div class="control-section" style="padding: 0px;">
-                                <div id="selectedFiles"></div>
-                            </div>
-                            <div id="tagscloudFileUpload" class="validation-error"><span class="text-danger"></span></div>
+                            <div id="tagscloudFileUpload" ><span class="text-danger"></span></div>
                         </div>
-                        
+
                     </div>
 
                 }
@@ -913,7 +913,7 @@
 
 
 
-    function GetModels(var1,var2,var3)
+    function GetModels(var1,var2,var3,id)
     {
         var checkYear = var1.val();
         var checkMake = var2.val();
@@ -927,7 +927,7 @@
                     url: '/Unit/GetModels',
                     type: 'POST',
                     contentType: 'application/json;',
-                    data: JSON.stringify({ make: checkMake, year: checkYear }),
+                    data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
                     success: function (data) {
                         //var markup = "<option value='0'>-- select a model --</option>";
                         for (var x = 0; x < data.length; x++) {
@@ -970,7 +970,7 @@
 
     });*@
 
-    function GetMakes(var1,var2)
+    function GetMakes(var1,var2,id)
     {
         var checkYear = var1.val();
         checkYear = var1.next().children('input').val();
@@ -981,7 +981,7 @@
                     url: '/Unit/GetMakes',
                     type: 'POST',
                     contentType: 'application/json;',
-                    data: JSON.stringify({year: checkYear }),
+                    data: JSON.stringify({year: checkYear , unitId :id}),
                     success: function (data) {
                         //var markup = "<option value='0'>-- select a model --</option>";
                         for (var x = 0; x < data.length; x++) {
@@ -2398,7 +2398,7 @@
         }
     });
 
-    $('#btnSubmit').click(function(e){
+    $('#btnSubmit').click(function(e) {
 
         var unitType = document.getElementById("unitType").value;
 
@@ -2407,32 +2407,32 @@
             var trim = document.getElementById("vehicletrim").value;
             var miles = document.getElementById("vehiclemiles").value;
 
-            if($('#combobox1-1').next().children('input').val() == ""){
+            if ($('#combobox1-1').next().children('input').val() == "") {
                 //$('#vehicleyear span').fadeIn();
                 $('#vehicleyear span').text("year required");
                 //$('#vehicleyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
+                if (vin == "" || trim == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox1-2').next().children('input').val() == ""){
+            if ($('#combobox1-2').next().children('input').val() == "") {
                 //$('#vehiclemake span').fadeIn();
                 $('#vehiclemake span').text("make required");
                 // $('#vehiclemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
+                if (vin == "" || trim == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox1-3').next().children('input').val() == ""){
+            if ($('#combobox1-3').next().children('input').val() == "") {
                 // $('#vehiclemodel span').fadeIn();
                 $('#vehiclemodel span').text("model required");
                 //$('#vehiclemodel span').delay(1000).fadeOut();
-                if(vin == "" || trim == "" || miles == ""){
-                }else{
+                if (vin == "" || trim == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2442,33 +2442,33 @@
             var length = document.getElementById("rvlength").value;
             var miles = document.getElementById("rvmiles").value;
 
-            if($('#combobox2-1').next().children('input').val() == ""){
+            if ($('#combobox2-1').next().children('input').val() == "") {
                 //$('#rvyear span').fadeIn();
                 $('#rvyear span').text("year required");
                 //$('#rvyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
+                if (vin == "" || length == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox2-2').next().children('input').val() == ""){
+            if ($('#combobox2-2').next().children('input').val() == "") {
                 //$('#rvmake span').fadeIn();
                 $('#rvmake span').text("make required");
                 //$('#rvmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
+                if (vin == "" || length == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox2-3').next().children('input').val() == ""){
+            if ($('#combobox2-3').next().children('input').val() == "") {
                 //$('#rvmodel span').fadeIn();
                 $('#rvmodel span').text("model required");
                 //$('#rvmodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || miles == ""){
-                }else{
+                if (vin == "" || length == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2480,33 +2480,33 @@
             var length = document.getElementById("camperlength").value;
             var hitch = document.getElementById("camperhitch").value;
 
-            if($('#combobox3-1').next().children('input').val() == ""){
+            if ($('#combobox3-1').next().children('input').val() == "") {
                 //$('#camperyear span').fadeIn();
                 $('#camperyear span').text("year required");
                 //$('#camperyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
+                if (vin == "" || length == "" || hitch == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox3-2').next().children('input').val() == ""){
+            if ($('#combobox3-2').next().children('input').val() == "") {
                 //$('#campermake span').fadeIn();
                 $('#campermake span').text("make required");
                 //$('#campermake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
+                if (vin == "" || length == "" || hitch == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox3-3').next().children('input').val() == ""){
+            if ($('#combobox3-3').next().children('input').val() == "") {
                 //$('#campermodel span').fadeIn();
                 $('#campermodel span').text("model required");
                 //$('#campermodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || length == "" || hitch == ""){
-                }else{
+                if (vin == "" || length == "" || hitch == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2516,33 +2516,33 @@
             var vin = document.getElementById("atvVin").value;
             var miles = document.getElementById("atvmiles").value;
 
-            if($('#combobox4-1').next().children('input').val() == ""){
+            if ($('#combobox4-1').next().children('input').val() == "") {
                 //$('#atvyear span').fadeIn();
                 $('#atvyear span').text("year required");
                 //$('#atvyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox4-2').next().children('input').val() == ""){
+            if ($('#combobox4-2').next().children('input').val() == "") {
                 //$('#atvmake span').fadeIn();
                 $('#atvmake span').text("make required");
                 //$('#atvmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox4-3').next().children('input').val() == ""){
+            if ($('#combobox4-3').next().children('input').val() == "") {
                 //$('#atvmodel span').fadeIn();
                 $('#atvmodel span').text("model required");
                 //$('#atvmodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2553,23 +2553,23 @@
             var trailer = document.getElementById("boattrailer").value;
             var serial = document.getElementById("boatserial").value;
 
-            if($('#combobox5-1').next().children('input').val() == ""){
+            if ($('#combobox5-1').next().children('input').val() == "") {
                 //$('#boatyear span').fadeIn();
                 $('#boatyear span').text("year required");
                 //$('#boatyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || trailer == ""|| serial ==""){
-                }else{
+                if (vin == "" || trailer == "" || serial == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox5-2').next().children('input').val() == ""){
+            if ($('#combobox5-2').next().children('input').val() == "") {
                 //$('#boatmake span').fadeIn();
                 $('#boatmake span').text("make required");
                 //$('#boatmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || trailer == ""|| serial ==""){
-                }else{
+                if (vin == "" || trailer == "" || serial == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2579,33 +2579,33 @@
             var vin = document.getElementById("motorcycleVin").value;
             var miles = document.getElementById("motorcyclemiles").value;
 
-            if($('#combobox6-1').next().children('input').val() == ""){
+            if ($('#combobox6-1').next().children('input').val() == "") {
                 //$('#motorcycleyear span').fadeIn();
                 $('#motorcycleyear span').text("year required");
                 //$('#motorcycleyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox6-2').next().children('input').val() == ""){
+            if ($('#combobox6-2').next().children('input').val() == "") {
                 //$('#motorcyclemake span').fadeIn();
                 $('#motorcyclemake span').text("make required");
                 //$('#motorcyclemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox6-3').next().children('input').val() == ""){
+            if ($('#combobox6-3').next().children('input').val() == "") {
                 //$('#motorcyclemodel span').fadeIn();
                 $('#motorcyclemodel span').text("make required");
                 //$('#motorcyclemodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2613,56 +2613,56 @@
         } else if (unitType == "7") {
             var vin = document.getElementById("snowmobileVin").value;
 
-            if($('#combobox7-1').next().children('input').val() == ""){
+            if ($('#combobox7-1').next().children('input').val() == "") {
                 //$('#snowmobileyear span').fadeIn();
                 $('#snowmobileyear span').text("year required");
                 //$('#snowmobileyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox7-2').next().children('input').val() == ""){
+            if ($('#combobox7-2').next().children('input').val() == "") {
                 //$('#snowmobilemake span').fadeIn();
                 $('#snowmobilemake span').text("make required");
                 //$('#snowmobilemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox7-3').next().children('input').val() == ""){
+            if ($('#combobox7-3').next().children('input').val() == "") {
                 //$('#snowmobilemodel span').fadeIn();
                 $('#snowmobilemodel span').text("make required");
                 //$('#snowmobilemodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
         } else if (unitType == "8") {
             var vin = document.getElementById("heavyequipmentSerial").value;
 
-            if($('#combobox8-1').next().children('input').val() == ""){
+            if ($('#combobox8-1').next().children('input').val() == "") {
                 //$('#heavyequipmentyear span').fadeIn();
                 $('#heavyequipmentyear span').text("year required");
                 //$('#heavyequipmentyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
-            if($('#combobox8-2').next().children('input').val() == ""){
+            if ($('#combobox8-2').next().children('input').val() == "") {
                 //$('#heavyequipmentmake span').fadeIn();
                 $('#heavyequipmentmake span').text("make required");
                 //$('#heavyequipmentmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if(vin == "" || miles == ""){
-                }else{
+                if (vin == "" || miles == "") {
+                } else {
                     e.preventDefault();
                 }
             }
@@ -2671,8 +2671,8 @@
 
         }
 
-        var cost = document.getElementById('txtCost').value;
-        var advance = document.getElementById('txtAdvanceAmount').value;
+        var cost = parseFloat(document.getElementById('txtCost').value);
+        var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
         if (advance > cost) {
             //$("#tagscloudAdvance span").fadeIn();
             //$("#tagscloudAdvance span").addClass('input-validation-error');
@@ -2680,26 +2680,24 @@
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
-        }
-        else if(cost > maxCost){
+        } else if (cost > maxCost) {
             //$("#tagscloudAdvance span").fadeIn();
             //$("#tagscloudAdvance span").addClass('input-validation-error');
             //$("#tagscloudAdvance span").text("Advance must be less than balance");
             //$("#tagscloudAdvance span").delay(1000).fadeOut();
             //$(this).removeClass('input-validation-error');
             e.preventDefault();
+        } else if (advance > maxAdvance) {
+            //$("#tagscloudAdvance span").fadeIn();
+            //$("#tagscloudAdvance span").addClass('input-validation-error');
+            //$("#tagscloudAdvance span").text("Advance must be less than balance");
+            //$("#tagscloudAdvance span").delay(1000).fadeOut();
+            //$(this).removeClass('input-validation-error');
+            e.preventDefault();
+        } else {
         }
 
-        else if (advance > maxAdvance) {
-            //$("#tagscloudAdvance span").fadeIn();
-            //$("#tagscloudAdvance span").addClass('input-validation-error');
-            //$("#tagscloudAdvance span").text("Advance must be less than balance");
-            //$("#tagscloudAdvance span").delay(1000).fadeOut();
-            //$(this).removeClass('input-validation-error');
-            e.preventDefault();
-        }else{
-        }
-    })
+    });
     $('input').blur(function() {
 
     });
@@ -2748,34 +2746,35 @@
 
     function handleFileSelect(e) {
         var validExt = ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'docx', 'xls'];
-        
+
         var selDiv = document.querySelector("#selectedFiles");
 
         if (!e.target.files) return;
 
         files = e.target.files;
-
+        var maxSize = 375000;
         for (var i = 0; i < files.length; i++) {
 
             var f = files[i];
             var ext = f.name.split('.').pop().toLowerCase();
-            //alert(f.size);
+            
             if($.inArray(ext, validExt) === -1) {
-                //alert('invalid extension!');
+                $('#tagscloudFileUpload span').fadeIn();
                 $("#tagscloudFileUpload span").text("invalid file type!");
+                $('#tagscloudFileUpload span').delay(1000).fadeOut();
                 return;
             }
-            if (f.size > 375000) {
-                //alert('File size should be less than 3MB.');
+            else if (f.size > parseFloat(maxSize)) {
+                $('#tagscloudFileUpload span').fadeIn();
                 $("#tagscloudFileUpload span").text("File size should be less than 3MB.");
+                $('#tagscloudFileUpload span').delay(1000).fadeOut();
                 return;
             }
 
-            selDiv.innerHTML += "<div>" + f.name + "<a onclick='removeAtt(this)'> X </a></div>";
+            selDiv.innerHTML += "<div>" + f.name + "<a onclick='removeAtt(this)'> X<img id='' src='~/Images/deleteRow.png'/> </a></div>";
             storedFiles.push(f.name);
         }
         $('#@Html.IdFor(i => i.FileName)').val(storedFiles);
-        //return 1;
     }
 
     function removeAtt(t) {
