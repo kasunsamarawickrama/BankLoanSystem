@@ -1433,12 +1433,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (loanSetupStep1.isInterestCalculate)
                 {
                     sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
-                    loanData.stepId = 2;
+                    if (loanData.stepId < 2)
+                    {
+                        loanData.stepId = 2;
+                    }
+                    //loanData.stepId = 2;
                 }
                 else
                 {
                     sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
-                    loanData.stepId = 3;
+                    if (loanData.stepId < 3)
+                    {
+                        loanData.stepId = 3;
+                    }
                 }
                 loanData.BranchId = loanSetupStep1.RegisteredBranchId;
                 loanData.nonRegisteredBranchId = loanSetupStep1.nonRegisteredBranchId;
@@ -1694,7 +1701,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 StepAccess sa = new StepAccess();
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
-                    loanData.stepId = 3;
+                    if (loanData.stepId < 3)
+                    {
+                        loanData.stepId = 3;
+                    }
+                    //loanData.stepId = 3;
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
 
@@ -2052,16 +2063,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int loanId = loanData.loanId;
                 if (loanId > 0)
                 {
-                    var titleObj = ta.getTitleDetails(loanId);
-                    if (titleObj != null)
+                    
+                    if (loanData.stepId>4)
                     {
-
+                        var titleObj = ta.getTitleDetails(loanId);
                         ViewBag.Edit = 1;
-                        //title = ta.getTitleDetails(loanId);
-                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
-                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
-                        ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
-                        ViewBag.DefaultEmail = titleObj.RemindEmail;
+                        if (titleObj != null)
+                        {
+                            
+                            //title = ta.getTitleDetails(loanId);
+                            ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
+                            ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
+                            ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
+                            ViewBag.DefaultEmail = titleObj.RemindEmail;
+                        }
+                        
 
                         if (HttpContext.Request.IsAjaxRequest())
                         {
@@ -2144,7 +2160,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
-                    loanData.stepId = 5;
+                    if (loanData.stepId < 5)
+                    {
+                        loanData.stepId = 5;
+                    }
+                    
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step10");
                 }
