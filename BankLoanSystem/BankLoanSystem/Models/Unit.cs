@@ -297,7 +297,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "HIN")]
         [Required(ErrorMessage = "Enter 17 characters for HIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for HIN")]
+        [StringLength(12, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for HIN")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
