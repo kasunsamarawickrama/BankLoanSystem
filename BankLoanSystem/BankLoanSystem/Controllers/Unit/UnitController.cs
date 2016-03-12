@@ -179,7 +179,7 @@ namespace BankLoanSystem.Controllers.Unit
                 List<TitleUpload> titleList = new List<TitleUpload>();
 
                 int imageNo = 1;
-                if (fileUpload != null)
+                if (unit.FileName !=null && fileUpload != null)
                 {
                     foreach (var file in fileUpload)
                     {
