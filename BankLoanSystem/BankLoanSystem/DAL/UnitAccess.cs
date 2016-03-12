@@ -618,7 +618,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year)
+        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year,int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
@@ -627,6 +627,7 @@ namespace BankLoanSystem.DAL
                 {
 
                     var command = new SqlCommand("spGetVehicleModelByMakeYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@unit_type", SqlDbType.Int).Value = unitType;
                     command.Parameters.Add("@make", SqlDbType.VarChar).Value = make;
                     command.Parameters.Add("@year", SqlDbType.Int).Value = year;
                     con.Open();
@@ -663,7 +664,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<UnitYearMakeModel> GetVehicleMakesByYear(int year)
+        public List<UnitYearMakeModel> GetVehicleMakesByYear(int year,int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
@@ -672,6 +673,7 @@ namespace BankLoanSystem.DAL
                 {
 
                     var command = new SqlCommand("spGetVehicleMakesByYear", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@unit_type", SqlDbType.Int).Value = unitType;
                     command.Parameters.Add("@year", SqlDbType.Int).Value = year;
                     con.Open();
                     using (var reader = command.ExecuteReader())
