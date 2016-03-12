@@ -12,7 +12,9 @@
         $('#btnPreStep' + array[i]).attr("tabindex", -1);
     }
     
-
+    $('input').focus(function () {
+        $(this).attr('placeholder', '');
+    });
     // clear error messages if you use ValidationMaessageFor function to handle error
 
     $('#clear').click(function () {
