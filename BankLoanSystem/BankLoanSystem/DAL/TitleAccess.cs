@@ -34,11 +34,12 @@ namespace BankLoanSystem.DAL
                         SqlDataReader reader = cmd.ExecuteReader();
 
 
-                        Title obj1 = null;
+                        //Title obj1 = null;
+                        Title obj1 = new Title();
+
 
                         while (reader.Read())
                         {
-                            obj1 = new Title();
                             obj1.LoanId = int.Parse(reader["loan_id"].ToString());
                             obj1.IsTitleTrack = bool.Parse(reader["is_title_tracked"].ToString());
                             if (obj1.IsTitleTrack)
@@ -65,6 +66,11 @@ namespace BankLoanSystem.DAL
                            
 
 
+                        }
+                       if(obj1 == null)
+                        {
+                            obj1.IsTitleTrack = false;
+                            obj1.IsReceipRequired = false;
                         }
                         return obj1;
 

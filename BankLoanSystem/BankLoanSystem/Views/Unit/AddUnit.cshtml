@@ -2762,11 +2762,12 @@
             //alert(f.size);
             if($.inArray(ext, validExt) === -1) {
                 //alert('invalid extension!');
-                //$("#tagscloudFileUpload span").text("invalid file type!");
+                $("#tagscloudFileUpload span").text("invalid file type!");
                 return;
             }
             if (f.size > 375000) {
                 //alert('File size should be less than 3MB.');
+                $("#tagscloudFileUpload span").text("File size should be less than 3MB.");
                 return;
             }
 
