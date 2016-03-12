@@ -314,7 +314,7 @@ namespace BankLoanSystem.Models
         [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors")]
         public string TrailerId { get; set; }
 
-        [StringLength(1, MinimumLength = 17, ErrorMessage = "Maximum 17 charactors")]
+        //[StringLength(1, MinimumLength = 17, ErrorMessage = "Maximum 17 charactors")]
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
