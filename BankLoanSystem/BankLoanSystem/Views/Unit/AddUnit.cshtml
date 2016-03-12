@@ -1850,6 +1850,8 @@
     function initialUnitType(){
         var unitType  = '@ViewBag.loanDetails.defaultUnitType';
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function valueChangeUnitType(){
         var unitType  = document.getElementById("unitType").value
@@ -1940,6 +1942,8 @@
         upc = 0;
         //$('#selectedFiles').children().parent().remove();
         $('#selectedFiles').children().remove();
+        $(".miles").val("0");
+        $(".lengths").val("0");
     });
 
     function clearform() {
