@@ -21,21 +21,22 @@ namespace BankLoanSystem.Controllers.DashBoard
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (Session["AuthenticatedUser"] != null)
+            try
             {
-                try
+                if (Session["AuthenticatedUser"] != null)
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
                 }
-                catch
+                else
                 {
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
-            else
+            catch
             {
+                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 filterContext.Controller.TempData.Add("UserLogin", "Login");
-                //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
         }
 

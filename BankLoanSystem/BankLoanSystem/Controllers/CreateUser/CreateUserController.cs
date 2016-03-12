@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using BankLoanSystem.Code;
-using System.Text;
 
 namespace BankLoanSystem.Controllers.CreateUser
 {
@@ -15,6 +13,28 @@ namespace BankLoanSystem.Controllers.CreateUser
         private static int _companyId;
         private static int _curUserRoleId;
         private static int _curBranchId;
+        User userData = new User();
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            try
+            {
+                if (Session["AuthenticatedUser"] != null)
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                else
+                {
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                }
+            }
+            catch
+            {
+                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
+            }
+        }
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
