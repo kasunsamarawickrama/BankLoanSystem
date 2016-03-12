@@ -380,7 +380,7 @@ namespace BankLoanSystem.Models
     {
         [Display(Name = "SN")]
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
-        [StringLength(1, MinimumLength = 17, ErrorMessage = "Maximum 17 charactors")]
+        //[StringLength(1, MinimumLength = 17, ErrorMessage = "Maximum 17 charactors")]
         public string SerialNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
