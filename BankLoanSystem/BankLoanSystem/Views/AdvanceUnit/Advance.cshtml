@@ -193,7 +193,7 @@
             </div>*@
 
             <div class="form-group btn-panel">
-                <input type="button" value="Clear" id="btnClear" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
+                <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
 
                 <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="float:right;width:200px" />
 
@@ -307,7 +307,7 @@
          
 
         <div class="form-group btn-panel">
-            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
+            <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
 
             <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-info btn-center" style="float:right;width:200px" disabled />
 
@@ -368,7 +368,8 @@
         
     });
 
-    $("#btnClear").click(function () {        
+    $("#btnClear").click(function () {
+       
         ClearSearchRelatedData();
     });
 
@@ -385,12 +386,40 @@
     }
 
     $("#btnSearch").click(function () {
+
+        ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnAdvance").attr("disabled", "disabled");
+        $("#btnAdvanceAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#startDate").attr("disabled", "disabled");
+        $("#iAdvance").attr("disabled", "disabled");
+
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iAdvance').removeClass('input-validation-error');
         var para1 = $("#identificationNumberSearch").val();
         var para2 = $('#cmbYear').val();
         var para3 = $("#cmbMake").val();
         var para4 = $("#cmbModel").val();        
         if (para1 == null) { para1 = ''; }
-        Search(para1, para2, para3, para4);
+        if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+            Search(para1, para2, para3, para4);
+        }
+        
 
     });
 
@@ -992,6 +1021,11 @@
             //$('.ui-button').click(function () {
             //    $('.centered1 span').text('');
             //});
+
+            
+            $('#identificationNumberSearch').focusout(function () {
+                $(this).attr('placeholder', 'VIN/HIN/Serial No');
+            });
 
         </script>
 

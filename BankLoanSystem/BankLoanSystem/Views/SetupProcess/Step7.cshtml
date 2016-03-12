@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="col-xs-2" style="float:left;margin-left: 145px;">
-                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
+                        @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control",@placeholder="0.000", @id = "interest",@maxlength = 7, @onfocusout = "return focusFunction()" } })
                         @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" ,style= "width: 200%;" })
                     </div>
                     <span style="float:left;margin-top: 10px;font-size: 26px;">%</span>
@@ -427,18 +427,18 @@
                 }
                 else
                 {
-                    $('#interest').val('0.000');
+                    $(this).attr('placeholder', '0.000');
                 }
                 
             
             });
-            $('#interest').click(function(){
-                if(($('#interest').val()===null) ||($('#interest').val()===""))
-                {
-                    $('#interest').val('');
+            //$('#interest').click(function(){
+            //    if(($('#interest').val()===null) ||($('#interest').val()===""))
+            //    {
+            //        $('#interest').val('');
                     
-                }
-            });
+            //    }
+            //});
 
         }
         $.fn.loadFunc = function(){
@@ -468,27 +468,38 @@
             $('#radioNo').click(function () {
                 $('#autoRemind').hide();
             });
-            if(($('#interest').val()===null) ||($('#interest').val()===""))
-            {
-                $('#interest').val('0.000');
+            //if(($('#interest').val()===null) ||($('#interest').val()===""))
+            //{
+            //    $('#interest').val('0.000');
                     
-            }
-            $('#interest').focusout(function(){
+            //}
+            //$('#interest').focusout(function(){
                 
-                if(($('#interest').val()===null) ||($('#interest').val()===""))
-                {
-                    $('#interest').val('0.000');
-                    //$('#interest').val() = "0.000";
+            //    if(($('#interest').val()===null) ||($('#interest').val()===""))
+            //    {
+            //        $('#interest').val('0.000');
+            //        //$('#interest').val() = "0.000";
                   
-                }
-                else
-                {
-                    var a = $('#interest').val();
-                    if(a!=""){
-                        focusFunction( a);
+            //    }
+            //    else
+            //    {
+            //        var a = $('#interest').val();
+            //        if(a!=""){
+            //            focusFunction( a);
                     
-                    }
-                }
+            //        }
+            //    }
+                
+            
+            //});
+            $('#interest').focusout(function(){
+               
+                    $(this).attr('placeholder', '0.000');
+                    var a = $('#interest').val();
+                        if(a!=""){
+                            focusFunction( a);
+                    
+                        }
                 
             
             });
