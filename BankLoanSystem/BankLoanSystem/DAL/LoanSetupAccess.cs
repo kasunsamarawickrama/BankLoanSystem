@@ -570,7 +570,7 @@ namespace BankLoanSystem.DAL
                             
                             loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
                             //loanSetupStep1.RegisteredBranchId = reader["branch_id"] != null ? Convert.ToInt32(reader["branch_id"].ToString()) : 0;
-                            //loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
+                            loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                         }
 
                         reader.Close();
