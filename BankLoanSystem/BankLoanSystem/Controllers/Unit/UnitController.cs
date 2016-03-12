@@ -118,7 +118,7 @@ namespace BankLoanSystem.Controllers.Unit
                     ViewBag.IsTitleTrack = "Yes";
 
                 string upload = title.TitleAcceptMethod;
-                if (!string.IsNullOrEmpty(upload) && upload == "scanned title adequate")
+                if (!string.IsNullOrEmpty(upload) && upload == "Scanned Title Adequate")
                     ViewBag.Upload = "Yes";
 
             }
@@ -179,7 +179,7 @@ namespace BankLoanSystem.Controllers.Unit
                 List<TitleUpload> titleList = new List<TitleUpload>();
 
                 int imageNo = 1;
-                if (fileUpload != null)
+                if (unit.FileName !=null && fileUpload != null)
                 {
                     foreach (var file in fileUpload)
                     {
@@ -312,7 +312,13 @@ namespace BankLoanSystem.Controllers.Unit
             User user = (new UserAccess()).retreiveUserByUserId(userId);
             ViewBag.Username = user.UserName;
             BranchAccess ba = new BranchAccess();
-            ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+            if (userData.RoleId == 2)
+            {
+                ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+            }
+            else if (userData.RoleId == 1) {
+                ViewBag.Branch = "Super Admin";
+            }
             ViewBag.roleId = user.RoleId;
             // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);

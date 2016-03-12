@@ -296,6 +296,7 @@ else
         }
     });
 
+    var isErrorTime = false;
     $(document).on('blur', '.clstimePeriod', function (e) {
 
         var tr = $(this).parents('tr:first');
@@ -309,94 +310,100 @@ else
 
         if (timePeriod > remainingTime) {
             $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+            isErrorTime = true;
         } else if (timePeriod <= previousTime && timePeriod > 0) {
             $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+            isErrorTime = true;
         }
             //else if(timePeriod < previousTime){
             //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
             //}
         else {
+            isErrorTime = false;
             $('#spnremainTimeError').children('span').text("");
         }
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function (e) {
-
-        var tr = $(this).parents('tr:first');
-
-        var curid = tr.find("#lblCur").html();
-        var timePeriod = tr.find("#timePeriod").val();
-        var percentage = tr.find("#percentage").val();
-
-        var isNewRow = false;
-
-        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
-
-        var currentListLenght = Object.keys(list.currentList).length;
         
-        //for (var j = 0; j < currentListLenght; j++) {
-        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-        //}
+        if (isErrorTime === false) {
+            var tr = $(this).parents('tr:first');
 
-        if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
+            var curid = tr.find("#lblCur").html();
+            var timePeriod = tr.find("#timePeriod").val();
+            var percentage = tr.find("#percentage").val();
 
-            list.currentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
-        }
-        else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '' ) {
-            var index = (parseInt(curid) - parseInt(1));
-            var prePercen = list.currentList[index].Percentage;
-            list.currentList[index].Percentage = percentage;
+            var isNewRow = false;
 
-            isNewRow = true;
-            remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
+            //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
 
-            if(parseInt(remainingPt) > 0)
-            {
-                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('');
-            }
-            else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                $('#spnremainPtError').text('');
-                document.getElementById("tblGrid").style.borderColor = "green";
-            } else {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('Error percentage found');
-            }
-        }
-
-        //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
+            var currentListLenght = Object.keys(list.currentList).length;
         
-        if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
+            //for (var j = 0; j < currentListLenght; j++) {
+            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+            //}
+
+            if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
+
+                list.currentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
+            }
+            else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '' ) {
+                var index = (parseInt(curid) - parseInt(1));
+                var prePercen = list.currentList[index].Percentage;
+                list.currentList[index].Percentage = percentage;
+
+                isNewRow = true;
+                remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
+
+                if(parseInt(remainingPt) > 0)
+                {
+                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('');
+                }
+                else if (parseInt(remainingPt) === 0) {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                    $('#spnremainPtError').text('');
+                    document.getElementById("tblGrid").style.borderColor = "green";
+                } else {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('Error percentage found');
+                }
+            }
+
+            //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
+        
+            if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
            
-            if (isNewRow === false) {
-                remainingPt = parseInt(remainingPt) - parseInt(percentage);
-            }
-            //remainingPt = parseInt(remainingPt) - parseInt(percentage);
-            isFirst = false;
-            if(parseInt(remainingPt) > 0)
-            {
-                var intId = parseInt(id);
-                id = isNaN(intId) ? 0 : intId;
-                id = id + 1;
-                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                if (isNewRow === false) {
+                    remainingPt = parseInt(remainingPt) - parseInt(percentage);
+                }
+                //remainingPt = parseInt(remainingPt) - parseInt(percentage);
+                isFirst = false;
+                if(parseInt(remainingPt) > 0)
+                {
+                    var intId = parseInt(id);
+                    id = isNaN(intId) ? 0 : intId;
+                    id = id + 1;
+                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
 
-                var strTr = createTableRow(id);
-                $('#tblGrid').append(strTr);
-            }
-            else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                $('#spnremainPtError').text('');
-            } else {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('Error percentage found');
+                    var strTr = createTableRow(id);
+                    $('#tblGrid').append(strTr);
+                }
+                else if (parseInt(remainingPt) === 0) {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                    $('#spnremainPtError').text('');
+                } else {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('Error percentage found');
+                }
             }
         }
+        
     });
 
     var isRowAdded = false;
@@ -476,6 +483,7 @@ else
 
     //delete row
     $(document).on('click', '.btnDeleteRow', function () {
+        //alert('delete');
         var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
         $('#customErrorTable').children('span').text("");
         if(tblLength > 1)
@@ -486,45 +494,47 @@ else
             var timePeriod = tr.find("#timePeriod").val();
             var percentage = tr.find("#percentage").val();
 
-            var gridTable = document.getElementById('tblGrid');
-            gridTable.deleteRow(curid);
-            id = id - 1;
+            if (percentage !== '') {
+                var gridTable = document.getElementById('tblGrid');
+                gridTable.deleteRow(curid);
+                id = id - 1;
 
-            for (var k = curid; k < id + 1; k++) {
-                gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
-            }
+                for (var k = curid; k < id + 1; k++) {
+                    gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
+                }
 
-            var removeIndex = (parseInt(curid) - parseInt(1));
+                var removeIndex = (parseInt(curid) - parseInt(1));
 
-            list.currentList.splice(removeIndex, 1);
-            var currentListLenght = Object.keys(list.currentList).length;
+                list.currentList.splice(removeIndex, 1);
+                var currentListLenght = Object.keys(list.currentList).length;
 
-            for (var i = removeIndex; i < currentListLenght; i++) {
-                list.currentList[i].CurtailmentId = removeIndex + 1;
-            }
+                for (var i = removeIndex; i < currentListLenght; i++) {
+                    list.currentList[i].CurtailmentId = removeIndex + 1;
+                }
 
-            //for (var j = 0; j < currentListLenght; j++) {
-            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-            //}
+                //for (var j = 0; j < currentListLenght; j++) {
+                //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+                //}
+               
+                remainingPt = parseInt(remainingPt) + parseInt(percentage);
+                
+                if(parseInt(remainingPt) > 0)
+                {
+                    var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-            remainingPt = parseInt(remainingPt) + parseInt(percentage);
-
-            if(parseInt(remainingPt) > 0)
-            {
-                var val = document.getElementById('spnremainPtComplete').innerHTML;
-
-                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('');
-            }
-            else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                $('#spnremainPtError').text('');
-            } else {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('Error percentage found');
+                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('');
+                }
+                else if (parseInt(remainingPt) === 0) {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                    $('#spnremainPtError').text('');
+                } else {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('Error percentage found');
+                }
             }
 
         }

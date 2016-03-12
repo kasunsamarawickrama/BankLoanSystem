@@ -79,7 +79,7 @@
 <span class="text-danger">@ViewBag.ErrorMsg</span>
 }
 
-@if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Create A Dealer Branch Successfully") || ViewBag.SuccessMsg.ToString().Equals("Create A Lender Branch Successfully")))
+@if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Dealer branch is successfully created") || ViewBag.SuccessMsg.ToString().Equals("Lender branch is successfully created")))
 {
     using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
     {
