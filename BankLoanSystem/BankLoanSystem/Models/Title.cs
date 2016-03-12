@@ -21,7 +21,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Receipt required method is required.")]
         public bool NeedScanCopy { get; set; }
 
-
+        [Required(ErrorMessage = "Please Select")]
         public bool IsTitleTrack { get; set; }
 
         [Required(ErrorMessage = "Accept Method is required.")]
@@ -30,6 +30,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Received Time  Limit is required.")]
         public string ReceivedTimeLimit { get; set; }
 
+        [Required(ErrorMessage = "Please Select")]
         public bool IsReceipRequired { get; set; }
 
         [Required(ErrorMessage = "Required Method is required.")]

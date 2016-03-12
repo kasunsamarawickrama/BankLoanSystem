@@ -547,7 +547,7 @@
                     <div class="button-panel">
                         <input type="button" value="Back" name="subBack" id="btnPreStep8" class="btn btn-default left-button" />
                         @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
-                        <input type="submit" value="Next" class="btn btn-primary btn-next" @*style="left:40%"*@ />
+                        <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
 
                         <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" onclick="clear();" />
 
@@ -1229,7 +1229,14 @@
             $(this).val("0.00");
         }
     });
+
+    $('#advanceDueEmailRemindPeriod').focusout(function () {
+        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+    });
+
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     skipProgress(8);
+
+
 
 </script>
