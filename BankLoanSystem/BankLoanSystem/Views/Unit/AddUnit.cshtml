@@ -210,7 +210,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control", @id = "vehiclemiles", @Style = "width: 98%;" } })
+                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @Style = "width: 98%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
                         </div>
 
@@ -323,7 +323,7 @@
 
                         @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "rvmiles" } })
+                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles" } })
                             @Html.ValidationMessageFor(model => model.rv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -331,7 +331,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control", @id = "rvlength" } })
+                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "rvlength" } })
                             @Html.ValidationMessageFor(model => model.rv.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -392,7 +392,7 @@
 
                         @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control", @id = "camperlength" } })
+                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength" } })
                             @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -487,7 +487,7 @@
 
                         @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "atvmiles" } })
+                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles" } })
                             @Html.ValidationMessageFor(model => model.atv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -604,7 +604,7 @@
 
                         @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control", id = "motorcyclemiles" } })
+                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -1264,19 +1264,19 @@
         }
         else if($('#vehicleVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text("");
+           // $('#vehicleVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#vehicleVin').val().length < 17){
-            var vinlen = $('#vehicleVin').val().length ;
+            //var vinlen = $('#vehicleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
+           // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#vehicleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text("charactors exceeded");
+           // $('#vehicleVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1308,19 +1308,19 @@
         }
         else if($('#vehicleVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text("");
+            //$('#vehicleVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#vehicleVin').val().length < 17){
-            var vinlen = $('#vehicleVin').val().length ;
+           // var vinlen = $('#vehicleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
+           // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#vehicleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#vehicleVIN span').text("charactors exceeded");
+           // $('#vehicleVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1354,19 +1354,19 @@
         }
         else if($('#rvVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text("");
+           // $('#rvVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#rvVin').val().length < 17){
             var vinlen = $('#rvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text(17 - vinlen + " charactors remaining");
+           // $('#rvVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#rvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text("charactors exceeded");
+           // $('#rvVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1398,19 +1398,19 @@
         }
         else if($('#rvVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text("");
+            //$('#rvVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#rvVin').val().length < 17){
             var vinlen = $('#rvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#rvVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#rvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#rvVIN span').text("charactors exceeded");
+           // $('#rvVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1442,19 +1442,19 @@
         }
         else if($('#camperVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text("");
+           // $('#camperVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#camperVin').val().length < 17){
             var vinlen = $('#camperVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#camperVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text("charactors exceeded");
+            //$('#camperVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1485,19 +1485,19 @@
             });
         }else if($('#camperVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text("");
+            //$('#camperVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#camperVin').val().length < 17){
             var vinlen = $('#camperVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#camperVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#camperVIN span').text("charactors exceeded");
+            //$('#camperVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1528,19 +1528,19 @@
             });
         }else if($('#atvVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text("");
+            //$('#atvVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#atvVin').val().length < 17){
-            var vinlen = $('#atvVin').val().length ;
+            //var vinlen = $('#atvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#atvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text("charactors exceeded");
+            //$('#atvVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1571,19 +1571,19 @@
             });
         }else if($('#atvVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text("");
+            //$('#atvVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#atvVin').val().length < 17){
-            var vinlen = $('#atvVin').val().length ;
+            //var vinlen = $('#atvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#atvVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#atvVIN span').text("charactors exceeded");
+            //$('#atvVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1614,19 +1614,19 @@
             });
         }else if($('#boatVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text("");
+            //$('#boatVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#boatVin').val().length < 12){
-            var vinlen = $('#boatVin').val().length ;
+            //var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text(12 - vinlen + " charactors remaining");
+            //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
-            var vinlen = $('#boatVin').val().length ;
+           // var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text("charactors exceeded");
+            //$('#boatVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1657,19 +1657,19 @@
             });
         }else if($('#boatVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text("");
+            //$('#boatVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#boatVin').val().length < 12){
-            var vinlen = $('#boatVin').val().length ;
+            //var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text(12 - vinlen + " charactors remaining");
+            //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
-            var vinlen = $('#boatVin').val().length ;
+            //var vinlen = $('#boatVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#boatVIN span').text("charactors exceeded");
+            //$('#boatVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1701,19 +1701,19 @@
             });
         }else if($('#motorcycleVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text("");
+            //$('#motorcycleVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#motorcycleVin').val().length < 17){
-            var vinlen = $('#motorcycleVin').val().length ;
+            //var vinlen = $('#motorcycleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
-            var vinlen = $('#motorcycleVin').val().length ;
+            //var vinlen = $('#motorcycleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text("charactors exceeded");
+            //$('#motorcycleVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1745,19 +1745,19 @@
             });
         }else if($('#motorcycleVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text("");
+            //$('#motorcycleVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#motorcycleVin').val().length < 17){
-            var vinlen = $('#motorcycleVin').val().length ;
+            //var vinlen = $('#motorcycleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
             var vinlen = $('#motorcycleVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#motorcycleVIN span').text("charactors exceeded");
+            //$('#motorcycleVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1789,19 +1789,19 @@
             });
         }else if($('#snowmobileVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text("");
+            //$('#snowmobileVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#snowmobileVin').val().length < 17){
-            var vinlen = $('#snowmobileVin').val().length ;
+            //var vinlen = $('#snowmobileVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
-            var vinlen = $('#snowmobileVin').val().length ;
+            //var vinlen = $('#snowmobileVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text("charactors exceeded");
+            //$('#snowmobileVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1832,19 +1832,19 @@
             });
         }else if($('#snowmobileVin').val().length == 0){
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text("");
+            //$('#snowmobileVIN span').text("");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else if($('#snowmobileVin').val().length < 17){
-            var vinlen = $('#snowmobileVin').val().length ;
+            //var vinlen = $('#snowmobileVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
+            //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
             //$('#vehicleVIN span').delay(100).fadeOut();
         }
         else{
-            var vinlen = $('#snowmobileVin').val().length ;
+            //var vinlen = $('#snowmobileVin').val().length ;
             //$('#vehicleVIN span').fadeIn();
-            $('#snowmobileVIN span').text("charactors exceeded");
+            //$('#snowmobileVIN span').text("charactors exceeded");
             //$('#vehicleVIN span').delay(100).fadeOut();
 
         }
@@ -1858,11 +1858,15 @@
     function initialUnitType(){
         var unitType  = '@ViewBag.loanDetails.defaultUnitType';
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function valueChangeUnitType(){
         var unitType  = document.getElementById("unitType").value
         clearform();
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function changeUnitType(unitType) {
 
@@ -1946,6 +1950,8 @@
         upc = 0;
         //$('#selectedFiles').children().parent().remove();
         $('#selectedFiles').children().remove();
+        $(".miles").val("0");
+        $(".lengths").val("0");
     });
 
     function clearform() {
@@ -2167,12 +2173,33 @@
         return 0;
     }
 
+    $(".miles").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".miles").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
+    $(".lengths").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".lengths").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
     // cost tab///
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
     var maxCost = model.Balance * 100 / advancePt;
     var maxAdvance = model.Balance ;
+
 
     $("#txtCost").on('click', function(e) {
         if (this.value === "0.00") {

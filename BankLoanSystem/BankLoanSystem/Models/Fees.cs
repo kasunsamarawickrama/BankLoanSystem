@@ -9,7 +9,7 @@ namespace BankLoanSystem.Models
     public class Fees
     {
         public int LoanId { get; set; }
-
+        [Required(ErrorMessage = "Required.")]
         [Display(Name = "Advance")]
         public string AdvanceId { get; set; }
 
@@ -64,6 +64,7 @@ namespace BankLoanSystem.Models
 
 
         [Display(Name = "Monthly Loan")]
+        [Required(ErrorMessage = "Required.")]
         public string MonthlyLoanId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
@@ -113,6 +114,7 @@ namespace BankLoanSystem.Models
 
 
         [Display(Name = "Lot Inspection")]
+        [Required(ErrorMessage = "Required.")]
         public string LotInspectionId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
