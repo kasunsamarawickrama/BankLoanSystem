@@ -368,7 +368,8 @@
         
     });
 
-    $("#btnClear").click(function () {        
+    $("#btnClear").click(function () {
+       
         ClearSearchRelatedData();
     });
 
@@ -385,12 +386,40 @@
     }
 
     $("#btnSearch").click(function () {
+
+        ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnAdvance").attr("disabled", "disabled");
+        $("#btnAdvanceAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#startDate").attr("disabled", "disabled");
+        $("#iAdvance").attr("disabled", "disabled");
+
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iAdvance').removeClass('input-validation-error');
         var para1 = $("#identificationNumberSearch").val();
         var para2 = $('#cmbYear').val();
         var para3 = $("#cmbMake").val();
         var para4 = $("#cmbModel").val();        
         if (para1 == null) { para1 = ''; }
-        Search(para1, para2, para3, para4);
+        if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+            Search(para1, para2, para3, para4);
+        }
+        
 
     });
 
@@ -992,6 +1021,11 @@
             //$('.ui-button').click(function () {
             //    $('.centered1 span').text('');
             //});
+
+            
+            $('#identificationNumberSearch').focusout(function () {
+                $(this).attr('placeholder', 'VIN/HIN/Serial No');
+            });
 
         </script>
 

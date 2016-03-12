@@ -39,7 +39,7 @@ else if (ViewBag.type == "Advance")
                     {
                         <li>
                             @*<a>@item.BranchName</a>*@
-                            @Ajax.ActionLink(item.CompanyNameBranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" })
+                            @Ajax.ActionLink(item.CompanyNameBranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId, type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }, new { @class = "b" })
                         </li>
                     }
                 }
@@ -68,7 +68,7 @@ else if (ViewBag.type == "Advance")
                         //@Html.ActionLink(modelItem => item.loanNumber)
                         c++;
 
-                        <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
+                        <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "b" }) </li>
 
                         }
 
@@ -96,7 +96,7 @@ else if (ViewBag.type == "Advance")
         $(this).parent('li').addClass('active').siblings().removeClass('active');
     });
 
-    $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+    $(".h-panel ul li").children('.b').append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
 
 
 

@@ -11,7 +11,7 @@ namespace BankLoanSystem.Models
         public int LoanId { get; set; }
 
         [Display(Name = "Advance")]
-        public int AdvanceId { get; set; }
+        public string AdvanceId { get; set; }
 
         [Required(ErrorMessage = "Advance Amount is required.")]
         [Display(Name = "Amount")]
@@ -64,7 +64,7 @@ namespace BankLoanSystem.Models
 
 
         [Display(Name = "Monthly Loan")]
-        public int MonthlyLoanId { get; set; }
+        public string MonthlyLoanId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
@@ -113,7 +113,7 @@ namespace BankLoanSystem.Models
 
 
         [Display(Name = "Lot Inspection")]
-        public int LotInspectionId { get; set; }
+        public string LotInspectionId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
