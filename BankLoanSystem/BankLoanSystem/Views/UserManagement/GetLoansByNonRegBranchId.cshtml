@@ -29,7 +29,7 @@ foreach (var item in Model)
         //@Html.ActionLink(modelItem => item.loanNumber)
         c++;
 
-        <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
+        <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "c" }) </li>
 
     }
 
@@ -49,7 +49,7 @@ if (c == 0)
         $(this).parent('li').addClass('active').siblings().removeClass('active');
     });
 
-    $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+    $(".h-panel ul li").children('.c').append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
 
 
 

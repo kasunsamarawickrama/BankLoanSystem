@@ -398,7 +398,12 @@ else
 
     // change to title case
     $('#txtFirstName, #txtLastName').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
+        //ToTitleCase(this.id, this.value);
+        ToTitleCase(this.id, this.value);
+    });
+
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length
@@ -453,10 +458,16 @@ else
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
         //var array = [' ', '/', '`', '~', '!'];
-        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
         var res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+
+        if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
             e.preventDefault();
             return;
         }

@@ -246,11 +246,15 @@ else if (@ViewBag.ErrorMsg != null)
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
     $('#txtCompanyName').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
+        ToTitleCase(this.id, this.value);
     });
     // change to title case
     $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
+        ToTitleCase(this.id, this.value);
+    });
+
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
