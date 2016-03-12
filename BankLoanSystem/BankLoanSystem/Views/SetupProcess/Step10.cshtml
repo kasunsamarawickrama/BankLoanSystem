@@ -117,9 +117,9 @@ else
                     <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
                     <span style="background-color: red" id="spnremainPtError"></span>
                     <br />
-                        <span style="background-color: yellow">
-                            Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
-                        </span>
+                    <span style="background-color: yellow">
+                        Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                    </span>
 
 
 
@@ -166,7 +166,7 @@ else
                                     <td style="width: 20%;">
                                         @*@if (a != 0)
                                             {*@
-                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" />
+                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" tabindex="-1" />
                                         @*}*@
                                     </td>
 
@@ -220,9 +220,10 @@ else
             <div class="form-group">
 
                 <div class="button-panel">
-                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" />
+                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1"/>
 
-                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left:40%" />
+                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left: 40%"/>
+                    <input type="button" id="clear" value="Clear" class="btn btn-default right-button" onclick="clearFunction()" tabindex="-1" />
 
                 </div>
             </div>
@@ -238,7 +239,9 @@ else
         window.location.replace('@Url.Action("UserDetails", "UserManagement")');
     });
 
-
+    function clearFunction() {
+        window.location.replace('@Url.Action("Step10", "SetupProcess")');
+    }
 
     //Assign model details to global variable
     var model = @Html.Raw(Json.Encode(Model));
@@ -259,7 +262,7 @@ else
             id +
             '</label></td>' +
             '<td style="width: 35%;">' +
-            '<input class="clstimePeriod" id="timePeriod" type="text" value="" style="text-align: right">' +
+            '<input class="clstimePeriod" id="timePeriod" type="text" value="" style="text-align: right" autofocus>' +
             '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
             '</td>' +
             '<td style="width: 35%;">' +
@@ -267,7 +270,7 @@ else
             '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
             '</td>' +
             '<td style="width: 20%;">' +
-            '<input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px"/>' +
+            '<input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" tabindex="-1"/>' +
             '</td>' +
             '</tr>';
     }
@@ -299,33 +302,62 @@ else
     var isErrorTime = false;
     $(document).on('blur', '.clstimePeriod', function (e) {
 
-        var tr = $(this).parents('tr:first');
+        //var tr = $(this).parents('tr:first');
 
-        var curid = tr.find("#lblCur").html();
-        var timePeriod = tr.find("#timePeriod").val();
-        var previousTime = 0;
+        //var curid = tr.find("#lblCur").html();
+        //var timePeriod = tr.find("#timePeriod").val();
+        //var previousTime = 0;
 
-        if(curid > 1)
-            previousTime = list.currentList[curid - 2].TimePeriod;
+        //if(curid > 1)
+        //    previousTime = list.currentList[curid - 2].TimePeriod;
 
-        if (timePeriod > remainingTime) {
-            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-            isErrorTime = true;
-        } else if (timePeriod <= previousTime && timePeriod > 0) {
-            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-            isErrorTime = true;
-        }
-            //else if(timePeriod < previousTime){
-            //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
-            //}
-        else {
-            isErrorTime = false;
-            $('#spnremainTimeError').children('span').text("");
-        }
+        //if (timePeriod > remainingTime) {
+        //    $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+        //    isErrorTime = true;
+        //} else if (timePeriod <= previousTime && timePeriod > 0) {
+        //    $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+        //    isErrorTime = true;
+        //}
+        //    //else if(timePeriod < previousTime){
+        //    //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
+        //    //}
+        //else {
+        //    isErrorTime = false;
+        //    $('#spnremainTimeError').children('span').text("");
+        //}
+
+        //var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
+
+        //alert(tblLength);
+
+        $('table#tblGrid > tbody > tr').not(':first').each(function() {
+
+            var curid = $(this).find("#lblCur").html();
+            var timePeriod = $(this).find("#timePeriod").val();
+            var previousTime = 0;
+
+            if(curid > 1)
+                previousTime = list.currentList[curid - 2].TimePeriod;
+
+            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
+            if (timePeriod > remainingTime) {
+                $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+                isErrorTime = true;
+            }else if (timePeriod <= previousTime && timePeriod > 0) {
+                $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+                isErrorTime = true;
+            }
+            else {
+                isErrorTime = false;
+                $('#spnremainTimeError').children('span').text("");
+            }
+
+        });
+
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function (e) {
-        
+
         if (isErrorTime === false) {
             var tr = $(this).parents('tr:first');
 
@@ -338,7 +370,7 @@ else
             //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
 
             var currentListLenght = Object.keys(list.currentList).length;
-        
+
             //for (var j = 0; j < currentListLenght; j++) {
             //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
             //}
@@ -374,9 +406,9 @@ else
             }
 
             //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
-        
+
             if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
-           
+
                 if (isNewRow === false) {
                     remainingPt = parseInt(remainingPt) - parseInt(percentage);
                 }
@@ -403,7 +435,7 @@ else
                 }
             }
         }
-        
+
     });
 
     var isRowAdded = false;
@@ -422,14 +454,14 @@ else
         // track first time
         if (isFirst === true) {
             isFirst = false;
-            
+
             if(calcMode === 'Full payment') {
                 payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(remainingPt);
 
             }
             else if (calcMode === 'Advance') {
-                
+
                 payPercentage = parseInt(100);
                 remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
             }
@@ -438,7 +470,7 @@ else
 
                 payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
-                
+
                 //if (isFullFirst === true) {
                 //    isFullFirst = false;
                 //} else {
@@ -452,7 +484,7 @@ else
                 remainingPt = parseInt(remainingPt) + parseInt(difPercentage);
             }
         }
-        
+
         if(parseInt(remainingPt) > 0)
         {
             var val = document.getElementById('spnremainPtComplete').innerHTML;
@@ -462,7 +494,7 @@ else
             $('#spnremainPtError').text('');
 
             if (val === 'Curtailment schedule Completed.' && isRowAdded === false) {
-                
+
                 var newId = parseInt(id) + parseInt(1);
                 var strTr = createTableRow(newId);
                 $('#tblGrid').append(strTr);
@@ -515,9 +547,9 @@ else
                 //for (var j = 0; j < currentListLenght; j++) {
                 //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
                 //}
-               
+
                 remainingPt = parseInt(remainingPt) + parseInt(percentage);
-                
+
                 if(parseInt(remainingPt) > 0)
                 {
                     var val = document.getElementById('spnremainPtComplete').innerHTML;
@@ -571,7 +603,7 @@ else
                 if (timePeriod !== '' && percentage !== '') {
                     data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
                 }
-                
+
             });
 
             $.ajax({
