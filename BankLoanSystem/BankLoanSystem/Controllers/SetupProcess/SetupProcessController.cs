@@ -1397,6 +1397,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return new HttpStatusCodeResult(404, "You are Not Allowed");
             }
 
+            if (Session["dashboard"] !=null)
+            {
+                loanData.stepId = 1;
+            }
             // check if   step is 6...
             StepAccess sa = new StepAccess();
             if (loanData.stepId < 1)
