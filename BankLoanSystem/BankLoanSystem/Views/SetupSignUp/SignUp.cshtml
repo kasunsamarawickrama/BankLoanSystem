@@ -189,7 +189,11 @@
 
     // change to title case
     $('#txtFirstName, #txtLastName').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
+        ToTitleCase(this.id, this.value);
+    });
+
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     //// title case
