@@ -199,10 +199,20 @@ namespace BankLoanSystem.DAL
                             dtl.createdDate = day.ToShortDateString();
                             
                             dtl.roleName = reader["role_name"].ToString();
-                            dtl.branchName = reader["branch_name"].ToString();
-                            dtl.BranchId = Convert.ToInt32(reader["branch_id"]);
+                            if (reader["branch_name"].ToString() != "")
+                            {
+                                dtl.branchName = reader["branch_name"].ToString();
+                                dtl.BranchId = Convert.ToInt32(reader["branch_id"]);
+                                dtl.BranchCode = reader["BranchCode"].ToString();
+                            }
+                            else
+                            {
+                                dtl.branchName = "";
+                                dtl.BranchId = 0;
+                                dtl.BranchCode = "";
+                            }
                             dtl.CompanyCode = reader["CompanyCode"].ToString();
-                            dtl.BranchCode = reader["BranchCode"].ToString();
+
                         }
 
                         return dtl;
