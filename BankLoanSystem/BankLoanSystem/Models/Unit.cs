@@ -33,7 +33,6 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Display(Name = "SN")]
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
         public string SerialNumber { get; set; }
 
@@ -46,7 +45,7 @@ namespace BankLoanSystem.Models
         [Required]
         public string Trim { get; set; }
 
-        [Required]
+
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
@@ -56,23 +55,23 @@ namespace BankLoanSystem.Models
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
-        [Required]
+
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Length { get; set; }
 
-        [Required]
+
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
-        [Required]
+
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Speed { get; set; }
 
-        [Required]
+
         [Display(Name = "Trailer")]
         public string TrailerId { get; set; }
 
-        [Required]
+
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
@@ -193,7 +192,7 @@ namespace BankLoanSystem.Models
 
         public string Trim { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
@@ -223,11 +222,10 @@ namespace BankLoanSystem.Models
         [Required]
         public string Model { get; set; }
 
-        [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         public double Length { get; set; }
 
@@ -255,7 +253,7 @@ namespace BankLoanSystem.Models
         [Required]
         public string Model { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         public double Length { get; set; }
 
@@ -285,9 +283,8 @@ namespace BankLoanSystem.Models
         [Required]
         public string Model { get; set; }
 
-        [Required]
         [Display(Name = "Miles/Hours")] 
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
         [Required]
@@ -299,8 +296,8 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "HIN")]
-        [Required(ErrorMessage = "Enter 12 characters for HIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
+        [Required(ErrorMessage = "Enter 17 characters for HIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for HIN")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
@@ -342,8 +339,7 @@ namespace BankLoanSystem.Models
         [Required]
         public string Model { get; set; }
 
-        [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Range(0.00001, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double Miles { get; set; }
 
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]

@@ -202,7 +202,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control", @id = "vehiclemiles", @Style = "width: 98%;" } })
+                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @Style = "width: 98%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
                         </div>
 
@@ -315,7 +315,7 @@
 
                         @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "rvmiles" } })
+                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles" } })
                             @Html.ValidationMessageFor(model => model.rv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -323,7 +323,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control", @id = "rvlength" } })
+                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "rvlength" } })
                             @Html.ValidationMessageFor(model => model.rv.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -384,7 +384,7 @@
 
                         @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control", @id = "camperlength" } })
+                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength" } })
                             @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -479,7 +479,7 @@
 
                         @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "atvmiles" } })
+                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles" } })
                             @Html.ValidationMessageFor(model => model.atv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -596,7 +596,7 @@
 
                         @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control", id = "motorcyclemiles" } })
+                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -1855,6 +1855,8 @@
         var unitType  = document.getElementById("unitType").value
         clearform();
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function changeUnitType(unitType) {
 
@@ -2159,12 +2161,33 @@
         return 0;
     }
 
+    $(".miles").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".miles").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
+    $(".lengths").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".lengths").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
     // cost tab///
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
     var maxCost = model.Balance * 100 / advancePt;
     var maxAdvance = model.Balance ;
+
 
     $("#txtCost").on('click', function(e) {
         if (this.value === "0.00") {
