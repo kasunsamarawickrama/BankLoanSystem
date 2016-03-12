@@ -1760,7 +1760,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //fee.LoanId = loan.getLoanIdByUserId(userId);
             fee.LoanId = loanData.loanId;
             
-            if (loanData.stepId > 4) {
+            if (loanData.stepId > 3) {
                 ViewBag.isEdit = "editable";
                 var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
                 if (hasLoan.LotInspectionAmount == 0)
@@ -1937,6 +1937,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 fees.LotInspectionDueEmail = "";
                 fees.LotInspectionDueEmailRemindPeriod = 0;
             }
+            fees.LoanId = loanData.loanId;
+
             if (step.InsertFeesDetails(fees))
             {
                 var userId = userData.UserId;
@@ -1949,7 +1951,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     
-                    if (loanData.stepId <= 4) {
+                    if (loanData.stepId < 4) {
                         loanData.stepId = 4;
                     }
                     Session["loanStep"] = loanData;
