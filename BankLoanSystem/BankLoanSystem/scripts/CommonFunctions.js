@@ -5,6 +5,14 @@
     // all input type numbers are tex align to right
     $(':input[type="number"]').css('text-align', 'right');
 
+    $('#clear').attr("tabindex", -1);
+
+    var array = [2, 3, 4, 5, 7, 8, 9, 10];
+    for (i = 0; i < array.length; i++) {
+        $('#btnPreStep' + array[i]).attr("tabindex", -1);
+    }
+    
+
     // clear error messages if you use ValidationMaessageFor function to handle error
 
     $('#clear').click(function () {

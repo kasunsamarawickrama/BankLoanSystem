@@ -141,7 +141,7 @@ else if (@ViewBag.ErrorMsg != null)
                 {
             <div class="form-group">
                 <div class="control-label col-sm-3">
-                    <a onclick="CreateNewCompany()">create new company</a>
+                    <a onclick="CreateNewCompany()">create new partner company</a>
                 </div>
             </div>
         }
@@ -449,7 +449,7 @@ else if (@ViewBag.ErrorMsg != null)
 
     Progress(4);
 
-    $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
+    $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
     $(function() {
         $(document).ready(function () {
             var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
