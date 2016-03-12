@@ -78,6 +78,9 @@
     .custom-combobox-input {
         text-transform: capitalize;
     }
+    .trim {
+        text-transform: capitalize;
+    }
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -198,7 +201,7 @@
 
                         @Html.LabelFor(model => model.vehicle.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2">
-                            @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control", @Style = "width: 223%;", @id = "vehicletrim" } })
+                            @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim", @Style = "width: 223%;", @id = "vehicletrim" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Trim, "", new { @class = "text-danger" })
                         </div>
                     </div>
