@@ -309,7 +309,12 @@ else if (@ViewBag.ErrorMsg != null)
 
     // Capitalize first letter
     $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
+        ToTitleCase(this.id, this.value);
+    });
+
+
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
+        ToTitleCase(this.id, this.value);
     });
 
     $('#CompanyAddress1, #CompanyAddress2').keypress(function (e) {

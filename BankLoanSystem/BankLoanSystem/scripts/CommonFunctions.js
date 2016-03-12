@@ -85,9 +85,10 @@ function SetCharAt(str, index, chr) {
 // CreatedBy :: Kanishka
 // Capitalize the first letter of a text
 function ChangeToCapital(id, val) {
-    if (val.length === 1)
+
+    if (val.length === 1) {
         document.getElementById(id).value = val.toUpperCase();
-    else if (val.length > 1) {
+    } else if (val.length > 1) {
         if (val[val.length - 2] === " ") {
             val = SetCharAt(val, val.length - 1, val[val.length - 1].toUpperCase());
             document.getElementById(id).value = val;
@@ -98,7 +99,8 @@ function ChangeToCapital(id, val) {
 // CreatedBy :: Kanishka
 // replace to title case
 function ToTitleCase(id, str) {
-    var val = str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    //var val = str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    var val = str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1); });
     document.getElementById(id).value = val;
 }
 
