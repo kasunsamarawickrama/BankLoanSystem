@@ -74,6 +74,14 @@
         overflow-x: hidden; /* add padding to account for vertical scrollbar */
         z-index: 10005 !important;
     }
+
+    .custom-combobox-input {
+        text-transform: capitalize;
+    }
+
+    /*#Note {
+        text-transform: capitalize;
+    }*/
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -202,7 +210,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control", @id = "vehiclemiles", @Style = "width: 98%;" } })
+                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @Style = "width: 98%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
                         </div>
 
@@ -315,7 +323,7 @@
 
                         @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "rvmiles" } })
+                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles" } })
                             @Html.ValidationMessageFor(model => model.rv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -323,7 +331,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control", @id = "rvlength" } })
+                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "rvlength" } })
                             @Html.ValidationMessageFor(model => model.rv.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -384,7 +392,7 @@
 
                         @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control", @id = "camperlength" } })
+                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength" } })
                             @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -479,7 +487,7 @@
 
                         @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control", @id = "atvmiles" } })
+                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles" } })
                             @Html.ValidationMessageFor(model => model.atv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -596,7 +604,7 @@
 
                         @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control", id = "motorcyclemiles" } })
+                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -769,13 +777,13 @@
                             <input type="file" id="fileToUpload" name="fileUpload" style="float: left;" />
                             <br />
                             <div><span id="spnFile" style="float: left; color: #FF0000"></span></div>
-                            
-                                <div id="selectedFiles" class="control-section" style="width: 1000px"></div>
-                            
+
+                            <div id="selectedFiles" class="control-section" style="width: 1000px"></div>
+
                             @Html.ValidationMessage("File")
                             @Html.Hidden("hdnFileUpload")
 
-                            <div id="tagscloudFileUpload" ><span class="text-danger"></span></div>
+                            <div id="tagscloudFileUpload"><span class="text-danger"></span></div>
                         </div>
 
                     </div>
@@ -817,7 +825,7 @@
             </div>
 
             <div class="form-group btn-panel">
-                <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" tabindex="-1"style="float:right;margin-left:27%;margin-right:4%" />
+                <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" tabindex="-1" style="float:right;margin-left:27%;margin-right:4%" />
 
                 <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float:right;width:200px" />
 
@@ -1850,11 +1858,15 @@
     function initialUnitType(){
         var unitType  = '@ViewBag.loanDetails.defaultUnitType';
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function valueChangeUnitType(){
         var unitType  = document.getElementById("unitType").value
         clearform();
         changeUnitType(unitType);
+        $(".miles").val("0");
+        $(".lengths").val("0");
     }
     function changeUnitType(unitType) {
 
@@ -1938,6 +1950,8 @@
         upc = 0;
         //$('#selectedFiles').children().parent().remove();
         $('#selectedFiles').children().remove();
+        $(".miles").val("0");
+        $(".lengths").val("0");
     });
 
     function clearform() {
@@ -2040,7 +2054,7 @@
         }
     });
     $("#boatVin").keypress(function(e){
-        if($('#boatVin').val().length >= 12){
+        if($('#boatVin').val().length >= 17){
             e.preventDefault();
         }
         else if(alphaNumericAllow(e)){
@@ -2159,12 +2173,33 @@
         return 0;
     }
 
+    $(".miles").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".miles").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
+    $(".lengths").on('click', function(e) {
+        if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
+    });
+    $(".lengths").blur( function() {
+        if (this.value === "") {
+            document.getElementById(this.id).value = "0";
+        }
+    });
     // cost tab///
     var model = @Html.Raw(Json.Encode(Model));
     var advancePt = model.AdvancePt;
     //var maxCost = model.LoanAmount * 100 / advancePt;
     var maxCost = model.Balance * 100 / advancePt;
     var maxAdvance = model.Balance ;
+
 
     $("#txtCost").on('click', function(e) {
         if (this.value === "0.00") {
@@ -2736,6 +2771,13 @@
         }
         //return 0;
     }
+
+    $('#Note').keyup(function(e) {
+
+        if (this.value.length === 1) {
+            document.getElementById(id).value = this.value.toUpperCase();
+        }
+    });
 
 
     function handleFileSelect(e) {

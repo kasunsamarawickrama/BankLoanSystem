@@ -226,7 +226,7 @@
             e.preventDefault();
             return;
         }
-        var array = ['~', '`', '!', '#', '$', '%', '*', '&', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
         var res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
