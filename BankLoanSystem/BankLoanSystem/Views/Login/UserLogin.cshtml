@@ -69,13 +69,11 @@
                 @*@Html.ValidationSummary(false, "fill", new { @class = "validation-summary" })*@
                 @Html.AntiForgeryToken()
 
-               
-               
-                
+
+                <h5 class="form-signin-heading text-danger field-validation-error" style="top:266px;left:45.5%">@Html.DisplayFor(item => item.lbl)</h5>
+              
                 <div class="form-group">
-                    <div class="text-danger field-validation-error" style="top:28%;left:45.5%">
-                        <span>@Html.DisplayFor(item => item.lbl)</span>
-                    </div>
+                    
 
                     @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name" } })
                     @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
