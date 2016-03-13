@@ -89,8 +89,8 @@
                         <div class="control-label col-sm-2" >
                             @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { })<span style="color: red">*</span>
                         </div>
-                        <div class="col-xs-4" style="width:20%">
-                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-375px" })
+                        <div class="col-xs-4" style="width:30%">
+                            @Html.DropDownListFor(model => model.PaidDate, null, "-- Select Date --", htmlAttributes: new { @class = "form-control", id = "PaidDate", @style = "margin-left:-293px" })
                             @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" , style = "left: -94%;top: 100%;" })
                         </div>
                        
@@ -104,10 +104,10 @@
                     </div>
 
                     <div class="col-xs-8">
-                        @Html.RadioButtonFor(model => model.PaymentPeriod, "accumulated in prior month", false) Interest accumulated in prior month
+                        @Html.RadioButtonFor(model => model.PaymentPeriod, "accumulated in prior month", new {@id ="priorMonth" }) Interest accumulated in prior month
                     </div>
                     <div class="col-xs-8">
-                        @Html.RadioButtonFor(model => model.PaymentPeriod, "payment date to payment date", false) Interest from payment date to payment date
+                        @Html.RadioButtonFor(model => model.PaymentPeriod, "payment date to payment date", new { @id = "dateToDate" }) Interest from payment date to payment date
 
                         @Html.ValidationMessageFor(model => model.PaymentPeriod, "", new { @class = "text-danger" , style = "left: 3%;top: 100%;" })
                     </div>
@@ -205,6 +205,22 @@
         }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
+    function clearValues(){
+        //alert( $('#interest').val());
+        $('#interest').val('');
+        $('#onceMonth').prop('checked',false);
+        $('#payOff').prop('checked',false);
+        $('#PaidDate option:selected').attr('selected',null);
+        $('#paidDateDiv').hide();
+        $('#priorMonth').prop('checked',false);
+        $('#dateToDate').prop('checked',false);
+        $('#MethodId option:selected').attr('selected',null);
+        $('#radioYes').prop('checked',false);
+        $('#radioNo').prop('checked',false);
+        $('#autoRemindEmail').val('');
+        $('#autoRemindPeriod').val('');
+        $('#autoRemind').hide();
+    };
     $("#interest").keypress(function(e){   
         var interest = $('#interest').val();
         if($('#interest').val().length >= 7){
@@ -363,12 +379,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('#clear').click(function () {
-            document.getElementsByTagName("form")[0].reset();
-            $('#paidDateDiv').hide();
-            $('#autoRemind').hide();
-        });        
-      
+       
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
             var e = $('#needReminder option:selected').text();
@@ -418,6 +429,7 @@
 
             });
             $('#interest').focusout(function(){
+                $(this).attr('placeholder', '0.000');
                 if(($('#interest').val()!=null) ||($('#interest').val()!=""))
                 {
                     var a = $('#interest').val().toString();
@@ -432,6 +444,9 @@
                 }
                 
             
+            });
+            $('#clear').click(function(){
+                clearValues();
             });
             //$('#interest').click(function(){
             //    if(($('#interest').val()===null) ||($('#interest').val()===""))
@@ -450,12 +465,14 @@
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
             
-            $('#needReminder').change(function(){
-                var e = $('#needReminder option:selected').text();
-                //alert(e);
-                passvalue(e);
+            //$('#needReminder').change(function(){
+            //    var e = $('#needReminder option:selected').text();
+            //    //alert(e);
+            //    passvalue(e);
+            //});
+            $('#clear').click(function(){
+                clearValues();
             });
-
             $('#onceMonth').click(function () {
                 $('#paidDateDiv').show();
             });

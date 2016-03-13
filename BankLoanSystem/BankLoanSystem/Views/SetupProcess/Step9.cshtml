@@ -73,14 +73,14 @@
                 </div>
                     <div class="form-group" id="RemindEmailDiv">
                         <div class="control-label col-sm-2" style="margin-top:5px">
-                            @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { })<span style="color: red">*</span>
+                            @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { style = "left:37%" })<span style="color: red">*</span>
 
                         </div>
                         @if (ViewBag.Edit == 1)
                         {
                         <div class="col-xs-5" style="margin-left: 224px;margin-top: -5px;">
                             @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@style="margin-left:110px" } })
-                            @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" , @style="left:37%" })
                         </div>
                         }
                         else
@@ -102,7 +102,7 @@
 
                     <div class="control-label col-sm-2" style="margin-top: -6px;">
 
-                        @Html.DropDownListFor(model => model.IsReceipRequired, null, "--Select--", htmlAttributes: new { @class = "form-control", id = "receiptRequired" })
+                        @Html.DropDownListFor(model => model.IsReceipRequired, null, "--Select--", htmlAttributes: new { @class = "form-control", @id = "receiptRequired" })
                         @Html.ValidationMessageFor(model => model.IsReceipRequired, "", new { @class = "text-danger" , style= "width: 200%;" })
                     </div>
                     
@@ -114,7 +114,7 @@
                             
                         </div>
                         <div class="col-xs-5" style="margin-left: 333px;margin-top: -43px;">
-                            @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select Required Method --", htmlAttributes: new { @class = "form-control", id = "acceptMethod" })
+                            @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select Required Method --", htmlAttributes: new { @class = "form-control", id = "receipttMethod" })
                             @Html.ValidationMessageFor(model => model.ReceiptRequiredMethod, "", new { @class = "text-danger" })
                         </div>
                         </div>
@@ -139,7 +139,7 @@
                         <input type="button" value="Back" name="subBack" id="btnPreStep9" class="btn btn-default left-button" />
                         <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
 
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" onclick="clearFunction()" />
+                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button"/>
 
                     </div>
 
@@ -154,6 +154,20 @@
 
 <script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript" type="text/javascript">
+    function clearValues(){
+        
+
+        $('#isTitleTrack option:selected').attr('selected',null);
+        $('#acceptMethod option:selected').attr('selected',null);
+        $('#timeLimit option:selected').attr('selected',null);
+        $('#receiptRequired option:selected').attr('selected',null);
+        $('#autoRemindEmail').val('');
+        $('#receipttMethod option:selected').attr('selected',null);
+        $('#needTrack').hide();
+        $('#needReceipt').hide();
+        $('#TimeLimit').hide();
+        $('#RemindEmailDiv').hide();
+    };
     $("#autoRemindEmail").keypress(function(e){   
       
         var ch = e.which;
@@ -221,13 +235,7 @@
     $(document).ready(function () {
 
         
-            $('#clear').click(function () {
-                document.getElementsByTagName("form")[0].reset();
-                $('#needTrack').hide();
-                $('#needReceipt').hide();
-                $('#ScannTitle').hide();
-                $('#RemindEmailDiv').hide();
-            });  
+           
             
 
         $.fn.loadFunc = function () {
@@ -238,6 +246,10 @@
             $('#RemindEmailDiv').hide();
             $('#TimeLimit').hide();
             
+            $('#clear').click(function () {
+                clearValues();
+               
+            });  
             $('#timeLimit').change(function(){
                 var e2 = $('#timeLimit option:selected').text();
                
@@ -281,6 +293,10 @@
             //alert($('#isTitleTrack option:selected').text());
             passvalueTitle(e1);
             
+            $('#clear').click(function () {
+                clearValues();
+               
+            });  
             $('#isTitleTrack').change(function(){
                 var e1 = $('#isTitleTrack option:selected').text();
                 passvalueTitle(e1);
