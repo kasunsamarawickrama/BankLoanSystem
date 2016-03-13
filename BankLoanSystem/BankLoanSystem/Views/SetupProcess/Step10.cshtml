@@ -220,9 +220,9 @@ else
             <div class="form-group">
 
                 <div class="button-panel">
-                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1"/>
+                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1" />
 
-                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left: 40%"/>
+                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left: 40%" />
                     <input type="button" id="clear" value="Clear" class="btn btn-default right-button" onclick="clearFunction()" tabindex="-1" />
 
                 </div>
@@ -330,110 +330,147 @@ else
 
         //alert(tblLength);
 
+        var index = 0;
+
         $('table#tblGrid > tbody > tr').not(':first').each(function() {
 
             var curid = $(this).find("#lblCur").html();
             var timePeriod = $(this).find("#timePeriod").val();
+            var percentage = $(this).find("#percentage").val();
             var previousTime = 0;
 
-            if(curid > 1)
+            if (curid > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
+            }
+                
+            var currentListLenght = Object.keys(list.currentList).length;
+            if (parseInt(currentListLenght) > 0) {
+                // update list 
+                list.currentList[index].TimePeriod = timePeriod;
+                //list.currentList[index].Percentage = percentage;
+                index = parseInt(index) + parseInt(1);
+            }
 
-            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
-            if (timePeriod > remainingTime) {
+            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
+            if (parseInt(timePeriod) > parseInt(remainingTime)) {
                 $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
                 isErrorTime = true;
-            }else if (timePeriod <= previousTime && timePeriod > 0) {
+                return;
+            }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+                
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
+                return;
             }
             else {
                 isErrorTime = false;
                 $('#spnremainTimeError').children('span').text("");
             }
-
         });
+        //alert(isErrorTime);
 
+        //currentListLenght = Object.keys(list.currentList).length;
+        //for (var j = 0; j < currentListLenght; j++) {
+        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+        //}
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function(e) {
 
-        if (isErrorTime === false) {
-            var tr = $(this).parents('tr:first');
+        //if (isErrorTime === false) {
+        var tr = $(this).parents('tr:first');
 
-            var curid = tr.find("#lblCur").html();
-            var timePeriod = tr.find("#timePeriod").val();
-            var percentage = tr.find("#percentage").val();
+        var curid = tr.find("#lblCur").html();
+        var timePeriod = tr.find("#timePeriod").val();
+        var percentage = tr.find("#percentage").val();
 
-            var isNewRow = false;
+        var isNewRow = false;
 
-            //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
 
-            var currentListLenght = Object.keys(list.currentList).length;
+        var currentListLenght = Object.keys(list.currentList).length;
 
-            //for (var j = 0; j < currentListLenght; j++) {
-            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-            //}
+        //for (var j = 0; j < currentListLenght; j++) {
+        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+        //}
 
-            if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
+        // Add curtailment schedule details to liast
+        if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
 
-                list.currentList.push({ CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage });
-            } else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '') {
-                var index = (parseInt(curid) - parseInt(1));
-                var prePercen = list.currentList[index].Percentage;
-                list.currentList[index].Percentage = percentage;
+            list.currentList.push({ CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage });
+        } else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '') { // update percentage
+            
+            var index = (parseInt(curid) - parseInt(1));
+            var prePercen = list.currentList[index].Percentage;
+            list.currentList[index].Percentage = percentage;
 
-                isNewRow = true;
-                remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
+            isNewRow = true;
+            remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
 
-                if (parseInt(remainingPt) > 0) {
-                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-                    $('#spnremainPtComplete').text('');
-                    $('#spnremainPtError').text('');
-                } else if (parseInt(remainingPt) === 0) {
-                    $('#spnremainPt').text('');
-                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                    $('#spnremainPtError').text('');
-                    document.getElementById("tblGrid").style.borderColor = "green";
-                } else {
-                    $('#spnremainPt').text('');
-                    $('#spnremainPtComplete').text('');
-                    $('#spnremainPtError').text('Error percentage found');
-                }
+            if (parseInt(remainingPt) > 0) {
+                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('');
+            } else if (parseInt(remainingPt) === 0) {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                $('#spnremainPtError').text('');
+                document.getElementById("tblGrid").style.borderColor = "green";
+            } else {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
             }
+        }
 
-            //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
+        //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
 
-            if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
+        if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
 
-                if (isNewRow === false) {
-                    remainingPt = parseInt(remainingPt) - parseInt(percentage);
-                }
-                //remainingPt = parseInt(remainingPt) - parseInt(percentage);
-                isFirst = false;
-                if (parseInt(remainingPt) > 0) {
+            if (isNewRow === false) {
+                remainingPt = parseInt(remainingPt) - parseInt(percentage);
+            }
+            
+            isFirst = false;
+
+            $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+            if (parseInt(remainingPt) > 0) {
+
+                if (isErrorTime === false) {
                     var intId = parseInt(id);
                     id = isNaN(intId) ? 0 : intId;
                     id = id + 1;
-                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
 
                     var strTr = createTableRow(id);
                     $('#tblGrid').append(strTr);
                     //alert($('#tblGrid tr:last').find("#timePeriod").html());
                     $('#tblGrid tr:last').find("#timePeriod").focus();
                 }
-                else if (parseInt(remainingPt) === 0) {
+
+            }
+            else if (parseInt(remainingPt) === 0) {
+
+                if (isErrorTime === false) {
                     $('#spnremainPt').text('');
                     $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                     $('#spnremainPtError').text('');
                 } else {
-                    $('#spnremainPt').text('');
+                    $('#spnremainPt').text('Problem in time period!');
                     $('#spnremainPtComplete').text('');
-                    $('#spnremainPtError').text('Error percentage found');
+                    $('#spnremainPtError').text('');
                 }
+                    
+            } else {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
             }
         }
-
+        //}
+        //currentListLenght = Object.keys(list.currentList).length;
+        //for (var j = 0; j < currentListLenght; j++) {
+        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+        //}
     });
 
     //$('.clsaddCuirtailment').bind('enterKey', function(e) {
@@ -447,7 +484,7 @@ else
     //    {
     //        alert('enterkey');
     //    }
-    //}); 
+    //});
 
     var isRowAdded = false;
     var isFullFirst = true;
@@ -511,6 +548,7 @@ else
                 $('#tblGrid').append(strTr);
                 isRowAdded = true;
                 id = parseInt(newId);
+                $('#tblGrid tr:last').find("#timePeriod").focus();
             }
         }
         else if (parseInt(remainingPt) === 0) {
@@ -529,8 +567,8 @@ else
         //alert('delete');
         var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
         $('#customErrorTable').children('span').text("");
-        if(tblLength > 1)
-        {
+        if(tblLength > 1) {
+            //alert('if');
             var tr = $(this).parents('tr:first');
 
             var curid = tr.find("#lblCur").html();
@@ -555,11 +593,16 @@ else
                     list.currentList[i].CurtailmentId = removeIndex + 1;
                 }
 
+                //if(isErrorTime === true){}
+
                 //for (var j = 0; j < currentListLenght; j++) {
                 //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
                 //}
 
+                //if(isErrorTime !== true)
                 remainingPt = parseInt(remainingPt) + parseInt(percentage);
+
+                //alert(isErrorTime);
 
                 if(parseInt(remainingPt) > 0)
                 {
@@ -582,7 +625,37 @@ else
 
         }
 
+        //
+        var index = 0;
 
+        $('table#tblGrid > tbody > tr').not(':first').each(function() {
+
+            var curid = $(this).find("#lblCur").html();
+            var timePeriod = $(this).find("#timePeriod").val();
+            var percentage = $(this).find("#percentage").val();
+            var previousTime = 0;
+
+            if(curid > 1)
+                previousTime = list.currentList[curid - 2].TimePeriod;
+
+            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
+            if (parseInt(timePeriod) > parseInt(remainingTime)) {
+                $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+                isErrorTime = true;
+            }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+                $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+                isErrorTime = true;
+            }
+            else {
+                isErrorTime = false;
+                $('#spnremainTimeError').children('span').text("");
+            }
+
+            // update list 
+            list.currentList[index].TimePeriod = timePeriod;
+            list.currentList[index].Percentage = percentage;
+            index = parseInt(index) + parseInt(1);
+        });
         //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
     });
 
@@ -604,7 +677,7 @@ else
             $('#customErrorLoanStatus').children('span').text("Please select.");
         }
 
-        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No'))
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false)
         {
             var data = { curtailmentList: [] };
             $('table#tblGrid > tbody > tr').not(':first').each(function() {
