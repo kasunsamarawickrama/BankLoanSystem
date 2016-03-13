@@ -45,6 +45,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                         Session["companyStep"] = 5;
+
+                        if(loanData.loanId > 0)
+                        {
+                            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+                            _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+                            Session["isInterest"] = _loan.isInterestCalculate;
+                        }
                     }
                 }
                 else
@@ -1426,7 +1433,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 //need to update loanSetup object
-               
+             
+
+
             }
             if (loanId > 0)
             {
@@ -2414,7 +2423,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             bool loanActive = curtailmentList[0].LoanStatus == "Yes";
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+            loanAccess.updateLoanActivation(loanActive, loanData.loanId);
 
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }

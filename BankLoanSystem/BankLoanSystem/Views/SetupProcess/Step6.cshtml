@@ -986,6 +986,11 @@
          var minNextDate = new Date(startDate);
          //alert(minNextDate);
          minNextDate.setDate(startDate.getDate() + 1);
+
+         if ($('#maturityDate').val() == '') {
+             endPicker.gotoDate(minNextDate);
+         }
+         
          endPicker.setMinDate(minNextDate);
      },
 updateEndDate = function () {
@@ -995,6 +1000,10 @@ updateEndDate = function () {
     //alert(minNextDate);
     maxNextDate.setDate(endDate.getDate() - 1);
     startPicker.setMaxDate(maxNextDate);
+
+    if ($('#startDate').val() == '') {
+        startPicker.gotoDate(maxNextDate);
+    }
     endPicker.setEndRange(endDate);
 },
 startPicker = new Pikaday({

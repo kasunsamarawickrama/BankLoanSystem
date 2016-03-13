@@ -88,7 +88,7 @@ namespace BankLoanSystem.DAL
 
                 loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
                 loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
-
+                loan.isInterestCalculate = Convert.ToBoolean(dataRow["is_interest_calculate"]);
                 loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
 
                 return loan;
