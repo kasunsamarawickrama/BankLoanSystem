@@ -339,19 +339,20 @@ else
             var percentage = $(this).find("#percentage").val();
             var previousTime = 0;
 
-            if (curid > 1) {
+            if (parseInt(curid) > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
             }
                 
             var currentListLenght = Object.keys(list.currentList).length;
-            if (parseInt(currentListLenght) > 0) {
+            if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
                 // update list 
                 list.currentList[index].TimePeriod = timePeriod;
                 //list.currentList[index].Percentage = percentage;
-                index = parseInt(index) + parseInt(1);
             }
 
+            index = parseInt(index) + parseInt(1);
             //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
+
             if (parseInt(timePeriod) > parseInt(remainingTime)) {
                 $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
                 isErrorTime = true;
