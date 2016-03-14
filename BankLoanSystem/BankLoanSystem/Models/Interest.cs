@@ -35,6 +35,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Payment Method is required.")]
         public String option { get; set; }
 
+        [Required(ErrorMessage = "Please Select")]
         public bool NeedReminder { get; set; }
 
         [EmailAddress]
