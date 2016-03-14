@@ -612,7 +612,16 @@ namespace BankLoanSystem.Controllers
 
                     if (loanSelection.NonRegBranchList.Count() == 1)
                     {
-                        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+
+                        List<LoanSetupStep1> loanLists = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                        loanSelection.LoanList = new List<LoanSetupStep1>();
+                        foreach (LoanSetupStep1 loan in loanLists) {
+                            if(loan.LoanStatus == true)
+                            {
+                                loanSelection.LoanList.Add(loan);
+                            }
+                        }
+                         
                         //if loans count is one redirect to add unit page
                     }
                 }

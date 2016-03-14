@@ -85,6 +85,10 @@
     .cap {
         text-transform: uppercase;
     }
+
+    input[type='file'] {
+  color: transparent;
+}
 </style>
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
@@ -783,7 +787,7 @@
 
                             <div id="selectedFiles" class="control-section" style="width: 1000px"></div>
 
-                            @Html.ValidationMessage("File")
+                            @*@Html.ValidationMessage("File")*@
                             @Html.Hidden("hdnFileUpload")
 
                             <div id="tagscloudFileUpload"><span class="text-danger"></span></div>

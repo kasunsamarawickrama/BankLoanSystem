@@ -2411,7 +2411,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
-            if (curtailmentAccess.InsertCurtailment(curtailmentList, _loan.loanId) == 1)
+            if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
             {
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
                 sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
