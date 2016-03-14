@@ -36,9 +36,6 @@
     .validation-summary {
         display: none;
     }
-
-
-
         .validation-summary.validation-summary-errors {
             display: block;
         }
@@ -696,7 +693,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "heavyequipmentSerial" } })
+                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "heavyequipmentSerial" , @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
                             <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -2747,6 +2744,14 @@
         }
 
     });
+
+    //$('.custom-combobox-input').keypress(function(e){
+    //    var len = $(this).val().length;
+    //    if(len > 15){
+    //        e.preventDefault();
+    //    }
+    
+    //});
     $('input').blur(function() {
 
     });
@@ -2877,6 +2882,14 @@
         }
     }
 
-
+    $('label[for=vehicle_IdentificationNumber], label[for=vehicle_Year],label[for=vehicle_Model],label[for=vehicle_Make],label[for=vehicle_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=rv_IdentificationNumber], label[for=rv_Year],label[for=rv_Model],label[for=rv_Make],label[for=rv_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=camper_IdentificationNumber], label[for=camper_Year],label[for=camper_Model],label[for=camper_Make],label[for=camper_Length],label[for=camper_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=atv_IdentificationNumber], label[for=atv_Year],label[for=atv_Model],label[for=atv_Make],label[for=atv_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=boat_IdentificationNumber], label[for=boat_Year],label[for=boat_Make],label[for=boat_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=motorcycle_IdentificationNumber], label[for=motorcycle_Year],label[for=motorcycle_Model],label[for=motorcycle_Make],label[for=motorcycle_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=snowmobile_IdentificationNumber], label[for=snowmobile_Year],label[for=snowmobile_Model],label[for=snowmobile_Make],label[for=snowmobile_NewOrUsed]').append('<span style="color: red">*</span>');
+    $('label[for=heavyequipment_SerialNumber], label[for=heavyequipment_Year],label[for=heavyequipment_Make]').append('<span style="color: red">*</span>');
+    $('label[for=Cost], label[for=AdvanceAmount],label[for=AdvanceNow]').append('<span style="color: red">*</span>');
 </script>
 

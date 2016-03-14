@@ -1240,9 +1240,14 @@
     });
 
     $('#advanceDueEmailRemindPeriod').focusout(function () {
-        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+        $(this).attr('placeholder', 'Number of Days');
     });
-
+    $('#loanDueEmailRemindPeriod').focusout(function () {
+        $(this).attr('placeholder', 'Number of Days');
+    });
+    $('#lotDueEmailRemindPeriod').focusout(function () {
+        $(this).attr('placeholder', 'Number of Days');
+    });
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
