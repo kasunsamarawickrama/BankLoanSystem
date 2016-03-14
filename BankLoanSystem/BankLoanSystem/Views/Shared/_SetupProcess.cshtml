@@ -91,6 +91,7 @@
             global = step;
         }
         function skipProgress(step) {
+            if(global == 6)
             if (global < step) {
                 gloal = step;
                 Progress(step);
@@ -116,6 +117,19 @@
         
                 </text>
 
+                }
+
+                 @if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false)
+                 {
+                     <text>if (i == 7) continue;
+        
+                     </text>
+
+                 }
+
+                if( global==6 && step== 8){
+
+                    if(i ==7 ) continue;
                 }
 
                 $(tab).children("span").remove();

@@ -45,6 +45,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         
                         loanData = ((LoanSetupStep)Session["loanStep"]);
                         Session["companyStep"] = 5;
+
+                        if(loanData.loanId > 0)
+                        {
+                            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+                            _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+                            Session["isInterest"] = _loan.isInterestCalculate;
+                        }
                     }
                 }
                 else
@@ -1426,7 +1433,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
                 //need to update loanSetup object
-               
+             
+
+
             }
             if (loanId > 0)
             {
@@ -1584,12 +1593,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Value = "EOM"
             });
 
-
+            
+            ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
             InterestAccess ia = new InterestAccess();
             Interest intrst = new Interest();
             //get Accrual Methods
             List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
-          
+            ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -1604,7 +1615,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         ViewBag.Edit = 1;
                         //intrst = ia.getInterestDetails(loanId);
-                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
+                        //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
 
                         if (intrstobj.option != "once a month")
                         {
@@ -1614,7 +1625,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         {
                             ViewBag.Option = false;
                         }
-                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
+                        //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
                         //ViewBag.Email = intrst.AutoRemindEmail;
 
                         if (HttpContext.Request.IsAjaxRequest())
@@ -1632,8 +1643,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     else
                     {
                         ViewBag.Edit = 0;
-                        ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
-                        ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
+                        //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+                        //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
                         ViewBag.Email = defaultEmail;
                         //intrst.AutoRemindEmail = defaultEmail;
@@ -2037,7 +2048,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Value = "Title Can Arrive Within A Set Time"
             });
 
-
+            ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
+            
+            
             //Time Limit Options
             List<SelectListItem> timeLimitList = new List<SelectListItem>();
 
@@ -2059,7 +2072,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Text = "At Any Time",
                 Value = "At Any Time"
             });
-
+            ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
             //Receipt required methods
             List<SelectListItem> receiptRequiredMethodList = new List<SelectListItem>();
 
@@ -2081,6 +2094,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Text = "Physically And Scan Copy",
                 Value = "Physically And Scan Copy"
             });
+            ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
             if (uId > 0)
             {
                 LoanSetupAccess la = new LoanSetupAccess();
@@ -2100,9 +2114,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         {
                             
                             //title = ta.getTitleDetails(loanId);
-                            ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
-                            ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
-                            ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
+                            //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
+                            //ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
+                            //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
                             ViewBag.DefaultEmail = titleObj.RemindEmail;
                         }
                         
@@ -2123,9 +2137,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     else
                     {
                         ViewBag.Edit = 0;
-                        ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
-                        ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
-                        ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
+                        //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
+                        //ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
+                        //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
 
                         ViewBag.Email = defaultEmail;
@@ -2414,7 +2428,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             bool loanActive = curtailmentList[0].LoanStatus == "Yes";
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.updateLoanActivation(loanActive, _loan.loanId);
+            loanAccess.updateLoanActivation(loanActive, loanData.loanId);
 
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
