@@ -296,8 +296,8 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "HIN")]
-        [Required(ErrorMessage = "Enter 17 characters for HIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for HIN")]
+        [Required(ErrorMessage = "Enter between 12-17 charactors for HIN")]
+        [StringLength(17, MinimumLength = 12, ErrorMessage = "Enter between 12-17 charactors for HIN")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
@@ -376,7 +376,7 @@ namespace BankLoanSystem.Models
     {
         [Display(Name = "SN")]
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
-        //[StringLength(1, MinimumLength = 17, ErrorMessage = "Maximum 17 charactors")]
+        [StringLength(17, MinimumLength = 1, ErrorMessage = "Maximum 17 charactors")]
         public string SerialNumber { get; set; }
 
         [Required(ErrorMessage = "Year is required.")]
