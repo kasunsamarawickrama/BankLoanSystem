@@ -596,10 +596,21 @@
                 // delete all details of lotRem value
                 $("#lotRemEmail input").each(function(){
                     $(this).val('');
+                    $('input').next('span').children('span').text('');
+                    $('input').removeClass('valid');
+                    
                 });
-                $('.needReminderLoanDueTF').prop('checked',false)
+
+                $("#monthLot select").each(function(){
+                    $(this).val('');
+                    $('select').next('span').children('span').text('');
+                    $('select').removeClass('valid');
+                    
+                });
+                $('.needReminderLoanDueTF').prop('checked',false);
+                $('.needReminderLoanDueTF').prop('checked',false);
                 @Model.IsLotFeeDueEmailReminder = ""
-                $("#lotRemEmail").hide("slow");
+                $("#lotRemEmail").next('span').children('span').text('');
             }
         }
     }
