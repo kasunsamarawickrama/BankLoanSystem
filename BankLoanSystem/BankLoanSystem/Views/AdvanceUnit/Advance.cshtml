@@ -104,13 +104,13 @@
 
             <div class="form-group">
                 @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="margin-top:32px;margin-left:-150px;width:21%">
                     @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
                     @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                 </div>
 
-                @Html.LabelFor(model => model.vehicle.Year, htmlAttributes: new { @class = "control-label col-md-2" })               
-                <div class="col-sm-4" id="div-combobox1-1">
+                @Html.LabelFor(model => model.vehicle.Year, htmlAttributes: new { @class = "control-label col-md-2",@style="width:20%;margin-left:-73px;padding-left:128px" })               
+                <div class="col-sm-4" id="div-combobox1-1" style="margin-left:-118px;width:20%;margin-top:32px">
                     @{
                         List<SelectListItem> yearList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
@@ -129,8 +129,8 @@
             </div>
 
             <div class="form-group"> 
-                @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })               
-                <div class="col-sm-4" id="div-combobox1-2">
+                @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2",@style = "width:20%;margin-left:350px;padding-left:51px;margin-top:-75px" })               
+                <div class="col-sm-4" id="div-combobox1-2"style="margin-left:326px;width:21%;margin-top:-45px">
                     <div>
                         @*@Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })*@
 
@@ -149,9 +149,9 @@
                     <div id="vehiclemake"><span class="text-danger"></span></div>
                 </div>
 
-                @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2",@style = "margin-left:440px;width:22%;margin-top:-74px;padding-left:135px" })
                
-                <div class="col-sm-4" id="div-combobox1-3">
+                <div class="col-sm-4" id="div-combobox1-3" style = "margin-left:496px;width:22%;margin-top:-45px">
 
                     @{List<SelectListItem> modelList = new List<SelectListItem>();
                         foreach (var type in ViewBag.advanceList)
@@ -166,7 +166,16 @@
                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
                             <div id="vehiclemodel"><span class="text-danger"></span></div>
                 </div>
-            </div>
+               
+                    <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="width:70px;margin-left:703px; margin-top:-80px" />
+                   
+               
+                    <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="width:70px;margin-left:796px;margin-top:-111px;" />
+                  
+                   
+
+
+                </div>
             @*<div class="form-group">
 
                 @Html.Label("Make", htmlAttributes: new { @class = "control-label col-sm-3", style = "text-align:right" })
@@ -192,14 +201,14 @@
 
             </div>*@
 
-            <div class="form-group btn-panel">
+            @*<div class="form-group btn-panel">
                 <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
 
                 <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="float:right;width:200px" />
 
 
 
-            </div>
+            </div>*@
 
         </div>
       

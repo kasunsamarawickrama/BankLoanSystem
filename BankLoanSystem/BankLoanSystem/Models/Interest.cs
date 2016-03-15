@@ -17,11 +17,12 @@ namespace BankLoanSystem.Models
 
 
         [Display(Name = "Interest Rate")]
+        [DisplayFormat(DataFormatString = "{0:n3}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Interest Rate is required.")]
         [Range(0.001, 100, ErrorMessage = "Interest must be between 0 and {2}.")]
         //[DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^[0-9]+.?[0-9]{0,3}$", ErrorMessage = "Invalid; Maximum 3 Decimal Points.")]
-        public double InterestRate { get; set; }
+        public decimal InterestRate { get; set; }
 
         [Display(Name = "Paid Date")]
         [Required(ErrorMessage = "Paid Date is required.")]

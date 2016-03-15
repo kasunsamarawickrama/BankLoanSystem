@@ -385,13 +385,16 @@
             //alert('You have successfully defined the function!');
             var e = $('#needReminder option:selected').text();
             passvalue(e);
-            $('#needReminder').change(function(){
-                var e = $('#needReminder option:selected').text();
-                //alert(e);
-                passvalue(e);
+            $('#PaidDate').change(function(){
+               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+              
             });
             
             $('#onceMonth').click(function () {
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -399,6 +402,10 @@
                 $('#paidDateDiv').hide();
             });
             $('#radioYes').click(function () {
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindPeriod').next('span').children('span').text('');
+                $('#autoRemindPeriod').removeClass('input-validation-error');
                 $('#autoRemind').show();
             });
             $('#radioNo').click(function () {
@@ -427,7 +434,7 @@
                     $('#autoRemind').hide();
 
                 }
-
+              
             });
             $('#interest').focusout(function(){
                 $(this).attr('placeholder', '0.000');
@@ -466,15 +473,18 @@
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
             
-            //$('#needReminder').change(function(){
-            //    var e = $('#needReminder option:selected').text();
-            //    //alert(e);
-            //    passvalue(e);
-            //});
+            $('#PaidDate').change(function(){
+               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+              
+            });
             $('#clear').click(function(){
                 clearValues();
             });
             $('#onceMonth').click(function () {
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -483,6 +493,10 @@
             });
             $('#radioYes').click(function () {
                 $('#autoRemind').show();
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindPeriod').next('span').children('span').text('');
+                $('#autoRemindPeriod').removeClass('input-validation-error');
             });
             $('#radioNo').click(function () {
                 $('#autoRemind').hide();
