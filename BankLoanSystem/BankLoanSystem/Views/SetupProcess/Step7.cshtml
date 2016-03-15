@@ -380,7 +380,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-       
+
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
             var e = $('#needReminder option:selected').text();
@@ -390,7 +390,7 @@
                 //alert(e);
                 passvalue(e);
             });
-            
+
             $('#onceMonth').click(function () {
                 $('#paidDateDiv').show();
             });
@@ -420,7 +420,7 @@
                     //alert('You have successfully defined the function!');
                     $('#autoRemind').show();
 
-                     }
+                }
 
                 else {
 
@@ -436,15 +436,15 @@
                     var a = $('#interest').val().toString();
                     if(a!=""){
                         focusFunction( a);
-                    
+
                     }
                 }
                 else
                 {
                     $(this).attr('placeholder', '0.000');
                 }
-                
-            
+
+
             });
             $('#clear').click(function(){
                 clearValues();
@@ -453,19 +453,19 @@
             //    if(($('#interest').val()===null) ||($('#interest').val()===""))
             //    {
             //        $('#interest').val('');
-                    
+
             //    }
             //});
 
         }
         $.fn.loadFunc = function(){
             //alert('You have successfully ');
-           
+
             //focusFunction();
-            
+
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
-            
+
             //$('#needReminder').change(function(){
             //    var e = $('#needReminder option:selected').text();
             //    //alert(e);
@@ -490,46 +490,46 @@
             //if(($('#interest').val()===null) ||($('#interest').val()===""))
             //{
             //    $('#interest').val('0.000');
-                    
+
             //}
             //$('#interest').focusout(function(){
-                
+
             //    if(($('#interest').val()===null) ||($('#interest').val()===""))
             //    {
             //        $('#interest').val('0.000');
             //        //$('#interest').val() = "0.000";
-                  
+
             //    }
             //    else
             //    {
             //        var a = $('#interest').val();
             //        if(a!=""){
             //            focusFunction( a);
-                    
+
             //        }
             //    }
-                
-            
+
+
             //});
             $('#interest').focusout(function(){
-               
-                    $(this).attr('placeholder', '0.000');
-                    var a = $('#interest').val();
-                        if(a!=""){
-                            focusFunction( a);
-                    
-                        }
-                
-            
+
+                $(this).attr('placeholder', '0.000');
+                var a = $('#interest').val();
+                if(a!=""){
+                    focusFunction( a);
+
+                }
+
+
             });
             $('#interest').click(function(){
                 if($('#interest').val()==="0.000")
                 {
                     $('#interest').val('');
-                    
+
                 }
             });
-           
+
         }
         if(@ViewBag.Edit ==1){
 
@@ -545,4 +545,31 @@
 
     $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
     Progress(7);
+
+    @if(Convert.ToBoolean(Session["isInterest"]) == true)
+    {
+        <text>
+    var tab = ".tab.7";
+    
+    if(global == 8){
+        $(tab).children("span").remove();
+        $(tab).css("pointer-events", "auto").css("cursor", "pointer");
+        $(tab).append("<span style='float:right;color:yellow'>&#x270E;  </span>");
+        $(tab).parent("li").addClass("active").siblings().removeClass('active');
+
+        //append yellow
+        // lock 8
+
+        $(".tab.8").children("span").remove();
+        $(".tab.8").css("pointer-events", "auto").css("cursor", "pointer");
+        $(".tab.8").append("<span style='float:right'>&#128274;  </span>");
+        $(".tab.8").css("pointer-events", "none").css("cursor", "default");
+        global= 7;
+    }else if(global > 8){
+        $(tab).children("span").remove();
+        $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
+    }
+        
+        </text>
+    }
 </script>
