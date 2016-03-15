@@ -218,109 +218,104 @@
 
     
 
-    <div class="info-unit" id="unitDetailDiv" style="margin-top:10px;padding-top:20px">
-        
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @id = "iVIN" })
+    @*<div class="info-unit" id="unitDetailDiv" style="margin-top:10px;padding-top:20px">*@
+        <div class="info-unit" id="singleUnitDiv"  hidden>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.Label("VIN/HIN/Serial", htmlAttributes: new { @id = "iVIN" })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                </div>
+
+
+                <div class="control-label col-sm-2">
+                    @Html.Label("Year", htmlAttributes: new { })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                </div>
 
             </div>
-            <div class="col-xs-4">
-                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.Label(" Make", htmlAttributes: new { })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                </div>
+                <div class="control-label col-sm-2">
+                    @Html.Label("Model", htmlAttributes: new { })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    @Html.Label("Price", htmlAttributes: new { })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                </div>
+
+
+
+
+                <div class="control-label col-sm-2">
+                    @Html.Label("Advance Amount", htmlAttributes: new { })
+
+                </div>
+                <div class="col-xs-4">
+                    @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" ,style = "text-align:right;"} })
+
+
+                    <div id="tagscloud"><span class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-sm-3" style="width: 19%;">
+                    @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
+                </div>
+
+
+                <div class="col-xs-4">
+
+
+                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
+
+                </div>
 
             </div>
 
 
-            <div class="control-label col-sm-2">
-                @Html.Label("Year", htmlAttributes: new { })
 
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+            <div class="form-group btn-panel">
+                <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
 
-            </div>
+                <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-info btn-center" style="float:right;width:200px" disabled />
 
-            </div>
 
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.Label(" Make", htmlAttributes: new { })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-
-            </div>
-            <div class="control-label col-sm-2">
-                @Html.Label("Model", htmlAttributes: new { })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
 
             </div>
         </div>
-        <div class="form-group">
-            <div class="control-label col-sm-2">
-                @Html.Label("Price", htmlAttributes: new { })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-
-            </div>
-
-
-
-
-            <div class="control-label col-sm-2">
-                @Html.Label("Advance Amount", htmlAttributes: new { })
-
-            </div>
-            <div class="col-xs-4">
-                @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" ,style = "text-align:right;"} })
-
-               
-                <div id="tagscloud"><span class="text-danger"></span></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-3" style="width: 19%;">
-                @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
-            </div>
-
-
-            <div class="col-xs-4">
-
-
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
-
-            </div>
-
-        </div>
-
-        @*<div class="form-group">
-            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b" style="float:right;margin-right:200px;margin-left:200px" disabled />
-
-            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel" style="float:left;margin-left:200px" />
-        </div>*@
-         
-
-        <div class="form-group btn-panel">
-            <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;margin-left:27%;margin-right:4%" />
-
-            <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-info btn-center" style="float:right;width:200px" disabled />
-
-
-
-        </div>
-
 
         </div>
                       
                         
                   
-    </div>
+    @*</div>*@
         
 </form>
 <script src="~/scripts/CommonFunctions.js"></script>
@@ -469,7 +464,7 @@
            $("#advanceAllDiv").hide();
            $("#searchDiv").hide();
            $("#searchGrid1").hide();
-           $("#unitDetailDiv").hide();
+           //$("#unitDetailDiv").hide();
            $("#noDataLabelDiv").hide();
            $("#noUnitLabelDiv").show();
            $("#searchLabelDiv").hide();
@@ -480,7 +475,7 @@
            $("#advanceAllDiv").show();
            $("#searchDiv").show();
            $("#searchGrid1").show();
-           $("#unitDetailDiv").show();
+           //$("#unitDetailDiv").show();
            $("#noDataLabelDiv").hide();
            $("#noUnitLabelDiv").hide();
            $("#searchLabelDiv").show();
@@ -489,7 +484,7 @@
            $("#checkableGridDiv").show();
            $("#advanceAllDiv").show();
            $("#searchDiv").show();
-           $("#unitDetailDiv").show();
+           //$("#unitDetailDiv").show();
            $("#searchGrid1").hide();
            $("#noDataLabelDiv").show();
            $("#noUnitLabelDiv").hide();
@@ -762,6 +757,7 @@
                 //$("#btnAdvanceAll").removeAttr("disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 //$("#startDate").removeAttr("disabled");
+                $("#singleUnitDiv").hide();
             }
 
             function SetTextBoxValues(tr) {
@@ -783,7 +779,8 @@
                 //$("#startDate").attr("disabled", "disabled");
                 $("#advanceDate").removeAttr("disabled");
                
-               
+
+                $("#singleUnitDiv").show();
                
             }
 
