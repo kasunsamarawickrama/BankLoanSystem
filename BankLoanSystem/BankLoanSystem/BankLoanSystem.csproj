@@ -137,18 +137,10 @@
     <Content Include="Images\1.jpg" />
     <Content Include="Images\2.png" />
     <Content Include="Images\3.png" />
-    <Content Include="Images\a1.jpg" />
-    <Content Include="Images\a2.jpg" />
-    <Content Include="Images\a3.jpg" />
-    <Content Include="Images\a4.jpg" />
-    <Content Include="Images\a7.jpg" />
-    <Content Include="Images\a8.jpg" />
     <Content Include="Images\addRow.png" />
     <Content Include="Images\deleteRow.png" />
-    <Content Include="Images\logo.png" />
     <Content Include="Images\minus.jpg" />
     <Content Include="Images\plus.jpg" />
-    <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile_small.jpg" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\small_loading.gif" />
@@ -181,6 +173,7 @@
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
+    <Compile Include="Controllers\DashBoard\EmployeeDashBoardController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
@@ -267,12 +260,11 @@
     <Content Include="Views\CreateUser\ConfirmAccount.cshtml" />
     <Content Include="Views\Shared\_login.cshtml" />
     <Content Include="Views\Shared\_UserDetail.cshtml" />
-    <Content Include="Views\DashBoard\EmployeeDetail.cshtml" />
     <Content Include="Views\EditRights\SetRights.cshtml" />
     <Content Include="Views\Shared\_EmployeeDetail.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
     <Content Include="Views\ErrorPage\ErrorPage.cshtml" />
-    <Content Include="Views\DashBoard\EmployeeDashBoard.cshtml" />
+    <Content Include="Views\EmployeeDashBoard\EmployeeDashBoard.cshtml" />
     <Content Include="Views\DashBoard\UserDashBoard.cshtml" />
     <Content Include="Views\UserManagement\ChangePassword.cshtml" />
     <Content Include="Views\SetupProcess\Step3.cshtml" />
@@ -306,6 +298,7 @@
     <Content Include="Views\AdvanceUnit\Advance.cshtml" />
     <Content Include="Views\AdvanceUnit\SearchUnit.cshtml" />
     <Content Include="Views\UserManagement\getNonRegBranchesByRegBranchId.cshtml" />
+    <Content Include="Views\EmployeeDashBoard\EmployeeDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

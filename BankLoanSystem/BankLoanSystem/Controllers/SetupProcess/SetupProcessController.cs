@@ -1314,7 +1314,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             UserManageAccess uma = new UserManageAccess();
             //userNonRegCompany.MainBranch.BranchCreatedBy = uma.getUserById(userId).BranchId;
             nonRegBranch.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
-            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
+            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompany.CompanyId;
 
             //Set admin branch to new user 
             if (userData.RoleId == 2)
@@ -1363,7 +1363,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //Get states to list
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-            return PartialView();
+            //return PartialView();
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(nonRegCompanyBranch);
+            }
+            else
+            {
+
+                return View(nonRegCompanyBranch);
+            }
 
         }
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.

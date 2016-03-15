@@ -596,10 +596,21 @@
                 // delete all details of lotRem value
                 $("#lotRemEmail input").each(function(){
                     $(this).val('');
+                    $('input').next('span').children('span').text('');
+                    $('input').removeClass('valid');
+                    
                 });
-                $('.needReminderLoanDueTF').prop('checked',false)
+
+                $("#monthLot select").each(function(){
+                    $(this).val('');
+                    $('select').next('span').children('span').text('');
+                    $('select').removeClass('valid');
+                    
+                });
+                $('.needReminderLoanDueTF').prop('checked',false);
+                $('.needReminderLoanDueTF').prop('checked',false);
                 @Model.IsLotFeeDueEmailReminder = ""
-                $("#lotRemEmail").hide("slow");
+                $("#lotRemEmail").next('span').children('span').text('');
             }
         }
     }
@@ -1251,6 +1262,18 @@
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
+    if(global >= 8){
+    @if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false)
+    {
+        <text>
+    var tab =".tab.7";
+    $(tab).children("span").remove();
+        $(tab).css("pointer-events", "auto").css("cursor", "pointer");
+        $(tab).append("<span style='float:right'>&#128274;  </span>");
+        $(tab).css("pointer-events", "none").css("cursor", "default");
+        </text>
 
+    }
+    }
 
 </script>
