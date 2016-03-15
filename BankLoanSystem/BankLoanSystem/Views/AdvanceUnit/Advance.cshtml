@@ -521,10 +521,12 @@
                                    $("#btnAdvanceAll").attr("disabled", "disabled");
                                    $("#startDate").attr("disabled", "disabled");
                                    $("#iAdvance").attr("disabled", "disabled");
-                                   totalRecCount = 0
+                                   totalRecCount = 0;
+                                   
                                }
                                total = 0;
-                               $('.advanceAmount').each(function () {
+                               totalRecCount = 0;
+                               $('.advanceAmount').each(function () {                                   
                                    var tr = $(this).parents('tr:first');
                                    totalRecCount++;
                                    if (document.getElementById('all').checked) {
@@ -536,13 +538,11 @@
                                        checkCount = 0;
                                        total = 0;
                                        $(this).parents('tr').css('background', 'transparent');
-                                   }
-                                   
-                                   document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                   }                                  
+                                   document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;                                  
                                    if (checkCount > 0) {                                       
                                        $("#btnAdvanceAll").removeAttr("disabled");
                                        $("#startDate").removeAttr("disabled");                                      
-                                      
                                        if (totalRecCount == 1) {
                                            SetTextBoxValues(tr);
                                        }
@@ -777,9 +777,8 @@
                 //$("#btnAdvanceAll").attr("disabled", "disabled");
                 $("#btnAdvance").removeAttr("disabled");
                 //$("#startDate").attr("disabled", "disabled");
-                $("#advanceDate").removeAttr("disabled");
-               
-
+                $("#advanceDate").removeAttr("disabled");               
+                
                 $("#singleUnitDiv").show();
                
             }
