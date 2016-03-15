@@ -1314,7 +1314,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             UserManageAccess uma = new UserManageAccess();
             //userNonRegCompany.MainBranch.BranchCreatedBy = uma.getUserById(userId).BranchId;
             nonRegBranch.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
-            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
+            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompany.CompanyId;
 
             //Set admin branch to new user 
             if (userData.RoleId == 2)
