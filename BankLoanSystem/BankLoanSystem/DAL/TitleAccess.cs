@@ -164,5 +164,55 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 03/16/2016
+        /// get titles list by identification number
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <returns>resultList</returns>
+        public List<TitleStatus> SearchTitle(int loanId,string identificationNumber)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+           
+            List<TitleStatus> resultList = new List<TitleStatus>();
+            if (!string.IsNullOrEmpty(identificationNumber))
+            {
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                paramertList.Add(new object[] { "@identification_number", identificationNumber });
+                try
+                {
+                    DataSet dataSet = dataHandler.GetDataSet("spGetTitlesByIdentificationNumber", paramertList);
+                    if (dataSet != null && dataSet.Tables.Count != 0)
+                    {
+                        foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                        {
+                            TitleStatus title = new TitleStatus();
+                            title.IdentificationNumber = dataRow["identification_number"].ToString();
+                            title.Year = int.Parse(dataRow["year"].ToString());
+                            title.Make = dataRow["make"].ToString();
+                            title.UnitModel = dataRow["model"].ToString();
+                            title.CurrentStatus = dataRow["title_status"].ToString();
+
+                            resultList.Add(title);
+                        }
+
+                        return resultList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+                catch
+                {
+                    return null;
+                }
+                
+            }
+            return null;
+        }
     }
 }
