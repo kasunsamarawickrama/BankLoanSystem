@@ -220,7 +220,12 @@
     </div>
     <script>
 
+        $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+            $("#lkpoff").click(function (e) { e.preventDefault(); });
+            $("#lkpoff").siblings().click(function (e) {
+                return true;
 
+            });
     </script>
 
 
