@@ -150,6 +150,12 @@ namespace BankLoanSystem.Models
         public bool LoanStatus { get; set; }
 
         public string loanCode;
+
+        public IList<Curtailment> curtailmetList
+        {
+            get; set;
+
+        }
     }
 
     public class UnitType

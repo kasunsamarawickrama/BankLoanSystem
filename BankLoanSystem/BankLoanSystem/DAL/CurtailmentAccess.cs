@@ -143,5 +143,10 @@ namespace BankLoanSystem.DAL
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
         }
+       
+        public void InsertCurtailmentSchedule()
+        {
+
+        }
     }
 }
