@@ -251,25 +251,40 @@
                
             });  
             $('#timeLimit').change(function(){
+                $('#autoRemindEmail').val('');
+                
                 var e2 = $('#timeLimit option:selected').text();
                
                 passvalueTimeLimit(e2);
-               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
             });
-
+           
             $('#isTitleTrack').change(function(){
+                $('#acceptMethod option:selected').attr('selected',null);
+                $('#timeLimit option:selected').attr('selected',null);
+               
+                $('#autoRemindEmail').val('');
                 var e1 = $('#isTitleTrack option:selected').text();
                
                 passvalueTitle(e1);
-               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
             });
             $('#acceptMethod').change(function(){
+                $('#timeLimit option:selected').attr('selected',null);
+               
+                $('#autoRemindEmail').val('');
                 var e = $('#acceptMethod option:selected').text();
                 //alert(e);
                 passvalue(e);
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
             });
             $('#receiptRequired').change(function () {
-
+                $('#receipttMethod option:selected').attr('selected',null);
                 if ($('#receiptRequired option:selected').text()=="Yes") {
                     $('#needReceipt').show();
                    
@@ -279,16 +294,14 @@
                 else {
                     $('#needReceipt').hide();
                 }
-
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
             });
 
         }
 
         $.fn.editFunc = function()
         {
-            //alert($('#isTitleTrack option:selected').text());
-
-            $('#ScannTitle').hide();
             var e1 = $('#isTitleTrack option:selected').text();
             //alert($('#isTitleTrack option:selected').text());
             passvalueTitle(e1);
@@ -298,8 +311,15 @@
                
             });  
             $('#isTitleTrack').change(function(){
+                $('#acceptMethod option:selected').attr('selected',null);
+                $('#timeLimit option:selected').attr('selected',null);
+               
+                $('#autoRemindEmail').val('');
+               
                 var e1 = $('#isTitleTrack option:selected').text();
                 passvalueTitle(e1);
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
                
             });
             if($('#isTitleTrack option:selected').text()=="Yes"){
@@ -309,6 +329,12 @@
                 var e = $('#acceptMethod option:selected').text();
                 passvalue(e);
                 $('#acceptMethod').change(function(){
+                    $('#timeLimit option:selected').attr('selected',null);
+               
+                    $('#autoRemindEmail').val('');
+
+                    $('select').next('span').children('span').text('');
+                    $('select').removeClass('input-validation-error');
                     var e = $('#acceptMethod option:selected').text();
                     //alert(e);
                     passvalue(e);
@@ -324,9 +350,15 @@
             var e2 = $('#timeLimit option:selected').text();
             passvalueTimeLimit(e2);
             $('#timeLimit').change(function(){
+                $('#autoRemindEmail').val('');
+               
                 var e2 = $('#timeLimit option:selected').text();
                
                 passvalueTimeLimit(e2);
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
                
             });
             if ($('#receiptRequired option:selected').text()=="Yes") {
@@ -341,6 +373,7 @@
 
             $('#receiptRequired').change(function () {
 
+                $('#receipttMethod option:selected').attr('selected',null);
                 if ($('#receiptRequired option:selected').text()=="Yes") {
                     $('#needReceipt').show();
                    
@@ -350,7 +383,8 @@
                 else {
                     $('#needReceipt').hide();
                 }
-
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
             });
            
             

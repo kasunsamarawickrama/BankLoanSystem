@@ -380,18 +380,21 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-
+       
         $.fn.editFunc = function(){
             //alert('You have successfully defined the function!');
             var e = $('#needReminder option:selected').text();
             passvalue(e);
-            $('#needReminder').change(function(){
-                var e = $('#needReminder option:selected').text();
-                //alert(e);
-                passvalue(e);
+            $('#PaidDate').change(function(){
+               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+              
             });
-
+            
             $('#onceMonth').click(function () {
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -399,6 +402,10 @@
                 $('#paidDateDiv').hide();
             });
             $('#radioYes').click(function () {
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindPeriod').next('span').children('span').text('');
+                $('#autoRemindPeriod').removeClass('input-validation-error');
                 $('#autoRemind').show();
             });
             $('#radioNo').click(function () {
@@ -420,7 +427,7 @@
                     //alert('You have successfully defined the function!');
                     $('#autoRemind').show();
 
-                }
+                     }
 
                 else {
 
@@ -436,15 +443,15 @@
                     var a = $('#interest').val().toString();
                     if(a!=""){
                         focusFunction( a);
-
+                    
                     }
                 }
                 else
                 {
                     $(this).attr('placeholder', '0.000');
                 }
-
-
+                
+            
             });
             $('#clear').click(function(){
                 clearValues();
@@ -453,28 +460,31 @@
             //    if(($('#interest').val()===null) ||($('#interest').val()===""))
             //    {
             //        $('#interest').val('');
-
+                    
             //    }
             //});
 
         }
         $.fn.loadFunc = function(){
             //alert('You have successfully ');
-
+           
             //focusFunction();
-
+            
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
-
-            //$('#needReminder').change(function(){
-            //    var e = $('#needReminder option:selected').text();
-            //    //alert(e);
-            //    passvalue(e);
-            //});
+            
+            $('#PaidDate').change(function(){
+               
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
+              
+            });
             $('#clear').click(function(){
                 clearValues();
             });
             $('#onceMonth').click(function () {
+                $('select').next('span').children('span').text('');
+                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -483,6 +493,10 @@
             });
             $('#radioYes').click(function () {
                 $('#autoRemind').show();
+                $('#autoRemindEmail').next('span').children('span').text('');
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindPeriod').next('span').children('span').text('');
+                $('#autoRemindPeriod').removeClass('input-validation-error');
             });
             $('#radioNo').click(function () {
                 $('#autoRemind').hide();
@@ -490,46 +504,46 @@
             //if(($('#interest').val()===null) ||($('#interest').val()===""))
             //{
             //    $('#interest').val('0.000');
-
+                    
             //}
             //$('#interest').focusout(function(){
-
+                
             //    if(($('#interest').val()===null) ||($('#interest').val()===""))
             //    {
             //        $('#interest').val('0.000');
             //        //$('#interest').val() = "0.000";
-
+                  
             //    }
             //    else
             //    {
             //        var a = $('#interest').val();
             //        if(a!=""){
             //            focusFunction( a);
-
+                    
             //        }
             //    }
-
-
+                
+            
             //});
             $('#interest').focusout(function(){
-
-                $(this).attr('placeholder', '0.000');
-                var a = $('#interest').val();
-                if(a!=""){
-                    focusFunction( a);
-
-                }
-
-
+               
+                    $(this).attr('placeholder', '0.000');
+                    var a = $('#interest').val();
+                        if(a!=""){
+                            focusFunction( a);
+                    
+                        }
+                
+            
             });
             $('#interest').click(function(){
                 if($('#interest').val()==="0.000")
                 {
                     $('#interest').val('');
-
+                    
                 }
             });
-
+           
         }
         if(@ViewBag.Edit ==1){
 
