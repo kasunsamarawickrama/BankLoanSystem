@@ -150,6 +150,11 @@ namespace BankLoanSystem.Models
         public bool LoanStatus { get; set; }
 
         public string loanCode;
+
+        public string CurtailmentCalculationBase { get; set; }
+        public string CurtailmentDueDate { get; set; }
+        public string CurtailmentAutoRemindEmail { get; set; }
+        public int CurtailmentEmailRemindPeriod { get; set; }
     }
 
     public class UnitType
