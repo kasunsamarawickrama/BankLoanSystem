@@ -73,6 +73,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
 

@@ -190,7 +190,9 @@ namespace BankLoanSystem.DAL
         /// CreatedDate:02/24/2016
         /// 
         /// Insert unit to database
-        /// 
+        /// EditedBy: Piyumi
+        /// EditedDate: 03/16/2016
+        /// add isActive field to parameter list
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="userId"></param>
@@ -363,13 +365,18 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
                         if (unit.IsAdvanced == true)
                         {
+                            unit.IsActive = true;
                             cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
+                            
                         }
                         else {
+                            unit.IsActive = false;
                             cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
                         }
+                        cmd.Parameters.AddWithValue("@is_active", unit.IsActive);
                         cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
                         cmd.Parameters.AddWithValue("@status", unit.Status);
+
 
                         con.Open();
 
@@ -926,5 +933,34 @@ namespace BankLoanSystem.DAL
         //  $("#tagscloud span").text("Cost must be less than balance");
         //            }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/03/15
+        /// 
+        /// Get loan curtailment schedule by calling StepAccess class method, and creating curtailment date using that values
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        public void GetLoanCurtailmentDetails(int loanId, DateTime advaceDate, double advanceAmount)
+        {
+            StepAccess stepAccess = new StepAccess();
+            LoanSetupStep1 loan = stepAccess.GetLoanCurtailmentBreakdown(loanId);
+            Int32 curtailmentNo = 1;
+            foreach (Curtailment curtailment in loan.curtailmetList)
+            {
+                curtailment.CurtailmentId = curtailmentNo;
+                if (loan.payOffPeriodType == 0)//check pay off period as days
+                {
+                    curtailment.CurtailmentDate = advaceDate.AddDays(Convert.ToDouble(curtailment.TimePeriod));
+                }
+                else//pay off period as month
+                {
+                    curtailment.CurtailmentDate = advaceDate.AddMonths(curtailment.TimePeriod ?? 0);
+                }
+
+
+                curtailmentNo++;
+            }
+        }
     }
 }
