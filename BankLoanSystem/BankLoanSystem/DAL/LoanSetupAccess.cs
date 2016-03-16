@@ -669,36 +669,28 @@ namespace BankLoanSystem.DAL
 
         }
 
-
-        internal int updateLoanActivation(bool activation, int loanId)
+        internal int UpdateLoanCurtailmentd(CurtailmentModel curtailmentModel, int loanId)
         {
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            bool loanStatus = curtailmentModel.LoanStatus == "Yes" ? true : false;
+            char calMode = curtailmentModel.CalculationBase == "Full payment" ? 'f' : 'a';
+
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@loan_status", loanStatus });
+            paramertList.Add(new object[] { "@curtailment_due_date", curtailmentModel.DueDate });
+            paramertList.Add(new object[] { "@curtailment_auto_remind_email", curtailmentModel.AutoRemindEmail});
+            paramertList.Add(new object[] { "@curtailment_remind_period", curtailmentModel.EmailRemindPeriod });
+            paramertList.Add(new object[] { "@curtailment_calculation_type", calMode });
+
+            try
             {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spUpdateLoanActivation", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                        command.Parameters.Add("@loan_status", SqlDbType.Bit).Value = activation;                        
-                       
-                        SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-
-                        con.Open();
-                        command.ExecuteNonQuery();
-                        loanId = (int)returnParameter.Value;
-
-                        return loanId;
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
+                return dataHandler.ExecuteSQLReturn("spUpdateLoanCurtailmentd", paramertList);
+            }
+            catch
+            {
+                return 0;
             }
         }
 

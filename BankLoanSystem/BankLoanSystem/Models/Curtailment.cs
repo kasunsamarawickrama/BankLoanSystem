@@ -20,7 +20,22 @@ namespace BankLoanSystem.Models
         public string TimeBase { get; set; }
 
         [Display(Name = "Do you want Activate Loan?")]
-        public string Activate { get; set; }
+        public string LoanStatus { get; set; }
+
+        [Required(ErrorMessage = "Due date is required.")]
+        [Display(Name = "Due Date")]
+        public string DueDate { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "email")]
+        [Required(ErrorMessage = "Email Address is required.")]
+        public string AutoRemindEmail { get; set; }
+
+        [Display(Name = "Email Remind Period")]
+        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
+        public int EmailRemindPeriod { get; set; }
     }
 
     public class Curtailment
@@ -37,7 +52,7 @@ namespace BankLoanSystem.Models
         public int? Percentage { get; set; }
 
         public int LoanId { get; set; }
-        public string LoanStatus { get; set; }
+        //public string LoanStatus { get; set; }
         public DateTime CurtailmentDate { get; set; }
     }
 
