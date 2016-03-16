@@ -4,17 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BankLoanSystem.Controllers.UnitPayOff
+namespace BankLoanSystem.Controllers.UnitTitle
 {
-    public class UnitPayOffController : Controller
+    public class UnitTitleController : Controller
     {
-        // GET: UnitPayOff
+        // GET: Title
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult PayOff()
+        public ActionResult TitleStatusUpdate()
         {
             return View();
         }
