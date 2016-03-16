@@ -13,5 +13,10 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         {
             return View();
         }
+
+        public ActionResult PayOff()
+        {
+            return View();
+        }
     }
 }
