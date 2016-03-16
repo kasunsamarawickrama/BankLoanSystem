@@ -55,7 +55,7 @@
 </div>
 
 <div class="info">
-
+    @if(ViewBag.Title != "Pay Curtailments") { 
 
     <div class="address">
         <span style="float:left;width:450px"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
@@ -79,6 +79,35 @@
 
 
     </div>
+
+            }
+            else
+            {
+                <div class="address">
+                    <span style="float:left;width:36%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
+
+
+
+
+                    <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+
+
+
+                    @{
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                        var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+                    }
+
+                    <span style="float:right;padding-right:18px;"><strong>CurtDueDate</strong> : DueDate </span>
+                    <span style="float:right;padding-right:17%;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+
+
+                </div>
+
+                        }
 </div>
 
 

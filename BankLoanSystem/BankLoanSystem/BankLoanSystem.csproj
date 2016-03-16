@@ -185,6 +185,8 @@
     <Compile Include="Controllers\SetupProcessTestController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupProcessController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupSignUpController.cs" />
+    <Compile Include="Controllers\UnitTitle\UnitTitleController.cs" />
+    <Compile Include="Controllers\UnitPayOff\UnitPayOffController.cs" />
     <Compile Include="Controllers\Unit\UnitController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
@@ -303,6 +305,8 @@
     <Content Include="Views\UserManagement\getNonRegBranchesByRegBranchId.cshtml" />
     <Content Include="Views\EmployeeDashBoard\EmployeeDetail.cshtml" />
     <Content Include="Views\Curtailments\PayCurtailments.cshtml" />
+    <Content Include="Views\UnitPayOff\PayOff.cshtml" />
+    <Content Include="Views\UnitTitle\TitleStatusUpdate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -314,6 +318,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
+    <Folder Include="Views\UnitPayOff\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -90,6 +90,10 @@ namespace BankLoanSystem.DAL
                 loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
                 loan.isInterestCalculate = Convert.ToBoolean(dataRow["is_interest_calculate"]);
                 loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
+                loan.CurtailmentDueDate = dataRow["curtailment_due_date"].ToString();
+                loan.CurtailmentAutoRemindEmail = dataRow["curtailment_auto_remind_email"].ToString();
+                loan.CurtailmentEmailRemindPeriod = Convert.ToInt32(dataRow["curtailment_remind_period"].ToString());
+                loan.CurtailmentCalculationBase = dataRow["curtailment_calculation_type"].ToString();
 
                 return loan;
             }
@@ -142,6 +146,11 @@ namespace BankLoanSystem.DAL
             return executeCount;
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
+        }
+       
+        public void InsertCurtailmentSchedule()
+        {
+
         }
     }
 }

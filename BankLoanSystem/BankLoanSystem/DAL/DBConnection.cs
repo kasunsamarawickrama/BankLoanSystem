@@ -165,14 +165,15 @@ namespace BankLoanSystem.DAL
                     SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Int);
                     returnParameter.Direction = ParameterDirection.ReturnValue;
                     command.ExecuteNonQuery();
-                    int branchId = int.Parse(returnParameter.Value.ToString());
-                    return branchId;
+                    
+                    return int.Parse(returnParameter.Value.ToString());
                 }
                 else
                     return 0;
             }
             catch (Exception exp)
             {
+                throw exp;
                 return 0;
             }
 

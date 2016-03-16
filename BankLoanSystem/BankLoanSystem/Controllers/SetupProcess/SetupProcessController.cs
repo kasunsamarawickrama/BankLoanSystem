@@ -60,7 +60,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
-            catch
+            catch(Exception e)
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 filterContext.Controller.TempData.Add("UserLogin", "Login");
@@ -711,7 +711,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 ViewBag.SuccessMsg = "User Successfully Created";
 
-
+                //additional page ----> Add User Rights
+                //if()
 
                 return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
 
@@ -2330,7 +2331,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //Gloable variables
         private static LoanSetupStep1 _loan;
         private static CurtailmentModel _gCurtailment;
-        private static int _difPercentage;
 
         // GET: LoanSetUpStep5
         /// <summary>
@@ -2369,7 +2369,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //_gCurtailment = new CurtailmentModel();
                 _gCurtailment = new CurtailmentModel();
                 _gCurtailment.AdvancePt = _loan.advancePercentage;
-                _difPercentage = 100 - _loan.advancePercentage;
                 _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt;
 
                 _gCurtailment.RemainingTime = _loan.payOffPeriod;
@@ -2393,9 +2392,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         totalPercentage += curtailments[i].Percentage;
                         _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
-                    _gCurtailment.Activate = _loan.LoanStatus ? "Yes" : "No";
+                    _gCurtailment.LoanStatus = _loan.LoanStatus ? "Yes" : "No";
 
-                    _gCurtailment.CalculationBase = totalPercentage == 100 ? "Advance" : "Full payment";
+                    _gCurtailment.CalculationBase = _loan.CurtailmentCalculationBase == "a" ? "Advance" : "Full payment";
+                    _gCurtailment.DueDate = _loan.CurtailmentDueDate;
+                    _gCurtailment.AutoRemindEmail = _loan.CurtailmentAutoRemindEmail;
+                    _gCurtailment.EmailRemindPeriod = _loan.CurtailmentEmailRemindPeriod;
                 }
 
                 _calMode = "Full Payment";
@@ -2428,9 +2430,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Save curtailment data
         /// 
         /// <param name="curtailmentList"></param>
+        /// <param name="curtaiulmentModel"></param>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
+        public ActionResult AddCurtailment(List<Curtailment> curtailmentList, CurtailmentModel curtaiulmentModel)
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
@@ -2448,10 +2451,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
 
-            bool loanActive = curtailmentList[0].LoanStatus == "Yes";
+            //bool loanActive = curtaiulmentModel.LoanStatus == "Yes";
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.updateLoanActivation(loanActive, loanData.loanId);
+            loanAccess.UpdateLoanCurtailmentd(curtaiulmentModel, loanData.loanId);
 
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }

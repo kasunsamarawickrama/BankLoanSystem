@@ -13,7 +13,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_UnitAdvance.cshtml";
-    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGrid", ajaxUpdateCallback: "GridUpdate");/**/
+    WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }
 <style type="text/css">

@@ -385,16 +385,13 @@
             //alert('You have successfully defined the function!');
             var e = $('#needReminder option:selected').text();
             passvalue(e);
-            $('#PaidDate').change(function(){
-               
-                $('select').next('span').children('span').text('');
-                $('select').removeClass('input-validation-error');
-              
+            $('#needReminder').change(function(){
+                var e = $('#needReminder option:selected').text();
+                //alert(e);
+                passvalue(e);
             });
             
             $('#onceMonth').click(function () {
-                $('select').next('span').children('span').text('');
-                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -402,10 +399,6 @@
                 $('#paidDateDiv').hide();
             });
             $('#radioYes').click(function () {
-                $('#autoRemindEmail').next('span').children('span').text('');
-                $('#autoRemindEmail').removeClass('input-validation-error');
-                $('#autoRemindPeriod').next('span').children('span').text('');
-                $('#autoRemindPeriod').removeClass('input-validation-error');
                 $('#autoRemind').show();
             });
             $('#radioNo').click(function () {
@@ -473,18 +466,15 @@
             $('#autoRemind').hide();
             $('#paidDateDiv').hide();
             
-            $('#PaidDate').change(function(){
-               
-                $('select').next('span').children('span').text('');
-                $('select').removeClass('input-validation-error');
-              
-            });
+            //$('#needReminder').change(function(){
+            //    var e = $('#needReminder option:selected').text();
+            //    //alert(e);
+            //    passvalue(e);
+            //});
             $('#clear').click(function(){
                 clearValues();
             });
             $('#onceMonth').click(function () {
-                $('select').next('span').children('span').text('');
-                $('select').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
@@ -493,10 +483,6 @@
             });
             $('#radioYes').click(function () {
                 $('#autoRemind').show();
-                $('#autoRemindEmail').next('span').children('span').text('');
-                $('#autoRemindEmail').removeClass('input-validation-error');
-                $('#autoRemindPeriod').next('span').children('span').text('');
-                $('#autoRemindPeriod').removeClass('input-validation-error');
             });
             $('#radioNo').click(function () {
                 $('#autoRemind').hide();
@@ -559,31 +545,4 @@
 
     $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
     Progress(7);
-
-    @if(Convert.ToBoolean(Session["isInterest"]) == true)
-    {
-        <text>
-    var tab = ".tab.7";
-    
-    if(global == 8){
-        $(tab).children("span").remove();
-        $(tab).css("pointer-events", "auto").css("cursor", "pointer");
-        $(tab).append("<span style='float:right;color:yellow'>&#x270E;  </span>");
-        $(tab).parent("li").addClass("active").siblings().removeClass('active');
-
-        //append yellow
-        // lock 8
-
-        $(".tab.8").children("span").remove();
-        $(".tab.8").css("pointer-events", "auto").css("cursor", "pointer");
-        $(".tab.8").append("<span style='float:right'>&#128274;  </span>");
-        $(".tab.8").css("pointer-events", "none").css("cursor", "default");
-        global= 7;
-    }else if(global > 8){
-        $(tab).children("span").remove();
-        $(tab).append("<span style='float:right;color:green'>&#10004;  </span>");
-    }
-        
-        </text>
-    }
 </script>

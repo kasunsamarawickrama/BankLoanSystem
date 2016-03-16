@@ -11,6 +11,12 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<style>
+    .col-xs-8 {
+        padding-right: 300px;
+    }
+</style>
+
 @if (ViewBag.Redirect == 1)
 {
     <script>
@@ -33,6 +39,7 @@
 }
 else
 {
+    List<SelectListItem> listItems = new List<SelectListItem>();
     using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
     {
 
@@ -76,25 +83,30 @@ else
                             {
                                 @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
                                 <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) <text>Advance</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                <text>Advance</text>
                             }
                             else if (Model.CalculationBase == "Advance")
                             {
                                 @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                                 <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true }) <text>Advance</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true })
+                                <text>Advance</text>
                             }
                             else
                             {
                                 @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                                 <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" }) <text>Advance</text>
+                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                <text>Advance</text>
                             }
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td><div id="customErrorCalBase"><span class="text-danger"></span></div></td>
+                        <td>
+                            <div id="customErrorCalBase"><span class="text-danger"></span></div>
+                        </td>
                     </tr>
                 </table>
 
@@ -111,7 +123,7 @@ else
 
             <div class="form-group">
                 @if (Model.RemainingPercentage >= 0)
-                    {
+                {
                     <span style="background-color: yellow" id="spnremainPt">
                     </span>
                     <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
@@ -186,35 +198,107 @@ else
             <div class="form-group">
                 <table width="100%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.Activate, htmlAttributes: new { })</td>
+                        <td width="25%">@Html.LabelFor(model => model.LoanStatus, htmlAttributes: new { })</td>
                         <td width="60%">
                             :
-                            @if (Model.Activate == "Yes")
+                            @if (Model.LoanStatus == "Yes")
                             {
-                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
+                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
                                 <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) <text>No</text>
+                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
+                                <text>No</text>
                             }
-                            else if (Model.Activate == "No")
+                            else if (Model.LoanStatus == "No")
                             {
-                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" })
+                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
                                 <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active", @checked = true }) <text>No</text>
+                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active", @checked = true })
+                                <text>No</text>
                             }
                             else
                             {
-                                @Html.RadioButtonFor(m => m.Activate, "Yes", new { @id = "rdYes", @class = "Active" })
+                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
                                 <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.Activate, "No", new { @id = "rdNo", @class = "Active" }) <text>No</text>
+                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
+                                <text>No</text>
                             }
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td><div id="customErrorLoanStatus"><span class="text-danger"></span></div></td>
+                        <td>
+                            <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
+                        </td>
                     </tr>
                 </table>
 
+            </div>
+
+            <div class="form-group">
+                <table width="50%">
+                    <tr>
+                        <td width="60%">@Html.LabelFor(model => model.DueDate, htmlAttributes: new { })</td>
+                        <td width="40%">
+                            @{
+                                for (var i = 1; i < 29; i++)
+                                {
+                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                }
+                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                            }
+                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
+                            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorDueDate"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="form-group">
+                <table width="50%">
+                    <tr>
+                        <td width="60%">@Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })</td>
+                        <td width="40%">
+                            @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control e", @id = "curtailmentDueEmail" } })
+                            @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorAutoRemindEmail"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="form-group">
+                <table width="50%">
+                    <tr>
+                        <td width="60%">@Html.LabelFor(model => model.EmailRemindPeriod, htmlAttributes: new { })</td>
+                        <td width="40%">
+                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                            @Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorEmailRemindPeriod"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
+                </table>
             </div>
 
             <div class="form-group">
@@ -228,12 +312,31 @@ else
                 </div>
             </div>
         </div>
-    }
-
-
-}
+                                    }
+                                }
 @*Grid view*@
+<script src="~/scripts/CommonFunctions.js"></script>
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
+    });
+
+    $('curtailmentDueEmailRemindPeriod').keypress(function() {
+        var res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('curtailmentDueEmailRemindPeriod').click(function() {
+        var res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
     $('#dashBoard').click(function () {
         window.location.replace('@Url.Action("UserDetails", "UserManagement")');
@@ -342,10 +445,10 @@ else
             if (parseInt(curid) > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
             }
-                
+
             var currentListLenght = Object.keys(list.currentList).length;
             if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
-                // update list 
+                // update list
                 list.currentList[index].TimePeriod = timePeriod;
                 //list.currentList[index].Percentage = percentage;
             }
@@ -358,7 +461,7 @@ else
                 isErrorTime = true;
                 return;
             }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-                
+
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
                 return;
@@ -400,7 +503,7 @@ else
 
             list.currentList.push({ CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage });
         } else if ((parseInt(currentListLenght) > (parseInt(curid) - parseInt(1))) && timePeriod !== '' && percentage !== '') { // update percentage
-            
+
             var index = (parseInt(curid) - parseInt(1));
             var prePercen = list.currentList[index].Percentage;
             list.currentList[index].Percentage = percentage;
@@ -431,7 +534,7 @@ else
             if (isNewRow === false) {
                 remainingPt = parseInt(remainingPt) - parseInt(percentage);
             }
-            
+
             isFirst = false;
 
             $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
@@ -460,7 +563,7 @@ else
                     $('#spnremainPtComplete').text('');
                     $('#spnremainPtError').text('');
                 }
-                    
+
             } else {
                 $('#spnremainPt').text('');
                 $('#spnremainPtComplete').text('');
@@ -652,7 +755,7 @@ else
         //        $('#spnremainTimeError').children('span').text("");
         //    }
 
-        //    // update list 
+        //    // update list
         //    list.currentList[index].TimePeriod = timePeriod;
         //    list.currentList[index].Percentage = percentage;
         //    index = parseInt(index) + parseInt(1);
@@ -670,10 +773,10 @@ else
             if (parseInt(curid) > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
             }
-                
+
             var currentListLenght = Object.keys(list.currentList).length;
             if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
-                // update list 
+                // update list
                 list.currentList[index].TimePeriod = timePeriod;
                 //list.currentList[index].Percentage = percentage;
             }
@@ -686,7 +789,7 @@ else
                 isErrorTime = true;
                 return;
             }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-                
+
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
                 return;
@@ -700,7 +803,12 @@ else
         //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
     });
 
+    //$('#curtailmentDueEmail').change(function() {
+    //    alert('hi');
+    //});
+
     $('#btnCreate').click(function() {
+
         $('#customErrorTable').children('span').text("");
         var calBase = $('.payment').filter(':checked').val();
 
@@ -715,18 +823,49 @@ else
         if (loanStatus === 'Yes' || loanStatus === 'No') {
             $('#customErrorLoanStatus').children('span').text("");
         } else {
-            $('#customErrorLoanStatus').children('span').text("Please select.");
+            $('#customErrorLoanStatus').children('span').text("Select a date.");
         }
 
-        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false)
+        //var dueDate = $('#CurtailmentDueDate').val();
+
+
+        var dueDate = document.getElementById('CurtailmentDueDate').value;
+        //alert(dueDate);
+        if (dueDate === '') {
+            $('#customErrorDueDate').children('span').text("Please select.");
+        } else {
+            $('#customErrorDueDate').children('span').text("");
+        }
+        //alert(dueDate);
+
+        var email = document.getElementById('curtailmentDueEmail').value;
+        //if (email === '') {
+        //    $('#customErrorAutoRemindEmail').children('span').text("email address required.");
+        //} else {
+        //    $('#customErrorAutoRemindEmail').children('span').text("");
+        //}
+
+        var emailRemindPeriod = document.getElementById('curtailmentDueEmailRemindPeriod').value;
+
+
+
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
         {
-            var data = { curtailmentList: [] };
+            var curtaiulmentModel = {
+                LoanStatus: loanStatus,
+                CalculationBase: calBase,
+                DueDate: dueDate,
+                AutoRemindEmail: email,
+                EmailRemindPeriod: emailRemindPeriod
+            };
+
+            var data = { curtailmentList: [], curtaiulmentModel};
             $('table#tblGrid > tbody > tr').not(':first').each(function() {
                 var curid = $(this).find("#lblCur").html();
                 var timePeriod = $(this).find("#timePeriod").val();
                 var percentage = $(this).find("#percentage").val();
                 if (timePeriod !== '' && percentage !== '') {
-                    data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage, LoanStatus: loanStatus});
+                    data.curtailmentList.push({CurtailmentId: curid, TimePeriod: timePeriod, Percentage: percentage});
                 }
 
             });
@@ -757,6 +896,17 @@ else
     //set loan status
     $('.Active').change(function () {
         $('#customErrorLoanStatus').children('span').text("");
+    });
+
+    //due date
+    $('#CurtailmentDueDate').change(function() {
+        //alert($(this).val());
+        var val = $(this).val();
+        if (val === '') {
+            $('#customErrorDueDate').children('span').text("Please select.");
+        } else {
+            $('#customErrorDueDate').children('span').text("");
+        }
     });
 
     function AllowNumbers(id, code) {
