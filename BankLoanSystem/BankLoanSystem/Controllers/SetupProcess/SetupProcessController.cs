@@ -118,6 +118,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// in the setup proccess
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step1(int? edit)
         {
             int userId = userData.UserId;
@@ -234,6 +235,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Get first branch details
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step2(int? edit)
         {
             int userId = userData.UserId;
@@ -462,6 +464,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step3(string lbls)
         {
 
@@ -855,6 +858,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step6()
         {
             int userrole = userData.RoleId;
@@ -1031,6 +1035,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// CreatedDate: 2016/01/27
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step4()
         {
             StepAccess sa = new StepAccess();
@@ -1142,6 +1147,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// Get Lender/Dealer branch details
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step5(string lbls)
         {
             int userId = userData.UserId;
@@ -1584,6 +1590,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="edit"></param>
         /// <returns></returns>
         // GET: Interest
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step7(int? edit)
         {
             int uId = userData.UserId;
@@ -1762,6 +1769,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// return: step8 view
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step8()
         {
 
@@ -2000,6 +2008,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="edit"></param>
         /// <returns></returns>
         // GET: Interest
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step9(int? edit)
         {
             int uId = userData.UserId;
@@ -2327,6 +2337,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step10(string lbl)
         {
             int userId = userData.UserId;
@@ -2421,7 +2432,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="curtailmentList"></param>
         /// <param name="curtaiulmentModel"></param>
         /// <returns></returns>
-        public ActionResult AddCurtailment(List<Curtailment> curtailmentList, CurtailmentModel curtaiulmentModel)
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();

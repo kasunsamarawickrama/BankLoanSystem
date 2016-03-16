@@ -190,7 +190,9 @@ namespace BankLoanSystem.DAL
         /// CreatedDate:02/24/2016
         /// 
         /// Insert unit to database
-        /// 
+        /// EditedBy: Piyumi
+        /// EditedDate: 03/16/2016
+        /// add isActive field to parameter list
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="userId"></param>
@@ -363,13 +365,18 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
                         if (unit.IsAdvanced == true)
                         {
+                            unit.IsActive = true;
                             cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
+                            
                         }
                         else {
+                            unit.IsActive = false;
                             cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
                         }
+                        cmd.Parameters.AddWithValue("@is_active", unit.IsActive);
                         cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
                         cmd.Parameters.AddWithValue("@status", unit.Status);
+
 
                         con.Open();
 
