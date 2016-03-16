@@ -2433,7 +2433,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="curtaiulmentModel"></param>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
+        public ActionResult AddCurtailment(List<Curtailment> curtailmentList, CurtailmentModel curtaiulmentModel)
         {
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();

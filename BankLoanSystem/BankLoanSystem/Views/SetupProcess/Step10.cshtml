@@ -240,21 +240,21 @@ else
                     <tr>
                         <td width="25%">@Html.LabelFor(model => model.DueDate, htmlAttributes: new { })</td>
                         <td width="40%">
-                                 @{
-                                    for (var i = 1; i < 29; i++)
-                                    {
-                                        listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                    }
-                                    listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                            @{
+                                for (var i = 1; i < 29; i++)
+                                {
+                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                                 }
-                                @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
-                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                            }
+                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
+                            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                 </table>
 
 
-                
+
             </div>
 
             <div class="form-group">
@@ -277,7 +277,7 @@ else
                 </div>
             </div>
 
-        <div class="form-group">
+            <div class="form-group">
 
                 <div class="button-panel">
                     <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1" />
@@ -288,8 +288,8 @@ else
                 </div>
             </div>
         </div>
-                            }
-                        }
+                                    }
+                                }
 @*Grid view*@
 <script type="text/javascript">
 
@@ -776,20 +776,33 @@ else
             $('#customErrorLoanStatus').children('span').text("Please select.");
         }
 
+        //var dueDate = $('#CurtailmentDueDate').val();
+
+
         var dueDate = document.getElementById('CurtailmentDueDate').value;
+        //alert(dueDate);
+        if (dueDate === '') {
+            $('#customErrorLoanStatus').children('span').text("Please select.");
+        } else {
+            $('#customErrorLoanStatus').children('span').text("");
+        }
+        //alert(dueDate);
+
         var email = document.getElementById('curtailmentDueEmail').value;
         var emailRemindPeriod = document.getElementById('curtailmentDueEmailRemindPeriod').value;
 
-        var curtaiulmentModel = {
-            LoanStatus: loanStatus, 
-            CalculationBase: calBase, 
-            DueDate: dueDate,
-            AutoRemindEmail: email,
-            EmailRemindPeriod: emailRemindPeriod
-        };
 
-        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false)
+
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
         {
+            var curtaiulmentModel = {
+                LoanStatus: loanStatus,
+                CalculationBase: calBase,
+                DueDate: dueDate,
+                AutoRemindEmail: email,
+                EmailRemindPeriod: emailRemindPeriod
+            };
+
             var data = { curtailmentList: [], curtaiulmentModel};
             $('table#tblGrid > tbody > tr').not(':first').each(function() {
                 var curid = $(this).find("#lblCur").html();
