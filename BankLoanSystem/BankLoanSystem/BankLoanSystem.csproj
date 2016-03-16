@@ -124,6 +124,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\combo.css" />
+    <Content Include="Content\commonActions.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\overlaypopup.css" />
     <Content Include="Content\pikaday.css" />
@@ -172,6 +173,7 @@
     <Compile Include="Controllers\AdvanceUnit\AdvanceUnitController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
+    <Compile Include="Controllers\Curtailments\CurtailmentsController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\DashBoard\EmployeeDashBoardController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
@@ -299,6 +301,7 @@
     <Content Include="Views\AdvanceUnit\SearchUnit.cshtml" />
     <Content Include="Views\UserManagement\getNonRegBranchesByRegBranchId.cshtml" />
     <Content Include="Views\EmployeeDashBoard\EmployeeDetail.cshtml" />
+    <Content Include="Views\Curtailments\PayCurtailments.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

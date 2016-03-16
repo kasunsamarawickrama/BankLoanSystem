@@ -1,0 +1,281 @@
+﻿
+        .pika-single{
+        z-index:10005 !important;
+    }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+        }
+         .valid{
+             border: 1px solid green;
+        }
+         .field-validation-error{
+             /*z-index:1000;
+             background: #0A1219;
+             width:270px;
+             opacity: 0.9;
+		padding: 1%;
+		font-weight: bold;
+		position: absolute;
+		top: 0%;
+		left: 100%;
+		margin: 0 0 0 -20%; /* add negative left margin for half the width to center the div */
+		/*cursor: default;
+		
+		border-radius: 4px;
+		box-shadow: 0 0 5px rgba(0,0,0,0.9);*/
+            
+    z-index: 10001;
+    font-weight: bold;
+    position: absolute;
+    font-size:12px;
+         }
+         .label-success{
+
+             z-index: 10001;
+    font-weight: bold;
+    position: absolute;
+    font-size:12px;
+         }
+
+        .form-control{
+            height:30px;
+        }
+        body {
+            font-size: 12px;
+        }
+
+        .right-panel {
+            float: right;
+            width: 20%;
+        }
+
+        .btn-arrow-right {
+            position: relative;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .btn-arrow-right {
+            padding-left: 36px;
+            margin-left: 10px;
+        }
+
+            .btn-arrow-right:before,
+            .btn-arrow-right:after { /* make two squares (before and after), looking similar to the button */
+                content: "";
+                position: absolute;
+                top: 5px; /* move it down because of rounded corners */
+                width: 22px; /* same as height */
+                height: 22px; /* button_outer_height / sqrt(2) */
+                background: inherit; /* use parent background */
+                border: inherit; /* use parent border */
+                border-left-color: transparent; /* hide left border */
+                border-bottom-color: transparent; /* hide bottom border */
+                border-radius: 0px 4px 0px 0px; /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+                -webkit-border-radius: 0px 4px 0px 0px;
+                -moz-border-radius: 0px 4px 0px 0px;
+            }
+
+            .btn-arrow-right:before,
+            .btn-arrow-right:after {
+                transform: rotate(45deg); /* rotate right arrow squares 45 deg to point right */
+                -webkit-transform: rotate(45deg);
+                -moz-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+            }
+
+            .btn-arrow-right:before { /* align the "before" square to the left */
+                left: -11px;
+            }
+
+            .btn-arrow-right:after { /* align the "after" square to the right */
+                right: -11px;
+            }
+
+            .btn-arrow-right:after { /* bring arrow pointers to front */
+                z-index: 1;
+            }
+
+            .btn-arrow-right:before { /* hide arrow tails background */
+                background-color: aliceblue;
+            }
+
+
+        .link-bar {
+            clear: both;
+            border-radius: 10px;
+            border: 2px solid #31708f;
+            padding: 15px 15px 15px 15px;
+        }
+
+        .body-content {
+            float: left;
+            width: 80%;
+        }
+
+        .details-container {
+            width: 100%;
+            padding: 20px 0px 20px 0px;
+        }
+
+        .side-panel > h5 {
+            color: #38B78C;
+        }
+
+        .side-panel {
+            float: right;
+            width: 100%;
+            margin-top: 50px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #5CB85C;
+        }
+
+        .info {
+            padding-top: 18px;
+            padding-left: 20px;
+            margin-top: 35px;
+            padding-bottom: 18px;
+            border-radius: 15px;
+            border: 2px solid #8D987E;
+        }
+
+        .container {
+            background-color: aliceblue;
+        }
+
+        h5 {
+            text-align: center;
+        }
+
+        .centered {
+            margin: 0 auto;
+            clear: both;
+            width: 1170px;
+        }
+
+        h2 {
+            text-align: center;
+            /* clear: both; */
+            width: 1170px;
+        }
+
+
+
+        .page-wrapper {
+            width: 900px;
+            height: 900px; /* for testing*/
+            float: left;
+        }
+
+        .top-bar {
+            float: right;
+            width: inherit;
+            height: 80px;
+            border-bottom-right-radius: 1em;
+            border-bottom-left-radius: 1em;
+        }
+
+            .top-bar > a {
+                float: right;
+                color: white;
+                text-decoration: none;
+                margin-top: 25px;
+                margin-right: 30px;
+                padding-right: 20px;
+            }
+
+
+        .profile-elements {
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .no-bullets {
+            list-style-type: none;
+        }
+
+        .img-circle {
+            border-radius: 50%;
+        }
+
+        .no-text-decoration {
+            text-decoration: none;
+        }
+
+        .profile-elements {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+        }
+
+        .form-control[disabled] { 
+            cursor: default; 
+        }
+
+        .gridtable {
+        margin: 30px;
+        border-collapse: collapse;
+        width: 800px;
+        background-color: aliceblue;
+    }
+    .webgrid-header {
+        background-color:paleturquoise;
+        font-weight: bold;
+        color:#337ab7;
+    }
+
+    .gridtable th, .gridtable td {
+        border: 1px solid cadetblue;
+        padding: 5px;
+    }
+
+    .webgrid-alternating-row {
+        background-color:aliceblue;
+        color: #000;
+        font-weight:normal;
+    }
+    .webgrid-row-style
+    {
+        padding: 3px 7px 2px;
+    }
+    .gridHead a:hover {
+        text-decoration: underline;
+    }
+
+    .description {
+        width: auto;
+    }
+
+    .select {
+        background-color:mediumaquamarine;
+    }
+
+    .hidden {
+        display: none;
+    }
+     .gridColumn {
+       text-align:right ;
+    }
+
+
+   
+    .info-unit {
+        margin-left: 0px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: 2px solid #8D987E;
+        padding: 20px 20px 10px 20px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left;
+        padding-left: 60px;
+    }
+ 

@@ -38,7 +38,7 @@
     if (item.rightId == "U001")
     {
         @*@Ajax.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info show-popup", @id = "lkadv" , @data_showpopup = "1" })*@
-        @Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+        @Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkadv", @data_showpopup = "1" })
     }
 
     if (item.rightId == "U002")
@@ -69,3 +69,18 @@
         margin-left:20px;
     }
 </style>
+
+<script>
+    $("#lkadv").click(function () {
+        if ($('#selcet-panel').contents().length > 1 && $("#Actiontype").val() == "Advance") {
+            return false;
+        }
+    });
+
+    $("#lkuni").click(function () {
+        if ($('#selcet-panel').contents().length > 1 && $("#Actiontype").val() == "addunit") {
+            return false;
+        }
+    });
+
+</script>
