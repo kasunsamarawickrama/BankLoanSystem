@@ -933,5 +933,34 @@ namespace BankLoanSystem.DAL
         //  $("#tagscloud span").text("Cost must be less than balance");
         //            }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/03/15
+        /// 
+        /// Get loan curtailment schedule by calling StepAccess class method, and creating curtailment date using that values
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        public void GetLoanCurtailmentDetails(int loanId, DateTime advaceDate, double advanceAmount)
+        {
+            StepAccess stepAccess = new StepAccess();
+            LoanSetupStep1 loan = stepAccess.GetLoanCurtailmentBreakdown(loanId);
+            Int32 curtailmentNo = 1;
+            foreach (Curtailment curtailment in loan.curtailmetList)
+            {
+                curtailment.CurtailmentId = curtailmentNo;
+                if (loan.payOffPeriodType == 0)//check pay off period as days
+                {
+                    curtailment.CurtailmentDate = advaceDate.AddDays(Convert.ToDouble(curtailment.TimePeriod));
+                }
+                else//pay off period as month
+                {
+                    curtailment.CurtailmentDate = advaceDate.AddMonths(curtailment.TimePeriod ?? 0);
+                }
+
+
+                curtailmentNo++;
+            }
+        }
     }
 }

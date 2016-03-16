@@ -241,8 +241,7 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
-
-
+        
         /// <summary>
         /// CreatedBy : kasun Samarawickrama
         /// CreatedDate: 2016/02/03
@@ -426,5 +425,43 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/03/15
+        /// 
+        /// Get loan curtailment schedule by loan id
+        /// 
+        /// </summary>
+        /// <param name="loanId">loan id</param>
+        /// <returns>curtialment breakdown as a DataSet</returns>
+        public LoanSetupStep1 GetLoanCurtailmentBreakdown(int loanId)
+        {           
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanCurtailmentBreakdown", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                LoanSetupStep1 loan = new LoanSetupStep1();
+                loan.payOffPeriodType = dataSet.Tables[0].Rows[0]["pay_off_type"].ToString().Equals("d") ? 0 : 1;
+                loan.payOffPeriod = Convert.ToInt32(dataSet.Tables[0].Rows[0]["pay_off_period"].ToString());
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Curtailment curtailment = new Curtailment();
+                    curtailment.CurtailmentId = Convert.ToInt32(dataRow["curtailment_id"].ToString());
+                    curtailment.TimePeriod = Convert.ToInt32(dataRow["time_period"].ToString());
+                    curtailment.Percentage = Convert.ToInt32(dataRow["percentage"].ToString());
+
+                    loan.curtailmetList.Add(curtailment);
+                }
+               
+                return loan;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

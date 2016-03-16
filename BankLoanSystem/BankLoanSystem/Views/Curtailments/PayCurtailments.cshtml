@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    ViewBag.Title = "Pay Curtailments";
 }
 
 <!DOCTYPE html>
@@ -43,8 +44,153 @@
             </div>*@
 
 
-            <div class="body-content">
-                @*@RenderBody()*@
+            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+                <div class="info-bar">
+                    
+                    <div class="form-group row" style="margin-bottom: 0px;">
+        <label for="inputEmail3" class="col-sm-4 form-control-label">Curtailment due Date - all curtailments due prior to and on this date will be displayed.</label>
+           
+
+        <div class="col-md-2"  >
+            <input class="form-control" type="date" />
+        </div>
+
+    </div>
+
+                   
+
+                </div>
+
+
+                <div class="info-bar" style="margin-top:15px">
+
+                    <!-- This is for Grid-->
+
+
+
+                </div>
+
+                <div class="info-bar" style="margin-top:15px">
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="PayDate">Pay Date : </label>
+
+                            <input class="form-control" type="date" style="margin-left:15px"  />
+                            
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="info-bar search-panel" style="margin-top:15px;">
+
+                    <div class="form-inline" style="margin-left:25px;">
+                        <div class="form-group">
+                            <label for="id">VIN/HIN/Serial</label>
+
+                            <input class="form-control" type="text"  />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="id">Year</label>
+
+                            <input class="form-control" type="text" style="width:90px" />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="id">Make</label>
+
+                            <input class="form-control" type="text"  style="width:90px"/>
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="id">Model</label>
+
+                            <input class="form-control" type="text"  style="width:100px"/>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="info-bar" style="margin-top:15px">
+
+                    <!-- This is for Search Grid-->
+
+
+
+                </div>
+
+                <div class="info-bar" style="margin-top:15px">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <form>
+                                <fieldset>
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label for="firstName">Date Advanced </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="firstName">Vin/HIN/Serial </label>
+                                            <input type="text" class="form-control" >
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="firstName">Year </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="firstName">Make </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="firstName">Model </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label for="firstName">Curt-Amount </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="firstName">Curt Pay Date </label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                  
+                                   
+                                    
+                                    
+                                    <button type="submit" class="btn btn-info">Submit</button>
+                                    <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
             </div>
 
         </div>
@@ -53,9 +199,9 @@
         <div class="link-bar" style="margin-bottom:15px;">
 
 
-            @*@{
+            @{
                 Html.RenderAction("GetLinkBar", "Unit");
-            }*@
+            }
 
 
         </div>

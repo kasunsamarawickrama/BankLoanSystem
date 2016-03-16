@@ -155,6 +155,12 @@ namespace BankLoanSystem.Models
         public string CurtailmentDueDate { get; set; }
         public string CurtailmentAutoRemindEmail { get; set; }
         public int CurtailmentEmailRemindPeriod { get; set; }
+
+        public IList<Curtailment> curtailmetList
+        {
+            get; set;
+
+        }
     }
 
     public class UnitType
