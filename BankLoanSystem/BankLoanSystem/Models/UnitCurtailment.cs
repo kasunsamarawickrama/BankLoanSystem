@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankLoanSystem.Models
 {
@@ -36,5 +37,22 @@ namespace BankLoanSystem.Models
     {
         public List<UnitPayOffModel> UnitPayOffList { get; set; }
         public DateTime PayDate { get; set; }
+
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]
+        public string IdentificationNumber { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Year must be a positive value.")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "year must contain only digits")]
+        public string Year { get; set; }
+
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Make")]
+        public string Make { get; set; }
+
+        [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Model")]
+        public string Model { get; set; }
+        [Display(Name = "Unit Type")]
+        public int UnitTypeId { get; set; }
+
+        public vehicle vehicle { get; set; }
     }
 }
