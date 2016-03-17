@@ -241,8 +241,34 @@ namespace BankLoanSystem.DAL
         public List<UnitPayOffModel> GetUnitPayOffList(int loanId)
         {
             List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
+            
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
 
-            return payOffList;
+            DataSet dataSet = dataHandler.GetDataSet("spRetriveUnitPayoff", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    UnitPayOffModel payoff = new UnitPayOffModel();
+                    payoff.LoanId = loanId;
+                    payoff.UnitId = dataRow["UnitId"].ToString();
+                    payoff.DateEntered = DateTime.Parse(dataRow["created_date"].ToString());
+                    payoff.IdentificationNumber = dataRow["identification_number"].ToString();
+                    payoff.Year = Convert.ToInt32(dataRow["year"]);
+                    payoff.Make = dataRow["make"].ToString();
+                    payoff.Model = dataRow["model"].ToString();
+                    payoff.PurchesePrice = Convert.ToDecimal(dataRow["cost"].ToString());
+                    payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
+                    payOffList.Add(payoff);
+                }
+                return payOffList;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
