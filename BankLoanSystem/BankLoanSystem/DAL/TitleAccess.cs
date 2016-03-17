@@ -171,7 +171,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="identificationNumber"></param>
         /// <returns>resultList</returns>
-        public List<TitleStatus> SearchTitle(int loanId,string identificationNumber)
+        public List<TitleStatus> SearchTitle(string loanCode,string identificationNumber)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -179,7 +179,7 @@ namespace BankLoanSystem.DAL
             List<TitleStatus> resultList = new List<TitleStatus>();
             if (!string.IsNullOrEmpty(identificationNumber))
             {
-                paramertList.Add(new object[] { "@loan_id", loanId });
+                paramertList.Add(new object[] { "@loan_id", loanCode });
                 paramertList.Add(new object[] { "@identification_number", identificationNumber });
                 try
                 {
