@@ -326,6 +326,8 @@ namespace BankLoanSystem.Controllers.Unit
             NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
             ViewBag.loanBranchAddress = nonRegBranch.BranchName + " - " + (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1 : "") + (nonRegBranch.BranchAddress2 != "" ? "," + nonRegBranch.BranchAddress2 : "") + (nonRegBranch.BranchCity != "" ? "," + nonRegBranch.BranchCity : "");
 
+            ViewBag.CurtailmentDueDate = loanSetupStep1.CurtailmentDueDate;
+
             ViewBag.LoanNumber = loanSetupStep1.loanNumber;
             return View();
         }

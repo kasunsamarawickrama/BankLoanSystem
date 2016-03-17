@@ -174,7 +174,7 @@ namespace BankLoanSystem.Controllers
             //int userId = 57;
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);           
             ViewBag.ErrorMsg = "";
-            UnitAccess unitAccess = new UnitAccess();
+            UnitAccess unitAccess = new UnitAccess();            
 
             return unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
            
