@@ -1,4 +1,4 @@
-﻿
+﻿@model BankLoanSystem.Models.TitleStatus
 @{
     Layout = null;
     ViewBag.Title = "Title Status Update";
@@ -53,9 +53,11 @@
 
 
                         <div class="col-md-2">
-                            <input class="form-control" type="text" />
+                            @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6 } })
+                            @Html.ValidationMessageFor(model => model.IdentificationNumberSearch, "", new { @class = "text-danger" })
+                            <span class="text-danger"></span>
                         </div>
-                         <button type="button" class="btn btn-info">Display</button>
+                         <button type="button" class="btn btn-info" id="btnDisplay">Display</button>
                     </div>
 
 
@@ -159,8 +161,37 @@
 
     </div>
     <script>
+        $('#btnDisplay').click(function ()
+        {
+            var para1 = $('#identificationNumberSearch').val();
+            $.ajax({
+                url: '/UnitTitle/SearchTitle',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ identificationNumber: para1}),
+                success: function (View) {
+                    //$('#searchGrid1').html(View);
+                    //$('#searchGrid1').show();
+                },
+                error: function (reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+            alert(para1);
+        });
 
+        $('#identificationNumberSearch').keyup(function ()
+        {
+            $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+        });
+        $('#identificationNumberSearch').focusout(function () {
+            var val1 = $('#identificationNumberSearch').val();
+            if (val1.length < 6) {
+                $(span).text("Please type last 6 characters of VIN/HIN/Serial Number");
+            }
 
+        });
     </script>
 
 
