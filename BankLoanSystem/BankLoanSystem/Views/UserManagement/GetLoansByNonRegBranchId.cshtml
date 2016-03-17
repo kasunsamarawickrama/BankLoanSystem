@@ -14,6 +14,24 @@
     controllerName = "AdvanceUnit";
 }
 
+else if (ViewBag.type == "Curtailment")
+{
+    actoinName = "PayCurtailments";
+    controllerName = "Curtailments";
+}
+
+else if (ViewBag.type == "PayOff")
+{
+    actoinName = "PayOff";
+    controllerName = "UnitPayOff";
+}
+
+else if (ViewBag.type == "Title")
+{
+    actoinName = "TitleStatusUpdate";
+    controllerName = "UnitTitle";
+}
+
 <li><h5>Loan Number</h5></li>
 @{var c = 0; }
 @if (Model.Count() == 0)

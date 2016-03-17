@@ -14,6 +14,13 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             return View();
         }
 
+        public ActionResult setLoanCode(string loanCode)
+        {
+            Session["loanCode"] = loanCode;
+
+            return RedirectToAction("PayOff");
+        }
+
         public ActionResult PayOff()
         {
             return View();

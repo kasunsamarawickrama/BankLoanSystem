@@ -14,6 +14,13 @@ namespace BankLoanSystem.Controllers.UnitTitle
             return View();
         }
 
+        public ActionResult setLoanCode(string loanCode)
+        {
+            Session["loanCode"] = loanCode;
+
+            return RedirectToAction("TitleStatusUpdate");
+        }
+
         public ActionResult TitleStatusUpdate()
         {
             return View();

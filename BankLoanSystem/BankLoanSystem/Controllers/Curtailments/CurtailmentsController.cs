@@ -14,6 +14,14 @@ namespace BankLoanSystem.Controllers.Curtailments
             return View();
         }
 
+
+        public ActionResult setLoanCode(string loanCode)
+        {
+            Session["loanCode"] = loanCode;
+
+            return RedirectToAction("PayCurtailments");
+        }
+
         // GET: Curtailments
         public ActionResult PayCurtailments()
         {
