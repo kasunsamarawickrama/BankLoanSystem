@@ -58,19 +58,19 @@
 
 
             <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
-                <div class="info-bar">
+                <div class="info-bar">                 
+
                     
                     <div class="form-group row" style="margin-bottom: 0px;">
         <label for="" class="col-sm-4 form-control-label">Curtailment due Date - all curtailments due prior to and on this date will be displayed.</label>
-           
+                       
 
         <div class="col-md-2"  >
-            <input class="form-control" type="date" />
+            @*<input class="form-control" type="date" />*@
+            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off" } })
         </div>
 
-    </div>
-
-                   
+    </div>   
 
                 </div>
 
@@ -442,6 +442,25 @@
                     }
                 }
             }));
+
+            startPicker = new Pikaday({                
+                field: document.getElementById('dueDate'),
+                format: 'l',
+                bound: true,
+                onSelect: function () {
+                    $.ajax({
+                        url: '/Curtailments/test/',
+                        data: JSON.stringify(data),
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+
+                        success: function (View) {
+
+                            //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        }
+                    });
+                }
+            });
 
         </script>
 
