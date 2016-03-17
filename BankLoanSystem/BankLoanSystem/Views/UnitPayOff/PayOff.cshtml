@@ -54,7 +54,9 @@
 
                         <!-- This is for Grid-->
 
-                        @grid.GetHtml(
+                        @if (Model.UnitPayOffList.Count > 0)
+                        {
+                            @grid.GetHtml(
             tableStyle: "gridtable",
            headerStyle: "webgrid-header",
 
@@ -73,9 +75,12 @@
                    format: @<text>@{<label id="vin" class="vin"> @item.UnitId</label>}</text>),
                 grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Balance</label>}</text>),
                 grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="year" class="year">@item.PurchesePrice</label>}</text>)
-                
+
                 )
                 )
+}
+
+                        
 
 </div>
 
