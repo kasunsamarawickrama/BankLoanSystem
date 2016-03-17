@@ -21,11 +21,13 @@ namespace BankLoanSystem.Models
     {
         public int LoanId { get; set; }
         public string UnitId { get; set; }
+        public DateTime DateEntered { get; set; }
         public decimal Balance { get; set; }
         public decimal PurchesePrice { get; set; }
         public int Year { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
+        public string IdentificationNumber { get; set; }
     }
 
     public class UnitPayOffViewModel
