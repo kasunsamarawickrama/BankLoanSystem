@@ -435,7 +435,7 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId">loan id</param>
         /// <returns>curtialment breakdown as a DataSet</returns>
         public LoanSetupStep1 GetLoanCurtailmentBreakdown(int loanId)
-        {           
+        {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@loan_id", loanId });
@@ -444,18 +444,19 @@ namespace BankLoanSystem.DAL
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
                 LoanSetupStep1 loan = new LoanSetupStep1();
+                loan.curtailmetList = new List<Curtailment>();
                 loan.payOffPeriodType = dataSet.Tables[0].Rows[0]["pay_off_type"].ToString().Equals("d") ? 0 : 1;
                 loan.payOffPeriod = Convert.ToInt32(dataSet.Tables[0].Rows[0]["pay_off_period"].ToString());
+                loan.CurtailmentCalculationBase = dataSet.Tables[0].Rows[0]["curtailment_calculation_type"].ToString();
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     Curtailment curtailment = new Curtailment();
                     curtailment.CurtailmentId = Convert.ToInt32(dataRow["curtailment_id"].ToString());
                     curtailment.TimePeriod = Convert.ToInt32(dataRow["time_period"].ToString());
                     curtailment.Percentage = Convert.ToInt32(dataRow["percentage"].ToString());
-
                     loan.curtailmetList.Add(curtailment);
                 }
-               
+
                 return loan;
             }
             else

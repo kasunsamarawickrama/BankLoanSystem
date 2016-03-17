@@ -51,9 +51,14 @@ namespace BankLoanSystem.Models
         [Range(typeof(int), "1", "100", ErrorMessage = "Invalid")]
         public int? Percentage { get; set; }
 
+        public decimal PaymentPercentage { get; set; }
+
         public int LoanId { get; set; }
         //public string LoanStatus { get; set; }
         public DateTime CurtailmentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Status { get; set; }
+        public int UnitId { get; set; }
     }
 
 

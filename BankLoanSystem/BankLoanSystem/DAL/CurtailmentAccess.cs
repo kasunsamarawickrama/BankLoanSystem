@@ -54,7 +54,7 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
-                
+
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/02/09
@@ -100,7 +100,7 @@ namespace BankLoanSystem.DAL
             else
             {
                 return null;
-            }           
+            }
         }
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace BankLoanSystem.DAL
                     paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
                     paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
                     paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
-
+                    paramertList2.Add(new object[] { "@payment_percentage", curtailment.PaymentPercentage });
                     try
                     {
                         executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         return 0;
                     }
@@ -147,10 +147,36 @@ namespace BankLoanSystem.DAL
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
         }
-       
-        public void InsertCurtailmentSchedule()
-        {
 
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/03/17
+        /// 
+        /// Insert curtailment breakdown details
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc">curtailment breakdown list</param>
+        /// <param name="unitId">unit id</param>
+        /// <param name="loanId">loan id</param>
+        /// <returns></returns>
+        public bool InsertCurtailmentScheduleInfo(string xmlDoc, string unitId, int loanId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList2 = new List<object[]>();
+            paramertList2.Add(new object[] { "@loan_id", loanId });
+            paramertList2.Add(new object[] { "@unit_id", unitId });
+            paramertList2.Add(new object[] { "@Input", xmlDoc });           
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertCurtailmentSchedule", paramertList2);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

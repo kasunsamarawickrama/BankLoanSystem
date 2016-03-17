@@ -16,6 +16,25 @@
         actoinName = "Advance";
         controllerName = "AdvanceUnit";
     }
+
+    else if (ViewBag.type == "Curtailment")
+    {
+        actoinName = "PayCurtailments";
+        controllerName = "Curtailments";
+    }
+
+    else if (ViewBag.type == "PayOff")
+    {
+        actoinName = "PayOff";
+        controllerName = "UnitPayOff";
+    }
+
+    else if (ViewBag.type == "Title")
+    {
+        actoinName = "TitleStatusUpdate";
+        controllerName = "UnitTitle";
+    }
+     
 <div id="load">
     <strong><span>Loading... </span></strong>
 </div>
@@ -33,6 +52,21 @@
             else if (ViewBag.type == "Advance")
             {
                  <text>$(location).attr('href', '/AdvanceUnit/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
+            }
+
+            else if (ViewBag.type == "Curtailment")
+            {
+                <text>$(location).attr('href', '/Curtailments/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
+            }
+
+            else if (ViewBag.type == "PayOff")
+            {
+                <text>$(location).attr('href', '/UnitPayOff/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
+            }
+
+            else if (ViewBag.type == "Title")
+            {
+                <text>$(location).attr('href', '/UnitTitle/setLoanCode?loanCode=@Model.LoanList[0].loanCode.ToString()');</text>
             }
 
 

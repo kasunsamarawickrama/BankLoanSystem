@@ -210,6 +210,12 @@
     </div>
     <script>
        
+        $("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        $("#lkcrtl").click(function (e) { e.preventDefault(); });
+        $("#lkcrtl").siblings().click(function (e) {
+            return true;
+
+        });
 
     </script>
 

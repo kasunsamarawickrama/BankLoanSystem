@@ -651,7 +651,7 @@ namespace BankLoanSystem.Controllers
                     if (loanSelection.NonRegBranchList.Count() == 1)
                     {
                         loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-                        //if loans count is one redirect to add unit page
+                   
                     }
                 
 
@@ -659,20 +659,6 @@ namespace BankLoanSystem.Controllers
 
 
 
-
-
-            //loanSelection.NonRegCompanies = (new CompanyAccess()).GetNonRegCompanyDetailsByRegCompanyId1(userData.Company_Id);
-
-            //if (loanSelection.NonRegCompanies.Count() == 1)
-            //{
-            //    loanSelection.NonRegBranchList = (new BranchAccess()).getNonRegBranchesNonCompId((loanSelection.NonRegCompanies[0].CompanyId));
-
-            //    if (loanSelection.NonRegBranchList.Count() == 1)
-            //    {
-            //        loanSelection.LoanList = new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-            //        //if loans count is one redirect to add unit page
-            //    }
-            //}
 
             if (type == "asderruy") // for add unit page
             {
@@ -686,6 +672,24 @@ namespace BankLoanSystem.Controllers
                 return PartialView(loanSelection);
             }
 
+            else if (type == "sedretyt") 
+            {
+                ViewBag.type = "Curtailment";
+                return PartialView(loanSelection);
+            }
+
+            else if (type == "wsedtgio")
+            {
+                ViewBag.type = "PayOff";
+                return PartialView(loanSelection);
+            }
+            
+            else if (type == "frtgcvfd")
+            {
+                ViewBag.type = "Title";
+                return PartialView(loanSelection);
+            }
+
 
             return PartialView(loanSelection);
         }
@@ -694,15 +698,7 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult GetLoansByNonRegBranchId(int NonRegBranchId, string type)
         {
-
-            if (type == "AddUnit")
-            {
-                ViewBag.type = "AddUnit";
-            }
-            else if (type == "Advance")
-            {
-                ViewBag.type = "Advance";
-            }
+            ViewBag.type = type;
 
             return PartialView(new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(NonRegBranchId));
         }
@@ -728,14 +724,10 @@ namespace BankLoanSystem.Controllers
                 }
             }
 
-            if (type == "AddUnit")
-            {
-                ViewBag.type = "AddUnit";
-            }
-            else if (type == "Advance")
-            {
-                ViewBag.type = "Advance";
-            }
+           
+                ViewBag.type = type;
+            
+            
 
             if (loanSelection.NonRegBranchList != null && loanSelection.NonRegBranchList.Count() == 1)
             {

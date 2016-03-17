@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using BankLoanSystem.Code;
 using BankLoanSystem.Models;
+using System.Xml.Linq;
 
 namespace BankLoanSystem.DAL
 {
@@ -85,7 +86,6 @@ namespace BankLoanSystem.DAL
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
             {
                 con.Open();
-
                 try
                 {
                     foreach (Unit unitObj in unitList)
@@ -99,22 +99,16 @@ namespace BankLoanSystem.DAL
                             cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
                             cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
                             cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
-
-
-
                             SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
                             returnParameter.Direction = ParameterDirection.ReturnValue;
                             cmd.ExecuteNonQuery();
 
                             countVal = (int)returnParameter.Value;
                             cmd.Parameters.Clear();
-
                             //return countVal;
                         }
+                        this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
                         //countVal = countVal + 1;
-
                     }
                     return countVal;
                 }
@@ -126,11 +120,7 @@ namespace BankLoanSystem.DAL
                 {
                     con.Close();
                 }
-
             }
-
-
-
         }
 
         /// <summary>
@@ -169,9 +159,11 @@ namespace BankLoanSystem.DAL
 
                         int countVal = (int)returnParameter.Value;
 
-
+                        this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
                         return countVal;
                     }
+
+                    
                 }
                 catch (Exception ex)
                 {
@@ -941,13 +933,15 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <param name="loanId"></param>
-        public void GetLoanCurtailmentDetails(int loanId, DateTime advaceDate, double advanceAmount)
+        public bool GetLoanCurtailmentDetails(int loanId,string unitId, DateTime advaceDate, decimal advanceAmount, decimal cost)
         {
             StepAccess stepAccess = new StepAccess();
             LoanSetupStep1 loan = stepAccess.GetLoanCurtailmentBreakdown(loanId);
             Int32 curtailmentNo = 1;
+            //Curtailment curtailmentSchedule = new Curtailment();
             foreach (Curtailment curtailment in loan.curtailmetList)
             {
+               
                 curtailment.CurtailmentId = curtailmentNo;
                 if (loan.payOffPeriodType == 0)//check pay off period as days
                 {
@@ -958,8 +952,40 @@ namespace BankLoanSystem.DAL
                     curtailment.CurtailmentDate = advaceDate.AddMonths(curtailment.TimePeriod ?? 0);
                 }
 
-
+                if (loan.CurtailmentCalculationBase == "a")
+                {
+                    curtailment.Amount = advanceAmount * curtailment.Percentage ?? 0 / 100;
+                }
+                else if (loan.CurtailmentCalculationBase == "f")
+                {
+                    curtailment.Amount = cost * curtailment.Percentage ?? 0 / 100;
+                }
                 curtailmentNo++;
+               
+            }
+
+            try
+            {
+                XElement xEle = new XElement("Curtailments",
+                    from curtailment in loan.curtailmetList
+                    select new XElement("Curtailment",
+                        new XElement("LoanId", loanId),
+                        new XElement("UnitId", unitId),
+                        new XElement("CurtNo", curtailment.CurtailmentId),
+                        new XElement("CurtAmount", curtailment.Amount),
+                        new XElement("CurtDueDate", curtailment.CurtailmentDate),
+                        new XElement("CurtStatus", 0)
+                        ));
+                string xmlDoc = xEle.ToString();
+                CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+                return curtailmentAccess.InsertCurtailmentScheduleInfo(xmlDoc, unitId, loanId);              
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+                //flag = 0;
+                //throw ex;
             }
         }
     }
