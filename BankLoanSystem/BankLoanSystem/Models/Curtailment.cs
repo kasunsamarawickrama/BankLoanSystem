@@ -54,6 +54,9 @@ namespace BankLoanSystem.Models
         public int LoanId { get; set; }
         //public string LoanStatus { get; set; }
         public DateTime CurtailmentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Status { get; set; }
+        public int UnitId { get; set; }
     }
 
 
