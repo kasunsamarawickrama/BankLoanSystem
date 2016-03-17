@@ -11,6 +11,31 @@ namespace BankLoanSystem.Controllers.Curtailments
     public class CurtailmentsController : Controller
     {
         string lCode=string.Empty;
+        private static LoanSetupStep1 loan;
+        User userData = new User();
+        // Check session in page initia stage
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            try
+            {
+                if (Session["AuthenticatedUser"] != null)
+                {
+                    userData = ((User)Session["AuthenticatedUser"]);
+                }
+                else
+                {
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                }
+            }
+            catch
+            {
+                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Controller.TempData.Add("UserLogin", "Login");
+            }
+        }
+
+
         // GET: Curtailments
         public ActionResult Index()
         {
@@ -45,6 +70,39 @@ namespace BankLoanSystem.Controllers.Curtailments
             curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
             curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
             return View(curtailmentScheduleModel);
+        }
+
+
+
+
+
+
+
+        [HttpPost]
+        public ActionResult PayCurtailments(CurtailmentScheduleModel curtailmentScheduleModel)
+        {
+
+            int userId = userData.UserId;
+            string loanCode;
+            
+            try
+            {
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            curtailmentAccess.updateCurtailmets(curtailmentScheduleModel , loanDetails.loanId);
+            return RedirectToAction("PayCurtailments");
         }
     }
 }
