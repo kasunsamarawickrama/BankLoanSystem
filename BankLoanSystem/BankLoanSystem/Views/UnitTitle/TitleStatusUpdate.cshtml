@@ -2,6 +2,7 @@
 @{
     Layout = null;
     ViewBag.Title = "Title Status Update";
+    
 }
 
 <!DOCTYPE html>
@@ -64,12 +65,8 @@
 
                 </div>
 
-                <div class="info-bar" style="margin-top:15px">
-
-                    <!-- This is for Grid-->
-
-
-
+                <div class="info-bar" id="searchGrid1" style="margin-top:15px">
+                  
                 </div>
 
                 <div class="info-bar search-panel" style="margin-top:15px;">
@@ -77,37 +74,32 @@
                     <div class="form-inline" style="margin-left:25px;">
                         <div class="form-group">
                             <label for="">VIN/HIN/Serial</label>
-
-                            <input class="form-control" type="text" />
-
+                            @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber"} })
+                            @Html.ValidationMessageFor(model => model.TitleDetails.IdentificationNumber, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Year</label>
-
-                            <input class="form-control" type="text" style="width:90px" />
-
+                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @style = "width:90px" } })
+                            @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Make</label>
-
-                            <input class="form-control" type="text" style="width:90px" />
-
+                            @Html.EditorFor(model => model.TitleDetails.Make, new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @style = "width:90px" } })
+                            @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Model</label>
-
-                            <input class="form-control" type="text" style="width:100px" />
-
+                            @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @style = "width:100px" } })
+                            @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Current Title Status</label>
-
-                            <input class="form-control" type="text" style="width:100px" />
-
+                            @Html.EditorFor(model => model.TitleDetails.CurrentTitleStatus, new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @style = "width:150px" } })
+                            @Html.ValidationMessageFor(model => model.TitleDetails.CurrentTitleStatus, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group row" style="margin-top:25px">
@@ -121,10 +113,19 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="inlineRadioOptions" id="" value=""> Recieved
                                 </label>
-
-                                <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Returned to Dealer
-                                </label>
+                                @if (ViewBag.CompanyType == 1)
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="" value=""> Returned to Dealer
+                                    </label>
+                                }
+                                else if(ViewBag.CompanyType == 2)
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="" value=""> Sent to Bank
+                                    </label>
+                                }
+                                
                             </div>
 
                         </div>
@@ -161,24 +162,31 @@
 
     </div>
     <script>
+        $(document).ready(function () {
+            if ($('#titleGrid').children('tbody').children('tr').length == 1) {
+                alert('hg');
+                $('#searchGrid1').hide();
+                //SetTextBoxValues_2();
+            }
+        });
         $('#btnDisplay').click(function ()
         {
             var para1 = $('#identificationNumberSearch').val();
             $.ajax({
-                url: '/UnitTitle/SearchTitle',
+                url: '/UnitTitle/SearchTitleStatus',
                 type: 'POST',
                 contentType: 'application/json;',
                 data: JSON.stringify({ identificationNumber: para1}),
                 success: function (View) {
-                    //$('#searchGrid1').html(View);
-                    //$('#searchGrid1').show();
+                    $('#searchGrid1').html(View);
+                    $('#searchGrid1').show();
                 },
                 error: function (reponse) {
                     $('#loadingSpan').hide();
                     alert("error : " + reponse);
                 }
             });
-            alert(para1);
+            //alert(para1);
         });
         $("#lkttl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
         $("#lkttl").click(function (e) { e.preventDefault(); });
@@ -196,6 +204,15 @@
             }
 
         });
+
+        function SetTextBoxValues(tr)
+        {
+            $('#identificationNumber').val(tr.find('#vin').text());
+            $('#unitYear').val(tr.find('#year').text());
+            $('#unitMake').val(tr.find('#make').text());
+            $('#unitModel').val(tr.find('#model').text());
+            $('#titleStatus').val(tr.find('#currentStatus').text());
+        }
     </script>
 
 

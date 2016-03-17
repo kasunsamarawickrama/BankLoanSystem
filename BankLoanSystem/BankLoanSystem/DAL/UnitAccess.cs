@@ -357,15 +357,15 @@ namespace BankLoanSystem.DAL
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
                         if (unit.IsAdvanced == true)
                         {
-                            unit.IsActive = true;
+                            unit.UnitStatus = 1;
                             cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
                             
                         }
                         else {
-                            unit.IsActive = false;
+                            unit.UnitStatus = 0;
                             cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
                         }
-                        cmd.Parameters.AddWithValue("@is_active", unit.IsActive);
+                        cmd.Parameters.AddWithValue("@unit_status", unit.UnitStatus);
                         cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
                         cmd.Parameters.AddWithValue("@status", unit.Status);
 
