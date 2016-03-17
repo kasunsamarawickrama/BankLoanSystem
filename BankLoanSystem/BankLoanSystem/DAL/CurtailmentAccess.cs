@@ -177,5 +177,57 @@ namespace BankLoanSystem.DAL
                 return false;
             }
         }
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 2016/03/17
+        /// 
+        /// Getting Curtailment Shedule
+        /// 
+        /// 
+        /// </summary>
+        /// 
+        /// <param name="dueDate">due date</param>
+        /// <param name="loanId">loan id</param>
+        /// <returns></returns>
+        public List<CurtailmentShedule> GetCurtailmentScheduleByDueDate( int loanId , DateTime dueDate)
+        {
+            List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@due_date", dueDate });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentSheduleByDueDate", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    CurtailmentShedule curtailment = new CurtailmentShedule();
+                    curtailment.UnitId = int.Parse(dataRow["unit_id"].ToString());
+                    curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                    curtailment.Year = int.Parse(dataRow["year"].ToString());
+
+                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                    curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString());
+
+                    curtailment.Status = Convert.ToBoolean(dataRow["curt_status"].ToString());
+
+                    curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
+
+                    curtailment.IDNumber = dataRow["identification_number"].ToString();
+                    curtailment.CurtNumber = dataRow["curt_number"].ToString();
+                    curtailment.Make = dataRow["make"].ToString();
+                    curtailment.Model = dataRow["model"].ToString();
+
+                    lstCurtailmentShedule.Add(curtailment);
+                }
+                return lstCurtailmentShedule;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
