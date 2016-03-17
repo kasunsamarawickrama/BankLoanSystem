@@ -63,7 +63,7 @@
 
                         ),
                             grid.Column("DateEntered", "DateEntered", canSort: false, format: @<text>@{<label id="date" class="vin"> @item.DateEntered</label>}</text>),
-                               grid.Column("IdentificationNumber", "IdentificationNumber", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                               grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                                grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
                                grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
                                grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>), 
@@ -113,7 +113,7 @@
                     <div class="info-bar search-panel" style="margin-top:15px;">
 
                         <div class="form-inline" style="margin-left:25px;">
-                            <div class="form-group" style= "margin-left: -150px;">
+                            <div class="form-group" style="margin-left: -203px;">
                                 <label for="id">VIN/HIN/Serial</label>
 
                                 @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
@@ -163,7 +163,7 @@
 
 
 
-                            <div class="form-group" style="margin-left: 734px;margin-top: -46px;">
+                            <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
                                 <label for="">Model</label>
 
                                 @{List<SelectListItem> modelList = new List<SelectListItem>();
@@ -180,13 +180,12 @@
                                 <div id="vehiclemodel"><span class="text-danger"></span></div>
 
                             </div>
+
+
+                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="margin-left: 20px;margin-top: -43px;" />
+                            <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="margin-top: -43px;" />
                         </div>
-                            <button type="submit" class="btn btn-info" style="margin-right:25px;margin-top: -47px;float:right;">Search</button>
                         </div>
-
-
-
-                    </div>
 
 
                     <div class="info-bar" style="margin-top:15px">
@@ -252,12 +251,7 @@
                                                     <input type="radio" name="inlineRadioOptions" id="" value=""> No
                                                 </label>
                                             </div>
-
                                         </div>
-
-
-
-
                                         <button style="width:100px" type="submit" class="btn btn-info">Pay</button>
                                         <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
                                     </fieldset>
@@ -275,17 +269,17 @@
             </div>
 
 
-            <div class="link-bar" style="margin-bottom:15px;">
+            <div class="link-bar" style="margin-bottom:15px;"></div>
 
 
-                @{
-                    Html.RenderAction("GetLinkBar", "Unit");
-                }
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
 
 
-            </div>
+</div>
 
-                    }
+}
     
 
 <script>
@@ -502,6 +496,44 @@
         $("#singleUnitDiv").show();
               
     }
+
+    $("#btnSearch").click(function () {
+
+        ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnAdvance").attr("disabled", "disabled");
+        $("#btnAdvanceAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#startDate").attr("disabled", "disabled");
+        $("#iAdvance").attr("disabled", "disabled");
+
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iAdvance').removeClass('input-validation-error');
+        var para1 = $("#identificationNumberSearch").val();
+        var para2 = $('#cmbYear').val();
+        var para3 = $("#cmbMake").val();
+        var para4 = $("#cmbModel").val();
+        if (para1 == null) { para1 = ''; }
+        if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+            Search(para1, para2, para3, para4);
+        }
+
+
+    })
 
     function SetRadioBtnHeaderChecked() {
         var totalRows = $("#checkableGrid td :checkbox").length;
