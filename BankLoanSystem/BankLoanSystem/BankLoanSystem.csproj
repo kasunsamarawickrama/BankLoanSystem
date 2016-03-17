@@ -229,6 +229,7 @@
     <Compile Include="Models\Title.cs" />
     <Compile Include="Models\TitleStatus.cs" />
     <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\UnitCurtailment.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
@@ -318,7 +319,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
-    <Folder Include="Views\UnitPayOff\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
