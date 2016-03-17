@@ -27,17 +27,6 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         {
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
-            UnitPayOffModel upom = new Models.UnitPayOffModel()
-            {
-                LoanId = 1,
-                UnitId = "ooo",
-                Balance = 12.05M,
-                PurchesePrice = 15.09M,
-                Year = 2012,
-                Make = "Lamboghini",
-                Model = "Veneno"
-            };
-
             CurtailmentAccess payoff = new CurtailmentAccess();
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(190);
