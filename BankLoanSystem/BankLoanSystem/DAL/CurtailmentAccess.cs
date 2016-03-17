@@ -204,21 +204,18 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = int.Parse(dataRow["unit_id"].ToString());
+                    curtailment.UnitId = dataRow["unit_id"].ToString();
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
-
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
                     curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString());
-
-                    curtailment.Status = Convert.ToBoolean(dataRow["curt_status"].ToString());
-
+                    curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
                     curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
-
                     curtailment.IDNumber = dataRow["identification_number"].ToString();
                     curtailment.CurtNumber = dataRow["curt_number"].ToString();
                     curtailment.Make = dataRow["make"].ToString();
                     curtailment.Model = dataRow["model"].ToString();
+                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
 
                     lstCurtailmentShedule.Add(curtailment);
                 }

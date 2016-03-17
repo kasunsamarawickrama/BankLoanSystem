@@ -708,7 +708,8 @@
                         "UnitId": $('#unitid').text(),
                         "IdentificationNumber": $('#iVin').val(),
                         "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
-                        "AdvanceDate": $('#advanceDate').val()
+                        "AdvanceDate": $('#advanceDate').val(),
+                        "Cost": $('#iCost').val().replace(',', '')
                     };
 
                     $.ajax({
@@ -734,7 +735,7 @@
                         var tr = $(this).parents('tr:first');
                         var checked = tr.find("#all").is(':checked');
                         if (checked) {
-                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val() });
+                            data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val(), Cost: $('#iCost').val().replace(',', '') });
 
                         }
                     });

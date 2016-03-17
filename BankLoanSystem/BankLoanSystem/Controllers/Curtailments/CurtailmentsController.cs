@@ -28,6 +28,15 @@ namespace BankLoanSystem.Controllers.Curtailments
         // GET: Curtailments
         public ActionResult PayCurtailments()
         {
+            try
+            {
+                lCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(lCode);
