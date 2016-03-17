@@ -57,6 +57,11 @@
         @Ajax.ActionLink("Add a Unit", "Selectloan", "UserManagement", new {type= "asderruy" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
     }
 
+    if (item.rightId == "U005")
+    {
+        @Html.ActionLink("Pay Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info", @id = "lkcrtl" })
+    }
+
 
 
 }
