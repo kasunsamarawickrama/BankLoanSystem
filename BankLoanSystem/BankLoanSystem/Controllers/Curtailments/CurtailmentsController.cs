@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BankLoanSystem.DAL;
+using BankLoanSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,7 @@ namespace BankLoanSystem.Controllers.Curtailments
 {
     public class CurtailmentsController : Controller
     {
+        string lCode=string.Empty;
         // GET: Curtailments
         public ActionResult Index()
         {
@@ -18,14 +21,21 @@ namespace BankLoanSystem.Controllers.Curtailments
         public ActionResult setLoanCode(string loanCode)
         {
             Session["loanCode"] = loanCode;
-
+            lCode = loanCode;
             return RedirectToAction("PayCurtailments");
         }
 
         // GET: Curtailments
         public ActionResult PayCurtailments()
         {
-            return View();
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(lCode);
+            List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId,DateTime.Now);
+            CurtailmentScheduleModel curtailmentScheduleModel = new CurtailmentScheduleModel();
+            curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
+            curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
+            return View(curtailmentScheduleModel);
         }
     }
 }

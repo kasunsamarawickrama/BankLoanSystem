@@ -18,12 +18,17 @@ namespace BankLoanSystem.Models
         public bool Status { get; set; }
 
         public decimal CurtAmount { get; set; }
-       
+
         public string IDNumber { get; set; }
         public string CurtNumber { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
 
 
+    }
+    public class CurtailmentScheduleModel
+    {
+        public DateTime PayDate { get; set; }
+        public List<CurtailmentShedule> CurtailmentScheduleInfoModel { get; set; }
     }
 }
