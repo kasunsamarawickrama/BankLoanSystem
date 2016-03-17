@@ -9,7 +9,7 @@ namespace BankLoanSystem.Models
     {
 
         public int LoanId { get; set; }
-        public int UnitId { get; set; }
+        public string UnitId { get; set; }
         public int Year { get; set; }
 
         public DateTime AdvanceDate { get; set; }

@@ -64,6 +64,7 @@ namespace BankLoanSystem.DAL
                     from curtailmentShedule in curtailmentScheduleModel.CurtailmentScheduleInfoModel
                     select new XElement("CurtailmentShedule",
                         new XElement("CurtNo", curtailmentShedule.CurtNumber),
+                        new XElement("UnitId", curtailmentShedule.UnitId),
                         new XElement("CurtAmount", curtailmentShedule.CurtAmount),
                         new XElement("PayDate", curtailmentScheduleModel.PayDate)
                         
@@ -243,7 +244,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = Convert.ToInt32(dataRow["unit_id"].ToString());
+                    curtailment.UnitId = dataRow["unit_id"].ToString();
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
