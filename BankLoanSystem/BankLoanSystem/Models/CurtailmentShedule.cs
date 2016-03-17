@@ -15,7 +15,7 @@ namespace BankLoanSystem.Models
         public DateTime AdvanceDate { get; set; }
         public DateTime DueDate { get; set; }
 
-        public bool Status { get; set; }
+        public int Status { get; set; }
 
         public decimal CurtAmount { get; set; }
 

@@ -243,7 +243,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = dataRow["unit_id"].ToString();
+                    curtailment.UnitId = Convert.ToInt32(dataRow["unit_id"].ToString());
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
