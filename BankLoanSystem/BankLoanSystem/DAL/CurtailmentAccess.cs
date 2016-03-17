@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace BankLoanSystem.DAL
 {
@@ -53,6 +54,44 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+        }
+
+        internal bool updateCurtailmets(CurtailmentScheduleModel curtailmentScheduleModel , int loanId)
+        {
+            try
+            {
+                XElement xEle = new XElement("Curtailments",
+                    from curtailmentShedule in curtailmentScheduleModel.CurtailmentScheduleInfoModel
+                    select new XElement("CurtailmentShedule",
+                        new XElement("CurtNo", curtailmentShedule.CurtNumber),
+                        new XElement("CurtAmount", curtailmentShedule.CurtAmount),
+                        new XElement("PayDate", curtailmentScheduleModel.PayDate)
+                        
+                        ));
+                string xmlDoc = xEle.ToString();
+                
+
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList2 = new List<object[]>();
+                paramertList2.Add(new object[] { "@loan_id", loanId });
+                paramertList2.Add(new object[] { "@Input", xmlDoc });
+
+                try
+                {
+                    return dataHandler.ExecuteSQL("spUpdateCurtailmentSchedule", paramertList2);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            
         }
 
         /// <summary>
@@ -204,7 +243,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = dataRow["unit_id"].ToString();
+                    curtailment.UnitId = Convert.ToInt32(dataRow["unit_id"].ToString());
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
@@ -212,7 +251,7 @@ namespace BankLoanSystem.DAL
                     curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
                     curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
                     curtailment.IDNumber = dataRow["identification_number"].ToString();
-                    curtailment.CurtNumber = dataRow["curt_number"].ToString();
+                    curtailment.CurtNumber = int.Parse(dataRow["curt_number"].ToString());
                     curtailment.Make = dataRow["make"].ToString();
                     curtailment.Model = dataRow["model"].ToString();
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
