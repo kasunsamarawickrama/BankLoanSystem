@@ -45,7 +45,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
             return RedirectToAction("TitleStatusUpdate");
         }
 
-        public ActionResult TitleStatusUpdate()
+        public ActionResult TitleStatusUpdate(int ? flag)
         {
             TitleStatus obj2 = new TitleStatus();
             obj2.TitleList = new List<Models.Unit>();
@@ -60,6 +60,15 @@ namespace BankLoanSystem.Controllers.UnitTitle
             {
                 ViewBag.CompanyType = compType;
             }
+            if (flag == 1)
+            {
+                ViewBag.Msg = "Success";
+            }
+            else 
+            {
+                ViewBag.Msg = "Error";
+            }
+            
             return View(obj2);
         }
         /// <summary>
@@ -81,7 +90,23 @@ namespace BankLoanSystem.Controllers.UnitTitle
                 obj2.TitleList = obj1.SearchTitle(loanCode,identificationNumber);
                 //ViewBag.TitleList = obj2.TitleList;
             }
+            
             return PartialView(obj2);
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 03/17/2016
+        /// search titles by identification number
+        /// 0=>NotReceived
+        /// 1=>Received
+        /// 2=>Returned to Dealer
+        /// 3=>Sent to Bank
+        /// </summary>
+        /// <param name="unitTitle"></param>
+        /// <returns></returns>
+        public int UpdateTitleStatus(Models.Unit unitTitle)
+        {
+            return 1;
         }
     }
 }
