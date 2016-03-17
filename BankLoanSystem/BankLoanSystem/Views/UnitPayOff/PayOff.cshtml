@@ -3,7 +3,7 @@
 @{
     Layout = null;
     ViewBag.Title = "Pay Off";
-    WebGrid grid = new WebGrid(Model.UnitPayOffList);
+    WebGrid grid = new WebGrid(Model.UnitPayOffList, defaultSort: "DateEntered", canPage: false, ajaxUpdateContainerId: "payOffGridDIv", ajaxUpdateCallback: "GridUpdate");
 }
 
 <!DOCTYPE html>
@@ -58,16 +58,17 @@
                            htmlAttributes: new { id = "checkableGrid" },
                            columns: grid.Columns(
                            grid.Column(
-                            format:@<text><input type="checkbox" value="@item.LoanId" name="ids" class="checkboxAll" id="all" /></text>
+                            format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                                 , header: "{checkall}"
 
                         ),
-                            grid.Column(
-                                "UnitId",
-                                "UnitId", canSort: false,
-                                format: @<text>@{<label id="vin" class="vin"> @item.UnitId</label>}</text>),
-                            grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Balance</label>}</text>),
-                            grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="year" class="year">@item.PurchesePrice</label>}</text>)
+                            grid.Column("DateEntered", "DateEntered", canSort: false, format: @<text>@{<label id="vin" class="vin"> @item.DateEntered</label>}</text>),
+                               grid.Column("IdentificationNumber", "IdentificationNumber", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                               grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Year</label>}</text>),
+                               grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Make</label>}</text>),
+                               grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Model</label>}</text>), 
+                               grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="year" class="year">@item.PurchesePrice</label>}</text>),
+                               grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Balance</label>}</text>)                          
 
                             )
                             )
@@ -254,49 +255,310 @@
     var checkCount = 0;
     var totalRecCount = 0;
 
-    function ClearLabelMessages() {
-        $('#noDataLabelDiv').text("");
-        $('.label-success').text("");
-    }
+    function GridUpdate() {
+        var ctrl =
+                $('<input />', {
+                    type: 'checkbox',
+                    id: "cbSelectAll",
+                    click: function () {
+                        var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
+                        checkboxes.prop('checked', $(this).is(':checked'));
+                        var chk = checkboxes.prop('checked');
+                        if (chk) {
+                            var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
+                            $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
+                            $("#iAdvance").attr("disabled", "disabled");
+
+                        } else {                                  
+                            var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
+                            $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
+                            $("#btnAdvanceAll").attr("disabled", "disabled");
+                            $("#startDate").attr("disabled", "disabled");
+                            $("#iAdvance").attr("disabled", "disabled");
+                            totalRecCount = 0;
+                                   
+                        }
+                        total = 0;
+                        totalRecCount = 0;
+                        $('.advanceAmount').each(function () {                                   
+                            var tr = $(this).parents('tr:first');
+                            totalRecCount++;
+                            if (document.getElementById('all').checked) {
+                                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                checkCount++;
+
+                                $(this).parents('tr').css('background', 'lightblue');
+                            } else {
+                                checkCount = 0;
+                                total = 0;
+                                $(this).parents('tr').css('background', 'transparent');
+                            }                                  
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;                                  
+                            if (checkCount > 0) {                                       
+                                $("#btnAdvanceAll").removeAttr("disabled");
+                                $("#startDate").removeAttr("disabled");                                      
+                                if (totalRecCount == 1) {
+                                    SetTextBoxValues(tr);
+                                }
+                            }
+
+                        });
+                        if (checkCount > 1) {
+                            ClearTextBoxValues();                                  
+                        }
+                        else if (checkCount == 0 || totalRecCount == 0) {
+                            $("#btnAdvanceAll").attr("disabled", "disabled");
+                            $("#startDate").attr("disabled", "disabled");
+                            ClearTextBoxValues();
+                        }
+
+                    }
+                })
+
+
+        var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
+        $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
+                
+              
+        $('.checkboxAll').change(function () {
+            var tr = $(this).parents('tr:first');
+            //var fullcost = parseFloat(tr.find("#am").text().replace(',', ''));
+            //var numValue = Number.parseFloat(tr.find("#am").text());
+            //alert(fullcost);
+            var checked = tr.find("#all").is(':checked');
+            if (checked) {
+                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                checkCount++;
+                $(this).parents('tr').css('background', 'lightblue');
+            } else {
+                total = total - parseFloat(tr.find("#am").text().replace(',', ''));
+                checkCount--;
+                $(this).parents('tr').css('background', 'transparent');
+            }
+                        
+            if (checkCount == 1) {
+                if (checked) {
+                    SetTextBoxValues(tr);
+
+                } else {
+                    $('.advanceAmount').each(function () {
+
+                        var tr = $(this).parents('tr:first');
+                        var checked = tr.find("#all").is(':checked');
+
+                        if (checked) {
+                            SetTextBoxValues(tr);
+                        }
+                    });
+                }
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                $("#btnAdvanceAll").removeAttr("disabled");
+                $("#startDate").removeAttr("disabled");
+            }
+            else if (checkCount == 0) {                            
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+                ClearTextBoxValues();
+                $("#btnAdvanceAll").attr("disabled", "disabled");
+                $("#startDate").attr("disabled", "disabled");
+                $("#iAdvance").attr("disabled", "disabled");
+                $("#someID span").html('Select')
+                           
+            }
+            else {
+                ClearTextBoxValues();
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+            }
+
+            if (checkCount > 0) {
+                var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
+                $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+                //ChangeCheckBoxText('select ');
+
+                var totalRows = $("#checkableGrid td :checkbox").length;
+                var checked = $("#checkableGrid td :checkbox:checked").length;
+
+                if (checked == totalRows) {
+                    var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
+                    $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+                }
+            }
+
+        });
+    }           
+
+    $(function () {               
+        GridUpdate();
+    });            
 
     $(document).on('click', 'tbody', (function (e) {
         var target = $(e.target);
         if (target.parents('#checkableGrid').length) {
             var $td = $(e.target).closest("td");
             var rowIndex = $td.parent().index();
-            rowIndex += 1;
-            var colIndex = $td.parent().children().index($td);
+            rowIndex +=1;
+            var ColIndex = $td.parent().children().index($td);
             var table = document.getElementById("checkableGrid");
             var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
             ClearLabelMessages();
-
-            if (colIndex !== 0) {
-
-                var checked = row.find("#all").prop('checked');
+                  
+            if (ColIndex != 0) {
+                       
+                var checked = row.find("#all").prop('checked');                       
                 if (!checked) {
                     row.find("#all").prop('checked', true);
                     row.css('background', 'lightblue');
-
+                            
                     checkCount++;
                     total = total + parseFloat(row.find("#am").text().replace(',', ''));
-
-                    //if (checkCount == 1) {
-                    //    SetTextBoxValues(row);
-                    //}
-                    //else {
-                    //    SetRadioBtnHeaderChecked();
-                    //    ClearTextBoxValues();
-                    //}
+                           
+                    if (checkCount == 1) {
+                        SetTextBoxValues(row); 
+                    }                          
+                    else {                                
+                        SetRadioBtnHeaderChecked();
+                        ClearTextBoxValues();
+                    } 
                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-
-                    $("#btnAdvanceAll").removeAttr("disabled");
+                            
+                    $("#btnAdvanceAll").removeAttr("disabled");                           
                     $("#startDate").removeAttr("disabled");
                 }
             } else {
-                //SetRadioBtnHeaderChecked();
+                SetRadioBtnHeaderChecked();
             }
         }
-    }));
+    }));          
+
+    $(document).ready(function () {
+        $("#content tbody tr").each(function (i, row) {
+            var $actualRow = $(row);
+            if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
+                $actualRow.css('background-color', '#EAF2D3');
+            }
+            else {
+                $actualRow.css('background-color', '#FF9E9E');
+            }
+        });
+    });
+
+    $('#btnAdvance').click(function (e) {
+
+        if ($("#tagscloud span").text() != "") {
+            e.preventDefault();
+        }
+
+        else if ($('#iVin').val() != '') {
+                    
+            var unit = {
+                "UnitId": $('#unitid').text(),
+                "IdentificationNumber": $('#iVin').val(),
+                "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
+                "AdvanceDate": $('#advanceDate').val()
+            };
+
+            $.ajax({
+                url: '/AdvanceUnit/UpdateAdvance/',
+                data: JSON.stringify(unit),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (View) {
+                    if (View != '2') {
+                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    } else {
+                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    }                            
+                }
+            });
+        }
+    });
+
+    $('#btnAdvanceAll').click(function () {
+        if (checkCount >= 1) {
+            var data = { ItemList: [] };
+            $('.advanceAmount').each(function () {
+                var tr = $(this).parents('tr:first');
+                var checked = tr.find("#all").is(':checked');
+                if (checked) {
+                    data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val() });
+
+                }
+            });
+
+            $.ajax({
+                url: '/AdvanceUnit/UpdateAdvanceAll/',
+                data: JSON.stringify(data),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (View) {
+
+                    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                }
+            });
+        }
+
+    });
+
+    function ClearTextBoxValues() {
+        $('#ivin').val('');
+        $('#iVin').val('');
+        $('#iYear').val('');
+        $('#iMake').val('');
+        $('#iModel').val('');
+        $('#iCost').val('');
+        $('#iAdvance').val('');
+        $("#btnAdvance").attr("disabled", "disabled");
+        
+        $("#advanceDate").attr("disabled", "disabled");
+       
+        $("#singleUnitDiv").hide();
+    }
+
+    function SetTextBoxValues(tr) {
+        $('#iVin').val(tr.find("#vin").text());
+        $('#iYear').val(tr.find("#year").text());
+        $('#iMake').val(tr.find("#make").text());
+        $('#iModel').val(tr.find("#model").text());
+        $('#iCost').val(tr.find("#cost").text());
+        $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
+        document.getElementById("unitid").innerHTML = tr.find("#all").val();
+        
+        @if(ViewBag.loanDetails.isEditAllowable == true)
+        {
+            <text> $('#iAdvance').removeAttr('disabled'); </text>
+        }
+                
+        
+        $("#btnAdvance").removeAttr("disabled");
+        
+        $("#advanceDate").removeAttr("disabled");               
+                
+        $("#singleUnitDiv").show();
+               
+    }
+
+    function SetRadioBtnHeaderChecked() {
+        var totalRows = $("#checkableGrid td :checkbox").length;
+        var checked = $("#checkableGrid td :checkbox:checked").length;
+
+        if (checked == totalRows) {
+            var chkText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = true;
+            });                    
+            $("#someID span").html('Deselect');
+        }
+        else {
+                    
+            $("#cbSelectAll").removeAttr("checked");
+        }
+                
+    }
+
+    function ChangeCheckBoxText(value) {
+        var chkText = $('<div />').attr({ id: 'someID' }).html(value);
+        $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+    }
 
 
     $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');

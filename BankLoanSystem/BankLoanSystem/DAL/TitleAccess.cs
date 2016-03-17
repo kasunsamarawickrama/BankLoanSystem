@@ -171,15 +171,15 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="identificationNumber"></param>
         /// <returns>resultList</returns>
-        public List<TitleStatus> SearchTitle(string loanCode,string identificationNumber)
+        public List<Unit> SearchTitle(string loanCode,string identificationNumber)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
            
-            List<TitleStatus> resultList = new List<TitleStatus>();
+            List<Unit> resultList = new List<Unit>();
             if (!string.IsNullOrEmpty(identificationNumber))
             {
-                paramertList.Add(new object[] { "@loan_id", loanCode });
+                paramertList.Add(new object[] { "@loan_code", loanCode });
                 paramertList.Add(new object[] { "@identification_number", identificationNumber });
                 try
                 {
@@ -188,13 +188,27 @@ namespace BankLoanSystem.DAL
                     {
                         foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                         {
-                            TitleStatus title = new TitleStatus();
+                            Unit title = new Unit();
                             title.IdentificationNumber = dataRow["identification_number"].ToString();
                             title.Year = int.Parse(dataRow["year"].ToString());
                             title.Make = dataRow["make"].ToString();
-                            title.UnitModel = dataRow["model"].ToString();
-                            title.CurrentStatus = dataRow["title_status"].ToString();
-
+                            title.Model = dataRow["model"].ToString();
+                            if (int.Parse(dataRow["title_status"].ToString()) == 0)
+                            {
+                                title.CurrentTitleStatus = "Not Received";
+                            }
+                            else if (int.Parse(dataRow["title_status"].ToString()) == 1)
+                            {
+                                title.CurrentTitleStatus = "Received";
+                            }
+                            else if (int.Parse(dataRow["title_status"].ToString()) == 2)
+                            {
+                                title.CurrentTitleStatus = "Returned to Dealer";
+                            }
+                            else if (int.Parse(dataRow["title_status"].ToString()) == 3)
+                            {
+                                title.CurrentTitleStatus = "Sent to Bank";
+                            }
                             resultList.Add(title);
                         }
 
