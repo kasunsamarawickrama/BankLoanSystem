@@ -16,6 +16,24 @@ else if (ViewBag.type == "Advance")
     controllerName = "AdvanceUnit";
 }
 
+else if (ViewBag.type == "Curtailment")
+{
+    actoinName = "PayCurtailments";
+    controllerName = "Curtailments";
+}
+
+else if (ViewBag.type == "PayOff")
+{
+    actoinName = "PayOff";
+    controllerName = "UnitPayOff";
+}
+
+else if (ViewBag.type == "Title")
+{
+    actoinName = "TitleStatusUpdate";
+    controllerName = "UnitTitle";
+}
+
 <div id="branch-panel">
     <div class="h-panel">
         <ul>

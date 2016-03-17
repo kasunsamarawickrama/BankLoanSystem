@@ -4,26 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BankLoanSystem.Controllers.Curtailments
+namespace BankLoanSystem.Controllers.UnitTitle
 {
-    public class CurtailmentsController : Controller
+    public class UnitTitleController : Controller
     {
-        // GET: Curtailments
+        // GET: Title
         public ActionResult Index()
         {
             return View();
         }
 
-
         public ActionResult setLoanCode(string loanCode)
         {
             Session["loanCode"] = loanCode;
 
-            return RedirectToAction("PayCurtailments");
+            return RedirectToAction("TitleStatusUpdate");
         }
 
-        // GET: Curtailments
-        public ActionResult PayCurtailments()
+        public ActionResult TitleStatusUpdate()
         {
             return View();
         }

@@ -235,49 +235,73 @@ else
             </div>
 
             <div class="form-group">
-
-                <table>
+                <table width="50%">
                     <tr>
-                        <td width="25%">@Html.LabelFor(model => model.DueDate, htmlAttributes: new { })</td>
+                        <td width="60%">@Html.LabelFor(model => model.DueDate, htmlAttributes: new { })</td>
                         <td width="40%">
-                                 @{
-                                    for (var i = 1; i < 29; i++)
-                                    {
-                                        listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                    }
-                                    listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                            @{
+                                for (var i = 1; i < 29; i++)
+                                {
+                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                                 }
-                                @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
-                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                            }
+                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
+                            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
                         </td>
                     </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorDueDate"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
                 </table>
-
-
-                
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2" style="margin-top:10px">
-                    @Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })
-                </div>
-                <div class="col-xs-8">
-                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control e", @id = "curtailmentDueEmail" } })
-                    @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
-                </div>
+                <table width="50%">
+                    <tr>
+                        <td width="60%">@Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })</td>
+                        <td width="40%">
+                            @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control e", @id = "curtailmentDueEmail" } })
+                            @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorAutoRemindEmail"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
+                </table>
             </div>
 
             <div class="form-group">
-                <div class="control-label col-sm-2" style="margin-top:10px">
-                    @Html.LabelFor(model => model.EmailRemindPeriod, htmlAttributes: new { })
-                </div>
-                <div class="col-xs-8">
-                    @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
-                    @Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })
-                </div>
+                <table width="50%">
+                    <tr>
+                        <td width="60%">@Html.LabelFor(model => model.EmailRemindPeriod, htmlAttributes: new { })</td>
+                        <td width="40%">
+                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                            @Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="customErrorEmailRemindPeriod"><span class="text-danger"></span></div>
+                        </td>
+                    </tr>
+
+                </table>
             </div>
 
-        <div class="form-group">
+            <div class="form-group">
 
                 <div class="button-panel">
                     <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1" />
@@ -288,10 +312,31 @@ else
                 </div>
             </div>
         </div>
-                            }
-                        }
+                                    }
+                                }
 @*Grid view*@
+<script src="~/scripts/CommonFunctions.js"></script>
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
+    });
+
+    $('curtailmentDueEmailRemindPeriod').keypress(function() {
+        var res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('curtailmentDueEmailRemindPeriod').click(function() {
+        var res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
     $('#dashBoard').click(function () {
         window.location.replace('@Url.Action("UserDetails", "UserManagement")');
@@ -758,7 +803,12 @@ else
         //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
     });
 
+    //$('#curtailmentDueEmail').change(function() {
+    //    alert('hi');
+    //});
+
     $('#btnCreate').click(function() {
+
         $('#customErrorTable').children('span').text("");
         var calBase = $('.payment').filter(':checked').val();
 
@@ -773,23 +823,42 @@ else
         if (loanStatus === 'Yes' || loanStatus === 'No') {
             $('#customErrorLoanStatus').children('span').text("");
         } else {
-            $('#customErrorLoanStatus').children('span').text("Please select.");
+            $('#customErrorLoanStatus').children('span').text("Select a date.");
         }
 
+        //var dueDate = $('#CurtailmentDueDate').val();
+
+
         var dueDate = document.getElementById('CurtailmentDueDate').value;
+        //alert(dueDate);
+        if (dueDate === '') {
+            $('#customErrorDueDate').children('span').text("Please select.");
+        } else {
+            $('#customErrorDueDate').children('span').text("");
+        }
+        //alert(dueDate);
+
         var email = document.getElementById('curtailmentDueEmail').value;
+        //if (email === '') {
+        //    $('#customErrorAutoRemindEmail').children('span').text("email address required.");
+        //} else {
+        //    $('#customErrorAutoRemindEmail').children('span').text("");
+        //}
+
         var emailRemindPeriod = document.getElementById('curtailmentDueEmailRemindPeriod').value;
 
-        var curtaiulmentModel = {
-            LoanStatus: loanStatus, 
-            CalculationBase: calBase, 
-            DueDate: dueDate,
-            AutoRemindEmail: email,
-            EmailRemindPeriod: emailRemindPeriod
-        };
 
-        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false)
+
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
         {
+            var curtaiulmentModel = {
+                LoanStatus: loanStatus,
+                CalculationBase: calBase,
+                DueDate: dueDate,
+                AutoRemindEmail: email,
+                EmailRemindPeriod: emailRemindPeriod
+            };
+
             var data = { curtailmentList: [], curtaiulmentModel};
             $('table#tblGrid > tbody > tr').not(':first').each(function() {
                 var curid = $(this).find("#lblCur").html();
@@ -827,6 +896,17 @@ else
     //set loan status
     $('.Active').change(function () {
         $('#customErrorLoanStatus').children('span').text("");
+    });
+
+    //due date
+    $('#CurtailmentDueDate').change(function() {
+        //alert($(this).val());
+        var val = $(this).val();
+        if (val === '') {
+            $('#customErrorDueDate').children('span').text("Please select.");
+        } else {
+            $('#customErrorDueDate').children('span').text("");
+        }
     });
 
     function AllowNumbers(id, code) {

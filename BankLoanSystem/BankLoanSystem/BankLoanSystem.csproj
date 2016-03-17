@@ -185,6 +185,8 @@
     <Compile Include="Controllers\SetupProcessTestController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupProcessController.cs" />
     <Compile Include="Controllers\SetupProcess\SetupSignUpController.cs" />
+    <Compile Include="Controllers\UnitTitle\UnitTitleController.cs" />
+    <Compile Include="Controllers\UnitPayOff\UnitPayOffController.cs" />
     <Compile Include="Controllers\Unit\UnitController.cs" />
     <Compile Include="Controllers\UserManagement\UserManagementController.cs" />
     <Compile Include="DAL\BranchAccess.cs" />
@@ -225,7 +227,9 @@
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\Title.cs" />
+    <Compile Include="Models\TitleStatus.cs" />
     <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\UnitCurtailment.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
@@ -302,6 +306,8 @@
     <Content Include="Views\UserManagement\getNonRegBranchesByRegBranchId.cshtml" />
     <Content Include="Views\EmployeeDashBoard\EmployeeDetail.cshtml" />
     <Content Include="Views\Curtailments\PayCurtailments.cshtml" />
+    <Content Include="Views\UnitPayOff\PayOff.cshtml" />
+    <Content Include="Views\UnitTitle\TitleStatusUpdate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

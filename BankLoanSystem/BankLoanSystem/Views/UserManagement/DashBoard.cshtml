@@ -14,9 +14,9 @@
         <strong><span>Loading... </span></strong>
     </div>
     <div id="selcet-panel">
-        @*@{
-            Html.RenderAction("Selectloan", "UserManagement");
-        }*@
+        
+
+
     </div>
     
 </div>
@@ -37,24 +37,32 @@
 
     if (item.rightId == "U001")
     {
-        @*@Ajax.ActionLink("Advance", "UserLogin", "Login", null, new { @class = "btn btn-info show-popup", @id = "lkadv" , @data_showpopup = "1" })*@
+
         @Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkadv", @data_showpopup = "1" })
     }
 
     if (item.rightId == "U002")
     {
-        @Html.ActionLink("Title", "", "", null, new { @class = "btn btn-info", @id = "lkttl" })
+ 
+        @Ajax.ActionLink("Title", "Selectloan", "UserManagement", new { type = "frtgcvfd" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkttl", @data_showpopup = "1" })
+
     }
 
     if (item.rightId == "U003")
     {
-        @Html.ActionLink("Pay Off", "", "", null, new { @class = "btn btn-info", @id = "lkpoff" })
+
+        @Ajax.ActionLink("Pay Off", "Selectloan", "UserManagement", new { type = "wsedtgio" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkpoff", @data_showpopup = "1" })
     }
 
     if (item.rightId == "U004")
     {
-        @*@Html.ActionLink("Add a Unit", "Selectloan", "UserManagement", null, new { @class = "btn btn-info show-popup", @id = "lkuni" , @data_showpopup = "1" })*@
+
         @Ajax.ActionLink("Add a Unit", "Selectloan", "UserManagement", new {type= "asderruy" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+    }
+
+    if (item.rightId == "U005")
+    {
+        @Ajax.ActionLink("Pay Curtailment", "Selectloan", "UserManagement", new { type = "sedretyt" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkcrtl" , @data_showpopup = "1" })
     }
 
 
@@ -83,4 +91,24 @@
         }
     });
 
+    $("#lkcrtl").click(function () {
+        if ($('#selcet-panel').contents().length > 1 && $("#Actiontype").val() == "PayCurtailments") {
+            return false;
+        }
+    });
+
+    $("#lkpoff").click(function () {
+        if ($('#selcet-panel').contents().length > 1 && $("#Actiontype").val() == "PayOff") {
+            return false;
+        }
+    });
+    
+
+    $("#lkttl").click(function () {
+        if ($('#selcet-panel').contents().length > 1 && $("#Actiontype").val() == "TitleStatusUpdate") {
+            return false;
+        }
+    });
+
+    
 </script>

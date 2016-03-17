@@ -1,0 +1,270 @@
+﻿@model BankLoanSystem.Models.UnitPayOffViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Pay Off";
+    WebGrid grid = new WebGrid(Model.UnitPayOffList);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pay Off</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <link href="~/Content/commonActions.css" rel="stylesheet" />
+
+</head>
+<body>
+    @using (Ajax.BeginForm("Advance", null, new AjaxOptions()
+    {
+        OnFailure = "handleError",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer",
+        LoadingElementId = "loadingDiv"
+    }, new { id = "form" }))
+    {
+        <div class="container" id="container">
+
+
+
+
+            @*@{
+                    Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+                }*@
+
+
+
+            <div class="details-container">
+
+
+                <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+
+
+                    <div class="info-bar" id ="payOffGridDIv" style="margin-top:15px">
+
+                        <!-- This is for Grid-->
+
+                        @grid.GetHtml(
+            tableStyle: "gridtable",
+           headerStyle: "webgrid-header",
+
+           alternatingRowStyle: "webgrid-alternating-row",
+           rowStyle: "webgrid-row-style",
+           htmlAttributes: new { id = "checkableGrid" },
+           columns: grid.Columns(
+           grid.Column(
+                format:@<text><input type="checkbox" value="@item.LoanId" name="ids" class="checkboxAll" id="all" /></text>
+                   , header: "{checkall}"
+
+           ),
+                grid.Column(
+                   "UnitId",
+                   "UnitId", canSort: false,
+                   format: @<text>@{<label id="vin" class="vin"> @item.UnitId</label>}</text>),
+                grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Balance</label>}</text>),
+                grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="year" class="year">@item.PurchesePrice</label>}</text>)
+                
+                )
+                )
+
+</div>
+
+                    <div class="info-bar" style="margin-top:15px">
+
+                        <div class="form-group row">
+                            <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned to Dealer at this time?</label>
+
+
+                            <div class="col-md-2">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="">Pay Date : </label>
+
+                                <input class="form-control" type="date" style="margin-left: 15px"/>
+                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", autocomplete = "off", @disabled = "disabled" } })
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay off all selected units</button>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="info-bar search-panel" style="margin-top:15px;">
+
+                        <div class="form-inline" style="margin-left:25px;">
+                            <div class="form-group">
+                                <label for="id">VIN/HIN/Serial</label>
+
+                                <input class="form-control" type="text" />
+
+                            </div>
+
+                            <div class="form-group" style="margin-left:20px;">
+                                <label for="">Year</label>
+
+                                <input class="form-control" type="text" style="width:90px" />
+
+                            </div>
+
+                            <div class="form-group" style="margin-left:20px;">
+                                <label for="">Make</label>
+
+                                <input class="form-control" type="text" style="width:90px" />
+
+                            </div>
+
+                            <div class="form-group" style="margin-left:20px;">
+                                <label for="">Model</label>
+
+                                <input class="form-control" type="text" style="width:100px" />
+
+                            </div>
+
+                            <button type="submit" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="info-bar" style="margin-top:15px">
+
+                        <!-- This is for Search Grid-->
+
+
+
+                    </div>
+
+                    <div class="info-bar" style="margin-top:15px">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form>
+                                    <fieldset>
+                                        <div class="form-group row">
+
+                                            <div class="col-md-2">
+                                                <label for="">Vin/HIN/Serial </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="firstName">Year </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Make </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Model </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Purchase Price </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-2">
+                                                <label for="">Pay Off Amount </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Pay Off Date </label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label style="width:28%" for="" class="col-sm-4 form-control-label">Is the title being returned to Dealer at this time?</label>
+
+
+                                            <div class="col-md-2">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                                </label>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                        <button style="width:100px" type="submit" class="btn btn-info">Pay</button>
+                                        <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="link-bar" style="margin-bottom:15px;">
+
+
+                @{
+                    Html.RenderAction("GetLinkBar", "Unit");
+                }
+
+
+            </div>
+
+
+        </div>
+                    }
+
+    <script>
+
+        $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+            $("#lkpoff").click(function (e) { e.preventDefault(); });
+            $("#lkpoff").siblings().click(function (e) {
+                return true;
+
+            });
+    </script>
+
+
+
+
+
+</body>
+</html>

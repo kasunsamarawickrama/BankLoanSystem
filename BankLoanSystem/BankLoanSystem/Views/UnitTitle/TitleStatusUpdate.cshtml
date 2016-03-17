@@ -1,0 +1,177 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Title Status Update";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Title Status Update</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <link href="~/Content/commonActions.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="container" id="container">
+
+
+
+
+        @{
+            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+        }
+
+
+
+        <div class="details-container">
+
+            @*<div class="right-panel">
+                                @{
+                //Html.RenderAction("LoanPaymentDetails", "Unit");
+                                }
+
+                            </div>*@
+
+
+            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+              
+                <div class="info-bar">
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number for the unit you would like to update the title status of.</label>
+
+
+                        <div class="col-md-2">
+                            <input class="form-control" type="text" />
+                        </div>
+                         <button type="button" class="btn btn-info">Display</button>
+                    </div>
+
+
+
+                </div>
+
+                <div class="info-bar" style="margin-top:15px">
+
+                    <!-- This is for Grid-->
+
+
+
+                </div>
+
+                <div class="info-bar search-panel" style="margin-top:15px;">
+
+                    <div class="form-inline" style="margin-left:25px;">
+                        <div class="form-group">
+                            <label for="">VIN/HIN/Serial</label>
+
+                            <input class="form-control" type="text" />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Year</label>
+
+                            <input class="form-control" type="text" style="width:90px" />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Make</label>
+
+                            <input class="form-control" type="text" style="width:90px" />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Model</label>
+
+                            <input class="form-control" type="text" style="width:100px" />
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Current Title Status</label>
+
+                            <input class="form-control" type="text" style="width:100px" />
+
+                        </div>
+
+                        <div class="form-group row" style="margin-top:25px">
+                            <label for="" class="col-sm-9 form-control-label">Select the status you wish to update the title to: </label>
+
+
+                            <div class="col-md-8" style="margin-left:200px">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Not Recieved
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Recieved
+                                </label>
+
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Returned to Dealer
+                                </label>
+                            </div>
+
+                        </div>
+
+                      
+                        <div class="form-group" style="margin-top:25px;">
+                            <button type="button" class="btn btn-default" style="margin-right:25px;float:right;">Cancel</button>
+
+                            <button type="submit" class="btn btn-info" style="margin-right:25px;float:right;width:100px">Update</button>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="link-bar" style="margin-bottom:15px;">
+
+
+            @{
+                Html.RenderAction("GetLinkBar", "Unit");
+            }
+
+
+        </div>
+
+
+    </div>
+    <script>
+        $("#lkttl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        $("#lkttl").click(function (e) { e.preventDefault(); });
+        $("#lkttl").siblings().click(function (e) {
+            return true;
+
+        });
+
+    </script>
+
+
+
+
+
+</body>
+</html>
+

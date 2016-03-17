@@ -2433,8 +2433,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <param name="curtaiulmentModel"></param>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult AddCurtailment(List<Curtailment> curtailmentList)
+        public ActionResult AddCurtailment(List<Curtailment> curtailmentList, CurtailmentModel curtaiulmentModel)
         {
+            //calculate payment percentage
+            int index = 0;
+            foreach (Curtailment curtailment in curtailmentList)
+            {
+                curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
+                index++;
+            }
+
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
             if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
