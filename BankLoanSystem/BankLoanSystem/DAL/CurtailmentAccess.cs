@@ -147,8 +147,7 @@ namespace BankLoanSystem.DAL
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
         }
-
-
+        
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/03/17
