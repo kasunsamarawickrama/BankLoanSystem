@@ -163,7 +163,7 @@ namespace BankLoanSystem.DAL
                         return countVal;
                     }
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -359,7 +359,7 @@ namespace BankLoanSystem.DAL
                         {
                             unit.IsActive = true;
                             cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
-                            
+
                         }
                         else {
                             unit.IsActive = false;
@@ -617,7 +617,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year,int unitType)
+        public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year, int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
@@ -663,7 +663,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="make"></param>
         /// <returns>modelList</returns>
-        public List<UnitYearMakeModel> GetVehicleMakesByYear(int year,int unitType)
+        public List<UnitYearMakeModel> GetVehicleMakesByYear(int year, int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
@@ -933,35 +933,41 @@ namespace BankLoanSystem.DAL
         /// 
         /// </summary>
         /// <param name="loanId"></param>
-        public bool GetLoanCurtailmentDetails(int loanId,string unitId, DateTime advaceDate, decimal advanceAmount, decimal cost)
+        public bool GetLoanCurtailmentDetails(int loanId, string unitId, DateTime advaceDate, decimal advanceAmount, decimal cost)
         {
             StepAccess stepAccess = new StepAccess();
             LoanSetupStep1 loan = stepAccess.GetLoanCurtailmentBreakdown(loanId);
             Int32 curtailmentNo = 1;
-            //Curtailment curtailmentSchedule = new Curtailment();
+            //bool isEditAdvanceAmount = false;
+            //isEditAdvanceAmount = ((cost * loan.advancePercentage) / 100) == advanceAmount ? false : true;
             foreach (Curtailment curtailment in loan.curtailmetList)
             {
-               
                 curtailment.CurtailmentId = curtailmentNo;
-                if (loan.payOffPeriodType == 0)//check pay off period as days
-                {
-                    curtailment.CurtailmentDate = advaceDate.AddDays(Convert.ToDouble(curtailment.TimePeriod));
+                //check pay off period as days or month               
+                curtailment.CurtailmentDate = loan.payOffPeriodType == 0 ? (advaceDate.AddDays(Convert.ToDouble(curtailment.TimePeriod))) : advaceDate.AddMonths(curtailment.TimePeriod ?? 0);
+                if (loan.CurtailmentCalculationBase == "f")
+                { 
+                    if (loan.curtailmetList.Count==curtailmentNo)
+                    {
+                        curtailment.Amount = advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList);
+                    }
+                    else
+                    {
+                        curtailment.Amount = this.CalculateAdditionalPercentage(advanceAmount, curtailment.Percentage, loan.advancePercentage);
+                    }
                 }
-                else//pay off period as month
+                else if (loan.CurtailmentCalculationBase == "a")
                 {
-                    curtailment.CurtailmentDate = advaceDate.AddMonths(curtailment.TimePeriod ?? 0);
-                }
-
-                if (loan.CurtailmentCalculationBase == "a")
-                {
-                    curtailment.Amount = advanceAmount * curtailment.Percentage ?? 0 / 100;
-                }
-                else if (loan.CurtailmentCalculationBase == "f")
-                {
-                    curtailment.Amount = cost * curtailment.Percentage ?? 0 / 100;
+                    if (loan.curtailmetList.Count == curtailmentNo)
+                    {
+                        curtailment.Amount = advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList);
+                    }
+                    else
+                    {
+                        curtailment.Amount = (advanceAmount * curtailment.Percentage ?? 0) / 100;
+                    }                   
                 }
                 curtailmentNo++;
-               
             }
 
             try
@@ -978,15 +984,23 @@ namespace BankLoanSystem.DAL
                         ));
                 string xmlDoc = xEle.ToString();
                 CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-                return curtailmentAccess.InsertCurtailmentScheduleInfo(xmlDoc, unitId, loanId);              
-
+                return curtailmentAccess.InsertCurtailmentScheduleInfo(xmlDoc, unitId, loanId);
             }
             catch (Exception ex)
             {
                 return false;
-                //flag = 0;
-                //throw ex;
             }
+        }
+
+        public decimal CalculateAdditionalPercentage(decimal advanceAmount, int? percentage, decimal advancePercentage)
+        {
+            decimal actualPercentage = ((percentage ?? 0 * 100) / advancePercentage)*100;
+            return (advanceAmount * actualPercentage) / 100;
+        }
+
+        public decimal GetCurtailmentCurrentTotal(IList<Curtailment> lstCurtailment)
+        {
+            return lstCurtailment.Sum(a => a.Amount);
         }
     }
 }
