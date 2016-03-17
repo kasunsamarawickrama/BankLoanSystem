@@ -243,21 +243,18 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = int.Parse(dataRow["unit_id"].ToString());
+                    curtailment.UnitId = dataRow["unit_id"].ToString();
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
-
                     curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
                     curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString());
-
-                    curtailment.Status = Convert.ToBoolean(dataRow["curt_status"].ToString());
-
+                    curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
                     curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
-
                     curtailment.IDNumber = dataRow["identification_number"].ToString();
                     curtailment.CurtNumber = int.Parse(dataRow["curt_number"].ToString());
                     curtailment.Make = dataRow["make"].ToString();
                     curtailment.Model = dataRow["model"].ToString();
+                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
 
                     lstCurtailmentShedule.Add(curtailment);
                 }
@@ -280,8 +277,34 @@ namespace BankLoanSystem.DAL
         public List<UnitPayOffModel> GetUnitPayOffList(int loanId)
         {
             List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
+            
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
 
-            return payOffList;
+            DataSet dataSet = dataHandler.GetDataSet("spRetriveUnitPayoff", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    UnitPayOffModel payoff = new UnitPayOffModel();
+                    payoff.LoanId = loanId;
+                    payoff.UnitId = dataRow["UnitId"].ToString();
+                    payoff.DateEntered = DateTime.Parse(dataRow["created_date"].ToString());
+                    payoff.IdentificationNumber = dataRow["identification_number"].ToString();
+                    payoff.Year = Convert.ToInt32(dataRow["year"]);
+                    payoff.Make = dataRow["make"].ToString();
+                    payoff.Model = dataRow["model"].ToString();
+                    payoff.PurchesePrice = Convert.ToDecimal(dataRow["cost"].ToString());
+                    payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
+                    payOffList.Add(payoff);
+                }
+                return payOffList;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

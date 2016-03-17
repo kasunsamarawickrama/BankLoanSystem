@@ -112,7 +112,7 @@ namespace BankLoanSystem.Models
 
         public bool IsApproved { get; set; }
 
-        public bool IsActive { get; set; }
+        public int UnitStatus { get; set; }
 
         [Display(Name = "Unit Type")]
         public int UnitTypeId { get; set; }
@@ -137,7 +137,9 @@ namespace BankLoanSystem.Models
         //Image
         public string FileName { get; set; }
 
-        
+        public string CurrentTitleStatus { get; set; }
+
+
     }
 
     public class LoanPaymentDetails {

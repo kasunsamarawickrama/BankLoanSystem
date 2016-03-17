@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BankLoanSystem.Models;
+using BankLoanSystem.DAL;
 
 namespace BankLoanSystem.Controllers.UnitPayOff
 {
@@ -26,18 +27,9 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         {
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
-            UnitPayOffModel upom = new Models.UnitPayOffModel()
-            {
-                LoanId = 1,
-                UnitId = "ooo",
-                Balance = 12.05M,
-                PurchesePrice = 15.09M,
-                Year = 2012,
-                Make = "Lamboghini",
-                Model = "Veneno"
-            };
+            CurtailmentAccess payoff = new CurtailmentAccess();
 
-            unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel> {upom};
+            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(190);
 
             return View(unitPayOffViewModel);
         }
