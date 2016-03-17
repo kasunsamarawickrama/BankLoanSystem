@@ -147,7 +147,7 @@ namespace BankLoanSystem.DAL
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
         }
-        
+
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/03/17
@@ -228,6 +228,21 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// CreatedBy : Kanishka
+        /// CreatedDate: 2016/03/17
+        /// 
+        /// Insert curtailment breakdown details
+        /// 
+        /// 
+        /// </summary>
+        public List<UnitPayOffModel> GetUnitPayOffList(int loanId)
+        {
+            List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
+
+            return payOffList;
         }
     }
 }
