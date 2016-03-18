@@ -38,7 +38,8 @@
                                 )
                             )
                          </div>
-                        <div id="subtotal"> Current Curtailment : $ 0 </div>
+                        <div id="subtotal"> Current Total to Advance : $ 0  </div>
+                        <div id="partialPaymentColor"><label style="position:relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</div>
                         <div id="unitid" class="hidden"></div>
                 </div> 
 
@@ -255,7 +256,7 @@
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
-
+                    
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount++;
@@ -296,18 +297,19 @@
 
                     }
                     else {
+                        
                         ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        
                     }
 
                     if (checkCount > 0) {
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                        ChangeCheckBoxText('select ');
-
+                        
                         var totalRows = $("#checkableGrid td :checkbox").length;
                         var checked = $("#checkableGrid td :checkbox:checked").length;
-
+                        
                         if (checked == totalRows) {
                             var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
                             $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
