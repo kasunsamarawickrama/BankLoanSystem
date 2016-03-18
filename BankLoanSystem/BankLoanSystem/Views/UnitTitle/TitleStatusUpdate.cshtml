@@ -74,31 +74,31 @@
                     <div class="form-inline" style="margin-left:25px;">
                         <div class="form-group">
                             <label for="">VIN/HIN/Serial</label>
-                            @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber"} })
+                            @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber",@disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.TitleDetails.IdentificationNumber, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Year</label>
-                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @style = "width:90px" } })
+                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @style = "width:90px", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Make</label>
-                            @Html.EditorFor(model => model.TitleDetails.Make, new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @style = "width:90px" } })
+                            @Html.EditorFor(model => model.TitleDetails.Make, new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @style = "width:90px", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Model</label>
-                            @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @style = "width:100px" } })
+                            @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @style = "width:100px", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group" style="margin-left:20px;">
                             <label for="">Current Title Status</label>
-                            @Html.EditorFor(model => model.TitleDetails.CurrentTitleStatus, new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @style = "width:150px" } })
+                            @Html.EditorFor(model => model.TitleDetails.CurrentTitleStatus, new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @style = "width:150px", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentTitleStatus, "", new { @class = "text-danger" })
                         </div>
 
@@ -108,21 +108,22 @@
 
                             <div class="col-md-8" style="margin-left:200px">
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Not Recieved
+                                    <input type="radio" name="inlineRadioOptions" id="notReceived" value="0"> Not Recieved
+
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Recieved
+                                    <input type="radio" name="inlineRadioOptions" id="received" value="1"> Recieved
                                 </label>
                                 @if (ViewBag.CompanyType == 1)
                                 {
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" id="" value=""> Returned to Dealer
+                                        <input type="radio" name="inlineRadioOptions" id="returnDealer" value="2"> Returned to Dealer
                                     </label>
                                 }
                                 else if(ViewBag.CompanyType == 2)
                                 {
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" id="" value=""> Sent to Bank
+                                        <input type="radio" name="inlineRadioOptions" id="sentBank" value="3"> Sent to Bank
                                     </label>
                                 }
                                 
@@ -134,7 +135,7 @@
                         <div class="form-group" style="margin-top:25px;">
                             <button type="button" class="btn btn-default" style="margin-right:25px;float:right;">Cancel</button>
 
-                            <button type="submit" class="btn btn-info" style="margin-right:25px;float:right;width:100px">Update</button>
+                            <button type="submit" class="btn btn-info" id="btnUpdate"style="margin-right:25px;float:right;width:100px">Update</button>
 
                         </div>
                     </div>
@@ -163,12 +164,19 @@
     </div>
     <script>
         $(document).ready(function () {
-            if ($('#titleGrid').children('tbody').children('tr').length == 1) {
-                alert('hg');
-                $('#searchGrid1').hide();
-                //SetTextBoxValues_2();
-            }
+            $('#searchGrid1').hide();
         });
+        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit)
+        {
+            //var model = @Html.Raw(Json.Encode(Model));
+            //alert(model.TitleDetails.Year);
+            $('#searchGrid1').hide();
+            $('#identificationNumber').val(vinNum);
+            $('#unitYear').val(yr);
+            $('#unitMake').val(make1);
+            $('#unitModel').val(model1);
+            $('#titleStatus').val(tit);
+        };
         $('#btnDisplay').click(function ()
         {
             var para1 = $('#identificationNumberSearch').val();
@@ -179,7 +187,7 @@
                 data: JSON.stringify({ identificationNumber: para1}),
                 success: function (View) {
                     $('#searchGrid1').html(View);
-                    $('#searchGrid1').show();
+                    //$('#searchGrid1').show();
                 },
                 error: function (reponse) {
                     $('#loadingSpan').hide();
@@ -205,14 +213,43 @@
 
         });
 
-        function SetTextBoxValues(tr)
-        {
+        function SetTextBoxValues(tr) {
             $('#identificationNumber').val(tr.find('#vin').text());
             $('#unitYear').val(tr.find('#year').text());
             $('#unitMake').val(tr.find('#make').text());
             $('#unitModel').val(tr.find('#model').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
-        }
+        };
+
+        $('#btnUpdate').click(function () {
+            var para1 = $('input[name = inlineRadioOptions]:checked').val();
+            var unitTitle = {
+                "IdentificationNumber": $('#identificationNumber').val(),
+                "Year": $('#unitYear').val(),
+                "Make": $('#unitMake').val(),
+                "Model": $('#unitModel').val(),
+                "CurrentTitleStatus": $('#titleStatus').val(),
+                "TitleStatus":$('input[name = inlineRadioOptions]:checked').val()
+            };
+
+            if ((para1 = 0) || (para1 = 1) || (para1 = 2) || (para1 = 3))
+            {
+                $.ajax({
+                    url: '/UnitTitle/UpdateTitleStatus',
+                    data: JSON.stringify(unitTitle),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
+                        if (View != '1') {
+                            $(location).attr('href', '/UnitTitle/TitleStatusUpdate?flag=' + View);
+                        } else {
+                            $(location).attr('href', '/UnitTitle/TitleStatusUpdate?flag=' + View);
+                        }
+                    }
+                });
+            }
+           
+        });
     </script>
 
 

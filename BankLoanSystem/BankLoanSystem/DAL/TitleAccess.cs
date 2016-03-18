@@ -228,5 +228,35 @@ namespace BankLoanSystem.DAL
             }
             return null;
         }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 03/17/2016
+        /// get titles list by identification number
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="loanCode"></param>
+        /// <returns>true/false</returns>
+        public bool UpdateTitle(Unit unit,string loanCode)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@identification_number", unit.IdentificationNumber });
+            paramertList.Add(new object[] { "@year", unit.Year });
+            paramertList.Add(new object[] { "@make", unit.Make });
+            paramertList.Add(new object[] { "@model", unit.Model });
+            paramertList.Add(new object[] { "@title_status", unit.TitleStatus });
+            paramertList.Add(new object[] { "@loan_code", unit.TitleStatus });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spUpdateTitleStatus", paramertList) ? true : false;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

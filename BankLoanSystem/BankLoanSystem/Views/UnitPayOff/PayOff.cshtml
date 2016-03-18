@@ -62,13 +62,13 @@
                                 , header: "{checkall}"
 
                         ),
-                            grid.Column("DateEntered", "DateEntered", canSort: false, format: @<text>@{<label id="vin" class="vin"> @item.DateEntered</label>}</text>),
-                               grid.Column("IdentificationNumber", "IdentificationNumber", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                               grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Year</label>}</text>),
-                               grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Make</label>}</text>),
-                               grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Model</label>}</text>), 
-                               grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="year" class="year">@item.PurchesePrice</label>}</text>),
-                               grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.Balance</label>}</text>)                          
+                            grid.Column("DateEntered", "DateEntered", canSort: false, format: @<text>@{<label id="date" class="vin"> @item.DateEntered</label>}</text>),
+                               grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                               grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
+                               grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
+                               grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>), 
+                               grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
+                               grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)                          
 
                             )
                             )
@@ -97,7 +97,7 @@
                             <div class="form-group">
                                 <label for="">Pay Date : </label>
 
-                                <input class="form-control" type="date" style="margin-left: 15px"/>
+                                @*<input class="form-control" type="date" style="margin-left: 15px"/>*@
                                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", autocomplete = "off", @disabled = "disabled" } })
 
                             </div>
@@ -113,40 +113,79 @@
                     <div class="info-bar search-panel" style="margin-top:15px;">
 
                         <div class="form-inline" style="margin-left:25px;">
-                            <div class="form-group">
+                            <div class="form-group" style="margin-left: -203px;">
                                 <label for="id">VIN/HIN/Serial</label>
 
-                                <input class="form-control" type="text" />
+                                @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
+                                @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+
 
                             </div>
 
                             <div class="form-group" style="margin-left:20px;">
                                 <label for="">Year</label>
 
-                                <input class="form-control" type="text" style="width:90px" />
+                                @*<input class="form-control" type="text" style="width:90px" />*@
+                                @{
+                                    List<SelectListItem> yearList = new List<SelectListItem>();
+                                    foreach (var type in ViewBag.advanceList)
+                                    {
+                                        if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                        {
+                                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                        }
+                                    }
+                                }
+
+                                @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" })
+                                @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
+                                <div id="vehicleyear"><span class="text-danger"></span></div>
 
                             </div>
 
                             <div class="form-group" style="margin-left:20px;">
                                 <label for="">Make</label>
 
-                                <input class="form-control" type="text" style="width:90px" />
-
+                                @*<input class="form-control" type="text" style="width:90px" />*@
+                                @{List<SelectListItem> makeList = new List<SelectListItem>();
+                                    foreach (var type in ViewBag.advanceList)
+                                    {
+                                        if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
+                                        {
+                                            makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                        }
+                                    }
+                                }
                             </div>
+                            @Html.DropDownList("make", makeList, "-- select make --", new { @class = "form-control", @id = "cmbMake" })
+                            @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
+                            <div id="vehiclemake"><span class="text-danger"></span></div>
 
-                            <div class="form-group" style="margin-left:20px;">
+
+
+                            <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
                                 <label for="">Model</label>
 
-                                <input class="form-control" type="text" style="width:100px" />
+                                @{List<SelectListItem> modelList = new List<SelectListItem>();
+                                    foreach (var type in ViewBag.advanceList)
+                                    {
+                                        if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
+                                        {
+                                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                        }
+                                    }
+                                }
+                                @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+                                @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+                                <div id="vehiclemodel"><span class="text-danger"></span></div>
 
                             </div>
 
-                            <button type="submit" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+
+                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="margin-left: 20px;margin-top: -43px;" />
+                            <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="margin-top: -43px;" />
                         </div>
-
-
-
-                    </div>
+                        </div>
 
 
                     <div class="info-bar" style="margin-top:15px">
@@ -157,7 +196,7 @@
 
                     </div>
 
-                    <div class="info-bar" style="margin-top:15px">
+                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -167,36 +206,36 @@
 
                                             <div class="col-md-2">
                                                 <label for="">Vin/HIN/Serial </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                             </div>
                                             <div class="col-md-2">
                                                 <label for="firstName">Year </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                             </div>
 
                                             <div class="col-md-2">
                                                 <label for="">Make </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                             </div>
 
                                             <div class="col-md-2">
                                                 <label for="">Model </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                             </div>
 
                                             <div class="col-md-2">
                                                 <label for="">Purchase Price </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-md-2">
                                                 <label for="">Pay Off Amount </label>
-                                                <input type="text" class="form-control">
+                                                @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                             </div>
                                             <div class="col-md-2">
                                                 <label for="">Pay Off Date </label>
-                                                <input type="text" class="form-control">
+                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
                                             </div>
                                         </div>
 
@@ -212,12 +251,7 @@
                                                     <input type="radio" name="inlineRadioOptions" id="" value=""> No
                                                 </label>
                                             </div>
-
                                         </div>
-
-
-
-
                                         <button style="width:100px" type="submit" class="btn btn-info">Pay</button>
                                         <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
                                     </fieldset>
@@ -235,19 +269,18 @@
             </div>
 
 
-            <div class="link-bar" style="margin-bottom:15px;">
+            <div class="link-bar" style="margin-bottom:15px;"></div>
 
 
-                @{
-                    Html.RenderAction("GetLinkBar", "Unit");
-                }
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
 
 
-            </div>
+</div>
 
-
-        </div>
-                    }
+}
+    
 
 <script>
     
@@ -337,6 +370,7 @@
             }
                         
             if (checkCount == 1) {
+                
                 if (checked) {
                     SetTextBoxValues(tr);
 
@@ -351,12 +385,12 @@
                         }
                     });
                 }
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                 $("#btnAdvanceAll").removeAttr("disabled");
                 $("#startDate").removeAttr("disabled");
             }
             else if (checkCount == 0) {                            
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+                //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
                 ClearTextBoxValues();
                 $("#btnAdvanceAll").attr("disabled", "disabled");
                 $("#startDate").attr("disabled", "disabled");
@@ -366,7 +400,7 @@
             }
             else {
                 ClearTextBoxValues();
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
             }
 
             if (checkCount > 0) {
@@ -399,7 +433,7 @@
             var ColIndex = $td.parent().children().index($td);
             var table = document.getElementById("checkableGrid");
             var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-            ClearLabelMessages();
+            //ClearLabelMessages();
                   
             if (ColIndex != 0) {
                        
@@ -418,7 +452,7 @@
                         SetRadioBtnHeaderChecked();
                         ClearTextBoxValues();
                     } 
-                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                    //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                             
                     $("#btnAdvanceAll").removeAttr("disabled");                           
                     $("#startDate").removeAttr("disabled");
@@ -440,77 +474,14 @@
             }
         });
     });
-
-    $('#btnAdvance').click(function (e) {
-
-        if ($("#tagscloud span").text() != "") {
-            e.preventDefault();
-        }
-
-        else if ($('#iVin').val() != '') {
-                    
-            var unit = {
-                "UnitId": $('#unitid').text(),
-                "IdentificationNumber": $('#iVin').val(),
-                "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
-                "AdvanceDate": $('#advanceDate').val()
-            };
-
-            $.ajax({
-                url: '/AdvanceUnit/UpdateAdvance/',
-                data: JSON.stringify(unit),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (View) {
-                    if (View != '2') {
-                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    } else {
-                        $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    }                            
-                }
-            });
-        }
-    });
-
-    $('#btnAdvanceAll').click(function () {
-        if (checkCount >= 1) {
-            var data = { ItemList: [] };
-            $('.advanceAmount').each(function () {
-                var tr = $(this).parents('tr:first');
-                var checked = tr.find("#all").is(':checked');
-                if (checked) {
-                    data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val() });
-
-                }
-            });
-
-            $.ajax({
-                url: '/AdvanceUnit/UpdateAdvanceAll/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-
-                success: function (View) {
-
-                    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                }
-            });
-        }
-
-    });
-
     function ClearTextBoxValues() {
-        $('#ivin').val('');
         $('#iVin').val('');
         $('#iYear').val('');
         $('#iMake').val('');
         $('#iModel').val('');
         $('#iCost').val('');
-        $('#iAdvance').val('');
-        $("#btnAdvance").attr("disabled", "disabled");
-        
-        $("#advanceDate").attr("disabled", "disabled");
-       
+        $('#iBalance').val('');
+
         $("#singleUnitDiv").hide();
     }
 
@@ -520,22 +491,49 @@
         $('#iMake').val(tr.find("#make").text());
         $('#iModel').val(tr.find("#model").text());
         $('#iCost').val(tr.find("#cost").text());
-        $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
-        document.getElementById("unitid").innerHTML = tr.find("#all").val();
-        
-        @if(ViewBag.loanDetails.isEditAllowable == true)
-        {
-            <text> $('#iAdvance').removeAttr('disabled'); </text>
-        }
-                
-        
-        $("#btnAdvance").removeAttr("disabled");
-        
-        $("#advanceDate").removeAttr("disabled");               
-                
+        $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
+        //document.getElementById("unitid").innerHTML = tr.find("#all").val();
         $("#singleUnitDiv").show();
-               
+              
     }
+
+    $("#btnSearch").click(function () {
+
+        ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnAdvance").attr("disabled", "disabled");
+        $("#btnAdvanceAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#startDate").attr("disabled", "disabled");
+        $("#iAdvance").attr("disabled", "disabled");
+
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iAdvance').removeClass('input-validation-error');
+        var para1 = $("#identificationNumberSearch").val();
+        var para2 = $('#cmbYear').val();
+        var para3 = $("#cmbMake").val();
+        var para4 = $("#cmbModel").val();
+        if (para1 == null) { para1 = ''; }
+        if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+            Search(para1, para2, para3, para4);
+        }
+
+
+    })
 
     function SetRadioBtnHeaderChecked() {
         var totalRows = $("#checkableGrid td :checkbox").length;
@@ -568,10 +566,5 @@
 
     });
 </script>
-
-
-
-
-
 </body>
 </html>

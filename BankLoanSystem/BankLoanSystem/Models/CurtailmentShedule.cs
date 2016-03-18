@@ -29,6 +29,7 @@ namespace BankLoanSystem.Models
     public class CurtailmentScheduleModel
     {
         public DateTime PayDate { get; set; }
+        public DateTime DueDate { get; set; }
         public List<CurtailmentShedule> CurtailmentScheduleInfoModel { get; set; }
     }
 }
