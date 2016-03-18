@@ -64,6 +64,7 @@ namespace BankLoanSystem.DAL
                     from curtailmentShedule in curtailmentScheduleModel.CurtailmentScheduleInfoModel
                     select new XElement("CurtailmentShedule",
                         new XElement("CurtNo", curtailmentShedule.CurtNumber),
+                        new XElement("UnitId", curtailmentShedule.UnitId),
                         new XElement("CurtAmount", curtailmentShedule.CurtAmount),
                         new XElement("PayDate", curtailmentScheduleModel.PayDate)
                         
