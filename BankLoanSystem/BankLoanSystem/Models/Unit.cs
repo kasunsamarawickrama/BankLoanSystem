@@ -141,6 +141,8 @@ namespace BankLoanSystem.Models
 
         public string CurrentTitleStatus { get; set; }
 
+        public string CurrentUnitStatus { get; set; }
+
 
     }
 

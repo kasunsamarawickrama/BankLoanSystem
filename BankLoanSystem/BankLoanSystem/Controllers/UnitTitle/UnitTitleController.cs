@@ -45,11 +45,12 @@ namespace BankLoanSystem.Controllers.UnitTitle
             return RedirectToAction("TitleStatusUpdate");
         }
 
-        public ActionResult TitleStatusUpdate(int ? flag)
+        public ActionResult TitleStatusUpdate()
         {
             TitleStatus obj2 = new TitleStatus();
             obj2.TitleList = new List<Models.Unit>();
             int compType = 0;
+            
             //get company type by company id
             if (userData.UserId > 0)
             {
@@ -60,16 +61,26 @@ namespace BankLoanSystem.Controllers.UnitTitle
             {
                 ViewBag.CompanyType = compType;
             }
-            if (flag == 1)
+            int flag = -1;
+            if ((TempData["reslt"] !=null)&& (TempData["reslt"].ToString() != ""))
             {
-                ViewBag.Msg = "Success";
+                flag = int.Parse(TempData["reslt"].ToString());
+                if (flag == 1)
+                {
+                    ViewBag.Msg = "Success";
+                }
+                else if (flag == 0)
+                {
+                    ViewBag.Msg = "Error";
+                }
+                return View(obj2);
             }
-            else 
+            else
             {
-                ViewBag.Msg = "Error";
+                return View(obj2);
             }
             
-            return View(obj2);
+           
         }
         /// <summary>
         /// CreatedBy:Piyumi
@@ -84,14 +95,34 @@ namespace BankLoanSystem.Controllers.UnitTitle
 
             TitleAccess obj1 = new TitleAccess();
             TitleStatus obj2 = new TitleStatus();
-           
+            List<Models.Unit> resultList = new List<Models.Unit>();
+
+
             if ((!string.IsNullOrEmpty(identificationNumber))&&(!string.IsNullOrEmpty(loanCode)))
             {
-                obj2.TitleList = obj1.SearchTitle(loanCode,identificationNumber);
+                resultList = obj1.SearchTitle(loanCode,identificationNumber);
                 //ViewBag.TitleList = obj2.TitleList;
             }
+            if (resultList != null)
+            {
+                obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 1);
+                if (obj2.TitleList.Count() == 0)
+                {
+                    obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 2);
+                    if (obj2.TitleList.Count() == 0)
+                    {
+                        obj2.TitleList.AddRange(resultList.Where(t => t.UnitStatus == 0));
+
+                    }
+                }
+                return PartialView(obj2);
+            }
+            else
+            {
+                obj2.TitleList = new List<Models.Unit>();
+                return PartialView(obj2);
+            }
             
-            return PartialView(obj2);
         }
         /// <summary>
         /// CreatedBy:Piyumi
@@ -106,7 +137,23 @@ namespace BankLoanSystem.Controllers.UnitTitle
         /// <returns></returns>
         public int UpdateTitleStatus(Models.Unit unitTitle)
         {
-            return 1;
+            string loanCode = null;
+            if (!string.IsNullOrEmpty(Session["loanCode"].ToString()))
+            {
+                loanCode = Session["loanCode"].ToString();
+            }
+            TitleAccess titleObj = new TitleAccess();
+            bool reslt = titleObj.UpdateTitle(unitTitle, loanCode);
+            if (reslt)
+            {
+                TempData["reslt"] = 1;
+                return 1;
+            }
+            else
+            {
+                TempData["reslt"] =0;
+                return 0;
+            }
         }
     }
 }
