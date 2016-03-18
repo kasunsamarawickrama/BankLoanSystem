@@ -379,7 +379,10 @@ namespace BankLoanSystem.DAL
                         cmd.ExecuteNonQuery();
 
                         if (Convert.ToInt32(returnParameter.Value) == 1)
-                            return true;
+                        {
+                            return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                           // return true;
+                        }
                         else
                         {
                             return false;
