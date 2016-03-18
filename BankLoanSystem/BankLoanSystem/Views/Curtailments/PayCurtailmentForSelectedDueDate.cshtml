@@ -1,6 +1,7 @@
 ﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
 
-@{
+@{ 
+    Layout = null;
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 
@@ -40,6 +41,135 @@
                         <div id="subtotal"> Current Curtailment : $ 0 </div>
                         <div id="unitid" class="hidden"></div>
                 </div> 
+
+<div class="info-bar" style="margin-top:15px">
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="">Pay Date : </label>
+            <input class="form-control" type="date" style="margin-left:15px" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
+    </div>
+</div>
+
+<div class="info-bar search-panel" style="margin-top:15px;">
+    <div class="form-inline" style="margin-left:25px;">
+        <div class="form-group">
+            <label for="">VIN/HIN/Serial</label>
+
+            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
+            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group" style="margin-left:20px;">
+            <label for="">Year</label>
+
+            @*<input class="form-control" type="text" style="width:90px" />*@<input class="form-control" type="text" style="width:90px" />
+
+            @{
+                List<SelectListItem> yearList = new List<SelectListItem>();
+                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                {
+                    if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
+                    {
+                        yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
+                    }
+                }
+            }<SelectListItem>
+                <SelectListItem>
+                    <SelectListItem>
+                        <SelectListItem>
+
+                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:90px" })
+                            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group" style="margin-left:20px;">
+            <label for="">Make</label>
+
+            <input class="form-control" type="text" style="width:90px" />
+
+        </div>
+
+        <div class="form-group" style="margin-left:20px;">
+            <label for="">Model</label>
+
+            <input class="form-control" type="text" style="width:100px" />
+
+        </div>
+
+        <button type="submit" id="btnSearch" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+    </div>
+
+
+
+</div>
+
+<div class="info-bar" style="margin-top:15px">
+
+    <!-- This is for Search Grid-->
+
+
+
+</div>
+
+<div class="info-bar" style="margin-top:15px">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <form>
+                <fieldset>
+                    <div class="form-group row">
+                        <div class="col-md-2" style="width:13%;">
+                            <label for="">Date Advanced </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">Vin/HIN/Serial </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-2" style="width:13%;">
+                            <label for="firstName">Year </label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-2" style="width:13%;">
+                            <label for="">Make </label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-2" style="width:13%;">
+                            <label for="firstName">Model </label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="">Curt-Amount </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-2" style="width:13%;">
+                            <label for="">Curt Pay Date </label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+
+
+
+
+                    <button type="submit" class="btn btn-info" style="width:100px">Pay</button>
+                    <button type="button" class="btn btn-default" style="float:right;margin-right:1.7%;">Cancel</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
 
 
 <script>
@@ -266,6 +396,48 @@
                 var chkText = $('<div />').attr({ id: 'someID' }).html(value);
                 $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
             }
+
+            $("#btnSearch").click(function () {
+
+                ClearTextBoxValues();
+
+                total = 0;
+                checkCount = 0;
+                $("#btnAdvance").attr("disabled", "disabled");
+                $("#btnAdvanceAll").attr("disabled", "disabled");
+                $("#advanceDate").attr("disabled", "disabled");
+                $("#startDate").attr("disabled", "disabled");
+                $("#iAdvance").attr("disabled", "disabled");
+
+                var count = 0;
+                $("#checkableGrid").find("input:checkbox").each(function () {
+                    this.checked = false;
+                    if (count > 0) {
+                        $(this).parents('tr').css('background', 'transparent');
+                    }
+                    count++;
+                });
+                document.getElementById('all').checked = false;
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+                $("#someID span").html('Select');
+                $("#tagscloud span").html('');
+                $('#iAdvance').removeClass('input-validation-error');
+                var para1 = $("#identificationNumberSearch").val();
+                var para2 = $('#cmbYear').val();
+                var para3 = $("#cmbMake").val();
+                var para4 = $("#cmbModel").val();
+                if (para1 == null) { para1 = ''; }
+                if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+                    Search(para1, para2, para3, para4);
+                }
+
+
+            });
+
+            $('#identificationNumberSearch').focusout(function () {
+                $(this).attr('placeholder', 'VIN/HIN/Serial No');
+            });
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
