@@ -76,7 +76,7 @@ namespace BankLoanSystem.Controllers.Curtailments
         private CurtailmentScheduleModel GetCurtailmentSchedule(DateTime dueDate)
         {
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(lCode);
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();

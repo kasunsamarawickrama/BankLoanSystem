@@ -58,28 +58,18 @@
 
 
             <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
-                <div class="info-bar">                 
-
-                    
+                <div class="info-bar">
                     <div class="form-group row" style="margin-bottom: 0px;">
-        <label for="" class="col-sm-4 form-control-label">Curtailment due Date - all curtailments due prior to and on this date will be displayed.</label>
-                       
-
-        <div class="col-md-2"  >
-            @*<input class="form-control" type="date" />*@
-            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off" } })
-        </div>
-
-    </div>   
-
+                         <label for="" class="col-sm-4 form-control-label">Curtailment due Date - all curtailments due prior to and on this date will be displayed.</label>
+                        <div class="col-md-2"  >
+                            @*<input class="form-control" type="date" />*@
+                            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off" } })
+                        </div>
+                    </div> 
                 </div>
-
-
-                <div class="info-bar" style="margin-top:15px">
-
-                    <!-- This is for Grid-->
-                      <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
-                            <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
+                
+                <div class="info-bar" id ="checkableGridDiv" style="margin-top:15px">
+                    <!-- This is for Grid--> 
                                 @grid.GetHtml(
                                    tableStyle: "gridtable",
                                    headerStyle: "webgrid-header",
@@ -109,33 +99,23 @@
                                    grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>}</text>)
                                 )
                             )
-                         </div>
+                        
                         <div id="subtotal"> Current Curtailment : $ 0 </div>
                         <div id="unitid" class="hidden"></div>
-                </div> 
-
-           </div>
+                </div>
 
                 <div class="info-bar" style="margin-top:15px">
-
                     <div class="form-inline">
                         <div class="form-group">
                             <label for="">Pay Date : </label>
-
-                            <input class="form-control" type="date" style="margin-left:15px"  />
-                            
-                        </div>
-                        
+                            <input class="form-control" type="date" style="margin-left:15px"  />                            
+                        </div>                        
                         <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
                     </div>
-
-
-
                 </div>
 
 
                 <div class="info-bar search-panel" style="margin-top:15px;">
-
                     <div class="form-inline" style="margin-left:25px;">
                         <div class="form-group">
                             <label for="">VIN/HIN/Serial</label>
@@ -280,6 +260,7 @@
                                var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
                                checkboxes.prop('checked', $(this).is(':checked'));
                                var chk = checkboxes.prop('checked');
+                              
                                if (chk) {
                                    var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
@@ -297,7 +278,7 @@
                                total = 0;
                                totalRecCount = 0;
                                $('.advanceAmount').each(function () {
-                                   var tr = $(this).parents('tr:first');
+                                   var tr = $(this).parents('tr:first');                                   
                                    totalRecCount++;
                                    if (document.getElementById('all').checked) {
                                        total = total + parseFloat(tr.find("#am").text().replace(',', ''));
@@ -314,18 +295,18 @@
                                        $("#btnAdvanceAll").removeAttr("disabled");
                                        $("#startDate").removeAttr("disabled");
                                        if (totalRecCount == 1) {
-                                           SetTextBoxValues(tr);
+                                           //SetTextBoxValues(tr);
                                        }
                                    }
 
                                });
                                if (checkCount > 1) {
-                                   ClearTextBoxValues();
+                                   //ClearTextBoxValues();
                                }
                                else if (checkCount == 0 || totalRecCount == 0) {
                                    $("#btnAdvanceAll").attr("disabled", "disabled");
                                    $("#startDate").attr("disabled", "disabled");
-                                   ClearTextBoxValues();
+                                   //ClearTextBoxValues();
                                }
 
                            }
@@ -337,11 +318,13 @@
 
 
                     $('.checkboxAll').change(function () {
+                        alert('aaa');
                         var tr = $(this).parents('tr:first');
                         //var fullcost = parseFloat(tr.find("#am").text().replace(',', ''));
                         //var numValue = Number.parseFloat(tr.find("#am").text());
                         //alert(fullcost);
                         var checked = tr.find("#all").is(':checked');
+                       
                         if (checked) {
                             total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                             checkCount++;
