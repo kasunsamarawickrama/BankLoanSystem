@@ -7,7 +7,7 @@
 
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
                             <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
-                                @grid.GetHtml(
+                               @grid.GetHtml(
                                    tableStyle: "gridtable",
                                    headerStyle: "webgrid-header",
                                    alternatingRowStyle: "webgrid-alternating-row",
@@ -33,8 +33,8 @@
                                         "Due Date",
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
                                    ),
-                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>}</text>),
-                                   grid.Column(null, null, format: @<input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />)
+                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>)
+                                   
                                 )
                             )
                          </div>
@@ -115,7 +115,8 @@
 
 </div>
 
-<div class="info-bar" style="margin-top:15px">
+<div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
+
 
     <div class="row">
         <div class="col-xs-12">
@@ -124,43 +125,45 @@
                     <div class="form-group row">
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Date Advanced </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                         <div class="col-md-2">
                             <label for="">Vin/HIN/Serial </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="firstName">Year </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Make </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                         <div class="col-md-2" style="width:13%;">
                             <label for="firstName">Model </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
-                            <input type="text" class="form-control">
+                            @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
-                            <input type="text" class="form-control">
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
                         </div>
                     </div>
 
 
 
 
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:31px;margin-left:147px;width:130px" />
 
-                    <button type="submit" class="btn btn-info" style="width:100px">Pay</button>
-                    <button type="button" class="btn btn-default" style="float:right;margin-right:1.7%;">Cancel</button>
+                    <input type="submit" name="Pay" value="Advance" id="btnAdvance" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
+
+
                 </fieldset>
             </form>
         </div>
@@ -227,18 +230,18 @@
                                         $("#btnAdvanceAll").removeAttr("disabled");
                                         $("#startDate").removeAttr("disabled");
                                         if (totalRecCount == 1) {
-                                            //SetTextBoxValues(tr);
+                                            SetTextBoxValues(tr);
                                         }
                                     }
 
                                 });
                                 if (checkCount > 1) {
-                                    //ClearTextBoxValues();
+                                    ClearTextBoxValues();
                                 }
                                 else if (checkCount == 0 || totalRecCount == 0) {
                                     $("#btnAdvanceAll").attr("disabled", "disabled");
                                     $("#startDate").attr("disabled", "disabled");
-                                    //ClearTextBoxValues();
+                                    ClearTextBoxValues();
                                 }
                                 changePartialPaymentRowColor();
                             }
@@ -265,7 +268,7 @@
 
                     if (checkCount == 1) {
                         if (checked) {
-                            //SetTextBoxValues(tr);
+                            SetTextBoxValues(tr);
 
                         } else {
                             $('.advanceAmount').each(function () {
@@ -274,33 +277,33 @@
                                 var checked = tr.find("#all").is(':checked');
 
                                 if (checked) {
-                                    //SetTextBoxValues(tr);
+                                    SetTextBoxValues(tr);
                                 }
 
                             });
                         }
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                        //$("#btnAdvanceAll").removeAttr("disabled");
-                        //$("#startDate").removeAttr("disabled");
+                        $("#btnAdvanceAll").removeAttr("disabled");
+                        $("#startDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
-                        //ClearTextBoxValues();
-                        //$("#btnAdvanceAll").attr("disabled", "disabled");
-                        //$("#startDate").attr("disabled", "disabled");
-                        //$("#iAdvance").attr("disabled", "disabled");
-                        //$("#someID span").html('Select')
+                        ClearTextBoxValues();
+                        $("#btnAdvanceAll").attr("disabled", "disabled");
+                        $("#startDate").attr("disabled", "disabled");
+                        $("#iAdvance").attr("disabled", "disabled");
+                        $("#someID span").html('Select')
 
                     }
                     else {
-                        //ClearTextBoxValues();
+                        ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                     }
 
                     if (checkCount > 0) {
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                        //ChangeCheckBoxText('select ');
+                        ChangeCheckBoxText('select ');
 
                         var totalRows = $("#checkableGrid td :checkbox").length;
                         var checked = $("#checkableGrid td :checkbox:checked").length;
@@ -328,9 +331,26 @@
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
                         $(this).parents('tr').css('background', 'PapayaWhip');
+                        //tr.title = 'tool tip'; 
                     }
                 });
             }
+
+            $('#myTable td[title]')
+                .hover(function () {
+                    showTooltip($(this));
+                }, function () {
+                    hideTooltip();
+                });
+
+            function showTooltip($el) {
+                // insert code here to position your tooltip element (which i'll call $tip)
+                $tip.html($el.attr('title'));
+            }
+            function hideTooltip() {
+                $tip.hide();
+            }
+
 
             $(document).on('click', 'tbody', (function (e) {
                 var target = $(e.target);
@@ -342,7 +362,7 @@
                     var ColIndex = $td.parent().children().index($td);
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-                    //ClearLabelMessages();
+                    ClearLabelMessages();
 
                     if (ColIndex != 0) {
 
@@ -355,21 +375,20 @@
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
                             if (checkCount == 1) {
-                                //SetTextBoxValues(row);
+                                SetTextBoxValues(row);
                             }
                             else {
                                 SetRadioBtnHeaderChecked();
-                                //ClearTextBoxValues();
+                                ClearTextBoxValues();
                             }
                             document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
 
-                            //$("#btnAdvanceAll").removeAttr("disabled");
-                            //$("#startDate").removeAttr("disabled");
+                            $("#btnAdvanceAll").removeAttr("disabled");
+                            $("#startDate").removeAttr("disabled");
                         }
                     } else {
                         SetRadioBtnHeaderChecked();
                     }
-                    //alert('mmmmm');
                     changePartialPaymentRowColor();
                 }
             }));
@@ -396,6 +415,7 @@
                 var chkText = $('<div />').attr({ id: 'someID' }).html(value);
                 $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
             }
+
 
             $("#btnSearch").click(function () {
 
@@ -438,6 +458,53 @@
             $('#identificationNumberSearch').focusout(function () {
                 $(this).attr('placeholder', 'VIN/HIN/Serial No');
             });
+
+            function ClearTextBoxValues() {
+                $('#iDateAdvance').val('');
+                $('#ivin').val('');                
+                $('#iYear').val('');
+                $('#iMake').val('');
+                $('#iModel').val('');
+                $('#iAdvance').val('');
+                $("#btnAdvance").attr("disabled", "disabled");
+                $("#advanceDate").attr("disabled", "disabled");
+                $("#singleUnitDiv").hide();
+            }
+
+            function SetTextBoxValues(tr) {
+                //alert(tr.find("#AdvanceDate").text());
+                $('#iVin').val(tr.find("#vin").text());
+                $('#iYear').val(tr.find("#year").text());
+                $('#iMake').val(tr.find("#make").text());
+                $('#iModel').val(tr.find("#model").text());
+                $('#iDateAdvance').val(tr.find("#AdvanceDate").text());
+                $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
+                document.getElementById("unitid").innerHTML = tr.find("#all").val();
+                @if(ViewBag.loanDetails.isEditAllowable == true)
+                {
+                    <text> $('#iAdvance').removeAttr('disabled'); </text>
+                }
+                
+                $("#btnAdvance").removeAttr("disabled");
+                $("#advanceDate").removeAttr("disabled");               
+                $("#singleUnitDiv").show();               
+            }
+
+            function ClearLabelMessages() {
+                $('#noDataLabelDiv').text("");
+                $('.label-success').text("");
+            }
+
+            var advDatePicker = new Pikaday({
+                field: document.getElementById('advanceDate'),
+                format: 'l'
+
+
+            });
+
+            advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
