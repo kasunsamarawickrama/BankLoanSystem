@@ -307,5 +307,22 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+        public int PayOffUnits(string unitIdList, DateTime payOffDate)
+        {
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList2 = new List<object[]>();
+            paramertList2.Add(new object[] { "@Input", unitIdList });
+            paramertList2.Add(new object[] { "@pay_date", payOffDate });
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList2);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }

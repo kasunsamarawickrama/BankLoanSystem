@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using BankLoanSystem.Models;
 using BankLoanSystem.DAL;
 
@@ -77,15 +78,38 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             CurtailmentAccess payoff = new CurtailmentAccess();
 
-            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(190);
+            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
 
             return View(unitPayOffViewModel);
         }
 
-        [HttpPost]
-        public ActionResult PayOff(UnitPayOffViewModel resModel)
+        //[HttpPost]
+        //public ActionResult PayOff(UnitPayOffViewModel resModel)
+        //{
+        //    return View();
+        //}
+
+        public int UnitListPay(List<string> unitIdList, DateTime payDate)
         {
-            return View();
+            payDate = Convert.ToDateTime("2016-04-06");
+            try
+            {
+                XElement xEle = new XElement("Units",
+                    from unit in unitIdList
+                    select new XElement("Unit",
+                        new XElement("UnitId", unit),
+                        new XElement("PayDate", payDate)
+                        ));
+                string xmlDoc = xEle.ToString();
+
+                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
