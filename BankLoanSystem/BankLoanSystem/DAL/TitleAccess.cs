@@ -189,10 +189,12 @@ namespace BankLoanSystem.DAL
                         foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                         {
                             Unit title = new Unit();
+                            title.AdvanceDate = DateTime.Parse(dataRow["advance_date"].ToString());
                             title.IdentificationNumber = dataRow["identification_number"].ToString();
                             title.Year = int.Parse(dataRow["year"].ToString());
                             title.Make = dataRow["make"].ToString();
                             title.Model = dataRow["model"].ToString();
+
                             if (int.Parse(dataRow["title_status"].ToString()) == 0)
                             {
                                 title.CurrentTitleStatus = "Not Received";
@@ -209,6 +211,20 @@ namespace BankLoanSystem.DAL
                             {
                                 title.CurrentTitleStatus = "Sent to Bank";
                             }
+                            title.UnitStatus = int.Parse(dataRow["unit_status"].ToString());
+                            if (int.Parse(dataRow["unit_status"].ToString()) == 0)
+                            {
+                                title.CurrentUnitStatus = "InActive";
+                            }
+                            else if (int.Parse(dataRow["unit_status"].ToString()) == 1)
+                            {
+                                title.CurrentUnitStatus = "Active";
+                            }
+                            else if (int.Parse(dataRow["unit_status"].ToString()) == 2)
+                            {
+                                title.CurrentUnitStatus = "Paid";
+                            }
+                           
                             resultList.Add(title);
                         }
 
@@ -246,7 +262,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@make", unit.Make });
             paramertList.Add(new object[] { "@model", unit.Model });
             paramertList.Add(new object[] { "@title_status", unit.TitleStatus });
-            paramertList.Add(new object[] { "@loan_code", unit.TitleStatus });
+            paramertList.Add(new object[] { "@loan_code", loanCode });
 
             try
             {
