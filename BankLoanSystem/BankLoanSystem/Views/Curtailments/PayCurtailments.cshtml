@@ -96,7 +96,8 @@
                                         "Due Date",
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
                                    ),
-                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>}</text>)
+                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>}</text>),
+                                   grid.Column(null, null, format: @<input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />)
                                 )
                             )
                         
@@ -249,7 +250,7 @@
 
             $(function () {
                 GridUpdate();
-            });
+            });           
 
             function GridUpdate() {
                var ctrl =
