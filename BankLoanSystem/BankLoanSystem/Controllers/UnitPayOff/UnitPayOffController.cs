@@ -78,7 +78,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             CurtailmentAccess payoff = new CurtailmentAccess();
 
-            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(190);
+            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
 
             return View(unitPayOffViewModel);
         }
