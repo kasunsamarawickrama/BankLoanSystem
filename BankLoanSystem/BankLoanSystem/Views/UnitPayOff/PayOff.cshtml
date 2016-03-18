@@ -503,10 +503,10 @@
         $("#btnPay").click(function () {
             var hiddenId = document.getElementById('iUnitId').value;
             var payDate = document.getElementById('payDate').value;
-            var data = { payUnitsId: [], payDate }
+            var data = { unitIdList: [], payDate }
             data.payDate = payDate;
             if (hiddenId === '') {
-                data.payUnitsId.push(hiddenId);
+                data.unitIdList.push(hiddenId);
             } else {
                 //alert('Hi');
                 $('table#checkableGrid > tbody > tr').each(function () {
@@ -514,14 +514,14 @@
                     var isChecked = $(this).find("#all").is(':checked');
                     if (isChecked === true) {
                         var unitId = $(this).find("#all").val();
-                        data.payUnitsId.push(unitId);
+                        data.unitIdList.push(unitId);
                     }
 
                 });
             }
-
+            //alert(data.unitIdList[0]);
             $.ajax({
-                url: '/UnitPayOff/PayOff/',
+                url: '/UnitPayOff/UnitListPay/',
                 data: JSON.stringify(data),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
