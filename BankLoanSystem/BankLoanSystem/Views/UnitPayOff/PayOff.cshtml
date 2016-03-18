@@ -1,4 +1,6 @@
-﻿@model BankLoanSystem.Models.UnitPayOffViewModel
+﻿@using System.Collections.Generic
+@using System.Web.Helpers
+@model BankLoanSystem.Models.UnitPayOffViewModel
 
 @{
     Layout = null;
@@ -557,6 +559,8 @@
         var chkText = $('<div />').attr({ id: 'someID' }).html(value);
         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
     }
+
+
 
 
     $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
