@@ -740,13 +740,13 @@
 
         $("#btnCancel").click(function () {
             ClearTextBoxValues();
-
+            countSelect = 0;
             total = 0;
             checkCount = 0;
             //$("#btnAdvance").attr("disabled", "disabled");
             //$("#btnAdvanceAll").attr("disabled", "disabled");
             //$("#advanceDate").attr("disabled", "disabled");
-            //$("#startDate").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
             //$("#iAdvance").attr("disabled", "disabled");
 
             var count = 0;
