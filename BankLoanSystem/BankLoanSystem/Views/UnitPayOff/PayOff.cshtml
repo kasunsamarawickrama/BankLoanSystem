@@ -100,13 +100,13 @@
 
                             <div class="col-md-2">
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes1", @class = "titleReturn"}) Yes
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo1", @class = "titleReturn" }) No
                                 </label>
                             </div>
-
+                            <div id="customErrorTitleReturn1"><span class="text-danger"></span></div>
                         </div>
 
                         <div class="form-inline">
@@ -118,7 +118,7 @@
 
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="margin-left:15px" id="btnPayAll">Pay off all selected units</button>
+                            <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                         </div>
 
 
@@ -213,7 +213,7 @@
 
                     </div>
 
-                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv">
+                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -262,14 +262,15 @@
 
                                             <div class="col-md-2">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes2", @class = "titleReturn2"}) Yes
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
                                                 </label>
                                             </div>
+                                            <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
                                         </div>
-                                        <button style="width:100px" type="button" id="btnPay" class="btn btn-info">Pay</button>
+                                        <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
                                         <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
                                     </fieldset>
                                 </form>
@@ -287,8 +288,6 @@
 
 
             <div class="link-bar" style="margin-bottom:15px;">
-
-
                 @{
                     Html.RenderAction("GetLinkBar", "Unit");
                 }
@@ -473,18 +472,21 @@
             $("#payDate").removeAttr("disabled");
         }
 
+        var errorTitleReturn1 = false;
+        $("#btnPayAll").click(function () {
+            var titleStatus = $('.titleReturn').filter(':checked').val();
+            //alert(titleStatus);
 
-        $("#btnPay").click(function () {
-            var hiddenId = document.getElementById('iUnitId').value;
-            var data = { unitIdList: [], payDate }
-            var payDate;
-            if (hiddenId !== '') {
-                //alert('1');
-                data.unitIdList.push(hiddenId);
-                payDate = document.getElementById('payDate2').value;
-
+            if (titleStatus === "Yes" || titleStatus === "No") {
+                $('#customErrorTitleReturn1').children('span').text("");
+                errorTitleReturn1 = false;
             } else {
-                alert('2');
+                $('#customErrorTitleReturn1').children('span').text("Please select");
+                errorTitleReturn1 = true;
+            }
+            
+            if (errorTitleReturn1 === false) {
+                var data = { unitIdList: [], payDate, titleReturn }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
                     var isChecked = $(this).find("#all").is(':checked');
@@ -494,25 +496,82 @@
                     }
                 });
 
-                payDate = document.getElementById('payDate2').value;
+                var payDate = document.getElementById('payDate2').value;
+
+                data.payDate = payDate;
+                data.titleReturn = titleStatus;
+                //alert(data.unitIdList[0]);
+                $.ajax({
+                    url: '/UnitPayOff/UnitListPay/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
+                        //if (View != '2') {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //} else {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //}
+                    }
+                });
+            }
+        });
+
+        var errorTitleReturn2 = false;
+        $("#btnPay").click(function () {
+
+            var titleStatus = $('.titleReturn2').filter(':checked').val();
+            //alert(titleStatus);
+
+            if (titleStatus === "Yes" || titleStatus === "No") {
+                $('#customErrorTitleReturn2').children('span').text("");
+                errorTitleReturn2 = false;
+            } else {
+                $('#customErrorTitleReturn2').children('span').text("Please select");
+                errorTitleReturn2 = true;
             }
 
-            data.payDate = payDate;
-            //alert(data.unitIdList[0]);
-            $.ajax({
-                url: '/UnitPayOff/UnitListPay/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (View) {
-                    //if (View != '2') {
-                    //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    //} else {
-                    //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    //}
-                }
-            });
+            if (errorTitleReturn2 === false) {
+                var hiddenId = document.getElementById('iUnitId').value;
+                var data = { unitIdList: [], payDate, titleReturn }
+                if (hiddenId !== '') {
+                    //alert('1');
+                    data.unitIdList.push(hiddenId);
 
+
+                }
+                var payDate = document.getElementById('payDate2').value;
+                data.payDate = payDate;
+                data.titleReturn = titleStatus;
+                //alert(data.unitIdList[0]);
+                $.ajax({
+                    url: '/UnitPayOff/UnitListPay/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
+                        //if (View != '2') {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //} else {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //}
+                    }
+                });
+            }
+
+            
+
+        });
+
+
+        $('.titleReturn').change(function () {
+            $('#customErrorTitleReturn1').children('span').text("");
+            errorTitleReturn1 = false;
+        });
+
+        $('.titleReturn2').change(function () {
+            $('#customErrorTitleReturn2').children('span').text("");
+            errorTitleReturn2 = false;
         });
 
         $("#btnSearch").click(function() {
