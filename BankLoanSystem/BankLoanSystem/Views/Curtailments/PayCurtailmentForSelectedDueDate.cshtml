@@ -52,7 +52,7 @@
                             )
                          </div>
                         <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</span>
+                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -166,7 +166,9 @@
 
         </div>
 
-        <button type="button" id="clearSearch" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
+
+        
+        <button type="button" id="btnClear" tabindex="-1" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
         <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:10px;float:right;">Search</button>
         
     </div>
@@ -384,7 +386,7 @@
                     $('.advanceAmount').each(function () {
                         var tr = $(this).parents('tr:first');
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', 'PapayaWhip');
+                            $(this).parents('tr').css('background', '#ffd699');
                         }
                     });
                 });
@@ -398,7 +400,7 @@
                 $('.advanceAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', 'PapayaWhip');
+                        $(this).parents('tr').css('background', '#ffd699');
                         //tr.title = 'tool tip'; 
                     }
                 });
@@ -610,6 +612,10 @@
                 });
             }
 
+    $("#btnClear").click(function () {
+       
+        ClearSearchRelatedData();
+    });
 
     </script>
 
