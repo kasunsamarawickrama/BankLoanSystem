@@ -486,20 +486,25 @@
             }
             
             if (errorTitleReturn1 === false) {
-                var data = { unitIdList: [], payDate, titleReturn: titleStatus }
+                var payDate = document.getElementById('payDate2').value;
+                var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
                     var isChecked = $(this).find("#all").is(':checked');
                     if (isChecked === true) {
                         var unitId = $(this).find("#all").val();
-                        data.unitIdList.push(unitId);
+                        var balance = $(this).find("#balance").text().replace(',', '');
+                        var payOffModel = {
+                            UnitId: unitId,
+                            Balance: balance
+                        };
+                        data.payOffModelList.push(payOffModel);
                     }
                 });
 
-                var payDate = document.getElementById('payDate2').value;
+                
 
-                data.payDate = payDate;
-                data.titleReturn = titleStatus;
+                
                 //alert(data.unitIdList[0]);
                 $.ajax({
                     url: '/UnitPayOff/UnitListPay/',
@@ -533,16 +538,19 @@
 
             if (errorTitleReturn2 === false) {
                 var hiddenId = document.getElementById('iUnitId').value;
-                var data = { unitIdList: [], payDate, titleReturn: titleStatus }
+                var balance = document.getElementById('iBalance').value;
+                var payDate = document.getElementById('payDate2').value;
+                var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
-                    //alert('1');
-                    data.unitIdList.push(hiddenId);
+                    var payOffModel = {
+                        UnitId: hiddenId,
+                        Balance: balance
+                    };
+                    data.payOffModelList.push(payOffModel);
 
 
                 }
-                var payDate = document.getElementById('payDate2').value;
-                data.payDate = payDate;
-                data.titleReturn = titleStatus;
+
                 //alert(data.unitIdList[0]);
                 $.ajax({
                     url: '/UnitPayOff/UnitListPay/',
