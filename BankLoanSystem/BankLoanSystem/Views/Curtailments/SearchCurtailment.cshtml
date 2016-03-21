@@ -67,27 +67,11 @@ else {
 
 <script>
 
-
-       
-        
-
-        //$(window).bind("ready", function () {
-        //    alert('as');
-        //    // Get the tbody columns width array
-        //    colWidth = bodyCells.map(function () {
-        //        return $(this).width();
-        //    }).get();
-
-        //    // Set the width of thead columns
-        //    table.find('thead tr').children().each(function (i, v) {
-        //        $(v).width(colWidth[i]);
-        //    });
-        //});
         $(function () {
             
 
-        $('#searchResultGrid').children('tbody').children('tr').click(function() {
-            var tr = $('table');
+            $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
             ClearMainGrid();
             $(this).css('background', 'lightblue');
             $(this).siblings().css('background', 'aliceblue');

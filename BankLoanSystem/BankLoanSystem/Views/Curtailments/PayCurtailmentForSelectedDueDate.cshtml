@@ -232,7 +232,7 @@
 
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:31px;margin-left:147px;width:130px" />
 
-                    <input type="submit" name="Pay" value="Advance" id="btnAdvance" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
+                    <input type="submit" name="Pay" value="Pay" id="btnAdvance" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
 
 
                 </fieldset>
@@ -606,7 +606,7 @@
                         $('#searchGrid1').html(View);
                         $('#searchGrid1').removeAttr('hidden');
                         $('#searchGrid1').show();
-
+                        changePartialPaymentRowColor();
                         // Change the selector if needed
                         var table = $('table'),
                             bodyCells = table.find('tbody tr:first').children(),
