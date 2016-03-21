@@ -308,16 +308,17 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        public int PayOffUnits(string unitIdList, DateTime payOffDate)
+        public int PayOffUnits(string unitIdList, DateTime payOffDate, int titleStatus)
         {
             DataHandler dataHandler = new DataHandler();
 
-            List<object[]> paramertList2 = new List<object[]>();
-            paramertList2.Add(new object[] { "@Input", unitIdList });
-            paramertList2.Add(new object[] { "@pay_date", payOffDate });
+            List<object[]> paramertList1 = new List<object[]>();
+            paramertList1.Add(new object[] { "@Input", unitIdList });
+            paramertList1.Add(new object[] { "@pay_date", payOffDate });
+            paramertList1.Add(new object[] { "@title_status", titleStatus });
             try
             {
-                return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList2);
+                return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList1);
             }
             catch (Exception ex)
             {
