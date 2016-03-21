@@ -40,7 +40,7 @@ else {
 
         $('#titleGrid').children('tbody').children('tr').click(function () {
             var tr = $(this);
-
+            $('.centered span').text('');
             $(this).css('background', 'lightblue');
             $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);

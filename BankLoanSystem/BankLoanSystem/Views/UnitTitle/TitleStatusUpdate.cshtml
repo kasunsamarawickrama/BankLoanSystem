@@ -203,6 +203,7 @@
             $('#sentBank').prop('checked', false);
             $('#updateTitleDiv span').text('');
             $('#searchIdentificationNumber span').text('');
+            
         });
         //click event of popup "Yes"
         $('#btnYes').click(function () {
@@ -299,22 +300,29 @@
             //alert(ch);
         });
       
-        $('#identificationNumberSearch').blur(function () {
-            var val1 = $('#identificationNumberSearch').val();
-            if (val1.length < 6) {
-                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
-            }
-        });
+        //$('#identificationNumberSearch').blur(function () {
+        //    var val1 = $('#identificationNumberSearch').val();
+        //    if (val1.length < 6) {
+        //        FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
+        //    }
+        //});
         function FocusOutCall(span, vareditor, val)
         {
             $(span).text("Please type last 6 characters of VIN/HIN/Serial No");
             $(vareditor).val("");
             
             $('.centered span').text('Error');
+            $('#identificationNumberSearch').addClass('input-validation-error')
             e.preventDefault();
         }
         $('#identificationNumberSearch').click(function () {
             $('#searchIdentificationNumber span').text('');
+            $('#identificationNumberSearch').removeClass('input-validation-error');
+            $('.centered span').text('');
+            if ($('#titleGrid').children('tbody').children('tr').length == 0) {
+                $('#searchGrid1').hide();
+            }
+            
         });
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
