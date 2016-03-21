@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.AccessControl;
 
 namespace BankLoanSystem.Models
 {
@@ -58,6 +59,8 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "Unit Type")]
         public int UnitTypeId { get; set; }
+
+        public string TitleReturn { get; set; }
 
         public vehicle vehicle { get; set; }
     }
