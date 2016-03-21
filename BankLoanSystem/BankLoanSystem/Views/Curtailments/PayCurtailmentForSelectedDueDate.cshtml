@@ -31,16 +31,17 @@
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                                            , header: "{checkall}"
                                    ),
-                                   grid.Column(
-                                        "AdvanceDate",
-                                        "Date Advanced",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   ),
+                                   //grid.Column(
+                                   //     "AdvanceDate",
+                                   //     "Date Advanced",
+                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                                   //),
+                                   grid.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
                                    grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="model" class="model">@item.CurtNumber</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
                                         "Due Date",
@@ -94,7 +95,8 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="">Pay Date : </label>
-            <input class="form-control" type="date" style="margin-left:15px" />
+            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off" , style = "margin-left:15px" } })
+            @*<input class="form-control" type="date" style="margin-left:15px" />*@
         </div>
         <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
     </div>
@@ -221,7 +223,7 @@
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off" } })
                         </div>
                     </div>
 
@@ -498,7 +500,7 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#startDate").attr("disabled", "disabled");
                 $("#iAdvance").attr("disabled", "disabled");
-
+                ClearMainGrid();
                 //var count = 0;
                 //$("#checkableGrid").find("input:checkbox").each(function () {
                 //    this.checked = false;
@@ -556,13 +558,13 @@
                 $("#singleUnitDiv").hide();
             }
 
-            function SetTextBoxValues(tr) {
-                //alert(tr.find("#AdvanceDate").text());
+            function SetTextBoxValues(tr) {      
+               
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
-                $('#iDateAdvance').val(tr.find("#AdvanceDate").text());
+                $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 @if(ViewBag.loanDetails.isEditAllowable == true)
@@ -580,7 +582,7 @@
                 $('.label-success').text("");
             }
 
-            var advDatePicker = new Pikaday({
+            @*var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
                 format: 'l'
 
@@ -588,7 +590,7 @@
             });
 
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
 
             function Search(para1, para2, para3, para4) {
@@ -617,6 +619,60 @@
         ClearSearchRelatedData();
     });
 
+    
+    function ClearMainGrid() {
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+    }
+
+
+
+
+    payPicker = new Pikaday({
+        field: document.getElementById('payDate'),
+        format: 'l',
+
+        bound: true,
+        onSelect: function () {
+            var thisDate = this.getDate();
+            $("#payCurtDate").val(formatDate(thisDate));
+        }
+    });
+
+    payPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+    payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    $("#payDate").val("");
+    payPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
+
+
+    payCurtPicker = new Pikaday({
+        field: document.getElementById('payCurtDate'),
+        format: 'l',
+
+        bound: true,
+        onSelect: function () {
+            var thisDate = this.getDate();
+            $("#payDate").val(formatDate(thisDate));
+        }
+    });
+
+    payCurtPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+    payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    $("#payCurtDate").val("");
+    payCurtPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
+
+
+    function formatDate(value)
+    {
+       
+        return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
+    }
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

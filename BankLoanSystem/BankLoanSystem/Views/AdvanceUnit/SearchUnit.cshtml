@@ -40,11 +40,11 @@
 
         $('#searchResultGrid').children('tbody').children('tr').click(function () {
             var tr = $(this);
-
+            
             $(this).css('background', 'lightblue');
             $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
-
+            ClearMainGrid();
         });
     });
     </script>
