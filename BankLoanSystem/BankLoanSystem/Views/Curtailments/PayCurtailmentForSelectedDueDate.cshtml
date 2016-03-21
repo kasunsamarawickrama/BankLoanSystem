@@ -166,7 +166,9 @@
 
         </div>
 
-        <button type="button" id="clearSearch" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
+
+        
+        <button type="button" id="btnClear" tabindex="-1" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
         <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:10px;float:right;">Search</button>
         
     </div>
@@ -610,6 +612,10 @@
                 });
             }
 
+    $("#btnClear").click(function () {
+       
+        ClearSearchRelatedData();
+    });
 
     </script>
 
