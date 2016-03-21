@@ -6,7 +6,7 @@
 }
 @if (Model.Search.Count() != 0)
 {
-    <div id="searchGrid" style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
+    <div id="searchGrid" @*style="overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
         @grid1.GetHtml(
                tableStyle: "gridtable",
                      headerStyle: "webgrid-header",

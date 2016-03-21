@@ -13,8 +13,8 @@ namespace BankLoanSystem.Models
         public string UnitId { get; set; }
         public int Year { get; set; }
 
-        public DateTime AdvanceDate { get; set; }
-        public DateTime DueDate { get; set; }
+        public string AdvanceDate { get; set; }
+        public string DueDate { get; set; }
 
         public int Status { get; set; }
 
@@ -29,7 +29,9 @@ namespace BankLoanSystem.Models
     }
     public class CurtailmentScheduleModel
     {
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PayDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
         public List<CurtailmentShedule> CurtailmentScheduleInfoModel { get; set; }
 

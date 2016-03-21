@@ -5,8 +5,21 @@
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 
+<style>
+
+#checkableGridDiv table tbody,
+#checkableGridDiv table thead { display: block; }
+
+
+
+#checkableGridDiv table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+</style>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
-                            <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
+                            <div>
                                 @grid.GetHtml(
                                    tableStyle: "gridtable",
                                    headerStyle: "webgrid-header",
@@ -38,10 +51,44 @@
                                 )
                             )
                          </div>
-                        <div id="subtotal"> Current Total to Advance : $ 0  </div>
-                        <div id="partialPaymentColor"><label style="position:relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</div>
+                        <span id="subtotal"> Current Total to Advance : $ 0  </span>
+                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
-                </div> 
+                </div>
+<script>
+
+    
+    // Change the selector if needed
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+
+    // Adjust the width of thead cells when window resizes
+    $(window).resize(function() {
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+    
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });    
+    }).resize(); // Trigger resize handler  
+
+    $(window).bind("load",function(){
+    
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+    
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });    
+    });
+</script>
 
 <div class="info-bar" style="margin-top:15px">
     <div class="form-inline">
@@ -119,7 +166,9 @@
 
         </div>
 
-        <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+        <button type="button" id="clearSearch" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
+        <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:10px;float:right;">Search</button>
+        
     </div>
 
 
@@ -133,7 +182,7 @@
 
 
 
-<div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
+<div class="info-bar reset" style="margin-top:15px" id="singleUnitDiv" hidden>
 
 
     <div class="row">
@@ -562,23 +611,6 @@
             }
 
 
-    //// Change the selector if needed
-    //var table = $('table'),
-    //    bodyCells = table.find('tbody tr:first').children(),
-    //    colWidth;
-
-    //// Adjust the width of thead cells when window resizes
-    //$(window).resize(function() {
-    //    // Get the tbody columns width array
-    //    colWidth = bodyCells.map(function() {
-    //        return $(this).width();
-    //    }).get();
-    
-    //    // Set the width of thead columns
-    //    table.find('thead tr').children().each(function(i, v) {
-    //        $(v).width(colWidth[i]);
-    //    });    
-    //}).resize(); // Trigger resize handler  
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

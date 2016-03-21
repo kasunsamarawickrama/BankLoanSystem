@@ -155,5 +155,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                 return PartialView(SearchList);
             }
         }
+
+        
     }
 }
