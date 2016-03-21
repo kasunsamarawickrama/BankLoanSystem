@@ -253,7 +253,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unit"></param>
         /// <param name="loanCode"></param>
         /// <returns>true/false</returns>
-        public bool UpdateTitle(Unit unit,string loanCode)
+        public bool UpdateTitle(Unit unit,string loanCode,int userId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -263,6 +263,8 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@model", unit.Model });
             paramertList.Add(new object[] { "@title_status", unit.TitleStatus });
             paramertList.Add(new object[] { "@loan_code", loanCode });
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@modified_date", DateTime.Now });
 
             try
             {
