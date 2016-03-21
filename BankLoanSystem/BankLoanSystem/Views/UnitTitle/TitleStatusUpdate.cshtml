@@ -54,7 +54,7 @@
 
 
                         <div class="col-md-2">
-                            @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6 } })
+                            @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6,@placeholder="VIN/HIN/Serial No" } })
                             @Html.ValidationMessageFor(model => model.IdentificationNumberSearch, "", new { @class = "text-danger" })
                             <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -132,7 +132,7 @@
                                                     <input type="radio" name="inlineRadioOptions" id="sentBank" value="3"> Sent to Bank
                                                 </label>
                                             }
-
+                                            <div id="updateTitleDiv" class="validation-error"><span class="text-danger"></span></div>
                                         </div>
 
                                     </div>
@@ -179,10 +179,14 @@
         <button type="button" class="btn btn-info" id="btnNo" style="width:100px;margin-left:20px;">No</button>
     </div>
 
+
+    <script src="~/scripts/CommonFunctions.js"></script>
     <script>
+
         $(document).ready(function () {
             $('#searchGrid1').hide();
         });
+
         //cancel button click event
         $('#btnCancel').click(function () {
             $('#searchGrid1').hide();
@@ -223,24 +227,44 @@
             $('#titleStatus').val(tit);
             $('#unitStatus').val(uit);
         };
+        //clear error span
+        $('#notReceived').click(function ()
+        {
+            $('#updateTitleDiv span').text("");
+        });
+        $('#received').click(function () {
+            $('#updateTitleDiv span').text("");
+        });
+        $('#returnDealer').click(function () {
+            $('#updateTitleDiv span').text("");
+        });
+        $('#sentBank').click(function () {
+            $('#updateTitleDiv span').text("");
+        });
         //click event of Display button
         $('#btnDisplay').click(function ()
         {
             var para1 = $('#identificationNumberSearch').val();
-            $.ajax({
-                url: '/UnitTitle/SearchTitleStatus',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({ identificationNumber: para1}),
-                success: function (View) {
-                    $('#searchGrid1').html(View);
-                    //$('#searchGrid1').show();
-                },
-                error: function (reponse) {
-                    $('#loadingSpan').hide();
-                    alert("error : " + reponse);
-                }
-            });
+            if ((para1 == null) || (para1 == "")||(para1.length<6)) {
+                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', para1);
+            }
+            else {
+                $.ajax({
+                    url: '/UnitTitle/SearchTitleStatus',
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    data: JSON.stringify({ identificationNumber: para1 }),
+                    success: function (View) {
+                        $('#searchGrid1').html(View);
+                        //$('#searchGrid1').show();
+                    },
+                    error: function (reponse) {
+                        $('#loadingSpan').hide();
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+           
             //alert(para1);
         });
 
@@ -254,13 +278,30 @@
         {
             $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
         });
-        //check length of the search VIN/HIN/Serial
-        $('#identificationNumberSearch').focusout(function () {
-            var val1 = $('#identificationNumberSearch').val();
-            if (val1.length < 6) {
-                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch',val1);
+        //block invalid characters
+        $("#identificationNumberSearch").keypress(function (e) {
+
+            var ch = e.which;
+            if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                return 1;
             }
 
+            else {
+                e.preventDefault();
+            }
+            //alert(ch);
+        });
+        //check length of the search VIN/HIN/Serial
+        $('#identificationNumberSearch').focusout(function () {
+            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+          
+
+        });
+        $('#identificationNumberSearch').blur(function () {
+            var val1 = $('#identificationNumberSearch').val();
+            if (val1.length < 6) {
+                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
+            }
         });
         function FocusOutCall(span, vareditor, val)
         {
@@ -268,7 +309,11 @@
             $(vareditor).val("");
             
             $('.centered span').text('Error');
+            e.preventDefault();
         }
+        $('#identificationNumberSearch').click(function () {
+            $('#searchIdentificationNumber span').text('');
+        });
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
             $('#identificationNumber').val(tr.find('#vin').text());
@@ -309,6 +354,7 @@
         $('#btnUpdate').click(function () {
 
             var para1 = $('input[name = inlineRadioOptions]:checked').val();
+            
             //alert(para1);
             if (para1 == 2) {
                 var current = $('#unitStatus').val();
@@ -319,11 +365,19 @@
                     e.preventDefault();
 
                 }
-            } else {
+            } else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
                 UpdateTitleStatus();
             }
            
-           
+            else {
+
+                $('#updateTitleDiv span').text("Please select the status of the title you would like to update");
+               // $(vareditor).val("");
+
+                $('.centered span').text('Error');
+                //$('.centered span').text('Error');
+                e.preventDefault();
+            }
         });
 
 
