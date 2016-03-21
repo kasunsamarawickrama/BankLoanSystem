@@ -500,7 +500,7 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#startDate").attr("disabled", "disabled");
                 $("#iAdvance").attr("disabled", "disabled");
-
+                ClearMainGrid();
                 //var count = 0;
                 //$("#checkableGrid").find("input:checkbox").each(function () {
                 //    this.checked = false;
@@ -558,7 +558,7 @@
                 $("#singleUnitDiv").hide();
             }
 
-            function SetTextBoxValues(tr) {
+            function SetTextBoxValues(tr) {      
                
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
@@ -633,6 +633,18 @@
        
         ClearSearchRelatedData();
     });
+
+    
+    function ClearMainGrid() {
+        var count = 0;
+        $("#checkableGrid").find("input:checkbox").each(function () {
+            this.checked = false;
+            if (count > 0) {
+                $(this).parents('tr').css('background', 'transparent');
+            }
+            count++;
+        });
+    }
 
 
 
