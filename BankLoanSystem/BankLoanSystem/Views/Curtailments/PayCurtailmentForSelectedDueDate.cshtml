@@ -31,16 +31,17 @@
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                                            , header: "{checkall}"
                                    ),
-                                   grid.Column(
-                                        "AdvanceDate",
-                                        "Date Advanced",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   ),
+                                   //grid.Column(
+                                   //     "AdvanceDate",
+                                   //     "Date Advanced",
+                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                                   //),
+                                   grid.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
                                    grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="model" class="model">@item.CurtNumber</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
                                         "Due Date",
@@ -556,13 +557,13 @@
                 $("#singleUnitDiv").hide();
             }
 
-            function SetTextBoxValues(tr) {
-                //alert(tr.find("#AdvanceDate").text());
+            function SetTextBoxValues(tr) {      
+               
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
-                $('#iDateAdvance').val(tr.find("#AdvanceDate").text());
+                $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 @if(ViewBag.loanDetails.isEditAllowable == true)
