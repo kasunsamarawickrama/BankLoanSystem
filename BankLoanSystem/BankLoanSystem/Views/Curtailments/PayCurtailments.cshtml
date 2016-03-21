@@ -14,7 +14,7 @@
 @{
     Layout = null;
     ViewBag.Title = "Pay Curtailments";
-    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+    //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 
 <!DOCTYPE html>
@@ -96,38 +96,41 @@
 
     </div>
     <script>
-       
+
         $("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
         $("#lkcrtl").click(function (e) { e.preventDefault(); });
         $("#lkcrtl").siblings().click(function (e) {
             return true;
 
         });
-   
-   
 
-            startPicker = new Pikaday({                
-                field: document.getElementById('dueDate'),
-                format: 'l',
-                bound: true,
-                onSelect: function () {
-                    var dueDate = this.getDate();
-                    $.ajax({
-                        url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
-                        data: JSON.stringify({ dueDate: dueDate }),
-                        type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
 
-                        success: function (partialView) {
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
-                            //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        }
-                    });
-                }
-            });
 
-           
+        startPicker = new Pikaday({
+            field: document.getElementById('dueDate'),
+            format: 'l',
+
+            bound: true,
+            onSelect: function () {
+                var dueDate = this.getDate();
+                $.ajax({
+                    url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+                    data: JSON.stringify({ dueDate: dueDate }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (partialView) {
+                        $('#changeContainer').html(partialView);
+                        $('#changeContainer').show();
+                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    }
+                });
+            }
+        });
+
+        $("#dueDate").val('@DateTime.Today.ToString("d")');
+
+
         </script>
 
 </body>

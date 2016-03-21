@@ -54,7 +54,7 @@
 
 
                         <div class="col-md-2">
-                            @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6,@placeholder="VIN/HIN/Serial No" } })
+                            @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6} })
                             @Html.ValidationMessageFor(model => model.IdentificationNumberSearch, "", new { @class = "text-danger" })
                             <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -91,7 +91,7 @@
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" id="modelDiv">
                                             <label for="">Model</label>
                                             @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
@@ -291,12 +291,7 @@
             }
             //alert(ch);
         });
-        //check length of the search VIN/HIN/Serial
-        $('#identificationNumberSearch').focusout(function () {
-            $(this).attr('placeholder', 'VIN/HIN/Serial No');
-          
-
-        });
+      
         $('#identificationNumberSearch').blur(function () {
             var val1 = $('#identificationNumberSearch').val();
             if (val1.length < 6) {
@@ -305,7 +300,7 @@
         });
         function FocusOutCall(span, vareditor, val)
         {
-            $(span).text("Please type last 6 characters of VIN/HIN/Serial you would like to update the title status");
+            $(span).text("Please type last 6 characters of VIN/HIN/Serial you would like to display the details");
             $(vareditor).val("");
             
             $('.centered span').text('Error');
@@ -319,7 +314,15 @@
             $('#identificationNumber').val(tr.find('#vin').text());
             $('#unitYear').val(tr.find('#year').text());
             $('#unitMake').val(tr.find('#make').text());
-            $('#unitModel').val(tr.find('#model').text());
+            if ((tr.find('#model').text() == null) || (tr.find('#model').text() == "")) {
+                $('#modelDiv').hide();
+            }
+            else {
+               
+                $('#unitModel').val(tr.find('#model').text());
+                $('#modelDiv').show();
+            }
+            
             $('#unitStatus').val(tr.find('#currentUnitStatus').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
         };

@@ -143,7 +143,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
                 loanCode = Session["loanCode"].ToString();
             }
             TitleAccess titleObj = new TitleAccess();
-            bool reslt = titleObj.UpdateTitle(unitTitle, loanCode);
+            bool reslt = titleObj.UpdateTitle(unitTitle, loanCode,userData.UserId);
             if (reslt)
             {
                 TempData["reslt"] = 1;

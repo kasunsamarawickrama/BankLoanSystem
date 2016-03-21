@@ -95,7 +95,8 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="">Pay Date : </label>
-            <input class="form-control" type="date" style="margin-left:15px" />
+            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off" , style = "margin-left:15px" } })
+            @*<input class="form-control" type="date" style="margin-left:15px" />*@
         </div>
         <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
     </div>
@@ -222,7 +223,7 @@
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off" } })
                         </div>
                     </div>
 
@@ -581,7 +582,7 @@
                 $('.label-success').text("");
             }
 
-            var advDatePicker = new Pikaday({
+            @*var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
                 format: 'l'
 
@@ -589,7 +590,7 @@
             });
 
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+            advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
 
             function Search(para1, para2, para3, para4) {
@@ -630,6 +631,48 @@
         });
     }
 
+
+
+
+    payPicker = new Pikaday({
+        field: document.getElementById('payDate'),
+        format: 'l',
+
+        bound: true,
+        onSelect: function () {
+            var thisDate = this.getDate();
+            $("#payCurtDate").val(formatDate(thisDate));
+        }
+    });
+
+    payPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+    payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    $("#payDate").val("");
+    payPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
+
+
+    payCurtPicker = new Pikaday({
+        field: document.getElementById('payCurtDate'),
+        format: 'l',
+
+        bound: true,
+        onSelect: function () {
+            var thisDate = this.getDate();
+            $("#payDate").val(formatDate(thisDate));
+        }
+    });
+
+    payCurtPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+    payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    $("#payCurtDate").val("");
+    payCurtPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
+
+
+    function formatDate(value)
+    {
+       
+        return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
+    }
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
