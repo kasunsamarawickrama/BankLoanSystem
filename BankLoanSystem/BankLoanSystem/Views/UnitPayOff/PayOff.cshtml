@@ -143,8 +143,9 @@
 
                                 @*<input class="form-control" type="text" style="width:90px" />*@
                                 @{
+
                                     List<SelectListItem> yearList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
                                         {
@@ -164,7 +165,7 @@
 
                                 @*<input class="form-control" type="text" style="width:90px" />*@
                                 @{List<SelectListItem> makeList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
                                         {
@@ -183,7 +184,7 @@
                                 <label for="">Model</label>
 
                                 @{List<SelectListItem> modelList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
                                         {
@@ -271,7 +272,7 @@
                                             <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
                                         </div>
                                         <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
-                                        <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
+                                        <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
                                     </fieldset>
                                 </form>
                             </div>
@@ -429,9 +430,9 @@
                 //alert(countSelect);
                 var tr = $(this).parents('tr:first');
                 SetTextBoxValues(tr);
-            } else if (countSelect === totalSelect) {
+            } else if (countSelect > 1) {
                 ClearTextBoxValues();
-            } else {
+            } else  {
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -621,6 +622,7 @@
 
         });
         function Search(para1, para2, para3, para4) {
+            countSelect = 0;
         $.ajax({
             url: '/UnitPayOff/SearchUnit',
             type: 'POST',
@@ -629,6 +631,7 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
             },
             error: function (reponse) {
                 $('#loadingSpan').hide();
@@ -732,6 +735,36 @@
                 $("#noUnitLabelDiv").hide();
                 $("#searchLabelDiv").show();
             }
+
+        });
+
+        $("#btnCancel").click(function () {
+            ClearTextBoxValues();
+            countSelect = 0;
+            total = 0;
+            checkCount = 0;
+            //$("#btnAdvance").attr("disabled", "disabled");
+            //$("#btnAdvanceAll").attr("disabled", "disabled");
+            //$("#advanceDate").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
+            //$("#iAdvance").attr("disabled", "disabled");
+
+            var count = 0;
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = false;
+                if (count > 0) {
+                    $(this).parents('tr').css('background', 'transparent');
+                }
+                count++;
+            });
+            document.getElementById('all').checked = false;
+            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+            $("#someID span").html('Select');
+            $("#tagscloud span").html('');
+            //$('#iAdvance').removeClass('input-validation-error');
+            
+            ClearSearchRelatedData();
 
         });
     </script>

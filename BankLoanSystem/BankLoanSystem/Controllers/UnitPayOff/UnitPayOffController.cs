@@ -72,17 +72,19 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
             //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
-            ViewBag.advanceList = advanceUnit.NotAdvanced;
+            
 
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
             CurtailmentAccess payoff = new CurtailmentAccess();
-
+            var UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.PayDate = DateTime.Now;
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
-            Session["payoffList"] = unitPayOffViewModel.UnitPayOffList;
+            UnitPayOffList = unitPayOffViewModel.UnitPayOffList;
+            Session["payoffList"] = UnitPayOffList;
+            ViewBag.payOffList = UnitPayOffList;
             return View(unitPayOffViewModel);
         }
 
