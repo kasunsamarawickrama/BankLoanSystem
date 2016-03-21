@@ -65,7 +65,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             
            
             
-            return View(this.GetCurtailmentSchedule(DateTime.Now));
+            return View();
         }
 
         public ActionResult PayCurtailmentForSelectedDueDate(DateTime dueDate)
