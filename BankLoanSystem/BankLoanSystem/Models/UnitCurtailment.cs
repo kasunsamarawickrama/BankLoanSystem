@@ -37,6 +37,8 @@ namespace BankLoanSystem.Models
     {
         public List<UnitPayOffModel> UnitPayOffList { get; set; }
         public List<UnitPayOffModel> SearchList { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PayDate { get; set; }
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]

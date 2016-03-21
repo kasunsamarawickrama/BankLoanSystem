@@ -156,11 +156,19 @@
 
             }else if(ViewBag.Title == "Add Unit Page") {
 
-                                <text>if (($('#txtCost').val() != "" && $('#txtCost').val() != 0) || ($('#txtAdvanceAmount').val() != "" && $('#txtAdvanceAmount').val() != 0) || $("#rdYes").is(":checked") == true || $("#rdNo").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true || $("#rdAdvanceNo").is(":checked") == true) {
-                event.preventDefault();
-                var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                                <text>if (($('#txtCost').val() != "" && $('#txtCost').val() != 0) || ($('#txtAdvanceAmount').val() != "" && $('#txtAdvanceAmount').val() != 0) || $("#rdYes").is(":checked") == true || $("#rdNo").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true || $("#rdAdvanceNo").is(":checked") == true)
+            {
+                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
             }</text>
             }
+            else if (ViewBag.Title == "Title Status Update")
+            {
+                 <text>if (($('#identificationNumber').val() != "" && $('#identificationNumber').val() != null) || ($('#unitYear').val() != "" && $('#unitYear').val() != 0) || ($('#unitMake').val() != "" && $('#unitMake').val() != null) || ($('#unitModel').val() != "" && $('#unitModel').val() != null) || ($('#unitStatus').val() != "" && $('#unitStatus').val() != null) || ($('#titleStatus').val() != "" && $('#titleStatus').val() != null) || $("#notReceived").is(":checked") == true || $("#received").is(":checked") == true || $("#returnDealer").is(":checked") == true || $("#sentBank").is(":checked") == true)
+            {
+                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+            }</text>
+            }
+
         });
 
 
@@ -239,7 +247,7 @@
 
             }else if(ViewBag.Title == "Add Unit Page") {
                  <text>
-            if(isError === false){
+            if (isError === false) {
             if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
                 $('.centered span').text('Error');
                 isError = true;

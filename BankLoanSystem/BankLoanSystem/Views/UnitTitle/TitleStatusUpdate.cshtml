@@ -359,23 +359,35 @@
             var para1 = $('input[name = inlineRadioOptions]:checked').val();
             
             //alert(para1);
-            if (para1 == 2) {
-                var current = $('#unitStatus').val();
-                //alert(current);
-                if ((current != "Paid")) {
+            if (($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
+            {
+                if (para1 == 2) {
+                    var current = $('#unitStatus').val();
+                    //alert(current);
+                    if ((current != "Paid")) {
                     
-                    showPopup('2');
-                    e.preventDefault();
+                        showPopup('2');
+                        e.preventDefault();
 
+                    }
+                } else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
+                    UpdateTitleStatus();
                 }
-            } else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
-                UpdateTitleStatus();
-            }
            
+                else {
+
+                    $('#updateTitleDiv span').text("Please select the status of the title you would like to update");
+                    // $(vareditor).val("");
+
+                    $('.centered span').text('Error');
+                    //$('.centered span').text('Error');
+                    e.preventDefault();
+                }
+            }
             else {
 
-                $('#updateTitleDiv span').text("Please select the status of the title you would like to update");
-               // $(vareditor).val("");
+                $('#updateTitleDiv span').text("Please select the unit you would like to update the status");
+                // $(vareditor).val("");
 
                 $('.centered span').text('Error');
                 //$('.centered span').text('Error');
