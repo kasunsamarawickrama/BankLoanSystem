@@ -5,9 +5,22 @@
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 
+<style>
+
+#checkableGridDiv table tbody,
+#checkableGridDiv table thead { display: block; }
+
+
+
+#checkableGridDiv table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+</style>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
-                            <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
-                               @grid.GetHtml(
+                            <div>
+                                @grid.GetHtml(
                                    tableStyle: "gridtable",
                                    headerStyle: "webgrid-header",
                                    alternatingRowStyle: "webgrid-alternating-row",
@@ -38,10 +51,44 @@
                                 )
                             )
                          </div>
-                        <div id="subtotal"> Current Total to Advance : $ 0  </div>
-                        <div id="partialPaymentColor"><label style="position:relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</div>
+                        <span id="subtotal"> Current Total to Advance : $ 0  </span>
+                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
-                </div> 
+                </div>
+<script>
+
+    
+    // Change the selector if needed
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+
+    // Adjust the width of thead cells when window resizes
+    $(window).resize(function() {
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+    
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });    
+    }).resize(); // Trigger resize handler  
+
+    $(window).bind("load",function(){
+    
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+    
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });    
+    });
+</script>
 
 <div class="info-bar" style="margin-top:15px">
     <div class="form-inline">
@@ -66,7 +113,6 @@
         <div class="form-group" style="margin-left:20px;">
             <label for="">Year</label>
 
-            @*<input class="form-control" type="text" style="width:90px" />*@<input class="form-control" type="text" style="width:90px" />
 
             @{
                 List<SelectListItem> yearList = new List<SelectListItem>();
@@ -77,12 +123,9 @@
                         yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                     }
                 }
-            }<SelectListItem>
-                <SelectListItem>
-                    <SelectListItem>
-                        <SelectListItem>
+            }
 
-                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:90px" })
+            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
                             @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
 
         </div>
@@ -90,33 +133,56 @@
         <div class="form-group" style="margin-left:20px;">
             <label for="">Make</label>
 
-            <input class="form-control" type="text" style="width:90px" />
+            @{List<SelectListItem> makeList = new List<SelectListItem>();
+                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                {
+                    if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                    {
+                        makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                    }
+                }
+            }
+
+        
+        @Html.DropDownList("make", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+        @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
 
         </div>
 
         <div class="form-group" style="margin-left:20px;">
             <label for="">Model</label>
 
-            <input class="form-control" type="text" style="width:100px" />
+            @{List<SelectListItem> modelList = new List<SelectListItem>();
+                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                {
+                    if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                    {
+                        modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                    }
+                }
+            }
+            @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
         </div>
 
-        <button type="submit" id="btnSearch" class="btn btn-info" style="margin-right:25px;float:right;">Search</button>
+        <button type="button" id="clearSearch" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
+        <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:10px;float:right;">Search</button>
+        
     </div>
 
 
 
 </div>
 
-<div class="info-bar" style="margin-top:15px">
-
-    <!-- This is for Search Grid-->
-
+<div id="searchGrid1" hidden>
 
 
 </div>
 
-<div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
+
+
+<div class="info-bar reset" style="margin-top:15px" id="singleUnitDiv" hidden>
 
 
     <div class="row">
@@ -256,7 +322,7 @@
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
-                    
+
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount++;
@@ -306,10 +372,10 @@
                     if (checkCount > 0) {
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                        
+
                         var totalRows = $("#checkableGrid td :checkbox").length;
                         var checked = $("#checkableGrid td :checkbox:checked").length;
-                        
+
                         if (checked == totalRows) {
                             var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
                             $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
@@ -431,14 +497,14 @@
                 $("#startDate").attr("disabled", "disabled");
                 $("#iAdvance").attr("disabled", "disabled");
 
-                var count = 0;
-                $("#checkableGrid").find("input:checkbox").each(function () {
-                    this.checked = false;
-                    if (count > 0) {
-                        $(this).parents('tr').css('background', 'transparent');
-                    }
-                    count++;
-                });
+                //var count = 0;
+                //$("#checkableGrid").find("input:checkbox").each(function () {
+                //    this.checked = false;
+                //    if (count > 0) {
+                //        $(this).parents('tr').css('background', 'transparent');
+                //    }
+                //    count++;
+                //});
                 document.getElementById('all').checked = false;
                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
 
@@ -456,6 +522,21 @@
 
 
             });
+
+            function ClearTextBoxValues() {
+                $('#ivin').val('');
+                $('#iVin').val('');
+                $('#iYear').val('');
+                $('#iMake').val('');
+                $('#iModel').val('');
+                $('#iCost').val('');
+                $('#iAdvance').val('');
+                $("#btnAdvance").attr("disabled", "disabled");
+                //$("#btnAdvanceAll").removeAttr("disabled");
+                $("#advanceDate").attr("disabled", "disabled");
+                //$("#startDate").removeAttr("disabled");
+                $("#singleUnitDiv").hide();
+            }
 
             $('#identificationNumberSearch').focusout(function () {
                 $(this).attr('placeholder', 'VIN/HIN/Serial No');
@@ -506,6 +587,29 @@
 
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
             advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
+
+            function Search(para1, para2, para3, para4) {
+
+                var curtList = @Html.Raw(Json.Encode(Model));
+                
+                $.ajax({
+                    url: '/Curtailments/SearchCurtailment',
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
+                    success: function (View) {
+                        $('#searchGrid1').html(View);
+                        $('#searchGrid1').removeAttr('hidden');
+                        $('#searchGrid1').show();
+                    },
+                    error: function (reponse) {
+
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+
 
     </script>
 

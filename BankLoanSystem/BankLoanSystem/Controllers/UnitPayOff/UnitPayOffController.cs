@@ -78,7 +78,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             CurtailmentAccess payoff = new CurtailmentAccess();
 
-            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(190);
+            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
 
             return View(unitPayOffViewModel);
         }
@@ -89,20 +89,20 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         //    return View();
         //}
 
-        public int UnitListPay(List<string> unitIdList, DateTime payOffDate)
+        public int UnitListPay(List<string> unitIdList, DateTime payDate)
         {
-            payOffDate = Convert.ToDateTime("2016-04-06");
+            payDate = Convert.ToDateTime("2016-04-06");
             try
             {
                 XElement xEle = new XElement("Units",
                     from unit in unitIdList
                     select new XElement("Unit",
                         new XElement("UnitId", unit),
-                        new XElement("PayDate", payOffDate)
+                        new XElement("PayDate", payDate)
                         ));
                 string xmlDoc = xEle.ToString();
 
-                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payOffDate);
+                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate);
 
             }
             catch (Exception ex)

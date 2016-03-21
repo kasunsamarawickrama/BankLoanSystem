@@ -121,5 +121,41 @@ namespace BankLoanSystem.Controllers.Curtailments
             curtailmentAccess.updateCurtailmets(curtailmentScheduleModel , loanDetails.loanId);
             return RedirectToAction("PayCurtailments");
         }
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/3/18
+        /// Search curtailments
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchCurtailment(string identificationNumber, string year, string make, string vehicleModel , CurtailmentScheduleModel CurtailmentList)
+        {
+
+
+
+            List<CurtailmentShedule> SearchList = new List<CurtailmentShedule>();
+            
+            
+            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+            {
+                //search through list elements
+                Search sc = new Search();
+
+                SearchList = sc.GetSearchCurtailmentList(CurtailmentList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower() );
+
+                return PartialView(SearchList);
+            }
+            else
+            {
+                
+                return PartialView(SearchList);
+            }
+        }
+
+        
     }
 }
