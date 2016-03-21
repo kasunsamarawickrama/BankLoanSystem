@@ -247,15 +247,15 @@ namespace BankLoanSystem.DAL
                     curtailment.UnitId = dataRow["unit_id"].ToString();
                     curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
                     curtailment.Year = int.Parse(dataRow["year"].ToString());
-                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                    curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString());
+                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
+                    curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString()).ToString("MM/dd/yyyy");
                     curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
                     curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
                     curtailment.IDNumber = dataRow["identification_number"].ToString();
                     curtailment.CurtNumber = int.Parse(dataRow["curt_number"].ToString());
                     curtailment.Make = dataRow["make"].ToString();
                     curtailment.Model = dataRow["model"].ToString();
-                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
 
                     lstCurtailmentShedule.Add(curtailment);
                 }
@@ -305,6 +305,23 @@ namespace BankLoanSystem.DAL
             else
             {
                 return null;
+            }
+        }
+
+        public int PayOffUnits(string unitIdList, DateTime payOffDate)
+        {
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList2 = new List<object[]>();
+            paramertList2.Add(new object[] { "@Input", unitIdList });
+            paramertList2.Add(new object[] { "@pay_date", payOffDate });
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList2);
+            }
+            catch (Exception ex)
+            {
+                return 0;
             }
         }
     }
