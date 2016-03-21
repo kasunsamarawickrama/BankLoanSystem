@@ -342,6 +342,10 @@
 
             return true;
         }
+        //capitalize letters when typing
+        $('#identificationNumberSearch').keyup(function () {
+            $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+        });
     $("#btnCancel").click(function () {
         ClearTextBoxValues();
 

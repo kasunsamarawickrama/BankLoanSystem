@@ -31,16 +31,17 @@
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                                            , header: "{checkall}"
                                    ),
-                                   grid.Column(
-                                        "AdvanceDate",
-                                        "Date Advanced",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   ),
+                                   //grid.Column(
+                                   //     "AdvanceDate",
+                                   //     "Date Advanced",
+                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                                   //),
+                                   grid.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
                                    grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="model" class="model">@item.CurtNumber</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
                                         "Due Date",
@@ -52,7 +53,7 @@
                             )
                          </div>
                         <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:PapayaWhip"></label> Part Payment Records</span>
+                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -246,7 +247,7 @@
 
 
 <script>
-
+            
             var total = 0;
             var checkCount = 0;
             var totalRecCount = 0;
@@ -366,10 +367,10 @@
 
                     }
                     else {
-
+                        
                         ClearTextBoxValues();
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-
+                        
                     }
 
                     if (checkCount > 0) {
@@ -387,7 +388,7 @@
                     $('.advanceAmount').each(function () {
                         var tr = $(this).parents('tr:first');
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', 'PapayaWhip');
+                            $(this).parents('tr').css('background', '#ffd699');
                         }
                     });
                 });
@@ -401,8 +402,8 @@
                 $('.advanceAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', 'PapayaWhip');
-                        //tr.title = 'tool tip';
+                        $(this).parents('tr').css('background', '#ffd699');
+                        //tr.title = 'tool tip'; 
                     }
                 });
             }
@@ -547,7 +548,7 @@
 
             function ClearTextBoxValues() {
                 $('#iDateAdvance').val('');
-                $('#ivin').val('');
+                $('#ivin').val('');                
                 $('#iYear').val('');
                 $('#iMake').val('');
                 $('#iModel').val('');
@@ -558,22 +559,22 @@
             }
 
             function SetTextBoxValues(tr) {
-                //alert(tr.find("#AdvanceDate").text());
+               
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
-                $('#iDateAdvance').val(tr.find("#AdvanceDate").text());
+                $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
                 document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 @if(ViewBag.loanDetails.isEditAllowable == true)
                 {
                     <text> $('#iAdvance').removeAttr('disabled'); </text>
                 }
-
+                
                 $("#btnAdvance").removeAttr("disabled");
-                $("#advanceDate").removeAttr("disabled");
-                $("#singleUnitDiv").show();
+                $("#advanceDate").removeAttr("disabled");               
+                $("#singleUnitDiv").show();               
             }
 
             function ClearLabelMessages() {
@@ -595,7 +596,7 @@
             function Search(para1, para2, para3, para4) {
 
                 var curtList = @Html.Raw(Json.Encode(Model));
-
+                
                 $.ajax({
                     url: '/Curtailments/SearchCurtailment',
                     type: 'POST',
@@ -614,7 +615,7 @@
             }
 
     $("#btnClear").click(function () {
-
+       
         ClearSearchRelatedData();
     });
 

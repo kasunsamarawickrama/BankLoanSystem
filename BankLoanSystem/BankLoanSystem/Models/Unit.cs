@@ -114,6 +114,7 @@ namespace BankLoanSystem.Models
 
         public int UnitStatus { get; set; }
 
+       
         public int TitleStatus { get; set; }
 
         [Display(Name = "Unit Type")]
