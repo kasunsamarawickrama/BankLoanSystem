@@ -1,0 +1,57 @@
+﻿
+@model BankLoanSystem.Models.UnitPayOffViewModel
+
+@{
+    WebGrid grid1 = new WebGrid(Model.SearchList, defaultSort: "CreatedDate", selectionFieldName: "selectedRow");// grid with sorting and paging
+}
+@if (Model.SearchList.Count() != 0)
+{
+    <div id="searchGrid" @*style="overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
+        @grid1.GetHtml(
+               tableStyle: "gridtable",
+                     headerStyle: "webgrid-header",
+
+                     alternatingRowStyle: "webgrid-alternating-row",
+                     selectedRowStyle: "select",
+                     rowStyle: "webgrid-row-style",
+                     htmlAttributes: new { id = "searchResultGrid" },
+                     columns: grid1.Columns(
+                     grid1.Column(
+                      format:@<text><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+
+
+                 ),
+                     grid1.Column(
+                             "CreatedDate",
+                             "Date Entered", canSort: false,
+                             format:  @<text>@{<label id="date" class="vin"> @item.DateEntered</label>}</text>
+                         ),
+                     grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                     grid1.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                     grid1.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                     grid1.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                     grid1.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
+                     grid1.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)))
+    </div>
+
+    <script>
+    $(function () {
+
+        $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
+
+            $(this).css('background', 'lightblue');
+            $(this).siblings().css('background', 'aliceblue');
+            SetTextBoxValues(tr);
+
+        });
+    });
+    </script>
+
+}
+else {
+    <div id="noDataLabelDiv" style="padding-bottom: 15px;width:870px;float: unset;margin-top:10px; font:medium;color:red;text-align:center">
+        @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })
+    </div>
+
+}

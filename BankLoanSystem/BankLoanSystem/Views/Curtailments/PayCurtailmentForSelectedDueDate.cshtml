@@ -606,6 +606,21 @@
                         $('#searchGrid1').html(View);
                         $('#searchGrid1').removeAttr('hidden');
                         $('#searchGrid1').show();
+
+                        // Change the selector if needed
+                        var table = $('table'),
+                            bodyCells = table.find('tbody tr:first').children(),
+                            colWidth;
+
+                        colWidth = bodyCells.map(function () {
+                            return $(this).width();
+                        }).get();
+
+                        // Set the width of thead columns
+                        table.find('thead tr').children().each(function (i, v) {
+                            $(v).width(colWidth[i]);
+                        });
+
                     },
                     error: function (reponse) {
 
