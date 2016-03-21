@@ -272,7 +272,7 @@
                                             <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
                                         </div>
                                         <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
-                                        <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
+                                        <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
                                     </fieldset>
                                 </form>
                             </div>
@@ -430,9 +430,9 @@
                 //alert(countSelect);
                 var tr = $(this).parents('tr:first');
                 SetTextBoxValues(tr);
-            } else if (countSelect === totalSelect) {
+            } else if (countSelect > 1) {
                 ClearTextBoxValues();
-            } else {
+            } else  {
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -622,6 +622,7 @@
 
         });
         function Search(para1, para2, para3, para4) {
+            countSelect = 0;
         $.ajax({
             url: '/UnitPayOff/SearchUnit',
             type: 'POST',
@@ -630,6 +631,7 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
             },
             error: function (reponse) {
                 $('#loadingSpan').hide();
@@ -733,6 +735,36 @@
                 $("#noUnitLabelDiv").hide();
                 $("#searchLabelDiv").show();
             }
+
+        });
+
+        $("#btnCancel").click(function () {
+            ClearTextBoxValues();
+
+            total = 0;
+            checkCount = 0;
+            //$("#btnAdvance").attr("disabled", "disabled");
+            //$("#btnAdvanceAll").attr("disabled", "disabled");
+            //$("#advanceDate").attr("disabled", "disabled");
+            //$("#startDate").attr("disabled", "disabled");
+            //$("#iAdvance").attr("disabled", "disabled");
+
+            var count = 0;
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = false;
+                if (count > 0) {
+                    $(this).parents('tr').css('background', 'transparent');
+                }
+                count++;
+            });
+            document.getElementById('all').checked = false;
+            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+            $("#someID span").html('Select');
+            $("#tagscloud span").html('');
+            //$('#iAdvance').removeClass('input-validation-error');
+            
+            ClearSearchRelatedData();
 
         });
     </script>
