@@ -94,20 +94,19 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         //    return View();
         //}
 
-        public int UnitListPay(List<string> unitIdList, DateTime payDate, string titleReturn)
+        public int UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
         {
-            payDate = Convert.ToDateTime("2016-04-06");
             try
             {
                 XElement xEle = new XElement("Units",
-                    from unit in unitIdList
+                    from unit in payOffModelList
                     select new XElement("Unit",
-                        new XElement("UnitId", unit),
-                        new XElement("PayDate", payDate)
+                        new XElement("UnitId", unit.UnitId),
+                        new XElement("Balance", unit.Balance)
                         ));
                 string xmlDoc = xEle.ToString();
 
-                int titleStatus = titleReturn == "Yes" ? 2:1;
+                int titleStatus = titleReturn == "Yes" ? 2:4;
 
                 return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
 

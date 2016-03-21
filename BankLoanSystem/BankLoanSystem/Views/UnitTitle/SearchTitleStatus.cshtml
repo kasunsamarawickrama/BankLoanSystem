@@ -49,9 +49,7 @@ else {
     });
 
     if ($('#titleGrid').children('tbody').children('tr').length == 1) {
-        //alert('hg');
-        //var tr = $(this);
-       //$('#searchGrid1').hide();
+       
         var model = @Html.Raw(Json.Encode(Model));
         var vinNum = model.TitleList[0].IdentificationNumber.toString();
         var yr = model.TitleList[0].Year.toString();
@@ -60,7 +58,6 @@ else {
         var tit = model.TitleList[0].CurrentTitleStatus.toString();
         var uit = model.TitleList[0].CurrentUnitStatus.toString();
 
-        //alert(ff);
         SetTextBoxValues_2(vinNum,yr,make1,model1,tit,uit);
     }
     else{
