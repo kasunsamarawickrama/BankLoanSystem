@@ -475,7 +475,7 @@
         var errorTitleReturn1 = false;
         $("#btnPayAll").click(function () {
             var titleStatus = $('.titleReturn').filter(':checked').val();
-            //alert(titleStatus);
+            alert(titleStatus);
 
             if (titleStatus === "Yes" || titleStatus === "No") {
                 $('#customErrorTitleReturn1').children('span').text("");
@@ -486,7 +486,7 @@
             }
             
             if (errorTitleReturn1 === false) {
-                var data = { unitIdList: [], payDate, titleReturn }
+                var data = { unitIdList: [], payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
                     var isChecked = $(this).find("#all").is(':checked');
@@ -533,7 +533,7 @@
 
             if (errorTitleReturn2 === false) {
                 var hiddenId = document.getElementById('iUnitId').value;
-                var data = { unitIdList: [], payDate, titleReturn }
+                var data = { unitIdList: [], payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     //alert('1');
                     data.unitIdList.push(hiddenId);
