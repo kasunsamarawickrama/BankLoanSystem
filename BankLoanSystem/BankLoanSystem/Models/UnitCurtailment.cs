@@ -36,6 +36,7 @@ namespace BankLoanSystem.Models
     public class UnitPayOffViewModel
     {
         public List<UnitPayOffModel> UnitPayOffList { get; set; }
+        public List<UnitPayOffModel> SearchList { get; set; }
         public DateTime PayDate { get; set; }
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]
@@ -50,6 +51,9 @@ namespace BankLoanSystem.Models
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Model")]
         public string Model { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
         [Display(Name = "Unit Type")]
         public int UnitTypeId { get; set; }
 

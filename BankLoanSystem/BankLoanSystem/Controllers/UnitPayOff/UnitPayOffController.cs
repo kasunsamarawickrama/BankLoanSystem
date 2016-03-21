@@ -78,8 +78,9 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             CurtailmentAccess payoff = new CurtailmentAccess();
 
+            unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
-
+            Session["payoffList"] = unitPayOffViewModel.UnitPayOffList;
             return View(unitPayOffViewModel);
         }
 
@@ -111,7 +112,53 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             }
 
         }
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/3/21
+        /// Search for payoff units
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchUnit(string identificationNumber, string year, string make, string vehicleModel)
+        {
+            string loanCode;
+            try
+            {
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(404, "Session Expired");
+            }
+            //int userId = 57;
 
+            LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+
+            ViewBag.loanDetails = loanDetails;
+            List<Models.UnitPayOffModel> unitList = (List<Models.UnitPayOffModel>)Session["payoffList"];
+
+            Models.UnitPayOffViewModel unitListMain = new Models.UnitPayOffViewModel();
+            //unitListMain.NotAdvanced = unitList;
+            unitListMain.UnitPayOffList = new List<Models.UnitPayOffModel>();
+            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+            {
+                //search through list elements
+                Search sc = new Search();
+
+                unitListMain.SearchList = sc.GetSearchPayOffList(unitList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
+
+                return PartialView(unitListMain);
+            }
+            else
+            {
+                unitListMain.SearchList = new List<Models.UnitPayOffModel>();
+                return PartialView(unitListMain);
+            }
+        }
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
         {
             UnitAccess unitAccess = new UnitAccess();

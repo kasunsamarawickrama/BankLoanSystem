@@ -218,7 +218,7 @@
         $('input').blur(function () {
             var isError = false;
             if ($(this).next('span').children('span').text().length > 0) {
-                $('.centered span').text('Error');
+               $('.centered span').text('Error');
                 isError = true;
             }
             //else if ($(this).siblings().next('span').children('span').length === 0) {
@@ -237,23 +237,23 @@
             @if(ViewBag.Title == "Advance Unit") {
                 <text>
             if (isError == false) {
-                if ($(this).next('#tagscloud').children('span').text() != "") {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
+            if ($(this).next('#tagscloud').children('span').text() != "") {
+                $('.centered span').text('Error');
+                isError = true;
+            } else {
+                isError = false;
+            }
             }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
                  <text>
             if (isError === false) {
-                if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
+            if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
+                $('.centered span').text('Error');
+                isError = true;
+            } else {
+                isError = false;
+            }
             }
             </text>
             }

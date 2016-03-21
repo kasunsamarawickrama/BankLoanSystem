@@ -61,7 +61,7 @@
 
                         <!-- This is for Grid-->
 
-                        @if (Model.UnitPayOffList.Count > 0)
+                        @if (Model.UnitPayOffList != null)
                         {
                             @grid.GetHtml(
                             tableStyle: "gridtable",
@@ -203,10 +203,11 @@
 
 
                     <div class="info-bar" style="margin-top:15px">
-
                         <!-- This is for Search Grid-->
+                        <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
 
 
+                        </div>
 
                     </div>
 
@@ -488,6 +489,23 @@
                 }
             });
         });
+
+        $("#btnClear").click(function () {
+
+            ClearSearchRelatedData();
+        });
+
+        function ClearSearchRelatedData() {
+            //document.getElementById("form").reset();
+            $("#identificationNumberSearch").val('');
+            $('#cmbYear').val('');
+            $("#cmbMake").val('');
+            $("#cmbModel").val('');
+            $("#noDataLabelDiv").hide();
+            $("#searchGrid1").hide();
+
+        }
+
         function ClearTextBoxValues() {
             $('#iVin').val('');
             $('#iYear').val('');
@@ -549,16 +567,15 @@
         });
 
         $("#btnSearch").click(function() {
-
             ClearTextBoxValues();
 
             total = 0;
             checkCount = 0;
-            $("#btnAdvance").attr("disabled", "disabled");
-            $("#btnAdvanceAll").attr("disabled", "disabled");
-            $("#advanceDate").attr("disabled", "disabled");
-            $("#startDate").attr("disabled", "disabled");
-            $("#iAdvance").attr("disabled", "disabled");
+            //$("#btnAdvance").attr("disabled", "disabled");
+            //$("#btnAdvanceAll").attr("disabled", "disabled");
+            //$("#advanceDate").attr("disabled", "disabled");
+            //$("#startDate").attr("disabled", "disabled");
+            //$("#iAdvance").attr("disabled", "disabled");
 
             var count = 0;
             $("#checkableGrid").find("input:checkbox").each(function() {
@@ -569,11 +586,11 @@
                 count++;
             });
             document.getElementById('all').checked = false;
-            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
 
             $("#someID span").html('Select');
             $("#tagscloud span").html('');
-            $('#iAdvance').removeClass('input-validation-error');
+            //$('#iAdvance').removeClass('input-validation-error');
             var para1 = $("#identificationNumberSearch").val();
             var para2 = $('#cmbYear').val();
             var para3 = $("#cmbMake").val();
@@ -582,12 +599,27 @@
                 para1 = '';
             }
             if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
-                //Search(para1, para2, para3, para4);
+                Search(para1, para2, para3, para4);
             }
 
 
         });
-
+        function Search(para1, para2, para3, para4) {
+        $.ajax({
+            url: '/UnitPayOff/SearchUnit',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
+            success: function (View) {
+                $('#searchGrid1').html(View);
+                $('#searchGrid1').show();
+            },
+            error: function (reponse) {
+                $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
+        });
+    }
         function SetRadioBtnHeaderChecked() {
             var totalRows = $("#checkableGrid td :checkbox").length;
             var checked = $("#checkableGrid td :checkbox:checked").length;
@@ -650,6 +682,42 @@
                 $(v).width(colWidth[i]);
             });
         }).resize();
+
+        $(document).ready(function () {
+
+            if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
+                $("#checkableGridDiv").hide();
+                //$("#advanceAllDiv").hide();
+                $("#searchDiv").hide();
+                $("#searchGrid1").hide();
+                //$("#unitDetailDiv").hide();
+                $("#noDataLabelDiv").hide();
+                $("#noUnitLabelDiv").show();
+                $("#searchLabelDiv").hide();
+
+            }
+            else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length > 0)) {
+                $("#checkableGridDiv").show();
+                //$("#advanceAllDiv").show();
+                $("#searchDiv").show();
+                $("#searchGrid1").show();
+                //$("#unitDetailDiv").show();
+                $("#noDataLabelDiv").hide();
+                $("#noUnitLabelDiv").hide();
+                $("#searchLabelDiv").show();
+            }
+            else if (($('#checkableGrid').children('tbody').children('tr').length > 0) && ($('#searchResultGrid').children('tbody').children('tr').length == 0)) {
+                $("#checkableGridDiv").show();
+                //$("#advanceAllDiv").show();
+                $("#searchDiv").show();
+                //$("#unitDetailDiv").show();
+                $("#searchGrid1").hide();
+                $("#noDataLabelDiv").show();
+                $("#noUnitLabelDiv").hide();
+                $("#searchLabelDiv").show();
+            }
+
+        });
     </script>
 </body>
 </html>
