@@ -18,7 +18,8 @@
                    "Date Advanced",
                    format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
                ),
-                grid.Column("VIN/HIN/Serial #", "VIN/HIN/Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+               
+                grid.Column("VIN/HIN/Serial #", "VIN/HIN/Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" name="IDHidden" value="@item.UnitId" id="uId" />}</text>),
                 grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                 grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                 grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
@@ -27,6 +28,7 @@
                                 )
                     )
             </div>
+
 }
 else {
     <div id="noDataLabelDiv" style="padding-bottom: 15px;width:870px;float: unset;margin-top:10px; font:medium;color:red;text-align:center">
@@ -57,8 +59,9 @@ else {
         var model1 = model.TitleList[0].Model.toString();
         var tit = model.TitleList[0].CurrentTitleStatus.toString();
         var uit = model.TitleList[0].CurrentUnitStatus.toString();
+        var uid = model.TitleList[0].UnitId.toString();
 
-        SetTextBoxValues_2(vinNum,yr,make1,model1,tit,uit);
+        SetTextBoxValues_2(vinNum,yr,make1,model1,tit,uit,uid);
     }
     else{
         ShowDivs();

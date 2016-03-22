@@ -66,7 +66,8 @@
                 </div>
 
                 <div class="info-bar" id="searchGrid1" style="margin-top:15px">
-                  
+                    
+                    
                 </div>
 
                 <div class="info-bar search-panel" style="margin-top:15px;">
@@ -134,7 +135,7 @@
                                             }
                                             <div id="updateTitleDiv" class="validation-error"><span class="text-danger"></span></div>
                                         </div>
-
+                                        <div id="unitid" class="hidden"></div>
                                     </div>
                                         <button type="button" class="btn btn-info" id="btnUpdate"style="width:100px">Update</button>
                                         <button type="button" class="btn btn-default" id="btnCancel" tabindex="-1" style="float:right;">Cancel</button>
@@ -218,7 +219,7 @@
             $('#searchGrid1').show();
         }
         //fill text box values if search grid row count=1
-        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit)
+        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit,uit,uid)
         {
            
             $('#searchGrid1').hide();
@@ -228,6 +229,7 @@
             $('#unitModel').val(model1);
             $('#titleStatus').val(tit);
             $('#unitStatus').val(uit);
+            document.getElementById("unitid").innerHTML = uid;
         };
         //clear error span
         $('#notReceived').click(function ()
@@ -327,17 +329,21 @@
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
             $('#updateTitleDiv span').text('');
-
+            //alert($('#piyumi').inn);
             $('#identificationNumber').val(tr.find('#vin').text());
             $('#unitYear').val(tr.find('#year').text());
             $('#unitMake').val(tr.find('#make').text());
             $('#unitModel').val(tr.find('#model').text());
             $('#unitStatus').val(tr.find('#currentUnitStatus').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
+            document.getElementById("unitid").innerHTML = tr.find("#uId").val();
+            //$('#unitid').val(tr.find("#uId").val());
+            //alert(document.getElementById("unitid").innerHTML);
         };
         //update title status function
         function UpdateTitleStatus() {
             var unitTitle = {
+                "UnitId":$('#unitid').text(),
                 "IdentificationNumber": $('#identificationNumber').val(),
                 "Year": $('#unitYear').val(),
                 "Make": $('#unitMake').val(),
