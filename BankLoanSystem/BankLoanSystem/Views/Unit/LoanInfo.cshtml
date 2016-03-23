@@ -126,7 +126,14 @@
         }else if (ViewBag.Msg == "Advance Error") {
 
             <text> $('.centered span').text('Invalid amount found for advance');</text>
+        }else if (ViewBag.Msg == "PayOffSuccess")
+        {
+           <text> $('.centered1 span').text('PayOff Completed');</text>
+        } else if (ViewBag.Msg == "PayOffError") {
+
+            <text> $('.centered span').text('PayOff Failed');</text>
         }
+
         // show popup when you click on the link
 
         $('input').click(function () {

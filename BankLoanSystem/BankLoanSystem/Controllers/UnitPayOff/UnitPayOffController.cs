@@ -13,6 +13,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
     {
         private static LoanSetupStep1 loan;
         User userData = new User();
+        int _companyType = 0;
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -72,7 +73,10 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
             //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
-            
+
+            BranchAccess ba = new BranchAccess();
+            _companyType = ba.getCompanyTypeByUserId(userData.UserId);
+            ViewBag.ComType = _companyType;
 
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
@@ -85,7 +89,27 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             UnitPayOffList = unitPayOffViewModel.UnitPayOffList;
             Session["payoffList"] = UnitPayOffList;
             ViewBag.payOffList = UnitPayOffList;
-            return View(unitPayOffViewModel);
+            //return View(unitPayOffViewModel);
+
+            if(TempData["message"] != null)
+            {
+                int res = Convert.ToInt32(TempData["message"]);
+                if (res == 0)
+                    ViewBag.Msg = "PayOffError";
+                else
+                    ViewBag.Msg = "PayOffSuccess";
+            }
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(unitPayOffViewModel);
+            }
+            else
+            {
+
+                return View(unitPayOffViewModel);
+            }
         }
 
         //[HttpPost]
@@ -94,8 +118,9 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         //    return View();
         //}
 
-        public int UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
+        public ActionResult UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
         {
+            int result = 0;
             try
             {
                 XElement xEle = new XElement("Units",
@@ -106,10 +131,18 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                         ));
                 string xmlDoc = xEle.ToString();
 
-                int titleStatus = titleReturn == "Yes" ? 2:4;
+                int titleStatus = 0;
 
-                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
+                if (_companyType == 1)
+                    titleStatus = titleReturn == "Yes" ? 2 : 4;
+                else if (_companyType == 2)
+                    titleStatus = titleReturn == "Yes" ? 3 : 4;
 
+                result = (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
+
+                TempData["message"] = result;
+
+                return RedirectToAction("PayOff", "UnitPayOff");
             }
             catch (Exception ex)
             {
