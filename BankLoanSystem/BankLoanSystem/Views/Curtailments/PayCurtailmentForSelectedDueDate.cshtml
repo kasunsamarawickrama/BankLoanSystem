@@ -53,7 +53,7 @@
                             )
                          </div>
                         <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
+                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -282,19 +282,29 @@
                                 }
                                 total = 0;
                                 totalRecCount = 0;
-                                $('.advanceAmount').each(function () {
+                               // $('.advanceAmount').each(function () {
+                                $('#checkableGrid').find('.advanceAmount') .each(function () {
                                     var tr = $(this).parents('tr:first');
-
+                                    
                                     totalRecCount++;
                                     if (document.getElementById('all').checked) {
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                         checkCount++;
-
-                                        $(this).parents('tr').css('background', 'lightblue');
+                                        if (tr.find("#curtailmentStatus").val() === '2') {
+                                            $(this).parents('tr').css('background', '#ffcc80');  $('#partialPaymentColor').show();                   
+                                        }else{
+                                            $(this).parents('tr').css('background', 'lightblue');
+                                        }
+                                       
                                     } else {
                                         checkCount = 0;
                                         total = 0;
-                                        $(this).parents('tr').css('background', 'transparent');
+                                        if (tr.find("#curtailmentStatus").val() === '2') {
+                                            $(this).parents('tr').css('background', '#ffe0b3'); $('#partialPaymentColor').show();                    
+                                        }else{
+                                            $(this).parents('tr').css('background', 'transparent');
+                                        }
+                                        
                                     }
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                                     if (checkCount > 0) {
@@ -330,11 +340,24 @@
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount++;
-                        $(this).parents('tr').css('background', 'lightblue');
+                        if (tr.find("#curtailmentStatus").val() === '2') {
+                            $(this).parents('tr').css('background', '#ffcc80'); //checked color of partial payment 
+                            $('#partialPaymentColor').show();                           
+                        }else{
+                            $(this).parents('tr').css('background', 'lightblue');
+                        }
+
+
                     } else {
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount--;
-                        $(this).parents('tr').css('background', 'transparent');
+                        if (tr.find("#curtailmentStatus").val() === '2') {
+                            $(this).parents('tr').css('background', '#ffe0b3'); //not checked color of partial payment  
+                            $('#partialPaymentColor').show();
+                        }else{
+                            $(this).parents('tr').css('background', 'transparent');
+                        }
+                       
                     }
 
                     if (checkCount == 1) {
@@ -387,8 +410,8 @@
                     }
                     $('.advanceAmount').each(function () {
                         var tr = $(this).parents('tr:first');
-                        if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#ffd699');
+                        if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
+                            $(this).parents('tr').css('background', '#ffcc80');//checked color of partial payment    
                         }
                     });
                 });
@@ -402,27 +425,11 @@
                 $('.advanceAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#ffd699');
-                        //tr.title = 'tool tip'; 
+                        $(this).parents('tr').css('background', '#ffe0b3');     //not checked color of partial payment    
+                        $('#partialPaymentColor').show();
                     }
                 });
             }
-
-            $('#myTable td[title]')
-                .hover(function () {
-                    showTooltip($(this));
-                }, function () {
-                    hideTooltip();
-                });
-
-            function showTooltip($el) {
-                // insert code here to position your tooltip element (which i'll call $tip)
-                $tip.html($el.attr('title'));
-            }
-            function hideTooltip() {
-                $tip.hide();
-            }
-
 
             $(document).on('click', 'tbody', (function (e) {
                 var target = $(e.target);
@@ -641,9 +648,12 @@
             this.checked = false;
             if (count > 0) {
                 $(this).parents('tr').css('background', 'transparent');
+
             }
             count++;
         });
+
+        changePartialPaymentRowColor();
     }
 
 
