@@ -53,7 +53,7 @@
                             )
                          </div>
                         <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%"><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
+                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -288,19 +288,29 @@
                                 }
                                 total = 0;
                                 totalRecCount = 0;
-                                $('.curtAmount').each(function () {
+                               // $('.advanceAmount').each(function () {
+                                $('#checkableGrid').find('.curtAmount') .each(function () {
                                     var tr = $(this).parents('tr:first');
 
                                     totalRecCount++;
                                     if (document.getElementById('all').checked) {
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                         checkCount++;
-
+                                        if (tr.find("#curtailmentStatus").val() === '2') {
+                                            $(this).parents('tr').css('background', '#fff5cc');  $('#partialPaymentColor').show();
+                                        }else{
                                         $(this).parents('tr').css('background', 'lightblue');
+                                        }
+
                                     } else {
                                         checkCount = 0;
                                         total = 0;
+                                        if (tr.find("#curtailmentStatus").val() === '2') {
+                                            $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();
+                                        }else{
                                         $(this).parents('tr').css('background', 'transparent');
+                                    }
+
                                     }
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                                     if (checkCount > 0) {
@@ -320,7 +330,7 @@
                                     $("#startDate").attr("disabled", "disabled");
                                     ClearTextBoxValues();
                                 }
-                                changePartialPaymentRowColor();
+                                //changePartialPaymentRowColor();
                             }
                         })
 
@@ -336,14 +346,27 @@
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount++;
+                        if (tr.find("#curtailmentStatus").val() === '2') {
+                            $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
+                            $('#partialPaymentColor').show();
+                        }else{
                         $(this).parents('tr').css('background', 'lightblue');
+                        }
+
+
                     } else {
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount--;
+                        if (tr.find("#curtailmentStatus").val() === '2') {
+                            $(this).parents('tr').css('background', '#fffae6'); //not checked color of partial payment
+                            $('#partialPaymentColor').show();
+                        }else{
                         $(this).parents('tr').css('background', 'transparent');
                     }
 
-                    if (checkCount == 1) {
+                    }
+
+                    if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -393,8 +416,8 @@
                     }
                     $('.curtAmount').each(function () {
                         var tr = $(this).parents('tr:first');
-                        if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#ffd699');
+                        if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
+                            $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment
                         }
                     });
                 });
@@ -408,27 +431,11 @@
                 $('.curtAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#ffd699');
-                        //tr.title = 'tool tip';
-                    }
+                        $(this).parents('tr').css('background', '#fffae6');     //not checked color of partial payment
+                        $('#partialPaymentColor').show();
+            }
                 });
             }
-
-            $('#myTable td[title]')
-                .hover(function () {
-                    showTooltip($(this));
-                }, function () {
-                    hideTooltip();
-                });
-
-            function showTooltip($el) {
-                // insert code here to position your tooltip element (which i'll call $tip)
-                $tip.html($el.attr('title'));
-            }
-            function hideTooltip() {
-                $tip.hide();
-            }
-
 
             $(document).on('click', 'tbody', (function (e) {
                 var target = $(e.target);
@@ -447,7 +454,11 @@
                         var checked = row.find("#all").prop('checked');
                         if (!checked) {
                             row.find("#all").prop('checked', true);
+                            if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
+                                row.css('background', '#fff5cc');//checked color of partial payment
+                            }else{
                             row.css('background', 'lightblue');
+                            }
 
                             checkCount++;
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
@@ -467,7 +478,7 @@
                     } else {
                         SetRadioBtnHeaderChecked();
                     }
-                    changePartialPaymentRowColor();
+                    //changePartialPaymentRowColor();
                 }
             }));
 
@@ -566,7 +577,7 @@
 
             function SetTextBoxValues(tr) {
 
-               
+
 
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
@@ -663,9 +674,26 @@
             this.checked = false;
             if (count > 0) {
                 $(this).parents('tr').css('background', 'transparent');
+
             }
             count++;
         });
+        total = 0;
+        checkCount = 0;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+        changePartialPaymentRowColor();
+    }
+
+    function ClearSearchGrid() {alert('noww');
+         $("#searchResultGrid").find('.advanceAmount').each(function () {
+            var tr = $(this).parents('tr:first');
+            if (tr.find("#curtailmentStatus").val() != '2') {
+                tr.css('background', 'transparent');
+            }else{
+                tr.css('background', '#fffae6');
+            }
+        });
+
     }
 
 
@@ -719,7 +747,7 @@
             return;
         }
 
- 
+
         if (checkCount >= 1) {
             var data = { SelectedCurtailmentSchedules: [] };
             $('.curtAmount').each(function () {
@@ -753,7 +781,7 @@
 
     $('#btnPay').click(function (e) {
 
-     
+
 
          if ($('#iVin').val() != '') {
 
@@ -764,7 +792,7 @@
 
             var data = { SelectedCurtailmentSchedules: [] };
 
-         
+
 
             data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').text().replace(',', '') });
 
