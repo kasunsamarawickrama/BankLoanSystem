@@ -56,17 +56,17 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        internal bool updateCurtailmets(CurtailmentScheduleModel curtailmentScheduleModel , int loanId)
+        internal bool updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel , int loanId)
         {
             try
             {
                 XElement xEle = new XElement("Curtailments",
-                    from curtailmentShedule in curtailmentScheduleModel.CurtailmentScheduleInfoModel
+                    from curtailmentShedule in curtailmentScheduleModel.SelectedCurtailmentSchedules
                     select new XElement("CurtailmentShedule",
                         new XElement("CurtNo", curtailmentShedule.CurtNumber),
                         new XElement("UnitId", curtailmentShedule.UnitId),
                         new XElement("CurtAmount", curtailmentShedule.CurtAmount),
-                        new XElement("PayDate", curtailmentScheduleModel.PayDate)
+                        new XElement("PayDate", curtailmentShedule.PayDate)
                         
                         ));
                 string xmlDoc = xEle.ToString();
@@ -132,7 +132,11 @@ namespace BankLoanSystem.DAL
                 loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
                 loan.CurtailmentDueDate = dataRow["curtailment_due_date"].ToString();
                 loan.CurtailmentAutoRemindEmail = dataRow["curtailment_auto_remind_email"].ToString();
-                loan.CurtailmentEmailRemindPeriod = Convert.ToInt32(dataRow["curtailment_remind_period"].ToString());
+                if (!string.IsNullOrEmpty(dataRow["curtailment_remind_period"].ToString()))
+                {
+                    loan.CurtailmentEmailRemindPeriod = Convert.ToInt32(dataRow["curtailment_remind_period"].ToString());
+                }
+                
                 loan.CurtailmentCalculationBase = dataRow["curtailment_calculation_type"].ToString();
 
                 return loan;

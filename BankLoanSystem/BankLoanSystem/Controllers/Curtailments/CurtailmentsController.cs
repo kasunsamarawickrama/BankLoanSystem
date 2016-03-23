@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.Helpers;
 
 namespace BankLoanSystem.Controllers.Curtailments
 {
@@ -96,9 +98,13 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
         [HttpPost]
-        public ActionResult PayCurtailments(CurtailmentScheduleModel curtailmentScheduleModel)
+        public int PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
         {
 
+
+            //dynamic stuff = JsonConvert.DeserializeObject(Request["SelectedCurtailmentScheduleInfoModel"]);
+
+            //dynamic obj = serializer.Deserialize(, typeof(object));
             int userId = userData.UserId;
             string loanCode;
             
@@ -109,7 +115,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return RedirectToAction("UserLogin", "Login");
+                return 0;
             }
 
 
@@ -118,8 +124,8 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            curtailmentAccess.updateCurtailmets(curtailmentScheduleModel , loanDetails.loanId);
-            return RedirectToAction("PayCurtailments");
+            curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
+            return 1;
         }
 
         /// <summary>
