@@ -91,16 +91,20 @@
     });
 </script>
 
-<div class="info-bar" style="margin-top:15px">
-    <div class="form-inline">
-        <div class="form-group">
-            <label for="">Pay Date : </label>
-            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off" , style = "margin-left:15px" } })
-            @*<input class="form-control" type="date" style="margin-left:15px" />*@
+<form method="post">
+    <div class="info-bar" style="margin-top:15px">
+        <div class="form-inline">
+            <div class="form-group">
+                
+                <label for="">Pay Date : </label>
+                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px" } })
+                @*<input class="form-control" type="date" style="margin-left:15px" />*@
+            </div>
+            <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" />
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay Curtailments on all selected</button>
     </div>
-</div>
+</form>
+
 
 <div class="info-bar search-panel" style="margin-top:15px;">
     <div class="form-inline" style="margin-left:25px;">
@@ -163,7 +167,7 @@
                     }
                 }
             }
-            @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+            @Html.DropDownList("model", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
             @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
         </div>
@@ -224,6 +228,8 @@
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off" } })
+                            @Html.Hidden("iCurtNumber", "" , new { @id = "iCurtNumber" } )
+                            @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
                     </div>
 
@@ -232,7 +238,7 @@
 
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:31px;margin-left:147px;width:130px" />
 
-                    <input type="submit" name="Pay" value="Pay" id="btnAdvance" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
+                    <input type="submit" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
 
 
                 </fieldset>
@@ -688,6 +694,92 @@
        
         return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
     }
+
+
+    $('#payAll').click(function () {
+
+        if($("#payDate").val() == ""){
+            // show error
+            return;
+        }
+        if (checkCount >= 1) {
+            var data = { SelectedCurtailmentSchedules: [] };
+            $('.advanceAmount').each(function () {
+                var tr = $(this).parents('tr:first');
+                var checked = tr.find("#all").is(':checked');
+                if (checked) {
+                    data.SelectedCurtailmentSchedules.push({ UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#am').text().replace(',', '') });
+
+                }
+            });
+            
+            //alert(data.SelectedCurtailmentSchedules.length);
+            $.ajax({
+                url: '/Curtailments/PayCurtailments/',
+                data: JSON.stringify(data),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (View) {
+
+                    //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    if(View == "1"){
+                        alert('Success');
+                    }
+                   
+                }
+            });
+        }
+
+    });
+
+    $('#btnPay').click(function (e) {
+
+        //if ($("#tagscloud span").text() != "") {
+        //    // show error
+        //    return;
+        //}
+
+         if ($('#iVin').val() != '') {
+                    
+            var unit = {
+                "UnitId": $('#unitid').text(),
+                "IdentificationNumber": $('#iVin').val(),
+                "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
+                "AdvanceDate": $('#advanceDate').val(),
+                "Cost": $('#iCost').val().replace(',', '')
+            };
+
+            if($("#payDate").val() == ""){
+                // show error
+                return;
+            }
+          
+            var data = { SelectedCurtailmentSchedules: [] }; 
+               
+            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iAdvance').text().replace(',', '') });
+
+                    
+            
+                //alert(data.SelectedCurtailmentSchedules.length);
+                $.ajax({
+                    url: '/Curtailments/PayCurtailments/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (View) {
+
+                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        if(View == "1"){
+                            alert('Success');
+                        }
+                   
+                    }
+                });
+            
+        }
+    });
     </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
