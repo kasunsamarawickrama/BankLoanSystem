@@ -64,10 +64,8 @@
                     <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
 
                         <!-- This is for Grid-->
-
-                        @if (Model.UnitPayOffList != null)
-                        {
-                            @grid.GetHtml(
+                        <input type="hidden" value="@ViewBag.loanDetails.LoanId" id="loanId" />
+                        @grid.GetHtml(
                                      tableStyle: "gridtable",
                                     headerStyle: "webgrid-header",
 
@@ -89,7 +87,6 @@
                                         grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
                                      )
                                      )
-                        }
                         <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
                     </div>
 
@@ -103,7 +100,7 @@
                             }
                             else
                             {
-                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being recieved from lender at this time?</label>
+                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned from lender at this time?</label>
                             }   
                             
                             <div class="col-md-2">
@@ -537,9 +534,11 @@
 
                     var isChecked = $(this).find("#all").is(':checked');
                     if (isChecked === true) {
+                        var loanId = document.getElementById('loanId').value;
                         var unitId = $(this).find("#all").val();
                         var balance = $(this).find("#balance").text().replace(',', '');
                         var payOffModel = {
+                            LoanId: loanId,
                             UnitId: unitId,
                             Balance: balance
                         };
@@ -580,12 +579,14 @@
             }
 
             if (errorTitleReturn2 === false) {
+                var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
                 var payDate = document.getElementById('payDate2').value;
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
+                        LoanId: loanId,
                         UnitId: hiddenId,
                         Balance: balance
                     };
