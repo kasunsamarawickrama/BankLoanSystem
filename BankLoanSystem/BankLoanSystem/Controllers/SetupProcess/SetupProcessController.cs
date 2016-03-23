@@ -331,7 +331,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                return new HttpStatusCodeResult(404, "Your Session is Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
         }
 
@@ -387,7 +387,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             else
             {
 
-                return new HttpStatusCodeResult(404, "Your Session is Expired");
+                return new HttpStatusCodeResult(404, "Failed to set up branch");
             }
 
             userCompany.MainBranch = new Branch();
@@ -1173,7 +1173,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
 
-            if (stepNo < 5) return new HttpStatusCodeResult(404, "Your Session is Expired");
+            if (stepNo < 5) return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
 
             if (lbls != null && (lbls.Equals("Dealer branch is successfully created") || lbls.Equals("Lender branch is successfully created")))
             {
@@ -1544,7 +1544,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Your Session is Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
             UserAccess ua = new UserAccess();
             //User curUser = ua.retreiveUserByUserId(userId);
@@ -1685,13 +1685,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 else
                 {
-                    return new HttpStatusCodeResult(404, "error message");
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                 }
             }
 
             else
             {
-                return new HttpStatusCodeResult(404, "error message");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
         }
@@ -1742,7 +1742,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(404, "error message");
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                 }
 
             }
@@ -1752,7 +1752,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //}
             else
             {
-                return new HttpStatusCodeResult(404, "error message");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
         }
@@ -2184,12 +2184,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 else
                 {
-                    return new HttpStatusCodeResult(404, "error message");
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                 }
             }
             else
             {
-                return new HttpStatusCodeResult(404, "error message");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
         }
@@ -2234,7 +2234,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(404, "error message");
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                 }
             }
             //    else if (reslt == 0)
@@ -2243,7 +2243,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //}
             else
             {
-                return new HttpStatusCodeResult(404, "error message");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
             //}
             //else
@@ -2419,7 +2419,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return View(_gCurtailment);
                 }
             }
-            return new HttpStatusCodeResult(404, "Your Session Expired");
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
         /// <summary>
