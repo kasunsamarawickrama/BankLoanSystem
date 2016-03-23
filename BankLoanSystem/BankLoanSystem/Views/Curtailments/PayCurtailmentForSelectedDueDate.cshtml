@@ -20,6 +20,9 @@
     overflow-x: hidden;
 }
 </style>
+@*<div id="noCurtLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;">
+    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset" })
+</div>*@
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
                             <div>
                                 @grid.GetHtml(
@@ -260,7 +263,41 @@
 </div>
 
 
+<script>
 
+    //clear all fields
+    $('#btnCancel').click(function(){
+        ClearTextBoxValues();
+        //clear grid
+       
+        total = 0;
+        checkCount = 0;
+        $("#btnPay").attr("disabled", "disabled");
+        $("#payAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#payDate").attr("disabled", "disabled");
+        // clear top error
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').next('span').children().text('');
+        $('.centered span').text('');
+        $('#errorPayDate').text('');
+        document.getElementById('all').checked = false;
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iCurtAmount').removeClass('input-validation-error');
+        ClearMainGrid();
+
+        $('#identificationNumberSearch').val('');
+        $('#cmbYear').val('');
+        $('#cmbMake').val('');
+        $('#cmbModel').val('');
+        $("#noDataLabelDiv").hide();
+        $("#searchGrid1").hide();
+
+    });
+</script>
 <script>
 
             var total = 0;
