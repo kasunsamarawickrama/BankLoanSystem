@@ -289,7 +289,11 @@
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                                     $("#payAll").attr("disabled", "disabled");
                                     $("#payDate").attr("disabled", "disabled");
-                                    
+                                    // clear top error
+                                    $('.centered span').text('');
+                                    $('#errorPayDate').text('');
+                                    $('#payDate').removeClass('input-validation-error');
+                                    $('#payDate').next('span').children().text('');
                                     totalRecCount = 0;
 
                                 }
@@ -335,6 +339,12 @@
                                 else if (checkCount == 0 || totalRecCount == 0) {
                                     $("#payAll").attr("disabled", "disabled");
                                     $("#payDate").attr("disabled", "disabled");
+                                    // clear top error
+                                    
+                                    $('#errorPayDate').text('');
+                                    $('.centered span').text('');
+                                    $('#payDate').removeClass('input-validation-error');
+                                    $('#payDate').next('span').children().text('');
                                     ClearTextBoxValues();
                                 }
                                 //changePartialPaymentRowColor();
@@ -398,7 +408,11 @@
                         ClearTextBoxValues();
                         $("#payAll").attr("disabled", "disabled");
                         $("#payDate").attr("disabled", "disabled");
-                        
+                        // clear top error
+                        $('.centered span').text('');
+                        $('#errorPayDate').text('');
+                        $('#payDate').removeClass('input-validation-error');
+                        $('#payDate').next('span').children().text('');
                         $("#someID span").html('Select')
 
                     }
@@ -523,6 +537,11 @@
                 $("#payAll").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
+                // clear top error
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
+                $('.centered span').text('');
+                $('#errorPayDate').text('');
                 
                 ClearMainGrid();
                 //var count = 0;
@@ -691,6 +710,11 @@
         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
+        // clear top error
+        $('.centered span').text('');
+        $('#errorPayDate').text('');
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').next('span').children().text('');
         changePartialPaymentRowColor();
     }
 
@@ -762,6 +786,7 @@
                 $('#errorPayDate').text('The Pay date field is Required');
                 
             }
+            $('.centered span').text('Error');
             return;
         }
 
@@ -813,6 +838,7 @@
                  a=0;
              }
              if(a== 0 ){
+                 $('.centered span').text('Error');
                  return;
              }
 

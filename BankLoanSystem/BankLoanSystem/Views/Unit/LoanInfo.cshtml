@@ -268,7 +268,7 @@
             else if(ViewBag.Title == "Pay Curtailments") {
                 <text>
            if (isError === false) {
-               if ($('#errorPayDate').text() != "") {
+               if ($('#errorPayDate').text() != "" || $('#errorCurtAmount').text() != "" || $('#errorCurtPayDate').text() != "" ) {
                    $('.centered span').text('Error');
                    isError = true;
                } else {
