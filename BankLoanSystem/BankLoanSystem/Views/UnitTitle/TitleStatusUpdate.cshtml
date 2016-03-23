@@ -66,7 +66,8 @@
                 </div>
 
                 <div class="info-bar" id="searchGrid1" style="margin-top:15px">
-                  
+                    
+                    
                 </div>
 
                 <div class="info-bar search-panel" style="margin-top:15px;">
@@ -91,7 +92,7 @@
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2" id="modelDiv">
+                                        <div class="col-md-2">
                                             <label for="">Model</label>
                                             @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
@@ -134,10 +135,10 @@
                                             }
                                             <div id="updateTitleDiv" class="validation-error"><span class="text-danger"></span></div>
                                         </div>
-
+                                        <div id="unitid" class="hidden"></div>
                                     </div>
                                         <button type="button" class="btn btn-info" id="btnUpdate"style="width:100px">Update</button>
-                                        <button type="button" class="btn btn-default" id="btnCancel"style="float:right;">Cancel</button>
+                                        <button type="button" class="btn btn-default" id="btnCancel" tabindex="-1" style="float:right;">Cancel</button>
 </fieldset>
                             </form>
                         </div>
@@ -201,7 +202,10 @@
             $('#received').prop('checked', false);
             $('#returnDealer').prop('checked', false);
             $('#sentBank').prop('checked', false);
-        })
+            $('#updateTitleDiv span').text('');
+            $('#searchIdentificationNumber span').text('');
+            
+        });
         //click event of popup "Yes"
         $('#btnYes').click(function () {
             UpdateTitleStatus();
@@ -215,10 +219,9 @@
             $('#searchGrid1').show();
         }
         //fill text box values if search grid row count=1
-        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit)
+        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit,uit,uid)
         {
-            //var model = @Html.Raw(Json.Encode(Model));
-            //alert(model.TitleDetails.Year);
+           
             $('#searchGrid1').hide();
             $('#identificationNumber').val(vinNum);
             $('#unitYear').val(yr);
@@ -226,6 +229,7 @@
             $('#unitModel').val(model1);
             $('#titleStatus').val(tit);
             $('#unitStatus').val(uit);
+            document.getElementById("unitid").innerHTML = uid;
         };
         //clear error span
         $('#notReceived').click(function ()
@@ -244,6 +248,12 @@
         //click event of Display button
         $('#btnDisplay').click(function ()
         {
+            $('#identificationNumber').val('');
+            $('#unitYear').val('');
+            $('#unitMake').val('');
+            $('#unitModel').val('');
+            $('#titleStatus').val('');
+            $('#unitStatus').val('');
             var para1 = $('#identificationNumberSearch').val();
             if ((para1 == null) || (para1 == "")||(para1.length<6)) {
                 FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', para1);
@@ -292,43 +302,48 @@
             //alert(ch);
         });
       
-        $('#identificationNumberSearch').blur(function () {
-            var val1 = $('#identificationNumberSearch').val();
-            if (val1.length < 6) {
-                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
-            }
-        });
+        //$('#identificationNumberSearch').blur(function () {
+        //    var val1 = $('#identificationNumberSearch').val();
+        //    if (val1.length < 6) {
+        //        FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
+        //    }
+        //});
         function FocusOutCall(span, vareditor, val)
         {
-            $(span).text("Please type last 6 characters of VIN/HIN/Serial you would like to display the details");
+            $(span).text("Please type last 6 characters of VIN/HIN/Serial No");
             $(vareditor).val("");
             
             $('.centered span').text('Error');
+            $('#identificationNumberSearch').addClass('input-validation-error')
             e.preventDefault();
         }
         $('#identificationNumberSearch').click(function () {
             $('#searchIdentificationNumber span').text('');
+            $('#identificationNumberSearch').removeClass('input-validation-error');
+            $('.centered span').text('');
+            if ($('#titleGrid').children('tbody').children('tr').length == 0) {
+                $('#searchGrid1').hide();
+            }
+            
         });
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
+            $('#updateTitleDiv span').text('');
+            //alert($('#piyumi').inn);
             $('#identificationNumber').val(tr.find('#vin').text());
             $('#unitYear').val(tr.find('#year').text());
             $('#unitMake').val(tr.find('#make').text());
-            if ((tr.find('#model').text() == null) || (tr.find('#model').text() == "")) {
-                $('#modelDiv').hide();
-            }
-            else {
-               
-                $('#unitModel').val(tr.find('#model').text());
-                $('#modelDiv').show();
-            }
-            
+            $('#unitModel').val(tr.find('#model').text());
             $('#unitStatus').val(tr.find('#currentUnitStatus').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
+            document.getElementById("unitid").innerHTML = tr.find("#uId").val();
+            //$('#unitid').val(tr.find("#uId").val());
+            //alert(document.getElementById("unitid").innerHTML);
         };
         //update title status function
         function UpdateTitleStatus() {
             var unitTitle = {
+                "UnitId":$('#unitid').text(),
                 "IdentificationNumber": $('#identificationNumber').val(),
                 "Year": $('#unitYear').val(),
                 "Make": $('#unitMake').val(),
@@ -377,10 +392,7 @@
                 else {
 
                     $('#updateTitleDiv span').text("Please select the status of the title you would like to update");
-                    // $(vareditor).val("");
-
                     $('.centered span').text('Error');
-                    //$('.centered span').text('Error');
                     e.preventDefault();
                 }
             }

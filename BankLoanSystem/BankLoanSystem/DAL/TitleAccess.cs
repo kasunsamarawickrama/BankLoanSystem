@@ -190,6 +190,7 @@ namespace BankLoanSystem.DAL
                         {
                             Unit title = new Unit();
                             title.AdvanceDate = DateTime.Parse(dataRow["advance_date"].ToString());
+                            title.UnitId = dataRow["unit_id"].ToString();
                             title.IdentificationNumber = dataRow["identification_number"].ToString();
                             title.Year = int.Parse(dataRow["year"].ToString());
                             title.Make = dataRow["make"].ToString();
@@ -257,10 +258,11 @@ namespace BankLoanSystem.DAL
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@identification_number", unit.IdentificationNumber });
-            paramertList.Add(new object[] { "@year", unit.Year });
-            paramertList.Add(new object[] { "@make", unit.Make });
-            paramertList.Add(new object[] { "@model", unit.Model });
+            paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+            //paramertList.Add(new object[] { "@identification_number", unit.IdentificationNumber });
+            //paramertList.Add(new object[] { "@year", unit.Year });
+            //paramertList.Add(new object[] { "@make", unit.Make });
+            //paramertList.Add(new object[] { "@model", unit.Model });
             paramertList.Add(new object[] { "@title_status", unit.TitleStatus });
             paramertList.Add(new object[] { "@loan_code", loanCode });
             paramertList.Add(new object[] { "@user_id", userId });

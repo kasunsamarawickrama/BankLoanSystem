@@ -1,6 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Web.Helpers
-@model BankLoanSystem.Models.UnitPayOffViewModel
+﻿@model BankLoanSystem.Models.UnitPayOffViewModel
 
 @{
     Layout = null;
@@ -17,6 +15,11 @@
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
+    <link href="~/Content/pikaday.css" rel="stylesheet" />
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />
+    <script src="~/scripts/moment.js"></script>
+    <script src="~/scripts/pikaday.js"></script>
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
@@ -76,14 +79,13 @@
                                 , header: "{checkall}"
 
                         ),
-                            grid.Column("DateEntered", "DateEntered", canSort: false, format: @<text>@{<label id="date" class="vin"> @item.DateEntered</label>}</text>),
+                            grid.Column("DateEntered", "DateEntered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
                                grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                                grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
                                grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
                                grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
                                grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
                                grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
-
                             )
                             )
                         }
@@ -98,13 +100,13 @@
 
                             <div class="col-md-2">
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes1", @class = "titleReturn"}) Yes
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo1", @class = "titleReturn" }) No
                                 </label>
                             </div>
-
+                            <div id="customErrorTitleReturn1"><span class="text-danger"></span></div>
                         </div>
 
                         <div class="form-inline">
@@ -116,7 +118,7 @@
 
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="margin-left:15px">Pay off all selected units</button>
+                            <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                         </div>
 
 
@@ -141,8 +143,9 @@
 
                                 @*<input class="form-control" type="text" style="width:90px" />*@
                                 @{
+
                                     List<SelectListItem> yearList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
                                         {
@@ -162,7 +165,7 @@
 
                                 @*<input class="form-control" type="text" style="width:90px" />*@
                                 @{List<SelectListItem> makeList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
                                         {
@@ -181,7 +184,7 @@
                                 <label for="">Model</label>
 
                                 @{List<SelectListItem> modelList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.advanceList)
+                                    foreach (var type in ViewBag.payOffList)
                                     {
                                         if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
                                         {
@@ -211,7 +214,7 @@
 
                     </div>
 
-                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv">
+                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -250,7 +253,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <label for="">Pay Off Date </label>
-                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", @disabled = "disabled" } })
+                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                             </div>
                                         </div>
 
@@ -260,15 +263,16 @@
 
                                             <div class="col-md-2">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> Yes
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes2", @class = "titleReturn2"}) Yes
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="inlineRadioOptions" id="" value=""> No
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
                                                 </label>
                                             </div>
+                                            <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
                                         </div>
-                                        <button style="width:100px" type="button" id="btnPay" class="btn btn-info">Pay</button>
-                                        <button type="button" class="btn btn-default" style="float:right;">Cancel</button>
+                                        <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
+                                        <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
                                     </fieldset>
                                 </form>
                             </div>
@@ -285,8 +289,6 @@
 
 
             <div class="link-bar" style="margin-bottom:15px;">
-
-
                 @{
                     Html.RenderAction("GetLinkBar", "Unit");
                 }
@@ -305,178 +307,20 @@
 
         function GridUpdate() {
             var ctrl =
-                    $('<input />', {
-                        type: 'checkbox',
-                        id: "cbSelectAll",
-                        click: function () {
-                            var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
-                            checkboxes.prop('checked', $(this).is(':checked'));
-                            var chk = checkboxes.prop('checked');
-                            if (chk) {
-                                var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
-                                $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                $("#iAdvance").attr("disabled", "disabled");
-
-                            } else {
-                                var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
-                                $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                $("#btnAdvanceAll").attr("disabled", "disabled");
-                                $("#startDate").attr("disabled", "disabled");
-                                $("#iAdvance").attr("disabled", "disabled");
-                                totalRecCount = 0;
-
-                            }
-                            total = 0;
-                            totalRecCount = 0;
-                            $('.advanceAmount').each(function () {
-                                var tr = $(this).parents('tr:first');
-                                totalRecCount++;
-                                if (document.getElementById('all').checked) {
-                                    total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                                    checkCount++;
-
-                                    $(this).parents('tr').css('background', 'lightblue');
-                                } else {
-                                    checkCount = 0;
-                                    total = 0;
-                                    $(this).parents('tr').css('background', 'transparent');
-                                }
-                                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                                if (checkCount > 0) {
-                                    $("#btnAdvanceAll").removeAttr("disabled");
-                                    $("#startDate").removeAttr("disabled");
-                                    if (totalRecCount == 1) {
-                                        SetTextBoxValues(tr);
-                                    }
-                                }
-
-                            });
-                            if (checkCount > 1) {
-                                ClearTextBoxValues();
-                            }
-                            else if (checkCount == 0 || totalRecCount == 0) {
-                                $("#btnAdvanceAll").attr("disabled", "disabled");
-                                $("#startDate").attr("disabled", "disabled");
-                                ClearTextBoxValues();
-                            }
-
-                        }
-                    })
+                $('<input />', {
+                    type: 'checkbox',
+                    id: "cbSelectAll"
+                });
 
 
             var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
             $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
-
-
-            $('.checkboxAll').change(function () {
-                var tr = $(this).parents('tr:first');
-                //var fullcost = parseFloat(tr.find("#am").text().replace(',', ''));
-                //var numValue = Number.parseFloat(tr.find("#am").text());
-                //alert(fullcost);
-                var checked = tr.find("#all").is(':checked');
-                if (checked) {
-                    total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                    checkCount++;
-                    $(this).parents('tr').css('background', 'lightblue');
-                } else {
-                    total = total - parseFloat(tr.find("#am").text().replace(',', ''));
-                    checkCount--;
-                    $(this).parents('tr').css('background', 'transparent');
-                }
-
-                if (checkCount == 1) {
-
-                    if (checked) {
-                        SetTextBoxValues(tr);
-
-                    } else {
-                        $('.advanceAmount').each(function () {
-
-                            var tr = $(this).parents('tr:first');
-                            var checked = tr.find("#all").is(':checked');
-
-                            if (checked) {
-                                SetTextBoxValues(tr);
-                            }
-                        });
-                    }
-                    //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                    $("#btnAdvanceAll").removeAttr("disabled");
-                    $("#startDate").removeAttr("disabled");
-                }
-                else if (checkCount == 0) {
-                    //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
-                    ClearTextBoxValues();
-                    $("#btnAdvanceAll").attr("disabled", "disabled");
-                    $("#startDate").attr("disabled", "disabled");
-                    $("#iAdvance").attr("disabled", "disabled");
-                    $("#someID span").html('Select')
-
-                }
-                else {
-                    ClearTextBoxValues();
-                    //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-                }
-
-                if (checkCount > 0) {
-                    var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
-                    $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                    //ChangeCheckBoxText('select ');
-
-                    var totalRows = $("#checkableGrid td :checkbox").length;
-                    var checked = $("#checkableGrid td :checkbox:checked").length;
-
-                    if (checked == totalRows) {
-                        var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
-                        $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                    }
-                }
-
-            });
         }
 
         $(function () {
             GridUpdate();
         });
 
-        $(document).on('click', 'tbody', (function (e) {
-            var target = $(e.target);
-            if (target.parents('#checkableGrid').length) {
-                var $td = $(e.target).closest("td");
-                var rowIndex = $td.parent().index();
-                rowIndex += 1;
-                var ColIndex = $td.parent().children().index($td);
-                var table = document.getElementById("checkableGrid");
-                var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-                //ClearLabelMessages();
-
-                if (ColIndex != 0) {
-
-                    var checked = row.find("#all").prop('checked');
-                    if (!checked) {
-                        row.find("#all").prop('checked', true);
-                        row.css('background', 'lightblue');
-
-                        checkCount++;
-                        total = total + parseFloat(row.find("#am").text().replace(',', ''));
-
-                        if (checkCount == 1) {
-                            SetTextBoxValues(row);
-                        }
-                        else {
-                            SetRadioBtnHeaderChecked();
-                            ClearTextBoxValues();
-                        }
-                        //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
-
-                        $("#btnAdvanceAll").removeAttr("disabled");
-                        $("#startDate").removeAttr("disabled");
-                    }
-                } else {
-                    SetRadioBtnHeaderChecked();
-                }
-            }
-        }));
 
         $(document).ready(function () {
             $("#content tbody tr").each(function (i, row) {
@@ -506,16 +350,99 @@
 
         }
 
-        function ClearTextBoxValues() {
-            $('#iVin').val('');
-            $('#iYear').val('');
-            $('#iMake').val('');
-            $('#iModel').val('');
-            $('#iCost').val('');
-            $('#iBalance').val('');
-            $('#iUnitId').val('');
-            //$("#singleUnitDiv").hide();
-        }
+        var payDate = new Pikaday({
+            field: document.getElementById('payDate'),
+            format: 'l'
+        });
+
+        payDate.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+        payDate.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
+        var payDate2 = new Pikaday({
+            field: document.getElementById('payDate2'),
+            format: 'l'
+        });
+
+        payDate2.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+        payDate2.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+
+        var totalSelect = $('table#checkableGrid > tbody > tr').length;
+        var countSelect = 0;
+
+        $(document).on('click', '#cbSelectAll', function () {
+            //alert('hi');
+            //var text = $(this).siblings('span').text();
+            //alert(text);
+            //alert($(this).is(':checked'));
+
+            ClearTextBoxValues();
+
+            var isChecked = $(this).is(':checked');
+
+            var status;
+
+            if (isChecked === false) {
+                $(this).siblings('span').text('Select');
+                status = false;
+                countSelect = 0;
+
+                $("#btnPayAll").attr("disabled", "disabled");
+                $("#payDate").attr("disabled", "disabled");
+            } else {
+                $(this).siblings('span').text('Deselect');
+                status = true;
+                countSelect = totalSelect;
+
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+            }
+
+            $('table#checkableGrid > tbody > tr').each(function () {
+                $(this).find("#all").prop('checked', status);
+            });
+
+
+
+            //alert(countSelect);
+
+        });
+
+        $(document).on('click', '.checkboxAll', function () {
+            //alert($(this).val());
+            var isChecked = $(this).is(':checked');
+
+            if (isChecked === false)
+                countSelect--;
+            else {
+                countSelect++;
+            }
+
+            if (countSelect === 0) {
+                $('#someID').children('span').text('Select');
+                $('#someID').find("#cbSelectAll").prop('checked', false);
+            } else if (totalSelect === countSelect) {
+                $('#someID').children('span').text('Deselect');
+                $('#someID').find("#cbSelectAll").prop('checked', true);
+            }
+
+
+            if (countSelect === 1) {
+                //alert(countSelect);
+                var tr = $(this).parents('tr:first');
+                SetTextBoxValues(tr);
+            } else if (countSelect > 1) {
+                ClearTextBoxValues();
+            } else  {
+                ClearTextBoxValues();
+                $("#btnPayAll").attr("disabled", "disabled");
+                $("#payDate").attr("disabled", "disabled");
+            }
+            //if()
+
+
+
+            //alert(countSelect);
+        });
 
         function SetTextBoxValues(tr) {
             $('#iVin').val(tr.find("#vin").text());
@@ -525,45 +452,135 @@
             $('#iCost').val(tr.find("#cost").text());
             $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
             $('#iUnitId').val(tr.find("#all").val());
-            //document.getElementById("unitid").innerHTML = tr.find("#all").val();
+            $("#payDate2").removeAttr("disabled");
             $("#singleUnitDiv").show();
-
+            $("#btnPay").removeAttr("disabled");
+            $("#btnPayAll").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
         }
 
-        $("#btnPay").click(function () {
-            var hiddenId = document.getElementById('iUnitId').value;
-            var payDate = document.getElementById('payDate').value;
-            var data = { unitIdList: [], payDate }
-            data.payDate = payDate;
-            if (hiddenId === '') {
-                data.unitIdList.push(hiddenId);
+        function ClearTextBoxValues() {
+            $('#iVin').val('');
+            $('#iYear').val('');
+            $('#iMake').val('');
+            $('#iModel').val('');
+            $('#iCost').val('');
+            $('#iBalance').val('');
+            $('#iUnitId').val('');
+            $("#payDate2").attr("disabled", "disabled");
+            $("#singleUnitDiv").hide();
+            $("#btnPayAll").removeAttr("disabled");
+            $("#payDate").removeAttr("disabled");
+        }
+
+        var errorTitleReturn1 = false;
+        $("#btnPayAll").click(function () {
+            var titleStatus = $('.titleReturn').filter(':checked').val();
+            alert(titleStatus);
+
+            if (titleStatus === "Yes" || titleStatus === "No") {
+                $('#customErrorTitleReturn1').children('span').text("");
+                errorTitleReturn1 = false;
             } else {
-                //alert('Hi');
+                $('#customErrorTitleReturn1').children('span').text("Please select");
+                errorTitleReturn1 = true;
+            }
+            
+            if (errorTitleReturn1 === false) {
+                var payDate = document.getElementById('payDate2').value;
+                var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
-                    
+
                     var isChecked = $(this).find("#all").is(':checked');
                     if (isChecked === true) {
                         var unitId = $(this).find("#all").val();
-                        data.unitIdList.push(unitId);
+                        var balance = $(this).find("#balance").text().replace(',', '');
+                        var payOffModel = {
+                            UnitId: unitId,
+                            Balance: balance
+                        };
+                        data.payOffModelList.push(payOffModel);
                     }
+                });
 
+                
+
+                
+                //alert(data.unitIdList[0]);
+                $.ajax({
+                    url: '/UnitPayOff/UnitListPay/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
+                        //if (View != '2') {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //} else {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //}
+                    }
                 });
             }
-            //alert(data.unitIdList[0]);
-            $.ajax({
-                url: '/UnitPayOff/UnitListPay/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (View) {
-                    //if (View != '2') {
-                    //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    //} else {
-                    //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    //}
-                }
-            });
+        });
 
+        var errorTitleReturn2 = false;
+        $("#btnPay").click(function () {
+
+            var titleStatus = $('.titleReturn2').filter(':checked').val();
+            //alert(titleStatus);
+
+            if (titleStatus === "Yes" || titleStatus === "No") {
+                $('#customErrorTitleReturn2').children('span').text("");
+                errorTitleReturn2 = false;
+            } else {
+                $('#customErrorTitleReturn2').children('span').text("Please select");
+                errorTitleReturn2 = true;
+            }
+
+            if (errorTitleReturn2 === false) {
+                var hiddenId = document.getElementById('iUnitId').value;
+                var balance = document.getElementById('iBalance').value;
+                var payDate = document.getElementById('payDate2').value;
+                var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
+                if (hiddenId !== '') {
+                    var payOffModel = {
+                        UnitId: hiddenId,
+                        Balance: balance
+                    };
+                    data.payOffModelList.push(payOffModel);
+
+
+                }
+
+                //alert(data.unitIdList[0]);
+                $.ajax({
+                    url: '/UnitPayOff/UnitListPay/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
+                        //if (View != '2') {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //} else {
+                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //}
+                    }
+                });
+            }
+
+            
+
+        });
+
+
+        $('.titleReturn').change(function () {
+            $('#customErrorTitleReturn1').children('span').text("");
+            errorTitleReturn1 = false;
+        });
+
+        $('.titleReturn2').change(function () {
+            $('#customErrorTitleReturn2').children('span').text("");
+            errorTitleReturn2 = false;
         });
 
         $("#btnSearch").click(function() {
@@ -605,6 +622,7 @@
 
         });
         function Search(para1, para2, para3, para4) {
+            countSelect = 0;
         $.ajax({
             url: '/UnitPayOff/SearchUnit',
             type: 'POST',
@@ -613,6 +631,7 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
             },
             error: function (reponse) {
                 $('#loadingSpan').hide();
@@ -668,7 +687,7 @@
             table.find('thead tr').children().each(function (i, v) {
                 $(v).width(colWidth[i]);
             });
-        }).resize(); // Trigger resize handler  
+        }).resize(); // Trigger resize handler
 
         $(window).bind("load", function () {
 
@@ -716,6 +735,36 @@
                 $("#noUnitLabelDiv").hide();
                 $("#searchLabelDiv").show();
             }
+
+        });
+
+        $("#btnCancel").click(function () {
+            ClearTextBoxValues();
+            countSelect = 0;
+            total = 0;
+            checkCount = 0;
+            //$("#btnAdvance").attr("disabled", "disabled");
+            //$("#btnAdvanceAll").attr("disabled", "disabled");
+            //$("#advanceDate").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
+            //$("#iAdvance").attr("disabled", "disabled");
+
+            var count = 0;
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = false;
+                if (count > 0) {
+                    $(this).parents('tr').css('background', 'transparent');
+                }
+                count++;
+            });
+            document.getElementById('all').checked = false;
+            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
+            $("#someID span").html('Select');
+            $("#tagscloud span").html('');
+            //$('#iAdvance').removeClass('input-validation-error');
+            
+            ClearSearchRelatedData();
 
         });
     </script>

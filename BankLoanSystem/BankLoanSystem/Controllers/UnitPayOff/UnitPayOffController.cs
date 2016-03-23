@@ -72,15 +72,19 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
             //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
-            ViewBag.advanceList = advanceUnit.NotAdvanced;
+            
 
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
             CurtailmentAccess payoff = new CurtailmentAccess();
-
+            var UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
+            unitPayOffViewModel.PayDate = DateTime.Now;
+
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
-            Session["payoffList"] = unitPayOffViewModel.UnitPayOffList;
+            UnitPayOffList = unitPayOffViewModel.UnitPayOffList;
+            Session["payoffList"] = UnitPayOffList;
+            ViewBag.payOffList = UnitPayOffList;
             return View(unitPayOffViewModel);
         }
 
@@ -90,20 +94,21 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         //    return View();
         //}
 
-        public int UnitListPay(List<string> unitIdList, DateTime payDate)
+        public int UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
         {
-            payDate = Convert.ToDateTime("2016-04-06");
             try
             {
                 XElement xEle = new XElement("Units",
-                    from unit in unitIdList
+                    from unit in payOffModelList
                     select new XElement("Unit",
-                        new XElement("UnitId", unit),
-                        new XElement("PayDate", payDate)
+                        new XElement("UnitId", unit.UnitId),
+                        new XElement("Balance", unit.Balance)
                         ));
                 string xmlDoc = xEle.ToString();
 
-                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate);
+                int titleStatus = titleReturn == "Yes" ? 2:4;
+
+                return (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
 
             }
             catch (Exception ex)
