@@ -265,6 +265,23 @@
             </text>
             }
 
+            else if(ViewBag.Title == "Pay Curtailments") {
+                <text>
+           if (isError === false) {
+               if ($('#errorPayDate').text() != "") {
+                   $('.centered span').text('Error');
+                   isError = true;
+               } else {
+                   isError = false;
+               }
+           }
+                </text>
+            }
+
+
+
+
+            $('.centered span').text('Error');
             if (isError === false)
                 $('.centered span').text('');
         });
