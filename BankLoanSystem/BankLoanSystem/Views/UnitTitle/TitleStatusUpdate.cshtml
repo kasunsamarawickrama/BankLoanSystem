@@ -329,7 +329,6 @@
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
             $('#updateTitleDiv span').text('');
-            //alert($('#piyumi').inn);
             $('#identificationNumber').val(tr.find('#vin').text());
             $('#unitYear').val(tr.find('#year').text());
             $('#unitMake').val(tr.find('#make').text());
@@ -337,8 +336,7 @@
             $('#unitStatus').val(tr.find('#currentUnitStatus').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
             document.getElementById("unitid").innerHTML = tr.find("#uId").val();
-            //$('#unitid').val(tr.find("#uId").val());
-            //alert(document.getElementById("unitid").innerHTML);
+            
         };
         //update title status function
         function UpdateTitleStatus() {

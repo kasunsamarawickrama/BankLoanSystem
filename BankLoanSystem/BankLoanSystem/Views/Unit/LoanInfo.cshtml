@@ -222,7 +222,7 @@
             }
         });
 
-        $('input').blur(function () {
+        $(document).on("blur","input",function() {
             var isError = false;
             if ($(this).next('span').children('span').text().length > 0) {
                $('.centered span').text('Error');
@@ -268,7 +268,7 @@
             else if(ViewBag.Title == "Pay Curtailments") {
                 <text>
            if (isError === false) {
-               if ($('#errorPayDate').text() != "") {
+               if ($('#errorPayDate').text() != "" || $('#errorCurtAmount').text() != "" || $('#errorCurtPayDate').text() != "" ) {
                    $('.centered span').text('Error');
                    isError = true;
                } else {

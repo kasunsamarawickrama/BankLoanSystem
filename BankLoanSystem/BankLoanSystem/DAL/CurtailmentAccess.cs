@@ -60,14 +60,15 @@ namespace BankLoanSystem.DAL
         {
             try
             {
+                int i = 1;
                 XElement xEle = new XElement("Curtailments",
                     from curtailmentShedule in curtailmentScheduleModel.SelectedCurtailmentSchedules
                     select new XElement("CurtailmentShedule",
                         new XElement("CurtNo", curtailmentShedule.CurtNumber),
                         new XElement("UnitId", curtailmentShedule.UnitId),
                         new XElement("CurtAmount", curtailmentShedule.CurtAmount),
-                        new XElement("PayDate", curtailmentShedule.PayDate)
-                        
+                        new XElement("PayDate", curtailmentShedule.PayDate),
+                        new XElement("id", i++)
                         ));
                 string xmlDoc = xEle.ToString();
                 
