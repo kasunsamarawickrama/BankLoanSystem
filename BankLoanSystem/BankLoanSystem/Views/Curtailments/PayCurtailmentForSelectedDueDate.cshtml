@@ -99,6 +99,7 @@
                 <label for="">Pay Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px" } })
                 @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })
+                <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
             <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" />
@@ -170,6 +171,8 @@
             }
             @Html.DropDownList("model", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
             @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+            
+
 
         </div>
 
@@ -707,6 +710,7 @@
         bound: true,
         onSelect: function () {
             var thisDate = this.getDate();
+            $('#errorPayDate').text('');
             $("#payCurtDate").val(formatDate(thisDate));
         }
     });
@@ -724,6 +728,7 @@
         bound: true,
         onSelect: function () {
             var thisDate = this.getDate();
+            $('#errorPayDate').text('');
             $("#payDate").val(formatDate(thisDate));
         }
     });
@@ -744,7 +749,11 @@
     $('#payAll').click(function () {
 
         if($("#payDate").val() == ""){
-            // show error
+            if($('#payDate').next('span').children().length == 0 ){
+            
+                $('#errorPayDate').text('The Pay date field is Required');
+                
+            }
             return;
         }
 
