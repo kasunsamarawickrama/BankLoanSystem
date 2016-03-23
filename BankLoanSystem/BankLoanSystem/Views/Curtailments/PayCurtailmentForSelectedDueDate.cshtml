@@ -53,7 +53,7 @@
                             )
                          </div>
                         <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#ffd699"></label> Part Payment Records</span>
+                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -297,7 +297,7 @@
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                         checkCount++;
                                         if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#ffcc80');  $('#partialPaymentColor').show();                   
+                                            $(this).parents('tr').css('background', '#fff5cc');  $('#partialPaymentColor').show();                   
                                         }else{
                                             $(this).parents('tr').css('background', 'lightblue');
                                         }
@@ -306,7 +306,7 @@
                                         checkCount = 0;
                                         total = 0;
                                         if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#ffe0b3'); $('#partialPaymentColor').show();                    
+                                            $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();                    
                                         }else{
                                             $(this).parents('tr').css('background', 'transparent');
                                         }
@@ -330,7 +330,7 @@
                                     $("#startDate").attr("disabled", "disabled");
                                     ClearTextBoxValues();
                                 }
-                                changePartialPaymentRowColor();
+                                //changePartialPaymentRowColor();
                             }
                         })
 
@@ -347,7 +347,7 @@
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#ffcc80'); //checked color of partial payment 
+                            $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment 
                             $('#partialPaymentColor').show();                           
                         }else{
                             $(this).parents('tr').css('background', 'lightblue');
@@ -358,7 +358,7 @@
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount--;
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#ffe0b3'); //not checked color of partial payment  
+                            $(this).parents('tr').css('background', '#fffae6'); //not checked color of partial payment  
                             $('#partialPaymentColor').show();
                         }else{
                             $(this).parents('tr').css('background', 'transparent');
@@ -417,7 +417,7 @@
                     $('.advanceAmount').each(function () {
                         var tr = $(this).parents('tr:first');
                         if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
-                            $(this).parents('tr').css('background', '#ffcc80');//checked color of partial payment    
+                            $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment    
                         }
                     });
                 });
@@ -431,7 +431,7 @@
                 $('.advanceAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#ffe0b3');     //not checked color of partial payment    
+                        $(this).parents('tr').css('background', '#fffae6');     //not checked color of partial payment    
                         $('#partialPaymentColor').show();
                     }
                 });
@@ -454,7 +454,11 @@
                         var checked = row.find("#all").prop('checked');
                         if (!checked) {
                             row.find("#all").prop('checked', true);
-                            row.css('background', 'lightblue');
+                            if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
+                                row.css('background', '#fff5cc');//checked color of partial payment   
+                            }else{
+                                row.css('background', 'lightblue');
+                            }
 
                             checkCount++;
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
@@ -474,7 +478,7 @@
                     } else {
                         SetRadioBtnHeaderChecked();
                     }
-                    changePartialPaymentRowColor();
+                    //changePartialPaymentRowColor();
                 }
             }));
 
@@ -658,7 +662,8 @@
             }
             count++;
         });
-
+        total = 0;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
         changePartialPaymentRowColor();
     }
 

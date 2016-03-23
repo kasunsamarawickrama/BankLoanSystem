@@ -73,9 +73,15 @@ else {
         $('#searchResultGrid').children('tbody').children('tr').click(function () {
             var tr = $(this);
             ClearMainGrid();
-            $(this).css('background', 'lightblue');
+            //$(this).css('background', 'lightblue');
             SetTextBoxValues(tr);
-            changePartialPaymentRowColor();           
+            //changePartialPaymentRowColor(); 
+
+            if (tr.find("#curtailmentStatus").val() === '2') {
+                tr.css('background', '#fff5cc');//checked color of partial payment   
+            } else {
+                tr.css('background', 'lightblue');
+            }
         });
 
         $(document).ready(function () {
@@ -86,7 +92,7 @@ else {
             $('.advanceAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 if (tr.find("#curtailmentStatus").val() === '2') {
-                    $(this).parents('tr').css('background', '#ffe0b3');
+                    $(this).parents('tr').css('background', '#fffae6');
                 }
             });
         }
