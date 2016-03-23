@@ -366,7 +366,7 @@
                        
                     }
 
-                    if (checkCount == 1) {
+                    if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -663,8 +663,21 @@
             count++;
         });
         total = 0;
+        checkCount = 0;
         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
         changePartialPaymentRowColor();
+    }
+
+    function ClearSearchGrid() {alert('noww');
+         $("#searchResultGrid").find('.advanceAmount').each(function () {
+            var tr = $(this).parents('tr:first');
+            if (tr.find("#curtailmentStatus").val() != '2') {
+                tr.css('background', 'transparent');
+            }else{
+                tr.css('background', '#fffae6');
+            }
+        });
+        
     }
 
 
