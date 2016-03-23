@@ -52,8 +52,8 @@
                                 )
                             )
                          </div>
-                        <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
+                        <span id="subtotal" style="margin-left:70%"> Current Curtailment Total : $ 0  </span>
+                        <span id="partialPaymentColor" style="margin-left:70%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -399,12 +399,12 @@
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0";
                         ClearTextBoxValues();
                         $("#payAll").attr("disabled", "disabled");
                         $("#payDate").attr("disabled", "disabled");
@@ -419,7 +419,7 @@
                     else {
 
                         ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                     }
 
@@ -491,7 +491,7 @@
                                 SetRadioBtnHeaderChecked();
                                 ClearTextBoxValues();
                             }
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -553,7 +553,7 @@
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -707,7 +707,7 @@
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error
