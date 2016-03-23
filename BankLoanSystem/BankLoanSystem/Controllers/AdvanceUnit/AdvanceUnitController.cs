@@ -61,8 +61,9 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
-        public ActionResult Advance(int? flag)
+        public ActionResult Advance()
         {
+            int flag = -1;
             int userId = userData.UserId;
             string loanCode;
             //Session["userId"] = 62;
@@ -87,8 +88,11 @@ namespace BankLoanSystem.Controllers
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
             Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
-
-            if (flag == 1)
+            if((TempData["updateReslt"]!=null)&&(TempData["updateReslt"].ToString() != ""))
+            {
+                flag = int.Parse(TempData["updateReslt"].ToString());
+            }
+            if ((flag == 1)||(flag == 2))
             {
                 ViewBag.Msg = "Success";
             }
@@ -96,10 +100,7 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.Msg = "Error";
             }
-            else if (flag == 2)
-            {
-                ViewBag.Msg = "Advance Error";
-            }
+           
             return View(advanceUnit);
         }
 
@@ -174,10 +175,13 @@ namespace BankLoanSystem.Controllers
             //int userId = 57;
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);           
             ViewBag.ErrorMsg = "";
-            UnitAccess unitAccess = new UnitAccess();            
+            UnitAccess unitAccess = new UnitAccess();
+            int reslt = unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
+            TempData["updateReslt"] = reslt;
 
-            return unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
-           
+            return reslt;
+
+
         }
 
         /// <summary>

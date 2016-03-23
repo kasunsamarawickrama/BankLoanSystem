@@ -202,7 +202,7 @@
                                <div id="tagscloud"><span class="text-danger"></span></div>
                         </div>
                         <div class="col-md-2">
-                            <label>Advance Date</label>
+                            <label>Advance Date</label><span style="color:red"> *</span>
                             @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
                         </div>
                     </div>
@@ -612,10 +612,10 @@
                                     type: 'POST',
                                     contentType: 'application/json; charset=utf-8',
                                     success: function (View) {
-                                        if (View != '2') {
-                                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                        if (View != '0') {
+                                            $(location).attr('href', '/AdvanceUnit/Advance');
                                         } else {
-                                            $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                            $(location).attr('href', '/AdvanceUnit/Advance');
                                         }
                                     }
                                 });

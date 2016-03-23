@@ -98,6 +98,7 @@
                 
                 <label for="">Pay Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
             <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" disabled/>
