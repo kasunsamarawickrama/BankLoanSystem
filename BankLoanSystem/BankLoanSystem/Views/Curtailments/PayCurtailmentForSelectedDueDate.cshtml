@@ -5,6 +5,8 @@
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 
+
+
 <style>
 
 #checkableGridDiv table tbody,
@@ -583,6 +585,11 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 //$("#startDate").removeAttr("disabled");
                 $("#singleUnitDiv").hide();
+                $('.centered span').text('');
+                $('#errorCurtAmount').text('');
+                $('#errorPayDate').text('');
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
             }
 
             $('#identificationNumberSearch').focusout(function () {
@@ -599,6 +606,11 @@
                 $("#btnPay").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
+                $('#errorCurtAmount').text('');
+                $('.centered span').text('');
+                $('#errorPayDate').text('');
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
             }
 
             function SetTextBoxValues(tr) {
@@ -761,6 +773,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#errorCurtPayDate').text('');
+            $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
         }
     });
@@ -835,6 +848,7 @@
              }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+                 
                  a=0;
              }
              if(a== 0 ){
@@ -886,14 +900,35 @@
 
     $("#iCurtAmount").blur(function (e){
         
+
+
         if($(this).val() == ""){
             $(this).val("0.00");
         }
 
+        var val = $.trim($(this).val());
+
+        if (val.indexOf(',') > -1) {
+            val = val.replace(',', '');
+        }
+        //if (val.indexOf('$') > -1) {
+        //    val = val.replace('$', '');
+        //}
+        var num = parseFloat(val);
+        var num = num.toFixed(2);
+        if (isNaN(num)) {
+            num = '';
+        }
+
+
+        $(this).val( num);
+  
         if(parseFloat($(this).val()).toFixed(2) <= 0){
             $('#errorCurtAmount').text('Curt Amount should be greater than zero');
-        }else if(parseFloat($(this).val()).toFixed(2) >  parseFloat($("#aCurtAmount").val()).toFixed(2)){
+            $('.centered span').text('Error');
+        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+            $('.centered span').text('Error');
         }
     
     });
