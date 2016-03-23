@@ -51,6 +51,7 @@
     }, new { id = "form" }))
     {
         <div class="container" id="container">
+            <script src="~/scripts/jquery-1.10.2.min.js"></script>
             @{
                 Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
             }
@@ -67,40 +68,47 @@
                         @if (Model.UnitPayOffList != null)
                         {
                             @grid.GetHtml(
-                            tableStyle: "gridtable",
-                           headerStyle: "webgrid-header",
+                                     tableStyle: "gridtable",
+                                    headerStyle: "webgrid-header",
 
-                           alternatingRowStyle: "webgrid-alternating-row",
-                           rowStyle: "webgrid-row-style",
-                           htmlAttributes: new { id = "checkableGrid" },
-                           columns: grid.Columns(
-                           grid.Column(
-                            format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
-                                , header: "{checkall}"
+                                    alternatingRowStyle: "webgrid-alternating-row",
+                                    rowStyle: "webgrid-row-style",
+                                    htmlAttributes: new { id = "checkableGrid" },
+                                    columns: grid.Columns(
+                                    grid.Column(
+                                     format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                         , header: "{checkall}"
 
-                        ),
-                            grid.Column("DateEntered", "DateEntered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
-                               grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                               grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
-                               grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
-                               grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
-                               grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
-                               grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
-                            )
-                            )
+                                 ),
+                                     grid.Column("DateEntered", "DateEntered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
+                                        grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                                        grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
+                                        grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
+                                        grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
+                                        grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
+                                        grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
+                                     )
+                                     )
                         }
-
+                        <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
                     </div>
 
                     <div class="info-bar" style="margin-top:15px">
 
                         <div class="form-group row">
-                            <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned to Dealer at this time?</label>
 
-
+                            @if (ViewBag.ComType == 1)
+                            {
+                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                            }
+                            else
+                            {
+                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being recieved from lender at this time?</label>
+                            }   
+                            
                             <div class="col-md-2">
                                 <label class="radio-inline">
-                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes1", @class = "titleReturn"}) Yes
+                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new { @id = "rdTitleYes1", @class = "titleReturn" }) Yes
                                 </label>
                                 <label class="radio-inline">
                                     @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo1", @class = "titleReturn" }) No
@@ -141,19 +149,19 @@
                             <div class="form-group" style="margin-left:20px;">
                                 <label for="">Year</label>
 
-                                @*<input class="form-control" type="text" style="width:90px" />*@
                                 @{
-
                                     List<SelectListItem> yearList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.payOffList)
+                                    if (ViewBag.payOffList != null)
                                     {
-                                        if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                        foreach (var type in ViewBag.payOffList)
                                         {
-                                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                            if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                            {
+                                                yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                            }
                                         }
                                     }
                                 }
-
                                 @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" })
                                 @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
                                 <div id="vehicleyear"><span class="text-danger"></span></div>
@@ -163,15 +171,19 @@
                             <div class="form-group" style="margin-left:20px;">
                                 <label for="">Make</label>
 
-                                @*<input class="form-control" type="text" style="width:90px" />*@
-                                @{List<SelectListItem> makeList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.payOffList)
+                                @{
+                                    List<SelectListItem> makeList = new List<SelectListItem>();
+                                    if (ViewBag.payOffList != null)
                                     {
-                                        if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
+                                        foreach (var type in ViewBag.payOffList)
                                         {
-                                            makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                            if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
+                                            {
+                                                makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                            }
                                         }
                                     }
+
                                 }
                             </div>
                             @Html.DropDownList("make", makeList, "-- select make --", new { @class = "form-control", @id = "cmbMake" })
@@ -183,12 +195,17 @@
                             <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
                                 <label for="">Model</label>
 
-                                @{List<SelectListItem> modelList = new List<SelectListItem>();
-                                    foreach (var type in ViewBag.payOffList)
+                                @{
+                                    List<SelectListItem> modelList = new List<SelectListItem>();
+
+                                    if (ViewBag.payOffList != null)
                                     {
-                                        if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
+                                        foreach (var type in ViewBag.payOffList)
                                         {
-                                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                            if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
+                                            {
+                                                modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                            }
                                         }
                                     }
                                 }
@@ -221,7 +238,7 @@
                                 <form>
                                     <fieldset>
                                         <div class="form-group row">
-                                            <input type="hidden" value="" id="iUnitId"/>
+                                            <input type="hidden" value="" id="iUnitId" />
                                             <div class="col-md-2">
                                                 <label for="">Vin/HIN/Serial </label>
                                                 @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
@@ -263,10 +280,10 @@
 
                                             <div class="col-md-2">
                                                 <label class="radio-inline">
-                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes2", @class = "titleReturn2"}) Yes
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new { @id = "rdTitleYes2", @class = "titleReturn2" }) Yes
                                                 </label>
                                                 <label class="radio-inline">
-                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo2", @class = "titleReturn2" }) No
                                                 </label>
                                             </div>
                                             <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
@@ -301,7 +318,7 @@
 
     <script>
 
-        var total = 0;
+        var totalToPay = 0;
         var checkCount = 0;
         var totalRecCount = 0;
 
@@ -385,6 +402,7 @@
                 $(this).siblings('span').text('Select');
                 status = false;
                 countSelect = 0;
+                totalToPay = 0;
 
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -395,51 +413,79 @@
 
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
-            }
+            }            
 
             $('table#checkableGrid > tbody > tr').each(function () {
+                var balance = $(this).find("#balance").text().replace(',', '');
+                //alert(balance);
                 $(this).find("#all").prop('checked', status);
+                if (status === true) {
+                    totalToPay = parseFloat(totalToPay) + parseFloat(balance);
+                    totalToPay = totalToPay.toFixed(2);
+                }
             });
 
-
+            $('#spnTotal').text(totalToPay);
 
             //alert(countSelect);
 
         });
 
         $(document).on('click', '.checkboxAll', function () {
+            
             //alert($(this).val());
             var isChecked = $(this).is(':checked');
-
-            if (isChecked === false)
+            var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
+            //alert(balance);
+            if (isChecked === false) {
                 countSelect--;
+                totalToPay = parseFloat(totalToPay) - parseFloat(balance);
+                totalToPay = totalToPay.toFixed(2);
+            }
             else {
                 countSelect++;
+                totalToPay = parseFloat(totalToPay) + parseFloat(balance);
+                totalToPay = totalToPay.toFixed(2);
             }
-
+            //alert(countSelect);
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
-                $('#someID').find("#cbSelectAll").prop('checked', false);
+                $('#someID').find("#cbSelectAll").prop('checked', false);                
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
             }
 
-
-            if (countSelect === 1) {
-                //alert(countSelect);
-                var tr = $(this).parents('tr:first');
-                SetTextBoxValues(tr);
-            } else if (countSelect > 1) {
-                ClearTextBoxValues();
-            } else  {
+            if (countSelect === 0) {
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
+                //$("#btnPayAll").removeAttr("disabled");
+                //$("#payDate").removeAttr("disabled");
+            }
+            else if (countSelect === 1) {
+                //alert(countSelect);
+                var tr = $(this).parents('tr:first');
+                SetTextBoxValues(tr);
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+
+            } else if (countSelect > 1 && countSelect != totalSelect) {
+                ClearTextBoxValues();
+
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+
+                $('#someID').children('span').text('Select');
+                $('#someID').find("#cbSelectAll").prop('checked', false);
+            } else {
+                ClearTextBoxValues();
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
             }
             //if()
 
-
+            $('#spnTotal').text(totalToPay);
 
             //alert(countSelect);
         });
@@ -455,8 +501,8 @@
             $("#payDate2").removeAttr("disabled");
             $("#singleUnitDiv").show();
             $("#btnPay").removeAttr("disabled");
-            $("#btnPayAll").attr("disabled", "disabled");
-            $("#payDate").attr("disabled", "disabled");
+            //$("#btnPayAll").attr("disabled", "disabled");
+            //$("#payDate").attr("disabled", "disabled");
         }
 
         function ClearTextBoxValues() {
@@ -468,15 +514,13 @@
             $('#iBalance').val('');
             $('#iUnitId').val('');
             $("#payDate2").attr("disabled", "disabled");
-            $("#singleUnitDiv").hide();
-            $("#btnPayAll").removeAttr("disabled");
-            $("#payDate").removeAttr("disabled");
+            $("#singleUnitDiv").hide();            
         }
 
         var errorTitleReturn1 = false;
         $("#btnPayAll").click(function () {
             var titleStatus = $('.titleReturn').filter(':checked').val();
-            alert(titleStatus);
+            //alert(titleStatus);
 
             if (titleStatus === "Yes" || titleStatus === "No") {
                 $('#customErrorTitleReturn1').children('span').text("");
@@ -485,7 +529,7 @@
                 $('#customErrorTitleReturn1').children('span').text("Please select");
                 errorTitleReturn1 = true;
             }
-            
+
             if (errorTitleReturn1 === false) {
                 var payDate = document.getElementById('payDate2').value;
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
@@ -503,21 +547,19 @@
                     }
                 });
 
-                
 
-                
+
+
                 //alert(data.unitIdList[0]);
                 $.ajax({
                     url: '/UnitPayOff/UnitListPay/',
                     data: JSON.stringify(data),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    success: function (View) {
-                        //if (View != '2') {
-                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        //} else {
-                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        //}
+                    success: function (partialView) {
+                        //alert("Success");
+                        $('#container').html(partialView);
+                        $('#container').show();
                     }
                 });
             }
@@ -558,17 +600,15 @@
                     data: JSON.stringify(data),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    success: function (View) {
-                        //if (View != '2') {
-                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        //} else {
-                        //    $(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        //}
+                    success: function (partialView) {
+                        //alert("Success");
+                        $('#container').html(partialView);
+                        $('#container').show();
                     }
                 });
             }
 
-            
+
 
         });
 
@@ -583,19 +623,18 @@
             errorTitleReturn2 = false;
         });
 
-        $("#btnSearch").click(function() {
+        $("#btnSearch").click(function () {
             ClearTextBoxValues();
+            $("#btnPayAll").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
 
-            total = 0;
-            checkCount = 0;
-            //$("#btnAdvance").attr("disabled", "disabled");
-            //$("#btnAdvanceAll").attr("disabled", "disabled");
-            //$("#advanceDate").attr("disabled", "disabled");
-            //$("#startDate").attr("disabled", "disabled");
-            //$("#iAdvance").attr("disabled", "disabled");
+            countSelect = 0;
+            totalToPay = 0;
+
+            $('#spnTotal').text(totalToPay);
 
             var count = 0;
-            $("#checkableGrid").find("input:checkbox").each(function() {
+            $("#checkableGrid").find("input:checkbox").each(function () {
                 this.checked = false;
                 if (count > 0) {
                     $(this).parents('tr').css('background', 'transparent');
@@ -622,23 +661,23 @@
 
         });
         function Search(para1, para2, para3, para4) {
-            countSelect = 0;
-        $.ajax({
-            url: '/UnitPayOff/SearchUnit',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
-            success: function (View) {
-                $('#searchGrid1').html(View);
-                $('#searchGrid1').show();
 
-            },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
-            }
-        });
-    }
+            $.ajax({
+                url: '/UnitPayOff/SearchUnit',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
+                success: function (View) {
+                    $('#searchGrid1').html(View);
+                    $('#searchGrid1').show();
+
+                },
+                error: function (reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+        }
         function SetRadioBtnHeaderChecked() {
             var totalRows = $("#checkableGrid td :checkbox").length;
             var checked = $("#checkableGrid td :checkbox:checked").length;
@@ -740,6 +779,10 @@
 
         $("#btnCancel").click(function () {
             ClearTextBoxValues();
+
+            $("#btnPayAll").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
+
             countSelect = 0;
             total = 0;
             checkCount = 0;
@@ -763,7 +806,7 @@
             $("#someID span").html('Select');
             $("#tagscloud span").html('');
             //$('#iAdvance').removeClass('input-validation-error');
-            
+
             ClearSearchRelatedData();
 
         });
