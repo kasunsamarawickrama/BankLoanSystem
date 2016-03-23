@@ -56,17 +56,17 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        internal bool updateCurtailmets(CurtailmentScheduleModel curtailmentScheduleModel , int loanId)
+        internal bool updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel , int loanId)
         {
             try
             {
                 XElement xEle = new XElement("Curtailments",
-                    from curtailmentShedule in curtailmentScheduleModel.CurtailmentScheduleInfoModel
+                    from curtailmentShedule in curtailmentScheduleModel.SelectedCurtailmentSchedules
                     select new XElement("CurtailmentShedule",
                         new XElement("CurtNo", curtailmentShedule.CurtNumber),
                         new XElement("UnitId", curtailmentShedule.UnitId),
                         new XElement("CurtAmount", curtailmentShedule.CurtAmount),
-                        new XElement("PayDate", curtailmentScheduleModel.PayDate)
+                        new XElement("PayDate", curtailmentShedule.PayDate)
                         
                         ));
                 string xmlDoc = xEle.ToString();

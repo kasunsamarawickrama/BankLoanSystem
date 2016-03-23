@@ -119,12 +119,12 @@ namespace BankLoanSystem.Controllers.Curtailments
             }
 
 
-            //LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            //loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 
-            //CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            //curtailmentAccess.updateCurtailmets(curtailmentScheduleModel , loanDetails.loanId);
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
             return 1;
         }
 
