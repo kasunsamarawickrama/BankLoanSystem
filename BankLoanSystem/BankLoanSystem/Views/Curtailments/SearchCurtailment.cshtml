@@ -76,11 +76,10 @@ else {
             //$(this).css('background', 'lightblue');
             SetTextBoxValues(tr);
             //changePartialPaymentRowColor(); 
-
+            ClearGrid();
             if (tr.find("#curtailmentStatus").val() === '2') {
                 tr.css('background', '#fff5cc');//checked color of partial payment   
-            } else {               
-                ClearGrid();
+            } else { 
                 tr.css('background', 'lightblue');
             }
         });
@@ -101,7 +100,10 @@ else {
         function ClearGrid() {
             $('.advanceAmount').each(function () {
                 var tr = $(this).parents('tr:first');
-                if (tr.find("#curtailmentStatus").val() != '2') {
+                //alert('aaaa');
+                if (tr.find("#curtailmentStatus").val() === '2') {                   
+                    tr.css('background', '#fffae6');
+                } else {                   
                     tr.css('background', 'transparent');
                 }
             });

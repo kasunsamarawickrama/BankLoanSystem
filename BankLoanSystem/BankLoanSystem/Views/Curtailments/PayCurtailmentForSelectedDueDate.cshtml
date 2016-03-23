@@ -97,10 +97,10 @@
             <div class="form-group">
                 
                 <label for="">Pay Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px" } })
+                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" } })
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
-            <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" />
+            <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" disabled/>
         </div>
     </div>
 </form>
@@ -281,7 +281,7 @@
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                                     $("#payAll").attr("disabled", "disabled");
-                                    $("#startDate").attr("disabled", "disabled");
+                                    $("#payDate").attr("disabled", "disabled");
                                     $("#iCurtAmount").attr("disabled", "disabled");
                                     totalRecCount = 0;
 
@@ -315,7 +315,7 @@
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
-                                        $("#startDate").removeAttr("disabled");
+                                        $("#payDate").removeAttr("disabled");
                                         if (totalRecCount == 1) {
                                             SetTextBoxValues(tr);
                                         }
@@ -327,7 +327,7 @@
                                 }
                                 else if (checkCount == 0 || totalRecCount == 0) {
                                     $("#payAll").attr("disabled", "disabled");
-                                    $("#startDate").attr("disabled", "disabled");
+                                    $("#payDate").attr("disabled", "disabled");
                                     ClearTextBoxValues();
                                 }
                                 //changePartialPaymentRowColor();
@@ -384,13 +384,13 @@
                         }
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
                         $("#payAll").removeAttr("disabled");
-                        $("#startDate").removeAttr("disabled");
+                        $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
                         ClearTextBoxValues();
                         $("#payAll").attr("disabled", "disabled");
-                        $("#startDate").attr("disabled", "disabled");
+                        $("#payDate").attr("disabled", "disabled");
                         $("#iCurtAmount").attr("disabled", "disabled");
                         $("#someID span").html('Select')
 
@@ -473,7 +473,7 @@
                             document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
 
                             $("#payAll").removeAttr("disabled");
-                            $("#startDate").removeAttr("disabled");
+                            $("#payDate").removeAttr("disabled");
                         }
                     } else {
                         SetRadioBtnHeaderChecked();
@@ -515,7 +515,7 @@
                 $("#btnPay").attr("disabled", "disabled");
                 $("#payAll").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
-                $("#startDate").attr("disabled", "disabled");
+                $("#payDate").attr("disabled", "disabled");
                 $("#iCurtAmount").attr("disabled", "disabled");
                 ClearMainGrid();
                 //var count = 0;
@@ -681,6 +681,8 @@
         total = 0;
         checkCount = 0;
         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+        $("#payAll").attr("disabled", "disabled");
+        $("#payDate").attr("disabled", "disabled");
         changePartialPaymentRowColor();
     }
 
