@@ -56,7 +56,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        internal bool updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel , int loanId)
+        internal string updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel , int loanId)
         {
             try
             {
@@ -79,17 +79,17 @@ namespace BankLoanSystem.DAL
 
                 try
                 {
-                    return dataHandler.ExecuteSQL("spUpdateCurtailmentSchedule", paramertList2);
+                    return dataHandler.ExecuteSQLWithStringReturnVal("spUpdateCurtailmentSchedule", paramertList2);
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return null;
                 }
 
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
 
             

@@ -754,7 +754,7 @@
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
                 if (checked) {
-                    data.SelectedCurtailmentSchedules.push({ UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#am').text().replace(',', '') });
+                    data.SelectedCurtailmentSchedules.push({ UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(',','')});
 
                 }
             });
@@ -794,7 +794,7 @@
 
 
 
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').text().replace(',', '') });
+            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
 
 
 

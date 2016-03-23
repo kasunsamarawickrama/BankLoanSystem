@@ -98,7 +98,7 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
         [HttpPost]
-        public int PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
+        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
         {
 
 
@@ -115,7 +115,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return 0;
+                return null;
             }
 
 
@@ -124,8 +124,10 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
-            return 1;
+            string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
+
+            //test
+            return "1";
         }
 
         /// <summary>
