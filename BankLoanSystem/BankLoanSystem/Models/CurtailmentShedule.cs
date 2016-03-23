@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Web.Helpers;
 
 namespace BankLoanSystem.Models
 {
@@ -25,6 +25,8 @@ namespace BankLoanSystem.Models
         public string Make { get; set; }
         public string Model { get; set; }
 
+        public DateTime PayDate { get; set; }
+
 
     }
     public class CurtailmentScheduleModel
@@ -34,9 +36,6 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
         public List<CurtailmentShedule> CurtailmentScheduleInfoModel { get; set; }
-
-
-
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid VIN/HIN/Serial No")]
         public string IdentificationNumber { get; set; }
@@ -50,5 +49,11 @@ namespace BankLoanSystem.Models
 
         [RegularExpression(@"^[-a-zA-Z0-9]*", ErrorMessage = "Invalid Model")]
         public string Model { get; set; }
+    }
+
+    public class SelectedCurtailmentList
+    {
+        [Required]
+        public List<CurtailmentShedule> SelectedCurtailmentSchedules{ get; set; }
     }
 }
