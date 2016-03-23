@@ -98,7 +98,7 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
         [HttpPost]
-        public int PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
+        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
         {
 
 
@@ -115,17 +115,19 @@ namespace BankLoanSystem.Controllers.Curtailments
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return 0;
+                return null;
             }
 
 
-            //LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            //loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 
-            //CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            //curtailmentAccess.updateCurtailmets(curtailmentScheduleModel , loanDetails.loanId);
-            return 1;
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
+
+            //test
+            return "1";
         }
 
         /// <summary>
