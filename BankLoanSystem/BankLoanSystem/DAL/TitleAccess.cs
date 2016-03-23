@@ -196,36 +196,50 @@ namespace BankLoanSystem.DAL
                             title.Make = dataRow["make"].ToString();
                             title.Model = dataRow["model"].ToString();
 
-                            if (int.Parse(dataRow["title_status"].ToString()) == 0)
+                            if (!string.IsNullOrEmpty(dataRow["title_status"].ToString()))
                             {
-                                title.CurrentTitleStatus = "Not Received";
+                                if (int.Parse(dataRow["title_status"].ToString()) == 0)
+                                {
+                                    title.CurrentTitleStatus = "Not Received";
+                                }
+                                else if (int.Parse(dataRow["title_status"].ToString()) == 1)
+                                {
+                                    title.CurrentTitleStatus = "Received";
+                                }
+                                else if (int.Parse(dataRow["title_status"].ToString()) == 2)
+                                {
+                                    title.CurrentTitleStatus = "Returned to Dealer";
+                                }
+                                else if (int.Parse(dataRow["title_status"].ToString()) == 3)
+                                {
+                                    title.CurrentTitleStatus = "Sent to Bank";
+                                }
                             }
-                            else if (int.Parse(dataRow["title_status"].ToString()) == 1)
+                            else
                             {
-                                title.CurrentTitleStatus = "Received";
+                                title.CurrentTitleStatus = "";
                             }
-                            else if (int.Parse(dataRow["title_status"].ToString()) == 2)
+                            if (!string.IsNullOrEmpty(dataRow["unit_status"].ToString()))
                             {
-                                title.CurrentTitleStatus = "Returned to Dealer";
+                                title.UnitStatus = int.Parse(dataRow["unit_status"].ToString());
+                                if (int.Parse(dataRow["unit_status"].ToString()) == 0)
+                                {
+                                    title.CurrentUnitStatus = "InActive";
+                                }
+                                else if (int.Parse(dataRow["unit_status"].ToString()) == 1)
+                                {
+                                    title.CurrentUnitStatus = "Active";
+                                }
+                                else if (int.Parse(dataRow["unit_status"].ToString()) == 2)
+                                {
+                                    title.CurrentUnitStatus = "Paid";
+                                }
                             }
-                            else if (int.Parse(dataRow["title_status"].ToString()) == 3)
+
+                            else
                             {
-                                title.CurrentTitleStatus = "Sent to Bank";
+                                title.CurrentUnitStatus = "";
                             }
-                            title.UnitStatus = int.Parse(dataRow["unit_status"].ToString());
-                            if (int.Parse(dataRow["unit_status"].ToString()) == 0)
-                            {
-                                title.CurrentUnitStatus = "InActive";
-                            }
-                            else if (int.Parse(dataRow["unit_status"].ToString()) == 1)
-                            {
-                                title.CurrentUnitStatus = "Active";
-                            }
-                            else if (int.Parse(dataRow["unit_status"].ToString()) == 2)
-                            {
-                                title.CurrentUnitStatus = "Paid";
-                            }
-                           
                             resultList.Add(title);
                         }
 
