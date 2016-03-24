@@ -16,8 +16,6 @@
 #checkableGridDiv table tbody,
 #checkableGridDiv table thead { display: block; }
 
-
-
 #checkableGridDiv table tbody {
     max-height: 300px;
     overflow-y: auto;
@@ -628,7 +626,7 @@
 
             function ClearTextBoxValues() {
                 $('#ivin').val('');
-                $('#iVin').val('');
+                $('#identificationNumber').val('');
                 $('#iYear').val('');
                 $('#iMake').val('');
                 $('#iModel').val('');
@@ -844,7 +842,7 @@
         return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
     }
 
-
+    var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function () {
 
         if($("#payDate").val() == ""){
@@ -859,7 +857,7 @@
 
 
         if (checkCount >= 1) {
-            var data = { SelectedCurtailmentSchedules: [] };
+           
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
@@ -881,6 +879,15 @@
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == "1"){
                         alert('Success');
+                    }
+                    if(View.length > 5){
+                            
+                        var array = View.split(',');
+                        
+
+                        showPopup5(5 , array);
+
+
                     }
 
                 }
@@ -911,7 +918,7 @@
              }
 
 
-            var data = { SelectedCurtailmentSchedules: [] };
+            
 
 
 
@@ -931,6 +938,29 @@
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == "1"){
                             alert('Success');
+                        }
+                        if(View.length > 5){
+                            
+                            var array = View.split(',');
+                            var length = array.length;
+                            var VinNumbers = [];
+                            for(var i=0 ; i<length ; i++ ){
+
+                                if(array[i].length > 5){
+                                for(var curtailment in data.SelectedCurtailmentSchedules){
+
+                                    if(curtailment.UnitId == array[i]){
+                                        VinNumbers.push(curtailment.IDNumber);
+                                    }
+                                }
+                                }
+
+                            }
+                            // append the message to span
+                            var vinString = VinNumbers.join(" , ");
+                            showPopup5(5 , array);
+
+
                         }
 
                     }
@@ -996,7 +1026,67 @@
             document.getElementById(this.id).value = "";
         }
     });
+
+
+    function showPopup5(whichpopup , array) {
+
+        console.log(data);
+        var length = array.length;
+        var VinNumbers = [];
+        for(var i=0 ; i<length ; i++ ){
+
+
+            
+                            
+            if(array[i].length > 5){
+
+                for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
+
+                    if(data.SelectedCurtailmentSchedules[j].UnitId == array[i]){
+                        VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
+                    }
+                   
+                }
+                
+            }
+
+        }
+        // append the message to span
+        var vinString = VinNumbers.join(" , ");
+
+        $('#payOffAlert strong').text(vinString);
+        if(VinNumbers.length == 1){
+
+            $('#payOffAlert').text('This <strong>'+ VinNumbers[0] + '</strong> Unit Successfully paid off. Do you Like to Update the Title Status?');
+        }
+
+
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
     </script>
+
+
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup5" style="width:auto;text-align:center;left: 60%;">
+
+
+    <h3>Message</h3>
+
+    <div id="payOffAlert" class="alert alert-warning" role="alert">
+        These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
+    </div><br />
+    <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
+    <br />
+    @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+    <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();">Cancel</button>
+
+
+
+</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
