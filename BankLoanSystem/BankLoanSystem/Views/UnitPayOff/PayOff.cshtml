@@ -3,7 +3,7 @@
 @{
     Layout = null;
     ViewBag.Title = "Pay Off";
-    WebGrid grid = new WebGrid(Model.UnitPayOffList, defaultSort: "DateEntered", canPage: false, ajaxUpdateContainerId: "payOffGridDIv", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid = new WebGrid(Model.UnitPayOffList, defaultSort: "DateEntered", canPage: false);
 }
 
 <!DOCTYPE html>
@@ -51,7 +51,6 @@
     }, new { id = "form" }))
     {
         <div class="container" id="container">
-            <script src="~/scripts/jquery-1.10.2.min.js"></script>
             @{
                 Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
             }
@@ -78,13 +77,13 @@
                                          , header: "{checkall}"
 
                                  ),
-                                     grid.Column("DateEntered", "DateEntered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
+                                     grid.Column("Date Entered", "Date Entered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
                                         grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                                         grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
                                         grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
-                                        grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
-                                        grid.Column("PurchesePrice", "PurchesePrice", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
-                                        grid.Column("Balance", "Balance", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
+                                        grid.Column("Model", "Model", format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
+                                        grid.Column("Purchese Price ($)", "Purchese Price ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="cost" class="year">@item.PurchesePrice</label>}</text>),
+                                        grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
                                      )
                                      )
                         <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
@@ -119,14 +118,14 @@
                                 <label for="">Pay Date : </label>
 
                                 @*<input class="form-control" type="date" style="margin-left: 15px"/>*@
-                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", autocomplete = "off", @disabled = "disabled" } })
-
+                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                             </div>
 
                             <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                         </div>
 
-
+                        <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger"></span></div>
 
                     </div>
 
@@ -221,7 +220,7 @@
 
                     <div class="info-bar" style="margin-top:15px">
                         <!-- This is for Search Grid-->
-                        <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
+                        <div id="searchGrid1" style="padding:unset">
 
 
                         </div>
@@ -266,9 +265,10 @@
                                                 @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                             </div>
                                             <div class="col-md-2">
-                                                <label for="">Pay Off Date </label>
-                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
+                                                <label for="">Pay Date </label>
+                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", Value ="", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                             </div>
+                                            <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
                                         </div>
 
                                         <div class="form-group row">
@@ -388,7 +388,7 @@
             //var text = $(this).siblings('span').text();
             //alert(text);
             //alert($(this).is(':checked'));
-
+            //alert(totalToPay);
             ClearTextBoxValues();
 
             var isChecked = $(this).is(':checked');
@@ -421,15 +421,24 @@
                     totalToPay = totalToPay.toFixed(2);
                 }
             });
-
+            //alert(totalToPay);
             $('#spnTotal').text(totalToPay);
 
             //alert(countSelect);
 
         });
 
+        $('#checkableGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
+
+            $(this).css('background', 'lightblue');
+            $(this).siblings().css('background', 'aliceblue');
+            SetTextBoxValues(tr);
+
+        });
+
         $(document).on('click', '.checkboxAll', function () {
-            
+            alert('1    ' + totalToPay);
             //alert($(this).val());
             var isChecked = $(this).is(':checked');
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
@@ -481,7 +490,7 @@
                 $("#payDate").removeAttr("disabled");
             }
             //if()
-
+            alert('2   ' + totalToPay);
             $('#spnTotal').text(totalToPay);
 
             //alert(countSelect);
@@ -515,7 +524,7 @@
         }
 
         var errorTitleReturn1 = false;
-        $("#btnPayAll").click(function () {
+        $("#btnPayAll").click(function (e) {
             var titleStatus = $('.titleReturn').filter(':checked').val();
             //alert(titleStatus);
 
@@ -525,10 +534,21 @@
             } else {
                 $('#customErrorTitleReturn1').children('span').text("Please select");
                 errorTitleReturn1 = true;
+                $('.centered span').text('Error');
             }
 
+            var payDate = document.getElementById('payDate').value;
+            if (payDate === '') {
+                $('#customErrorPayDate').children('span').text("Please select date");
+                $('.centered span').text('Error');
+                return;
+            } else {
+                $('#customErrorPayDate').children('span').text("");
+            }
+            //alert(payDate);
+
             if (errorTitleReturn1 === false) {
-                var payDate = document.getElementById('payDate2').value;
+                
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
@@ -557,6 +577,9 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
+                        totalToPay = 0;
+                        //totalSelect = $('table#checkableGrid > tbody > tr').length;
+                        countSelect = 0;
                         $('#container').html(partialView);
                         $('#container').show();
                     }
@@ -575,14 +598,24 @@
                 errorTitleReturn2 = false;
             } else {
                 $('#customErrorTitleReturn2').children('span').text("Please select");
+                $('.centered span').text('Error');
                 errorTitleReturn2 = true;
+            }
+
+            var payDate = document.getElementById('payDate2').value;
+            if (payDate === '') {
+                $('#customErrorPayDate2').children('span').text("Please select date");
+                $('.centered span').text('Error');
+                return;
+            } else {
+                $('#customErrorPayDate2').children('span').text("");
             }
 
             if (errorTitleReturn2 === false) {
                 var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
-                var payDate = document.getElementById('payDate2').value;
+                
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
@@ -603,6 +636,7 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
+                        totalToPay = 0;
                         $('#container').html(partialView);
                         $('#container').show();
                     }
@@ -613,6 +647,13 @@
 
         });
 
+        $('#payDate').click(function () {
+            $('#customErrorPayDate').children('span').text("");
+        });
+
+        $('#payDate2').click(function () {
+            $('#customErrorPayDate2').children('span').text("");
+        });
 
         $('.titleReturn').change(function () {
             $('#customErrorTitleReturn1').children('span').text("");

@@ -183,7 +183,6 @@
                     event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
                 }</text>
             }
-
         });
 
 
@@ -285,6 +284,18 @@
            }
                 </text>
             }
+           else if(ViewBag.Title == "Pay Off") {
+               <text>
+          if (isError === false) {
+              if ($('#customErrorTitleReturn1').text() != "" || $('#customErrorTitleReturn2').text() != "" || $('#customErrorPayDate1').text() != "" || $('#customErrorPayDate2').text() != "") {
+                  $('.centered span').text('Error');
+                  isError = true;
+              } else {
+                  isError = false;
+              }
+          }
+               </text>
+           }
 
 
 
