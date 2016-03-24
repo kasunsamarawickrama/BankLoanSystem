@@ -64,9 +64,11 @@ namespace BankLoanSystem.Controllers.Curtailments
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return new HttpStatusCodeResult(404, "Session Expired");
             }
-            
-           
-            
+
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            ViewBag.loanDetails = loanDetails;
+
             return View();
         }
 
