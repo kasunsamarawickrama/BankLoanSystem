@@ -309,7 +309,7 @@ namespace BankLoanSystem.DAL
             }
             else
             {
-                return null;
+                return payOffList;
             }
         }
 

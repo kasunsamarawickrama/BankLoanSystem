@@ -3,14 +3,18 @@
 @{ 
     Layout = null;
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+
+
 }
+@using System.Threading;
+@using System.Globalization;
+
+
 
 <style>
 
 #checkableGridDiv table tbody,
 #checkableGridDiv table thead { display: block; }
-
-
 
 #checkableGridDiv table tbody {
     max-height: 300px;
@@ -18,6 +22,9 @@
     overflow-x: hidden;
 }
 </style>
+<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+</div>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
                             <div>
                                 @grid.GetHtml(
@@ -52,8 +59,8 @@
                                 )
                             )
                          </div>
-                        <span id="subtotal"> Current Total to Advance : $ 0  </span>
-                        <span id="partialPaymentColor" style="margin-left:60%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
+                        <span id="subtotal" style="margin-left:70%"> Current Curtailment Total : $ 0  </span>
+                        <span id="partialPaymentColor" style="margin-left:70%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -258,7 +265,54 @@
 </div>
 
 
+<script>
 
+    $(document).ready(function(){
+        if ($('#checkableGrid').children('tbody').children('tr').length == 0)
+        {
+            $('#noCurtLabelDiv').show();
+            $('#checkableGridDiv').hide();
+        }
+        else{
+            $('#noCurtLabelDiv').hide();
+            $('#checkableGridDiv').show();
+        }
+    });
+    //clear all fields
+    $('#btnCancel').click(function(){
+         @{
+             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+             var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+             var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+         }
+        var dueDate = '@dateTime';
+        GetCurrentCurtailment(dueDate);
+        //ClearTextBoxValues();
+
+
+    });
+    function GetCurrentCurtailment(dueDate){
+
+        // alert(dueDate);
+        $.ajax({
+            url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+            data: JSON.stringify({ dueDate: dueDate }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (partialView) {
+                $('#changeContainer').html(partialView);
+                $('#changeContainer').show();
+                $('.centered span').text('');
+                $("#dueDate").val('@dateTime.ToString("d")');
+                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+            }
+        });
+       
+    };
+</script>
 <script>
 
             var total = 0;
@@ -399,12 +453,12 @@
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0";
                         ClearTextBoxValues();
                         $("#payAll").attr("disabled", "disabled");
                         $("#payDate").attr("disabled", "disabled");
@@ -419,7 +473,7 @@
                     else {
 
                         ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                     }
 
@@ -491,7 +545,7 @@
                                 SetRadioBtnHeaderChecked();
                                 ClearTextBoxValues();
                             }
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -553,7 +607,7 @@
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -572,7 +626,7 @@
 
             function ClearTextBoxValues() {
                 $('#ivin').val('');
-                $('#iVin').val('');
+                $('#identificationNumber').val('');
                 $('#iYear').val('');
                 $('#iMake').val('');
                 $('#iModel').val('');
@@ -583,6 +637,11 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 //$("#startDate").removeAttr("disabled");
                 $("#singleUnitDiv").hide();
+                $('.centered span').text('');
+                $('#errorCurtAmount').text('');
+                $('#errorPayDate').text('');
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
             }
 
             $('#identificationNumberSearch').focusout(function () {
@@ -599,6 +658,11 @@
                 $("#btnPay").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
+                $('#errorCurtAmount').text('');
+                $('.centered span').text('');
+                $('#errorPayDate').text('');
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
             }
 
             function SetTextBoxValues(tr) {
@@ -707,7 +771,7 @@
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error
@@ -761,6 +825,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#errorCurtPayDate').text('');
+            $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
         }
     });
@@ -777,7 +842,7 @@
         return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
     }
 
-
+    var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function () {
 
         if($("#payDate").val() == ""){
@@ -792,7 +857,7 @@
 
 
         if (checkCount >= 1) {
-            var data = { SelectedCurtailmentSchedules: [] };
+           
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
@@ -815,6 +880,15 @@
                     if(View == "1"){
                         alert('Success');
                     }
+                    if(View.length > 5){
+                            
+                        var array = View.split(',');
+                        
+
+                        showPopup5(5 , array);
+
+
+                    }
 
                 }
             });
@@ -835,6 +909,7 @@
              }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+                 
                  a=0;
              }
              if(a== 0 ){
@@ -843,7 +918,7 @@
              }
 
 
-            var data = { SelectedCurtailmentSchedules: [] };
+            
 
 
 
@@ -863,6 +938,29 @@
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == "1"){
                             alert('Success');
+                        }
+                        if(View.length > 5){
+                            
+                            var array = View.split(',');
+                            var length = array.length;
+                            var VinNumbers = [];
+                            for(var i=0 ; i<length ; i++ ){
+
+                                if(array[i].length > 5){
+                                for(var curtailment in data.SelectedCurtailmentSchedules){
+
+                                    if(curtailment.UnitId == array[i]){
+                                        VinNumbers.push(curtailment.IDNumber);
+                                    }
+                                }
+                                }
+
+                            }
+                            // append the message to span
+                            var vinString = VinNumbers.join(" , ");
+                            showPopup5(5 , array);
+
+
                         }
 
                     }
@@ -886,14 +984,35 @@
 
     $("#iCurtAmount").blur(function (e){
         
+
+
         if($(this).val() == ""){
             $(this).val("0.00");
         }
 
+        var val = $.trim($(this).val());
+
+        if (val.indexOf(',') > -1) {
+            val = val.replace(',', '');
+        }
+        //if (val.indexOf('$') > -1) {
+        //    val = val.replace('$', '');
+        //}
+        var num = parseFloat(val);
+        var num = num.toFixed(2);
+        if (isNaN(num)) {
+            num = '';
+        }
+
+
+        $(this).val( num);
+  
         if(parseFloat($(this).val()).toFixed(2) <= 0){
             $('#errorCurtAmount').text('Curt Amount should be greater than zero');
-        }else if(parseFloat($(this).val()).toFixed(2) >  parseFloat($("#aCurtAmount").val()).toFixed(2)){
+            $('.centered span').text('Error');
+        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+            $('.centered span').text('Error');
         }
     
     });
@@ -907,7 +1026,67 @@
             document.getElementById(this.id).value = "";
         }
     });
+
+
+    function showPopup5(whichpopup , array) {
+
+        console.log(data);
+        var length = array.length;
+        var VinNumbers = [];
+        for(var i=0 ; i<length ; i++ ){
+
+
+            
+                            
+            if(array[i].length > 5){
+
+                for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
+
+                    if(data.SelectedCurtailmentSchedules[j].UnitId == array[i]){
+                        VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
+                    }
+                   
+                }
+                
+            }
+
+        }
+        // append the message to span
+        var vinString = VinNumbers.join(" , ");
+
+        $('#payOffAlert strong').text(vinString);
+        if(VinNumbers.length == 1){
+
+            $('#payOffAlert').text('This '+ VinNumbers[0] + ' Unit Successfully paid off. Do you Like to Update the Title Status?');
+        }
+
+
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
     </script>
+
+
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup5" style="width:auto;text-align:center;left: 60%;">
+
+
+    <h3>Message</h3>
+
+    <div id="payOffAlert" class="alert alert-warning" role="alert">
+        These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
+    </div><br />
+    <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
+    <br />
+    @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+    <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();">Cancel</button>
+
+
+
+</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

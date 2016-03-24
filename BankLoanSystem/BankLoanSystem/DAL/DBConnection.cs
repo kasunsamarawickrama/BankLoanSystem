@@ -413,8 +413,8 @@ namespace BankLoanSystem.DAL
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
                     }
-                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.VarChar);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.VarChar,50);
+                    returnParameter.Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
                     return  returnParameter.Value.ToString();

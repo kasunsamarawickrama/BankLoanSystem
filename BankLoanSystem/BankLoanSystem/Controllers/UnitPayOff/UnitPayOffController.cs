@@ -82,7 +82,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             CurtailmentAccess payoff = new CurtailmentAccess();
             var UnitPayOffList = new List<UnitPayOffModel>();
-            unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
+            //unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.PayDate = DateTime.Now;
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
@@ -126,6 +126,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 XElement xEle = new XElement("Units",
                     from unit in payOffModelList
                     select new XElement("Unit",
+                        new XElement("LoanId", unit.LoanId),
                         new XElement("UnitId", unit.UnitId),
                         new XElement("Balance", unit.Balance)
                         ));
