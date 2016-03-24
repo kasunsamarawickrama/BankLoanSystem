@@ -20,9 +20,9 @@
     overflow-x: hidden;
 }
 </style>
-@*<div id="noCurtLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;">
-    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset" })
-</div>*@
+<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+</div>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
                             <div>
                                 @grid.GetHtml(
@@ -265,6 +265,17 @@
 
 <script>
 
+    $(document).ready(function(){
+        if ($('#checkableGrid').children('tbody').children('tr').length == 0) 
+        {
+            $('#noCurtLabelDiv').show();
+            $('#checkableGridDiv').hide();
+        }
+        else{
+            $('#noCurtLabelDiv').hide();
+            $('#checkableGridDiv').show();
+        }
+    });
     //clear all fields
     $('#btnCancel').click(function(){
         ClearTextBoxValues();
