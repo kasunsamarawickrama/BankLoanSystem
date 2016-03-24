@@ -431,7 +431,7 @@
                 var balance = $(this).find("#balance").text().replace(',', '');
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
-
+                alert(isChecked);
                 if (totalSelect === countSelect) {
                     $('#someID').children('span').text('Deselect');
                     $('#someID').find("#cbSelectAll").prop('checked', true);
@@ -451,7 +451,7 @@
 
         $(document).on('click', '.checkboxAll', function () {
             var isChecked = $(this).is(':checked');
-            
+            alert(isChecked);
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
 
             if (isChecked === false) {
@@ -593,42 +593,9 @@
                     async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
+                        location.reload();
                         //alert("Success");
-                        totalToPay = 0;
-                        //totalSelect = $('table#checkableGrid > tbody > tr').length;
-                        countSelect = 0;
-                        $('#container').html(partialView);
-                        $('#container').show();
-                            // Change the selector if needed
-                            var table = $('table'),
-                                bodyCells = table.find('tbody tr:first').children(),
-                                colWidth;
-
-                            // Adjust the width of thead cells when window resizes
-                            $(window).resize(function () {
-                                // Get the tbody columns width array
-                                colWidth = bodyCells.map(function () {
-                                    return $(this).width();
-                                }).get();
-
-                                // Set the width of thead columns
-                                table.find('thead tr').children().each(function (i, v) {
-                                    $(v).width(colWidth[i]);
-                                });
-                            }).resize(); // Trigger resize handler
-
-                            $(window).bind("load", function () {
-
-                                // Get the tbody columns width array
-                                colWidth = bodyCells.map(function () {
-                                    return $(this).width();
-                                }).get();
-
-                                // Set the width of thead columns
-                                table.find('thead tr').children().each(function (i, v) {
-                                    $(v).width(colWidth[i]);
-                                });
-                            }).resize();
+                        
                     }
                 });
             }
@@ -687,6 +654,7 @@
                         //totalToPay = 0;
                         //$('#container').html(partialView);
                         //$('#container').show();
+                        //if (partialView == "")
                         location.reload();
                     }
                 });

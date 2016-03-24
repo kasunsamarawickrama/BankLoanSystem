@@ -110,11 +110,11 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 if (str == "PayOffError")
                 {
                     ViewBag.Msg = "PayOffError";
-                    //View(unitPayOffViewModel);
+                    return View(unitPayOffViewModel);
                 }
                 else {
                     ViewBag.Msg = "PayOffSuccess";
-                    //View(unitPayOffViewModel);
+                    return View(unitPayOffViewModel);
                 }
             }
             if (HttpContext.Request.IsAjaxRequest())
