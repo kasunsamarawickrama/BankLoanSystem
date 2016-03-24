@@ -303,11 +303,13 @@
             </div>
 
 
-            <div class="link-bar" style="margin-bottom:15px;">
-                @{
-                    Html.RenderAction("GetLinkBar", "Unit");
-                }
-            </div>
+        <div class="link-bar" style="margin-bottom: 15px;">
+            @{
+                Html.RenderAction("GetLinkBar", "Unit");
+            }
+        </div>
+
+        
 
         </div>
 
@@ -337,7 +339,7 @@
         });
 
 
-        
+
 
         $("#btnClear").click(function () {
 
@@ -401,7 +403,7 @@
 
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
-            }            
+            }
 
             $('table#checkableGrid > tbody > tr').each(function () {
                 var balance = $(this).find("#balance").text().replace(',', '');
@@ -425,7 +427,7 @@
             }
             var tr = $(this);
 
-            
+
             var isChecked = $(this).find("#all").is(':checked');
 
             if (isChecked === false) {
@@ -438,10 +440,14 @@
                 if (totalSelect === countSelect) {
                     $('#someID').children('span').text('Deselect');
                     $('#someID').find("#cbSelectAll").prop('checked', true);
-                } 
+                }
                 //$(this).css('background', 'lightblue');
                 //$(this).siblings().css('background', 'aliceblue');
                 $(this).addClass("highlight");
+
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+
                 SetTextBoxValues(tr);
             }
             $('#spnTotal').text(totalToPay);
@@ -450,7 +456,7 @@
 
         $(document).on('click', '.checkboxAll', function () {
             var isChecked = $(this).is(':checked');
-
+            
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
 
             if (isChecked === false) {
@@ -463,6 +469,7 @@
                 countSelect++;
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
+                $(this).parent().parent().addClass("highlight");
             }
 
             if (countSelect === 0) {
@@ -534,7 +541,7 @@
             $('#iBalance').val('');
             $('#iUnitId').val('');
             $("#payDate2").attr("disabled", "disabled");
-            $("#singleUnitDiv").hide();            
+            $("#singleUnitDiv").hide();
         }
 
         var errorTitleReturn1 = false;
@@ -562,7 +569,7 @@
             //alert(payDate);
 
             if (errorTitleReturn1 === false) {
-                
+
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
@@ -596,6 +603,36 @@
                         countSelect = 0;
                         $('#container').html(partialView);
                         $('#container').show();
+                            // Change the selector if needed
+                            var table = $('table'),
+                                bodyCells = table.find('tbody tr:first').children(),
+                                colWidth;
+
+                            // Adjust the width of thead cells when window resizes
+                            $(window).resize(function () {
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
+                            }).resize(); // Trigger resize handler
+
+                            $(window).bind("load", function () {
+
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
+                            }).resize();
                     }
                 });
             }
@@ -629,7 +666,7 @@
                 var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
-                
+
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
@@ -764,38 +801,37 @@
             return true;
 
         });
+            // Change the selector if needed
+            var table = $('table'),
+                bodyCells = table.find('tbody tr:first').children(),
+                colWidth;
 
+            // Adjust the width of thead cells when window resizes
+            $(window).resize(function () {
+                // Get the tbody columns width array
+                colWidth = bodyCells.map(function () {
+                    return $(this).width();
+                }).get();
 
-        // Change the selector if needed
-        var table = $('table'),
-            bodyCells = table.find('tbody tr:first').children(),
-            colWidth;
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).width(colWidth[i]);
+                });
+            }).resize(); // Trigger resize handler
 
-        // Adjust the width of thead cells when window resizes
-        $(window).resize(function () {
-            // Get the tbody columns width array
-            colWidth = bodyCells.map(function () {
-                return $(this).width();
-            }).get();
+            $(window).bind("load", function () {
 
-            // Set the width of thead columns
-            table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
-            });
-        }).resize(); // Trigger resize handler
+                // Get the tbody columns width array
+                colWidth = bodyCells.map(function () {
+                    return $(this).width();
+                }).get();
 
-        $(window).bind("load", function () {
-
-            // Get the tbody columns width array
-            colWidth = bodyCells.map(function () {
-                return $(this).width();
-            }).get();
-
-            // Set the width of thead columns
-            table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
-            });
-        }).resize();
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).width(colWidth[i]);
+                });
+            }).resize();
+        
 
         $(document).ready(function () {
 
