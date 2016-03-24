@@ -38,6 +38,7 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+        .highlight { background-color: lightblue; }
     </style>
 </head>
 <body>
@@ -336,17 +337,7 @@
         });
 
 
-        $(document).ready(function () {
-            $("#content tbody tr").each(function (i, row) {
-                var $actualRow = $(row);
-                if ($actualRow.find('input[type=checkbox]').prop('checked') == true) {
-                    $actualRow.css('background-color', '#EAF2D3');
-                }
-                else {
-                    $actualRow.css('background-color', '#FF9E9E');
-                }
-            });
-        });
+        
 
         $("#btnClear").click(function () {
 
@@ -428,37 +419,55 @@
 
         });
 
-        $('#checkableGrid').children('tbody').children('tr').click(function () {
-            var tr = $(this);            
-            tr.find("#all").prop('checked', true);
-            totalToPay = totalToPay + parseFloat(tr.find("#balance").text().replace(',', ''));
+        $('#checkableGrid').children('tbody').children('tr').click(function (e) {
+            if ($(e.target).closest('td:first-child').length) {
+                return;
+            }
+            var tr = $(this);
+
+            
+            var isChecked = $(this).find("#all").is(':checked');
+
+            if (isChecked === false) {
+                $(this).find("#all").prop('checked', true);
+                countSelect++;
+                var balance = $(this).find("#balance").text().replace(',', '');
+                totalToPay = parseFloat(totalToPay) + parseFloat(balance);
+                totalToPay = totalToPay.toFixed(2);
+
+                if (totalSelect === countSelect) {
+                    $('#someID').children('span').text('Deselect');
+                    $('#someID').find("#cbSelectAll").prop('checked', true);
+                } 
+                //$(this).css('background', 'lightblue');
+                //$(this).siblings().css('background', 'aliceblue');
+                $(this).addClass("highlight");
+                SetTextBoxValues(tr);
+            }
             $('#spnTotal').text(totalToPay);
-            $(this).css('background', 'lightblue');
-            $(this).siblings().css('background', 'aliceblue');
-            SetTextBoxValues(tr);
 
         });
 
         $(document).on('click', '.checkboxAll', function () {
-            //alert('1    ' + totalToPay);
-            //alert($(this).val());
             var isChecked = $(this).is(':checked');
+
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
-            //alert(balance);
+
             if (isChecked === false) {
                 countSelect--;
                 totalToPay = parseFloat(totalToPay) - parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
+                $(this).parent().parent().removeClass("highlight");
             }
             else {
                 countSelect++;
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
             }
-            //alert(countSelect);
+
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
-                $('#someID').find("#cbSelectAll").prop('checked', false);                
+                $('#someID').find("#cbSelectAll").prop('checked', false);
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
@@ -472,13 +481,19 @@
                 //$("#payDate").removeAttr("disabled");
             }
             else if (countSelect === 1) {
-                //alert(countSelect);
+
                 var tr = $(this).parents('tr:first');
                 SetTextBoxValues(tr);
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
 
-            } else if (countSelect > 1 && countSelect != totalSelect) {
+                if (parseInt(countSelect) !== parseInt(totalSelect)) {
+                    $('#someID').children('span').text('Select');
+                    $('#someID').find("#cbSelectAll").prop('checked', false);
+                }
+
+
+            } else if (parseInt(countSelect) > parseInt(1) && parseInt(countSelect) !== parseInt(totalSelect)) {
                 ClearTextBoxValues();
 
                 $("#btnPayAll").removeAttr("disabled");
@@ -491,11 +506,8 @@
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
             }
-            //if()
-            //alert('2   ' + totalToPay);
-            $('#spnTotal').text(totalToPay);
 
-            //alert(countSelect);
+            $('#spnTotal').text(totalToPay);
         });
 
         function SetTextBoxValues(tr) {
