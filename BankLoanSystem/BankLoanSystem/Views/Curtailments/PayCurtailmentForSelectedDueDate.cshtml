@@ -448,7 +448,7 @@
 
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        checkCount++;alert(checkCount);
+                        checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
                             $('#partialPaymentColor').show();
@@ -468,7 +468,7 @@
                     }
 
                     }
-                    alert(checkCount);
+                    
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
