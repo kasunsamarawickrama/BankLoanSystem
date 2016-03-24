@@ -282,14 +282,7 @@
     });
     //clear all fields
     $('#btnCancel').click(function(){
-
-        GetCurrentCurtailment();
-        //ClearTextBoxValues();
-
-
-    });
-    function GetCurrentCurtailment(){
-        @{
+         @{
              Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
              var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
@@ -297,6 +290,13 @@
 
          }
         var dueDate = '@dateTime';
+        GetCurrentCurtailment(dueDate);
+        //ClearTextBoxValues();
+
+
+    });
+    function GetCurrentCurtailment(dueDate){
+
         // alert(dueDate);
         $.ajax({
             url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
