@@ -2,7 +2,7 @@
 
 @{ 
     Layout = null;
-    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
 
 
 }
@@ -342,6 +342,7 @@
             var totalRecCount = 0;
 
             $(function () {
+                alert('aaa');
                 GridUpdate();
             });
 
@@ -866,7 +867,7 @@
 
     var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function () {
-
+        data = { SelectedCurtailmentSchedules: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
             
@@ -901,27 +902,13 @@
                    
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == ""){
-                        alert('Success');
+                        $('.centered1 span').text('Successfully Updated');
+                        GetCurrentCurtailment($('#dueDate').val());
                     }
                     if(View.length > 5){
                             
                         var array = View.split(',');
-                        var length = array.length;
-                        var VinNumbers = [];
-                        for(var i=0 ; i<length ; i++ ){
-
-                            if(array[i].length > 5){
-                                for(var curtailment in data.SelectedCurtailmentSchedules){
-
-                                    if(curtailment.UnitId == array[i]){
-                                        VinNumbers.push(curtailment.IDNumber);
-                                    }
-                                }
-                            }
-
-                        }
-                        // append the message to span
-                        var vinString = VinNumbers.join(" , ");
+                      
                         showPopup5(5 , array);
 
 
@@ -937,7 +924,7 @@
 
     $('#btnPay').click(function (e) {
 
-
+        data = { SelectedCurtailmentSchedules: [] };
 
          if ($('#iVin').val() != '') {
              var a = 1;
@@ -975,28 +962,14 @@
                     success: function (View) {
                      
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        if(View == "1"){
-                            alert('Success');
+                        if(View == ""){
+                            $('.centered1 span').text('Successfully Updated');
+                            GetCurrentCurtailment($('#dueDate').val());
                         }
                         if(View.length > 5){
                             
                             var array = View.split(',');
-                            var length = array.length;
-                            var VinNumbers = [];
-                            for(var i=0 ; i<length ; i++ ){
-
-                                if(array[i].length > 5){
-                                for(var curtailment in data.SelectedCurtailmentSchedules){
-
-                                    if(curtailment.UnitId == array[i]){
-                                        VinNumbers.push(curtailment.IDNumber);
-                                    }
-                                }
-                                }
-
-                            }
-                            // append the message to span
-                            var vinString = VinNumbers.join(" , ");
+                          
                             showPopup5(5 , array);
 
 
@@ -1083,6 +1056,7 @@
 
                     if(data.SelectedCurtailmentSchedules[j].UnitId == array[i]){
                         VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
+                        break;
                     }
                    
                 }
@@ -1110,12 +1084,12 @@
 
 <div class="overlay-bg">
 </div>
-<div class="overlay-content popup5" style="width:auto;text-align:center;left: 60%;">
+<div class="overlay-content popup5" style="width:auto;text-align:center;left: 50%;top:280px">
 
 
     <h3>Message</h3>
 
-    <div id="payOffAlert" class="alert alert-warning" role="alert">
+    <div id="payOffAlert" class="alert alert-info" role="alert">
         These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
     </div><br />
     <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
