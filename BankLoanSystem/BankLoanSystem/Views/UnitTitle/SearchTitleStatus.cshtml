@@ -1,6 +1,6 @@
 ﻿@model BankLoanSystem.Models.TitleStatus
 @{
-    WebGrid grid = new WebGrid(Model.TitleList, defaultSort: "AdvanceDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid = new WebGrid(Model.TitleList, defaultSort: "AdvanceDate", canPage: false, ajaxUpdateContainerId: "searchGrid1", ajaxUpdateCallback: "GridUpdate");
 }
 
 @if ((Model.TitleList.Count() != 0)&&(Model.TitleList!=null))
@@ -15,10 +15,10 @@
             columns: grid.Columns(
                  grid.Column(
                    "AdvanceDate",
-                   "Date Advanced",
+                   "Date Advanced", canSort: false,
                    format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
                ),
-               
+
                 grid.Column("VIN/HIN/Serial #", "VIN/HIN/Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" name="IDHidden" value="@item.UnitId" id="uId" />}</text>),
                 grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                 grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
