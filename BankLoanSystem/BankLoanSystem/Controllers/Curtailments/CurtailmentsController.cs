@@ -127,7 +127,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
 
             //test
-            return "123456-000021";
+            return returnValue;
         }
 
         /// <summary>
