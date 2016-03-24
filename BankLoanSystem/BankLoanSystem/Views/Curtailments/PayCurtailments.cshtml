@@ -17,6 +17,8 @@
     ViewBag.Title = "Pay Curtailments";
     //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
+@using System.Threading;
+@using System.Globalization;
 
 <!DOCTYPE html>
 
@@ -64,6 +66,7 @@
                          <label for="" class="col-sm-4 form-control-label">Curtailment due Date - all curtailments due prior to and on this date will be displayed.</label>
                         <div class="col-md-2"  >
                             @*<input class="form-control" type="date" />*@
+
                             @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off" } })
                         </div>
                     </div> 
@@ -72,8 +75,18 @@
                 <div id="changeContainer">
 
                     @{
-                        Html.RenderAction("PayCurtailmentForSelectedDueDate", "Curtailments", new { dueDate = DateTime.Today });
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                        var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
                     }
+
+                    @{
+                        Html.RenderAction("PayCurtailmentForSelectedDueDate", "Curtailments", new { dueDate = dateTime });
+                    }
+
+
 
                 </div>
                
@@ -114,6 +127,7 @@
             bound: true,
             onSelect: function () {
                 var dueDate = this.getDate();
+
                 $.ajax({
                     url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
                     data: JSON.stringify({ dueDate: dueDate }),
@@ -130,7 +144,7 @@
             }
         });
 
-        $("#dueDate").val('@DateTime.Today.ToString("d")');
+        $("#dueDate").val('@dateTime.ToString("d")');
 
 
         </script>

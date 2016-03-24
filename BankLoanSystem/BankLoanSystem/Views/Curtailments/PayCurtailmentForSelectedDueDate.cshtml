@@ -3,7 +3,11 @@
 @{ 
     Layout = null;
     WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+
+
 }
+@using System.Threading;
+@using System.Globalization;
 
 
 
@@ -18,9 +22,9 @@
     overflow-x: hidden;
 }
 </style>
-@*<div id="noCurtLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;">
-    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset" })
-</div>*@
+<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+</div>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
                             <div>
                                 @grid.GetHtml(
@@ -263,38 +267,50 @@
 
 <script>
 
+    $(document).ready(function(){
+        if ($('#checkableGrid').children('tbody').children('tr').length == 0)
+        {
+            $('#noCurtLabelDiv').show();
+            $('#checkableGridDiv').hide();
+        }
+        else{
+            $('#noCurtLabelDiv').hide();
+            $('#checkableGridDiv').show();
+        }
+    });
     //clear all fields
     $('#btnCancel').click(function(){
-        ClearTextBoxValues();
-        //clear grid
-       
-        total = 0;
-        checkCount = 0;
-        $("#btnPay").attr("disabled", "disabled");
-        $("#payAll").attr("disabled", "disabled");
-        $("#advanceDate").attr("disabled", "disabled");
-        $("#payDate").attr("disabled", "disabled");
-        // clear top error
-        $('#payDate').removeClass('input-validation-error');
-        $('#payDate').next('span').children().text('');
-        $('.centered span').text('');
-        $('#errorPayDate').text('');
-        document.getElementById('all').checked = false;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+         @{
+             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-        $("#someID span").html('Select');
-        $("#tagscloud span").html('');
-        $('#iCurtAmount').removeClass('input-validation-error');
-        ClearMainGrid();
+             var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+             var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
 
-        $('#identificationNumberSearch').val('');
-        $('#cmbYear').val('');
-        $('#cmbMake').val('');
-        $('#cmbModel').val('');
-        $("#noDataLabelDiv").hide();
-        $("#searchGrid1").hide();
+         }
+        var dueDate = '@dateTime';
+        GetCurrentCurtailment(dueDate);
+        //ClearTextBoxValues();
+
 
     });
+    function GetCurrentCurtailment(dueDate){
+
+        // alert(dueDate);
+        $.ajax({
+            url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+            data: JSON.stringify({ dueDate: dueDate }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (partialView) {
+                $('#changeContainer').html(partialView);
+                $('#changeContainer').show();
+                $('.centered span').text('');
+                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+            }
+        });
+        $("#dueDate").val('@dateTime.ToString("d")');
+    };
 </script>
 <script>
 

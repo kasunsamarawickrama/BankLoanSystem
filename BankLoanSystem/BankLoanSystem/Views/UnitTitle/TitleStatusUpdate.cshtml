@@ -235,15 +235,28 @@
         $('#notReceived').click(function ()
         {
             $('#updateTitleDiv span').text("");
+            if ($('#searchIdentificationNumber span').text() == "") {
+                $('.centered span').text('');
+            }
+            
         });
         $('#received').click(function () {
             $('#updateTitleDiv span').text("");
+            if ($('#searchIdentificationNumber span').text() == "") {
+                $('.centered span').text('');
+            }
         });
         $('#returnDealer').click(function () {
             $('#updateTitleDiv span').text("");
+            if ($('#searchIdentificationNumber span').text() == "") {
+                $('.centered span').text('');
+            }
         });
         $('#sentBank').click(function () {
             $('#updateTitleDiv span').text("");
+            if ($('#searchIdentificationNumber span').text() == "") {
+                $('.centered span').text('');
+            }
         });
         //click event of Display button
         $('#btnDisplay').click(function ()
@@ -324,7 +337,8 @@
             if ($('#titleGrid').children('tbody').children('tr').length == 0) {
                 $('#searchGrid1').hide();
             }
-            
+            $('#updateTitleDiv span').text("");
+
         });
         //set text box values when row is selected in grid
         function SetTextBoxValues(tr) {
@@ -372,7 +386,13 @@
             var para1 = $('input[name = inlineRadioOptions]:checked').val();
             
             //alert(para1);
-            if (($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
+            if (($('#identificationNumberSearch').val() == "") || ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == ""))
+            {
+
+                $('#updateTitleDiv span').text("Please select the unit you would like to update the status");
+                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', $('#identificationNumberSearch').val());
+            }
+            else if (($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
             {
                 if (para1 == 2) {
                     var current = $('#unitStatus').val();
