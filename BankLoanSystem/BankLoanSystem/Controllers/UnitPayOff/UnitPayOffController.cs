@@ -95,11 +95,28 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             {
                 int res = Convert.ToInt32(TempData["message"]);
                 if (res == 0)
+                {
                     ViewBag.Msg = "PayOffError";
-                else
+                    TempData["out"] = "PayOffError";
+                }
+                else {
                     ViewBag.Msg = "PayOffSuccess";
+                    TempData["out"] = "PayOffSuccess";
+                }
             }
-
+            else if (TempData["out"] != null)
+            {
+                string str = TempData["out"].ToString();
+                if (str == "PayOffError")
+                {
+                    ViewBag.Msg = "PayOffError";
+                    //View(unitPayOffViewModel);
+                }
+                else {
+                    ViewBag.Msg = "PayOffSuccess";
+                    //View(unitPayOffViewModel);
+                }
+            }
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -143,7 +160,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 TempData["message"] = result;
 
-                return RedirectToAction("PayOff", "UnitPayOff");
+                return RedirectToAction("PayOff");
             }
             catch (Exception ex)
             {

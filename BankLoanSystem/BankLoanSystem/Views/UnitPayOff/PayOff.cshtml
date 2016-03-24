@@ -61,7 +61,6 @@
 
 
                     <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
-
                         <!-- This is for Grid-->
                         <input type="hidden" value="@ViewBag.loanDetails.loanId" id="loanId" />
                         @grid.GetHtml(
@@ -218,12 +217,8 @@
                     </div>
 
 
-                    <div class="info-bar" style="margin-top:15px">
+                    <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1" >
                         <!-- This is for Search Grid-->
-                        <div id="searchGrid1" style="padding:unset">
-
-
-                        </div>
 
                     </div>
 
@@ -291,7 +286,7 @@
                                 </form>
                             </div>
                         </div>
-
+                        <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 
                     </div>
@@ -574,14 +569,16 @@
                     url: '/UnitPayOff/UnitListPay/',
                     data: JSON.stringify(data),
                     type: 'POST',
+                    async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
                         totalToPay = 0;
                         //totalSelect = $('table#checkableGrid > tbody > tr').length;
-                        countSelect = 0;
-                        $('#container').html(partialView);
-                        $('#container').show();
+                        //countSelect = 0;
+                        //$('#container').html(partialView);
+                        //$('#container').show();
+                        location.reload();
                     }
                 });
             }
@@ -633,12 +630,14 @@
                     url: '/UnitPayOff/UnitListPay/',
                     data: JSON.stringify(data),
                     type: 'POST',
+                    async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
-                        totalToPay = 0;
-                        $('#container').html(partialView);
-                        $('#container').show();
+                        //totalToPay = 0;
+                        //$('#container').html(partialView);
+                        //$('#container').show();
+                        location.reload();
                     }
                 });
             }
