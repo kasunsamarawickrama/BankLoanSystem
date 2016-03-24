@@ -125,9 +125,8 @@ namespace BankLoanSystem.Controllers.Curtailments
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
-
-            //test
-            return "1";
+            
+            return returnValue;
         }
 
         /// <summary>
