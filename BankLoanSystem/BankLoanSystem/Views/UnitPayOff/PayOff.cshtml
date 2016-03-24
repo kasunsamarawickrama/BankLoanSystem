@@ -42,15 +42,7 @@
     </style>
 </head>
 <body>
-    @using (Ajax.BeginForm("PayOff", null, new AjaxOptions()
-    {
-        OnFailure = "handleError",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
+  
         <div class="container" id="container">
             @{
                 Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
@@ -311,7 +303,7 @@
 
         </div>
 
-                    }
+                    
 
 
     <script>
