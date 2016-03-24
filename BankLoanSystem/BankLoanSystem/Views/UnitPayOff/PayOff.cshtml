@@ -438,7 +438,7 @@
         });
 
         $(document).on('click', '.checkboxAll', function () {
-            alert('1    ' + totalToPay);
+            //alert('1    ' + totalToPay);
             //alert($(this).val());
             var isChecked = $(this).is(':checked');
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
@@ -490,7 +490,7 @@
                 $("#payDate").removeAttr("disabled");
             }
             //if()
-            alert('2   ' + totalToPay);
+            //alert('2   ' + totalToPay);
             $('#spnTotal').text(totalToPay);
 
             //alert(countSelect);
