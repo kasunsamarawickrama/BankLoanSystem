@@ -1073,7 +1073,7 @@
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
             $('.centered span').text('Error');
-        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
+        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('');
            
         }
