@@ -213,7 +213,7 @@
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" style="width:18%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -264,7 +264,7 @@
 
 </div>
 
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
     $(document).ready(function(){
@@ -277,6 +277,27 @@
             $('#noCurtLabelDiv').hide();
             $('#checkableGridDiv').show();
         }
+    });
+
+    //capitalize letters when typing
+    $('#identificationNumberSearch').keyup(function () {
+        $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+    });
+    $('#identificationNumberSearch').focusout(function () {
+        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+    });
+    //block invalid characters
+    $("#identificationNumberSearch").keypress(function (e) {
+
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+            return 1;
+        }
+
+        else {
+            e.preventDefault();
+        }
+        //alert(ch);
     });
     //clear all fields
     $('#btnCancel').click(function(){
