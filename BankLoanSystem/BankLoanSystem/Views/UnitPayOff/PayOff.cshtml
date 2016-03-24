@@ -429,8 +429,10 @@
         });
 
         $('#checkableGrid').children('tbody').children('tr').click(function () {
-            var tr = $(this);
-
+            var tr = $(this);            
+            tr.find("#all").prop('checked', true);
+            totalToPay = totalToPay + parseFloat(tr.find("#balance").text().replace(',', ''));
+            $('#spnTotal').text(totalToPay);
             $(this).css('background', 'lightblue');
             $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
