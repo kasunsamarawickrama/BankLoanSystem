@@ -213,7 +213,7 @@
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" style="width:18%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -264,7 +264,7 @@
 
 </div>
 
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
     $(document).ready(function(){
@@ -277,6 +277,27 @@
             $('#noCurtLabelDiv').hide();
             $('#checkableGridDiv').show();
         }
+    });
+
+    //capitalize letters when typing
+    $('#identificationNumberSearch').keyup(function () {
+        $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+    });
+    $('#identificationNumberSearch').focusout(function () {
+        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+    });
+    //block invalid characters
+    $("#identificationNumberSearch").keypress(function (e) {
+
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+            return 1;
+        }
+
+        else {
+            e.preventDefault();
+        }
+        //alert(ch);
     });
 
     $('#checkableGrid thead tr th a').each(function() {
@@ -883,7 +904,7 @@
 
     var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function () {
-
+        data = { SelectedCurtailmentSchedules: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
             
@@ -918,27 +939,13 @@
                    
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == ""){
-                        alert('Success');
+                        $('.centered1 span').text('Successfully Updated');
+                        GetCurrentCurtailment($('#dueDate').val());
                     }
                     if(View.length > 5){
                             
                         var array = View.split(',');
-                        var length = array.length;
-                        var VinNumbers = [];
-                        for(var i=0 ; i<length ; i++ ){
 
-                            if(array[i].length > 5){
-                                for(var curtailment in data.SelectedCurtailmentSchedules){
-
-                                    if(curtailment.UnitId == array[i]){
-                                        VinNumbers.push(curtailment.IDNumber);
-                                    }
-                                }
-                            }
-
-                        }
-                        // append the message to span
-                        var vinString = VinNumbers.join(" , ");
                         showPopup5(5 , array);
 
 
@@ -954,7 +961,7 @@
 
     $('#btnPay').click(function (e) {
 
-
+        data = { SelectedCurtailmentSchedules: [] };
 
          if ($('#iVin').val() != '') {
              var a = 1;
@@ -992,28 +999,14 @@
                     success: function (View) {
                      
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        if(View == "1"){
-                            alert('Success');
+                        if(View == ""){
+                            $('.centered1 span').text('Successfully Updated');
+                            GetCurrentCurtailment($('#dueDate').val());
                         }
                         if(View.length > 5){
                             
                             var array = View.split(',');
-                            var length = array.length;
-                            var VinNumbers = [];
-                            for(var i=0 ; i<length ; i++ ){
 
-                                if(array[i].length > 5){
-                                for(var curtailment in data.SelectedCurtailmentSchedules){
-
-                                    if(curtailment.UnitId == array[i]){
-                                        VinNumbers.push(curtailment.IDNumber);
-                                    }
-                                }
-                                }
-
-                            }
-                            // append the message to span
-                            var vinString = VinNumbers.join(" , ");
                             showPopup5(5 , array);
 
 
@@ -1100,6 +1093,7 @@
 
                     if(data.SelectedCurtailmentSchedules[j].UnitId == array[i]){
                         VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
+                        break;
                     }
                    
                 }
@@ -1127,12 +1121,12 @@
 
 <div class="overlay-bg">
 </div>
-<div class="overlay-content popup5" style="width:auto;text-align:center;left: 60%;">
+<div class="overlay-content popup5" style="width:auto;text-align:center;left: 50%;top:280px">
 
 
     <h3>Message</h3>
 
-    <div id="payOffAlert" class="alert alert-warning" role="alert">
+    <div id="payOffAlert" class="alert alert-info" role="alert">
         These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
     </div><br />
     <span> Press OK to continue, or Cancel to stay on the current page.</span><br />

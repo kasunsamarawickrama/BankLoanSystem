@@ -208,8 +208,10 @@ namespace BankLoanSystem.Controllers
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             ViewBag.ErrorMsg = "";
-            UnitAccess unitAccess = new UnitAccess();           
-            return unitAccess.AdvanceItemList(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);           
+            UnitAccess unitAccess = new UnitAccess();
+            int reslt = unitAccess.AdvanceItemList(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);
+            TempData["updateReslt"] = reslt;
+            return reslt;        
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
