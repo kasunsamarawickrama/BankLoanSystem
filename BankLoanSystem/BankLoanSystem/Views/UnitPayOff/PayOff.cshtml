@@ -54,7 +54,6 @@
 
 
                     <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
-
                         <!-- This is for Grid-->
                         <input type="hidden" value="@ViewBag.loanDetails.loanId" id="loanId" />
                         @grid.GetHtml(
@@ -211,14 +210,10 @@
                     </div>
 
 
-                    <div class="info-bar" style="margin-top:15px">
+                    <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1" >
                         <!-- This is for Search Grid-->
-                        <div id="searchGrid1" style="padding:unset">
-
 
                         </div>
-
-                    </div>
 
                     <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
 
@@ -284,7 +279,7 @@
                                 </form>
                             </div>
                         </div>
-
+                        <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 
                     </div>
@@ -295,11 +290,13 @@
             </div>
 
 
-            <div class="link-bar" style="margin-bottom:15px;">
+        <div class="link-bar" style="margin-bottom: 15px;">
                 @{
                     Html.RenderAction("GetLinkBar", "Unit");
                 }
             </div>
+
+        
 
         </div>
 
@@ -329,7 +326,7 @@
         });
 
 
-        
+
 
         $("#btnClear").click(function () {
 
@@ -417,7 +414,7 @@
             }
             var tr = $(this);
 
-            
+
             var isChecked = $(this).find("#all").is(':checked');
 
             if (isChecked === false) {
@@ -430,11 +427,15 @@
                 if (totalSelect === countSelect) {
                     $('#someID').children('span').text('Deselect');
                     $('#someID').find("#cbSelectAll").prop('checked', true);
-                } 
+                }
                 //$(this).css('background', 'lightblue');
                 //$(this).siblings().css('background', 'aliceblue');
                 $(this).addClass("highlight");
-                SetTextBoxValues(tr);
+
+                $("#btnPayAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+
+            SetTextBoxValues(tr);
             }
             $('#spnTotal').text(totalToPay);
 
@@ -442,7 +443,7 @@
 
         $(document).on('click', '.checkboxAll', function () {
             var isChecked = $(this).is(':checked');
-
+            
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
 
             if (isChecked === false) {
@@ -455,11 +456,12 @@
                 countSelect++;
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
+                $(this).parent().parent().addClass("highlight");
             }
 
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
-                $('#someID').find("#cbSelectAll").prop('checked', false);
+                $('#someID').find("#cbSelectAll").prop('checked', false);                
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
@@ -580,6 +582,7 @@
                     url: '/UnitPayOff/UnitListPay/',
                     data: JSON.stringify(data),
                     type: 'POST',
+                    async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
@@ -588,6 +591,36 @@
                         countSelect = 0;
                         $('#container').html(partialView);
                         $('#container').show();
+                            // Change the selector if needed
+                            var table = $('table'),
+                                bodyCells = table.find('tbody tr:first').children(),
+                                colWidth;
+
+                            // Adjust the width of thead cells when window resizes
+                            $(window).resize(function () {
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
+                            }).resize(); // Trigger resize handler
+
+                            $(window).bind("load", function () {
+
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
+                            }).resize();
                     }
                 });
             }
@@ -639,12 +672,14 @@
                     url: '/UnitPayOff/UnitListPay/',
                     data: JSON.stringify(data),
                     type: 'POST',
+                    async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
                         //alert("Success");
-                        totalToPay = 0;
-                        $('#container').html(partialView);
-                        $('#container').show();
+                        //totalToPay = 0;
+                        //$('#container').html(partialView);
+                        //$('#container').show();
+                        location.reload();
                     }
                 });
             }
@@ -756,8 +791,6 @@
             return true;
 
         });
-
-
         // Change the selector if needed
         var table = $('table'),
             bodyCells = table.find('tbody tr:first').children(),
@@ -788,6 +821,7 @@
                 $(v).width(colWidth[i]);
             });
         }).resize();
+
 
         $(document).ready(function () {
 
