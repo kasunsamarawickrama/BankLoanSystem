@@ -348,7 +348,8 @@
             var totalRecCount = 0;
 
             $(function () {
-              GridUpdate();
+               
+                GridUpdate();
             });
 
             function GridUpdate() {
@@ -444,17 +445,17 @@
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
-                    
+
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        checkCount++;alert(checkCount);
-                        if (tr.find("#curtailmentStatus").val() === '2') { 
+                        checkCount++;
+                        if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
                             $('#partialPaymentColor').show();
                         }else{
                         $(this).parents('tr').css('background', 'lightblue');
                         }
-                       
+
 
                     } else {
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
@@ -467,7 +468,7 @@
                     }
 
                     }
-                    alert(checkCount);
+                    
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
@@ -718,6 +719,7 @@
                 $('#iMake').val('');
                 $('#iModel').val('');
                 $('#iCurtAmount').val('');
+                $('#iCurtNumber').val('');
                 $("#btnPay").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
@@ -737,7 +739,7 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iUnitID').val(tr.find("#all").val());
-                $('#iCurtNumber').text(tr.find("#CurtNumber").text());
+                $('#iCurtNumber').val(tr.find("#CurtNumber").text());
 
                 $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
@@ -948,7 +950,7 @@
                     if(View.length > 5){
                             
                         var array = View.split(',');
-
+                      
                         showPopup5(5 , array);
 
 
@@ -973,6 +975,12 @@
                  $('#errorCurtPayDate').text('The Pay date field is Required');
                  a=0;
              }
+             if($('#errorCurtAmount').text() != "" ){
+                 a=0;
+             }
+             if($('#errorCurtPayDate').text() != ""){
+                 a=0;
+             }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
                  
@@ -988,12 +996,8 @@
 
 
 
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
-            //alert($('#iUnitID').val());
-            //alert($('#iVin').val());
-            //alert($('#iCurtNumber').val());
-            //alert($('#payDate').val());
-            //alert($('#iCurtAmount').val());
+            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+
 
 
                 //alert(data.SelectedCurtailmentSchedules.length);
@@ -1013,7 +1017,7 @@
                         if(View.length > 5){
                             
                             var array = View.split(',');
-
+                          
                             showPopup5(5 , array);
 
 
