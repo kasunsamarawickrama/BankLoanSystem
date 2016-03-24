@@ -299,6 +299,12 @@
         }
         //alert(ch);
     });
+
+    $('#checkableGrid thead tr th a').each(function() {
+        var _href = $(this).attr("href"); 
+        $(this).attr("href", _href + '&dueDate='+$('#dueDate').val());
+    });
+
     //clear all fields
     $('#btnCancel').click(function(){
          @{
@@ -342,11 +348,14 @@
             var totalRecCount = 0;
 
             $(function () {
-                alert('aaa');
+               
                 GridUpdate();
             });
 
             function GridUpdate() {
+                total = 0;
+                checkCount = 0;
+                totalRecCount = 0;
                 var ctrl =
                         $('<input />', {
                             type: 'checkbox',
@@ -459,7 +468,7 @@
                     }
 
                     }
-
+                    
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
@@ -518,6 +527,38 @@
                             $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment
                         }
                     });
+                });
+
+                //
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function() {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this).width();
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).width(colWidth[i]);
+                    });    
+                }).resize(); // Trigger resize handler  
+
+                $(window).bind("load",function(){
+    
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this).width();
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).width(colWidth[i]);
+                    });    
                 });
             }
 
@@ -678,6 +719,7 @@
                 $('#iMake').val('');
                 $('#iModel').val('');
                 $('#iCurtAmount').val('');
+                $('#iCurtNumber').val('');
                 $("#btnPay").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
@@ -697,7 +739,7 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iUnitID').val(tr.find("#all").val());
-                $('#iCurtNumber').text(tr.find("#CurtNumber").text());
+                $('#iCurtNumber').val(tr.find("#CurtNumber").text());
 
                 $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
@@ -933,6 +975,12 @@
                  $('#errorCurtPayDate').text('The Pay date field is Required');
                  a=0;
              }
+             if($('#errorCurtAmount').text() != "" ){
+                 a=0;
+             }
+             if($('#errorCurtPayDate').text() != ""){
+                 a=0;
+             }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
                  
@@ -948,7 +996,7 @@
 
 
 
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
 
 
 

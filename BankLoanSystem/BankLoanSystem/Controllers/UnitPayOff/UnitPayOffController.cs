@@ -29,7 +29,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                     filterContext.Controller.TempData.Add("UserLogin", "Login");
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 filterContext.Controller.TempData.Add("UserLogin", "Login");
