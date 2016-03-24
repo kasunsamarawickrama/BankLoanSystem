@@ -321,7 +321,7 @@
             var totalRecCount = 0;
 
             $(function () {
-                alert('aaa');
+               
                 GridUpdate();
             });
 
@@ -657,6 +657,7 @@
                 $('#iMake').val('');
                 $('#iModel').val('');
                 $('#iCurtAmount').val('');
+                $('#iCurtNumber').val('');
                 $("#btnPay").attr("disabled", "disabled");
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
@@ -676,7 +677,7 @@
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
                 $('#iUnitID').val(tr.find("#all").val());
-                $('#iCurtNumber').text(tr.find("#CurtNumber").text());
+                $('#iCurtNumber').val(tr.find("#CurtNumber").text());
 
                 $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
@@ -912,6 +913,12 @@
                  $('#errorCurtPayDate').text('The Pay date field is Required');
                  a=0;
              }
+             if($('#errorCurtAmount').text() != "" ){
+                 a=0;
+             }
+             if($('#errorCurtPayDate').text() != ""){
+                 a=0;
+             }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
                  
@@ -927,7 +934,7 @@
 
 
 
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
 
 
 
