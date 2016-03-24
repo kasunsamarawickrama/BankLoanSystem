@@ -2,7 +2,7 @@
 
 @{ 
     Layout = null;
-    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
 
 
 }
@@ -321,6 +321,7 @@
             var totalRecCount = 0;
 
             $(function () {
+                alert('aaa');
                 GridUpdate();
             });
 
