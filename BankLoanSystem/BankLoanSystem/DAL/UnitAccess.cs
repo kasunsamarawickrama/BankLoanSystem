@@ -351,7 +351,16 @@ namespace BankLoanSystem.DAL
 
                         cmd.Parameters.AddWithValue("@cost", unit.Cost);
                         cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
-                        cmd.Parameters.AddWithValue("@is_title_received", unit.IsTitleReceived);
+
+                        if (unit.TitleReceived=="Yes")
+                        {
+                            unit.TitleStatus = 1;
+                        }
+                        else
+                        {
+                            unit.TitleStatus = 0;
+                        }
+                        cmd.Parameters.AddWithValue("@title_status", unit.TitleStatus);
                         cmd.Parameters.AddWithValue("@note", unit.Note);
                         cmd.Parameters.AddWithValue("@add_or_advance", unit.AddAndAdvance);
                         cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
