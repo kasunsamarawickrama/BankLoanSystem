@@ -308,10 +308,11 @@
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
+                $("#dueDate").val('@dateTime.ToString("d")');
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             }
         });
-        $("#dueDate").val('@dateTime.ToString("d")');
+       
     };
 </script>
 <script>
