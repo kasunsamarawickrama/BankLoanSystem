@@ -348,10 +348,13 @@
             var totalRecCount = 0;
 
             $(function () {
-                GridUpdate();
+              GridUpdate();
             });
 
             function GridUpdate() {
+                total = 0;
+                checkCount = 0;
+                totalRecCount = 0;
                 var ctrl =
                         $('<input />', {
                             type: 'checkbox',
@@ -441,17 +444,17 @@
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
-
+                    
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        checkCount++;
-                        if (tr.find("#curtailmentStatus").val() === '2') {
+                        checkCount++;alert(checkCount);
+                        if (tr.find("#curtailmentStatus").val() === '2') { 
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
                             $('#partialPaymentColor').show();
                         }else{
                         $(this).parents('tr').css('background', 'lightblue');
                         }
-
+                       
 
                     } else {
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
@@ -464,7 +467,7 @@
                     }
 
                     }
-
+                    alert(checkCount);
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
@@ -986,7 +989,11 @@
 
 
             data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
-
+            //alert($('#iUnitID').val());
+            //alert($('#iVin').val());
+            //alert($('#iCurtNumber').val());
+            //alert($('#payDate').val());
+            //alert($('#iCurtAmount').val());
 
 
                 //alert(data.SelectedCurtailmentSchedules.length);
