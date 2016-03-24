@@ -289,6 +289,7 @@
          }
         var dueDate = '@dateTime';
         GetCurrentCurtailment(dueDate);
+        $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
 
 
@@ -306,11 +307,11 @@
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
-                $("#dueDate").val('@dateTime.ToString("d")');
+
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             }
         });
-       
+
     };
 </script>
 <script>
@@ -876,21 +877,38 @@
 
                 success: function (View) {
 
+                   
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    if(View == "1"){
+                    if(View == ""){
                         alert('Success');
                     }
                     if(View.length > 5){
                             
                         var array = View.split(',');
-                        
+                        var length = array.length;
+                        var VinNumbers = [];
+                        for(var i=0 ; i<length ; i++ ){
 
+                            if(array[i].length > 5){
+                                for(var curtailment in data.SelectedCurtailmentSchedules){
+
+                                    if(curtailment.UnitId == array[i]){
+                                        VinNumbers.push(curtailment.IDNumber);
+                                    }
+                                }
+                            }
+
+                        }
+                        // append the message to span
+                        var vinString = VinNumbers.join(" , ");
                         showPopup5(5 , array);
 
 
                     }
 
                 }
+
+                
             });
         }
 
@@ -934,7 +952,7 @@
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (View) {
-
+                     
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == "1"){
                             alert('Success');
@@ -1057,7 +1075,7 @@
         $('#payOffAlert strong').text(vinString);
         if(VinNumbers.length == 1){
 
-            $('#payOffAlert').text('This <strong>'+ VinNumbers[0] + '</strong> Unit Successfully paid off. Do you Like to Update the Title Status?');
+            $('#payOffAlert').text('This '+ VinNumbers[0] + ' Unit Successfully paid off. Do you Like to Update the Title Status?');
         }
 
 
@@ -1082,7 +1100,7 @@
     <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
     <br />
     @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
-    <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();">Cancel</button>
+    <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">Cancel</button>
 
 
 
