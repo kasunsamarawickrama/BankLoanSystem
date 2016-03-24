@@ -213,7 +213,7 @@
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" style="width:18%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -264,7 +264,7 @@
 
 </div>
 
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
     $(document).ready(function(){
@@ -278,6 +278,33 @@
             $('#checkableGridDiv').show();
         }
     });
+
+    //capitalize letters when typing
+    $('#identificationNumberSearch').keyup(function () {
+        $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+    });
+    $('#identificationNumberSearch').focusout(function () {
+        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+    });
+    //block invalid characters
+    $("#identificationNumberSearch").keypress(function (e) {
+
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+            return 1;
+        }
+
+        else {
+            e.preventDefault();
+        }
+        //alert(ch);
+    });
+
+    $('#checkableGrid thead tr th a').each(function() {
+        var _href = $(this).attr("href"); 
+        $(this).attr("href", _href + '&dueDate='+$('#dueDate').val());
+    });
+
     //clear all fields
     $('#btnCancel').click(function(){
          @{
@@ -326,6 +353,9 @@
             });
 
             function GridUpdate() {
+                total = 0;
+                checkCount = 0;
+                totalRecCount = 0;
                 var ctrl =
                         $('<input />', {
                             type: 'checkbox',
@@ -418,7 +448,7 @@
 
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        checkCount++;
+                        checkCount++;alert(checkCount);
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
                             $('#partialPaymentColor').show();
@@ -438,7 +468,7 @@
                     }
 
                     }
-
+                    alert(checkCount);
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
@@ -497,6 +527,38 @@
                             $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment
                         }
                     });
+                });
+
+                //
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function() {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this).width();
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).width(colWidth[i]);
+                    });    
+                }).resize(); // Trigger resize handler  
+
+                $(window).bind("load",function(){
+    
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this).width();
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).width(colWidth[i]);
+                    });    
                 });
             }
 
