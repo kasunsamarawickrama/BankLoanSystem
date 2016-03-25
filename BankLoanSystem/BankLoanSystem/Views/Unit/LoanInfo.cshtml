@@ -138,11 +138,11 @@
 
         // show popup when you click on the link
 
-        $(document).on('click', 'input', function () {
+        $(document).on('click', 'input,button', function () {
             $('.centered1 span').text('');
         });
 
-        $('select').change(function () {
+        $(document).on('change','select' , function () {
             $('.centered1 span').text('');
         });
 
