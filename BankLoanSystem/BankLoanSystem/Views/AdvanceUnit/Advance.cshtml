@@ -513,12 +513,12 @@
                                                     $("#startDate").removeAttr("disabled");
                                                     if (totalRecCount == 1) {
                                                         SetTextBoxValues(tr);
-                                                    }
+                                                    } 
                                                 }
 
                                             });
                                             if (checkCount > 1) {
-                                                ClearTextBoxValues();
+                                                ClearTextBoxValues(); ClearSearchGrid();
                                             }
                                             else if (checkCount == 0 || totalRecCount == 0) {
                                                 $("#btnAdvanceAll").attr("disabled", "disabled");
@@ -551,6 +551,7 @@
                                 }
 
                                 if (checkCount == 1) {
+                                   
                                     if (checked) {
                                         SetTextBoxValues(tr);
 
@@ -579,11 +580,14 @@
 
                                 }
                                 else {
+                                    
                                     ClearTextBoxValues();
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                 }
 
                                 if (checkCount > 0) {
+                                    
+                                    ClearSearchGrid();
                                     var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                                     $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                                     //ChangeCheckBoxText('select ');
@@ -658,9 +662,11 @@
                                         total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
                                         if (checkCount == 1) {
+                                            ClearSearchGrid();
                                             SetTextBoxValues(row);
                                         }
                                         else {
+                                            ClearSearchGrid();
                                             SetRadioBtnHeaderChecked();
                                             ClearTextBoxValues();
                                         }
@@ -745,6 +751,14 @@
                             }
 
                         });
+
+                        function ClearSearchGrid() {
+                            
+                            $("#searchResultGrid").find('.advance').each(function () {
+                                var tr = $(this).parents('tr:first');                                
+                                tr.css('background', 'transparent');                               
+                            });
+                        }
 
                         function ClearTextBoxValues() {
                             $('#ivin').val('');

@@ -426,7 +426,7 @@
 
                                 });
                                 if (checkCount > 1) {
-                                    ClearTextBoxValues();
+                                    ClearTextBoxValues();ClearSearchGrid();
                                 }
                                 else if (checkCount == 0 || totalRecCount == 0) {
                                     $("#payAll").attr("disabled", "disabled");
@@ -476,7 +476,7 @@
 
                     }
                     
-                    if (checkCount == 1) { ClearSearchGrid() ;
+                    if (checkCount == 1) { 
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -516,7 +516,7 @@
 
                     }
 
-                    if (checkCount > 0) {
+                    if (checkCount > 0) {ClearSearchGrid() ;
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
 
@@ -609,7 +609,7 @@
                             checkCount++;
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
-                            if (checkCount == 1) {
+                            if (checkCount == 1) {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
                             }
                             else {
