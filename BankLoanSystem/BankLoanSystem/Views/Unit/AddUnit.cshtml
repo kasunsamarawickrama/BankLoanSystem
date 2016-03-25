@@ -19,7 +19,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script src="~/scripts/CommonFunctions.js"></script>
+@*<script src="~/scripts/CommonFunctions.js"></script>*@
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
 @*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
@@ -90,7 +90,6 @@
 
 @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions()
 {
-    OnComplete = "function(data) { alert(data.get_response().get_object().Result); }",
     OnFailure = "handleError",
     HttpMethod = "POST",
     LoadingElementId = "loadingDiv"
@@ -214,7 +213,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @Style = "width: 68%;text-align: right;" } })
+                            @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles",@placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
                         </div>
 
@@ -327,7 +326,7 @@
 
                         @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles", @Style = "width: 68%;text-align: right;" } })
+                            @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.rv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -335,7 +334,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "rvlength",@style= "width: 179px;text-align: right;" } })
+                            @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @placeholder = "0", @id = "rvlength",@style= "width: 179px;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.rv.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -396,7 +395,7 @@
 
                         @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength", @style = "width: 179px;text-align: right;" } })
+                            @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength", @placeholder = "0", @style = "width: 179px;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -491,7 +490,7 @@
 
                         @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles", @Style = "width: 68%;text-align: right;" } })
+                            @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.atv.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -608,7 +607,7 @@
 
                         @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles", @Style = "width: 68%;text-align: right;" } })
+                            @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                             @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -728,7 +727,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @style = "text-align: right;" } })
+                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                         @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                         <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                     </div>
@@ -736,12 +735,12 @@
                     @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-3">
                         @if (ViewBag.Editable == "Yes")
-                {
-                            @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", autocomplete = "off", @style = "text-align: right;" } })
+                        {
+                            @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
                         }
                         else
                         {
-                            @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", autocomplete = "off", @style = "text-align: right;" } })
+                            @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
                         }
                         @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                         <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
@@ -1238,6 +1237,9 @@
         document.getElementById('camperlength').value = "";
         document.getElementById('atvmiles').value = "";
         document.getElementById('motorcyclemiles').value = "";
+
+        document.getElementById('txtCost').value = "";
+        document.getElementById('txtAdvanceAmount').value = "";
     }
 
 
@@ -1862,15 +1864,18 @@
     function initialUnitType(){
         var unitType  = '@ViewBag.loanDetails.defaultUnitType';
         changeUnitType(unitType);
-        $(".miles").val("0");
-        $(".lengths").val("0");
+        $(".miles").val("");
+        $(".lengths").val("");
+        $('#txtCost').val("");
+        $('#txtAdvanceAmount').val("");
+
     }
     function valueChangeUnitType(){
         var unitType  = document.getElementById("unitType").value
         clearform();
         changeUnitType(unitType);
-        $(".miles").val("0");
-        $(".lengths").val("0");
+        $(".miles").val("");
+        $(".lengths").val("");
     }
     function changeUnitType(unitType) {
 
@@ -1954,8 +1959,8 @@
         upc = 0;
         //$('#selectedFiles').children().parent().remove();
         $('#selectedFiles').children().remove();
-        $(".miles").val("0");
-        $(".lengths").val("0");
+        $(".miles").val("");
+        $(".lengths").val("");
     });
 
     function clearform() {
@@ -2178,23 +2183,28 @@
     }
 
     $(".miles").on('click', function(e) {
-        if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
+        //if (this.value === "0") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        $(this).removeAttr('placeholder');
     });
     $(".miles").blur( function() {
         if (this.value === "") {
-            document.getElementById(this.id).value = "0";
+            //document.getElementById(this.id).value = "0";
+            $(this).attr('placeholder','0');
         }
     });
     $(".lengths").on('click', function(e) {
-        if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
+        //if (this.value === "0") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        $(this).removeAttr('placeholder');
+
     });
     $(".lengths").blur( function() {
         if (this.value === "") {
-            document.getElementById(this.id).value = "0";
+            //document.getElementById(this.id).value = "0";
+            $(this).attr('placeholder','0');
         }
     });
     // cost tab///
@@ -2206,21 +2216,18 @@
 
 
     $("#txtCost").on('click', function(e) {
-        if (this.value === "0.00") {
-            document.getElementById(this.id).value = "";
-        }
-        else if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
+            //document.getElementById(this.id).value = "";
+       $(this).removeAttr('placeholder');
     });
 
     $("#txtAdvanceAmount").on('click', function(e) {
-        if (this.value === "0.00") {
-            document.getElementById(this.id).value = "";
-        }
-        else if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
+        //if (this.value === "0.00") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        //else if (this.value === "0") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        $(this).removeAttr('placeholder');
     });
 
     //calculate advance
@@ -2299,8 +2306,10 @@
             //$("#tagscloudAdvance span").fadeIn();
             //$(this).addClass('input-validation-error');
             $("#tagscloud span").text("");
-            $(this).val("0.00");
-            $('#txtAdvanceAmount').val("0.00");
+            $(this).attr('placeholder', '0.00');
+            $('#txtAdvanceAmount').attr('placeholder', '0.00');
+            //$(this).val("0.00");
+            //$('#txtAdvanceAmount').val("0.00");
         }
         else if (Number(num) <= 0) {
             //$("#tagscloud span").fadeIn();
@@ -2322,7 +2331,14 @@
             advanceAmountRoundUp = advanceAmount.toFixed(2);
             document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
 
-
+            if (advanceAmountRoundUp == ""||advanceAmountRoundUp <=  0) {
+                //$("#tagscloudAdvance span").fadeIn();
+                //$(this).addClass('input-validation-error');
+                $(this).attr('placeholder', '0.00');
+                $('#txtAdvanceAmount').attr('placeholder', '0.00');
+                //$(this).val("0.00");
+                //$('#txtAdvanceAmount').val("0.00");
+            }
         }
 
 
@@ -2440,14 +2456,16 @@
         $(this).val(num);
         if (num == "") {
             //$("#tagscloudAdvance span").fadeIn();
-            $(this).val("0.00");
+            //$(this).val("0.00");
+            $(this).attr('placeholder', '0.00');
+            
         }
     });
 
     $('#btnSubmit').click(function(e) {
 
         var unitType = document.getElementById("unitType").value;
-
+       
         if (unitType == "1") {
             var vin = document.getElementById("vehicleVin").value;
             var trim = document.getElementById("vehicletrim").value;
@@ -2716,7 +2734,7 @@
         } else {
 
         }
-
+      
         var cost = parseFloat(document.getElementById('txtCost').value);
         var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
         if (advance > cost) {
@@ -2752,10 +2770,12 @@
     //    }
     
     //});
-    $('input').blur(function() {
 
+    $(document).click(function() {
+        if ($('input').next('span').children('span').text().length <= 0) {
+            $('.centered span').text('');
+        }
     });
-
     $('#Note').keyup(function(e) {
         //alert(this.value.length);
         if (this.value.length === 1) {

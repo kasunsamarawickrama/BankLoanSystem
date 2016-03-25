@@ -240,6 +240,7 @@
 
         $(document).on("blur","input",function() {
             var isError = false;
+            $('.centered span').text('');
             if ($(this).next('span').children('span').text().length > 0) {
                $('.centered span').text('Error');
                 isError = true;
