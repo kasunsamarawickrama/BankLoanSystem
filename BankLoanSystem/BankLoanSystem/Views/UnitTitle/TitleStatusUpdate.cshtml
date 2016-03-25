@@ -76,14 +76,14 @@
                             <form>
                                 <fieldset>
                                     <div class="form-group row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="width:21%">
                                             <label for="">VIN/HIN/Serial</label>
-                                            @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber",@style="width:165px", @disabled = "disabled" } })
+                                            @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.IdentificationNumber, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="width:10%;text-align:left">
                                             <label for="">Year</label>
-                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled" } })
+                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled"} })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-2">
@@ -230,6 +230,10 @@
             $('#titleStatus').val(tit);
             $('#unitStatus').val(uit);
             document.getElementById("unitid").innerHTML = uid;
+            $('#notReceived').prop('checked', false);
+            $('#received').prop('checked', false);
+            $('#returnDealer').prop('checked', false);
+            $('#sentBank').prop('checked', false);
         };
         //clear error span
         $('#notReceived').click(function ()
@@ -350,6 +354,10 @@
             $('#unitStatus').val(tr.find('#currentUnitStatus').text());
             $('#titleStatus').val(tr.find('#currentStatus').text());
             document.getElementById("unitid").innerHTML = tr.find("#uId").val();
+            $('#notReceived').prop('checked', false);
+            $('#received').prop('checked', false);
+            $('#returnDealer').prop('checked', false);
+            $('#sentBank').prop('checked', false);
             
         };
         //update title status function

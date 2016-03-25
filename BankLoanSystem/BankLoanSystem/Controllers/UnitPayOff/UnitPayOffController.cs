@@ -13,7 +13,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
     {
         private static LoanSetupStep1 loan;
         User userData = new User();
-        int _companyType = 0;
+        static int _companyType = 0;
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -26,13 +26,15 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 else
                 {
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch(Exception ex)
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                filterContext.Controller.TempData.Add("UserLogin", "Login");
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
             }
         }
 
