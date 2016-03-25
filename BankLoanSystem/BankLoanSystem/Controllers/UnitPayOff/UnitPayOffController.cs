@@ -13,7 +13,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
     {
         private static LoanSetupStep1 loan;
         User userData = new User();
-        int _companyType = 0;
+        static int _companyType = 0;
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
