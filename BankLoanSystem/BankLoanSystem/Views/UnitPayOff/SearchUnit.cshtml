@@ -17,11 +17,7 @@
                      htmlAttributes: new { id = "searchResultGrid" },
                      columns: grid1.Columns(
                     
-                     grid1.Column(
-                             "CreatedDate",
-                             "Date Entered", canSort: false,
-                             format:  @<text>@{<label id="date" class="vin"> @item.DateEntered</label>}</text>
-                         ),
+                     grid1.Column("CreatedDate","Date Entered", canSort: false,format:(item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
                      grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />}</text>),
                      grid1.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                      grid1.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
@@ -34,6 +30,30 @@
     $(function () {
 
         $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            ClearTextBoxValues();
+            $("#btnPayAll").attr("disabled", "disabled");
+            $("#payDate").attr("disabled", "disabled");
+            $("#payDate").val('');
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
+                document.getElementById('rdTitleYes1').checked = false;
+                document.getElementById('rdTitleNo1').checked = false;
+            }
+            countSelect = 0;
+            totalToPay = 0;
+
+            $('#spnTotal').text(totalToPay);
+
+            var count = 0;
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = false;
+                if (count > 0) {
+                    $(this).parents('tr').css('background', 'transparent');
+                }
+                count++;
+            });
+
+
+
             var tr = $(this);
 
             $(this).css('background', 'lightblue');
