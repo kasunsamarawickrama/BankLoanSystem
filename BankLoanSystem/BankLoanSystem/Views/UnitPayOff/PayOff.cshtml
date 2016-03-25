@@ -414,6 +414,7 @@
             }
             var tr = $(this);
 
+            //alert(countSelect);
 
             var isChecked = $(this).find("#all").is(':checked');
 
@@ -431,6 +432,7 @@
                 //$(this).css('background', 'lightblue');
                 //$(this).siblings().css('background', 'aliceblue');
                 $(this).addClass("highlight");
+                //$(this).css('background', 'lightblue');
 
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
@@ -695,7 +697,7 @@
 
             countSelect = 0;
             totalToPay = 0;
-
+            $('table#checkableGrid > tbody > tr').removeClass("highlight");
             $('#spnTotal').text(totalToPay);
 
             var count = 0;
@@ -735,7 +737,8 @@
                 success: function (View) {
                     $('#searchGrid1').html(View);
                     $('#searchGrid1').show();
-
+                    
+                    //.highlight { background-color: lightblue; }
                 },
                 error: function (reponse) {
                     $('#loadingSpan').hide();
