@@ -386,13 +386,13 @@
             var para1 = $('input[name = inlineRadioOptions]:checked').val();
             
             //alert(para1);
-            if (($('#identificationNumberSearch').val() == "") || ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == ""))
+            if (($('#identificationNumberSearch').val() == "") &&( ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
             {
 
                 $('#updateTitleDiv span').text("Please select the unit you would like to update the status");
                 FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', $('#identificationNumberSearch').val());
             }
-            else if (($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
+            else if (($('#identificationNumberSearch').val() != "")||($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
             {
                 if (para1 == 2) {
                     var current = $('#unitStatus').val();
