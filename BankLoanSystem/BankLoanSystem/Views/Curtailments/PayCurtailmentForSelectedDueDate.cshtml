@@ -115,7 +115,7 @@
 </form>
 
 
-<div class="info-bar search-panel" style="margin-top:15px;">
+<div class="info-bar search-panel" style="margin-top:15px;" id ="searchDiv">
     <div class="form-inline" style="margin-left:25px;">
         <div class="form-group">
             <label for="">VIN/HIN/Serial</label>
@@ -269,13 +269,16 @@
 
     $(document).ready(function(){
         if ($('#checkableGrid').children('tbody').children('tr').length == 0)
-        {
+        {            
             $('#noCurtLabelDiv').show();
             $('#checkableGridDiv').hide();
+            $('#searchDiv').hide();
+            
         }
         else{
             $('#noCurtLabelDiv').hide();
             $('#checkableGridDiv').show();
+            $('#searchDiv').show();
         }
     });
 
