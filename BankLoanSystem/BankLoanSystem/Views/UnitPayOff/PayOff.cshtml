@@ -51,9 +51,11 @@
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
         }
         <div class="details-container">
+            <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+                @Html.Label("No Unit to Pay Off", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+            </div>
 
-
-            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto" id="mainGridShow">
 
 
                 <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
@@ -312,6 +314,17 @@
 
 
     <script>
+        $(document).ready(function () {
+            if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
+                $('#noPayOffDiv').show();
+                $('#mainGridShow').hide();
+            }
+            else {
+                $('#noPayOffDiv').hide();
+                $('#mainGridShow').show();
+            }
+        });
+
 
         var totalToPay = 0;
         var checkCount = 0;
