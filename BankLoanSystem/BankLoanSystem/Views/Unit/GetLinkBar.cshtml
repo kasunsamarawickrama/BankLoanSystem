@@ -14,7 +14,7 @@
         @Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })
     }
 
-    if (item.rightId == "U002")
+    if (item.rightId == "U002" && ViewBag.ttlAccess==1)
     {
         @Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })
     }

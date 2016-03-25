@@ -323,13 +323,15 @@ namespace BankLoanSystem.Controllers.Unit
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
-            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-            NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loanSetupStep1.nonRegisteredBranchId);
+            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(_loan.nonRegisteredBranchId);
             ViewBag.loanBranchAddress = nonRegBranch.BranchName + " - " + (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1 : "") + (nonRegBranch.BranchAddress2 != "" ? "," + nonRegBranch.BranchAddress2 : "") + (nonRegBranch.BranchCity != "" ? "," + nonRegBranch.BranchCity : "");
 
-            ViewBag.CurtailmentDueDate = loanSetupStep1.CurtailmentDueDate;
+            ViewBag.CurtailmentDueDate = _loan.CurtailmentDueDate;
 
-            ViewBag.LoanNumber = loanSetupStep1.loanNumber;
+            ViewBag.LoanNumber = _loan.loanNumber;
             return View();
         }
 
@@ -345,7 +347,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return RedirectToAction("UserLogin", "Login");
             }
             //int userId = 57;
 
@@ -420,6 +422,20 @@ namespace BankLoanSystem.Controllers.Unit
 
             }
 
+            string loanCode = Session["loanCode"].ToString();
+
+
+           
+            Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
+            if (ttl.IsTitleTrack)
+            {
+                ViewBag.ttlAccess = 1;
+            }
+            else
+            {
+                ViewBag.ttlAccess = 0;
+            }
+
             return PartialView(rights);
 
         }
@@ -444,6 +460,7 @@ namespace BankLoanSystem.Controllers.Unit
             //int userId = 57;
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
 
 
             return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanSetupStep1.loanId)));
