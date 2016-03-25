@@ -47,7 +47,7 @@ namespace BankLoanSystem.Models
 
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
-        public double Miles { get; set; }
+        public double? Miles { get; set; }
 
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
@@ -57,7 +57,7 @@ namespace BankLoanSystem.Models
 
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
-        public double Length { get; set; }
+        public double? Length { get; set; }
 
 
         [Display(Name = "Hitch Style")]
@@ -264,7 +264,7 @@ namespace BankLoanSystem.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
-        public double? Length { get; set; }
+        public double Length { get; set; }
 
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
