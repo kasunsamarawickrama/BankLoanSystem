@@ -427,8 +427,14 @@ namespace BankLoanSystem.Controllers.Unit
 
            
             Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
-
-            //ViewBag.ttlAccess = ttl.
+            if (ttl.IsTitleTrack)
+            {
+                ViewBag.ttlAccess = 1;
+            }
+            else
+            {
+                ViewBag.ttlAccess = 0;
+            }
 
             return PartialView(rights);
 
