@@ -38,25 +38,28 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-        .highlight { background-color: lightblue; }
+
+        .highlight {
+            background-color: lightblue;
+        }
     </style>
 </head>
 <body>
-  
-        <div class="container" id="container">
-            @{
-                Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-            }
-            <div class="details-container">
+
+    <div class="container" id="container">
+        @{
+            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+        }
+        <div class="details-container">
 
 
-                <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
 
 
-                    <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
-                        <!-- This is for Grid-->
-                        <input type="hidden" value="@ViewBag.loanDetails.loanId" id="loanId" />
-                        @grid.GetHtml(
+                <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
+                    <!-- This is for Grid-->
+                    <input type="hidden" value="@ViewBag.loanDetails.loanId" id="loanId" />
+                    @grid.GetHtml(
                                      tableStyle: "gridtable",
                                     headerStyle: "webgrid-header",
 
@@ -78,11 +81,12 @@
                                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)
                                      )
                                      )
-                        <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
-                    </div>
+                    <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
+                </div>
 
-                    <div class="info-bar" style="margin-top:15px">
-
+                <div class="info-bar" style="margin-top:15px">
+                    @if (ViewBag.IsTitleTrack == "Yes")
+                    {
                         <div class="form-group row">
 
                             @if (ViewBag.ComType == 1)
@@ -92,8 +96,8 @@
                             else
                             {
                                 <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned from lender at this time?</label>
-                            }   
-                            
+                            }
+
                             <div class="col-md-2">
                                 <label class="radio-inline">
                                     @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new { @id = "rdTitleYes1", @class = "titleReturn" }) Yes
@@ -104,203 +108,207 @@
                             </div>
                             <div id="customErrorTitleReturn1"><span class="text-danger"></span></div>
                         </div>
+                    }
 
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <label for="">Pay Date : </label>
 
-                                @*<input class="form-control" type="date" style="margin-left: 15px"/>*@
-                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
-                                @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
-                            </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="">Pay Date : </label>
 
-                            <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
+
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                         </div>
 
-                        <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger"></span></div>
-
+                        <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
+                    <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger"></span></div>
 
-                    <div class="info-bar search-panel" style="margin-top:15px;">
-
-                        <div class="form-inline" style="margin-left:25px;">
-                            <div class="form-group" style="margin-left: -203px;">
-                                <label for="id">VIN/HIN/Serial</label>
-
-                                @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
-                                @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                </div>
 
 
-                            </div>
+                <div class="info-bar search-panel" style="margin-top:15px;">
 
-                            <div class="form-group" style="margin-left:20px;">
-                                <label for="">Year</label>
+                    <div class="form-inline" style="margin-left:25px;">
+                        <div class="form-group" style="margin-left: -203px;">
+                            <label for="id">VIN/HIN/Serial</label>
 
-                                @{
-                                    List<SelectListItem> yearList = new List<SelectListItem>();
-                                    if (ViewBag.payOffList != null)
-                                    {
-                                        foreach (var type in ViewBag.payOffList)
-                                        {
-                                            if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
-                                            {
-                                                yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
-                                            }
-                                        }
-                                    }
-                                }
-                                @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" })
-                                @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                <div id="vehicleyear"><span class="text-danger"></span></div>
-
-                            </div>
-
-                            <div class="form-group" style="margin-left:20px;">
-                                <label for="">Make</label>
-
-                                @{
-                                    List<SelectListItem> makeList = new List<SelectListItem>();
-                                    if (ViewBag.payOffList != null)
-                                    {
-                                        foreach (var type in ViewBag.payOffList)
-                                        {
-                                            if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
-                                            {
-                                                makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
-                                            }
-                                        }
-                                    }
-
-                                }
-                            </div>
-                            @Html.DropDownList("make", makeList, "-- select make --", new { @class = "form-control", @id = "cmbMake" })
-                            @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
-                            <div id="vehiclemake"><span class="text-danger"></span></div>
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
+                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
 
 
-
-                            <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
-                                <label for="">Model</label>
-
-                                @{
-                                    List<SelectListItem> modelList = new List<SelectListItem>();
-
-                                    if (ViewBag.payOffList != null)
-                                    {
-                                        foreach (var type in ViewBag.payOffList)
-                                        {
-                                            if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
-                                            {
-                                                modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
-                                            }
-                                        }
-                                    }
-                                }
-                                @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
-                                @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                                <div id="vehiclemodel"><span class="text-danger"></span></div>
-
-                            </div>
-
-
-                            <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="margin-left: 20px;margin-top: -43px;" />
-                            <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="margin-top: -43px;" />
                         </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Year</label>
+
+                            @{
+                                List<SelectListItem> yearList = new List<SelectListItem>();
+                                if (ViewBag.payOffList != null)
+                                {
+                                    foreach (var type in ViewBag.payOffList)
+                                    {
+                                        if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                        {
+                                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                        }
+                                    }
+                                }
+                            }
+                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" })
+                            @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
+                            <div id="vehicleyear"><span class="text-danger"></span></div>
+
+                        </div>
+
+                        <div class="form-group" style="margin-left:20px;">
+                            <label for="">Make</label>
+
+                            @{
+                                List<SelectListItem> makeList = new List<SelectListItem>();
+                                if (ViewBag.payOffList != null)
+                                {
+                                    foreach (var type in ViewBag.payOffList)
+                                    {
+                                        if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
+                                        {
+                                            makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                        }
+                                    }
+                                }
+
+                            }
+                        </div>
+                        @Html.DropDownList("make", makeList, "-- select make --", new { @class = "form-control", @id = "cmbMake" })
+                        @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
+                        <div id="vehiclemake"><span class="text-danger"></span></div>
+
+
+
+                        <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
+                            <label for="">Model</label>
+
+                            @{
+                                List<SelectListItem> modelList = new List<SelectListItem>();
+
+                                if (ViewBag.payOffList != null)
+                                {
+                                    foreach (var type in ViewBag.payOffList)
+                                    {
+                                        if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
+                                        {
+                                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                        }
+                                    }
+                                }
+                            }
+                            @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+                            <div id="vehiclemodel"><span class="text-danger"></span></div>
+
+                        </div>
+
+
+                        <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="margin-left: 20px;margin-top: -43px;" />
+                        <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="margin-top: -43px;" />
                     </div>
+                </div>
 
 
-                    <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1" >
-                        <!-- This is for Search Grid-->
+                <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1">
+                    <!-- This is for Search Grid-->
 
-                        </div>
+                </div>
 
-                    <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
+                <div class="info-bar" style="margin-top:15px" id="singleUnitDiv" hidden>
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <form>
-                                    <fieldset>
-                                        <div class="form-group row">
-                                            <input type="hidden" value="" id="iUnitId" />
-                                            <div class="col-md-2">
-                                                <label for="">Vin/HIN/Serial </label>
-                                                @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="firstName">Year </label>
-                                                @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="">Make </label>
-                                                @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="">Model </label>
-                                                @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="">Purchase Price </label>
-                                                @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                                            </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <form>
+                                <fieldset>
+                                    <div class="form-group row">
+                                        <input type="hidden" value="" id="iUnitId" />
+                                        <div class="col-md-2">
+                                            <label for="">Vin/HIN/Serial </label>
+                                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
-                                        <div class="form-group row">
-                                            <div class="col-md-2">
-                                                <label for="">Pay Off Amount </label>
-                                                @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="">Pay Date </label>
-                                                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", Value ="", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
-                                            </div>
-                                            <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                                        <div class="col-md-2">
+                                            <label for="firstName">Year </label>
+                                            @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
 
+                                        <div class="col-md-2">
+                                            <label for="">Make </label>
+                                            @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="">Model </label>
+                                            @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="">Purchase Price </label>
+                                            @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label for="">Pay Off Amount </label>
+                                            @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="">Pay Date </label>
+                                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
+                                        </div>
+                                        <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                                    </div>
+                                    @if (ViewBag.IsTitleTrack == "Yes")
+                                    {
                                         <div class="form-group row">
-                                            <label style="width:28%" for="" class="col-sm-4 form-control-label">Is the title being returned to Dealer at this time?</label>
+                                            <label style="width: 28%" for="" class="col-sm-4 form-control-label">Is the title being returned to Dealer at this time?</label>
 
 
                                             <div class="col-md-2">
                                                 <label class="radio-inline">
-                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new { @id = "rdTitleYes2", @class = "titleReturn2" }) Yes
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "Yes", new {@id = "rdTitleYes2", @class = "titleReturn2"}) Yes
                                                 </label>
                                                 <label class="radio-inline">
-                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo2", @class = "titleReturn2" }) No
+                                                    @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
                                                 </label>
                                             </div>
                                             <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
                                         </div>
-                                        <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
-                                        <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
-                                    </fieldset>
-                                </form>
-                            </div>
+                                    }
+                                    <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
+                                    <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
+                                </fieldset>
+                            </form>
                         </div>
-                        <script src="~/scripts/jquery-1.10.2.min.js"></script>
-
-
                     </div>
+                    <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 
                 </div>
 
+
             </div>
-
-
-        <div class="link-bar" style="margin-bottom: 15px;">
-                @{
-                    Html.RenderAction("GetLinkBar", "Unit");
-                }
-            </div>
-
-        
 
         </div>
 
-                    
+
+        <div class="link-bar" style="margin-bottom: 15px;">
+            @{
+                Html.RenderAction("GetLinkBar", "Unit");
+            }
+        </div>
+
+
+
+    </div>
+
+
 
 
     <script>
@@ -374,12 +382,16 @@
             var isChecked = $(this).is(':checked');
 
             var status;
-
+            totalToPay = 0;
             if (isChecked === false) {
                 $(this).siblings('span').text('Select');
                 status = false;
                 countSelect = 0;
-                totalToPay = 0;
+                
+
+                $('table#checkableGrid > tbody > tr').each(function () {
+                    $(this).css('background', 'aliceblue');
+                });
 
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -388,9 +400,13 @@
                 status = true;
                 countSelect = totalSelect;
 
+                $('table#checkableGrid > tbody > tr').each(function () {
+                    $(this).css('background', 'lightblue');
+                });
+
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
-            }            
+            }
 
             $('table#checkableGrid > tbody > tr').each(function () {
                 var balance = $(this).find("#balance").text().replace(',', '');
@@ -424,25 +440,26 @@
                 var balance = $(this).find("#balance").text().replace(',', '');
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
-                
+
                 if (totalSelect === countSelect) {
                     $('#someID').children('span').text('Deselect');
                     $('#someID').find("#cbSelectAll").prop('checked', true);
                 }
                 //$(this).css('background', 'lightblue');
                 //$(this).siblings().css('background', 'aliceblue');
-                $(this).addClass("highlight");
-                //$(this).css('background', 'lightblue');
+                //$(this).addClass("highlight");
+                //alert(countSelect);
+                $(this).css('background', 'lightblue');
 
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
 
-            SetTextBoxValues(tr);
+                SetTextBoxValues(tr);
             }
 
             if (countSelect > 1) {
                 ClearTextBoxValues();
-                
+
             }
 
             $('#spnTotal').text(totalToPay);
@@ -451,25 +468,27 @@
 
         $(document).on('click', '.checkboxAll', function () {
             var isChecked = $(this).is(':checked');
-            
+
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
 
             if (isChecked === false) {
                 countSelect--;
                 totalToPay = parseFloat(totalToPay) - parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
-                $(this).parent().parent().removeClass("highlight");
+                //$(this).parent().parent().removeClass("highlight");
+                $(this).parent().parent().css('background', 'aliceblue');
             }
             else {
                 countSelect++;
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
-                $(this).parent().parent().addClass("highlight");
+                //$(this).parent().parent().addClass("highlight");
+                $(this).parent().parent().css('background', 'lightblue');
             }
 
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
-                $('#someID').find("#cbSelectAll").prop('checked', false);                
+                $('#someID').find("#cbSelectAll").prop('checked', false);
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
@@ -492,7 +511,7 @@
                     }
                 });
 
-                
+
                 SetTextBoxValues(tr);
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
@@ -544,7 +563,7 @@
             $('#iBalance').val('');
             $('#iUnitId').val('');
             $("#payDate2").attr("disabled", "disabled");
-            $("#singleUnitDiv").hide();            
+            $("#singleUnitDiv").hide();
         }
 
         var errorTitleReturn1 = false;
@@ -572,7 +591,7 @@
             //alert(payDate);
 
             if (errorTitleReturn1 === false) {
-                
+
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 $('table#checkableGrid > tbody > tr').each(function () {
 
@@ -603,7 +622,7 @@
                     success: function (partialView) {
                         location.reload();
                         //alert("Success");
-                        
+
                     }
                 });
             }
@@ -637,7 +656,7 @@
                 var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
-                
+
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
@@ -737,7 +756,7 @@
                 success: function (View) {
                     $('#searchGrid1').html(View);
                     $('#searchGrid1').show();
-                    
+
                     //.highlight { background-color: lightblue; }
                 },
                 error: function (reponse) {
