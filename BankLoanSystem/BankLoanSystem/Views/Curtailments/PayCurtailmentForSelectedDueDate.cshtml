@@ -104,7 +104,7 @@
             <div class="form-group">
                 
                 <label for="">Pay Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" , maxlength = 10  } })
                 @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
@@ -213,7 +213,7 @@
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:18%;" >
+                        <div class="col-md-2" style="width:21%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -222,29 +222,35 @@
                             @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="">Make </label>
                             @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="firstName">Model </label>
                             @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
+                        
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
-                            @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount"})
+                            @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
-                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:0%;width:101%"></span>
+                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off" } })
-                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:-3%;width:125%"></span>
-                            @Html.Hidden("iCurtNumber", "" , new { @id = "iCurtNumber" } )
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
+                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
+                            @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                             @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
+
+
                     </div>
 
 
@@ -351,7 +357,7 @@
             var totalRecCount = 0;
 
             $(function () {
-               
+
                 GridUpdate();
             });
 
@@ -371,7 +377,7 @@
                                 if (chk) {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                    
+
 
                                 } else {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
@@ -381,7 +387,7 @@
                                     // clear top error
                                     $('.centered span').text('');
                                     $('#errorPayDate').text('');
-                                    
+
                                     $('#payDate').removeClass('input-validation-error');
                                     $('#payDate').next('span').children().text('');
                                     totalRecCount = 0;
@@ -430,7 +436,7 @@
                                     $("#payAll").attr("disabled", "disabled");
                                     $("#payDate").attr("disabled", "disabled");
                                     // clear top error
-                                    
+
                                     $('#errorPayDate').text('');
                                     $('.centered span').text('');
                                     $('#payDate').removeClass('input-validation-error');
@@ -452,7 +458,7 @@
 
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        
+
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
@@ -473,7 +479,7 @@
                     }
 
                     }
-                    
+
                     if (checkCount == 1) { ClearSearchGrid() ;
                         if (checked) {
                             SetTextBoxValues(tr);
@@ -546,24 +552,24 @@
                     colWidth = bodyCells.map(function() {
                         return $(this).width();
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).width(colWidth[i]);
-                    });    
-                }).resize(); // Trigger resize handler  
+                    });
+                }).resize(); // Trigger resize handler
 
                 $(window).bind("load",function(){
-    
+
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function() {
                         return $(this).width();
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).width(colWidth[i]);
-                    });    
+                    });
                 });
             }
 
@@ -665,7 +671,7 @@
                 $('#payDate').next('span').children().text('');
                 $('.centered span').text('');
                 $('#errorPayDate').text('');
-                
+
                 ClearMainGrid();
                 //var count = 0;
                 //$("#checkableGrid").find("input:checkbox").each(function () {
@@ -756,8 +762,8 @@
                 $('#errorCurtPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
 
-                //document.getElementById("unitid").innerHTML = tr.find("#all").val(); 
-                
+                //document.getElementById("unitid").innerHTML = tr.find("#all").val();
+
 
                 $("#btnPay").removeAttr("disabled");
                 $("#advanceDate").removeAttr("disabled");
@@ -924,10 +930,10 @@
         data = { SelectedCurtailmentSchedules: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
-            
+
                 $('#errorPayDate').text('The Pay date field is Required');
                 $('#payDate').addClass('input-validation-error');
-                
+
             }
             $('.centered span').text('Error');
             return;
@@ -935,7 +941,7 @@
 
 
         if (checkCount >= 1) {
-           
+
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
@@ -954,16 +960,16 @@
 
                 success: function (View) {
 
-                   
+
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == ""){
                         $('.centered1 span').text('Successfully Updated');
                         GetCurrentCurtailment($('#dueDate').val());
                     }
                     if(View.length > 5){
-                            
+
                         var array = View.split(',');
-                      
+
                         showPopup5(5 , array);
 
 
@@ -971,35 +977,103 @@
 
                 }
 
-                
+
             });
         }
 
     });
 
     $('#payDate').click(function(e){
-    
+
         $('#errorPayDate').text('');
         $(this).next('span').children('span').remove();
     });
 
-    $('#payDate').blur(function(e){
-    
-        // add place holder
+
+    $('#payDate').blur(function () {
+
+        if ($(this).val() == "") {
+
+
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                // out off range error
+                $('#errorPayDate').text('Out of Range');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            } else {
+                // delete error mssage
+                $('#errorPayDate').text('');
+                $(this).removeClass('input-validation-error');
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errorPayDate').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            $('.centered span').text('Error');
+        }
     });
 
+
+   
+
     $('#payCurtDate').click(function(e){
-    
+
         $('#errorCurtPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
 
-    $('#payCurtDate').click(function(e){
-    // add place holder
+  
+
+
+    $('#payCurtDate').blur(function () {
+
+        if ($(this).val() == "") {
+
+
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                // out off range error
+                $('#errorCurtPayDate').text('Out of Range');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            } else {
+                // delete error mssage
+                $('#errorCurtPayDate').text('');
+                $(this).removeClass('input-validation-error');
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errorCurtPayDate').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            $('.centered span').text('Error');
+        }
     });
 
-   
+
     $('#btnPay').click(function (e) {
 
         data = { SelectedCurtailmentSchedules: [] };
@@ -1021,8 +1095,8 @@
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
                  $('#iCurtAmount').removeClass('input-validation-error');
-                 
-                 
+
+
                  a=0;
              }
              if(a== 0 ){
@@ -1031,7 +1105,7 @@
              }
 
 
-            
+
 
 
 
@@ -1047,16 +1121,16 @@
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (View) {
-                     
+
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == ""){
                             $('.centered1 span').text('Successfully Updated');
                             GetCurrentCurtailment($('#dueDate').val());
                         }
                         if(View.length > 5){
-                            
+
                             var array = View.split(',');
-                          
+
                             showPopup5(5 , array);
 
 
@@ -1069,7 +1143,7 @@
     });
 
     $("#iCurtAmount").keypress(function (e){
-        
+
         var charCode = !e.charCode ? e.which : e.charCode;
 
         if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
@@ -1077,12 +1151,12 @@
             e.preventDefault();
 
 
-      
-    
+
+
     });
 
     $("#iCurtAmount").blur(function (e){
-        
+
 
 
         if($(this).val() == ""){
@@ -1105,7 +1179,7 @@
 
 
         $(this).val( num);
-  
+
         if(parseFloat($(this).val()).toFixed(2) <= 0){
             $('#errorCurtAmount').text('Curt Amount should be greater than zero');
             $('#iCurtAmount').addClass('input-validation-error');
@@ -1117,9 +1191,9 @@
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('');
             $('#iCurtAmount').removeClass('input-validation-error');
-           
+
         }
-    
+
     });
 
     $("#iCurtAmount").on('click', function(e) {
@@ -1142,8 +1216,8 @@
         for(var i=0 ; i<length ; i++ ){
 
 
-            
-                            
+
+
             if(array[i].length > 5){
 
                 for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
@@ -1152,12 +1226,13 @@
                         VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
                         break;
                     }
-                   
+
                 }
-                
+
             }
 
         }
+
         // append the message to span
         var vinString = VinNumbers.join(" , ");
 
@@ -1172,6 +1247,9 @@
         var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
         $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
         $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+
+
+       
     }
     </script>
 
@@ -1190,6 +1268,9 @@
     <br />
     @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
     <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">Cancel</button>
+
+
+
 
 
 

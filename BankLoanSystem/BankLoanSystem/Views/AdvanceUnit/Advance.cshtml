@@ -94,9 +94,10 @@
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
             </div>
             <div class="col-xs-3" id="advanceDateAll" style="width:30%">
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate", autocomplete = "off", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", autocomplete = "off", @disabled = "disabled" , placeholder = "MM/DD/YYYY" , maxlength = 10 } })
+                <span class="text-danger field-validation-error" id="errorStartDate" style="left:25%"></span>
         </div>
-            <input type="submit" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" disabled/>
+            <input type="button" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b" style="margin-left:60px" disabled/>
         </div>
     </div>
 
@@ -219,7 +220,8 @@
                         </div>
                         <div class="col-md-2">
                             <label>Advance Date</label><span style="color:red"> *</span>
-                            @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" , maxlength = 10 } })
+                            <span class="text-danger field-validation-error" id="errorAdvanceDate" style="left:25%"></span>
                         </div>
                     </div>
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right;width:130px" />
@@ -616,7 +618,7 @@
                                 table.find('thead tr').children().each(function (i, v) {
                                     $(v).width(colWidth[i]);
                                 });
-                            }).resize(); // Trigger resize handler  
+                            }).resize(); // Trigger resize handler
 
                             $(window).bind("load", function () {
 
@@ -689,8 +691,20 @@
 
                         $('#btnAdvance').click(function (e) {
 
-                            if ($("#tagscloud span").text() != "") {
+                            if ($("#tagscloud span").text() != "" || $('#errorAdvanceDate').text() != "") {
                                 e.preventDefault();
+                                return;
+                            }
+
+                            if ($('#advanceDate').val() == "") {
+
+                                // required error message
+                                $('#advanceDate').addClass('input-validation-error');
+                                
+                                $('.centered span').text('Error');
+                                $('#errorAdvanceDate').text('Advance date is required');
+                                e.preventDefault();
+                                return;
                             }
 
                             else if ($('#iVin').val() != '') {
@@ -720,6 +734,24 @@
                         });
 
                         $('#btnAdvanceAll').click(function () {
+
+                            if ($('#errorStartDate').text() != "") {
+                                e.preventDefault();
+                                return;
+                            }
+
+
+                            if ($('#startDate').val() == "") {
+
+                                // required error message
+                                $('#startDate').addClass('input-validation-error');
+
+                                $('.centered span').text('Error');
+                                $('#errorStartDate').text('Advance date is required');
+                                e.preventDefault();
+                                return;
+                            }
+
                             if (checkCount >= 1) {
                                 var data = { ItemList: [] };
                                 $('.advanceAmount').each(function () {
@@ -815,7 +847,7 @@
 
                         startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
                         startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
-
+                        startPicker.gotoDate(new Date());
                         var advDatePicker = new Pikaday({
                             field: document.getElementById('advanceDate'),
                             format: 'l'
@@ -823,8 +855,11 @@
 
                         });
 
+
                         advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
                         advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+                        advDatePicker.gotoDate(new Date());
+
 
 
 
@@ -1023,7 +1058,7 @@
                             $(this).attr('placeholder', 'VIN/HIN/Serial No');
                         });
 
-                        function roundNumber(number, decimal_points) {                           
+                        function roundNumber(number, decimal_points) {
                             if (!decimal_points) return Math.round(number);
                             if (number == 0) {
                                 var decimals = "";
@@ -1035,6 +1070,98 @@
                             var num = Math.round((number * exponent)).toString();
                             return num.slice(0, -1 * decimal_points) + "." + num.slice(-1 * decimal_points)
                         }
+
+
+
+
+                        $('#advanceDate').val('');
+                        $('#startDate').val('');
+
+                        $('#advanceDate').click(function () {
+
+                            $('#errorAdvanceDate').text('');
+                            $(this).removeClass('input-validation-error');
+
+                        });
+                        $('#advanceDate').blur(function () {
+
+                            if ($(this).val() == "") {
+                                $('#errorAdvanceDate').text('Advance date is required');
+                                $(this).addClass('input-validation-error');
+                                $(this).attr('placeholder', 'MM/DD/YYYY');
+                                $('.centered span').text('Error');
+                                return;
+                            }
+                            var valid = isValidDate($(this).val());
+                            if (valid) {
+                                var selectedDate = new Date($(this).val());
+                                var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                                if (selectedDate < minDate || selectedDate > maxDate) {
+                                    // out off range error
+                                    $('#errorAdvanceDate').text('Out of Range');
+                                    $(this).addClass('input-validation-error');
+                                    $('.centered span').text('Error');
+                                } else {
+                                    // delete error mssage
+                                    $('#errorAdvanceDate').text('');
+                                    $(this).removeClass('input-validation-error');
+                                }
+
+
+
+                            } else {
+
+                                // not valid data error
+                                $('#errorAdvanceDate').text('Not valid date');
+                                $(this).addClass('input-validation-error');
+                                $('.centered span').text('Error');
+                            }
+                        });
+
+                        $('#startDate').click(function () {
+
+                            $('#errorStartDate').text('');
+                            $(this).removeClass('input-validation-error');
+
+                        });
+                        $('#startDate').blur(function () {
+
+                            if ($(this).val() == "") {
+
+                                $('#errorStartDate').text('Advance date is required');
+                                $(this).addClass('input-validation-error');
+                                $(this).attr('placeholder', 'MM/DD/YYYY');
+                                $('.centered span').text('Error');
+                                
+                                return;
+                            }
+                            var valid = isValidDate($(this).val());
+                            if (valid) {
+                                var selectedDate = new Date($(this).val());
+                                var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                                if (selectedDate < minDate || selectedDate > maxDate) {
+                                    // out off range error
+                                    $('#errorStartDate').text('Out of Range');
+                                    $(this).addClass('input-validation-error');
+                                    $('.centered span').text('Error');
+                                } else {
+                                    // delete error mssage
+                                    $('#errorStartDate').text('');
+                                    $(this).removeClass('input-validation-error');
+                                }
+
+
+
+                            } else {
+
+                                // not valid data error
+                                $('#errorStartDate').text('Not valid date');
+                                $(this).addClass('input-validation-error');
+                                $('.centered span').text('Error');
+                            }
+                        });
 
                     </script>
 
