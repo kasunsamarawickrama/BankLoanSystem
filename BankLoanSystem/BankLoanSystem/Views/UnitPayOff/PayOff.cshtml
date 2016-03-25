@@ -875,6 +875,27 @@
             ClearSearchRelatedData();
 
         });
+
+        //capitalize letters when typing
+        $('#identificationNumberSearch').keyup(function () {
+            $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
+        });
+        $('#identificationNumberSearch').focusout(function () {
+            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+        });
+        //block invalid characters
+        $("#identificationNumberSearch").keypress(function (e) {
+            //alert(e.which);
+            var ch = e.which;
+            if ((ch > 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                return 1;
+            }
+
+            else {
+                e.preventDefault();
+            }
+            //alert(ch);
+        });
     </script>
 </body>
 </html>
