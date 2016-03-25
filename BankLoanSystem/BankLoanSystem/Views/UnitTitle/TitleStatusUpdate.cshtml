@@ -295,11 +295,16 @@
             //alert(para1);
         });
 
-        $("#lkttl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-        $("#lkttl").click(function (e) { e.preventDefault(); });
-        $("#lkttl").siblings().click(function (e) {
-            return true;
-        });
+        //$("#lkttl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        //$("#lkttl").click(function (e) { e.preventDefault(); });
+        //$("#lkttl").siblings().click(function (e) {
+        //    return true;
+        //});
+
+
+        $("#lkttl").hide();
+        
+
         //capitalize letters when typing
         $('#identificationNumberSearch').keyup(function ()
         {
