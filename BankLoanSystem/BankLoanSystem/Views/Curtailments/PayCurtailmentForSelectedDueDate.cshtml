@@ -115,7 +115,7 @@
 </form>
 
 
-<div class="info-bar search-panel" style="margin-top:15px;">
+<div class="info-bar search-panel" style="margin-top:15px;" id ="searchDiv">
     <div class="form-inline" style="margin-left:25px;">
         <div class="form-group">
             <label for="">VIN/HIN/Serial</label>
@@ -250,9 +250,9 @@
 
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:31px;margin-left:147px;width:130px" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:5px;margin-left:147px;width:130px" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:31px" disabled />
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:2px" disabled />
 
 
                 </fieldset>
@@ -269,13 +269,16 @@
 
     $(document).ready(function(){
         if ($('#checkableGrid').children('tbody').children('tr').length == 0)
-        {
+        {            
             $('#noCurtLabelDiv').show();
             $('#checkableGridDiv').hide();
+            $('#searchDiv').hide();
+            
         }
         else{
             $('#noCurtLabelDiv').hide();
             $('#checkableGridDiv').show();
+            $('#searchDiv').show();
         }
     });
 
@@ -449,6 +452,7 @@
 
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                        
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
@@ -486,7 +490,7 @@
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
@@ -506,7 +510,7 @@
                     else {
 
                         ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                     }
 
@@ -610,7 +614,7 @@
                                 SetRadioBtnHeaderChecked();
                                 ClearTextBoxValues();
                             }
-                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -672,7 +676,7 @@
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -841,7 +845,7 @@
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + total;
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error

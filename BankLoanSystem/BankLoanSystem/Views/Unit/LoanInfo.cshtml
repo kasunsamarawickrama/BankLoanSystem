@@ -101,7 +101,9 @@
 
                     }
 
-                    <span style="float:right;padding-right:20px;"><strong>CurtDueDate : @ViewBag.CurtailmentDueDate </strong> </span>
+                    <span style="float:right;padding-right:20px;"><strong>CurtDueDate : @if (ViewBag.CurtailmentDueDate == "EoM")
+                    { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
+                    else { <label>@ViewBag.CurtailmentDueDate</label> } </strong> </span>
                     <span style="float:right;padding-right:17%;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
 
 
@@ -240,6 +242,7 @@
 
         $(document).on("blur","input",function() {
             var isError = false;
+            $('.centered span').text('');
             if ($(this).next('span').children('span').text().length > 0) {
                $('.centered span').text('Error');
                 isError = true;

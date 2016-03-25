@@ -51,9 +51,11 @@
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
         }
         <div class="details-container">
+            <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+                @Html.Label("No Unit to Pay Off", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+            </div>
 
-
-            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto" id="mainGridShow">
 
 
                 <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
@@ -312,6 +314,17 @@
 
 
     <script>
+        $(document).ready(function () {
+            if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
+                $('#noPayOffDiv').show();
+                $('#mainGridShow').hide();
+            }
+            else {
+                $('#noPayOffDiv').hide();
+                $('#mainGridShow').show();
+            }
+        });
+
 
         var totalToPay = 0;
         var checkCount = 0;
@@ -387,7 +400,7 @@
                 $(this).siblings('span').text('Select');
                 status = false;
                 countSelect = 0;
-                
+
 
                 $('table#checkableGrid > tbody > tr').each(function () {
                     $(this).css('background', 'aliceblue');
@@ -568,17 +581,21 @@
 
         var errorTitleReturn1 = false;
         $("#btnPayAll").click(function (e) {
-            var titleStatus = $('.titleReturn').filter(':checked').val();
-            //alert(titleStatus);
+            if ("@ViewBag.IsTitleTrack" == "Yes"){
+                var titleStatus = $('.titleReturn').filter(':checked').val();
+                //alert(titleStatus);
 
-            if (titleStatus === "Yes" || titleStatus === "No") {
-                $('#customErrorTitleReturn1').children('span').text("");
-                errorTitleReturn1 = false;
-            } else {
-                $('#customErrorTitleReturn1').children('span').text("Please select");
-                errorTitleReturn1 = true;
-                $('.centered span').text('Error');
+                if (titleStatus === "Yes" || titleStatus === "No") {
+                    $('#customErrorTitleReturn1').children('span').text("");
+                    errorTitleReturn1 = false;
+                } else {
+                    $('#customErrorTitleReturn1').children('span').text("Please select");
+                    errorTitleReturn1 = true;
+                    $('.centered span').text('Error');
+                }
             }
+
+
 
             var payDate = document.getElementById('payDate').value;
             if (payDate === '') {
@@ -630,19 +647,19 @@
 
         var errorTitleReturn2 = false;
         $("#btnPay").click(function () {
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
+                var titleStatus = $('.titleReturn2').filter(':checked').val();
+                //alert(titleStatus);
 
-            var titleStatus = $('.titleReturn2').filter(':checked').val();
-            //alert(titleStatus);
-
-            if (titleStatus === "Yes" || titleStatus === "No") {
-                $('#customErrorTitleReturn2').children('span').text("");
-                errorTitleReturn2 = false;
-            } else {
-                $('#customErrorTitleReturn2').children('span').text("Please select");
-                $('.centered span').text('Error');
-                errorTitleReturn2 = true;
+                if (titleStatus === "Yes" || titleStatus === "No") {
+                    $('#customErrorTitleReturn2').children('span').text("");
+                    errorTitleReturn2 = false;
+                } else {
+                    $('#customErrorTitleReturn2').children('span').text("Please select");
+                    $('.centered span').text('Error');
+                    errorTitleReturn2 = true;
+                }
             }
-
             var payDate = document.getElementById('payDate2').value;
             if (payDate === '') {
                 $('#customErrorPayDate2').children('span').text("Please select date");
@@ -789,12 +806,16 @@
         }
 
 
-        $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-        $("#lkpoff").click(function (e) { e.preventDefault(); });
-        $("#lkpoff").siblings().click(function (e) {
-            return true;
+        //$("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        //$("#lkpoff").click(function (e) { e.preventDefault(); });
+        //$("#lkpoff").siblings().click(function (e) {
+        //    return true;
 
-        });
+        //});
+
+        $("#lkpoff").hide();
+
+
         // Change the selector if needed
         var table = $('table'),
             bodyCells = table.find('tbody tr:first').children(),

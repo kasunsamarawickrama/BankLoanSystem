@@ -237,7 +237,7 @@
         .gridtable {
         margin: 30px;
         border-collapse: collapse;
-        width: 800px;
+        width: 95%;
         background-color: aliceblue;
     }
     .webgrid-header {
@@ -249,6 +249,7 @@
     .gridtable th, .gridtable td {
         border: 1px solid cadetblue;
         padding: 5px;
+        width:2%;
     }
 
     .webgrid-alternating-row {
@@ -313,24 +314,11 @@
 
         <div class="details-container">
 
-            <div class="right-panel">
-                @{
-                    Html.RenderAction("LoanPaymentDetails", "Unit");
-                }
+           
 
-                @if (ViewBag.Title == "Add Unit Page")
-                {
-                    Html.RenderAction("GetJustAddedUnits", "Unit");
-
-
-                }
-
-            </div>
-
-
-            <div class="body-content">
+         
                 @RenderBody()
-            </div>
+          
 
         </div>
 
@@ -350,14 +338,18 @@
     <script>
         // if advance page
         @if(ViewBag.Title == "Advance Unit") {
-        <text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
+
+        @*<text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
             <text>$("#lkadv").click(function (e) { e.preventDefault(); });</text>
               <text>$("#lkadv").siblings().click(function (e) {
             return true;
 
-        });</text>
-        }else if(ViewBag.Title == "Add Unit Page") {
-                <text>
+        });</text>*@
+
+            <text>$("#lkadv").hide();</text>
+        }else if(ViewBag.Title == "Add Unit Page")
+        {
+                @*<text>
 
         //if unit page
         $("#lkuni").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
@@ -365,7 +357,9 @@
             <text>$("#lkuni").siblings().click(function (e) {
             return true;
 
-        });</text>
+        });</text>*@
+
+            <text>$("#lkuni").hide();</text>
         }
 
 

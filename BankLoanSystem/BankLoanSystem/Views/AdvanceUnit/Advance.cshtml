@@ -16,28 +16,37 @@
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }
+
 <style type="text/css">
-    
+    #checkableGridDiv table tbody,
+#checkableGridDiv table thead { display: block; }
+
+#checkableGridDiv table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.right-panel>.side-panel{
+    margin-top: 10px;
+}
 
 </style>
 
 
 
-@using (Ajax.BeginForm("Advance", null, new AjaxOptions()
-{
-    OnFailure = "handleError",
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
-    LoadingElementId = "loadingDiv"
-}, new { id = "form" }))
-{
 
-    <div id="noUnitLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;">
+
+
+
+
+<div class="body-content" style="width:100%">
+
+    <div id="noUnitLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;margin-right:unset">
         @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-left:35%;" })
     </div>
-    <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
-        <div style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
+    <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px;padding:unset;margin-right:unset">
+        <div>
             @grid.GetHtml(
             tableStyle: "gridtable",
            headerStyle: "webgrid-header",
@@ -69,8 +78,17 @@
         <span id="subtotal" style="margin-left:70%;"> Current Total to Advance : $ 0 </span>
         <div id="unitid" class="hidden"></div>
     </div>
-}
-    <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px">
+
+    <div class="right-panel">
+        @{
+            Html.RenderAction("LoanPaymentDetails", "Unit");
+        }
+
+
+
+    </div>
+
+    <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px;width:79%">
         <div class="form-group">
             <div class="control-label col-sm-2" style="text-align:right;padding-top:5px">
                 @Html.Label("AdvanceDate", htmlAttributes: new { })<span style="color:red"> *</span>
@@ -83,9 +101,7 @@
     </div>
 
 
-
-
-<div class="info-unit" id="searchDiv" style="margin-top:10px;padding-top:0px">
+<div class="info-unit" id="searchDiv" style="margin-top:10px;padding-top:0px;width:79%">
     <div class="control-label col-lg-10" id="searchLabelDiv" style="color:dodgerblue;">
         <h5>@Html.Label("Search Units", htmlAttributes: new { })</h5>
     </div>
@@ -114,7 +130,7 @@
                                 <SelectListItem>
                              @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
                             @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                    <div id="vehicleyear"><span class="text-danger"></span></div>             
+                                    <div id="vehicleyear"><span class="text-danger"></span></div>
 
                         </div>
                         <div class="col-md-2" id="div-combobox1-2">
@@ -129,11 +145,11 @@
                                 }
                             }<SelectListItem>
                                 <SelectListItem>
-                        
+
                         @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
                         @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                         <div id="vehiclemake"><span class="text-danger"></span></div>
-                        
+
                         </div>
                         <div class="col-md-2" id="div-combobox1-3">
                             <label for="">Model</label>
@@ -147,7 +163,7 @@
                                 }
                             }<SelectListItem>
                                 <SelectListItem>
-                                   
+
                                             @Html.DropDownList("model", modelList, "--Select--", new { @class = "form-control", @id = "cmbModel" })
                                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
                                             <div id="vehiclemodel"><span class="text-danger"></span></div>
@@ -160,7 +176,7 @@
         </div>
     </div>
     </div>
-  
+
 
 <div class="form-horizontal" style="margin-bottom:10px;margin-top:10px">
     <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
@@ -214,10 +230,46 @@
             </div>
         </div>
                     </div>
+
+    </div>
+
                     <script src="~/scripts/CommonFunctions.js"></script>
 
 
                     <script type="text/javascript">
+
+
+                        // Change the selector if needed
+                        var table = $('table'),
+                            bodyCells = table.find('tbody tr:first').children(),
+                            colWidth;
+
+                        // Adjust the width of thead cells when window resizes
+                        $(window).resize(function () {
+                            // Get the tbody columns width array
+                            colWidth = bodyCells.map(function () {
+                                return $(this).width();
+                            }).get();
+
+                            // Set the width of thead columns
+                            table.find('thead tr').children().each(function (i, v) {
+                                $(v).width(colWidth[i]);
+                            });
+                        }).resize(); // Trigger resize handler  
+
+                        $(window).bind("load", function () {
+
+                            // Get the tbody columns width array
+                            colWidth = bodyCells.map(function () {
+                                return $(this).width();
+                            }).get();
+
+                            // Set the width of thead columns
+                            table.find('thead tr').children().each(function (i, v) {
+                                $(v).width(colWidth[i]);
+                            });
+                        });
+
 
                         function onlyDotsAndNumbers(event) {
                             var charCode = (event.which) ? event.which : event.keyCode
@@ -266,7 +318,7 @@
                                 count++;
                             });
                             document.getElementById('all').checked = false;
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
@@ -306,7 +358,7 @@
                             $("#iAdvance").attr("disabled", "disabled");
                             ClearMainGrid();
                             document.getElementById('all').checked = false;
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
@@ -455,7 +507,7 @@
                                                     total = 0;
                                                     $(this).parents('tr').css('background', 'transparent');
                                                 }
-                                                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                                 if (checkCount > 0) {
                                                     $("#btnAdvanceAll").removeAttr("disabled");
                                                     $("#startDate").removeAttr("disabled");
@@ -513,7 +565,7 @@
                                             }
                                         });
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                     $("#btnAdvanceAll").removeAttr("disabled");
                                     $("#startDate").removeAttr("disabled");
                                 }
@@ -528,7 +580,7 @@
                                 }
                                 else {
                                     ClearTextBoxValues();
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                 }
 
                                 if (checkCount > 0) {
@@ -545,6 +597,38 @@
                                     }
                                 }
 
+                            });
+
+
+                            // Change the selector if needed
+                            var table = $('table'),
+                                bodyCells = table.find('tbody tr:first').children(),
+                                colWidth;
+
+                            // Adjust the width of thead cells when window resizes
+                            $(window).resize(function () {
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
+                            }).resize(); // Trigger resize handler  
+
+                            $(window).bind("load", function () {
+
+                                // Get the tbody columns width array
+                                colWidth = bodyCells.map(function () {
+                                    return $(this).width();
+                                }).get();
+
+                                // Set the width of thead columns
+                                table.find('thead tr').children().each(function (i, v) {
+                                    $(v).width(colWidth[i]);
+                                });
                             });
                         }
 
@@ -580,7 +664,7 @@
                                             SetRadioBtnHeaderChecked();
                                             ClearTextBoxValues();
                                         }
-                                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                                         $("#btnAdvanceAll").removeAttr("disabled");
                                         $("#startDate").removeAttr("disabled");
@@ -938,6 +1022,19 @@
                         $('#identificationNumberSearch').focusout(function () {
                             $(this).attr('placeholder', 'VIN/HIN/Serial No');
                         });
+
+                        function roundNumber(number, decimal_points) {                           
+                            if (!decimal_points) return Math.round(number);
+                            if (number == 0) {
+                                var decimals = "";
+                                for (var i = 0; i < decimal_points; i++) decimals += "0";
+                                return "0." + decimals;
+                            }
+
+                            var exponent = Math.pow(10, decimal_points);
+                            var num = Math.round((number * exponent)).toString();
+                            return num.slice(0, -1 * decimal_points) + "." + num.slice(-1 * decimal_points)
+                        }
 
                     </script>
 
