@@ -225,3 +225,19 @@ function roundNumber(number, decimal_points) {
     var num = Math.round((number * exponent)).toString();
     return num.slice(0, -1 * decimal_points) + "." + num.slice(-1 * decimal_points)
 }
+
+
+// CreatedBy :: Irfan
+// Restrict the key for date formatted as "mm/dd/yyyy"
+$(document).on('keypress', '.dateKeyPressValidate', function (e) {
+    var ch = e.which;
+    if ( (ch >= 47 && ch <= 57) || ch == 127 || ch == 8) {
+        return 1;
+    }
+    else {
+
+        e.preventDefault();
+    }
+
+
+});
