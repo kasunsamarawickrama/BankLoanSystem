@@ -237,7 +237,7 @@
         .gridtable {
         margin: 30px;
         border-collapse: collapse;
-        width: 800px;
+        width: 95%;
         background-color: aliceblue;
     }
     .webgrid-header {
@@ -249,6 +249,7 @@
     .gridtable th, .gridtable td {
         border: 1px solid cadetblue;
         padding: 5px;
+        width:2%;
     }
 
     .webgrid-alternating-row {
@@ -313,24 +314,11 @@
 
         <div class="details-container">
 
-            <div class="right-panel">
-                @{
-                    Html.RenderAction("LoanPaymentDetails", "Unit");
-                }
+           
 
-                @if (ViewBag.Title == "Add Unit Page")
-                {
-                    Html.RenderAction("GetJustAddedUnits", "Unit");
-
-
-                }
-
-            </div>
-
-
-            <div class="body-content">
+         
                 @RenderBody()
-            </div>
+          
 
         </div>
 

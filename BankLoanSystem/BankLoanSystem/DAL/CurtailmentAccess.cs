@@ -177,7 +177,6 @@ namespace BankLoanSystem.DAL
                     paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
                     paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
                     paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
-                    paramertList2.Add(new object[] { "@payment_percentage", curtailment.PaymentPercentage });
                     try
                     {
                         executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;

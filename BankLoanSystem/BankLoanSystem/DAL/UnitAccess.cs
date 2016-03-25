@@ -961,22 +961,22 @@ namespace BankLoanSystem.DAL
                 { 
                     if (loan.curtailmetList.Count==curtailmentNo)
                     {
-                        curtailment.Amount = advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList);
+                        curtailment.Amount = Math.Round(advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList),2);
                     }
                     else
                     {
-                        curtailment.Amount = this.CalculateAdditionalPercentage(advanceAmount, curtailment.Percentage, loan.advancePercentage);
+                        curtailment.Amount = Math.Round(this.CalculateAdditionalPercentage(advanceAmount, curtailment.Percentage, loan.advancePercentage), 2);
                     }
                 }
                 else if (loan.CurtailmentCalculationBase == "a")
                 {
                     if (loan.curtailmetList.Count == curtailmentNo)
                     {
-                        curtailment.Amount = advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList);
+                        curtailment.Amount = Math.Round(advanceAmount - GetCurtailmentCurrentTotal(loan.curtailmetList), 2);
                     }
                     else
                     {
-                        curtailment.Amount = (advanceAmount * curtailment.Percentage ?? 0) / 100;
+                        curtailment.Amount = Math.Round((advanceAmount * curtailment.Percentage ?? 0) / 100, 2);
                     }                   
                 }
                 curtailmentNo++;

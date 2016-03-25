@@ -19,7 +19,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@*<script src="~/scripts/CommonFunctions.js"></script>*@
+<script src="~/scripts/CommonFunctions.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
 @*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
@@ -95,6 +95,21 @@
     LoadingElementId = "loadingDiv"
 }, new { enctype = "multipart/form-data", id = "form" }))
 {
+
+    <div class="right-panel">
+        @{
+            Html.RenderAction("LoanPaymentDetails", "Unit");
+        }
+
+        @if (ViewBag.Title == "Add Unit Page")
+                {
+                    Html.RenderAction("GetJustAddedUnits", "Unit");
+
+
+                }
+
+    </div>
+    <div class="body-content">
     @Html.AntiForgeryToken()
 
     <form>
@@ -735,7 +750,7 @@
                     @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-3">
                         @if (ViewBag.Editable == "Yes")
-                        {
+                {
                             @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
                         }
                         else
@@ -796,7 +811,7 @@
             @*PAYMENT DETAILS END*@
 
             <div class="form-group" style="margin-top:15px;margin-left: -87px">
-                @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "text-align:right" })
+                    @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "text-align:right;width:39.5%" })
                 <div class="col-md-2">
                     @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                     @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
@@ -830,13 +845,15 @@
             <div class="form-group btn-panel">
                 <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" tabindex="-1" style="float:right;margin-left:27%;margin-right:4%" />
 
-                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float: left;width: 200px;margin-left: 20px;" />
+                    <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float: left;width: 200px;margin-left: 102px;" />
 
 
 
             </div>
         </div>
     </form>
+
+    </div>
                                     }
 
 
@@ -2465,7 +2482,7 @@
     $('#btnSubmit').click(function(e) {
 
         var unitType = document.getElementById("unitType").value;
-       
+
         if (unitType == "1") {
             var vin = document.getElementById("vehicleVin").value;
             var trim = document.getElementById("vehicletrim").value;
@@ -2734,7 +2751,7 @@
         } else {
 
         }
-      
+
         var cost = parseFloat(document.getElementById('txtCost').value);
         var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
         if (advance > cost) {

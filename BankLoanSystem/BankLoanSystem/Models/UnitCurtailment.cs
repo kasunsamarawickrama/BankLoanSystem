@@ -24,6 +24,7 @@ namespace BankLoanSystem.Models
         public int LoanId { get; set; }
         public string UnitId { get; set; }
         public DateTime DateEntered { get; set; }
+        public DateTime DateAdvanced { get; set; }
         public string IdentificationNumber { get; set; }
         public int Year { get; set; }
         public string Make { get; set; }

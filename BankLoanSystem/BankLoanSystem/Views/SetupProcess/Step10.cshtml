@@ -322,6 +322,27 @@ else
         document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
     });
 
+    $('#curtailmentDueEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+
     $('curtailmentDueEmailRemindPeriod').keypress(function() {
         var res = AllowNumbers(this, e.which);
         if (res === 0) {
@@ -823,7 +844,7 @@ else
         if (loanStatus === 'Yes' || loanStatus === 'No') {
             $('#customErrorLoanStatus').children('span').text("");
         } else {
-            $('#customErrorLoanStatus').children('span').text("Select a date.");
+            $('#customErrorLoanStatus').children('span').text("Select loan status.");
         }
 
         //var dueDate = $('#CurtailmentDueDate').val();
