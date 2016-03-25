@@ -2479,6 +2479,10 @@
         }
     });
 
+    $('.custom-combobox-input').keypress(function(e){
+        alert(e.which());
+    });
+
     $('#btnSubmit').click(function(e) {
 
         var unitType = document.getElementById("unitType").value;
