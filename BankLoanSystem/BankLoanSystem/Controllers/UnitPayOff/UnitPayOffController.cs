@@ -68,11 +68,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-
-            ViewBag.loanDetails = loanDetails;
-            Models.Unit unit = new Models.Unit();
-            AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
-            //Session["notAdvancedList"] = advanceUnit.NotAdvanced;
+            
 
             BranchAccess ba = new BranchAccess();
             _companyType = ba.getCompanyTypeByUserId(userData.UserId);
@@ -81,17 +77,33 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
             CurtailmentAccess payoff = new CurtailmentAccess();
-            var UnitPayOffList = new List<UnitPayOffModel>();
             //unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
             unitPayOffViewModel.PayDate = DateTime.Now;
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
-            UnitPayOffList = unitPayOffViewModel.UnitPayOffList;
-            Session["payoffList"] = UnitPayOffList;
-            ViewBag.payOffList = UnitPayOffList;
+            var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
+            Session["payoffList"] = unitPayOffList;
+            ViewBag.payOffList = unitPayOffList;
             //return View(unitPayOffViewModel);
 
-            if(TempData["message"] != null)
+            //Check title 
+            TitleAccess ta = new TitleAccess();
+            Title title = ta.getTitleDetails(loanDetails.loanId);
+
+            if (title != null)
+            {
+                bool isTitleTrack = title.IsTitleTrack;
+                if (isTitleTrack)
+                    ViewBag.IsTitleTrack = "Yes";
+
+            }
+
+            //loanDetails
+            ViewBag.loanDetails = loanDetails;
+
+            //Set min
+
+            if (TempData["message"] != null)
             {
                 int res = Convert.ToInt32(TempData["message"]);
                 if (res == 0)
