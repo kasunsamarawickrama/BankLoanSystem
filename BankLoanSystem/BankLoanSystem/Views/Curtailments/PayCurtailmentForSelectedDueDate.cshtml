@@ -99,7 +99,7 @@
 </script>
 
 <form method="post">
-    <div class="info-bar" style="margin-top:15px">
+    <div class="info-bar" style="margin-top:15px" id="payDateDiv">
         <div class="form-inline">
             <div class="form-group">
                 
@@ -213,11 +213,11 @@
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:18%;" >
+                        <div class="col-md-2" style="width:21%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:10%;">
                             <label for="firstName">Year </label>
                             @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -273,12 +273,14 @@
             $('#noCurtLabelDiv').show();
             $('#checkableGridDiv').hide();
             $('#searchDiv').hide();
+            $('#payDateDiv').hide();
             
         }
         else{
             $('#noCurtLabelDiv').hide();
             $('#checkableGridDiv').show();
             $('#searchDiv').show();
+            $('#payDateDiv').show();
         }
     });
 
