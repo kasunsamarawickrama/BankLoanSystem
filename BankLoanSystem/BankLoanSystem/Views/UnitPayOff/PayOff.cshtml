@@ -768,6 +768,9 @@
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             }
+
+            if ($('#payDate').val() === '')
+                $(this).removeClass('input-validation-error');
         });
 
         $('#payDate2').blur(function () {
@@ -798,10 +801,18 @@
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             }
+
+            if ($('#payDate2').val() === '')
+                $(this).removeClass('input-validation-error');
+
         });
 
         $('#payDate').click(function () {
             $('#customErrorPayDate').children('span').text("");
+
+            //alert($('#payDate').val());
+            if ($('#payDate').val() === '')
+                $(this).removeClass('input-validation-error');
 
             if($('#customErrorTitleReturn1').children('span').text().length <= 0)
                 $('.centered span').text('');
@@ -809,6 +820,9 @@
 
         $('#payDate2').click(function () {
             $('#customErrorPayDate2').children('span').text("");
+
+            if ($('#payDate2').val() === '')
+                $(this).removeClass('input-validation-error');
 
             if ($('#customErrorTitleReturn2').children('span').text().length <= 0)
                 $('.centered span').text('');
