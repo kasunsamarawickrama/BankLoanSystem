@@ -423,7 +423,7 @@
                 var balance = $(this).find("#balance").text().replace(',', '');
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
-                alert(isChecked);
+                
                 if (totalSelect === countSelect) {
                     $('#someID').children('span').text('Deselect');
                     $('#someID').find("#cbSelectAll").prop('checked', true);
@@ -437,13 +437,20 @@
 
             SetTextBoxValues(tr);
             }
+
+            if (countSelect > 1) {
+                ClearTextBoxValues();
+                $("#btnPayAll").attr("disabled", "disabled");
+                $("#payDate").attr("disabled", "disabled");
+            }
+
             $('#spnTotal').text(totalToPay);
 
         });
 
         $(document).on('click', '.checkboxAll', function () {
             var isChecked = $(this).is(':checked');
-            alert(isChecked);
+            
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
 
             if (isChecked === false) {
@@ -475,8 +482,16 @@
                 //$("#payDate").removeAttr("disabled");
             }
             else if (countSelect === 1) {
-
                 var tr = $(this).parents('tr:first');
+                $('table#checkableGrid > tbody > tr').each(function () {
+
+                    var checked = $(this).find("#all").is(':checked');
+                    if (checked === true) {
+                        tr = $(this);
+                    }
+                });
+
+                
                 SetTextBoxValues(tr);
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
