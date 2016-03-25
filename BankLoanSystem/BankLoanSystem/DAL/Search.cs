@@ -212,7 +212,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().StartsWith(identificationNumber) && curtailmentList.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().StartsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
