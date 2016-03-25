@@ -231,7 +231,7 @@
                                 <fieldset>
                                     <div class="form-group row">
                                         <input type="hidden" value="" id="iUnitId" />
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="width: 19.666667%;">
                                             <label for="">Vin/HIN/Serial </label>
                                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
@@ -400,7 +400,7 @@
                 $(this).siblings('span').text('Select');
                 status = false;
                 countSelect = 0;
-                
+
 
                 $('table#checkableGrid > tbody > tr').each(function () {
                     $(this).css('background', 'aliceblue');
@@ -581,17 +581,21 @@
 
         var errorTitleReturn1 = false;
         $("#btnPayAll").click(function (e) {
-            var titleStatus = $('.titleReturn').filter(':checked').val();
-            //alert(titleStatus);
+            if ("@ViewBag.IsTitleTrack" == "Yes"){
+                var titleStatus = $('.titleReturn').filter(':checked').val();
+                //alert(titleStatus);
 
-            if (titleStatus === "Yes" || titleStatus === "No") {
-                $('#customErrorTitleReturn1').children('span').text("");
-                errorTitleReturn1 = false;
-            } else {
-                $('#customErrorTitleReturn1').children('span').text("Please select");
-                errorTitleReturn1 = true;
-                $('.centered span').text('Error');
+                if (titleStatus === "Yes" || titleStatus === "No") {
+                    $('#customErrorTitleReturn1').children('span').text("");
+                    errorTitleReturn1 = false;
+                } else {
+                    $('#customErrorTitleReturn1').children('span').text("Please select");
+                    errorTitleReturn1 = true;
+                    $('.centered span').text('Error');
+                }
             }
+
+
 
             var payDate = document.getElementById('payDate').value;
             if (payDate === '') {
@@ -643,19 +647,19 @@
 
         var errorTitleReturn2 = false;
         $("#btnPay").click(function () {
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
+                var titleStatus = $('.titleReturn2').filter(':checked').val();
+                //alert(titleStatus);
 
-            var titleStatus = $('.titleReturn2').filter(':checked').val();
-            //alert(titleStatus);
-
-            if (titleStatus === "Yes" || titleStatus === "No") {
-                $('#customErrorTitleReturn2').children('span').text("");
-                errorTitleReturn2 = false;
-            } else {
-                $('#customErrorTitleReturn2').children('span').text("Please select");
-                $('.centered span').text('Error');
-                errorTitleReturn2 = true;
+                if (titleStatus === "Yes" || titleStatus === "No") {
+                    $('#customErrorTitleReturn2').children('span').text("");
+                    errorTitleReturn2 = false;
+                } else {
+                    $('#customErrorTitleReturn2').children('span').text("Please select");
+                    $('.centered span').text('Error');
+                    errorTitleReturn2 = true;
+                }
             }
-
             var payDate = document.getElementById('payDate2').value;
             if (payDate === '') {
                 $('#customErrorPayDate2').children('span').text("Please select date");
