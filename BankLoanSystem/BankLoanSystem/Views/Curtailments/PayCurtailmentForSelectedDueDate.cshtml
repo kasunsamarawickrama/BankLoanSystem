@@ -378,6 +378,7 @@
                                     // clear top error
                                     $('.centered span').text('');
                                     $('#errorPayDate').text('');
+                                    
                                     $('#payDate').removeClass('input-validation-error');
                                     $('#payDate').next('span').children().text('');
                                     totalRecCount = 0;
@@ -703,6 +704,7 @@
                 $("#singleUnitDiv").hide();
                 $('.centered span').text('');
                 $('#errorCurtAmount').text('');
+                $('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
@@ -724,6 +726,7 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
                 $('#errorCurtAmount').text('');
+                $('#iCurtAmount').removeClass('input-validation-error');
                 $('.centered span').text('');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
@@ -745,7 +748,9 @@
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
+                $('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorCurtPayDate').text('');
+                $('#payCurtDate').removeClass('input-validation-error');
 
                 //document.getElementById("unitid").innerHTML = tr.find("#all").val(); 
                 
@@ -871,6 +876,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#errorCurtPayDate').text('');
+            $('#payDate').removeClass('input-validation-error');
             $("#payCurtDate").val(formatDate(thisDate));
         }
     });
@@ -889,7 +895,9 @@
         onSelect: function () {
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
+            $('#payDate').removeClass('input-validation-error');
             $('#errorCurtPayDate').text('');
+            $('#payCurtDate').removeClass('input-validation-error');
             $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
         }
@@ -914,6 +922,7 @@
             if($('#payDate').next('span').children().length == 0 ){
             
                 $('#errorPayDate').text('The Pay date field is Required');
+                $('#payDate').addClass('input-validation-error');
                 
             }
             $('.centered span').text('Error');
@@ -964,6 +973,29 @@
 
     });
 
+    $('#payDate').click(function(e){
+    
+        $('#errorPayDate').text('');
+        $(this).next('span').children('span').remove();
+    });
+
+    $('#payDate').blur(function(e){
+    
+        // add place holder
+    });
+
+    $('#payCurtDate').click(function(e){
+    
+        $('#errorCurtPayDate').text('');
+        $('#payCurtDate').removeClass('input-validation-error');
+        $(this).next('span').children('span').remove();
+    });
+
+    $('#payCurtDate').click(function(e){
+    // add place holder
+    });
+
+   
     $('#btnPay').click(function (e) {
 
         data = { SelectedCurtailmentSchedules: [] };
@@ -973,6 +1005,7 @@
              if($("#payCurtDate").val() == ""){
                  // show error errorCurtPayDate
                  $('#errorCurtPayDate').text('The Pay date field is Required');
+                 $('#payCurtDate').addClass('input-validation-error');
                  a=0;
              }
              if($('#errorCurtAmount').text() != "" ){
@@ -983,6 +1016,8 @@
              }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
                  $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+                 $('#iCurtAmount').removeClass('input-validation-error');
+                 
                  
                  a=0;
              }
@@ -1069,12 +1104,15 @@
   
         if(parseFloat($(this).val()).toFixed(2) <= 0){
             $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+            $('#iCurtAmount').addClass('input-validation-error');
             $('.centered span').text('Error');
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+            $('#iCurtAmount').addClass('input-validation-error');
             $('.centered span').text('Error');
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('');
+            $('#iCurtAmount').removeClass('input-validation-error');
            
         }
     
@@ -1082,6 +1120,7 @@
 
     $("#iCurtAmount").on('click', function(e) {
         $('#errorCurtAmount').text('');
+        $('#iCurtAmount').removeClass('input-validation-error');
         if (this.value === "0.00") {
             document.getElementById(this.id).value = "";
         }
