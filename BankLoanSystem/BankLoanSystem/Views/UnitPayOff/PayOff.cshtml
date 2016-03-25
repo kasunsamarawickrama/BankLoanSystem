@@ -118,7 +118,7 @@
                             <label for="">Pay Date : </label>
 
 
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                         </div>
 
@@ -262,7 +262,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">Pay Date </label>
-                                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
+                                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                         </div>
                                         <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
                                     </div>
@@ -309,9 +309,6 @@
 
 
     </div>
-
-
-
 
     <script>
         $(document).ready(function () {
@@ -773,15 +770,61 @@
             }
         });
 
+        $('#payDate2').blur(function () {
+
+            if ($(this).val() == "") {
+                // required error
+                return;
+            }
+            var valid = isValidDate($(this).val());
+            if (valid) {
+                var selectedDate = new Date($(this).val());
+                var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                if (selectedDate < minDate || selectedDate > maxDate) {
+                    // out off range error
+                    $('#customErrorPayDate2').children('span').text('Out of Range');
+                    $(this).addClass('input-validation-error');
+                    $('.centered span').text('Error');
+                } else {
+                    // delete error mssage
+                    $('#customErrorPayDate2').children('span').text('');
+                    $(this).removeClass('input-validation-error');
+                }
+            } else {
+
+                // not valid data error
+                $('#customErrorPayDate2').children('span').text('Not valid date');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            }
+        });
+
         $('#payDate').click(function () {
             $('#customErrorPayDate').children('span').text("");
 
-            //if($('#customErrorTitleReturn1').children('span').text().length > 0)
-
+            if($('#customErrorTitleReturn1').children('span').text().length <= 0)
+                $('.centered span').text('');
         });
 
         $('#payDate2').click(function () {
             $('#customErrorPayDate2').children('span').text("");
+
+            if ($('#customErrorTitleReturn2').children('span').text().length <= 0)
+                $('.centered span').text('');
+        });
+
+        $('.dateKeyPressValidate').keypress(function (e) {
+            var ch = e.which;
+            if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
+                return 1;
+            }
+            else {
+
+                e.preventDefault();
+            }
+
+
         });
 
         $('.titleReturn').change(function () {
@@ -798,6 +841,9 @@
             ClearTextBoxValues();
             $("#btnPayAll").attr("disabled", "disabled");
             $("#payDate").attr("disabled", "disabled");
+            $("#payDate").val('');
+            document.getElementById('rdTitleYes1').checked = false;
+            document.getElementById('rdTitleNo1').checked = false;
 
             countSelect = 0;
             totalToPay = 0;
