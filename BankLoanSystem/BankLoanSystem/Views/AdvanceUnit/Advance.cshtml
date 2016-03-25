@@ -16,6 +16,7 @@
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }
+
 <style type="text/css">
     #checkableGridDiv table tbody,
 #checkableGridDiv table thead { display: block; }
@@ -317,7 +318,7 @@
                                 count++;
                             });
                             document.getElementById('all').checked = false;
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
@@ -357,7 +358,7 @@
                             $("#iAdvance").attr("disabled", "disabled");
                             ClearMainGrid();
                             document.getElementById('all').checked = false;
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
@@ -506,7 +507,7 @@
                                                     total = 0;
                                                     $(this).parents('tr').css('background', 'transparent');
                                                 }
-                                                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                                 if (checkCount > 0) {
                                                     $("#btnAdvanceAll").removeAttr("disabled");
                                                     $("#startDate").removeAttr("disabled");
@@ -564,7 +565,7 @@
                                             }
                                         });
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                     $("#btnAdvanceAll").removeAttr("disabled");
                                     $("#startDate").removeAttr("disabled");
                                 }
@@ -579,7 +580,7 @@
                                 }
                                 else {
                                     ClearTextBoxValues();
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                 }
 
                                 if (checkCount > 0) {
@@ -663,7 +664,7 @@
                                             SetRadioBtnHeaderChecked();
                                             ClearTextBoxValues();
                                         }
-                                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                                         $("#btnAdvanceAll").removeAttr("disabled");
                                         $("#startDate").removeAttr("disabled");
@@ -1021,6 +1022,20 @@
                         $('#identificationNumberSearch').focusout(function () {
                             $(this).attr('placeholder', 'VIN/HIN/Serial No');
                         });
+
+                        function roundNumber(number, decimal_points) {
+                            alert('aaa');
+                            if (!decimal_points) return Math.round(number);
+                            if (number == 0) {
+                                var decimals = "";
+                                for (var i = 0; i < decimal_points; i++) decimals += "0";
+                                return "0." + decimals;
+                            }
+
+                            var exponent = Math.pow(10, decimal_points);
+                            var num = Math.round((number * exponent)).toString();
+                            return num.slice(0, -1 * decimal_points) + "." + num.slice(-1 * decimal_points)
+                        }
 
                     </script>
 

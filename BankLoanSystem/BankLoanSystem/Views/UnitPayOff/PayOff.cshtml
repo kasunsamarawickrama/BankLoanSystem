@@ -802,12 +802,16 @@
         }
 
 
-        $("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-        $("#lkpoff").click(function (e) { e.preventDefault(); });
-        $("#lkpoff").siblings().click(function (e) {
-            return true;
+        //$("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        //$("#lkpoff").click(function (e) { e.preventDefault(); });
+        //$("#lkpoff").siblings().click(function (e) {
+        //    return true;
 
-        });
+        //});
+
+        $("#lkpoff").hide();
+
+
         // Change the selector if needed
         var table = $('table'),
             bodyCells = table.find('tbody tr:first').children(),
