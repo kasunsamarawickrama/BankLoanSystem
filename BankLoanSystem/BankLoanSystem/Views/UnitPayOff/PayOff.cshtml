@@ -406,8 +406,11 @@
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
                 $("#payDate").val('');
-                document.getElementById('rdTitleYes1').checked = false;
-                document.getElementById('rdTitleNo1').checked = false;
+
+                if ("@ViewBag.IsTitleTrack" == "Yes") {
+                    document.getElementById('rdTitleYes1').checked = false;
+                    document.getElementById('rdTitleNo1').checked = false;
+                }
             } else {
                 $(this).siblings('span').text('Deselect');
                 status = true;
@@ -430,6 +433,11 @@
                     totalToPay = totalToPay.toFixed(2);
                 }
             });
+
+            $('table#searchResultGrid > tbody > tr').each(function () {
+                $(this).css('background', 'aliceblue');
+            });
+
             //alert(totalToPay);
             $('#spnTotal').text(totalToPay);
 
@@ -475,6 +483,10 @@
 
             }
 
+            $('table#searchResultGrid > tbody > tr').each(function () {
+                $(this).css('background', 'aliceblue');
+            });
+
             $('#spnTotal').text(totalToPay);
 
         });
@@ -513,8 +525,10 @@
                 $("#payDate").attr("disabled", "disabled");
 
                 $("#payDate").val('');
-                document.getElementById('rdTitleYes1').checked = false;
-                document.getElementById('rdTitleNo1').checked = false;
+                if ("@ViewBag.IsTitleTrack" == "Yes") {
+                    document.getElementById('rdTitleYes1').checked = false;
+                    document.getElementById('rdTitleNo1').checked = false;
+                }
                 //$("#btnPayAll").removeAttr("disabled");
                 //$("#payDate").removeAttr("disabled");
             }
@@ -553,6 +567,10 @@
                 $("#payDate").removeAttr("disabled");
             }
 
+            $('table#searchResultGrid > tbody > tr').each(function () {
+                $(this).css('background', 'aliceblue');
+            });
+
             $('#spnTotal').text(totalToPay);
         });
 
@@ -572,8 +590,10 @@
         }
 
         function ClearTextBoxValues() {
-            document.getElementById('rdTitleYes2').checked = false;
-            document.getElementById('rdTitleNo2').checked = false;
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
+                document.getElementById('rdTitleYes2').checked = false;
+                document.getElementById('rdTitleNo2').checked = false;
+            }
             $('#iVin').val('');
             $('#iYear').val('');
             $('#iMake').val('');
@@ -856,12 +876,13 @@
             $("#btnPayAll").attr("disabled", "disabled");
             $("#payDate").attr("disabled", "disabled");
             $("#payDate").val('');
-            document.getElementById('rdTitleYes1').checked = false;
-            document.getElementById('rdTitleNo1').checked = false;
-
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
+                document.getElementById('rdTitleYes1').checked = false;
+                document.getElementById('rdTitleNo1').checked = false;
+            }
             countSelect = 0;
             totalToPay = 0;
-            $('table#checkableGrid > tbody > tr').removeClass("highlight");
+            
             $('#spnTotal').text(totalToPay);
 
             var count = 0;
