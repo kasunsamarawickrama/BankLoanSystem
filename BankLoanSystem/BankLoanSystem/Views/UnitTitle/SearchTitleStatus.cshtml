@@ -2,10 +2,23 @@
 @{
     WebGrid grid = new WebGrid(Model.TitleList, defaultSort: "AdvanceDate", canPage: false, ajaxUpdateContainerId: "searchGrid1", ajaxUpdateCallback: "GridUpdate");
 }
+<style>
+    #searchGrid table tbody,
+    #searchGrid table thead {
+        display: block;
+    }
 
+
+
+    #searchGrid table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
 @if ((Model.TitleList.Count() != 0)&&(Model.TitleList!=null))
 {
-    <div id="searchGrid" style="overflow-x: hidden;overflow-y: scroll;height: 200px;">
+    <div id="searchGrid">
         @grid.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
@@ -66,4 +79,38 @@ else {
     else{
         ShowDivs();
     }
+</script>
+<script>
+
+
+    // Change the selector if needed
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+
+    // Adjust the width of thead cells when window resizes
+    $(window).resize(function() {
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    }).resize(); // Trigger resize handler
+
+    $(window).bind("load",function(){
+
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    });
 </script>
