@@ -302,10 +302,12 @@
 
     // Capitalize first letter 
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {

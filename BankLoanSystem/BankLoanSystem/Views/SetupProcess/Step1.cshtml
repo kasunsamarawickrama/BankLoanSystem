@@ -246,15 +246,19 @@ else if (@ViewBag.ErrorMsg != null)
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
     $('#txtCompanyName').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+        //alert(e.which);//37,8
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
     // change to title case
     $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
@@ -279,6 +283,7 @@ else if (@ViewBag.ErrorMsg != null)
     });
     //Check maximum length
     $('#txtCompanyName, #txtCity').keypress(function (e) {
+        //alert('CheckMaxLenth');
         var res = CheckMaxLenth(this, this.value, 50);
         if (res === 0) {
             e.preventDefault();
