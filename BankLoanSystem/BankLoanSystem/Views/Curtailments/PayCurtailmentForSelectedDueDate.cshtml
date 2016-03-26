@@ -104,7 +104,7 @@
             <div class="form-group">
                 
                 <label for="">Pay Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" , maxlength = 10  } })
                 @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
@@ -222,29 +222,35 @@
                             @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="">Make </label>
                             @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="firstName">Model </label>
                             @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
+                        
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
-                            @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount"})
+                            @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
-                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:0%;width:101%"></span>
+                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
                         </div>
                         <div class="col-md-2" style="width:13%;">
                             <label for="">Curt Pay Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off" } })
-                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:-3%;width:125%"></span>
-                            @Html.Hidden("iCurtNumber", "" , new { @id = "iCurtNumber" } )
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
+                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
+                            @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                             @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
+
+
                     </div>
 
 
@@ -426,7 +432,7 @@
 
                                 });
                                 if (checkCount > 1) {
-                                    ClearTextBoxValues();
+                                    ClearTextBoxValues();ClearSearchGrid();
                                 }
                                 else if (checkCount == 0 || totalRecCount == 0) {
                                     $("#payAll").attr("disabled", "disabled");
@@ -476,7 +482,7 @@
 
                     }
                     
-                    if (checkCount == 1) { ClearSearchGrid() ;
+                    if (checkCount == 1) { 
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -516,7 +522,7 @@
 
                     }
 
-                    if (checkCount > 0) {
+                    if (checkCount > 0) {ClearSearchGrid() ;
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
 
@@ -609,7 +615,7 @@
                             checkCount++;
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
-                            if (checkCount == 1) {
+                            if (checkCount == 1) {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
                             }
                             else {
@@ -646,7 +652,13 @@
 
             }
 
+
             function ChangeCheckBoxText(value) {
+                var ctrl =
+                        $('<input />', {
+                            type: 'checkbox',
+                            id: "cbSelectAll"
+                        });
                 var chkText = $('<div />').attr({ id: 'someID' }).html(value);
                 $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
             }
@@ -695,6 +707,7 @@
 
             });
 
+            //clear text box values and disable feild
             function ClearTextBoxValues() {
                 $('#ivin').val('');
                 $('#identificationNumber').val('');
@@ -714,6 +727,8 @@
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
+                $('#payDate').val(''); 
+                $('#payCurtDate').val(''); 
             }
 
             $('#identificationNumberSearch').focusout(function () {
@@ -737,6 +752,8 @@
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
+                $('#payDate').val(''); 
+                $('#payCurtDate').val(''); 
             }
 
             function SetTextBoxValues(tr) {
@@ -985,10 +1002,44 @@
         $(this).next('span').children('span').remove();
     });
 
-    $('#payDate').blur(function(e){
     
-        // add place holder
+    $('#payDate').blur(function () {
+
+        if ($(this).val() == "") {
+
+
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                // out off range error
+                $('#errorPayDate').text('Out of Range');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            } else {
+                // delete error mssage
+                $('#errorPayDate').text('');
+                $(this).removeClass('input-validation-error');
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errorPayDate').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            $('.centered span').text('Error');
+        }
     });
+
+
+   
 
     $('#payCurtDate').click(function(e){
     
@@ -997,8 +1048,42 @@
         $(this).next('span').children('span').remove();
     });
 
-    $('#payCurtDate').click(function(e){
-    // add place holder
+  
+
+
+    $('#payCurtDate').blur(function () {
+
+        if ($(this).val() == "") {
+
+
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                // out off range error
+                $('#errorCurtPayDate').text('Out of Range');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            } else {
+                // delete error mssage
+                $('#errorCurtPayDate').text('');
+                $(this).removeClass('input-validation-error');
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errorCurtPayDate').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            $('.centered span').text('Error');
+        }
     });
 
    
@@ -1160,6 +1245,7 @@
             }
 
         }
+
         // append the message to span
         var vinString = VinNumbers.join(" , ");
 
@@ -1174,6 +1260,9 @@
         var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
         $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
         $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+
+
+       
     }
     </script>
 
@@ -1192,6 +1281,9 @@
     <br />
     @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
     <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">Cancel</button>
+
+
+
 
 
 

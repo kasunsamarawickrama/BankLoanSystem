@@ -224,7 +224,7 @@ namespace BankLoanSystem.Controllers
             unitList1.NotAdvanced = unitList;
 
             unitList1.Search = unitList2;
-            unitList1.AdvanceDate = DateTime.Now;
+           
             return unitList1;
         }
     }
