@@ -136,8 +136,9 @@
             <div class="col-xs-4" style="float:left">
 
                 @if (ViewBag.nonRegisteredBranchId.Items.Count == 1)
-                        {
-                            @Html.HiddenFor(model => model.nonRegisteredBranchId)
+                {
+                    
+                            @Html.HiddenFor(model => model.nonRegisteredBranchId, new { @Value = (int)ViewBag.nonRegisteredBranchId.Items[0].NonRegBranchId })
                 @Html.LabelFor(model => model.nonRegisteredBranchId, (string)ViewBag.nonRegisteredBranchId.Items[0].CompanyNameBranchName, htmlAttributes: new { @class = "form-control" , style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                 @*@Html.DropDownListFor( model => model.RegisteredBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId" })*@
                 } else {
