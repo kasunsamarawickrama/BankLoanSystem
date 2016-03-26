@@ -399,11 +399,13 @@ else
     // change to title case
     $('#txtFirstName, #txtLastName').keyup(function (e) {
         //ToTitleCase(this.id, this.value);
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
-        ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
     });
 
     //Check maximum length

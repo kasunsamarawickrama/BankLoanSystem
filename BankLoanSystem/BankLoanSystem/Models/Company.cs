@@ -64,7 +64,7 @@ namespace BankLoanSystem.Models
         public string PhoneNum3 { get; set; }
 
         [Phone]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Fax format is not valid.")]
         [Display(Name = "Fax")]
         public string Fax { get; set; }
 
