@@ -100,13 +100,18 @@ else {
         function ClearGrid() {
             $('.advanceAmount').each(function () {
                 var tr = $(this).parents('tr:first');
-                //alert('aaaa');
+                
                 if (tr.find("#curtailmentStatus").val() === '2') {                   
                     tr.css('background', '#fffae6');
                 } else {                   
                     tr.css('background', 'transparent');
                 }
             });
+            //GridUpdate();
+            //ChangeCheckBoxText('Select');
+           
         }
+
+        
     });
 </script>
