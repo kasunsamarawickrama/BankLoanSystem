@@ -835,7 +835,7 @@
 
 
                 <div class="col-xs-3" id="advanceDateDiv">
-                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
                 </div>
 
@@ -1971,6 +1971,12 @@
             $('#btnSubmit').prop('value', 'Add and Advance');
         } else {
             $('#advanceDateFormDiv').hide();
+            $('#advanceDate').val('');
+            $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
+            $('#advanceDate').removeClass('input-validation-error');
+            $('#advanceDate').siblings('span').text('');
+
+
             $('#btnSubmit').prop('value', 'Add');
         }
     });
@@ -1983,6 +1989,8 @@
     $('#btnCancel').click(function() {
         clearform();
         $('#advanceDateFormDiv').hide();
+        $('#advanceDate').val('');
+        $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
         //$("#advanceDateFormDiv").attr('value', '');
         files = null;
         storedFiles = [];

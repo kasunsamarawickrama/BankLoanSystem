@@ -59,8 +59,9 @@
                                 )
                             )
                          </div>
-                        <span id="subtotal" style="margin-left:70%"> Current Curtailment Total : $ 0.00  </span>
-                        <span id="partialPaymentColor" style="margin-left:70%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6"></label> Part Payment Records</span>
+                        
+                        <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;border-color:black"></label> Part Payment Records</span>
+                        <span id="subtotal" style="margin-left:50% "> Current Curtailment Total : $ 0.00  </span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -105,7 +106,7 @@
                 
                 <label for="">Pay Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" , maxlength = 10  } })
-                @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })
+                @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
@@ -329,7 +330,13 @@
         GetCurrentCurtailment(dueDate);
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
-
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').val(''); 
+        $('#payCurtDate').val(''); 
+        //$('#dueDate').val(''); 
+        $('#dueDate').removeClass('input-validation-error');
+        $('#errorDueDate').text('');
+        $("#dueDate").val('@dateTime.ToString("d")');
 
     });
     function GetCurrentCurtailment(dueDate){
@@ -966,6 +973,11 @@
             return;
         }
 
+        if($("#errorPayDate").text() != ""){
+            
+            return;
+        }
+
 
         if (checkCount >= 1) {
            
@@ -1046,7 +1058,7 @@
         } else {
 
             // not valid data error
-            $('#errorPayDate').text('Not valid date');
+            $('#errorPayDate').text('The field must be a date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
         }
@@ -1094,7 +1106,7 @@
         } else {
 
             // not valid data error
-            $('#errorCurtPayDate').text('Not valid date');
+            $('#errorCurtPayDate').text('The field must be a date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
         }
