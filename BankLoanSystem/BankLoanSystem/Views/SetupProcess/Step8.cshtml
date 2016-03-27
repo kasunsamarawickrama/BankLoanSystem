@@ -639,71 +639,71 @@
 
 
     $('#needReminderAdvanceCompleteT').change(function () {
-        $('#remindEmailAdvanceComplete').show("slow");
+            $('#remindEmailAdvanceComplete').show("slow");
     });
     $('#needReminderAdvanceCompleteF').change(function () {
-        document.getElementById("advanceDealerEmail").value = "";
-        document.getElementById("advanceDealerEmailRemindPeriod").value = "";
-        $('#remindEmailAdvanceComplete').hide("slow");
+            document.getElementById("advanceDealerEmail").value = "";
+            document.getElementById("advanceDealerEmailRemindPeriod").value = "";
+            $('#remindEmailAdvanceComplete').hide("slow");
         $('#remindEmailAdvanceComplete').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanCompleteT').change(function () {
-        $('#remindEmailLoanComplete').show("slow");
+            $('#remindEmailLoanComplete').show("slow");
     });
     $('#needReminderLoanCompleteF').change(function () {
-        document.getElementById("loanDealerEmail").value = "";
-        document.getElementById("loanDealerEmailRemindPeriod").value = "";
-        $('#remindEmailLoanComplete').hide("slow");
+            document.getElementById("loanDealerEmail").value = "";
+            document.getElementById("loanDealerEmailRemindPeriod").value = "";
+            $('#remindEmailLoanComplete').hide("slow");
         $('#remindEmailLoanComplete').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotCompleteT').change(function () {
-        $('#remindEmailLotComplete').show("slow");
+            $('#remindEmailLotComplete').show("slow");
     });
     $('#needReminderLotCompleteF').change(function () {
-        document.getElementById("lotDealerEmail").value = "";
-        document.getElementById("lotDealerEmailRemindPeriod").value = "";
-        $('#remindEmailLotComplete').hide("slow");
+            document.getElementById("lotDealerEmail").value = "";
+            document.getElementById("lotDealerEmailRemindPeriod").value = "";
+            $('#remindEmailLotComplete').hide("slow");
         $('#remindEmailLotComplete').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     </text> }
     $('#needReminderAdvanceDueT').change(function () {
-        $('#remindEmailAdvanceDue').show("slow");
+            $('#remindEmailAdvanceDue').show("slow");
     });
     $('#needReminderAdvanceDueF').change(function () {
-        //document.getElementById("advanceDueEmail").value = "";
-        document.getElementById("advanceDueEmailRemindPeriod").value = "";
-        $('#remindEmailAdvanceDue').hide("slow");
+            //document.getElementById("advanceDueEmail").value = "";
+            document.getElementById("advanceDueEmailRemindPeriod").value = "";
+            $('#remindEmailAdvanceDue').hide("slow");
         $('#remindEmailAdvanceDue').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanDueT').change(function () {
-        $('#remindEmailLoanDue').show("slow");
+            $('#remindEmailLoanDue').show("slow");
 
     });
     $('#needReminderLoanDueF').change(function () {
-        //document.getElementById("loanDueEmail").value = "";
-        document.getElementById("loanDueEmailRemindPeriod").value = "";
-        $('#remindEmailLoanDue').hide("slow");
+            //document.getElementById("loanDueEmail").value = "";
+            document.getElementById("loanDueEmailRemindPeriod").value = "";
+            $('#remindEmailLoanDue').hide("slow");
         $('#remindEmailLoanDue').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotDueT').change(function () {
 
-        $('#remindEmailLotDue').show("slow");
+         $('#remindEmailLotDue').show("slow");
 
     });
     $('#needReminderLotDueF').change(function () {
-        //document.getElementById("lotDueEmail").value = "";
-        document.getElementById("lotDueEmailRemindPeriod").value = "";
-        $('#remindEmailLotDue').hide("slow");
+            //document.getElementById("lotDueEmail").value = "";
+            document.getElementById("lotDueEmailRemindPeriod").value = "";
+            $('#remindEmailLotDue').hide("slow");
         $('#remindEmailLotDue').children('div').children('div').children('input').next('span').children('span').text('');
         $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('valid');
         $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('input-validation-error');
@@ -771,7 +771,7 @@
             //$("#monthlyLoanNeedReceiptT").prop("checked", false);
             $("#needReminderLoanDueF").prop("checked", false);
             document.getElementById("loanDueDate").value = "";
-            @if (ViewBag.isLender == true) { <text>
+             @if (ViewBag.isLender == true) { <text>
             $("#needReminderLoanCompleteT").prop("checked", false);
             $("#needReminderLoanCompleteF").prop("checked", false);
             //$("#monthlyLoanNeedReceiptF").prop("checked", false);
@@ -824,7 +824,7 @@
             $('#remindEmailLotComplete').hide();
             $('#remindEmailLotDue').hide();
             $("#needReminderLotDueT").prop("checked", false);
-            // $("#lotInspectionNeedReceiptT").prop("checked", false);
+           // $("#lotInspectionNeedReceiptT").prop("checked", false);
             $("#needReminderLotDueF").prop("checked", false);
             document.getElementById("lotDueDate").value = "";
             @if (ViewBag.isLender == true) { <text>
@@ -953,10 +953,10 @@
                     document.getElementById("loanDueDate").value = "";
                 }
                 if(model.IsLoanFeeCompleteEmailReminder == true ){
-                    @if (ViewBag.isLender == true) { <text>
-                    $("#needReminderLoanCompleteT").attr("checked");
-                    $("#remindEmailLoanComplete").show();
-                    </text> }
+                      @if (ViewBag.isLender == true) { <text>
+                        $("#needReminderLoanCompleteT").attr("checked");
+                        $("#remindEmailLoanComplete").show();
+                      </text> }
                 }
                 else{
 
@@ -1216,15 +1216,15 @@
                 if ((Boolean)Session["isInterest"] == true)
                 {
                     <text>
-                    $.ajax({
-                        url: '@Url.Action("Step7", "SetupProcess")',
-                        type: 'GET',
-                        data: { edit: 1 },
+            $.ajax({
+                url: '@Url.Action("Step7", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
 
-                        success: function (partialView) {
-                            $('#loadingDiv').hide();
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
                         },
                         error: function (request, status, error) {
                             handleErrorMsg(request.responseText);
@@ -1244,17 +1244,17 @@
                             $('#changeContainer').html(partialView);
                             $('#changeContainer').show();
 
-                        },
-                        error: function (request, status, error) {
-                            handleErrorMsg(request.responseText);
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
                         }
                     });
                     </text>
                 }
             }
 
+            });
         });
-    });
 
     function toStep7(){
         $.ajax({
@@ -1272,7 +1272,7 @@
                 handleErrorMsg(request.responseText);
 
             }
-        });
+    });
     }
     function toStep6(){
        
@@ -1312,11 +1312,11 @@
     $("#loanAmount").blur(function(){
         var loanAmount = $('#loanAmount').val();
         if(loanAmount > 0){
-            if(loanAmount.indexOf('.')=== -1){
-                var num = parseFloat(loanAmount);
-                num = num.toFixed(2);
-                $('#loanAmount').val(num);
-            }
+        if(loanAmount.indexOf('.')=== -1){
+            var num = parseFloat(loanAmount);
+            num = num.toFixed(2);
+            $('#loanAmount').val(num);
+        }
         }
     });
     $("#lotAmount").keypress(function(e){
@@ -1417,11 +1417,15 @@
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
-    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false)
+    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false )
     {
+        <text>
+    $(".tab.7").children("span").remove();
+    $(".tab.7").css("pointer-events", "none").css("cursor", "default");
+    $(".tab.7").append("<span style='float:right'>&#128274; </span>");
 
-        //$("").children("span").remove();
-        //        $("").css("pointer-events", "auto").css("cursor", "pointer");
+    </text>
+
     }
 
 </script>
