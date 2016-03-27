@@ -327,6 +327,10 @@
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
                             $('#iAdvance').removeClass('input-validation-error');
+                            $('#startDate').val('');
+                            $('#startDate').removeClass('input-validation-error');
+                            $('#errorStartDate').text('');
+                            $('#startDate').attr('placeholder', 'MM/DD/YYYY');
 
                             ClearSearchRelatedData();
 
