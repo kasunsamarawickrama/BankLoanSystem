@@ -335,7 +335,15 @@
                         $("#btnClear").click(function () {
 
                             ClearSearchRelatedData();
-                            //ClearTextBoxValues();
+                            var mainGridSelectedCount = 0;
+                            $('table#checkableGrid > tbody > tr').each(function () {
+                                var isChecked = $(this).find("#all").is(':checked');
+                                if (isChecked === true)
+                                    mainGridSelectedCount = mainGridSelectedCount + 1;
+                        });
+
+                            if (mainGridSelectedCount === 0)
+                                ClearTextBoxValues();
                         });
 
                         function ClearSearchRelatedData() {
@@ -391,6 +399,18 @@
                                 }
                                 count++;
                             });
+
+                            total = 0;
+                            checkCount = 0;
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total, 2);
+                            $("#payAll").attr("disabled", "disabled");
+                            $("#payDate").attr("disabled", "disabled");
+
+                            // clear top error
+                            $('.centered span').text('');
+                            //$('#errorPayDate').text('');
+                            //$('#payDate').removeClass('input-validation-error');
+                            //$('#payDate').next('span').children().text('');
                         }
 
                         $("#identificationNumberSearch").click(function () {
