@@ -75,7 +75,7 @@
 )
 
         </div>
-        <span id="subtotal" style="margin-left:70%;"> Current Total to Advance : $ 0 </span>
+        <span id="subtotal" style="margin-left:70%;"> Current Total to Advance : $ 0.00 </span>
         <div id="unitid" class="hidden"></div>
     </div>
 
@@ -509,6 +509,7 @@
                                                     total = 0;
                                                     $(this).parents('tr').css('background', 'transparent');
                                                 }
+                                                
                                                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                                 if (checkCount > 0) {
                                                     $("#btnAdvanceAll").removeAttr("disabled");
@@ -573,7 +574,7 @@
                                     $("#startDate").removeAttr("disabled");
                                 }
                                 else if (checkCount == 0) {
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0";
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ 0.00";
                                     ClearTextBoxValues();
                                     $("#btnAdvanceAll").attr("disabled", "disabled");
                                     $("#startDate").attr("disabled", "disabled");

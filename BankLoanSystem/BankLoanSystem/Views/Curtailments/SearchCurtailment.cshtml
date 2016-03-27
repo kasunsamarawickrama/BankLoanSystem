@@ -35,15 +35,15 @@
                      rowStyle: "webgrid-row-style",
                      htmlAttributes: new { id = "searchResultGrid" },
                      columns: grid1.Columns(
-                      grid1.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
+                      grid1.Column("AdvanceDate", "Date Advanced", canSort: false, format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                      grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />}</text>),
                      grid1.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                      grid1.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid1.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                          grid1.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
+                          grid1.Column("CurtNumber", "Curt-Number", canSort: false, format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid1.Column(
                                         "DueDate",
-                                        "Due Date",
+                                        "Due Date", canSort: false,
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
                                    ),
                                    grid1.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>)
