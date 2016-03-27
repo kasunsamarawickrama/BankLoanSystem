@@ -590,9 +590,10 @@
         }
 
         function ClearTextBoxValues() {
-            if ("@ViewBag.IsTitleTrack" == "Yes") {
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
                 document.getElementById('rdTitleYes2').checked = false;
                 document.getElementById('rdTitleNo2').checked = false;
+                $('#customErrorTitleReturn2').children('span').text("");
             }
             $('#iVin').val('');
             $('#iYear').val('');
@@ -603,6 +604,9 @@
             $('#iUnitId').val('');
             $("#payDate2").val('');
             $("#payDate2").attr("disabled", "disabled");
+
+            $('#customErrorPayDate2').children('span').text("");
+
             $("#singleUnitDiv").hide();
         }
 
@@ -882,7 +886,7 @@
             }
             countSelect = 0;
             totalToPay = 0;
-            
+
             $('#spnTotal').text(totalToPay);
 
             var count = 0;
@@ -1040,13 +1044,10 @@
             $("#payDate").attr("disabled", "disabled");
 
             countSelect = 0;
-            total = 0;
+            totalToPay = 0;
             checkCount = 0;
-            //$("#btnAdvance").attr("disabled", "disabled");
-            //$("#btnAdvanceAll").attr("disabled", "disabled");
-            //$("#advanceDate").attr("disabled", "disabled");
+
             $("#payDate").attr("disabled", "disabled");
-            //$("#iAdvance").attr("disabled", "disabled");
 
             var count = 0;
             $("#checkableGrid").find("input:checkbox").each(function () {
@@ -1057,11 +1058,20 @@
                 count++;
             });
             document.getElementById('all').checked = false;
-            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
 
             $("#someID span").html('Select');
             $("#tagscloud span").html('');
-            //$('#iAdvance').removeClass('input-validation-error');
+
+            //remove error messages
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
+                $('#customErrorTitleReturn1').children('span').text("");
+            }
+            $('#customErrorPayDate').children('span').text("");
+            $('.centered span').text('');
+
+            //set total to pay 0.00
+            $('#spnTotal').text("0.00");
 
             ClearSearchRelatedData();
 
