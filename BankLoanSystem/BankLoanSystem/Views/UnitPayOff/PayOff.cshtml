@@ -382,17 +382,13 @@
         var countSelect = 0;
 
         $(document).on('click', '#cbSelectAll', function () {
-            //alert('hi');
-            //var text = $(this).siblings('span').text();
-            //alert(text);
-            //alert($(this).is(':checked'));
-            //alert(totalToPay);
             ClearTextBoxValues();
 
             var isChecked = $(this).is(':checked');
 
             var status;
             totalToPay = 0;
+            totalToPay = totalToPay.toFixed(2);
             if (isChecked === false) {
                 $(this).siblings('span').text('Select');
                 status = false;
@@ -405,6 +401,14 @@
 
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
+
+                //remove error message
+                if ("@ViewBag.IsTitleTrack" === "Yes") {
+                   $('#customErrorTitleReturn1').children('span').text("");
+                }
+                $('#customErrorPayDate').children('span').text("");
+                $('.centered span').text('');
+
                 $("#payDate").val('');
 
                 if ("@ViewBag.IsTitleTrack" == "Yes") {
@@ -523,6 +527,15 @@
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
+
+                //remove error message
+                if ("@ViewBag.IsTitleTrack" === "Yes") {
+                    $('#customErrorTitleReturn1').children('span').text("");
+                }
+                $('#customErrorPayDate').children('span').text("");
+                $('.centered span').text('');
+
+                $("#payDate").val('');
 
                 $("#payDate").val('');
                 if ("@ViewBag.IsTitleTrack" == "Yes") {
