@@ -125,7 +125,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
             //int userId = 57;
 
