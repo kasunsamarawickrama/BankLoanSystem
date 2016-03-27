@@ -1739,6 +1739,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData.stepId = 3;
                     }
+                   
                     //loanData.stepId = 3;
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");

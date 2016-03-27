@@ -78,7 +78,7 @@
                                 @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control a", @id = "advanceAmount", style = "text-align:right" } })
+                                @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control a", @id = "advanceAmount", @placeholder="0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -249,7 +249,7 @@
                                 @Html.LabelFor(model => model.MonthlyLoanAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control a", @id = "loanAmount", style = "text-align:right" } })
+                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control a", @id = "loanAmount", @placeholder = "0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -400,7 +400,7 @@
                                 @Html.LabelFor(model => model.LotInspectionAmount, htmlAttributes: new { })
                             </div>
                             <div class="col-xs-8">
-                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control a", @id = "lotAmount", style = "text-align:right" } })
+                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control a", @id = "lotAmount", @placeholder = "0.00", style = "text-align:right" } })
                                 @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
                             </div>
                             <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
@@ -571,6 +571,10 @@
         else {
             document.getElementById("advanceDueDate").value = "";
             $("#monthAdvance").hide("slow");
+            $('#monthAdvance').children('div').children('div').children('select').next('span').children('span').text('');
+            $('#monthAdvance').children('div').children('div').children('select').removeClass('valid');
+            $('#monthAdvance').children('div').children('div').children('select').removeClass('input-validation-error');
+
         }
     }
     function changeDropDownValueDueLoan() {
@@ -581,6 +585,9 @@
         else {
             document.getElementById("loanDueDate").value = "";
             $("#monthLoan").hide("slow");
+            $('#monthLoan').children('div').children('div').children('select').next('span').children('span').text('');
+            $('#monthLoan').children('div').children('div').children('select').removeClass('valid');
+            $('#monthLoan').children('div').children('div').children('select').removeClass('input-validation-error');
         }
     }
     function changeDropDownValueDueLot() {
@@ -593,25 +600,39 @@
             $("#monthLot").hide("slow");
             if (document.getElementById("lotDue").value == "Random") {
 
-                // delete all details of lotRem value
-                $("#lotRemEmail input").each(function(){
-                    $(this).val('');
-                    $('input').next('span').children('span').text('');
-                    $('input').removeClass('valid');
+                //// delete all details of lotRem value
+                //$("#lotRemEmail input").each(function(){
+                //    //$(this).val('');
+                //    $('input').next('span').children('span').text('');
+                //    $('input').removeClass('valid');
+                //    $('input').removeClass('input-validation-error');
                     
-                });
+                //});
 
-                $("#monthLot select").each(function(){
-                    $(this).val('');
-                    $('select').next('span').children('span').text('');
-                    $('select').removeClass('valid');
-                    
-                });
-                $('.needReminderLoanDueTF').prop('checked',false);
-                $('.needReminderLoanDueTF').prop('checked',false);
-                @Model.IsLotFeeDueEmailReminder = ""
+                //$("#lotRemEmail select").each(function(){
+                //    //$(this).val('');
+                //    //$('select').next('span').children('span').text('');
+                //    //$('select').removeClass('valid');
+                //    $('select').next('span').children('span').text('');
+                //    $('select').removeClass('valid');
+                //    $('select').removeClass('input-validation-error');
+                //});
+                document.getElementById("lotDueEmailRemindPeriod").value = "";
+                $('#lotDueEmailRemindPeriod').next('span').children('span').text('');
+                $('#lotDueEmailRemindPeriod').removeClass('valid');
+                $('#lotDueEmailRemindPeriod').removeClass('input-validation-error');
+                $('#needReminderLotDueT').prop('checked',false);
+                $('#needReminderLotDueF').prop('checked',false);
+                $('#remindEmailLotDue').hide();
+                @*@Model.IsLotFeeDueEmailReminder = "";*@
                 $("#lotRemEmail").next('span').children('span').text('');
+                $("#lotRemEmail").hide("slow");
+
             }
+            $('#monthLot').children('div').children('div').children('select').next('span').children('span').text('');
+            $('#monthLot').children('div').children('div').children('select').removeClass('valid');
+            $('#monthLot').children('div').children('div').children('select').removeClass('input-validation-error');
+            
         }
     }
     @if (ViewBag.isLender == true) { <text>
@@ -624,6 +645,9 @@
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceComplete').hide("slow");
+            $('#remindEmailAdvanceComplete').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanCompleteT').change(function () {
             $('#remindEmailLoanComplete').show("slow");
@@ -632,6 +656,9 @@
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             $('#remindEmailLoanComplete').hide("slow");
+            $('#remindEmailLoanComplete').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotCompleteT').change(function () {
             $('#remindEmailLotComplete').show("slow");
@@ -640,6 +667,9 @@
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             $('#remindEmailLotComplete').hide("slow");
+            $('#remindEmailLotComplete').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     </text> }
     $('#needReminderAdvanceDueT').change(function () {
@@ -649,6 +679,9 @@
             //document.getElementById("advanceDueEmail").value = "";
             document.getElementById("advanceDueEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceDue').hide("slow");
+            $('#remindEmailAdvanceDue').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanDueT').change(function () {
             $('#remindEmailLoanDue').show("slow");
@@ -658,6 +691,9 @@
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             $('#remindEmailLoanDue').hide("slow");
+            $('#remindEmailLoanDue').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotDueT').change(function () {
 
@@ -668,6 +704,9 @@
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             $('#remindEmailLotDue').hide("slow");
+            $('#remindEmailLotDue').children('div').children('div').children('input').next('span').children('span').text('');
+            $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('valid');
+            $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     function changeDropDownValueAdvance() {
         var drop1 = document.getElementById("dropDownAdvance").value;
@@ -692,14 +731,33 @@
             document.getElementById("advanceAmount").value = "";
             document.getElementById("advanceCalculateType").value = "";
             document.getElementById("advanceDue").value = "";
+
+            $("#advance input").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            $("#advance select").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            //$('#advance').children('div').children('div').children('input').next('span').children('span').text('');
+            //$('#advance').children('div').children('div').children('input').removeClass('valid');
+            //$('#advance').children('div').children('div').children('input').removeClass('input-validation-error');
+            //$('#advance').children('div').children('div').children('select').next('span').children('span').text('');
+            //$('#advance').children('div').children('div').children('select').removeClass('valid');
+            //$('#advance').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
-            $('input').next('span').children('span').text('');
-            // for dropdown field
-            $('select').next('span').children('span').text('');
-
             document.getElementById('advanceAmount').value = "";
-            $('#advanceAmount').val("0.00");
+            $('#advanceAmount').val("");
             $('#advance').show("slow");
         }
     }
@@ -725,14 +783,37 @@
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             document.getElementById("loanAmount").value = "";
             document.getElementById("loanDue").value = "";
+
+            $("#loan input").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            $("#loan select").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            //$('#loan').children('div').children('div').children('input').next('span').children('span').text('');
+            //$('#loan').children('div').children('div').children('input').removeClass('valid');
+            //$('#loan').children('div').children('div').children('input').removeClass('input-validation-error');
+            //$('#loan').children('div').children('div').children('select').next('span').children('span').text('');
+            //$('#loan').children('div').children('div').children('select').removeClass('valid');
+            //$('#loan').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
-            $('input').next('span').children('span').text('');
+            //$('input').next('span').children('span').text('');
 
             // for dropdown field
-            $('select').next('span').children('span').text('');
+            //$('select').next('span').children('span').text('');
             document.getElementById('loanAmount').value = "";
-            $('#loanAmount').val("0.00");
+            $('#loanAmount').val("");
             $('#loan').show("slow");
         }
     }
@@ -758,17 +839,42 @@
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             document.getElementById("lotAmount").value = "";
             document.getElementById("lotDue").value = "";
+
+
+            $("#lot input").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            $("#lot select").each(function(){
+                //$(this).val('');
+                $(this).next('span').children('span').text('');
+                $(this).removeClass('valid');
+                $(this).removeClass('input-validation-error');
+                    
+            });
+
+            //$('#lot').children('div').children('div').children('input').next('span').children('span').text('');
+            //$('#lot').children('div').children('div').children('input').removeClass('valid');
+            //$('#lot').children('div').children('div').children('input').removeClass('input-validation-error');
+            //$('#lot').children('div').children('div').children('select').next('span').children('span').text('');
+            //$('#lot').children('div').children('div').children('select').removeClass('valid');
+            //$('#lot').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
-            $('input').next('span').children('span').text('');
+            //$('input').next('span').children('span').text('');
 
             // for dropdown field
-            $('select').next('span').children('span').text('');
+            //$('select').next('span').children('span').text('');
             document.getElementById('lotAmount').value = "";
-            $('#lotAmount').val("0.00");
+            $('#lotAmount').val("");
             $('#lot').show("slow");
         }
     }
+    $('.a').attr('placeholder','0.00');
     partialLoad();
     function partialLoad() {
 
@@ -1237,17 +1343,20 @@
         return 0;
     }
     $(".a").on('click', function(e) {
-        if (this.value === "0.00") {
-            document.getElementById(this.id).value = "";
-        }
-        else if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
+        //if (this.value === "0.00") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        //else if (this.value === "0") {
+        //    document.getElementById(this.id).value = "";
+        //}
+        $(this).removeAttr('placeholder');
     });
     $('.a').blur(function () {
         if (this.value == "") {
-            $(this).val("0.00");
+            //$(this).val("0.00");
+            $(this).attr('placeholder','0.00');
         }
+
     });
 
     $('#advanceDueEmailRemindPeriod').focusout(function () {
