@@ -65,7 +65,7 @@ namespace BankLoanSystem.Controllers.Unit
             int userId = userData.UserId;
 
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
-                return new HttpStatusCodeResult(404, "Failed find loan.");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
 
             string loanCode = Session["loanCode"].ToString();
 
@@ -305,7 +305,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404,"Session Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
             ViewBag.Title = title;
@@ -456,7 +456,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
             //int userId = 57;
 

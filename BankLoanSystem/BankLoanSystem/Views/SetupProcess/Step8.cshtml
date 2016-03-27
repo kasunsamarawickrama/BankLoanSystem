@@ -1371,6 +1371,11 @@
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
+    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false)
+    {
 
+        //$("").children("span").remove();
+        //        $("").css("pointer-events", "auto").css("cursor", "pointer");
+    }
 
 </script>
