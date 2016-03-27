@@ -245,20 +245,21 @@ else if (@ViewBag.ErrorMsg != null)
 
     $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
-    $('#txtCompanyName').keyup(function (e) {
-        //alert(e.which);//37,8
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
-    });
+
     // change to title case
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').keyup(function (e) {
         if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ChangeToCapital(this.id, this.value);
+    });
+
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').blur(function (e) {
+       
             ToTitleCase(this.id, this.value);
     });
 
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').keypress(function (e) {
         if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
+            ChangeToCapital(this.id, this.value);
     });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
