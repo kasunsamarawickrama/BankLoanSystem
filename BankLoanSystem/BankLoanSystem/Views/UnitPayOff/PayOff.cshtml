@@ -108,7 +108,7 @@
                                     @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo1", @class = "titleReturn" }) No
                                 </label>
                             </div>
-                            <div id="customErrorTitleReturn1"><span class="text-danger"></span></div>
+                            <div id="customErrorTitleReturn1"><span class="text-danger field-validation-error"></span></div>
                         </div>
                     }
 
@@ -125,7 +125,7 @@
                         <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
-                    <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                    <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
 
                 </div>
 
@@ -264,7 +264,7 @@
                                             <label for="">Pay Date </label>
                                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                         </div>
-                                        <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                                        <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
                                     </div>
                                     @if (ViewBag.IsTitleTrack == "Yes")
                                     {
@@ -280,7 +280,7 @@
                                                     @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
                                                 </label>
                                             </div>
-                                            <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
+                                            <div id="customErrorTitleReturn2"><span class="text-danger field-validation-error"></span></div>
                                         </div>
                                     }
                                     <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
@@ -347,8 +347,16 @@
 
 
         $("#btnClear").click(function () {
-
             ClearSearchRelatedData();
+            var mainGridSelectedCount = 0;
+            $('table#checkableGrid > tbody > tr').each(function () {
+                var isChecked = $(this).find("#all").is(':checked');
+                if (isChecked === true)
+                    mainGridSelectedCount = mainGridSelectedCount + 1;
+            });
+
+            if (mainGridSelectedCount === 0)
+                ClearTextBoxValues();
         });
 
         function ClearSearchRelatedData() {
@@ -892,6 +900,16 @@
             ClearTextBoxValues();
             $("#btnPayAll").attr("disabled", "disabled");
             $("#payDate").attr("disabled", "disabled");
+
+            //remove error message
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
+                $('#customErrorTitleReturn1').children('span').text("");
+            }
+            $('#customErrorPayDate').children('span').text("");
+            $('.centered span').text('');
+
+            $("#payDate").val('');
+
             $("#payDate").val('');
             if ("@ViewBag.IsTitleTrack" == "Yes") {
                 document.getElementById('rdTitleYes1').checked = false;
@@ -899,7 +917,7 @@
             }
             countSelect = 0;
             totalToPay = 0;
-
+            totalToPay = totalToPay.toFixed(2);
             $('#spnTotal').text(totalToPay);
 
             var count = 0;
