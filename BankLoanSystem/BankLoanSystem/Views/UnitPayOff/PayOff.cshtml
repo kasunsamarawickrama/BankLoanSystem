@@ -345,7 +345,25 @@
             GridUpdate();
         });
 
+        $('#payDate').blur(function() {
+            var val = $(this).val();
+            //alert(val);
+            if (val === '') {
+                $(this).removeClass('input-validation-error');
+                $('#customErrorPayDate').siblings('span').text('');
+            }
 
+        });
+
+        $('#payDate2').blur(function () {
+            var val = $(this).val();
+            //alert(val);
+            if (val === '') {
+                $(this).removeClass('input-validation-error');
+                $('#customErrorPayDate2').siblings('span').text('');
+            }
+
+        });
 
 
         $("#btnClear").click(function () {
@@ -627,7 +645,7 @@
             $('#iUnitId').val('');
             $("#payDate2").val('');
             $("#payDate2").attr("disabled", "disabled");
-
+            $('#payDate2').removeClass('input-validation-error');
             $('#customErrorPayDate2').children('span').text("");
 
             $("#singleUnitDiv").hide();
@@ -1103,7 +1121,8 @@
             }
             $('#customErrorPayDate').children('span').text("");
             $('.centered span').text('');
-
+            $('#payDate').val('');
+            $('#payDate').removeClass('input-validation-error');
             //set total to pay 0.00
             $('#spnTotal').text("0.00");
 
