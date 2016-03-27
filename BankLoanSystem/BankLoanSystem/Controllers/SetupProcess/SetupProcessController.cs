@@ -249,7 +249,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId != 1)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             //StepAccess cs = new StepAccess();
@@ -482,14 +482,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId > 2)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             // check if   step is 3...
 
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             if (lbls != null && lbls.Equals("User Successfully Created"))
@@ -656,13 +656,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId > 2)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             // check if   step is 3...
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             user.CreatedBy = currentUser;
@@ -1295,10 +1295,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
-            if (nonRegCompanyBranch.NonRegCompanyId == 0)
-            {
-                nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
-            }
+            //if (nonRegCompanyBranch.NonRegCompanyId == 0)
+            //{
+            //    nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            //}
             
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
@@ -1326,7 +1326,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             UserManageAccess uma = new UserManageAccess();
             //userNonRegCompany.MainBranch.BranchCreatedBy = uma.getUserById(userId).BranchId;
             nonRegBranch.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
-            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
 
             //Set admin branch to new user 
             if (userData.RoleId == 2)
@@ -1426,7 +1426,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is super admin or admin
             if (userData.RoleId > 2)
             {
-                return new HttpStatusCodeResult(404, "You are Not Allowed");
+                return RedirectToAction("UserLogin", "Login");
             }
 
             if (Session["dashboard"] !=null)
@@ -1437,7 +1437,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             StepAccess sa = new StepAccess();
             if (loanData.stepId < 1)
             {
-                return new HttpStatusCodeResult(404, "You are Not Allowed");
+                return RedirectToAction("UserLogin", "Login");
             }
 
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
