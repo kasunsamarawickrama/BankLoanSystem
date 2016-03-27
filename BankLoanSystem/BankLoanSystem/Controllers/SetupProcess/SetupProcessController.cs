@@ -49,7 +49,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         if(loanData.loanId > 0)
                         {
                             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+
+                           
                             _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+                            
                             Session["isInterest"] = _loan.isInterestCalculate;
                         }
                     }
