@@ -598,14 +598,14 @@
                     $(this).val('');
                     $('input').next('span').children('span').text('');
                     $('input').removeClass('valid');
-                    
+
                 });
 
                 $("#monthLot select").each(function(){
                     $(this).val('');
                     $('select').next('span').children('span').text('');
                     $('select').removeClass('valid');
-                    
+
                 });
                 $('.needReminderLoanDueTF').prop('checked',false);
                 $('.needReminderLoanDueTF').prop('checked',false);
@@ -1262,6 +1262,11 @@
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
+    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false)
+    {
 
+        $("").children("span").remove();
+                $("").css("pointer-events", "auto").css("cursor", "pointer");
+    }
 
 </script>
