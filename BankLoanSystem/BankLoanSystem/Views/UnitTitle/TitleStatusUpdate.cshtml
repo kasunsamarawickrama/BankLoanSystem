@@ -187,7 +187,26 @@
         $(document).ready(function () {
             $('#searchGrid1').hide();
         });
+        function ClearValues() {
 
+           // $('#searchGrid1').hide();
+            $('#identificationNumberSearch').val('');
+            $('#identificationNumber').val('');
+            $('#unitYear').val('');
+            $('#unitMake').val('');
+            $('#unitModel').val('');
+            $('#titleStatus').val('');
+            $('#unitStatus').val('');
+            $('#notReceived').prop('checked', false);
+            $('#received').prop('checked', false);
+            $('#returnDealer').prop('checked', false);
+            $('#sentBank').prop('checked', false);
+            $('#updateTitleDiv span').text('');
+            $('#searchIdentificationNumber span').text('');
+            $('.centered span').text('');
+            $('#updateTitleDiv span').text('');
+            $('#identificationNumberSearch').removeClass('input-validation-error');
+        };
         //cancel button click event
         $('#btnCancel').click(function () {
             $('#searchGrid1').hide();
@@ -329,7 +348,7 @@
       
         //$('#identificationNumberSearch').blur(function () {
         //    var val1 = $('#identificationNumberSearch').val();
-        //    if (val1.length < 6) {
+        //    if (val1.length < 6) {identificationNumberSearch
         //        FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
         //    }
         //});
@@ -349,6 +368,31 @@
             if ($('#titleGrid').children('tbody').children('tr').length == 0) {
                 $('#searchGrid1').hide();
             }
+            $('#updateTitleDiv span').text("");
+            //$('#notReceived').prop('checked', false);
+            //$('#received').prop('checked', false);
+            //$('#returnDealer').prop('checked', false);
+            //$('#sentBank').prop('checked', false);
+
+            //if ($('#identificationNumberSearch').val() == '') {
+
+            //}
+
+        });
+        $('#identificationNumberSearch').change(function () {
+
+            $('#searchIdentificationNumber span').text('');
+            $('#identificationNumberSearch').removeClass('input-validation-error');
+            $('.centered span').text('');
+            if ($('#titleGrid').children('tbody').children('tr').length == 0) {
+                $('#searchGrid1').hide();
+            }
+            $('#identificationNumber').val('');
+            $('#unitYear').val('');
+            $('#unitMake').val('');
+            $('#unitModel').val('');
+            $('#titleStatus').val('');
+            $('#unitStatus').val('');
             $('#updateTitleDiv span').text("");
             $('#notReceived').prop('checked', false);
             $('#received').prop('checked', false);
