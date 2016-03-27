@@ -57,7 +57,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else
                 {
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch(Exception e)
@@ -248,7 +248,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId != 1)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             //StepAccess cs = new StepAccess();
@@ -481,14 +481,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId > 2)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             // check if   step is 3...
 
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             if (lbls != null && lbls.Equals("User Successfully Created"))
@@ -655,13 +655,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId > 2)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             // check if   step is 3...
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             user.CreatedBy = currentUser;
@@ -1425,7 +1425,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is super admin or admin
             if (userData.RoleId > 2)
             {
-                return new HttpStatusCodeResult(404, "You are Not Allowed");
+                return RedirectToAction("UserLogin", "Login");
             }
 
             if (Session["dashboard"] !=null)
@@ -1436,7 +1436,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             StepAccess sa = new StepAccess();
             if (loanData.stepId < 1)
             {
-                return new HttpStatusCodeResult(404, "You are Not Allowed");
+                return RedirectToAction("UserLogin", "Login");
             }
 
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();
