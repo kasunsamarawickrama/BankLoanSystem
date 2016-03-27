@@ -561,7 +561,7 @@
 
                         @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boatserial", @maxlength = 17 } })
+                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap block_invalid_allow_dash", @id = "boatserial", @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -2951,6 +2951,21 @@
 
     $(document).on('keypress','.block_invalid span input,.block_invalid_char' , function(e){
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    } );
+
+    $(document).on('keypress','.block_invalid_allow_dash' , function(e){
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
