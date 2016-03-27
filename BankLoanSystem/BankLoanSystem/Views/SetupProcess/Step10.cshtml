@@ -452,8 +452,6 @@ else
 
         //var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
 
-        //alert(tblLength);
-
         var index = 0;
 
         $('table#tblGrid > tbody > tr').not(':first').each(function() {
@@ -471,33 +469,44 @@ else
             if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
                 // update list
                 list.currentList[index].TimePeriod = timePeriod;
-                //list.currentList[index].Percentage = percentage;
             }
 
             index = parseInt(index) + parseInt(1);
+
             //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
 
             if (parseInt(timePeriod) > parseInt(remainingTime)) {
                 $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
                 isErrorTime = true;
-                return;
+                return false;
             }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
-                return;
+                return false;
             }
             else {
                 isErrorTime = false;
                 $('#spnremainTimeError').children('span').text("");
             }
         });
-        //alert(isErrorTime);
 
-        //currentListLenght = Object.keys(list.currentList).length;
-        //for (var j = 0; j < currentListLenght; j++) {
-        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-        //}
+        if (isErrorTime === false && document.getElementById("spnremainPt").innerHTML === 'Problem in time period!') {
+            if (parseInt(remainingPt) > 0) {
+                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('');
+            } else if (parseInt(remainingPt) === 0) {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                $('#spnremainPtError').text('');
+                document.getElementById("tblGrid").style.borderColor = "green";
+            } else {
+                $('#spnremainPt').text('');
+                $('#spnremainPtComplete').text('');
+                $('#spnremainPtError').text('Error percentage found');
+            }
+        }
+        
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function(e) {
@@ -568,13 +577,12 @@ else
 
                     var strTr = createTableRow(id);
                     $('#tblGrid').append(strTr);
-                    //alert($('#tblGrid tr:last').find("#timePeriod").html());
                     $('#tblGrid tr:last').find("#timePeriod").focus();
                 }
 
             }
             else if (parseInt(remainingPt) === 0) {
-
+                
                 if (isErrorTime === false) {
                     $('#spnremainPt').text('');
                     $('#spnremainPtComplete').text('Curtailment schedule Completed.');
@@ -597,19 +605,6 @@ else
         //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
         //}
     });
-
-    //$('.clsaddCuirtailment').bind('enterKey', function(e) {
-    //    alert('enterkey');
-    //});
-
-    //$('.clsaddCuirtailment').keypress(function (e) {
-    //    //alert('enterkey');
-    //    var key = e.which;
-    //    if(key === 13)  // the enter key code
-    //    {
-    //        alert('enterkey');
-    //    }
-    //});
 
     var isRowAdded = false;
     var isFullFirst = true;
@@ -689,11 +684,11 @@ else
 
     //delete row
     $(document).on('click', '.btnDeleteRow', function () {
-        //alert('delete');
+        
         var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
         $('#customErrorTable').children('span').text("");
         if(tblLength > 1) {
-            //alert('if');
+            
             var tr = $(this).parents('tr:first');
 
             var curid = tr.find("#lblCur").html();
@@ -718,16 +713,11 @@ else
                     list.currentList[i].CurtailmentId = removeIndex + 1;
                 }
 
-                //if(isErrorTime === true){}
-
                 //for (var j = 0; j < currentListLenght; j++) {
                 //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
                 //}
 
-                //if(isErrorTime !== true)
                 remainingPt = parseInt(remainingPt) + parseInt(percentage);
-
-                //alert(isErrorTime);
 
                 if(parseInt(remainingPt) > 0)
                 {
@@ -808,12 +798,12 @@ else
             if (parseInt(timePeriod) > parseInt(remainingTime)) {
                 $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
                 isErrorTime = true;
-                return;
+                return false;
             }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
 
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
-                return;
+                return false;
             }
             else {
                 isErrorTime = false;
@@ -823,10 +813,6 @@ else
 
         //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
     });
-
-    //$('#curtailmentDueEmail').change(function() {
-    //    alert('hi');
-    //});
 
     $('#btnCreate').click(function() {
 
@@ -851,13 +837,12 @@ else
 
 
         var dueDate = document.getElementById('CurtailmentDueDate').value;
-        //alert(dueDate);
+        
         if (dueDate === '') {
             $('#customErrorDueDate').children('span').text("Please select.");
         } else {
             $('#customErrorDueDate').children('span').text("");
         }
-        //alert(dueDate);
 
         var email = document.getElementById('curtailmentDueEmail').value;
         //if (email === '') {
