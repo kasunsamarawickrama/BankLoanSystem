@@ -8,6 +8,10 @@
     }
 }
 <style>
+
+    .first_letter_capital{
+    text-transform: capitalize;
+}
     .form-control{
         display:inline;
     }
@@ -75,7 +79,7 @@ else if (@ViewBag.ErrorMsg != null)
                 @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
             <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyName" } })
+                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyName" } })
                 @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-warning"></span></div>
             </div>
@@ -86,7 +90,7 @@ else if (@ViewBag.ErrorMsg != null)
                 @Html.LabelFor(model => model.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
             <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyAddress1" } })
+                @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyAddress1" } })
                 @Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
@@ -97,7 +101,7 @@ else if (@ViewBag.ErrorMsg != null)
                 @Html.LabelFor(model => model.CompanyAddress2, htmlAttributes: new { })
             </div>
             <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control", @id = "txtCompanyAddress2" } })
+                @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyAddress2" } })
                 @Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })
                 <div id="customError"><span class="text-danger"></span></div>
             </div>
@@ -108,7 +112,7 @@ else if (@ViewBag.ErrorMsg != null)
                 @Html.LabelFor(model => model.City, htmlAttributes: new { })<span style="color: red">*</span>
             </div>
             <div class="col-xs-9" >
-                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @id = "txtCity" } })
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCity" } })
                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
                 @*<div id="customError"><span class="text-danger"></span></div>*@
 
@@ -247,20 +251,13 @@ else if (@ViewBag.ErrorMsg != null)
 
 
     // change to title case
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').keyup(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ChangeToCapital(this.id, this.value);
-    });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').blur(function (e) {
        
             ToTitleCase(this.id, this.value);
     });
 
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').keypress(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ChangeToCapital(this.id, this.value);
-    });
+  
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
