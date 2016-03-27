@@ -396,7 +396,7 @@
 
                                 }
                                 total = 0;
-                                totalRecCount = 0;
+                                totalRecCount = 0;total = 0;
                                // $('.advanceAmount').each(function () {
                                 $('#checkableGrid').find('.curtAmount') .each(function () {
                                     var tr = $(this).parents('tr:first');
@@ -413,7 +413,7 @@
 
                                     } else {
                                         checkCount = 0;
-                                        total = 0;
+                                        
                                         if (tr.find("#curtailmentStatus").val() === '2') {
                                             $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();
                                         }else{
@@ -453,7 +453,8 @@
                 var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
 
-
+                changePartialPaymentRowColor();
+                
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
@@ -575,9 +576,9 @@
                 });
             }
 
-            $(document).ready(function () {
-                changePartialPaymentRowColor();
-            });
+            //$(document).ready(function () {
+            //    changePartialPaymentRowColor();
+            //});
 
             function changePartialPaymentRowColor() {
                 $('.curtAmount').each(function () {
@@ -702,6 +703,8 @@
                 if (para1 == null) { para1 = ''; }
                 if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
                     Search(para1, para2, para3, para4);
+                }else{
+                    $('#searchGrid1').hide();
                 }
 
 
@@ -831,6 +834,7 @@
                     error: function (reponse) {
 
                         alert("error : " + reponse);
+                        $('#searchGrid1').hide();
                     }
                 });
             }
@@ -849,6 +853,7 @@
         $("#cmbModel").val('');
         $("#noDataLabelDiv").hide();
         $("#searchGrid").hide();
+        //$("#singleUnitDiv").hide();       
 
     }
 
