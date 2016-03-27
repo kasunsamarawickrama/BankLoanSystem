@@ -182,7 +182,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Year, new { htmlAttributes = new { @id = "editor1-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox1-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox1-1">
                             @{
                                 List<SelectListItem> yearlist = new List<SelectListItem>();
                                 for (var i = @DateTime.Now.AddYears(+1).Year; i >= 1980; i--)
@@ -198,7 +198,7 @@
 
                         @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
-                        <div class="col-sm-2" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" id="div-combobox1-2">
+                        <div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" id="div-combobox1-2">
                             <div>
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })
                             </div>
@@ -210,7 +210,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Model, new { htmlAttributes = new { @id = "editor1-3", @Style = "display: none;" } })
-                        <div class="col-sm-4" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-3">
+                        <div class="col-sm-4 block_invalid" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-3">
                             <div>
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox1-3" })
                             </div>
@@ -220,7 +220,7 @@
 
                         @Html.LabelFor(model => model.vehicle.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2">
-                            @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim", @Style = "width: 154%;", @id = "vehicletrim" } })
+                            @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim block_invalid_char", @Style = "width: 154%;", @id = "vehicletrim" } })
                             @Html.ValidationMessageFor(model => model.vehicle.Trim, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -234,7 +234,7 @@
 
                         @Html.LabelFor(model => model.vehicle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.vehicle.Color, new { htmlAttributes = new { @id = "editor1-4", @Style = "display: none;" } })
-                        <div class="col-sm-2" id="div-combobox1-4">
+                        <div class="col-sm-2 block_invalid" id="div-combobox1-4">
                             @{
                                 List<SelectListItem> Colourlist = new List<SelectListItem>();
 
@@ -310,7 +310,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.rv.Year, new { htmlAttributes = new { @id = "editor2-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox2-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox2-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox2-1" })
                             @Html.ValidationMessageFor(model => model.rv.Year, "", new { @class = "text-danger" })
@@ -319,7 +319,7 @@
 
                         @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.rv.Make, new { htmlAttributes = new { @id = "editor2-2", @Style = "display: none;" } })
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 block_invalid">
                             <div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2',2);" id="div-combobox2-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
                             </div>
@@ -331,7 +331,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.rv.Model, new { htmlAttributes = new { @id = "editor2-3", @Style = "display: none;" } })
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 block_invalid">
                             <div onmouseover="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
                             </div>
@@ -379,7 +379,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.camper.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.camper.Year, new { htmlAttributes = new { @id = "editor3-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox3-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox3-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox3-1" })
                             @Html.ValidationMessageFor(model => model.camper.Year, "", new { @class = "text-danger" })
@@ -388,7 +388,7 @@
 
                         @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.camper.Make, new { htmlAttributes = new { @id = "editor3-2", @Style = "display: none;" } })
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 block_invalid">
                             <div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2',3);" id="div-combobox3-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
                             </div>
@@ -400,7 +400,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.camper.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.camper.Model, new { htmlAttributes = new { @id = "editor3-3", @Style = "display: none;" } })
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 block_invalid">
                             <div onmouseover="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
                             </div>
@@ -474,7 +474,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.atv.Year, new { htmlAttributes = new { @id = "editor4-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox4-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox4-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox4-1" })
                             @Html.ValidationMessageFor(model => model.atv.Year, "", new { @class = "text-danger" })
@@ -484,7 +484,7 @@
                         @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" id="div-combobox4-2">
+                            <div class="block_invalid" onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" id="div-combobox4-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox4-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Make, "", new { @class = "text-danger" })
@@ -496,7 +496,7 @@
                         @Html.LabelFor(model => model.atv.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.atv.Model, new { htmlAttributes = new { @id = "editor4-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-3">
+                            <div class="block_invalid" onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox4-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
@@ -535,7 +535,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.boat.Year, new { htmlAttributes = new { @id = "editor5-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox5-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox5-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox5-1" })
                             @Html.ValidationMessageFor(model => model.boat.Year, "", new { @class = "text-danger" })
@@ -544,7 +544,7 @@
 
                         @Html.LabelFor(model => model.boat.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.boat.Make, new { htmlAttributes = new { @id = "editor5-2", @Style = "display: none;" } })
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 block_invalid">
                             <div onmouseover="GetMakes($('#combobox5-1'),'#combobox5-2',5);" id="div-combobox5-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
                             </div>
@@ -555,13 +555,13 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.TrailerId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap", @id = "boattrailer", @maxlength = 17 } })
+                            @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                         </div>
 
                         @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-2" style="width: 32.667%;">
-                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap", @id = "boatserial", @maxlength = 17 } })
+                            @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boatserial", @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -591,7 +591,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.motorcycle.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Year, new { htmlAttributes = new { @id = "editor6-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox6-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox6-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox6-1" })
                             @Html.ValidationMessageFor(model => model.motorcycle.Year, "", new { @class = "text-danger" })
@@ -601,7 +601,7 @@
                         @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Make, new { htmlAttributes = new { @id = "editor6-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" id="div-combobox6-2">
+                            <div class="block_invalid" onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" id="div-combobox6-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Make, "", new { @class = "text-danger" })
@@ -613,7 +613,7 @@
                         @Html.LabelFor(model => model.motorcycle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Model, new { htmlAttributes = new { @id = "editor6-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-3">
+                            <div class="block_invalid" onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
@@ -630,7 +630,7 @@
                     <div class="form-group" id="div-combobox6-4">
                         @Html.LabelFor(model => model.motorcycle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.motorcycle.Color, new { htmlAttributes = new { @id = "editor6-4", @Style = "display: none;" } })
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 block_invalid">
                             @Html.DropDownList("color", Colourlist, "-- select type --", new { @class = "form-control", @id = "combobox6-4" })
                             @Html.ValidationMessageFor(model => model.motorcycle.Color, "", new { @class = "text-danger" })
                         </div>
@@ -661,7 +661,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.snowmobile.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.snowmobile.Year, new { htmlAttributes = new { @id = "editor7-1", @Style = "display: none;" } })
-                        <div class="col-sm-4" id="div-combobox7-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox7-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox7-1" })
                             @Html.ValidationMessageFor(model => model.snowmobile.Year, "", new { @class = "text-danger" })
@@ -671,7 +671,7 @@
                         @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.snowmobile.Make, new { htmlAttributes = new { @id = "editor7-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" id="div-combobox7-2">
+                            <div class="block_invalid" onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" id="div-combobox7-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Make, "", new { @class = "text-danger" })
@@ -683,7 +683,7 @@
                         @Html.LabelFor(model => model.snowmobile.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.snowmobile.Model, new { htmlAttributes = new { @id = "editor7-3", @Style = "display: none;" } })
                         <div class="col-sm-4">
-                            <div onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',6);" id="div-combobox7-3">
+                            <div class="block_invalid" onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',6);" id="div-combobox7-3">
                                 @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
                             </div>
                             @Html.ValidationMessageFor(model => model.snowmobile.Model, "", new { @class = "text-danger" })
@@ -707,7 +707,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
-                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "heavyequipmentSerial" , @maxlength = 17 } })
+                            @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "heavyequipmentSerial" , @maxlength = 17 } })
                             @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
                             <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                         </div>
@@ -716,7 +716,7 @@
                         @Html.LabelFor(model => model.heavyequipment.Year, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.heavyequipment.Year, new { htmlAttributes = new { @id = "editor8-1", @Style = "display: none;" } })
 
-                        <div class="col-sm-4" id="div-combobox8-1">
+                        <div class="col-sm-4 allow_numeric max_length4" id="div-combobox8-1">
 
                             @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
                             @Html.ValidationMessageFor(model => model.heavyequipment.Year, "", new { @class = "text-danger" })
@@ -726,7 +726,7 @@
                         @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.heavyequipment.Make, new { htmlAttributes = new { @id = "editor8-2", @Style = "display: none;" } })
                         <div class="col-sm-2">
-                            <div onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">
+                            <div class="block_invalid" onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">
                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
                             </div>
                             @Html.ValidationMessageFor(model => model.heavyequipment.Make, "", new { @class = "text-danger" })
@@ -1260,57 +1260,64 @@
     }
 
 
-    //key up for bind child text box value to hidden box
-    $('#vehicleVin').keyup(function () {
-        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
-        var vin1 =document.getElementById('vehicleVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#vehicleVin').val(vin2);
-        if($('#vehicleVin').val().length == 17){
-            $('#vehicleVIN span').text("");
-            var vin =document.getElementById('vehicleVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox1-1').next().children('input').val(year);
-                        document.getElementById('editor1-1').value = year;
-                    }
-                },
-                error: function (reponse) {
-                }
-            });
-        }
-        else if($('#vehicleVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-           // $('#vehicleVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#vehicleVin').val().length < 17){
-            //var vinlen = $('#vehicleVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-           // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            var vinlen = $('#vehicleVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-           // $('#vehicleVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-
-        }
+    $('#vehicleVin').keypress(function(e){
+        
+    
     });
+
+    ////key up for bind child text box value to hidden box
+    //$('#vehicleVin').keyup(function (e) {
+        
+    //    var vin1 =document.getElementById('vehicleVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#vehicleVin').val(vin2);
+    //    if($('#vehicleVin').val().length == 17){
+    //        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+    //        $('#vehicleVIN span').text("");
+    //        var vin =document.getElementById('vehicleVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox1-1').next().children('input').val(year);
+    //                    document.getElementById('editor1-1').value = year;
+    //                }
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }
+    //    else if($('#vehicleVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#vehicleVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#vehicleVin').val().length < 17){
+    //        //var vinlen = $('#vehicleVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        var vinlen = $('#vehicleVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#vehicleVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+
+    //    }
+    //});
     // mouseleave for check vin number and bind year to year text box
     $('#vehicleVin').change (function () {
-        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('vehicleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#vehicleVin').val(vin2);
         if($('#vehicleVin').val().length == 17){
+            $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
             var vin =document.getElementById('vehicleVin').value;
             $('#vehicleVIN span').text("");
             $.ajax({
@@ -1350,56 +1357,57 @@
 
     });
 
-    $('#rvVin').keyup(function () {
-        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
-        var vin1 =document.getElementById('rvVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#rvVin').val(vin2);
-        if($('#rvVin').val().length == 17){
-            $('#rvVIN span').text("");
-            var vin =document.getElementById('rvVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox2-1').next().children('input').val(year);
-                        document.getElementById('editor2-1').value = year;
-                    }
+    //$('#rvVin').keyup(function () {
+    //    $("#rvVin").val(($("#rvVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('rvVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#rvVin').val(vin2);
+    //    if($('#rvVin').val().length == 17){
+    //        $('#rvVIN span').text("");
+    //        var vin =document.getElementById('rvVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox2-1').next().children('input').val(year);
+    //                    document.getElementById('editor2-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }
-        else if($('#rvVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-           // $('#rvVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#rvVin').val().length < 17){
-            var vinlen = $('#rvVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-           // $('#rvVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            var vinlen = $('#rvVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-           // $('#rvVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }
+    //    else if($('#rvVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#rvVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#rvVin').val().length < 17){
+    //        var vinlen = $('#rvVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#rvVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        var vinlen = $('#rvVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#rvVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
-    });
+    //    }
+    //});
     $('#rvVin').change(function () {
-        $("#rvVin").val(($("#rvVin").val()).toUpperCase());
+       
         var vin1 =document.getElementById('rvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#rvVin').val(vin2);
         if($('#rvVin').val().length == 17){
+            $("#rvVin").val(($("#rvVin").val()).toUpperCase());
             $('#rvVIN span').text("");
             var vin =document.getElementById('rvVin').value;
             $.ajax({
@@ -1438,56 +1446,57 @@
 
         }
     });
-    $('#camperVin').keyup(function () {
-        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
-        var vin1 =document.getElementById('camperVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#camperVin').val(vin2);
-        if($('#camperVin').val().length == 17){
-            $('#camperVIN span').text("");
-            var vin =document.getElementById('camperVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox3-1').next().children('input').val(year);
-                        document.getElementById('editor3-1').value = year;
-                    }
+    //$('#camperVin').keyup(function () {
+    //    $("#camperVin").val(($("#camperVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('camperVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#camperVin').val(vin2);
+    //    if($('#camperVin').val().length == 17){
+    //        $('#camperVIN span').text("");
+    //        var vin =document.getElementById('camperVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox3-1').next().children('input').val(year);
+    //                    document.getElementById('editor3-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }
-        else if($('#camperVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-           // $('#camperVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#camperVin').val().length < 17){
-            var vinlen = $('#camperVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            var vinlen = $('#camperVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#camperVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }
+    //    else if($('#camperVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //       // $('#camperVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#camperVin').val().length < 17){
+    //        var vinlen = $('#camperVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        var vinlen = $('#camperVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#camperVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
-    });
+    //    }
+    //});
     $('#camperVin').change(function () {
-        $("#camperVin").val(($("#camperVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('camperVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#camperVin').val(vin2);
         if($('#camperVin').val().length == 17){
+            $("#camperVin").val(($("#camperVin").val()).toUpperCase());
             $('#camperVIN span').text("");
             var vin =document.getElementById('camperVin').value;
             $.ajax({
@@ -1525,55 +1534,56 @@
 
         }
     });
-    $('#atvVin').keyup(function () {
-        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
-        var vin1 =document.getElementById('atvVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#atvVin').val(vin2);
-        if($('#atvVin').val().length == 17){
-            $('#atvVIN span').text("");
-            var vin =document.getElementById('atvVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox4-1').next().children('input').val(year);
-                        document.getElementById('editor4-1').value = year;
-                    }
+    //$('#atvVin').keyup(function () {
+    //    $("#atvVin").val(($("#atvVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('atvVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#atvVin').val(vin2);
+    //    if($('#atvVin').val().length == 17){
+    //        $('#atvVIN span').text("");
+    //        var vin =document.getElementById('atvVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox4-1').next().children('input').val(year);
+    //                    document.getElementById('editor4-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }else if($('#atvVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-            //$('#atvVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#atvVin').val().length < 17){
-            //var vinlen = $('#atvVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            var vinlen = $('#atvVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#atvVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }else if($('#atvVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#atvVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#atvVin').val().length < 17){
+    //        //var vinlen = $('#atvVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        var vinlen = $('#atvVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#atvVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
-    });
+    //    }
+    //});
     $('#atvVin').change(function () {
-        $("#atvVin").val(($("#atvVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('atvVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#atvVin').val(vin2);
         if($('#atvVin').val().length == 17){
+            $("#atvVin").val(($("#atvVin").val()).toUpperCase());
             $('#atvVIN span').text("");
             var vin =document.getElementById('atvVin').value;
             $.ajax({
@@ -1611,55 +1621,56 @@
 
         }
     });
-    $('#boatVin').keyup(function () {
-        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
-        var vin1 =document.getElementById('boatVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#boatVin').val(vin2);
-        if($('#boatVin').val().length == 12){
-            $('#boatVIN span').text("");
-            var vin =document.getElementById('boatVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox5-1').next().children('input').val(year);
-                        document.getElementById('editor5-1').value = year;
-                    }
+    //$('#boatVin').keyup(function () {
+    //    $("#boatVin").val(($("#boatVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('boatVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#boatVin').val(vin2);
+    //    if($('#boatVin').val().length == 12){
+    //        $('#boatVIN span').text("");
+    //        var vin =document.getElementById('boatVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox5-1').next().children('input').val(year);
+    //                    document.getElementById('editor5-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }else if($('#boatVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-            //$('#boatVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#boatVin').val().length < 12){
-            //var vinlen = $('#boatVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-           // var vinlen = $('#boatVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#boatVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }else if($('#boatVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#boatVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#boatVin').val().length < 12){
+    //        //var vinlen = $('#boatVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //       // var vinlen = $('#boatVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#boatVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
-    });
+    //    }
+    //});
     $('#boatVin').change(function () {
-        $("#boatVin").val(($("#boatVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('boatVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#boatVin').val(vin2);
         if($('#boatVin').val().length == 12){
+            $("#boatVin").val(($("#boatVin").val()).toUpperCase());
             $('#boatVIN span').text("");
             var vin =document.getElementById('boatVin').value;
             $.ajax({
@@ -1698,56 +1709,57 @@
         }
 
     });
-    $('#motorcycleVin').keyup(function () {
-        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
-        var vin1 =document.getElementById('motorcycleVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#motorcycleVin').val(vin2);
-        if($('#motorcycleVin').val().length == 17){
-            $('#motorcycleVIN span').text("");
-            var vin =document.getElementById('motorcycleVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox6-1').next().children('input').val(year);
-                        document.getElementById('editor6-1').value = year;
-                    }
+    //$('#motorcycleVin').keyup(function () {
+    //    $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('motorcycleVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#motorcycleVin').val(vin2);
+    //    if($('#motorcycleVin').val().length == 17){
+    //        $('#motorcycleVIN span').text("");
+    //        var vin =document.getElementById('motorcycleVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox6-1').next().children('input').val(year);
+    //                    document.getElementById('editor6-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }else if($('#motorcycleVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-            //$('#motorcycleVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#motorcycleVin').val().length < 17){
-            //var vinlen = $('#motorcycleVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            //var vinlen = $('#motorcycleVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#motorcycleVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }else if($('#motorcycleVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#motorcycleVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#motorcycleVin').val().length < 17){
+    //        //var vinlen = $('#motorcycleVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        //var vinlen = $('#motorcycleVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#motorcycleVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
+    //    }
 
-    });
+    //});
     $('#motorcycleVin').change(function () {
-        $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('motorcycleVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#motorcycleVin').val(vin2);
         if($('#motorcycleVin').val().length == 17){
+            $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
             $('#motorcycleVIN span').text("");
             var vin =document.getElementById('motorcycleVin').value;
             $.ajax({
@@ -1785,56 +1797,57 @@
 
         }
     });
-    $('#snowmobileVin').keyup(function () {
+    //$('#snowmobileVin').keyup(function () {
 
-        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
-        var vin1 =document.getElementById('snowmobileVin').value;
-        var vin2 = vin1.replace(/\W/g, '');
-        $('#snowmobileVin').val(vin2);
-        if($('#snowmobileVin').val().length == 17){
-            $('#snowmobileVIN span').text("");
-            var vin =document.getElementById('snowmobileVin').value;
-            $.ajax({
-                url: '/Unit/GetYearByVin',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({vin: vin }),
-                success: function (data) {
-                    var year = data;
-                    if(year != 0){
-                        $('#combobox7-1').next().children('input').val(year);
-                        document.getElementById('editor7-1').value = year;
-                    }
+    //    $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
+    //    var vin1 =document.getElementById('snowmobileVin').value;
+    //    var vin2 = vin1.replace(/\W/g, '');
+    //    $('#snowmobileVin').val(vin2);
+    //    if($('#snowmobileVin').val().length == 17){
+    //        $('#snowmobileVIN span').text("");
+    //        var vin =document.getElementById('snowmobileVin').value;
+    //        $.ajax({
+    //            url: '/Unit/GetYearByVin',
+    //            type: 'POST',
+    //            contentType: 'application/json;',
+    //            data: JSON.stringify({vin: vin }),
+    //            success: function (data) {
+    //                var year = data;
+    //                if(year != 0){
+    //                    $('#combobox7-1').next().children('input').val(year);
+    //                    document.getElementById('editor7-1').value = year;
+    //                }
 
-                },
-                error: function (reponse) {
-                }
-            });
-        }else if($('#snowmobileVin').val().length == 0){
-            //$('#vehicleVIN span').fadeIn();
-            //$('#snowmobileVIN span').text("");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else if($('#snowmobileVin').val().length < 17){
-            //var vinlen = $('#snowmobileVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
-            //$('#vehicleVIN span').delay(100).fadeOut();
-        }
-        else{
-            //var vinlen = $('#snowmobileVin').val().length ;
-            //$('#vehicleVIN span').fadeIn();
-            //$('#snowmobileVIN span').text("charactors exceeded");
-            //$('#vehicleVIN span').delay(100).fadeOut();
+    //            },
+    //            error: function (reponse) {
+    //            }
+    //        });
+    //    }else if($('#snowmobileVin').val().length == 0){
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#snowmobileVIN span').text("");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else if($('#snowmobileVin').val().length < 17){
+    //        //var vinlen = $('#snowmobileVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
+    //    }
+    //    else{
+    //        //var vinlen = $('#snowmobileVin').val().length ;
+    //        //$('#vehicleVIN span').fadeIn();
+    //        //$('#snowmobileVIN span').text("charactors exceeded");
+    //        //$('#vehicleVIN span').delay(100).fadeOut();
 
-        }
-    });
+    //    }
+    //});
     $('#snowmobileVin').change(function () {
-        $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
+        
         var vin1 =document.getElementById('snowmobileVin').value;
         var vin2 = vin1.replace(/\W/g, '');
         $('#snowmobileVin').val(vin2);
         if($('#snowmobileVin').val().length == 17){
+            $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
             $('#snowmobileVIN span').text("");
             var vin =document.getElementById('snowmobileVin').value;
             $.ajax({
@@ -2932,5 +2945,50 @@
     $('label[for=snowmobile_IdentificationNumber], label[for=snowmobile_Year],label[for=snowmobile_Model],label[for=snowmobile_Make],label[for=snowmobile_NewOrUsed]').append('<span style="color: red">*</span>');
     $('label[for=heavyequipment_SerialNumber], label[for=heavyequipment_Year],label[for=heavyequipment_Make]').append('<span style="color: red">*</span>');
     $('label[for=Cost], label[for=AdvanceAmount],label[for=AdvanceNow]').append('<span style="color: red">*</span>');
+
+
+    // block unwanted characters
+
+    $(document).on('keypress','.block_invalid span input,.block_invalid_char' , function(e){
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    } );
+
+    $(document).on('keypress','.max_length4 span input' , function(e){
+        if($(this).val().length  == 4){
+
+            e.preventDefault();
+            return;
+        }
+
+    } );
+
+   
+    
+
+    $(document).on('keypress','.allow_numeric span input' , function(e){
+       
+
+        if (e.which > 47 && e.which < 58 || e.which == 8 || e.which == 127 ) {
+           
+            return;
+        }
+        else {
+            e.preventDefault();
+            return;
+        }
+    } );
+
+
 </script>
 
