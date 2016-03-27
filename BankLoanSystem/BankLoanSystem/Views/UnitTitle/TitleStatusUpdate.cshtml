@@ -204,6 +204,9 @@
             $('#sentBank').prop('checked', false);
             $('#updateTitleDiv span').text('');
             $('#searchIdentificationNumber span').text('');
+            $('.centered span').text('');
+            $('#updateTitleDiv span').text('');
+            $('#identificationNumberSearch').removeClass('input-validation-error');
             
         });
         //click event of popup "Yes"
@@ -347,6 +350,10 @@
                 $('#searchGrid1').hide();
             }
             $('#updateTitleDiv span').text("");
+            $('#notReceived').prop('checked', false);
+            $('#received').prop('checked', false);
+            $('#returnDealer').prop('checked', false);
+            $('#sentBank').prop('checked', false);
 
         });
         //set text box values when row is selected in grid
@@ -401,15 +408,16 @@
             //alert(para1);
             if (($('#identificationNumberSearch').val() == "") &&( ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
             {
-
-                $('#updateTitleDiv span').text("Please select the unit you would like to update the status");
-                FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', $('#identificationNumberSearch').val());
+                
+                $('.centered span').text('Search unit and then update the title status');
+               
             }
-            else if (($('#identificationNumberSearch').val() != "")||($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))
+            else if ((para1!='')&&(($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != "")))
             {
+               
                 if (para1 == 2) {
                     var current = $('#unitStatus').val();
-                    //alert(current);
+                    
                     if ((current != "Paid")) {
                     
                         showPopup('2');
@@ -420,23 +428,29 @@
                         UpdateTitleStatus();
                     }
                 } else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
+
                     UpdateTitleStatus();
                 }
            
                 else {
-
-                    $('#updateTitleDiv span').text("Please select the status of the title you would like to update");
+                   
+                    $('#updateTitleDiv span').text("Select the status of the title you would like to update");
                     $('.centered span').text('Error');
                     e.preventDefault();
                 }
             }
-            else {
+            else if ((para1 != '') && (($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
+            {
+                $('.centered span').text('Select unit and then update title status');
+            }
 
-                $('#updateTitleDiv span').text("Please select the unit you would like to update the status");
-                // $(vareditor).val("");
+            else {
+                
+                $('#updateTitleDiv span').text("Select the status of the title you would like to update");
+                
 
                 $('.centered span').text('Error');
-                //$('.centered span').text('Error');
+                
                 e.preventDefault();
             }
         });
