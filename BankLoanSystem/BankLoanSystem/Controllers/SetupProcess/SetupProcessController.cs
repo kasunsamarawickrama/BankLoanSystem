@@ -62,8 +62,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             catch(Exception e)
             {
-                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                filterContext.Controller.TempData.Add("UserLogin", "Login");
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
             }
         }
 
@@ -208,7 +207,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+                if(type== "INSERT")
+                {
+                    bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+                }
+                
                 Session["companyStep"] = 2;
 
                 //user object pass to session
@@ -225,8 +228,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("Step2");
             }
 
-
-            return new HttpStatusCodeResult(404, "Failed to Setup company.");
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to Setup company." });
+            //return new HttpStatusCodeResult(404, "Failed to Setup company.");
         }
 
         /// <summary>
@@ -386,8 +389,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-
-                return new HttpStatusCodeResult(404, "Failed to set up branch");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to set up branch" });
+                //return new HttpStatusCodeResult(404, "Failed to set up branch");
             }
 
             userCompany.MainBranch = new Branch();
@@ -1081,8 +1084,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-
-            return new HttpStatusCodeResult(404, "You are not allowed");
+            return RedirectToAction("UserLogin", "Login", new { lbl = "You are not allowed" });
+            //return new HttpStatusCodeResult(404, "You are not allowed");
         }
 
         /// <summary>
@@ -1138,7 +1141,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
 
-            return new HttpStatusCodeResult(404, ViewBag.ErrorMsg);
+            //return new HttpStatusCodeResult(404, ViewBag.ErrorMsg);
+            return RedirectToAction("UserLogin", "Login", new { lbl = ViewBag.ErrorMsg });
         }
 
         /// <summary>

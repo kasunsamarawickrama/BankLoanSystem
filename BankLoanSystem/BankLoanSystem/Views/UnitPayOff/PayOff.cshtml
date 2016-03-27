@@ -79,11 +79,11 @@
                                         grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
                                         grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
                                         grid.Column("Model", "Model", format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
-                                        grid.Column("Purchese Price ($)", "Purchese Price ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="cost" class="year">@Convert.ToDecimal(item.PurchesePrice).ToString("#,##0.00")</label>}</text>),
+                                        grid.Column("Purchase Price ($)", "Purchase Price ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="cost" class="year">@Convert.ToDecimal(item.PurchasePrice).ToString("#,##0.00")</label>}</text>),
                                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                                      )
                                      )
-                    <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0</span> </div>
+                    <div id="subtotal" style="padding-left: 845px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
                 </div>
 
                 <div class="info-bar" style="margin-top:15px">
@@ -108,7 +108,7 @@
                                     @Html.RadioButtonFor(m => m.TitleReturn, "No", new { @id = "rdTitleNo1", @class = "titleReturn" }) No
                                 </label>
                             </div>
-                            <div id="customErrorTitleReturn1"><span class="text-danger"></span></div>
+                            <div id="customErrorTitleReturn1"><span class="text-danger field-validation-error"></span></div>
                         </div>
                     }
 
@@ -125,7 +125,7 @@
                         <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
-                    <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                    <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
 
                 </div>
 
@@ -264,7 +264,7 @@
                                             <label for="">Pay Date </label>
                                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                         </div>
-                                        <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger"></span></div>
+                                        <div id="customErrorPayDate2" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
                                     </div>
                                     @if (ViewBag.IsTitleTrack == "Yes")
                                     {
@@ -280,7 +280,7 @@
                                                     @Html.RadioButtonFor(m => m.TitleReturn, "No", new {@id = "rdTitleNo2", @class = "titleReturn2"}) No
                                                 </label>
                                             </div>
-                                            <div id="customErrorTitleReturn2"><span class="text-danger"></span></div>
+                                            <div id="customErrorTitleReturn2"><span class="text-danger field-validation-error"></span></div>
                                         </div>
                                     }
                                     <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
@@ -347,8 +347,16 @@
 
 
         $("#btnClear").click(function () {
-
             ClearSearchRelatedData();
+            var mainGridSelectedCount = 0;
+            $('table#checkableGrid > tbody > tr').each(function () {
+                var isChecked = $(this).find("#all").is(':checked');
+                if (isChecked === true)
+                    mainGridSelectedCount = mainGridSelectedCount + 1;
+            });
+
+            if (mainGridSelectedCount === 0)
+                ClearTextBoxValues();
         });
 
         function ClearSearchRelatedData() {
@@ -382,17 +390,13 @@
         var countSelect = 0;
 
         $(document).on('click', '#cbSelectAll', function () {
-            //alert('hi');
-            //var text = $(this).siblings('span').text();
-            //alert(text);
-            //alert($(this).is(':checked'));
-            //alert(totalToPay);
             ClearTextBoxValues();
 
             var isChecked = $(this).is(':checked');
 
             var status;
             totalToPay = 0;
+            totalToPay = totalToPay.toFixed(2);
             if (isChecked === false) {
                 $(this).siblings('span').text('Select');
                 status = false;
@@ -405,6 +409,14 @@
 
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
+
+                //remove error message
+                if ("@ViewBag.IsTitleTrack" === "Yes") {
+                   $('#customErrorTitleReturn1').children('span').text("");
+                }
+                $('#customErrorPayDate').children('span').text("");
+                $('.centered span').text('');
+
                 $("#payDate").val('');
 
                 if ("@ViewBag.IsTitleTrack" == "Yes") {
@@ -524,6 +536,15 @@
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
 
+                //remove error message
+                if ("@ViewBag.IsTitleTrack" === "Yes") {
+                    $('#customErrorTitleReturn1').children('span').text("");
+                }
+                $('#customErrorPayDate').children('span').text("");
+                $('.centered span').text('');
+
+                $("#payDate").val('');
+
                 $("#payDate").val('');
                 if ("@ViewBag.IsTitleTrack" == "Yes") {
                     document.getElementById('rdTitleYes1').checked = false;
@@ -590,9 +611,10 @@
         }
 
         function ClearTextBoxValues() {
-            if ("@ViewBag.IsTitleTrack" == "Yes") {
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
                 document.getElementById('rdTitleYes2').checked = false;
                 document.getElementById('rdTitleNo2').checked = false;
+                $('#customErrorTitleReturn2').children('span').text("");
             }
             $('#iVin').val('');
             $('#iYear').val('');
@@ -603,6 +625,9 @@
             $('#iUnitId').val('');
             $("#payDate2").val('');
             $("#payDate2").attr("disabled", "disabled");
+
+            $('#customErrorPayDate2').children('span').text("");
+
             $("#singleUnitDiv").hide();
         }
 
@@ -872,9 +897,20 @@
         });
 
         $("#btnSearch").click(function () {
+            $("#searchGrid1").hide();
             ClearTextBoxValues();
             $("#btnPayAll").attr("disabled", "disabled");
             $("#payDate").attr("disabled", "disabled");
+
+            //remove error message
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
+                $('#customErrorTitleReturn1').children('span').text("");
+            }
+            $('#customErrorPayDate').children('span').text("");
+            $('.centered span').text('');
+
+            $("#payDate").val('');
+
             $("#payDate").val('');
             if ("@ViewBag.IsTitleTrack" == "Yes") {
                 document.getElementById('rdTitleYes1').checked = false;
@@ -882,7 +918,7 @@
             }
             countSelect = 0;
             totalToPay = 0;
-            
+            totalToPay = totalToPay.toFixed(2);
             $('#spnTotal').text(totalToPay);
 
             var count = 0;
@@ -1040,13 +1076,10 @@
             $("#payDate").attr("disabled", "disabled");
 
             countSelect = 0;
-            total = 0;
+            totalToPay = 0;
             checkCount = 0;
-            //$("#btnAdvance").attr("disabled", "disabled");
-            //$("#btnAdvanceAll").attr("disabled", "disabled");
-            //$("#advanceDate").attr("disabled", "disabled");
+
             $("#payDate").attr("disabled", "disabled");
-            //$("#iAdvance").attr("disabled", "disabled");
 
             var count = 0;
             $("#checkableGrid").find("input:checkbox").each(function () {
@@ -1057,11 +1090,20 @@
                 count++;
             });
             document.getElementById('all').checked = false;
-            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+
 
             $("#someID span").html('Select');
             $("#tagscloud span").html('');
-            //$('#iAdvance').removeClass('input-validation-error');
+
+            //remove error messages
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
+                $('#customErrorTitleReturn1').children('span').text("");
+            }
+            $('#customErrorPayDate').children('span').text("");
+            $('.centered span').text('');
+
+            //set total to pay 0.00
+            $('#spnTotal').text("0.00");
 
             ClearSearchRelatedData();
 

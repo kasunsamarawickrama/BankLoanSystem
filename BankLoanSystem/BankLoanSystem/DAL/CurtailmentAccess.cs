@@ -300,7 +300,7 @@ namespace BankLoanSystem.DAL
                     payoff.Year = Convert.ToInt32(dataRow["year"]);
                     payoff.Make = dataRow["make"].ToString();
                     payoff.Model = dataRow["model"].ToString();
-                    payoff.PurchesePrice = Convert.ToDecimal(dataRow["cost"].ToString());
+                    payoff.PurchasePrice = Convert.ToDecimal(dataRow["cost"].ToString());
                     payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
                     payOffList.Add(payoff);
                 }
