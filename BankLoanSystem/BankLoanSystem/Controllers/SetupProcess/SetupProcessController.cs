@@ -1088,7 +1088,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-            return RedirectToAction("UserLogin", "Login", new { lbl = "You are not allowed" });
+            return RedirectToAction("UserLogin", "Login");
             //return new HttpStatusCodeResult(404, "You are not allowed");
         }
 
@@ -1743,6 +1743,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData.stepId = 3;
                     }
+                   
                     //loanData.stepId = 3;
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
