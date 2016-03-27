@@ -22,13 +22,15 @@ namespace BankLoanSystem.Controllers.CreateBranch
                 else
                 {
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                filterContext.Controller.TempData.Add("UserLogin", "Login");
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
             }
         }
 
