@@ -625,6 +625,9 @@ else
 <script type="text/javascript">
     $(function() {
         $('#Previous').on('change', function() {
+
+            $('input').siblings('span').text('');
+            $('.input-validation-error').removeClass('input-validation-error');
             if ($(this).is(':checked')) {
 
                 var model = @Html.Raw(Json.Encode(Model));

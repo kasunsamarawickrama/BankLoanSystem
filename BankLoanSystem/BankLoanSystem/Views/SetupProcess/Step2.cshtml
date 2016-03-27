@@ -431,8 +431,10 @@
            // $('#branchDiv').hide();
         });
         $('#Previous').on('change', function () {
+            $('input').siblings('span').text('');
+            $('.input-validation-error').removeClass('input-validation-error');
+            //text-danger field-validation-valid
             if ($(this).is(':checked')) {
-               
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.Company.CompanyName;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
