@@ -421,7 +421,7 @@
                                     }
 
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + total;
+                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total, 2);
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -503,7 +503,7 @@
                         $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0";
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
                         ClearTextBoxValues();
                         $("#payAll").attr("disabled", "disabled");
                         $("#payDate").attr("disabled", "disabled");
