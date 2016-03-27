@@ -372,6 +372,8 @@
                             if (para1 == null) { para1 = ''; }
                             if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
                                 Search(para1, para2, para3, para4);
+                            } else {
+                                $('#searchGrid1').hide();
                             }
 
 
@@ -424,6 +426,7 @@
                                 error: function (reponse) {
                                     $('#loadingSpan').hide();
                                     alert("error : " + reponse);
+                                    $('#searchGrid1').hide();
                                 }
                             });
                         }
