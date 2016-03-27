@@ -1294,10 +1294,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //public ActionResult Step5(CompanyBranchModel nonRegBranch)
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
-            if (nonRegCompanyBranch.NonRegCompanyId == 0)
-            {
-                nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
-            }
+            //if (nonRegCompanyBranch.NonRegCompanyId == 0)
+            //{
+            //    nonRegCompanyBranch.NonRegCompanyId = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            //}
             
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
@@ -1325,7 +1325,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             UserManageAccess uma = new UserManageAccess();
             //userNonRegCompany.MainBranch.BranchCreatedBy = uma.getUserById(userId).BranchId;
             nonRegBranch.MainBranch.BranchCreatedBy = nonRegCompanyBranch.RegBranchId;
-            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompany.CompanyId;
+            nonRegBranch.MainBranch.BranchCompany = nonRegCompanyBranch.NonRegCompanyId;
 
             //Set admin branch to new user 
             if (userData.RoleId == 2)
