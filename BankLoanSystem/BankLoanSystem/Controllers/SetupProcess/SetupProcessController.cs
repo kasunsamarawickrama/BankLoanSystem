@@ -57,6 +57,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 else
                 {
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
                     filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }

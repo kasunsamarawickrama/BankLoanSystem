@@ -220,6 +220,28 @@
         $('#autoRemindEmail').val('');
         $('#autoRemindPeriod').val('');
         $('#autoRemind').hide();
+        $('#interest').next("span").children("span").text("");
+        $('#interest').removeClass('input-validation-error');
+        $('#onceMonth').next("span").children("span").text("");
+        $('#onceMonth').removeClass('input-validation-error');
+        $('#payOff').next("span").children("span").text("");
+        $('#payOff').removeClass('input-validation-error');
+        $('#PaidDate').next("span").children("span").text("");
+        $('#PaidDate').removeClass('input-validation-error');
+        $('#priorMonth').next("span").children("span").text("");
+        $('#priorMonth').removeClass('input-validation-error');
+        $('#dateToDate').next("span").children("span").text("");
+        $('#dateToDate').removeClass('input-validation-error');
+        $('#MethodId').next("span").children("span").text("");
+        $('#MethodId').removeClass('input-validation-error');
+        $('#radioYes').next("span").children("span").text("");
+        $('#radioYes').removeClass('input-validation-error');
+        $('#radioNo').next("span").children("span").text("");
+        $('#radioNo').removeClass('input-validation-error');
+        $('#autoRemindEmail').next("span").children("span").text("");
+        $('#autoRemindEmail').removeClass('input-validation-error');
+        $('#autoRemindPeriod').next("span").children("span").text("");
+        $('#autoReminderiod').removeClass('input-validation-error');
     };
     $("#interest").keypress(function(e){   
         var interest = $('#interest').val();
@@ -392,16 +414,34 @@
             });
             
             $('#onceMonth').click(function () {
+                $('#PaidDate option:selected').attr('selected',null);
+                $('#PaidDate').next("span").children("span").text("");
+                $('#PaidDate').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
             $('#payOff').click(function () {
+                $('#PaidDate option:selected').attr('selected',null);
+                $('#PaidDate').next("span").children("span").text("");
+                $('#PaidDate').removeClass('input-validation-error');
                 $('#paidDateDiv').hide();
             });
             $('#radioYes').click(function () {
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
                 $('#autoRemind').show();
             });
             $('#radioNo').click(function () {
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
                 $('#autoRemind').hide();
             });
             if($('#radioYes').is(':checked')){
@@ -414,19 +454,14 @@
 
             }
             //alert('You have successfully defined the function!');
-            $('#NeedReminder').change(function () {
+            $('#MethodId').change(function () {
 
-                if ((this.checked)) {
-                    //alert('You have successfully defined the function!');
-                    $('#autoRemind').show();
-
-                     }
-
-                else {
-
-                    $('#autoRemind').hide();
-
-                }
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
 
             });
             $('#interest').focusout(function(){
@@ -449,13 +484,7 @@
             $('#clear').click(function(){
                 clearValues();
             });
-            //$('#interest').click(function(){
-            //    if(($('#interest').val()===null) ||($('#interest').val()===""))
-            //    {
-            //        $('#interest').val('');
-                    
-            //    }
-            //});
+          
 
         }
         $.fn.loadFunc = function(){
@@ -475,17 +504,46 @@
                 clearValues();
             });
             $('#onceMonth').click(function () {
+                $('#PaidDate option:selected').attr('selected',null);
+                $('#PaidDate').next("span").children("span").text("");
+                $('#PaidDate').removeClass('input-validation-error');
                 $('#paidDateDiv').show();
             });
 
             $('#payOff').click(function () {
+                $('#PaidDate option:selected').attr('selected',null);
+                $('#PaidDate').next("span").children("span").text("");
+                $('#PaidDate').removeClass('input-validation-error');
                 $('#paidDateDiv').hide();
             });
             $('#radioYes').click(function () {
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
                 $('#autoRemind').show();
             });
             $('#radioNo').click(function () {
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
                 $('#autoRemind').hide();
+            });
+            //alert('You have successfully defined the function!');
+            $('#MethodId').change(function () {
+
+                $('#autoRemindEmail').next("span").children("span").text("");
+                $('#autoRemindEmail').removeClass('input-validation-error');
+                $('#autoRemindEmail').val('');
+                $('#autoRemindPeriod').next("span").children("span").text("");
+                $('#autoRemindPeriod').removeClass('input-validation-error');
+                $('#autoRemindPeriod').val('');
+
             });
             //if(($('#interest').val()===null) ||($('#interest').val()===""))
             //{
@@ -528,8 +586,9 @@
                     $('#interest').val('');
                     
                 }
+                
             });
-           
+            
         }
         if(@ViewBag.Edit ==1){
 

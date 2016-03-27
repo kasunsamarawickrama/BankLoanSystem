@@ -55,6 +55,7 @@
             
             top:50%; left:50%;
         }
+
 </style>
 <h2>Sign up</h2>
 @using (Html.BeginForm())
@@ -102,11 +103,11 @@
 
         <div class="form-group">
             <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color: red">*</span>
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new {  })<span style="color: red">*</span>
             </div>
 
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "txtFirstName" } })
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtFirstName" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                 <div id="customError"><span id="spnFirstName" class="text-danger"></span></div>
             </div>
@@ -118,7 +119,7 @@
             </div>
 
             <div class="col-xs-8">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @id = "txtLastName" } })
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtLastName" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                 <div id="customError"><span id="spnLastName" class="text-danger"></span></div>
             </div>
@@ -187,18 +188,13 @@
         }
     });
 
-    // change to title case
-    $('#txtFirstName, #txtLastName').keyup(function (e) {
-        ChangeToCapital(this.id, this.value);
-    });
+  
 
     $('#txtFirstName, #txtLastName').blur(function (e) {
         ToTitleCase(this.id, this.value);
     });
 
-    $('#txtFirstName, #txtLastName').keypress(function (e) {
-        ChangeToCapital(this.id, this.value);
-    });
+  
 
     //// title case
     //$('#txtFirstName, #txtLastName').keypress(function (e) {
