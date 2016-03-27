@@ -842,6 +842,15 @@
     $("#btnClear").click(function () {
 
         ClearSearchRelatedData();
+        var mainGridSelectedCount = 0;
+        $('table#checkableGrid > tbody > tr').each(function () {
+            var isChecked = $(this).find("#all").is(':checked');
+            if (isChecked === true)
+                mainGridSelectedCount = mainGridSelectedCount + 1;
+        });
+
+        if (mainGridSelectedCount === 0)
+            ClearTextBoxValues();
     });
 
     function ClearSearchRelatedData() {
