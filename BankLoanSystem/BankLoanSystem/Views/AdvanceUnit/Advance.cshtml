@@ -185,7 +185,7 @@
 
     </div>
 </div>
-<div class="info-unit" id="singleUnitDiv" hidden>
+<div class="info-unit" id="singleUnitDiv" hidden style="margin-bottom:1%">
     <div class="row">
         <div class="col-xs-12">
             <form>
@@ -216,7 +216,7 @@
                         <div class="col-md-2">
                             <label>Advance Amount</label>
                             @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
-                               <div id="tagscloud"><span class="text-danger"></span></div>
+                               <div id="tagscloud"><span class="text-danger field-validation-error" id="errorAdvanceAmount"></span></div>
                         </div>
                         <div class="col-md-2">
                             <label>Advance Date</label><span style="color:red"> *</span>
@@ -240,7 +240,9 @@
 
                     <script type="text/javascript">
 
-
+                        $('#advanceDate').focusout(function () {
+                            $(this).attr('placeholder', 'MM/DD/YYYY');
+                        });
                         // Change the selector if needed
                         var table = $('table'),
                             bodyCells = table.find('tbody tr:first').children(),
@@ -333,6 +335,15 @@
                         $("#btnClear").click(function () {
 
                             ClearSearchRelatedData();
+                            var mainGridSelectedCount = 0;
+                            $('table#checkableGrid > tbody > tr').each(function () {
+                                var isChecked = $(this).find("#all").is(':checked');
+                                if (isChecked === true)
+                                    mainGridSelectedCount = mainGridSelectedCount + 1;
+                        });
+
+                            if (mainGridSelectedCount === 0)
+                                ClearTextBoxValues();
                         });
 
                         function ClearSearchRelatedData() {
@@ -388,10 +399,25 @@
                                 }
                                 count++;
                             });
+
+                            total = 0;
+                            checkCount = 0;
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total, 2);
+                            $("#payAll").attr("disabled", "disabled");
+                            $("#payDate").attr("disabled", "disabled");
+
+                            // clear top error
+                            $('.centered span').text('');
+                            //$('#errorPayDate').text('');
+                            //$('#payDate').removeClass('input-validation-error');
+                            //$('#payDate').next('span').children().text('');
                         }
 
                         $("#identificationNumberSearch").click(function () {
+
                             ClearLabelMessages();
+                            $('#noDataLabelDiv').hide();
+                            $('#searchGrid1').hide();
                         });
 
                         $("#div-combobox1-1").click(function () {
@@ -705,7 +731,18 @@
                                 e.preventDefault();
                                 return;
                             }
+                            if (($('#advanceDate').val() == "")&&($('#iAdvance').val() == "")) {
+                                $('#advanceDate').addClass('input-validation-error');
 
+                                $('.centered span').text('Error');
+                                $('#errorAdvanceDate').text('Advance date is required');
+                                $('#iAdvance').addClass('input-validation-error');
+
+                                $('.centered span').text('Error');
+                                $('#errorAdvanceAmount').text('Advance amount is required');
+                                e.preventDefault();
+                                return;
+                            }
                             if ($('#advanceDate').val() == "") {
 
                                 // required error message
@@ -713,6 +750,19 @@
                                 
                                 $('.centered span').text('Error');
                                 $('#errorAdvanceDate').text('Advance date is required');
+
+                                e.preventDefault();
+                                return;
+                            }
+                            if ($('#iAdvance').val() == "") {
+
+                               
+
+                                //advance amount required error message
+                                $('#iAdvance').addClass('input-validation-error');
+
+                                $('.centered span').text('Error');
+                                $('#errorAdvanceAmount').text('Advance amount is required');
                                 e.preventDefault();
                                 return;
                             }
@@ -807,6 +857,14 @@
                             //$("#btnAdvanceAll").removeAttr("disabled");
                             $("#advanceDate").attr("disabled", "disabled");
                             //$("#startDate").removeAttr("disabled");
+                            $('#advanceDate').removeClass('input-validation-error');
+
+                            $('.centered span').text('');
+                            $('#errorAdvanceDate').text('');
+                            $('#iAdvance').removeClass('input-validation-error');
+
+                            $('.centered span').text('');
+                            $('#errorAdvanceAmount').text('');
                             $("#singleUnitDiv").hide();
                         }
 
@@ -823,12 +881,21 @@
                 {
                     <text> $('#iAdvance').removeAttr('disabled'); </text>
                 }
-
+                            $("#advanceDate").val('');
+                            $('#advanceDate').attr('placeholder', 'MM/DD/YYYY');
                             //$("#btnAdvanceAll").attr("disabled", "disabled");
                             $("#btnAdvance").removeAttr("disabled");
                             //$("#startDate").attr("disabled", "disabled");
                             $("#advanceDate").removeAttr("disabled");
 
+                            $('#advanceDate').removeClass('input-validation-error');
+
+                            $('.centered span').text('');
+                            $('#errorAdvanceDate').text('');
+                            $('#iAdvance').removeClass('input-validation-error');
+
+                            $('.centered span').text('');
+                            $('#errorAdvanceAmount').text('');
                             $("#singleUnitDiv").show();
 
                         }

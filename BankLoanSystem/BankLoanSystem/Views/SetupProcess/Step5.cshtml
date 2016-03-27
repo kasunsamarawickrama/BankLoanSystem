@@ -209,8 +209,8 @@ else
                     <div class="col-xs-11">
                         @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                         {
-
-                            @Html.HiddenFor(model => model.NonRegCompany.CompanyId)
+                            @*@Html.HiddenFor(model => model.NonRegCompany.CompanyId)*@
+                            @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
                             @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                             @*@Html.DropDownListFor(model => model.NonRegCompanyId, null, htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId", @disabled = true })*@
                         }
@@ -625,6 +625,9 @@ else
 <script type="text/javascript">
     $(function() {
         $('#Previous').on('change', function() {
+
+            $('input').siblings('span').text('');
+            $('.input-validation-error').removeClass('input-validation-error');
             if ($(this).is(':checked')) {
 
                 var model = @Html.Raw(Json.Encode(Model));
