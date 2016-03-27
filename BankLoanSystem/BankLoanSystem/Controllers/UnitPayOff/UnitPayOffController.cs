@@ -63,7 +63,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
 
@@ -201,7 +201,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404, "Session Expired");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
             //int userId = 57;
 

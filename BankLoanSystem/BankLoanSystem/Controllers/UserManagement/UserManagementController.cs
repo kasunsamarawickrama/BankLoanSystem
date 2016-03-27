@@ -33,13 +33,13 @@ namespace BankLoanSystem.Controllers
                 else
                 {
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    filterContext.Controller.TempData.Add("UserLogin", "Login");
+                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                filterContext.Controller.TempData.Add("UserLogin", "Login");
+                filterContext.Result = new RedirectResult("~/Login/UserLogin");
             }
         }
 
@@ -85,7 +85,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
 
@@ -160,7 +160,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
 
@@ -218,7 +218,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
             int companyId;
@@ -277,7 +277,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
 
@@ -350,7 +350,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
             bool isUpdate;
@@ -489,7 +489,7 @@ namespace BankLoanSystem.Controllers
 
             if (!isSuccess)
             {
-                return new HttpStatusCodeResult(404);
+                return RedirectToAction("UserLogin", "Login");
             }
 
             ViewBag.message = "Password Sucessfully Changed";
