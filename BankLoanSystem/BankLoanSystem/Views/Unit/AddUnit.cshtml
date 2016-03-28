@@ -975,28 +975,6 @@
         }
     }
 
-
-    @*$("#btnSubmit").click(function(evt) {
-        var model = @Html.Raw(Json.Encode(Model));
-
-        $.ajax({
-            url: '/Unit/AddUnit',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ unit : model}),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                //var markup = "<option value='0'>-- select a model --</option>";
-                alert(data);
-                evt.preventDefault();
-            },
-            error: function (reponse) {
-                alert('error');
-            }
-        });
-
-    });*@
-
     function GetMakes(var1,var2,id)
     {
         var checkYear = var1.val();
@@ -1265,51 +1243,6 @@
     
     });
 
-    ////key up for bind child text box value to hidden box
-    //$('#vehicleVin').keyup(function (e) {
-        
-    //    var vin1 =document.getElementById('vehicleVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#vehicleVin').val(vin2);
-    //    if($('#vehicleVin').val().length == 17){
-    //        $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
-    //        $('#vehicleVIN span').text("");
-    //        var vin =document.getElementById('vehicleVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox1-1').next().children('input').val(year);
-    //                    document.getElementById('editor1-1').value = year;
-    //                }
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }
-    //    else if($('#vehicleVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#vehicleVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#vehicleVin').val().length < 17){
-    //        //var vinlen = $('#vehicleVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        var vinlen = $('#vehicleVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#vehicleVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     // mouseleave for check vin number and bind year to year text box
     $('#vehicleVin').change (function () {
         
@@ -1357,50 +1290,6 @@
 
     });
 
-    //$('#rvVin').keyup(function () {
-    //    $("#rvVin").val(($("#rvVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('rvVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#rvVin').val(vin2);
-    //    if($('#rvVin').val().length == 17){
-    //        $('#rvVIN span').text("");
-    //        var vin =document.getElementById('rvVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox2-1').next().children('input').val(year);
-    //                    document.getElementById('editor2-1').value = year;
-    //                }
-
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }
-    //    else if($('#rvVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#rvVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#rvVin').val().length < 17){
-    //        var vinlen = $('#rvVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#rvVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        var vinlen = $('#rvVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#rvVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     $('#rvVin').change(function () {
        
         var vin1 =document.getElementById('rvVin').value;
@@ -1446,50 +1335,7 @@
 
         }
     });
-    //$('#camperVin').keyup(function () {
-    //    $("#camperVin").val(($("#camperVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('camperVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#camperVin').val(vin2);
-    //    if($('#camperVin').val().length == 17){
-    //        $('#camperVIN span').text("");
-    //        var vin =document.getElementById('camperVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox3-1').next().children('input').val(year);
-    //                    document.getElementById('editor3-1').value = year;
-    //                }
 
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }
-    //    else if($('#camperVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //       // $('#camperVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#camperVin').val().length < 17){
-    //        var vinlen = $('#camperVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        var vinlen = $('#camperVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#camperVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     $('#camperVin').change(function () {
         
         var vin1 =document.getElementById('camperVin').value;
@@ -1534,49 +1380,7 @@
 
         }
     });
-    //$('#atvVin').keyup(function () {
-    //    $("#atvVin").val(($("#atvVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('atvVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#atvVin').val(vin2);
-    //    if($('#atvVin').val().length == 17){
-    //        $('#atvVIN span').text("");
-    //        var vin =document.getElementById('atvVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox4-1').next().children('input').val(year);
-    //                    document.getElementById('editor4-1').value = year;
-    //                }
 
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }else if($('#atvVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#atvVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#atvVin').val().length < 17){
-    //        //var vinlen = $('#atvVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        var vinlen = $('#atvVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#atvVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     $('#atvVin').change(function () {
         
         var vin1 =document.getElementById('atvVin').value;
@@ -1621,49 +1425,7 @@
 
         }
     });
-    //$('#boatVin').keyup(function () {
-    //    $("#boatVin").val(($("#boatVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('boatVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#boatVin').val(vin2);
-    //    if($('#boatVin').val().length == 12){
-    //        $('#boatVIN span').text("");
-    //        var vin =document.getElementById('boatVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox5-1').next().children('input').val(year);
-    //                    document.getElementById('editor5-1').value = year;
-    //                }
 
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }else if($('#boatVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#boatVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#boatVin').val().length < 12){
-    //        //var vinlen = $('#boatVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //       // var vinlen = $('#boatVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#boatVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     $('#boatVin').change(function () {
         
         var vin1 =document.getElementById('boatVin').value;
@@ -1709,50 +1471,7 @@
         }
 
     });
-    //$('#motorcycleVin').keyup(function () {
-    //    $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('motorcycleVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#motorcycleVin').val(vin2);
-    //    if($('#motorcycleVin').val().length == 17){
-    //        $('#motorcycleVIN span').text("");
-    //        var vin =document.getElementById('motorcycleVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox6-1').next().children('input').val(year);
-    //                    document.getElementById('editor6-1').value = year;
-    //                }
 
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }else if($('#motorcycleVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#motorcycleVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#motorcycleVin').val().length < 17){
-    //        //var vinlen = $('#motorcycleVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        //var vinlen = $('#motorcycleVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#motorcycleVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-
-    //});
     $('#motorcycleVin').change(function () {
         
         var vin1 =document.getElementById('motorcycleVin').value;
@@ -1797,50 +1516,7 @@
 
         }
     });
-    //$('#snowmobileVin').keyup(function () {
 
-    //    $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
-    //    var vin1 =document.getElementById('snowmobileVin').value;
-    //    var vin2 = vin1.replace(/\W/g, '');
-    //    $('#snowmobileVin').val(vin2);
-    //    if($('#snowmobileVin').val().length == 17){
-    //        $('#snowmobileVIN span').text("");
-    //        var vin =document.getElementById('snowmobileVin').value;
-    //        $.ajax({
-    //            url: '/Unit/GetYearByVin',
-    //            type: 'POST',
-    //            contentType: 'application/json;',
-    //            data: JSON.stringify({vin: vin }),
-    //            success: function (data) {
-    //                var year = data;
-    //                if(year != 0){
-    //                    $('#combobox7-1').next().children('input').val(year);
-    //                    document.getElementById('editor7-1').value = year;
-    //                }
-
-    //            },
-    //            error: function (reponse) {
-    //            }
-    //        });
-    //    }else if($('#snowmobileVin').val().length == 0){
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#snowmobileVIN span').text("");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else if($('#snowmobileVin').val().length < 17){
-    //        //var vinlen = $('#snowmobileVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-    //    }
-    //    else{
-    //        //var vinlen = $('#snowmobileVin').val().length ;
-    //        //$('#vehicleVIN span').fadeIn();
-    //        //$('#snowmobileVIN span').text("charactors exceeded");
-    //        //$('#vehicleVIN span').delay(100).fadeOut();
-
-    //    }
-    //});
     $('#snowmobileVin').change(function () {
         
         var vin1 =document.getElementById('snowmobileVin').value;
@@ -1951,18 +1627,6 @@
 
     }
 
-    //$('.titleReceived').change(function() {
-    //    var isUpload = $(this).filter(':checked').val();
-
-    //    if (isUpload === "Yes") {
-    //        $('#fileUploader').show();
-    //    } else {
-    //        $('#fileUploader').hide();
-    //    }
-    //    //alert(isUpload);
-    //});
-
-    //
     $('.advanceNow').change(function() {
         var isAdvance = $(this).filter(':checked').val();
 
@@ -2484,14 +2148,6 @@
             $(this).removeClass('input-validation-error');
             $("#tagscloudAdvance span").text("");
         }
-        //if (advance > cost) {
-        //    alert("checked");
-        //    //$("#tagscloudAdvance span").fadeIn();
-        //    $("#tagscloudAdvance span").addClass('input-validation-error');
-        //    $("#tagscloudAdvance span").text("Advance must be less than balance");
-        //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
-        //    //$(this).removeClass('input-validation-error');
-        //}
         $(this).val(num);
         if (num == "") {
             //$("#tagscloudAdvance span").fadeIn();
@@ -2808,14 +2464,6 @@
 
        
     });
-
-    //$('.custom-combobox-input').keypress(function(e){
-    //    var len = $(this).val().length;
-    //    if(len > 15){
-    //        e.preventDefault();
-    //    }
-    
-    //});
 
 
     $('#Note').keyup(function(e) {
