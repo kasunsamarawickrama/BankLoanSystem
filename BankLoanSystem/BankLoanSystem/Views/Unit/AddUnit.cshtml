@@ -169,7 +169,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="vehicle">
+                <div class="info-unit" id="vehicle" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -297,7 +297,7 @@
 
                 </div>
 
-                <div class="info-unit" id="rv">
+                <div class="info-unit" id="rv" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -366,7 +366,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="camper">
+                <div class="info-unit" id="camper" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -461,7 +461,7 @@
                 </div>
 
 
-                <div class="info-unit" id="atv">
+                <div class="info-unit" id="atv" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -522,7 +522,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="boat">
+                <div class="info-unit" id="boat" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -578,7 +578,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="motorcycle">
+                <div class="info-unit" id="motorcycle" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -648,7 +648,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="snowmobile">
+                <div class="info-unit" id="snowmobile" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -703,7 +703,7 @@
                     </div>
                 </div>
 
-                <div class="info-unit" id="heavyequipment">
+                <div class="info-unit" id="heavyequipment" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-sm-4">
@@ -835,7 +835,7 @@
 
 
                 <div class="col-xs-3" id="advanceDateDiv">
-                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
                 </div>
 
@@ -1971,6 +1971,12 @@
             $('#btnSubmit').prop('value', 'Add and Advance');
         } else {
             $('#advanceDateFormDiv').hide();
+            $('#advanceDate').val('');
+            $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
+            $('#advanceDate').removeClass('input-validation-error');
+            $('#advanceDate').siblings('span').text('');
+
+
             $('#btnSubmit').prop('value', 'Add');
         }
     });
@@ -1983,6 +1989,8 @@
     $('#btnCancel').click(function() {
         clearform();
         $('#advanceDateFormDiv').hide();
+        $('#advanceDate').val('');
+        $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
         //$("#advanceDateFormDiv").attr('value', '');
         files = null;
         storedFiles = [];
@@ -2492,13 +2500,12 @@
         }
     });
 
-    $('.custom-combobox-input').keypress(function(e){
-        alert(e.which());
-    });
 
     $('#btnSubmit').click(function(e) {
 
         var unitType = document.getElementById("unitType").value;
+        var cost = document.getElementById("txtCost").value;
+        var advance = document.getElementById("txtAdvanceAmount").value;
 
         if (unitType == "1") {
             var vin = document.getElementById("vehicleVin").value;
@@ -2510,7 +2517,7 @@
                 $('#vehicleyear span').text("year required");
                 //$('#vehicleyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == ""  ) {
+                if (vin == "" || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2520,7 +2527,7 @@
                 $('#vehiclemake span').text("make required");
                 // $('#vehiclemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2529,7 +2536,8 @@
                 // $('#vehiclemodel span').fadeIn();
                 $('#vehiclemodel span').text("model required");
                 //$('#vehiclemodel span').delay(1000).fadeOut();
-                if (vin == "" ) {
+                $('.centered span').text('Error');
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2545,7 +2553,7 @@
                 $('#rvyear span').text("year required");
                 //$('#rvyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == ""  ) {
+                if (vin == ""  || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2555,7 +2563,7 @@
                 $('#rvmake span').text("make required");
                 //$('#rvmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == ""  ) {
+                if (vin == ""  || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2565,7 +2573,7 @@
                 $('#rvmodel span').text("model required");
                 //$('#rvmodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == ""  ) {
+                if (vin == ""  || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2583,7 +2591,7 @@
                 $('#camperyear span').text("year required");
                 //$('#camperyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == ""|| length == "" ) {
+                if (vin == ""|| length == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2593,7 +2601,7 @@
                 $('#campermake span').text("make required");
                 //$('#campermake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" || length == "" ) {
+                if (vin == "" || length == "" || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2603,7 +2611,8 @@
                 $('#campermodel span').text("model required");
                 //$('#campermodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" || length == "") {
+                if (vin == "" || length == "" || cost =="" || advance == "") {
+                    $('.centered span').text('Error');
                 } else {
                     e.preventDefault();
                 }
@@ -2619,7 +2628,7 @@
                 $('#atvyear span').text("year required");
                 //$('#atvyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2629,7 +2638,7 @@
                 $('#atvmake span').text("make required");
                 //$('#atvmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == "" || cost =="" || advance == "" ) {
                 } else {
                     e.preventDefault();
                 }
@@ -2639,7 +2648,7 @@
                 $('#atvmodel span').text("model required");
                 //$('#atvmodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2656,7 +2665,7 @@
                 $('#boatyear span').text("year required");
                 //$('#boatyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2666,7 +2675,7 @@
                 $('#boatmake span').text("make required");
                 //$('#boatmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2682,7 +2691,7 @@
                 $('#motorcycleyear span').text("year required");
                 //$('#motorcycleyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2692,7 +2701,7 @@
                 $('#motorcyclemake span').text("make required");
                 //$('#motorcyclemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2702,7 +2711,7 @@
                 $('#motorcyclemodel span').text("make required");
                 //$('#motorcyclemodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2716,7 +2725,7 @@
                 $('#snowmobileyear span').text("year required");
                 //$('#snowmobileyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2726,7 +2735,7 @@
                 $('#snowmobilemake span').text("make required");
                 //$('#snowmobilemake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2736,7 +2745,7 @@
                 $('#snowmobilemodel span').text("make required");
                 //$('#snowmobilemodel span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "" ) {
+                if (vin == ""  || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2749,7 +2758,7 @@
                 $('#heavyequipmentyear span').text("year required");
                 //$('#heavyequipmentyear span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2759,7 +2768,7 @@
                 $('#heavyequipmentmake span').text("make required");
                 //$('#heavyequipmentmake span').delay(1000).fadeOut();
                 $('.centered span').text('Error');
-                if (vin == "") {
+                if (vin == "" || cost =="" || advance == "") {
                 } else {
                     e.preventDefault();
                 }
@@ -2794,7 +2803,9 @@
             e.preventDefault();
         } else {
         }
+        
 
+       
     });
 
     //$('.custom-combobox-input').keypress(function(e){
@@ -2805,11 +2816,7 @@
     
     //});
 
-    $(document).click(function() {
-        if ($('input').next('span').children('span').text().length <= 0) {
-            $('.centered span').text('');
-        }
-    });
+
     $('#Note').keyup(function(e) {
         //alert(this.value.length);
         if (this.value.length === 1) {

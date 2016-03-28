@@ -76,6 +76,9 @@ else {
 
         SetTextBoxValues_2(vinNum,yr,make1,model1,tit,uit,uid);
     }
+    else if ($('#titleGrid').children('tbody').children('tr').length == 0){
+        ClearValues();
+    }
     else{
         ShowDivs();
     }

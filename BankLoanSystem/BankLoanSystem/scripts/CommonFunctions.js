@@ -93,7 +93,7 @@ function ChangeToCapital(id, val) {
     } else if (val.length > 1) {
         if (val[val.length - 2] === " ") {
             val = SetCharAt(val, val.length - 1, val[val.length - 1].toUpperCase());
-            document.getElementById(id).value = val;
+            //document.getElementById(id).value = val;
         }
     }
 }

@@ -239,11 +239,15 @@
                 closePopup();
             }
         });
-
+        //$(document).click(function() {
+        //    if ($('input').next('span').children('span').text().length <= 0) {
+        //        $('.centered span').text('');
+        //    }
+        //});
         $(document).on("blur","input",function() {
             var isError = false;
-            $('.centered span').text('');
-            if ($(this).next('span').children('span').text().length > 0) {
+            //$('.centered span').text('');
+            if ($('input').next('span').children('span').text().length > 0) {
                $('.centered span').text('Error');
                 isError = true;
             }
@@ -258,7 +262,9 @@
                     isError = true;
                 }
             });
-
+            if ($('input').next('span').children('span').text().length <= 0) {
+                      $('.centered span').text('');
+            }
 
             @if(ViewBag.Title == "Advance Unit") {
                 <text>
@@ -312,7 +318,7 @@
 
 
 
-            $('.centered span').text('Error');
+            //$('.centered span').text('Error');
             if (isError === false)
                 $('.centered span').text('');
         });
