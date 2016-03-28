@@ -296,6 +296,7 @@
             var para1 = $('#identificationNumberSearch').val();
             if ((para1 == null) || (para1 == "")||(para1.length<6)) {
                 FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', para1);
+                
             }
             else {
                 $.ajax({
@@ -359,6 +360,7 @@
             
             $('.centered span').text('Error');
             $('#identificationNumberSearch').addClass('input-validation-error')
+            $('#searchGrid1').hide();
             e.preventDefault();
         }
         $('#identificationNumberSearch').click(function () {
