@@ -74,7 +74,8 @@
         },
 
         _source: function (request, response) {
-            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+
             response(this.element.children("option").map(function () {
                 var text = $(this).text();
                 if (this.value && (!request.term || matcher.test(text)))
@@ -84,6 +85,19 @@
                         option: this
                     };
             }));
+
+            //// Don't really need to save the old fn, 
+            //// but I could chain if I wanted to
+            //var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+            //$.ui.autocomplete.prototype._renderItem = function (request, item) {
+            //    var re = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+            //    var t = item.label.replace(re, "<span style='font-weight:bold;color:Blue;'>" + this.term + "</span>");
+            //    return $("<li></li>")
+            //        .data("item.autocomplete", item)
+            //        .append("<a>" + t + "</a>")
+            //        .appendTo(ul);
+            //};
         },
 
         _removeIfInvalid: function (event, ui) {
