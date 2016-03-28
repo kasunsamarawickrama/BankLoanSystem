@@ -2340,11 +2340,12 @@
             $(this).addClass('input-validation-error');
             $("#tagscloud span").text("Cost must be less than balance");
         }
-        else if (Number(num) == ""||Number(num) == 0.00) {
+        else if (Number(num) == "") {
             //$("#tagscloudAdvance span").fadeIn();
             //$(this).addClass('input-validation-error');
             $("#tagscloud span").text("");
             $(this).attr('placeholder', '0.00');
+            $('#txtAdvanceAmount').val("");
             $('#txtAdvanceAmount').attr('placeholder', '0.00');
             //$(this).val("0.00");
             //$('#txtAdvanceAmount').val("0.00");
