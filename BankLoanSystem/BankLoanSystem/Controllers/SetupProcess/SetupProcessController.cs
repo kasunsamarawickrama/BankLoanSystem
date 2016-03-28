@@ -1448,6 +1448,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = loanData.loanId;
 
+            loanData.CompanyId = userData.Company_Id;
+
+            
+            Session["loanStep"] = loanData;
+
             if (loanId > 0)
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
@@ -1467,6 +1472,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (loanSetupStep1.isInterestCalculate)
                 {
+                    
                     sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     if (loanData.stepId < 2)
                     {

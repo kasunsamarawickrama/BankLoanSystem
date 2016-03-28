@@ -180,7 +180,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult UserDetails()
         {
             Session["rowId"] = userData.UserId;
-
+            Session["loanStep"] = null;
 
             return View();
         }
