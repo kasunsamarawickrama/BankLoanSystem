@@ -558,6 +558,10 @@
 
             $('input').next('span').children('span').text('');
             $('select').next('span').children('span').text('');
+            $('input').closest("div").siblings('div').children("p").children("span").text("");
+            $('input').next("div").children("p").children("span").text("");
+            $('select').closest("div").siblings('div').children("p").children("span").text("");
+            $('select').next("div").children("p").children("span").text("");
             $("#unitTypeError").text('');
             $('#loanNumberForDisplayError').hide();
             $("#outOffRangeError").text('');
