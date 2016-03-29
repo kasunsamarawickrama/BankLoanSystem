@@ -81,6 +81,7 @@
                                             {
                                                 <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
                                                     <div class="col-xs-8 text_field">
+                                                        @*<a onclick="CreateNewBranch()">create new partner branch</a>*@
                                                         <a onclick="CreateNewBranch()">create new partner branch</a>
                                                     </div>
                                                 </div>
@@ -608,6 +609,12 @@
                 }
             });
         });
+    });
+    $('#branchZipPre').focusout(function () {
+        $(this).attr('placeholder', 'Zip Code');
+    });
+    $('#branchZipExten').focusout(function () {
+        $(this).attr('placeholder', 'Extension');
     });
 </script>
 <script type="text/javascript">

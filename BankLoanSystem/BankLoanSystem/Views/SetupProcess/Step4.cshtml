@@ -240,7 +240,7 @@
                                                 @for (var i = 0; i < Model.Companies.Count; i++)
                                                 {
                                                     <tr>
-                                                        <td class="back_colr">@i</td>
+                                                        <td class="back_colr">@(i+1)</td>
                                                         <td class="back_colr">@Html.DisplayFor(x => x.Companies[i].CompanyName)</td>
                                                         <td class="back_colr">@Html.DisplayFor(x => x.Companies[i].CompanyAddress1)</td>
                                                         <td class="back_colr"><a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a></td>
@@ -466,6 +466,12 @@
                 }
             });
         });
+    });
+    $('#ZipPre').focusout(function () {
+        $(this).attr('placeholder', 'Zip Code');
+    });
+    $('#Extension').focusout(function () {
+        $(this).attr('placeholder', 'Extension');
     });
 </script>
 
