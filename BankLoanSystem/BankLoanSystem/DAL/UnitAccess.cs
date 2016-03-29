@@ -722,9 +722,9 @@ namespace BankLoanSystem.DAL
             char seventhLetter = charArray[6];
             char tenthLetter = charArray[9];
 
-            if (Char.IsLetter(seventhLetter))
+            if (Char.IsNumber(seventhLetter))
             {
-                switch (seventhLetter)
+                switch (tenthLetter)
                 {
                     case 'A':
                         year = 1980;
@@ -815,9 +815,9 @@ namespace BankLoanSystem.DAL
                         break;
                 }
             }
-            else if (Char.IsNumber(seventhLetter))
+            else if (Char.IsLetter(seventhLetter))
             {
-                switch (seventhLetter)
+                switch (tenthLetter)
                 {
                     case 'A':
                         year = 2010;

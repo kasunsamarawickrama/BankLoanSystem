@@ -49,7 +49,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         if(loanData.loanId > 0)
                         {
                             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+
+                           
                             _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+                            
                             Session["isInterest"] = _loan.isInterestCalculate;
                         }
                     }
@@ -1085,7 +1088,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
             }
-            return RedirectToAction("UserLogin", "Login", new { lbl = "You are not allowed" });
+            return RedirectToAction("UserLogin", "Login");
             //return new HttpStatusCodeResult(404, "You are not allowed");
         }
 
@@ -1445,6 +1448,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess la = new LoanSetupAccess();
             int loanId = loanData.loanId;
 
+            loanData.CompanyId = userData.Company_Id;
+
+            
+            Session["loanStep"] = loanData;
+
             if (loanId > 0)
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
@@ -1464,6 +1472,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 if (loanSetupStep1.isInterestCalculate)
                 {
+                    
                     sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     if (loanData.stepId < 2)
                     {
