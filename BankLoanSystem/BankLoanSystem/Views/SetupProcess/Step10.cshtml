@@ -272,7 +272,7 @@
                                                         <input value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" tabindex="-1">
                                                     </div>
                                                     <div class="button_box algn_center">
-                                                        <input value="Create" id="btnCreate" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                        <input value="Create" id="btnCreate" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button">
                                                     </div>
                                                     <div class="button_box algn_right">
                                                         <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button" onclick="clearFunction()" tabindex="-1">
@@ -692,68 +692,68 @@
         }
     });
 
-    //delete row
-    $(document).on('click', '.btnDeleteRow', function () {
-        //alert('delete');
-        var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
-        $('#customErrorTable').children('span').text("");
-        if(tblLength > 1) {
-            //alert('if');
-            var tr = $(this).parents('tr:first');
+    ////delete row
+    //$(document).on('click', '.btnDeleteRow', function () {
+    //    //alert('delete');
+    //    var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
+    //    $('#customErrorTable').children('span').text("");
+    //    if(tblLength > 1) {
+    //        //alert('if');
+    //        var tr = $(this).parents('tr:first');
 
-            var curid = tr.find("#lblCur").html();
-            var timePeriod = tr.find("#timePeriod").val();
-            var percentage = tr.find("#percentage").val();
+    //        var curid = tr.find("#lblCur").html();
+    //        var timePeriod = tr.find("#timePeriod").val();
+    //        var percentage = tr.find("#percentage").val();
 
-            if (percentage !== '') {
-                var gridTable = document.getElementById('tblGrid');
-                gridTable.deleteRow(curid);
-                id = id - 1;
+    //        if (percentage !== '') {
+    //            var gridTable = document.getElementById('tblGrid');
+    //            gridTable.deleteRow(curid);
+    //            id = id - 1;
 
-                for (var k = curid; k < id + 1; k++) {
-                    gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
-                }
+    //            for (var k = curid; k < id + 1; k++) {
+    //                gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
+    //            }
 
-                var removeIndex = (parseInt(curid) - parseInt(1));
+    //            var removeIndex = (parseInt(curid) - parseInt(1));
 
-                list.currentList.splice(removeIndex, 1);
-                var currentListLenght = Object.keys(list.currentList).length;
+    //            list.currentList.splice(removeIndex, 1);
+    //            var currentListLenght = Object.keys(list.currentList).length;
 
-                for (var i = removeIndex; i < currentListLenght; i++) {
-                    list.currentList[i].CurtailmentId = removeIndex + 1;
-                }
+    //            for (var i = removeIndex; i < currentListLenght; i++) {
+    //                list.currentList[i].CurtailmentId = removeIndex + 1;
+    //            }
 
-                //if(isErrorTime === true){}
+    //            //if(isErrorTime === true){}
 
-                //for (var j = 0; j < currentListLenght; j++) {
-                //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-                //}
+    //            //for (var j = 0; j < currentListLenght; j++) {
+    //            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+    //            //}
 
-                //if(isErrorTime !== true)
-                remainingPt = parseInt(remainingPt) + parseInt(percentage);
+    //            //if(isErrorTime !== true)
+    //            remainingPt = parseInt(remainingPt) + parseInt(percentage);
 
-                //alert(isErrorTime);
+    //            //alert(isErrorTime);
 
-                if(parseInt(remainingPt) > 0)
-                {
-                    var val = document.getElementById('spnremainPtComplete').innerHTML;
+    //            if(parseInt(remainingPt) > 0)
+    //            {
+    //                var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-                    $('#spnremainPtComplete').text('');
-                    $('#spnremainPtError').text('');
-                }
-                else if (parseInt(remainingPt) === 0) {
-                    $('#spnremainPt').text('');
-                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                    $('#spnremainPtError').text('');
-                } else {
-                    $('#spnremainPt').text('');
-                    $('#spnremainPtComplete').text('');
-                    $('#spnremainPtError').text('Error percentage found');
-                }
-            }
+    //                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+    //                $('#spnremainPtComplete').text('');
+    //                $('#spnremainPtError').text('');
+    //            }
+    //            else if (parseInt(remainingPt) === 0) {
+    //                $('#spnremainPt').text('');
+    //                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+    //                $('#spnremainPtError').text('');
+    //            } else {
+    //                $('#spnremainPt').text('');
+    //                $('#spnremainPtComplete').text('');
+    //                $('#spnremainPtError').text('Error percentage found');
+    //            }
+    //        }
 
-        }
+    //    }
 
         //
         //var index = 0;
@@ -787,47 +787,47 @@
         //    index = parseInt(index) + parseInt(1);
         //});
 
-        var index = 0;
+    //    var index = 0;
 
-        $('table#tblGrid > tbody > tr').not(':first').each(function() {
+    //    $('table#tblGrid > tbody > tr').not(':first').each(function() {
 
-            var curid = $(this).find("#lblCur").html();
-            var timePeriod = $(this).find("#timePeriod").val();
-            var percentage = $(this).find("#percentage").val();
-            var previousTime = 0;
+    //        var curid = $(this).find("#lblCur").html();
+    //        var timePeriod = $(this).find("#timePeriod").val();
+    //        var percentage = $(this).find("#percentage").val();
+    //        var previousTime = 0;
 
-            if (parseInt(curid) > 1) {
-                previousTime = list.currentList[curid - 2].TimePeriod;
-            }
+    //        if (parseInt(curid) > 1) {
+    //            previousTime = list.currentList[curid - 2].TimePeriod;
+    //        }
 
-            var currentListLenght = Object.keys(list.currentList).length;
-            if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
-                // update list
-                list.currentList[index].TimePeriod = timePeriod;
-                //list.currentList[index].Percentage = percentage;
-            }
+    //        var currentListLenght = Object.keys(list.currentList).length;
+    //        if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
+    //            // update list
+    //            list.currentList[index].TimePeriod = timePeriod;
+    //            //list.currentList[index].Percentage = percentage;
+    //        }
 
-            index = parseInt(index) + parseInt(1);
-            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
+    //        index = parseInt(index) + parseInt(1);
+    //        //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
 
-            if (parseInt(timePeriod) > parseInt(remainingTime)) {
-                $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-                isErrorTime = true;
-                return;
-            }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+    //        if (parseInt(timePeriod) > parseInt(remainingTime)) {
+    //            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+    //            isErrorTime = true;
+    //            return;
+    //        }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
 
-                $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-                isErrorTime = true;
-                return;
-            }
-            else {
-                isErrorTime = false;
-                $('#spnremainTimeError').children('span').text("");
-            }
-        });
+    //            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+    //            isErrorTime = true;
+    //            return;
+    //        }
+    //        else {
+    //            isErrorTime = false;
+    //            $('#spnremainTimeError').children('span').text("");
+    //        }
+    //    });
 
-        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
-    });
+    //    //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+    //});
 
     //$('#curtailmentDueEmail').change(function() {
     //    alert('hi');
