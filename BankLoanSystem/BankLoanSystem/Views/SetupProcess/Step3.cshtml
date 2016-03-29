@@ -165,7 +165,7 @@
                                                     <label>First Name</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtFirstName" } })
+                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtFirstName" } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</p>
@@ -176,7 +176,7 @@
                                                     <label>Last Name</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtLastName" } })
+                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtLastName" } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</p>
@@ -309,186 +309,181 @@
 
 <script>
 
-                                $("#clear").click(function () {
-                                    $('#branchDiv').hide();
-                                    $(".text-danger").html("");
-                                });
+    $("#clear").click(function () {
+        $('#branchDiv').hide();
 
-                                $(function () {
-                                    $('#skip').click(function () {
+    });
 
-                                        $('#loadingDiv').show();
-                                        window.location.href = "Step4";
-                                        Progress(4);
-                                        @*$.ajax({
-                                            url: '@Url.Action("Step4")',
-                                            type: 'GET',
+    $(function () {
+        $('#skip').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("Step4")',
+                type: 'GET',
 
 
-                                            success: function (partialView) {
-                                                $('#loadingDiv').hide();
-                                                $('#changeContainer').html(partialView);
-                                                $('#changeContainer').show();
-                                                Progress(4);
-                                            },
-                                            error: function (request, status, error) {
-                                                //handleErrorMsg(request.responseText);
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                    Progress(4);
+                },
+                error: function (request, status, error) {
+                    //handleErrorMsg(request.responseText);
 
-                                            }
-                                        });*@
-                                    });
-                                });
+                }
+            });
+        });
+    });
 </script>
+
 <script type="text/javascript">
-                                $(function () {
-                                    $('#btnPreStep3').click(function () {
+    $(function () {
+        $('#btnPreStep3').click(function () {
 
-                                        $('#loadingDiv').show();
-                                        window.location.href = "Step2";
-                                        @*$.ajax({
-                                            url: '@Url.Action("step2", "SetupProcess")',
-                                            type: 'GET',
-                                            data: { edit: 1 },
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step2", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
 
-                                            success: function (partialView) {
-                                                $('#loadingDiv').hide();
-                                                $('#changeContainer').html(partialView);
-                                                $('#changeContainer').show();
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
 
-                                            },
-                                            error: function (request, status, error) {
-                                                //handleErrorMsg(request.responseText);
+                },
+                error: function (request, status, error) {
+                    //handleErrorMsg(request.responseText);
 
-                                            }
-                                        });*@
-                                    });
-                                });
+                }
+            });
+        });
+    });
 
-                                $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
+    $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
-                                Progress(3);
-                                $('#RoleId').change(function () {
-                                    var val = document.getElementById("RoleId").value;
-                                    if (val == '2' || val == '3') {
-                                        $('#branchDiv').show();
-                                    }
-                                    else {
-                                        $('#branchDiv').hide();
-                                    }
-                                });
+    Progress(3);
+    $('#RoleId').change(function () {
+        var val = document.getElementById("RoleId").value;
+        if (val == '2' || val == '3') {
+            $('#branchDiv').show();
+        }
+        else {
+            $('#branchDiv').hide();
+        }
+    });
 
-                                //Validation
+    //Validation
 
-                                // User name validate
-                                $('#txtUserName').keypress(function (e) {
-                                    var code = e.which;
-                                    if (this.value.length === 0 && (48 <= code && code <= 57)) {
-                                        //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
-                                        this.focus();
-                                        e.preventDefault();
-                                        return;
-                                    }
+    // User name validate
+    $('#txtUserName').keypress(function (e) {
+        var code = e.which;
+        if (this.value.length === 0 && (48 <= code && code <= 57)) {
+            //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+            this.focus();
+            e.preventDefault();
+            return;
+        }
 
-                                    var res = BlockText(e.which);
-                                    if (res === 1) {
-                                        //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+        var res = BlockText(e.which);
+        if (res === 1) {
+            //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                // change to title case
-                                $('#txtFirstName, #txtLastName').keyup(function (e) {
-                                    //ToTitleCase(this.id, this.value);
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
+    // change to title case
 
-                                $('#txtFirstName, #txtLastName').keypress(function (e) {
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
+    $('#txtFirstName, #txtLastName').blur(function (e) {
+        //ToTitleCase(this.id, this.value);
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
+    });
 
-                                //Check maximum length
-                                $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 30);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
 
-                                $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
-                                    if (this.value.length === 0 && e.which === 32) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
-                                    var res = InvalidCharacters(this, array, e.which);
+    //Check maximum length
+    $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 30);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
+        if (this.value.length === 0 && e.which === 32) {
+            e.preventDefault();
+            return;
+        }
+        var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
+        var res = InvalidCharacters(this, array, e.which);
 
-                                //Check maximum length for email address and valid characters
-                                $('#txtNewEmail').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 100);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-                                    res = InvalidCharacters(this, array, e.which);
+    //Check maximum length for email address and valid characters
+    $('#txtNewEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92 || e.which === 39) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
 
-                                $('#txtFirstName, #txtLastName').keypress(function (e) {
-                                    //var array = [' ', '/', '`', '~', '!'];
-                                    var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
-                                    var res = InvalidCharacters(this, array, e.which);
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        //var array = [' ', '/', '`', '~', '!'];
+        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
+        var res = InvalidCharacters(this, array, e.which);
 
-                                    if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
 
-                                $('#txtPhoneNumber').keypress(function (e) {
-                                    var res = PhoneNumber(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    res = CheckMaxLenth(this, this.value, 15);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    $('#txtPhoneNumber').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
 </script>
 

@@ -912,7 +912,14 @@
     }
 
 }
-
+<script>
+    $('#startDate').focusout(function () {
+        $(this).attr('placeholder', 'MM/DD/YYYY');
+    });
+    $('#maturityDate').focusout(function () {
+        $(this).attr('placeholder', 'MM/DD/YYYY');
+    });
+</script>
 <script>
 
     var startDate,
