@@ -13,98 +13,89 @@
         $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
         $('.popup' + whichpopup).show().css({ 'top': scrollTop + 14 + '%' }); //show the appropriate popup and set the content 20px from the window top
     }
-   
+
 
 </script>
 <style>
-    .overlay-content{
-        top:14%;
-        width:600px;
+    .overlay-content {
+        top: 14%;
+        width: 600px;
     }
-    .validation-summary{
-    display:none;
-}
-.validation-summary.validation-summary-errors{
-    display:block;
-}
-        .validation-summary.validation-summary-errors>ul {
-            display:none;
+
+    .validation-summary {
+        display: none;
+    }
+
+        .validation-summary.validation-summary-errors {
+            display: block;
         }
 
-
+            .validation-summary.validation-summary-errors > ul {
+                display: none;
+            }
 </style>
 
 
-    @if ( Session["companyStep"] != null && int.Parse(Session["companyStep"].ToString()) > 0)
-    {
-        <div class="overlay-bg">
-        </div>
-<div class="overlay-content popup1" style="left:55%" >
-    <h3>Company Setup is on Progress</h3>
+@if (Session["companyStep"] != null && int.Parse(Session["companyStep"].ToString()) > 0)
+{
+    <div class="overlay-bg">
+    </div>
+        <div class="overlay-content popup1" style="left:55%">
+            <h3>Company Setup is on Progress</h3>
 
-    <span class="text-warning">Do you wish to continue the Company Setup?</span><br />
-    <span> Press YES to Complete the Setupprocess, or NO to go to Dashboard.</span><br />
-    <br />
-    @Html.ActionLink("YES", "Index", "SetupProcess" , null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
-    @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
-</div>
-<script>
-       
+            <span class="text-warning">Do you wish to continue the Company Setup?</span><br />
+            <span> Press YES to Complete the Setupprocess, or NO to go to Dashboard.</span><br />
+            <br />
+            @Html.ActionLink("YES", "Index", "SetupProcess", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+            @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
+        </div>
+        <script>
+
     showPopup(1);
 
-       
-</script>
 
-    }
+        </script>
 
-       
-            <div>
-                <h1 class="logo-name">TFN</h1>
+}
+
+
+<div class="container loginwrapper">
+    <div class="loginBanner">
+        <h1>Floor Plan Financing</h1>
+    </div>
+    <div class="login-container">
+        <div class="loginInner">
+            <div class="loginHeader">
+                <h1 class="logo-name">Management Software</h1>
             </div>
-            <h3>Welcome to TFN</h3>
-        <h5 class="form-signin-heading">Please sign in</h5>
-
+            <h5 class="form-signin-heading"> &nbsp;<!--Please sign in--></h5>
             @using (Html.BeginForm("UserLogin", "Login", FormMethod.Post, new { @class = "form-signin" }))
             {
-                @*@Html.ValidationSummary(false, "fill", new { @class = "validation-summary" })*@
                 @Html.AntiForgeryToken()
-
-               
-                <h5 class="form-signin-heading text-danger field-validation-error error" style="top:266px;left:45.5%">@Html.DisplayFor(item => item.lbl)</h5>
-               
-                <div class="form-group">
-                    
-
-                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name", id= "userName" } })
-                    @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-
-
-                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", id ="password" } })
-                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-
+                <div class="text-danger"> <span></span> </div>
+                <div class="form-group login-form-group">
+                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name", id = "userName" } })
+                    <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })</p></div>
                 </div>
 
 
+                    <div class="form-group login-form-group">
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", id = "password" } })
+                        <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</p></div>
+                    </div>
 
-
-                <div class="login-button">
-
-                    <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
-                </div>
-
-                <small> @Html.ActionLink("Forgot Password?", "Index", "ForgotPassword")</small>
-
-
-
-                <p class="text-muted text-center"><small>Are you a Company employee?</small></p>
-                @Html.ActionLink("Login as Company Employee", "EmployeeLogin", "Login", null, new { @class = "btn btn-md btn-info btn-block" })
-
+                    <div class="errorMsg"><p id="error">@Html.DisplayFor(item => item.lbl)</p></div>
+                    <div class="login-button">
+                        <button class="btn btn-md btn-success btn-block" type="submit">Sign in</button>
+                    </div>
+                        <small> <a href="~/ForgotPassword/Index">Forgot Password?</a></small>
 
             }
+        </div>
+    </div>
+    <!-- / login container -->
+</div>
+
 <script>
 
     $('#userName').focusout(function () {
@@ -134,7 +125,7 @@
 
 
         $('input, button').click(function () {
-            $('.error').text("");
+            $('#error').text("");
 
         });
 
@@ -143,4 +134,4 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-   
+
