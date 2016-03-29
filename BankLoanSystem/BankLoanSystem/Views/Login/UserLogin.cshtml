@@ -101,6 +101,23 @@
     $('#userName').focusout(function () {
         $(this).attr('placeholder', 'User Name');
     });
+
+    $('#userName').keypress(function (e) {
+        //var array = [' ', '/', '`', '~', '!'];
+        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '','@@',' ',"'",'.'];
+        var res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+
+        if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
     $('#password').focusout(function () {
         $(this).attr('placeholder', 'Password');
     });

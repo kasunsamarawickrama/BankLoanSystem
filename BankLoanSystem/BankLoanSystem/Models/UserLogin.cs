@@ -15,6 +15,8 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "User Name")]
+        //[StringLength(30, ErrorMessage = "Needs to be 3 to 30 characters.", MinimumLength = 3)]
+        [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Invalid Characters Found")]
         public string userName { get; set; }
 
         [Required]
