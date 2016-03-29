@@ -7,6 +7,7 @@
     }
 
 }
+@using BankLoanSystem.Models;
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -484,7 +485,7 @@
             $('#paidDateDiv').hide();
 
         }
- 
+
     });
     $('#interest').click(function () {
         if ($('#interest').val() === "0.000") {
@@ -556,4 +557,16 @@
     });
     $(".tab.7").parent("li").addClass("active").siblings().removeClass('active');
     Progress(7);
+
+     @if (((LoanSetupStep)Session["loanStep"]).stepId >= 3)
+    {
+        <text>
+    $(".right_arrw.7").children("img").remove();
+        $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
+        $(".right_arrw.7").css('background-image', 'none');
+        $(".right_arrw.7").prepend('<img id="theImg" src="/Images/pendingIco.png" />');
+
+        </text>
+
+    }
 </script>

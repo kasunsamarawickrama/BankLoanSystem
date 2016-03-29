@@ -81,6 +81,8 @@
                 history.pushState(obj, obj.Page, obj.Url);
             }
 
+            
+
             if (global <= step){
 
             for (var i = 1; i <= step ; i++) {
@@ -103,10 +105,7 @@
                  }
 
 
-                //if( global==6 && step== 8){
-
-                //    if(i ==7 ) continue;
-                //}
+               
 
                 //$("#tt").css("right_arrw","url(~/Images/pendingIco.png)");
 
@@ -116,15 +115,15 @@
                 $(tab).parent('li').css("pointer-events", "auto").css("cursor", "pointer");
                 if (i == step) {
                     $(tab).css('background-image', 'none');
-                    $(tab).prepend('<img id="theImg" src="/Images/pendingIco.png" />')
+                    $(tab).prepend('<img id="theImg" src="/Images/pendingIco.png" />');
 
 
                 } else {
                     $(tab).css('background-image', 'none');
-                    $(tab).prepend('<img id="theImg" src="/Images/rightIco.png" />')
+                    $(tab).prepend('<img id="theImg" src="/Images/rightIco.png" />');
                 }
             }
-
+                
             global = step;
 
             }
@@ -207,7 +206,7 @@
         
             var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
             $('#customErrorTable').children('span').text("");
-            alert(tblLength);
+             
             if(tblLength > 1) {
             
                 var tr = $(this).parents('tr:first');

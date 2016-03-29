@@ -8,6 +8,7 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
+@using BankLoanSystem.Models;
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -1237,7 +1238,7 @@
         $('select').next('span').children('span').text('');
         $('select').removeClass('valid');
 
-        
+
         $('.new_err_msg').children("span").text("");
 
         $('#advance').hide();
@@ -1494,14 +1495,28 @@
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
-    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false )
+
+
+    @if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false && ((LoanSetupStep)Session["loanStep"]).stepId >= 3)
     {
         <text>
-    $(".tab.7").children("span").remove();
-    $(".tab.7").css("pointer-events", "none").css("cursor", "default");
-    $(".tab.7").append("<span style='float:right'>&#128274; </span>");
+    $(".right_arrw.7").children("img").remove();
+        $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
+        $(".right_arrw.7").css('background-image', 'none');
+        $(".right_arrw.7").prepend('<img id="theImg" src="/Images/lockIco.png" />');
 
-    </text>
+        </text>
+
+    }
+    @if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == true && ((LoanSetupStep)Session["loanStep"]).stepId >= 3)
+    {
+        <text>
+    $(".right_arrw.7").children("img").remove();
+        $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
+        $(".right_arrw.7").css('background-image', 'none');
+        $(".right_arrw.7").prepend('<img id="theImg" src="/Images/rightIco.png" />');
+
+        </text>
 
     }
 
