@@ -54,7 +54,7 @@
                                             <label for="CompanyName">Company Name</label>
                                         </div>
                                         <div class="col-xs-8 text_field">
-                                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyName" } })
+                                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyName" } })
                                             @*<div id="customError" ><span class="text-danger"></span></div>*@
                                         </div>
                                         <div class="err_msg_box">
@@ -66,7 +66,7 @@
                                             <label for="CompanyAddress1">Street Address 1</label>
                                         </div>
                                         <div class="col-xs-8 text_field">
-                                            @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyAddress1" } })
+                                            @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress1" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })</p>
@@ -80,7 +80,7 @@
                                             </label>
                                         </div>
                                         <div class="col-xs-8 text_field">
-                                            @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyAddress2" } })
+                                            @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress2" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })</p>
@@ -91,7 +91,7 @@
                                             <label for="City">City</label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field">
-                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCity" } })
+                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCity" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })</p>
