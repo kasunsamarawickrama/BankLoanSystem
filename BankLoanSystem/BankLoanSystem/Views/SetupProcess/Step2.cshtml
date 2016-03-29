@@ -65,7 +65,7 @@
                                                 <label>Name</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
@@ -76,7 +76,7 @@
                                                 <label>Street Address 1</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress1" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
@@ -90,7 +90,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress2" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
@@ -101,7 +101,7 @@
                                                 <label>City</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchCity" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>

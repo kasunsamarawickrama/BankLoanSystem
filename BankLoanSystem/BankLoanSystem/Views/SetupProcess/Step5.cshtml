@@ -145,7 +145,7 @@
                                                     <label>Partner Branch Name</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
@@ -156,7 +156,7 @@
                                                     <label>Street Address 1</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress1", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
@@ -170,7 +170,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress2", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
@@ -181,7 +181,7 @@
                                                     <label>City</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchCity", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
@@ -470,21 +470,14 @@
 
 </script>
 <script type="text/javascript">
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+
+
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
+
             ToTitleCase(this.id, this.value);
     });
 
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
 
-        if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
@@ -603,8 +596,7 @@
         $('#btnPreStep5').click(function () {
 
             $('#loadingDiv').show();
-            window.location.href = "Step4";
-            @*$.ajax({
+            $.ajax({
                 url: '@Url.Action("step4", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1},
@@ -619,11 +611,10 @@
                     handleErrorMsg(request.responseText);
 
                 }
-            });*@
+            });
         });
     });
 </script>
-
 <script type="text/javascript">
     $(function() {
         $('#Previous').on('change', function() {
