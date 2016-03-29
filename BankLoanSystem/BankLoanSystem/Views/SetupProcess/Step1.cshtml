@@ -420,6 +420,10 @@
 
     Progress(1);
 
-
-
+    $('#txtZipPre').focusout(function () {
+        $(this).attr('placeholder', 'Zip Code');
+    });
+    $('#txtExtension').focusout(function () {
+        $(this).attr('placeholder', 'Extension');
+    });
 </script>
