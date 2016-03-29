@@ -79,9 +79,11 @@
 
                                             @if (Model.NonRegBranches != null)
                                             {
-                                                @*<div class="control-label col-sm-3">
+                                                <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
+                                                    <div class="col-xs-8 text_field">
                                                         <a onclick="CreateNewBranch()">create new partner branch</a>
-                                                    </div>*@
+                                                    </div>
+                                                </div>
                                             }
                                             else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                             {
@@ -128,7 +130,7 @@
                                                     @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                                     {
 
-                                                        @Html.HiddenFor(model => model.NonRegCompany.CompanyId)
+                                                        @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
                                                         @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                     }
                                                     else
@@ -145,7 +147,7 @@
                                                     <label>Partner Branch Name</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
@@ -156,7 +158,7 @@
                                                     <label>Street Address 1</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress1", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
@@ -170,7 +172,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress2", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
@@ -181,7 +183,7 @@
                                                     <label>City</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity", @maxlength = 50 } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchCity", @maxlength = 50 } })
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
@@ -300,7 +302,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group new_form_group gridArea">
-                                                @if (Model.NonRegBranches != null)
+                                                @if (Model.NonRegBranches != null && Model.NonRegBranches.Count != 0)
                                                 {
                                                     <table style="width:100%;" class="table_style">
                                                         <tr class="bordr_btm_sp">
@@ -312,7 +314,7 @@
                                                         @for (var i = 0; i < Model.NonRegBranches.Count; i++)
                                                         {
                                                             <tr class="bordr_btm" style="height:30px;">
-                                                                <td style="width:31px;" class="back_colr">@i</td>
+                                                                <td style="width:31px;" class="back_colr">@(i+1)</td>
                                                                 <td style="width:144px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchName)</td>
                                                                 <td style="width:210px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchAddress1)</td>
                                                                 <td style="width:107px;" class="back_colr"><a onclick="EditBranch(@i)" id="CompanyIndex">Edit</a></td>
@@ -348,20 +350,13 @@
 
 <script language="javascript">
 
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-  $('.nav li.active ul').removeClass('in');
-  $('.nav li').removeClass('active');
-  $('.nav li.partner').addClass('active');
-  $('.nav li.active ul').addClass('in');
-  })
-</script>
-
-<script>
-             $('#clear').click(function () {
-                      document.getElementsByTagName("form")[0].reset();
-                       $(".text-danger").html("");
-            });
+        $('.nav li.active ul').removeClass('in');
+        $('.nav li').removeClass('active');
+        $('.nav li.partner').addClass('active');
+        $('.nav li.active ul').addClass('in');
+    })
 </script>
 
 
@@ -470,21 +465,14 @@
 
 </script>
 <script type="text/javascript">
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+
+
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
+
             ToTitleCase(this.id, this.value);
     });
 
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
 
-        if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
@@ -603,8 +591,7 @@
         $('#btnPreStep5').click(function () {
 
             $('#loadingDiv').show();
-            window.location.href = "Step4";
-            @*$.ajax({
+            $.ajax({
                 url: '@Url.Action("step4", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1},
@@ -619,15 +606,18 @@
                     handleErrorMsg(request.responseText);
 
                 }
-            });*@
+            });
         });
     });
 </script>
-
 <script type="text/javascript">
     $(function() {
         $('#Previous').on('change', function() {
             if ($(this).is(':checked')) {
+
+                $('input').parent('div').siblings('div').children('p').children("span").text("");
+                $('select').parent('div').siblings('div').children('p').children("span").text("");
+                $('.input-validation-error').removeClass('input-validation-error');
 
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.CompanyBranch.Company.CompanyName;
@@ -662,16 +652,23 @@
 
 
     $('#clear').click(function() {
-        if($('#btnNext').val()=="Update")
-        {
+        if ($('#btnNext').val() === "Update") {
             $('#btnNext').val('Next');
         }
         document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+        $('#lnkCreateNewBranch').hide();
     });
-
+    Progress(5);
 </script>
+
 <script type="text/javascript">
     function EditBranch(index) {
+
+        $('input').parent('div').siblings('div').children('p').children("span").text("");
+        $('select').parent('div').siblings('div').children('p').children("span").text("");
+        $('.input-validation-error').removeClass('input-validation-error');
+
         $('#nonRegBranchDiv').show();
         $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
@@ -694,9 +691,10 @@
         document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
         document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
 
+        $('#lnkCreateNewBranch').show();
     };
 
-    function CreateNewBranch(){
+    function CreateNewBranch() {
         $('#btnNext').val('Next');
         $('#nonRegBranchDiv').show();
         document.getElementById("branchName").value = "";
@@ -712,10 +710,15 @@
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
         document.getElementById("branchCode").value = "";
-        //document.getElementById("RegBranchId").value = "";
-        //document.getElementById("NonRegCompanyId").value = "";
 
+        var input = $("#NonRegCompanyId");
+        if(input.attr('type') !== 'hidden')
+            document.getElementById("NonRegCompanyId").value = "";
+
+        input = $("#RegBranchId");
+        if(input.attr('type') !== 'hidden')
+            document.getElementById("RegBranchId").value = "";
     }
 
-    Progress(5);
+
 </script>

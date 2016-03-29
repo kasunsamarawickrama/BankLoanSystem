@@ -65,7 +65,7 @@
                                                 <label>Company Name</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyName" } })
+                                                @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "CompanyName" } })
 
                                             </div>
                                             <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyName, "", new { @class = "text-danger" })</p></div>
@@ -76,7 +76,7 @@
                                                 <label>Street Address 1</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyAddress1" } })
+                                                @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "CompanyAddress1" } })
                                             </div>
                                             <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyAddress1, "", new { @class = "text-danger" })</p></div>
                                         </div>
@@ -89,7 +89,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyAddress2" } })
+                                                @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "CompanyAddress2" } })
                                             </div>
                                             <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyAddress2, "", new { @class = "text-danger" })</p></div>
                                         </div>
@@ -99,7 +99,7 @@
                                                 <label>City</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "City" } })
+                                                @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "City" } })
                                             </div>
                                             <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger" })</p></div>
                                         </div>
@@ -291,230 +291,225 @@
 
 <script type="text/javascript">
 
-                                // Capitalize first letter
-                                $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keyup(function (e) {
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
+    // Capitalize first letter
+    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').blur(function (e) {
+
+            ToTitleCase(this.id, this.value);
+    });
 
 
-                                $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
+    $('#CompanyAddress1, #CompanyAddress2').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                $('#CompanyAddress1, #CompanyAddress2').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 50);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-                                    res = InvalidCharacters(this, array, e.which);
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum length
+    $('#CompanyName, #City').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
-                                //Check maximum length
-                                $('#CompanyName, #City').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 50);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-                                    res = InvalidCharacters(this, array, e.which);
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    $('#ZipPre').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            $("#Extension").focus();
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                $('#ZipPre').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 4);
-                                    if (res === 0) {
-                                        $("#Extension").focus();
-                                    }
-                                    res = AllowNumbers(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    $('#Extension').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                $('#Extension').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 4);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    res = AllowNumbers(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    //Check maximum length for email address and valid characters
+    $('#Email').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                //Check maximum length for email address and valid characters
-                                $('#Email').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 100);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-                                    res = InvalidCharacters(this, array, e.which);
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92 || e.which === 39) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    $('#PhoneNum1, #PhoneNum2, #PhoneNum3, #Fax').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                $('#PhoneNum1, #PhoneNum2, #PhoneNum3, #Fax').keypress(function (e) {
-                                    var res = PhoneNumber(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 
-                                    res = CheckMaxLenth(this, this.value, 15);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+    //$('#txtFirstName, #txtLastName').keypress(function (e) {
+    //    //var array = [' ', '/', '`', '~', '!'];
+    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+    //    var res = InvalidCharacters(this, array, e.which);
 
-                                //$('#txtFirstName, #txtLastName').keypress(function (e) {
-                                //    //var array = [' ', '/', '`', '~', '!'];
-                                //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
-                                //    var res = InvalidCharacters(this, array, e.which);
+    //    if (res === 1) {
+    //        e.preventDefault();
+    //        return;
+    //    }
+    //});
 
-                                //    if (res === 1) {
-                                //        e.preventDefault();
-                                //        return;
-                                //    }
-                                //});
+    $('input').keypress(function (e) {
+        var array = [' '];
+        if (this.value.length === 0) {
+            var res = InvalidCharacters(this, array, e.which);
 
-                                $('input').keypress(function (e) {
-                                    var array = [' '];
-                                    if (this.value.length === 0) {
-                                        var res = InvalidCharacters(this, array, e.which);
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+        }
+    });
 
-                                        if (res === 1) {
-                                            e.preventDefault();
-                                            return;
-                                        }
-                                    }
-                                });
+    $('#clear').click(function () {
+        if($('#btnNext').val()=="Update")
+        {
+            $('#btnNext').val('Next');
+        }
+        document.getElementsByTagName("form")[0].reset();
+    });
 
-                                $('#clear').click(function () {
-                                    if($('#btnNext').val()=="Update")
-                                    {
-                                        $('#btnNext').val('Next');
-                                    }
-                                    document.getElementsByTagName("form")[0].reset();
-                                });
+    Progress(4);
 
-                                Progress(4);
+    $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
+    $(function() {
+        $(document).ready(function () {
+            var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
+            if(c>0){
+                $('#nonRegCompanyDiv').hide();
+            }
+            else{
+                $('#nonRegCompanyDiv').show();
+            }
+            // $('#branchDiv').hide();
+        });
+        $('#btnPreStep4').click(function() {
 
-                                $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
-                                $(function() {
-                                    $(document).ready(function () {
-                                        var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
-                                        if(c>0){
-                                            $('#nonRegCompanyDiv').hide();
-                                        }
-                                        else{
-                                            $('#nonRegCompanyDiv').show();
-                                        }
-                                        // $('#branchDiv').hide();
-                                    });
-                                    $('#btnPreStep4').click(function() {
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step3", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
 
-                                        $('#loadingDiv').show();
-                                        window.location.href = "Step3";
-                                        @*$.ajax({
-                                            url: '@Url.Action("step3", "SetupProcess")',
-                                            type: 'GET',
-                                            data: { edit: 1 },
+                success: function(partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
 
-                                            success: function(partialView) {
-                                                $('#loadingDiv').hide();
-                                                $('#changeContainer').html(partialView);
-                                                $('#changeContainer').show();
+                },
+                error: function(request, status, error) {
+                    handleErrorMsg(request.responseText);
 
-                                            },
-                                            error: function(request, status, error) {
-                                                handleErrorMsg(request.responseText);
-
-                                            }
-                                        });*@
-                                    });
-                                });
+                }
+            });
+        });
+    });
 </script>
-<script type="text/javascript">
-                                function EditCompany(index) {
-                                    $('#nonRegCompanyDiv').show();
-                                    $('#btnNext').val('Update');
-                                    var model = @Html.Raw(Json.Encode(Model));
-                                    console.log(model);
-                                    console.log(index);
-                                    document.getElementById("CompanyName").value = model.Companies[index].CompanyName;
-                                    document.getElementById("CompanyAddress1").value = model.Companies[index].CompanyAddress1;
-                                    document.getElementById("CompanyAddress2").value = model.Companies[index].CompanyAddress2;
-                                    document.getElementById("City").value = model.Companies[index].City;
-                                    document.getElementById("StateId").value = model.Companies[index].StateId;
-                                    document.getElementById("ZipPre").value = model.Companies[index].ZipPre;
-                                    document.getElementById("Extension").value = model.Companies[index].Extension;
-                                    document.getElementById("PhoneNum1").value = model.Companies[index].PhoneNum1;
-                                    document.getElementById("PhoneNum2").value = model.Companies[index].PhoneNum2;
-                                    document.getElementById("PhoneNum3").value = model.Companies[index].PhoneNum3;
-                                    document.getElementById("Fax").value = model.Companies[index].Fax;
-                                    document.getElementById("Email").value = model.Companies[index].Email;
-                                    document.getElementById("WebsiteUrl").value = model.Companies[index].WebsiteUrl;
-                                    document.getElementById("companyCode").value = model.Companies[index].CompanyCode;
-                                };
 
-                                function CreateNewCompany(){
-                                    document.getElementById("CompanyName").value = "";
-                                    document.getElementById("CompanyAddress1").value = "";
-                                    document.getElementById("CompanyAddress2").value = "";
-                                    document.getElementById("City").value = "";
-                                    document.getElementById("StateId").value = "";
-                                    document.getElementById("ZipPre").value = "";
-                                    document.getElementById("Extension").value = "";
-                                    document.getElementById("PhoneNum1").value = "";
-                                    document.getElementById("PhoneNum2").value = "";
-                                    document.getElementById("PhoneNum3").value = "";
-                                    document.getElementById("Fax").value = "";
-                                    document.getElementById("Email").value = "";
-                                    document.getElementById("WebsiteUrl").value = "";
-                                    document.getElementById("companyCode").value = "";
-                                    $('#btnNext').val('Next');
-                                    $('#nonRegCompanyDiv').show();
-                                }
+<script type="text/javascript">
+    function EditCompany(index) {
+        $('#nonRegCompanyDiv').show();
+        $('#btnNext').val('Update');
+        var model = @Html.Raw(Json.Encode(Model));
+        console.log(model);
+        console.log(index);
+        document.getElementById("CompanyName").value = model.Companies[index].CompanyName;
+        document.getElementById("CompanyAddress1").value = model.Companies[index].CompanyAddress1;
+        document.getElementById("CompanyAddress2").value = model.Companies[index].CompanyAddress2;
+        document.getElementById("City").value = model.Companies[index].City;
+        document.getElementById("StateId").value = model.Companies[index].StateId;
+        document.getElementById("ZipPre").value = model.Companies[index].ZipPre;
+        document.getElementById("Extension").value = model.Companies[index].Extension;
+        document.getElementById("PhoneNum1").value = model.Companies[index].PhoneNum1;
+        document.getElementById("PhoneNum2").value = model.Companies[index].PhoneNum2;
+        document.getElementById("PhoneNum3").value = model.Companies[index].PhoneNum3;
+        document.getElementById("Fax").value = model.Companies[index].Fax;
+        document.getElementById("Email").value = model.Companies[index].Email;
+        document.getElementById("WebsiteUrl").value = model.Companies[index].WebsiteUrl;
+        document.getElementById("companyCode").value = model.Companies[index].CompanyCode;
+    };
+
+    function CreateNewCompany(){
+        document.getElementById("CompanyName").value = "";
+        document.getElementById("CompanyAddress1").value = "";
+        document.getElementById("CompanyAddress2").value = "";
+        document.getElementById("City").value = "";
+        document.getElementById("StateId").value = "";
+        document.getElementById("ZipPre").value = "";
+        document.getElementById("Extension").value = "";
+        document.getElementById("PhoneNum1").value = "";
+        document.getElementById("PhoneNum2").value = "";
+        document.getElementById("PhoneNum3").value = "";
+        document.getElementById("Fax").value = "";
+        document.getElementById("Email").value = "";
+        document.getElementById("WebsiteUrl").value = "";
+        document.getElementById("companyCode").value = "";
+        $('#btnNext').val('Next');
+        $('#nonRegCompanyDiv').show();
+    }
 
 
 </script>

@@ -106,7 +106,7 @@
                                         <div class="control-label col-sm-2 longLable">
                                             <label>
                                                 Do you need receipt or invoice for advance?<br>
-                                                <span class="optional">(Optional)</span>
+                                               
                                             </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field">
@@ -193,15 +193,35 @@
 </script>
 
 <script language="javascript" type="text/javascript">
-    function clearValues(){
+    function clearValues() {
 
 
-        $('#isTitleTrack option:selected').attr('selected',null);
-        $('#acceptMethod option:selected').attr('selected',null);
-        $('#timeLimit option:selected').attr('selected',null);
-        $('#receiptRequired option:selected').attr('selected',null);
+        $('#isTitleTrack option:selected').attr('selected', null);
+        $('#autoRemindEmail').next("span").children("span").text("");
+        $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#autoRemindEmail').next("div").children("p").children("span").text("");
+        $('#autoRemindEmail').removeClass('input-validation-error');
+        $('#acceptMethod option:selected').attr('selected', null);
+        $('#autoRemindEmail').next("span").children("span").text("");
+        $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#autoRemindEmail').next("div").children("p").children("span").text("");
+        $('#autoRemindEmail').removeClass('input-validation-error');
+        $('#timeLimit option:selected').attr('selected', null);
+        $('#timeLimit').next("span").children("span").text("");
+        $('#timeLimit').closest("div").siblings('div').children("p").children("span").text("");
+        $('#timeLimit').next("div").children("p").children("span").text("");
+        $('#timeLimit').removeClass('input-validation-error');
+        $('#receiptRequired option:selected').attr('selected', null);
+        $('#receiptRequired').next("span").children("span").text("");
+        $('#receiptRequired').closest("div").siblings('div').children("p").children("span").text("");
+        $('#receiptRequired').next("div").children("p").children("span").text("");
+        $('#receiptRequired').removeClass('input-validation-error');
         $('#autoRemindEmail').val('');
-        $('#receipttMethod option:selected').attr('selected',null);
+        $('#receipttMethod option:selected').attr('selected', null);
+        $('#receipttMethod').next("span").children("span").text("");
+        $('#receipttMethod').closest("div").siblings('div').children("p").children("span").text("");
+        $('#receipttMethod').next("div").children("p").children("span").text("");
+        $('#receipttMethod').removeClass('input-validation-error');
         $('#needTrack').hide();
         $('#needReceipt').hide();
         $('#TimeLimit').hide();
@@ -226,7 +246,7 @@
         }
     });
     function passvalueTitle(e1){
-        //alert(e);
+        
         if(e1 == "Yes"){
             $('#needTrack').show();
 
@@ -237,8 +257,8 @@
         }
     }
     function passvalueTimeLimit(e2){
-        //alert(e);
-        if((e2 == "At Any Time")||(e2 == "-- Select Time Limit --")){
+        
+        if((e2 == "At Any Time")||(e2 == "")){
             $('#RemindEmailDiv').hide();
 
         }
@@ -248,17 +268,16 @@
         }
     }
     function passvalue(e){
-        //alert(e);
-
-        if((e == "Title Present To Advance")||(e == "-- Select Accepted Method --")){
-            $('#ScannTitle').hide();
+       
+        if((e == "Title Present To Advance")||(e == "")){
+           
             $('#TimeLimit').hide();
-            //alert(e.value);
+           
 
         }
         else{
             $('#TimeLimit').show();
-            $('#ScannTitle').hide();
+          
         }
     }
 
@@ -274,104 +293,151 @@
 
 <script language="javascript" type="text/javascript">
 
-    $(document).ready(function () {
+   $(document).ready(function ()
+    {
 
+       // $('#TimeLimit').hide();
+        //alert($('#acceptMethod option:selected').val());
+        if($('#isTitleTrack option:selected').text()=="Yes"){
+            $('#needTrack').show();
 
-
-
-
-        $.fn.loadFunc = function () {
+        }
+        else{
 
             $('#needTrack').hide();
-            $('#needReceipt').hide();
-            $('#ScannTitle').hide();
-            $('#RemindEmailDiv').hide();
+
+        }
+        if(($('#acceptMethod option:selected').text()== "Title Present To Advance")||($('#acceptMethod option:selected').text() == "")){
+
             $('#TimeLimit').hide();
 
-            $('#clear').click(function () {
-                clearValues();
+        }
+        else{
 
-            });
-            $('#timeLimit').change(function(){
-                var e2 = $('#timeLimit option:selected').text();
+            $('#TimeLimit').show();
 
-                passvalueTimeLimit(e2);
-
-            });
-
-            $('#isTitleTrack').change(function(){
-                var e1 = $('#isTitleTrack option:selected').text();
-
-                passvalueTitle(e1);
-
-            });
-            $('#acceptMethod').change(function(){
-                var e = $('#acceptMethod option:selected').text();
-                //alert(e);
-                passvalue(e);
-            });
-            $('#receiptRequired').change(function () {
-
-                if ($('#receiptRequired option:selected').text()=="Yes") {
-                    $('#needReceipt').show();
-
-
-                }
-
-                else {
-                    $('#needReceipt').hide();
-                }
-
-            });
+        }
+        if (($('#timeLimit option:selected').text() == "At Any Time") || ($('#timeLimit option:selected').text() == "")) {
+            $('#RemindEmailDiv').hide();
 
         }
 
-        $.fn.editFunc = function()
-        {
-            //alert($('#isTitleTrack option:selected').text());
+        else {
+            $('#RemindEmailDiv').show();
+        }
+        if ($('#receiptRequired option:selected').text() == "Yes") {
+            $('#needReceipt').show();
 
-            $('#ScannTitle').hide();
+
+        }
+
+        else {
+            $('#needReceipt').hide();
+        }
+        //$('#needReceipt').hide();
+        //$('#RemindEmailDiv').hide();
+        //$('#TimeLimit').hide();
+    });
+        $('#isTitleTrack').change(function(){
+            $('#autoRemindEmail').next("span").children("span").text("");
+            $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
+            $('#autoRemindEmail').next("div").children("p").children("span").text("");
+            $('#autoRemindEmail').removeClass('input-validation-error');
+            $('#acceptMethod option:selected').attr('selected',null);
+            $('#acceptMethod').next("span").children("span").text("");
+            $('#acceptMethod').closest("div").siblings('div').children("p").children("span").text("");
+            $('#acceptMethod').next("div").children("p").children("span").text("");
+            $('#acceptMethod').removeClass('input-validation-error');
+            $('#timeLimit option:selected').attr('selected',null);
+            $('#timeLimit').next("span").children("span").text("");
+            $('#timeLimit').closest("div").siblings('div').children("p").children("span").text("");
+            $('#timeLimit').next("div").children("p").children("span").text("");
+            $('#timeLimit').removeClass('input-validation-error');
+
+            $('#autoRemindEmail').val('');
+
+            $('#needTrack').hide();
+
+            $('#TimeLimit').hide();
+            $('#RemindEmailDiv').hide();
             var e1 = $('#isTitleTrack option:selected').text();
-            //alert($('#isTitleTrack option:selected').text());
+
             passvalueTitle(e1);
 
-            $('#clear').click(function () {
-                clearValues();
-
-            });
-            $('#isTitleTrack').change(function(){
-                var e1 = $('#isTitleTrack option:selected').text();
-                passvalueTitle(e1);
-
-            });
-            if($('#isTitleTrack option:selected').text()=="Yes"){
-
-                $('#needTrack').show();
-
-                var e = $('#acceptMethod option:selected').text();
-                passvalue(e);
-                $('#acceptMethod').change(function(){
-                    var e = $('#acceptMethod option:selected').text();
-                    //alert(e);
-                    passvalue(e);
-                });
-            }
-            else {
-
-                $('#needTrack').hide();
-
-            }
+        });
 
 
+
+        $('#acceptMethod').change(function(){
+
+            $('#autoRemindEmail').next("span").children("span").text("");
+            $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
+            $('#autoRemindEmail').next("div").children("p").children("span").text("");
+            $('#autoRemindEmail').removeClass('input-validation-error');
+
+            $('#acceptMethod').next("span").children("span").text("");
+            $('#acceptMethod').closest("div").siblings('div').children("p").children("span").text("");
+            $('#acceptMethod').next("div").children("p").children("span").text("");
+            $('#acceptMethod').removeClass('input-validation-error');
+
+            $('#timeLimit option:selected').attr('selected',null);
+            $('#timeLimit').next("span").children("span").text("");
+            $('#timeLimit').closest("div").siblings('div').children("p").children("span").text("");
+            $('#timeLimit').next("div").children("p").children("span").text("");
+            $('#timeLimit').removeClass('input-validation-error');
+
+            $('#autoRemindEmail').val('');
+
+            $('#needTrack').show();
+
+            //$('#TimeLimit').show();
+            $('#RemindEmailDiv').hide();
+            var e = $('#acceptMethod option:selected').text();
+            //alert(e);
+            passvalue(e);
+        });
+
+        $('#timeLimit').change(function () {
+            $('#autoRemindEmail').next("span").children("span").text("");
+            $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
+            $('#autoRemindEmail').next("div").children("p").children("span").text("");
+            $('#autoRemindEmail').removeClass('input-validation-error');
+
+            $('#acceptMethod').next("span").children("span").text("");
+            $('#acceptMethod').closest("div").siblings('div').children("p").children("span").text("");
+            $('#acceptMethod').next("div").children("p").children("span").text("");
+            $('#acceptMethod').removeClass('input-validation-error');
+
+            $('#timeLimit').next("span").children("span").text("");
+            $('#timeLimit').closest("div").siblings('div').children("p").children("span").text("");
+            $('#timeLimit').next("div").children("p").children("span").text("");
+            $('#timeLimit').removeClass('input-validation-error');
+
+            $('#autoRemindEmail').val('');
+
+            $('#needTrack').show();
+
+            $('#TimeLimit').show();
+            $('#RemindEmailDiv').hide();
             var e2 = $('#timeLimit option:selected').text();
+
             passvalueTimeLimit(e2);
-            $('#timeLimit').change(function(){
-                var e2 = $('#timeLimit option:selected').text();
 
-                passvalueTimeLimit(e2);
+        });
+        $('#receiptRequired').change(function () {
+            $('#receiptRequired').next("span").children("span").text("");
+            $('#receiptRequired').closest("div").siblings('div').children("p").children("span").text("");
+            $('#receiptRequired').next("div").children("p").children("span").text("");
+            $('#receiptRequired').removeClass('input-validation-error');
 
-            });
-            if ($('#receiptRequired option:selected').text()=="Yes") {
+            $('#receipttMethod option:selected').attr('selected', null);
+            $('#receipttMethod').next("span").children("span").text("");
+            $('#receipttMethod').closest("div").siblings('div').children("p").children("span").text("");
+            $('#receipttMethod').next("div").children("p").children("span").text("");
+            $('#receipttMethod').removeClass('input-validation-error');
+
+            $('#needReceipt').hide();
+            if ($('#receiptRequired option:selected').text() == "Yes") {
                 $('#needReceipt').show();
 
 
@@ -381,38 +447,7 @@
                 $('#needReceipt').hide();
             }
 
-            $('#receiptRequired').change(function () {
-
-                if ($('#receiptRequired option:selected').text()=="Yes") {
-                    $('#needReceipt').show();
-
-
-                }
-
-                else {
-                    $('#needReceipt').hide();
-                }
-
-            });
-
-
-
-        }
-
-        if(@ViewBag.Edit ==1){
-
-            $.fn.editFunc();
-        }
-
-        else if(@ViewBag.Edit !=1){
-
-            $.fn.loadFunc();
-        }
-
-    });
-
-
-
+        });
     //Back Button
     $(function () {
         $('#btnPreStep9').click(function () {

@@ -49,9 +49,11 @@
                                         <div class="form-group new_form_group">
                                             @if (Model.SubBranches.Count > 0)
                                             {
-                                                @*<div class="control-label col-sm-2 lable_style">
+                                                <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
+                                                    <div class="col-xs-8 text_field">
                                                         <a onclick="CreateNewBranch()">create new branch</a>
-                                                    </div>*@
+                                                    </div>
+                                                </div>
                                             }
                                             else
                                             {
@@ -65,7 +67,7 @@
                                                 <label>Name</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
@@ -76,7 +78,7 @@
                                                 <label>Street Address 1</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress1" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
@@ -90,7 +92,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress2" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
@@ -101,7 +103,7 @@
                                                 <label>City</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity" } })
+                                                @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchCity" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
@@ -233,7 +235,7 @@
                                                     @for (var i = 0; i < Model.SubBranches.Count; i++)
                                                     {
                                                         <tr class="bordr_btm" style="height:30px;">
-                                                            <td class="back_colr">@i</td>
+                                                            <td class="back_colr">@(i+1)</td>
                                                             <td class="back_colr">@Html.DisplayFor(x => x.SubBranches[i].BranchName)</td>
                                                             <td class="back_colr">@Html.DisplayFor(x => x.SubBranches[i].BranchAddress1)</td>
                                                             <td class="back_colr"><a onclick="EditBranch(@i)" id="branchIndex">Edit</a></td>
@@ -278,247 +280,258 @@
 
 
 <script src="~/scripts/CommonFunctions.js"></script>
-
 <script>
 
-                                // Capitalize first letter
-                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
-                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-                                        ToTitleCase(this.id, this.value);
-                                });
+    // Capitalize first letter
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
 
-                                $('#branchAddress1, #branchAddress2').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 50);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+            ToTitleCase(this.id, this.value);
+    });
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-                                    res = InvalidCharacters(this, array, e.which);
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
-                                //Check maximum length
-                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 50);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+    $('#branchAddress1, #branchAddress2').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-                                    res = InvalidCharacters(this, array, e.which);
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
-                                //Check maximum Email
-                                $('#branchEmail').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 100);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum length
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                    var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-                                    res = InvalidCharacters(this, array, e.which);
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    if (res === 1) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    else if (e.which === 92 || e.which === 39) {
-                                        //$(this).siblings('div').children('span').text("Invalid character.");
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
-                                //Check maximum PhoneNumbers
-                                $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 15);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                    res = PhoneNumber(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum Email
+    $('#branchEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-                                //Check maximum ZipExtension
-                                $('#branchZipExten').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 4);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
+        var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
 
-                                    res = AllowNumbers(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
-                                //Check maximum ZipCode
-                                $('#branchZipPre').keypress(function (e) {
-                                    var res = CheckMaxLenth(this, this.value, 4);
-                                    if (res === 0) {
-                                        $("#branchZipExten").focus();
-                                    }
-                                    res = AllowNumbers(this, e.which);
-                                    if (res === 0) {
-                                        e.preventDefault();
-                                        return;
-                                    }
-                                });
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum PhoneNumbers
+    $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+        res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    //Check maximum ZipExtension
+    $('#branchZipExten').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum ZipCode
+    $('#branchZipPre').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            $("#branchZipExten").focus();
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
 </script>
 <script type="text/javascript">
-                                $(function () {
-                                    $(document).ready(function () {
-                                        var c = $('#branchTable').children('tbody').children('tr').length;
-                                        if(c>0){
-                                            $('#branchDiv').hide();
-                                        }
-                                        else{
-                                            $('#branchDiv').show();
-                                        }
-                                        // $('#branchDiv').hide();
-                                    });
-                                    $('#Previous').on('change', function () {
-                                        if ($(this).is(':checked')) {
+    $(function () {
+        $(document).ready(function () {
+            var c = $('#branchTable').children('tbody').children('tr').length;
+            if(c>0){
+                $('#branchDiv').hide();
+            }
+            else{
+                $('#branchDiv').show();
+            }
+           // $('#branchDiv').hide();
+        });
+        $('#Previous').on('change', function () {
+            $('input').parent('div').siblings('div').children('p').children("span").text("");
+            $('select').parent('div').siblings('div').children('p').children("span").text("");
+            $('.input-validation-error').removeClass('input-validation-error');
+            //text-danger field-validation-valid
+            if ($(this).is(':checked')) {
+                var model = @Html.Raw(Json.Encode(Model));
+                document.getElementById("branchName").value = model.Company.CompanyName;
+                document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
+                document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
+                document.getElementById("StateId").value = model.Company.StateId;
+                document.getElementById("branchCity").value = model.Company.City;
+                document.getElementById("branchZipPre").value = model.Company.ZipPre;
+                document.getElementById("branchZipExten").value = model.Company.Extension;
+                document.getElementById("branchEmail").value = model.Company.Email;
+                document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
+                document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
+                document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
+                document.getElementById("branchFax").value = model.Company.Fax;
+            }
+            else {
+                document.getElementById("branchName").value = "";
+                document.getElementById("branchAddress1").value = "";
+                document.getElementById("branchAddress2").value = "";
+                document.getElementById("StateId").value = "";
+                document.getElementById("branchCity").value = "";
+                document.getElementById("branchZipPre").value = "";
+                document.getElementById("branchZipExten").value = "";
+                document.getElementById("branchEmail").value = "";
+                document.getElementById("branchPhoneNum1").value = "";
+                document.getElementById("branchPhoneNum2").value = "";
+                document.getElementById("branchPhoneNum3").value = "";
+                document.getElementById("branchFax").value = "";
+            }
+        });
+    });
 
-                                            var model = @Html.Raw(Json.Encode(Model));
-                                            document.getElementById("branchName").value = model.Company.CompanyName;
-                                            document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
-                                            document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
-                                            document.getElementById("StateId").value = model.Company.StateId;
-                                            document.getElementById("branchCity").value = model.Company.City;
-                                            document.getElementById("branchZipPre").value = model.Company.ZipPre;
-                                            document.getElementById("branchZipExten").value = model.Company.Extension;
-                                            document.getElementById("branchEmail").value = model.Company.Email;
-                                            document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
-                                            document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
-                                            document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
-                                            document.getElementById("branchFax").value = model.Company.Fax;
-                                        }
-                                        else {
-                                            document.getElementById("branchName").value = "";
-                                            document.getElementById("branchAddress1").value = "";
-                                            document.getElementById("branchAddress2").value = "";
-                                            document.getElementById("StateId").value = "";
-                                            document.getElementById("branchCity").value = "";
-                                            document.getElementById("branchZipPre").value = "";
-                                            document.getElementById("branchZipExten").value = "";
-                                            document.getElementById("branchEmail").value = "";
-                                            document.getElementById("branchPhoneNum1").value = "";
-                                            document.getElementById("branchPhoneNum2").value = "";
-                                            document.getElementById("branchPhoneNum3").value = "";
-                                            document.getElementById("branchFax").value = "";
-                                        }
-                                    });
-                                });
 
-
-                                $('#clear').click(function () {
-                                    if($('#btnNext').val()=="Update")
-                                    {
-                                        $('#btnNext').val('Next');
-                                    }
-                                    document.getElementsByTagName("form")[0].reset();
-                                    $(".text-danger").html("");
-                                });
+    $('#clear').click(function () {
+        if($('#btnNext').val() === "Update")
+        {
+            $('#btnNext').val('Next');
+        }
+        document.getElementsByTagName("form")[0].reset();
+        $('#lnkCreateNewBranch').hide();
+    });
 
 </script>
+
 <script type="text/javascript">
-                                $(function () {
-                                    $('#btnPreStep2').click(function () {
+    $(function () {
+        $('#btnPreStep2').click(function () {
 
-                                        $('#loadingDiv').show();
-                                        window.location.href = "Step1";
-                                        @*$.ajax({
-                                            url: '@Url.Action("step1", "SetupProcess")',
-                                            type: 'GET',
-                                            data: { edit: 1},
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step1", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1},
 
-                                            success: function (partialView) {
-                                                $('#loadingDiv').hide();
-                                                $('#changeContainer').html(partialView);
-                                                $('#changeContainer').show();
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
 
-                                            },
-                                            error: function (request, status, error) {
-                                                handleErrorMsg(request.responseText);
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
 
-                                            }
-                                        });*@
-                                    });
-                                });
+                }
+            });
+        });
+    });
 </script>
+
 <script type="text/javascript">
-                                function EditBranch(index) {
-                                    $('#branchDiv').show();
-                                    $('#btnNext').val('Update');
-                                    var model = @Html.Raw(Json.Encode(Model));
-                                    console.log(model);
-                                    console.log(index);
-                                    document.getElementById("branchName").value = model.SubBranches[index].BranchName;
-                                    document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
-                                    document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
-                                    document.getElementById("StateId").value = model.SubBranches[index].StateId;
-                                    document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
-                                    document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
-                                    document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
-                                    document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
-                                    document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
-                                    document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
-                                    document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
-                                    document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
-                                    document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
+    function EditBranch(index) {
 
-                                };
+        $('input').parent('div').siblings('div').children('p').children("span").text("");
+        $('select').parent('div').siblings('div').children('p').children("span").text("");
+        $('.input-validation-error').removeClass('input-validation-error');
 
-                                function CreateNewBranch(){
-                                    document.getElementById("branchName").value = "";
-                                    document.getElementById("branchAddress1").value = "";
-                                    document.getElementById("branchAddress2").value = "";
-                                    document.getElementById("StateId").value = "";
-                                    document.getElementById("branchCity").value = "";
-                                    document.getElementById("branchZipPre").value = "";
-                                    document.getElementById("branchZipExten").value = "";
-                                    document.getElementById("branchEmail").value = "";
-                                    document.getElementById("branchPhoneNum1").value = "";
-                                    document.getElementById("branchPhoneNum2").value = "";
-                                    document.getElementById("branchPhoneNum3").value = "";
-                                    document.getElementById("branchFax").value = "";
-                                    document.getElementById("branchCode").value = "";
-                                    $('#btnNext').val('Next');
-                                    $('#branchDiv').show();
-                                }
+        $('#branchDiv').show();
+        $('#btnNext').val('Update');
+        var model = @Html.Raw(Json.Encode(Model));
+        console.log(model);
+        console.log(index);
+        document.getElementById("branchName").value = model.SubBranches[index].BranchName;
+        document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
+        document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
+        document.getElementById("StateId").value = model.SubBranches[index].StateId;
+        document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
+        document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
+        document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
+        document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
+        document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
+        document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
+        document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
+        document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
+        document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
+
+        $('#lnkCreateNewBranch').show();
+    };
+
+    function CreateNewBranch(){
+
+        $('input').parent('div').siblings('div').children('p').children("span").text("");
+        $('select').parent('div').siblings('div').children('p').children("span").text("");
+        $('.input-validation-error').removeClass('input-validation-error');
+
+        document.getElementById("branchName").value = "";
+        document.getElementById("branchAddress1").value = "";
+        document.getElementById("branchAddress2").value = "";
+        document.getElementById("StateId").value = "";
+        document.getElementById("branchCity").value = "";
+        document.getElementById("branchZipPre").value = "";
+        document.getElementById("branchZipExten").value = "";
+        document.getElementById("branchEmail").value = "";
+        document.getElementById("branchPhoneNum1").value = "";
+        document.getElementById("branchPhoneNum2").value = "";
+        document.getElementById("branchPhoneNum3").value = "";
+        document.getElementById("branchFax").value = "";
+        document.getElementById("branchCode").value = "";
+        $('#btnNext').val('Next');
+        $('#branchDiv').show();
+    }
 
 
 
-                                Progress(2);
-                                $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
+    Progress(2);
+    $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
 </script>
