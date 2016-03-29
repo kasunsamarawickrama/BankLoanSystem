@@ -79,9 +79,11 @@
 
                                             @if (Model.NonRegBranches != null)
                                             {
-                                                @*<div class="control-label col-sm-3">
+                                                <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
+                                                    <div class="col-xs-8 text_field">
                                                         <a onclick="CreateNewBranch()">create new partner branch</a>
-                                                    </div>*@
+                                                    </div>
+                                                </div>
                                             }
                                             else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                             {
@@ -105,7 +107,7 @@
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
-                                                        {
+                        {
                                                             @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
                                                             @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                         }
@@ -126,9 +128,9 @@
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                                                    {
+                    {
 
-                                                        @Html.HiddenFor(model => model.NonRegCompany.CompanyId)
+                                                        @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId})
                                                         @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                     }
                                                     else
@@ -300,7 +302,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group new_form_group gridArea">
-                                                @if (Model.NonRegBranches != null)
+                                                @if (Model.NonRegBranches != null && Model.NonRegBranches.Count != 0)
                                                 {
                                                     <table style="width:100%;" class="table_style">
                                                         <tr class="bordr_btm_sp">
@@ -310,7 +312,7 @@
                                                             <th style="width:107px;" class="branch_edit">&nbsp;</th>
                                                         </tr>
                                                         @for (var i = 0; i < Model.NonRegBranches.Count; i++)
-                                                        {
+                        {
                                                             <tr class="bordr_btm" style="height:30px;">
                                                                 <td style="width:31px;" class="back_colr">@i</td>
                                                                 <td style="width:144px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchName)</td>
@@ -325,7 +327,7 @@
                                     </div>
 
 
-                                }
+    }
                             }
 
                         </div>
@@ -694,6 +696,7 @@
         document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
         document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
 
+        $('#lnkCreateNewBranch').show();
     };
 
     function CreateNewBranch(){
@@ -714,7 +717,11 @@
         document.getElementById("branchCode").value = "";
         //document.getElementById("RegBranchId").value = "";
         //document.getElementById("NonRegCompanyId").value = "";
-
+        @*if ("@ViewBag.SuccessMsg" === "jjkj" && "@Enumerable.Count(ViewBag.NonRegCompanyId)" === 1)
+        {
+                document.getElementById("RegBranchId").value = "";
+                document.getElementById("NonRegCompanyId").value = "";
+        }*@
     }
 
     Progress(5);
