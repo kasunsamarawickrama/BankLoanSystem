@@ -272,25 +272,19 @@
 <script>
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
-        $(".text-danger").html("");
     });
 
+    $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
-    $('#txtCompanyName').keyup(function (e) {
-        //alert(e.which);//37,8
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
-    });
+
     // change to title case
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').blur(function (e) {
+
             ToTitleCase(this.id, this.value);
     });
 
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
-    });
+
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);

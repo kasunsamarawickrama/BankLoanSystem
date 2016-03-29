@@ -17,7 +17,7 @@
 <div class="form-horizontal">
 
 
-    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper lonesetup_border" style="min-height: 629px;">
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper lonesetup_border" style="min-height: 472px;">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <div class="container body-content">
@@ -66,7 +66,7 @@
                                                 @Html.HiddenFor(model => model.isEdit)
                                                 @Html.DropDownListFor(model => model.AdvanceId, listItemsoption, "-- select --", new { @id = "dropDownAdvance", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueAdvance();" })
                                             </div>
-                                            <div class="err_msg_box  mErrMsgBo">
+                                            <div class="err_msg_box  mErrMsgBox">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })</p>
                                             </div>
                                         </div>
