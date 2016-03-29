@@ -10,8 +10,6 @@
 
 }
 
-
-
 @*<script>
         progress(5);
 
@@ -124,7 +122,7 @@ else
         <div class="form-horizontal">
 
             <div class="form-group">
-                @if (Model.NonRegBranches != null)
+                @if (Model.NonRegBranches != null && Model.NonRegBranches.Count != 0)
                 {
                     <table id="nonRegBranchTable">
                         <tr>
