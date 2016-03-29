@@ -170,7 +170,7 @@ namespace BankLoanSystem.Controllers.Unit
                 //Handling file attachments
 
                 //Check directory is already exists, if not create new
-                string mapPath = "~/Images/UnitImages/" + _loan.RegisteredCompanyCode + "/" + _loan.RegisteredBranchCode + "/";
+                string mapPath = "~/Uploads/" + _loan.RegisteredCompanyCode + "/" + _loan.RegisteredBranchCode + "/";
                 if (!Directory.Exists(Server.MapPath(mapPath)))
                 {
                     Directory.CreateDirectory(Server.MapPath(mapPath));
