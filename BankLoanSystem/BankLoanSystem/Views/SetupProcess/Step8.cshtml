@@ -1,5 +1,4 @@
 ﻿
-
 @model BankLoanSystem.Models.Fees
 @{
     ViewBag.Title = "Step8";
@@ -13,552 +12,632 @@
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/scripts/CommonFunctions.js"></script>
-<style>
-.col-xs-8 {
-    padding-right: 300px;
-}
-</style>
-@*<script src="~/scripts/jquery-ui.js"></script>
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
 
 
-        <div class="form-group">
+<div class="form-horizontal">
 
-            <div>
-                <h2>@Html.Label("Fees", htmlAttributes: new { })</h2>
+
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper lonesetup_border" style="min-height: 629px;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="container body-content">
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/loanSetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle"><h2>Fees</h2></div>
+                            <div style="clear:both;"></div>
+                            @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
+                            {
+
+                                OnFailure = "handleErrorMsg",
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "changeContainer",
+                                LoadingElementId = "loadingDiv"
+                            }, new { id = "form" }))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div>
+                                        <hr>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 mLable">
+                                                <h3 class="text_algn"><label>Advance</label></h3>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @{
+                                                    List<SelectListItem> listItemsoption = new List<SelectListItem>();
+
+                                                    listItemsoption.Add(new SelectListItem
+                                                    {
+                                                        Text = "Yes",
+                                                        Value = "1"
+                                                    });
+                                                    listItemsoption.Add(new SelectListItem
+                                                    {
+                                                        Text = "No",
+                                                        Value = "2"
+                                                    });
+
+                                                }
+                                                @Html.HiddenFor(model => model.LoanId)
+                                                @Html.HiddenFor(model => model.isEdit)
+                                                @Html.DropDownListFor(model => model.AdvanceId, listItemsoption, "-- select --", new { @id = "dropDownAdvance", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueAdvance();" })
+                                            </div>
+                                            <div class="err_msg_box  mErrMsgBo">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+
+                                        <div id="advance">
+                                            <div class="form-group new_form_group">
+
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Amount</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "advanceAmount", style = "text-align:right" } })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBo">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Advance Fee calculate</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @{
+                                                        List<SelectListItem> listItems8 = new List<SelectListItem>();
+                                                        listItems8.Add(new SelectListItem
+                                                        {
+                                                            Text = "Per Month",
+                                                            Value = "Month"
+                                                        });
+                                                        listItems8.Add(new SelectListItem
+                                                        {
+                                                            Text = "Per Pay Period",
+                                                            Value = "PayPeriod"
+                                                        });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.AdvanceFeeCalculateType, listItems8, "-- select type --", new { @id = "advanceCalculateType", @class = "form-control text_field_input short_text_field" })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBo">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            @if (ViewBag.isLender == true)
+                                            {
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Fee Complete auto reminder?</label>
+                                                    </div>
+                                                    <div class="control-label col-sm-2">
+                                                        @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, true, new { @id = "needReminderAdvanceCompleteT" }) Yes
+                                                        @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, false, new { @id = "needReminderAdvanceCompleteF" }) No
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBo">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsAdvanceFeeCompleteEmailReminder, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div id="remindEmailAdvanceComplete">
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            @Html.LabelFor(model => model.AdvanceFeeDealerEmail, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg"> @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmail, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg"> @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Due Type</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @{
+                                                        List<SelectListItem> listItems2 = new List<SelectListItem>();
+                                                        listItems2.Add(new SelectListItem
+                                                        {
+                                                            Text = "Time of Advance",
+                                                            Value = "Time of Advance"
+                                                        });
+                                                        listItems2.Add(new SelectListItem
+                                                        {
+                                                            Text = "Once a Month",
+                                                            Value = "Once a Month"
+                                                        });
+                                                        listItems2.Add(new SelectListItem
+                                                        {
+                                                            Text = "Vehicle Payoff",
+                                                            Value = "Vehicle Payoff"
+                                                        });
+
+                                                    }
+                                                    @Html.DropDownListFor(model => model.AdvanceDue, listItems2, "-- select due type --", new { @id = "advanceDue", @class = "form-control text_field_input short_text_field", onChange = "changeDropDownValueDueAdvance();" })
+
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBox">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            <div id="monthAdvance">
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Due Date</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @{
+                                                            List<SelectListItem> listItems4 = new List<SelectListItem>();
+                                                            for (var i = 1; i < 29; i++)
+                                                            {
+                                                                listItems4.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                            }
+                                                            listItems4.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                                                        }
+                                                        @Html.DropDownListFor(model => model.AdvanceDueDate, listItems4, "-- select a date --", new { @class = "form-control text_field_input short_text_field", @id = "advanceDueDate" })
+
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueDate, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="control-label col-sm-2">
+                                                    @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    @*@Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })*@
+                                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, true, new { @id = "needReminderAdvanceDueT" }) Yes
+                                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, false, new { @id = "needReminderAdvanceDueF" }) No
+                                                    @Html.ValidationMessageFor(model => model.IsAdvanceFeeDueEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%;" })
+                                                </div>
+                                            </div>
+                                            <div id="remindEmailAdvanceDue">
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Remind Email</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "advanceDueEmail" } })
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Email Remind Period</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 mLable">
+                                                <h3 class="text_algn"><label>Monthly Loan</label></h3>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLoan();" })
+
+                                            </div>
+                                            <div class="err_msg_box  mErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div id="loan">
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Amount</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "loanAmount", style = "text-align:right" } })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBox">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            @if (ViewBag.isLender == true)
+                                            {
+
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Fee complete auto reminder?</label>
+                                                    </div>
+                                                    <div class="control-label col-sm-2">
+                                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, true, new { @id = "needReminderLoanCompleteT" }) Yes
+                                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, false, new { @id = "needReminderLoanCompleteF" }) No
+
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsLoanFeeCompleteEmailReminder, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+
+                                                <div id="remindEmailLoanComplete">
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable" style="margin-top:10px">
+                                                            @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmail, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "loanDealerEmail", placeholder = "example@example.com" } })
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmail, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @{
+                                                        List<SelectListItem> listItems5 = new List<SelectListItem>();
+                                                        listItems5.Add(new SelectListItem
+                                                        {
+                                                            Text = "Time of Advance",
+                                                            Value = "Time of Advance"
+                                                        });
+                                                        listItems5.Add(new SelectListItem
+                                                        {
+                                                            Text = "Once a Month",
+                                                            Value = "Once a Month"
+                                                        });
+                                                        listItems5.Add(new SelectListItem
+                                                        {
+                                                            Text = "Vehicle Payoff",
+                                                            Value = "Vehicle Payoff"
+                                                        });
+
+                                                    }
+                                                    @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control text_field_input short_text_field", onChange = "changeDropDownValueDueLoan();" })
+                                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div id="monthLoan">
+                                                <div class="form-group new_form_group">
+
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Due Date</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @{
+                                                            List<SelectListItem> listItems6 = new List<SelectListItem>();
+                                                            for (var i = 1; i < 29; i++)
+                                                            {
+                                                                listItems6.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                            }
+                                                            listItems6.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                                                        }
+                                                        @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems6, "-- select a date --", new { @class = "form-control", @id = "loanDueDate" })
+
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Due Date auto reminder?</label>
+                                                </div>
+                                                <div class="control-label col-sm-2">
+                                                    @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, true, new { @id = "needReminderLoanDueT", @class = "needReminderLoanDueTF" }) Yes
+                                                    @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, false, new { @id = "needReminderLoanDueF", @class = "needReminderLoanDueTF" }) No
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBox">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsLoanFeeDueEmailReminder, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            <div id="remindEmailLoanDue">
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Remind Email</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "loanDueEmail" } })
+
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanDueEmail, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Email Remind Period</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
+
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanDueEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 mLable">
+                                                <h3 class="text_algn"><label>Lot Inspection</label></h3>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLot();" })
+
+                                            </div>
+                                            <div class="err_msg_box  mErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div id="lot">
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Amount</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "lotAmount", style = "text-align:right" } })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBox">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            @if (ViewBag.isLender == true)
+                                            {
+
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Fee Complete auto reminder?</label>
+                                                    </div>
+                                                    <div class="control-label col-sm-2">
+                                                        @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, true, new { @id = "needReminderLotCompleteT" }) Yes
+                                                        @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, false, new { @id = "needReminderLotCompleteF" }) No
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsLotFeeCompleteEmailReminder, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div id="remindEmailLotComplete">
+                                                    <div class="form-group new_form_group">
+
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            @Html.LabelFor(model => model.LotInspectionFeeDealerEmail, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field e", @id = "lotDealerEmail", placeholder = "example@example.com" } })
+
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmail, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group new_form_group">
+
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            @Html.LabelFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, htmlAttributes: new { })
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field x", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Due Type</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @{
+                                                        List<SelectListItem> listItems3 = new List<SelectListItem>();
+                                                        listItems3.Add(new SelectListItem
+                                                        {
+                                                            Text = "Monthly",
+                                                            Value = "Monthly"
+                                                        });
+                                                        listItems3.Add(new SelectListItem
+                                                        {
+                                                            Text = "Quaterly",
+                                                            Value = "Quaterly"
+                                                        });
+                                                        listItems3.Add(new SelectListItem
+                                                        {
+                                                            Text = "Annually",
+                                                            Value = "Annually"
+                                                        });
+                                                        listItems3.Add(new SelectListItem
+                                                        {
+                                                            Text = "Random",
+                                                            Value = "Random"
+                                                        });
+
+                                                    }
+                                                    @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control text_field_input short_text_field" })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBox"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })</p></div>
+                                            </div>
+
+                                            <div id="monthLot">
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Due Date</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @{
+                                                            List<SelectListItem> listItems7 = new List<SelectListItem>();
+                                                            for (var i = 1; i < 29; i++)
+                                                            {
+                                                                listItems7.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                            }
+                                                            listItems7.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                                                        }
+                                                        @Html.DropDownListFor(model => model.LotInspectionDueDate, listItems7, "-- select a date --", new { @class = "form-control", @id = "lotDueDate" })
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDueDate, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="lotRemEmail">
+
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Due Date auto reminder?</label>
+                                                    </div>
+                                                    <div class="control-label col-sm-2">
+                                                        @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, true, new { @id = "needReminderLotDueT" }) Yes
+                                                        @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, false, new { @id = "needReminderLotDueF" }) No
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsLotFeeDueEmailReminder, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+
+                                                <div id="remindEmailLotDue">
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            <label>Remind Email</label>
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "lotDueEmail" } })
+
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDueEmail, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 mLable">
+                                                            <label>Email Remind Period</label>
+                                                        </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                        </div>
+                                                        <div class="err_msg_box  mErrMsgBox">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDueEmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                    <div class="form-group new_form_group clear_next clear_next_bordr">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+                                                    <div class="button_box algn_left">
+                                                        <input value="Back" name="subBack" id="btnPreStep8" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                    </div>
+                                                    <div class="button_box algn_center">
+                                                        <input value="Next" class="btn btn-primary m-b next_clear_button next_back" style=" margin-left 10px" type="submit">
+                                                    </div>
+                                                    <div class="button_box algn_right">
+                                                        <input id="clearx" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button" onclick="clear();">
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                                                            }
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
             </div>
+
         </div>
-        @using (Ajax.BeginForm("Step8", "SetupProcess", new AjaxOptions()
-        {
 
-            OnFailure = "handleErrorMsg",
-            HttpMethod = "POST",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "changeContainer",
-            LoadingElementId = "loadingDiv"
-        }, new { id = "form" }))
-        {
+    </div>
+</div>
 
-            @Html.AntiForgeryToken()
-            <div class="form-horizontal">
-
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div>
-                    <hr>
-                    <div class="form-group">
-                        <div class="control-label col-sm-2" style="margin-top:10px">
-                            <h3>@Html.LabelFor(model => model.AdvanceId, htmlAttributes: new { })</h3>
-                        </div>
-                        <div class="col-xs-8" style="margin-top: 26px;">
-                            @{
-                                List<SelectListItem> listItemsoption = new List<SelectListItem>();
-
-                                listItemsoption.Add(new SelectListItem
-                                {
-                                    Text = "Yes",
-                                    Value = "1"
-                                });
-                                listItemsoption.Add(new SelectListItem
-                                {
-                                    Text = "No",
-                                    Value = "2"
-                                });
-
-                            }
-                            @Html.HiddenFor(model => model.LoanId)
-                            @Html.HiddenFor(model => model.isEdit)
-                            @Html.DropDownListFor(model => model.AdvanceId, listItemsoption, "-- select --", new { @id = "dropDownAdvance", @class = "form-control col-sm-2", onChange = "changeDropDownValueAdvance();" })
-                            @Html.ValidationMessageFor(model => model.AdvanceId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
-                        </div>
-                    </div>
-                    <div id="advance" style="line-height: 162%;">
-                        <div class="form-group">
-
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control a", @id = "advanceAmount", @placeholder="0.00", style = "text-align:right" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
-                        </div>
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.AdvanceFeeCalculateType, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @{
-                                    List<SelectListItem> listItems8 = new List<SelectListItem>();
-                                    listItems8.Add(new SelectListItem
-                                    {
-                                        Text = "Per Month",
-                                        Value = "Month"
-                                    });
-                                    listItems8.Add(new SelectListItem
-                                    {
-                                        Text = "Per Pay Period",
-                                        Value = "PayPeriod"
-                                    });
-                                }
-                                @Html.DropDownListFor(model => model.AdvanceFeeCalculateType, listItems8, "-- select type --", new { @id = "advanceCalculateType", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger", style = "top:89%" })
-                            </div>
-                        </div>
-                        @if (ViewBag.isLender == true)
-                        {
-
-                            @*<div class="form-group">
-                                <div class="control-label col-sm-2">
-                                    @Html.Label("Need Reciept After Advance Paid?", htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    
-                                    @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, true, new { @id = "advanceNeedReceiptT" }) Yes
-                                    @Html.RadioButtonFor(model => model.AdvanceNeedReceipt, false, new { @id = "advanceNeedReceiptF" }) No
-                                    @Html.ValidationMessageFor(model => model.AdvanceNeedReceipt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-                            <div class="form-group">
-                                <div class="control-label col-sm-2">
-                                    @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @*@Html.CheckBoxFor(model => model.IsAdvanceFeeCompleteEmailReminder, new { @id = "needReminderAdvanceComplete", htmlAttributes = new { Value = false } })*@
-                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, true, new { @id = "needReminderAdvanceCompleteT" }) Yes
-                                    @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, false, new { @id = "needReminderAdvanceCompleteF" }) No
-                                    @Html.ValidationMessageFor(model => model.IsAdvanceFeeCompleteEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%" })
-                                </div>
-                            </div>
-                            <div id="remindEmailAdvanceComplete">
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2" style="margin-top:10px">
-                                        @Html.LabelFor(model => model.AdvanceFeeDealerEmail, htmlAttributes: new { })
-                                    </div>
-                                    <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
-                                        @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmail, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2" style="margin-top:10px">
-                                        @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
-                                    </div>
-                                    <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
-                                        @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
-                                    </div>
-
-                                </div>
-                            </div>
-                        }
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.AdvanceDue, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @{
-                                    List<SelectListItem> listItems2 = new List<SelectListItem>();
-                                    listItems2.Add(new SelectListItem
-                                    {
-                                        Text = "Time of Advance",
-                                        Value = "Time of Advance"
-                                    });
-                                    listItems2.Add(new SelectListItem
-                                    {
-                                        Text = "Once a Month",
-                                        Value = "Once a Month"
-                                    });
-                                    listItems2.Add(new SelectListItem
-                                    {
-                                        Text = "Vehicle Payoff",
-                                        Value = "Vehicle Payoff"
-                                    });
-
-                                }
-                                @Html.DropDownListFor(model => model.AdvanceDue, listItems2, "-- select due type --", new { @id = "advanceDue", @class = "form-control", onChange = "changeDropDownValueDueAdvance();" })
-                                @Html.ValidationMessageFor(model => model.AdvanceDue, "", new { @class = "text-danger", style = "top:89%" })
-                            </div>
-                        </div>
-                        <div id="monthAdvance">
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.AdvanceDueDate, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @{
-                                        List<SelectListItem> listItems4 = new List<SelectListItem>();
-                                        for (var i = 1; i < 29; i++)
-                                        {
-                                            listItems4.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                        }
-                                        listItems4.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                                    }
-                                    @Html.DropDownListFor(model => model.AdvanceDueDate, listItems4, "-- select a date --", new { @class = "form-control", @id = "advanceDueDate" })
-                                    @Html.ValidationMessageFor(model => model.AdvanceDueDate, "", new { @class = "text-danger", style = "top:66;left:3%" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-                                @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @*@Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })*@
-                                @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, true, new { @id = "needReminderAdvanceDueT" }) Yes
-                                @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, false, new { @id = "needReminderAdvanceDueF" }) No
-                                @Html.ValidationMessageFor(model => model.IsAdvanceFeeDueEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%;" })
-                            </div>
-                        </div>
-                        <div id="remindEmailAdvanceDue">
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.AdvanceDueEmail, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "advanceDueEmail" } })
-                                    @Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.AdvanceDueEmailRemindPeriod, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
-                                    @Html.ValidationMessageFor(model => model.AdvanceDueEmailRemindPeriod, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <div class="control-label col-sm-2" style="margin-top:10px">
-                            <h3>@Html.LabelFor(model => model.MonthlyLoanId, htmlAttributes: new { })</h3>
-                        </div>
-                        <div class="col-xs-8" style="margin-top: 26px;">
-                            @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2", onChange = "changeDropDownValueLoan();" })
-                            @Html.ValidationMessageFor(model => model.MonthlyLoanId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
-                        </div>
-                    </div>
-                    <div id="loan">
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.MonthlyLoanAmount, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control a", @id = "loanAmount", @placeholder = "0.00", style = "text-align:right" } })
-                                @Html.ValidationMessageFor(model => model.MonthlyLoanAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
-                        </div>
-                        @if (ViewBag.isLender == true)
-                        {
-
-                            @*<div class="form-group">
-                                <div class="control-label col-sm-2">
-                                    @Html.Label("Need Reciept After Loan Paid?", htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, true, new { @id = "monthlyLoanNeedReceiptT" }) Yes
-                                    @Html.RadioButtonFor(model => model.MonthlyLoanNeedReceipt, false, new { @id = "monthlyLoanNeedReceiptF" }) No
-                                    @Html.ValidationMessageFor(model => model.MonthlyLoanNeedReceipt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2">
-                                        @Html.Label("Fee complete auto reminder?", htmlAttributes: new { })
-                                    </div>
-                                    <div class="col-xs-8">
-                                        @*@Html.CheckBoxFor(model => model.IsLoanFeeCompleteEmailReminder, new { @id = "needReminderLoanComplete", htmlAttributes = new { Value = false } })*@
-                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, true, new { @id = "needReminderLoanCompleteT" }) Yes
-                                        @Html.RadioButtonFor(model => model.IsLoanFeeCompleteEmailReminder, false, new { @id = "needReminderLoanCompleteF" }) No
-                                        @Html.ValidationMessageFor(model => model.IsLoanFeeCompleteEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%" })
-                                    </div>
-                                </div>
-                                <div id="remindEmailLoanComplete">
-                                    <div class="form-group">
-                                        <div class="control-label col-sm-2" style="margin-top:10px">
-                                            @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmail, htmlAttributes: new { })
-                                        </div>
-                                        <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "loanDealerEmail", placeholder = "example@example.com" } })
-                                            @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmail, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="control-label col-sm-2" style="margin-top:10px">
-                                            @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, htmlAttributes: new { })
-                                        </div>
-                                        <div class="col-xs-8">
-                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
-                                            @Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                        }
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step8help")
+    }
+</div>
 
 
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @{
-                                    List<SelectListItem> listItems5 = new List<SelectListItem>();
-                                    listItems5.Add(new SelectListItem
-                                    {
-                                        Text = "Time of Advance",
-                                        Value = "Time of Advance"
-                                    });
-                                    listItems5.Add(new SelectListItem
-                                    {
-                                        Text = "Once a Month",
-                                        Value = "Once a Month"
-                                    });
-                                    listItems5.Add(new SelectListItem
-                                    {
-                                        Text = "Vehicle Payoff",
-                                        Value = "Vehicle Payoff"
-                                    });
+<script language="javascript">
 
-                                }
-                                @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control", onChange = "changeDropDownValueDueLoan();" })
-                                @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div id="monthLoan">
-                            <div class="form-group">
+  $(document).ready(function(){
 
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.MonthlyLoanDueDate, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @{
-                                        List<SelectListItem> listItems6 = new List<SelectListItem>();
-                                        for (var i = 1; i < 29; i++)
-                                        {
-                                            listItems6.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                        }
-                                        listItems6.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                                    }
-                                    @Html.DropDownListFor(model => model.MonthlyLoanDueDate, listItems6, "-- select a date --", new { @class = "form-control", @id = "loanDueDate" })
-                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDueDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-                                @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @*@Html.CheckBoxFor(model => model.IsLoanFeeDueEmailReminder, new { @id = "needReminderLoanDue", htmlAttributes = new { Value = false } })*@
-                                @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, true, new { @id = "needReminderLoanDueT" , @class= "needReminderLoanDueTF" }) Yes
-                                @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, false, new { @id = "needReminderLoanDueF",  @class = "needReminderLoanDueTF" }) No
-                                @Html.ValidationMessageFor(model => model.IsLoanFeeDueEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%;" })
-                            </div>
-                        </div>
-                        <div id="remindEmailLoanDue">
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.MonthlyLoanDueEmail, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "loanDueEmail" } })
-                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmail, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.loan').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
 
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.MonthlyLoanDueEmailRemindPeriod, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
-                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDueEmailRemindPeriod, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <div class="control-label col-sm-2" style="margin-top:10px">
-                            <h3>@Html.LabelFor(model => model.LotInspectionId, htmlAttributes: new { })</h3>
-                        </div>
-                        <div class="col-xs-8" style="margin-top: 26px;">
-
-                            @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2", onChange = "changeDropDownValueLot();" })
-                            @Html.ValidationMessageFor(model => model.LotInspectionId, "", new { @class = "text-danger", style = "top:100%;left:3%" })
-                        </div>
-                    </div>
-                    <div id="lot">
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.LotInspectionAmount, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control a", @id = "lotAmount", @placeholder = "0.00", style = "text-align:right" } })
-                                @Html.ValidationMessageFor(model => model.LotInspectionAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <span style="float:right;margin-top: 10px;font-size: 26px;">$</span>
-                        </div>
-                        @if (ViewBag.isLender == true)
-                        {
-                            @*<div class="form-group">
-                                <div class="control-label col-sm-2">
-                                    @Html.Label("Need Reciept After Lot Inspection Paid?", htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, true, new { @id = "lotInspectionNeedReceiptT" }) Yes
-                                    @Html.RadioButtonFor(model => model.LotInspectionNeedReceipt, false, new { @id = "lotInspectionNeedReceiptF" }) No
-                                    @Html.ValidationMessageFor(model => model.LotInspectionNeedReceipt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-                            <div class="form-group">
-                                <div class="control-label col-sm-2">
-                                    @Html.Label("Fee Complete auto reminder?", htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @*@Html.CheckBoxFor(model => model.IsLotFeeCompleteEmailReminder, new { @id = "needReminderLotComplete", htmlAttributes = new { Value = false } })*@
-                                    @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, true, new { @id = "needReminderLotCompleteT" }) Yes
-                                   
-                                    @Html.RadioButtonFor(model => model.IsLotFeeCompleteEmailReminder, false, new { @id = "needReminderLotCompleteF" }) No
-
-                                    @Html.ValidationMessageFor(model => model.IsLotFeeCompleteEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%;" })
-                                </div>
-                            </div>
-                            <div id="remindEmailLotComplete">
-                                <div class="form-group">
-
-                                    <div class="control-label col-sm-2" style="margin-top:10px">
-                                        @Html.LabelFor(model => model.LotInspectionFeeDealerEmail, htmlAttributes: new { })
-                                    </div>
-                                    <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control e", @id = "lotDealerEmail", placeholder = "example@example.com" } })
-                                        @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmail, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="control-label col-sm-2" style="margin-top:10px">
-                                        @Html.LabelFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, htmlAttributes: new { })
-                                    </div>
-                                    <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
-                                        @Html.ValidationMessageFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-
-                        <div class="form-group">
-                            <div class="control-label col-sm-2" style="margin-top:10px">
-                                @Html.LabelFor(model => model.LotInspectionDue, htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @{
-                                    List<SelectListItem> listItems3 = new List<SelectListItem>();
-                                    listItems3.Add(new SelectListItem
-                                    {
-                                        Text = "Monthly",
-                                        Value = "Monthly"
-                                    });
-                                    listItems3.Add(new SelectListItem
-                                    {
-                                        Text = "Quaterly",
-                                        Value = "Quaterly"
-                                    });
-                                    listItems3.Add(new SelectListItem
-                                    {
-                                        Text = "Annually",
-                                        Value = "Annually"
-                                    });
-                                    listItems3.Add(new SelectListItem
-                                    {
-                                        Text = "Random",
-                                        Value = "Random"
-                                    });
-
-                                }
-                                @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div id="monthLot">
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.LotInspectionDueDate, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @{
-                                        List<SelectListItem> listItems7 = new List<SelectListItem>();
-                                        for (var i = 1; i < 29; i++)
-                                        {
-                                            listItems7.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                        }
-                                        listItems7.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                                    }
-                                    @Html.DropDownListFor(model => model.LotInspectionDueDate, listItems7, "-- select a date --", new { @class = "form-control", @id = "lotDueDate" })
-                                    @Html.ValidationMessageFor(model => model.LotInspectionDueDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div id="lotRemEmail">
-                        <div class="form-group">
-                            <div class="control-label col-sm-2">
-                                @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
-                            </div>
-                            <div class="col-xs-8">
-                                @*@Html.CheckBoxFor(model => model.IsLotFeeDueEmailReminder, new { @id = "needReminderLotDue", htmlAttributes = new { Value = false } })*@
-                                @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, true, new { @id = "needReminderLotDueT" }) Yes
-                                @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, false, new { @id = "needReminderLotDueF" }) No
-                                @Html.ValidationMessageFor(model => model.IsLotFeeDueEmailReminder, "", new { @class = "text-danger", style = "top:66%;left:3%" })
-                            </div>
-                        </div>
-                        <div id="remindEmailLotDue">
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.LotInspectionDueEmail, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                        @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control e", @id = "lotDueEmail" } })
-                                    @Html.ValidationMessageFor(model => model.LotInspectionDueEmail, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="control-label col-sm-2" style="margin-top:10px">
-                                    @Html.LabelFor(model => model.LotInspectionDueEmailRemindPeriod, htmlAttributes: new { })
-                                </div>
-                                <div class="col-xs-8">
-                                    @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
-                                    @Html.ValidationMessageFor(model => model.LotInspectionDueEmailRemindPeriod, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <hr>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="button-panel">
-                        <input type="button" value="Back" name="subBack" id="btnPreStep8" class="btn btn-default left-button" />
-                        @*<input type="button" value="Back" name="subBack" id="btnPreStep7" class="btn btn-default left-button" />*@
-                        <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
-
-                        <input type="button" id="clearx" value="Clear" class="btn btn-default right-button" onclick="clear();" />
-
-                    </div>
-                    
-                </div>
-            </div>
-                                        }
-
+<script>
+                        $('#clear').click(function () {
+                            document.getElementsByTagName("form")[0].reset();
+                            $(".text-danger").html("");
+                        });
+</script>
 
 
 <script type="text/javascript">
@@ -571,10 +650,6 @@
         else {
             document.getElementById("advanceDueDate").value = "";
             $("#monthAdvance").hide("slow");
-            $('#monthAdvance').children('div').children('div').children('select').next('span').children('span').text('');
-            $('#monthAdvance').children('div').children('div').children('select').removeClass('valid');
-            $('#monthAdvance').children('div').children('div').children('select').removeClass('input-validation-error');
-
         }
     }
     function changeDropDownValueDueLoan() {
@@ -585,9 +660,6 @@
         else {
             document.getElementById("loanDueDate").value = "";
             $("#monthLoan").hide("slow");
-            $('#monthLoan').children('div').children('div').children('select').next('span').children('span').text('');
-            $('#monthLoan').children('div').children('div').children('select').removeClass('valid');
-            $('#monthLoan').children('div').children('div').children('select').removeClass('input-validation-error');
         }
     }
     function changeDropDownValueDueLot() {
@@ -600,39 +672,25 @@
             $("#monthLot").hide("slow");
             if (document.getElementById("lotDue").value == "Random") {
 
-                //// delete all details of lotRem value
-                //$("#lotRemEmail input").each(function(){
-                //    //$(this).val('');
-                //    $('input').next('span').children('span').text('');
-                //    $('input').removeClass('valid');
-                //    $('input').removeClass('input-validation-error');
+                // delete all details of lotRem value
+                $("#lotRemEmail input").each(function(){
+                    $(this).val('');
+                    $('input').next('span').children('span').text('');
+                    $('input').removeClass('valid');
 
-                //});
+                });
 
-                //$("#lotRemEmail select").each(function(){
-                //    //$(this).val('');
-                //    //$('select').next('span').children('span').text('');
-                //    //$('select').removeClass('valid');
-                //    $('select').next('span').children('span').text('');
-                //    $('select').removeClass('valid');
-                //    $('select').removeClass('input-validation-error');
-                //});
-                document.getElementById("lotDueEmailRemindPeriod").value = "";
-                $('#lotDueEmailRemindPeriod').next('span').children('span').text('');
-                $('#lotDueEmailRemindPeriod').removeClass('valid');
-                $('#lotDueEmailRemindPeriod').removeClass('input-validation-error');
-                $('#needReminderLotDueT').prop('checked',false);
-                $('#needReminderLotDueF').prop('checked',false);
-                $('#remindEmailLotDue').hide();
-                @*@Model.IsLotFeeDueEmailReminder = "";*@
+                $("#monthLot select").each(function(){
+                    $(this).val('');
+                    $('select').next('span').children('span').text('');
+                    $('select').removeClass('valid');
+
+                });
+                $('.needReminderLoanDueTF').prop('checked',false);
+                $('.needReminderLoanDueTF').prop('checked',false);
+                @Model.IsLotFeeDueEmailReminder = ""
                 $("#lotRemEmail").next('span').children('span').text('');
-                $("#lotRemEmail").hide("slow");
-
             }
-            $('#monthLot').children('div').children('div').children('select').next('span').children('span').text('');
-            $('#monthLot').children('div').children('div').children('select').removeClass('valid');
-            $('#monthLot').children('div').children('div').children('select').removeClass('input-validation-error');
-
         }
     }
     @if (ViewBag.isLender == true) { <text>
@@ -645,9 +703,6 @@
             document.getElementById("advanceDealerEmail").value = "";
             document.getElementById("advanceDealerEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceComplete').hide("slow");
-        $('#remindEmailAdvanceComplete').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailAdvanceComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanCompleteT').change(function () {
             $('#remindEmailLoanComplete').show("slow");
@@ -656,9 +711,6 @@
             document.getElementById("loanDealerEmail").value = "";
             document.getElementById("loanDealerEmailRemindPeriod").value = "";
             $('#remindEmailLoanComplete').hide("slow");
-        $('#remindEmailLoanComplete').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailLoanComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotCompleteT').change(function () {
             $('#remindEmailLotComplete').show("slow");
@@ -667,9 +719,6 @@
             document.getElementById("lotDealerEmail").value = "";
             document.getElementById("lotDealerEmailRemindPeriod").value = "";
             $('#remindEmailLotComplete').hide("slow");
-        $('#remindEmailLotComplete').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailLotComplete').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     </text> }
     $('#needReminderAdvanceDueT').change(function () {
@@ -679,9 +728,6 @@
             //document.getElementById("advanceDueEmail").value = "";
             document.getElementById("advanceDueEmailRemindPeriod").value = "";
             $('#remindEmailAdvanceDue').hide("slow");
-        $('#remindEmailAdvanceDue').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailAdvanceDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLoanDueT').change(function () {
             $('#remindEmailLoanDue').show("slow");
@@ -691,9 +737,6 @@
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             $('#remindEmailLoanDue').hide("slow");
-        $('#remindEmailLoanDue').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailLoanDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     $('#needReminderLotDueT').change(function () {
 
@@ -704,9 +747,6 @@
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             $('#remindEmailLotDue').hide("slow");
-        $('#remindEmailLotDue').children('div').children('div').children('input').next('span').children('span').text('');
-        $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('valid');
-        $('#remindEmailLotDue').children('div').children('div').children('input').removeClass('input-validation-error');
     });
     function changeDropDownValueAdvance() {
         var drop1 = document.getElementById("dropDownAdvance").value;
@@ -731,33 +771,14 @@
             document.getElementById("advanceAmount").value = "";
             document.getElementById("advanceCalculateType").value = "";
             document.getElementById("advanceDue").value = "";
-
-            $("#advance input").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            $("#advance select").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            //$('#advance').children('div').children('div').children('input').next('span').children('span').text('');
-            //$('#advance').children('div').children('div').children('input').removeClass('valid');
-            //$('#advance').children('div').children('div').children('input').removeClass('input-validation-error');
-            //$('#advance').children('div').children('div').children('select').next('span').children('span').text('');
-            //$('#advance').children('div').children('div').children('select').removeClass('valid');
-            //$('#advance').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
+            $('input').next('span').children('span').text('');
+            // for dropdown field
+            $('select').next('span').children('span').text('');
+
             document.getElementById('advanceAmount').value = "";
-            $('#advanceAmount').val("");
+            $('#advanceAmount').val("0.00");
             $('#advance').show("slow");
         }
     }
@@ -783,37 +804,14 @@
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             document.getElementById("loanAmount").value = "";
             document.getElementById("loanDue").value = "";
-
-            $("#loan input").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            $("#loan select").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            //$('#loan').children('div').children('div').children('input').next('span').children('span').text('');
-            //$('#loan').children('div').children('div').children('input').removeClass('valid');
-            //$('#loan').children('div').children('div').children('input').removeClass('input-validation-error');
-            //$('#loan').children('div').children('div').children('select').next('span').children('span').text('');
-            //$('#loan').children('div').children('div').children('select').removeClass('valid');
-            //$('#loan').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
-            //$('input').next('span').children('span').text('');
+            $('input').next('span').children('span').text('');
 
             // for dropdown field
-            //$('select').next('span').children('span').text('');
+            $('select').next('span').children('span').text('');
             document.getElementById('loanAmount').value = "";
-            $('#loanAmount').val("");
+            $('#loanAmount').val("0.00");
             $('#loan').show("slow");
         }
     }
@@ -839,42 +837,17 @@
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             document.getElementById("lotAmount").value = "";
             document.getElementById("lotDue").value = "";
-
-
-            $("#lot input").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            $("#lot select").each(function(){
-                //$(this).val('');
-                $(this).next('span').children('span').text('');
-                $(this).removeClass('valid');
-                $(this).removeClass('input-validation-error');
-
-            });
-
-            //$('#lot').children('div').children('div').children('input').next('span').children('span').text('');
-            //$('#lot').children('div').children('div').children('input').removeClass('valid');
-            //$('#lot').children('div').children('div').children('input').removeClass('input-validation-error');
-            //$('#lot').children('div').children('div').children('select').next('span').children('span').text('');
-            //$('#lot').children('div').children('div').children('select').removeClass('valid');
-            //$('#lot').children('div').children('div').children('select').removeClass('input-validation-error');
         }
         else {
-            //$('input').next('span').children('span').text('');
+            $('input').next('span').children('span').text('');
 
             // for dropdown field
-            //$('select').next('span').children('span').text('');
+            $('select').next('span').children('span').text('');
             document.getElementById('lotAmount').value = "";
-            $('#lotAmount').val("");
+            $('#lotAmount').val("0.00");
             $('#lot').show("slow");
         }
     }
-    $('.a').attr('placeholder','0.00');
     partialLoad();
     function partialLoad() {
 
@@ -1134,6 +1107,7 @@
     }
     $('#clearx').click(function () {
         document.getElementById("form").reset();
+        $(".text-danger").html("");
         // for all input field
         $('input').next('span').children('span').text('');
         $('input').removeClass('valid');
@@ -1211,12 +1185,10 @@
     //Back Button
     $(function () {
         $('#btnPreStep8').click(function () {
+
             $('#loadingDiv').show();
-            @if ((Session["isInterest"] != null)) { 
-                if ((Boolean)Session["isInterest"] == true)
-                {
-                    <text>
-            $.ajax({
+            window.location.href = "Step7";
+            @*$.ajax({
                 url: '@Url.Action("Step7", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1 },
@@ -1225,58 +1197,15 @@
                     $('#loadingDiv').hide();
                     $('#changeContainer').html(partialView);
                     $('#changeContainer').show();
-                        },
-                        error: function (request, status, error) {
-                            handleErrorMsg(request.responseText);
-                        }
-                    });
-                    </text>
-                }
-                else
-                {
-                    <text>
-                    $.ajax({
-                        url: '@Url.Action("Step6", "SetupProcess")',
-                        type: 'GET',
-                        data: { edit: 1 },
-                        success: function (partialView) {
-                            $('#loadingDiv').hide();
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
 
                 },
                 error: function (request, status, error) {
                     handleErrorMsg(request.responseText);
-                        }
-                    });
-                    </text>
+
                 }
-            }
-
-            });
+            });*@
         });
-
-    function toStep7(){
-        $.ajax({
-            url: '@Url.Action("Step7", "SetupProcess")',
-            type: 'GET',
-            data: { edit: 1 },
-
-            success: function (partialView) {
-                $('#loadingDiv').hide();
-                $('#changeContainer').html(partialView);
-                $('#changeContainer').show();
-
-            },
-            error: function (request, status, error) {
-                handleErrorMsg(request.responseText);
-
-            }
     });
-    }
-    function toStep6(){
-       
-    }
     $("#advanceAmount").keypress(function(e){
         var advanceAmount = $('#advanceAmount').val();
         if($('#advanceAmount').val().length >= 15){
@@ -1389,20 +1318,17 @@
         return 0;
     }
     $(".a").on('click', function(e) {
-        //if (this.value === "0.00") {
-        //    document.getElementById(this.id).value = "";
-        //}
-        //else if (this.value === "0") {
-        //    document.getElementById(this.id).value = "";
-        //}
-        $(this).removeAttr('placeholder');
+        if (this.value === "0.00") {
+            document.getElementById(this.id).value = "";
+        }
+        else if (this.value === "0") {
+            document.getElementById(this.id).value = "";
+        }
     });
     $('.a').blur(function () {
         if (this.value == "") {
-            //$(this).val("0.00");
-            $(this).attr('placeholder','0.00');
+            $(this).val("0.00");
         }
-
     });
 
     $('#advanceDueEmailRemindPeriod').focusout(function () {
@@ -1414,18 +1340,8 @@
     $('#lotDueEmailRemindPeriod').focusout(function () {
         $(this).attr('placeholder', 'Number of Days');
     });
-    $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
-    @if ((Session["isInterest"] != null) && Convert.ToBoolean(Session["isInterest"]) == false )
-    {
-        <text>
-    $(".tab.7").children("span").remove();
-    $(".tab.7").css("pointer-events", "none").css("cursor", "default");
-    $(".tab.7").append("<span style='float:right'>&#128274; </span>");
 
-    </text>
-
-    }
 
 </script>

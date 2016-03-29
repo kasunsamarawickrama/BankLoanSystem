@@ -1,5 +1,4 @@
 ﻿@model BankLoanSystem.Models.NonRegCompanyBranchModel
-
 @{
     ViewBag.Title = "Step5";
 
@@ -10,356 +9,364 @@
 
 }
 
-@*<script>
-        progress(5);
 
-
-    </script>*@
-<style>
-        .first_letter_capital{
-    text-transform: capitalize;
-}
-    .form-control {
-        display: inline;
-    }
-
-    .form-group {
-        margin: auto;
-        margin-bottom: 10px;
-    }
-
-    .col-xs-11 {
-        width: 60%;
-    }
-
-    .col-xs-10 {
-        float: unset;
-    }
-
-    .col-xs-11 > input {
-        /*width:60%;*/
-    }
-
-    .col-xs-9 {
-    }
-
-        .col-xs-9 > input, .col-xs-9 > select {
-            width: 28%;
-        }
-
-
-    table {
-        border-collapse: collapse;
-    }
-
-    table, td {
-        border: 1px solid black;
-        text-align: left;
-    }
-
-    th {
-        border: 1px solid black;
-        background-color: paleturquoise;
-    }
-
-    tr {
-        text-align: left;
-    }
-</style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<div class="form-horizontal">
 
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper partnersetup_border" style="min-height: 629px;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
 
-<h2>@ViewBag.compType</h2>
-
-@if (ViewBag.ErrorMsg != null)
-{
-
-    <span class="text-danger">@ViewBag.ErrorMsg</span>
-}
-
-@if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Dealer branch is successfully created") || ViewBag.SuccessMsg.ToString().Equals("Lender branch is successfully created")))
-{
-    using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-    {
-
-        OnFailure = "handleErrorMsg",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <span class="text-success">@ViewBag.SuccessMsg</span>
-        <div class="form-group">
-            <div class="button-panel">
-                <input type="button" id="createNewNonRegBranch" value="Create a New Partner Branch" class="btn btn-info left-button" />
-                <input type="button" id="step6" value="Loan Setup" class="btn btn-primary btn-next" style="left: 30%" />
-                <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary right-button" style="left:30%" />
-            </div>
-        </div>
-    }
-}
-else
-{
-    using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-    {
-
-        OnFailure = "handleErrorMsg",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
-
-        @Html.AntiForgeryToken()
-
-
-        <div class="form-horizontal">
-
-            <div class="form-group">
-                @if (Model.NonRegBranches != null && Model.NonRegBranches.Count != 0)
-                {
-                    <table id="nonRegBranchTable">
-                        <tr>
-                            <td class="control-label col-sm-3">
-                                @Html.Label("Partner Branch Name")
-                            </td>
-                            <td class="control-label col-sm-3">
-                                @Html.Label("Partner Branch Address1")
-                            </td>
-                            <td class="control-label col-sm-3">@Html.Label("Edit")</td>
-                            <td class="control-label col-sm-3">@Html.Label("Delete")</td>
-                        </tr>
-
-                        @for (var i = 0; i < Model.NonRegBranches.Count; i++)
-                        {
-                            <tr>
-                                <td class="control-label col-sm-3">
-                                    @Html.DisplayFor(x => x.NonRegBranches[i].BranchName)
-                                </td>
-                                <td class="control-label col-sm-3">
-                                    @Html.DisplayFor(x => x.NonRegBranches[i].BranchAddress1)
-                                </td>
-
-                                <td class="control-label col-sm-3">
-                                    <a onclick="EditBranch(@i)" id="CompanyIndex">Edit</a>
-                                </td>
-                                <td class="control-label col-sm-3">
-                                    <a>Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                }
-            </div>
-
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            <div class="form-group">
-
-                @if (Model.NonRegBranches != null)
-                {
-                    <div class="control-label col-sm-3">
-                        <a onclick="CreateNewBranch()">create new partner branch</a>
-                    </div>
-                }
-                else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                {
-                    <div class="control-label col-sm-5" style="text-align: left;width:26%;">
-                        @Html.Label("Same details as company", htmlAttributes: new { })
-                    </div>
-                    <div class="control-label col-sm-1" style="text-align: left">
-                        @Html.CheckBox("Previous", new { @id = "Previous" })
-                    </div>
-
-                }
-            </div>
-            <div id="nonRegBranchDiv">
-                <input id="branchCode" name="branchCode" type="hidden" value="" />
-                @if (ViewBag.CurrUserRoleType != 2)
-                {
-                    <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.RegBranchId, htmlAttributes: new { })<span style="color: red">*</span>
-                        </div>
-                        <div class="col-xs-11">
-                            @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
+                <div class="container body-content">
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/partnerSetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle">
+                                <h2>Create Partner Branch</h2>
+                            </div>
+                            <div style="clear:both;"></div>
+                            @if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Dealer branch is successfully created") || ViewBag.SuccessMsg.ToString().Equals("Lender branch is successfully created")))
                             {
-                                @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
-                                @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                                @*@Html.DropDownListFor(model => model.RegBranchId, null, htmlAttributes: new { @class = "form-control", id = "RegBranchId",@disabled =true })*@
+                                using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
+                                {
+
+                                    OnFailure = "handleErrorMsg",
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "changeContainer",
+                                    LoadingElementId = "loadingDiv"
+                                }, new { id = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <span class="text-success">@ViewBag.SuccessMsg</span>
+                                    <div class="form-group">
+                                        <div class="button-panel">
+                                            <input type="button" id="createNewNonRegBranch" value="Create a New Partner Branch" class="btn btn-info left-button" />
+                                            <input type="button" id="step6" value="Loan Setup" class="btn btn-primary btn-next" style="left: 30%" />
+                                            <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary right-button" style="left:30%" />
+                                        </div>
+                                    </div>
+                                }
                             }
                             else
                             {
-                                @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "RegBranchId" })
+                                using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
+                                {
+
+                                    OnFailure = "handleErrorMsg",
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "changeContainer",
+                                    LoadingElementId = "loadingDiv"
+                                }, new { id = "form" }))
+                                {
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <div class="form-horizontal new_form_horizontal">
+                                        <div class="topErrors">
+                                            @if (ViewBag.ErrorMsg != null)
+                                            {
+                                                <p class="err_msg">@ViewBag.ErrorMsg</p>
+                                            }
+                                            <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                        <div class="form-horizontal">
+
+                                            @if (Model.NonRegBranches != null)
+                                            {
+                                                @*<div class="control-label col-sm-3">
+                                                        <a onclick="CreateNewBranch()">create new partner branch</a>
+                                                    </div>*@
+                                            }
+                                            else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                                            {
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-5" style="text-align: left;width:26%;">
+                                                        @Html.Label("Same details as company", htmlAttributes: new { })
+                                                    </div>
+                                                    <div class="control-label col-sm-1" style="text-align: left">
+                                                        @Html.CheckBox("Previous", new { @id = "Previous" })
+                                                    </div>
+                                                </div>
+                                            }
+
+
+                                            <input id="branchCode" name="branchCode" type="hidden" value="" />
+                                            @if (ViewBag.CurrUserRoleType != 2)
+                                            {
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Branch Name</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
+                                                        {
+                                                            @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
+                                                            @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegBranchId" })
+                                                        }
+
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Partner Company Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                                                    {
+
+                                                        @Html.HiddenFor(model => model.NonRegCompany.CompanyId)
+                                                        @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new { @class = "form-control text_field_input", @id = "NonRegCompanyId" })
+                                                    }
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Partner Branch Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName", @maxlength = 50 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Street Address 1</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1", @maxlength = 50 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Street Address 2<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2", @maxlength = 50 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>City</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity", @maxlength = 50 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>State</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Zip</label>
+                                                </div>
+                                                <div class="col-xs-4 text_field new_zip">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5 } })
+                                                </div>
+                                                <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+                                                <div class="col-xs-4 text_field new_zip">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", @maxlength = 4 } })
+                                                    @*@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })*@
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.ZipPre, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Email<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchEmail", @maxlength = 100 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchEmail, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Phone Number 1</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum1", @maxlength = 15 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Phone Number 2<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum2", @maxlength = 15 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Phone Number 3<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum3", @maxlength = 15 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Fax Number<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchFax, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchFax", @maxlength = 15 } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchFax, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group clear_next">
+                                                <div>
+                                                    <nav>
+                                                        <div class="pager new_pager">
+                                                            <div class="button_box algn_left">
+                                                                <input value="Back" name="subBack" id="btnPreStep5" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                            </div>
+                                                            <div class="button_box algn_center">
+                                                                <input value="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnNext">
+                                                            </div>
+                                                            <div class="button_box algn_right">
+                                                                <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group gridArea">
+                                                @if (Model.NonRegBranches != null)
+                                                {
+                                                    <table style="width:100%;" class="table_style">
+                                                        <tr class="bordr_btm_sp">
+                                                            <th style="width:31px;" class="branch_no">#</th>
+                                                            <th style="width:144px;" class="branch_name">Branch Name</th>
+                                                            <th style="width:210px;" class="branch_address">Branch Address</th>
+                                                            <th style="width:107px;" class="branch_edit">&nbsp;</th>
+                                                        </tr>
+                                                        @for (var i = 0; i < Model.NonRegBranches.Count; i++)
+                                                        {
+                                                            <tr class="bordr_btm" style="height:30px;">
+                                                                <td style="width:31px;" class="back_colr">@i</td>
+                                                                <td style="width:144px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchName)</td>
+                                                                <td style="width:210px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchAddress1)</td>
+                                                                <td style="width:107px;" class="back_colr"><a onclick="EditBranch(@i)" id="CompanyIndex">Edit</a></td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                }
                             }
-                            @Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
-                }
 
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.Label("Partner Company Name", htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-11">
-                        @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                        {
-                            @*@Html.HiddenFor(model => model.NonRegCompany.CompanyId)*@
-                            @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
-                            @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                            @*@Html.DropDownListFor(model => model.NonRegCompanyId, null, htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId", @disabled = true })*@
-                        }
-                        else
-                        {
-                            @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new { @class = "form-control", @id = "NonRegCompanyId" })
-                        }
-                        @Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.Label("Partner Branch Name", htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchName", @maxlength = 50 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchAddress1, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchAddress1", @maxlength = 50 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress1, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchAddress2, htmlAttributes: new { })
-                    </div>
-
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchAddress2", @maxlength = 50 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress2, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchCity, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchCity", @maxlength = 50 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchCity, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
-
-                        @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
-
-                        @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger", style = "left:51%;bottom:-50%;" })
-                    </div>
-
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-11">
-
-
-                        @*<span class="glyphicons glyphicon-minus" style="float: right; margin-top: 20px"></span>*@
-
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { style = "width:19%", @class = "form-control", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
-
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control", @id = "branchZipExten", placeholder = "Extension", @maxlength = 4, style = "width:19%", } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger", style = "top: 50%;" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum1", @maxlength = 15, style = "width:23%;" } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
-
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchPhoneNum2", @maxlength = 15 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
-                    </div>
-
-                </div>
-
-
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, htmlAttributes: new { })
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, new { htmlAttributes = new { @class = "form-control", @id = "branchPhoneNum3", @maxlength = 15, style = "width:23%;" } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchFax, htmlAttributes: new { style = "margin-left:27%;" })
-
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchFax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchFax", @maxlength = 15 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchFax, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
-                    </div>
-
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.CompanyBranch.MainBranch.BranchEmail, htmlAttributes: new { })
-                    </div>
-
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchEmail, new { htmlAttributes = new { @class = "form-control", @id = "branchEmail", @maxlength = 100 } })
-                        @Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchEmail, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="button-panel">
-                        <input type="button" value="Back" name="subBack" id="btnPreStep5" class="btn btn-default left-button" />
-
-
-                        <input type="submit" value="Next" id="btnNext" class="btn btn-primary btn-next" style="left:40%" />
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-                    </div>
 
 
                 </div>
-
             </div>
         </div>
 
+    </div>
+</div>
 
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step5help")
     }
-}
+</div>
 
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.partner').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
+
+<script>
+             $('#clear').click(function () {
+                      document.getElementsByTagName("form")[0].reset();
+                       $(".text-danger").html("");
+            });
+</script>
 
 
 <script src="~/scripts/CommonFunctions.js"></script>
+
 <script>
     $(function () {
 
@@ -394,7 +401,8 @@ else
             $('#step6').click(function () {
 
                 $('#loadingDiv').show();
-                $.ajax({
+                window.location.href = "Step6";
+                @*$.ajax({
                     url: '@Url.Action("Step6")',
                     type: 'GET',
 
@@ -409,7 +417,7 @@ else
                         //handleErrorMsg(request.responseText);
 
                     }
-                });
+                });*@
             });
         });
 
@@ -461,16 +469,22 @@ else
     });
 
 </script>
-
 <script type="text/javascript">
-
-
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
-        
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
             ToTitleCase(this.id, this.value);
     });
 
-   
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
+
+        if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
@@ -589,7 +603,8 @@ else
         $('#btnPreStep5').click(function () {
 
             $('#loadingDiv').show();
-            $.ajax({
+            window.location.href = "Step4";
+            @*$.ajax({
                 url: '@Url.Action("step4", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1},
@@ -604,19 +619,14 @@ else
                     handleErrorMsg(request.responseText);
 
                 }
-            });
+            });*@
         });
     });
 </script>
 
-
-
 <script type="text/javascript">
     $(function() {
         $('#Previous').on('change', function() {
-
-            $('input').siblings('span').text('');
-            $('.input-validation-error').removeClass('input-validation-error');
             if ($(this).is(':checked')) {
 
                 var model = @Html.Raw(Json.Encode(Model));
@@ -660,7 +670,6 @@ else
     });
 
 </script>
-
 <script type="text/javascript">
     function EditBranch(index) {
         $('#nonRegBranchDiv').show();
@@ -710,4 +719,3 @@ else
 
     Progress(5);
 </script>
-

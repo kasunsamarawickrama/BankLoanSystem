@@ -1,5 +1,4 @@
 ﻿@model BankLoanSystem.Models.Company
-
 @{
     ViewBag.Title = "Step1";
     if (ViewBag.AjaxRequest == null)
@@ -7,257 +6,291 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
-<style>
-
-    .first_letter_capital{
-    text-transform: capitalize;
-}
-    .form-control{
-        display:inline;
-    }
-    .form-group{
-        margin:auto;
-        margin-bottom: 10px;
-    }
-
-    .col-xs-11{
-    
-    width:60%;
-}
-
-    .col-xs-10 {
-    float: unset;
-}
-    .col-xs-11>input{
-    /*width:60%;*/
-}
-
-        .col-xs-9{
-           
-    
-}
-    .col-xs-9>input , .col-xs-9>select{
-    width:28%;
-}
-
-</style>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<div class="form-horizontal">
 
-<h2>Create Company</h2>
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper companysetup_border">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="container body-content">
 
-@if (ViewBag.SuccessMsg != null)
-            {
-    @ViewBag.SuccessMsg
-}
-else if (@ViewBag.ErrorMsg != null)
-{
-    @ViewBag.ErrorMsg
-}
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/companySetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle">
+                                <h2>Company Setup</h2>
+                            </div>
+                            <div style="clear:both;"></div>
 
-@using (Ajax.BeginForm("Step1", "SetupProcess", new AjaxOptions()
-{
+                            @using (Ajax.BeginForm("Step1", "SetupProcess", new AjaxOptions()
+                            {
 
-    OnFailure = "handleErrorMsg",
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
-    LoadingElementId = "loadingDiv"
-}, new { id = "form" }))
-{
-    @Html.AntiForgeryToken()
+                                OnFailure = "handleErrorMsg",
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "changeContainer",
+                                LoadingElementId = "loadingDiv"
+                            }, new { id = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @*@if (ViewBag.SuccessMsg == null)
-            {*@
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyName" } })
-                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-warning"></span></div>
+                                <div class="form-horizontal new_form_horizontal">
+
+                                    <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                    @if (ViewBag.SuccessMsg != null)
+                                    {
+                                        <p class="err_msg">@ViewBag.SuccessMsg</p>
+                                    }
+                                    else if (@ViewBag.ErrorMsg != null)
+                                    {
+                                        <p class="err_msg">@ViewBag.ErrorMsg</p>
+                                    }
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="CompanyName">Company Name</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyName" } })
+                                            @*<div id="customError" ><span class="text-danger"></span></div>*@
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="CompanyAddress1">Street Address 1</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyAddress1" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="CompanyAddress2">
+                                                Street Address 2<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyAddress2" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="City">City</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCity" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="StateId">State</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control text-box single-line text_field_input", id = "StateId" })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="ZipPre">Zip</label>
+                                        </div>
+                                        <div class="col-xs-4 text_field new_zip">
+                                            @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Zip Code", @id = "txtZipPre" } })
+                                        </div>
+                                        <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+                                        <div class="col-xs-4 text_field new_zip">
+                                            @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Extension", @id = "txtExtension" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="PhoneNum1">Phone Number 1</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.EditorFor(model => model.PhoneNum1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNum1" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="PhoneNum2">
+                                                Phone Number 2<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.EditorFor(model => model.PhoneNum2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNum2" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="PhoneNum3">
+                                                Phone Number 3<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.EditorFor(model => model.PhoneNum3, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNum3" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="Fax">
+                                                Fax <br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtFax" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="Email">
+                                                Email<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtEmail" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="WebsiteUrl">
+                                                Website Url<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtWebsiteUrl" } })
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="TypeId">Company Type</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { @class = "form-control text_field_input", id = "TypeId" })
+
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group clear_next clear_next_bordr">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+                                                    <div class="button_box algn_left">
+                                                        <!--<input value="Back" name="subBack" id="btnPreStep2" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">-->&nbsp;
+                                                    </div>
+                                                    <div class="button_box algn_center">
+                                                        <input value="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left 10px" type="submit">
+                                                    </div>
+                                                    <div class="button_box algn_right">
+                                                        <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyAddress1" } })
-                @Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.CompanyAddress2, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCompanyAddress2" } })
-                @Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-9" >
-                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtCity" } })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-
-               
-                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { style="margin-left:14.5%" })<span style="color: red">*</span>
-              
-                    @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                    
-                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
-                    <div id="customError"><span class="text-danger"></span></div>
-               
-            </div>
-
-
-        </div>
-
-       
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-11" >
-
-                @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { style = "width:19%" ,@class = "form-control", placeholder = "Zip Code", @id = "txtZipPre" } })
-                @Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-                @*<span class="glyphicons glyphicon-minus" style="margin-top:25px"></span>*@
-                @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "txtExtension" } })
-                @Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger", style = "top: 50%;" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-            
-           
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-9" >
-                @Html.EditorFor(model => model.PhoneNum1, new { htmlAttributes = new { style= "width:23%;", @class = "form-control", @id = "txtPhoneNum1" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum1, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-
-               
-                    @Html.LabelFor(model => model.PhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
-               
-                    @Html.EditorFor(model => model.PhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum2" } })
-
-                    
-                    @Html.ValidationMessageFor(model => model.PhoneNum2, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                
-            </div>
-        </div>
-
-       
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.PhoneNum3, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-9" >
-                @Html.EditorFor(model => model.PhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtPhoneNum3" } })
-                @Html.ValidationMessageFor(model => model.PhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-                @*<div id="customError"><span class="text-warning"></span></div>*@
-
-        
-                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { style = "margin-left:27%;" })
-                
-                    @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "txtFax" } })
-                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11" >
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "txtEmail" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.WebsiteUrl, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11" >
-                @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control", @id = "txtWebsiteUrl" } })
-                @Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.TypeId, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-9">
-                @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { style="width:37%", @class = "form-control", id = "TypeId" })
-                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="button-panel">
-
-                <input type="submit" value="Next" class="btn btn-primary btn-next" />
-                <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-            </div>
-        </div>
-
-
     </div>
-}
+
+</div>
+
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step1help")
+    }
+</div>
+
 
 <script src="~/scripts/CommonFunctions.js"></script>
+
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.company').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
+
 
 <script>
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
     });
 
-    $(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
 
-
+    $('#txtCompanyName').keyup(function (e) {
+        //alert(e.which);//37,8
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
+    });
     // change to title case
-
-    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity , #txtCompanyName').blur(function (e) {
-       
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keyup(function (e) {
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
             ToTitleCase(this.id, this.value);
     });
 
-  
+    $('#txtCompanyAddress1, #txtCompanyAddress2, #txtCity').keypress(function (e) {
+        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+            ToTitleCase(this.id, this.value);
+    });
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 50);
@@ -328,7 +361,7 @@ else if (@ViewBag.ErrorMsg != null)
         }
     });
 
-   
+
 
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
@@ -394,5 +427,5 @@ else if (@ViewBag.ErrorMsg != null)
     Progress(1);
 
 
-   
+
 </script>

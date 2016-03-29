@@ -6,156 +6,195 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
+<div class="form-horizontal">
 
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper lonesetup_border" style="min-height:inherit">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="container body-content">
 
-        <h2>Title</h2>
-        @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
-            {
-                
-                OnFailure = "handleErrorMsg",
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "changeContainer",
-                LoadingElementId = "loadingDiv"
-            }, new { id = "form" }))
-            {
-
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-                <div class="form-group">
-                    <div class="control-label col-sm-2">
-                        @Html.Label("Do you need title to be tracked?", htmlAttributes: new { })
-
-                    </div>
-
-                    <div class="control-label col-sm-2" style="margin-left:86px; margin-top:-17px">
-                        @Html.DropDownListFor(model => model.IsTitleTrack, null, "--Select--", htmlAttributes: new { @class = "form-control", @id = "isTitleTrack" })
-                        @Html.ValidationMessageFor(model => model.IsTitleTrack, "", new { @class = "text-danger", style="width:200%" })
-                    </div>
-                </div>
-                <div id="needTrack">
-                    <div class="form-group">
-                        <div class="control-label col-sm-2" style="margin-top:10px">
-                            @Html.Label("Title Accepted Method", htmlAttributes: new { })<span style="color: red">*</span>
-
-                        </div>
-                        <div class="col-xs-5" style="margin-left: 336px;margin-top: -42px">
-                            @Html.DropDownListFor(model => model.TitleAcceptMethod, null, "-- Select Accepted Method --", htmlAttributes: new { @class = "form-control", @id = "acceptMethod" })
-                            @Html.ValidationMessageFor(model => model.TitleAcceptMethod, "", new { @class = "text-danger" })
-                        </div>
-                      
-                        
-                        <div class="form-group" id="TimeLimit">
-                            <div class="control-label col-sm-2" style="margin-left:15px;margin-top:15px">
-                                @Html.Label("Time limit to track", htmlAttributes: new { })<span style="color: red">*</span>
-
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/loanSetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle">
+                                <h2>Title</h2>
                             </div>
+                            <div style="clear:both;"></div>
+                            @using (Ajax.BeginForm("Step9", "SetupProcess", new AjaxOptions()
+                            {
 
-                            <div class="col-xs-5" style="margin-left: 351px;margin-top: -40px;">
-                                @Html.DropDownListFor(model => model.ReceivedTimeLimit, null, "-- Select Time Limit --", htmlAttributes: new { @class = "form-control", id = "timeLimit" })
-                                @Html.ValidationMessageFor(model => model.ReceivedTimeLimit, "", new { @class = "text-danger" })
-                            </div>
-                            </div>
-                            
+                                OnFailure = "handleErrorMsg",
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "changeContainer",
+                                LoadingElementId = "loadingDiv"
+                            }, new { id = "form" }))
+                            {
+
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal new_form_horizontal">
+                                    <div class="topErrors">
+                                        <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 longLable">
+                                            <label>
+                                                Do you need title to be tracked?
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-4 text_field new_zip">
+                                            @Html.DropDownListFor(model => model.IsTitleTrack, null, "--Select--", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", @id = "isTitleTrack" })
+                                        </div>
+                                        <div class="err_msg_box shortErrMsgBox">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsTitleTrack, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: block;" id="needTrack">
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 longLable longLable" style="margin-top:10px">
+                                                <label>Title Accepted Method</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.TitleAcceptMethod, null, "-- Select Accepted Method --", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", @id = "acceptMethod" })
+                                            </div>
+                                            <div class="err_msg_box shortErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.TitleAcceptMethod, "", new { @class = "text-danger" })</p>
+                                            </div>
+
+                                            <div style="" class="form-group new_form_group" id="TimeLimit">
+                                                <div class="control-label col-sm-2 longLable">
+                                                    <label>Time limit to track</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.DropDownListFor(model => model.ReceivedTimeLimit, null, "-- Select Time Limit --", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", id = "timeLimit" })
+                                                </div>
+                                                <div class="err_msg_box shortErrMsgBox">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ReceivedTimeLimit, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="" class="form-group new_form_group" id="RemindEmailDiv">
+                                            <div class="control-label col-sm-2 longLable">
+                                                <label>Email address for a reminder to be sent if the title has not been received in the timeframe</label>
+                                            </div>
+                                            @if (ViewBag.Edit == 1)
+                                            {
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @style = "margin-left:110px" } })
+                                                    @*@Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger", @style = "left:37%" })*@
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @Value = ViewBag.Email, @style = "margin-left:110px" } })
+                                                </div>
+                                            }
+                                            <div class="err_msg_box shortErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 longLable">
+                                            <label>
+                                                Do you need receipt or invoice for advance?<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @Html.DropDownListFor(model => model.IsReceipRequired, null, "--Select--", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid new_zip", @id = "receiptRequired" })
+                                        </div>
+                                        <div class="err_msg_box shortErrMsgBox">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsReceipRequired, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: block;" id="needReceipt">
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 longLable" style="margin-top:15px">
+                                                <label>Receipt Required Method</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select Required Method --", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", id = "receipttMethod" })
+                                            </div>
+                                            <div class="err_msg_box shortErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ReceiptRequiredMethod, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group new_form_group clear_next clear_next_bordr">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+                                                    <div class="button_box algn_left">
+                                                        <input value="Back" name="subBack" id="btnPreStep9" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">&nbsp;
+                                                    </div>
+                                                    <div class="button_box algn_center">
+                                                        <input value="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                    </div>
+                                                    <div class="button_box algn_right">
+                                                        <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+                                </div>
 
 
-                          
-                </div>
-                    <div class="form-group" id="RemindEmailDiv">
-                        <div class="control-label col-sm-2" style="margin-top:5px">
-                            @Html.LabelFor(model => model.RemindEmail, htmlAttributes: new { style = "left:37%" })<span style="color: red">*</span>
+                            }
 
                         </div>
-                        @if (ViewBag.Edit == 1)
-                        {
-                        <div class="col-xs-5" style="margin-left: 224px;margin-top: -5px;">
-                            @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail",@style="margin-left:110px" } })
-                            @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" , @style="left:37%" })
-                        </div>
-                        }
-                        else
-                        {
-                        <div class="col-xs-5" style="margin-left:335px;margin-top: -5px;">
-                            @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control", @id = "autoRemindEmail", @Value = ViewBag.Email, @style = "margin-left:110px" } })
-                            @Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger" })
-                        </div>
-                        }
-
                     </div>
 
-</div>
-                <div class="form-group">
-                    <div class="control-label col-sm-2" style="margin-top: 10px;">
-                        @Html.Label("Do you need receipt or invoice for advance?", htmlAttributes: new { })
-                      
-                    </div>
-
-                    <div class="control-label col-sm-2" style="margin-top: -6px;">
-
-                        @Html.DropDownListFor(model => model.IsReceipRequired, null, "--Select--", htmlAttributes: new { @class = "form-control", @id = "receiptRequired" })
-                        @Html.ValidationMessageFor(model => model.IsReceipRequired, "", new { @class = "text-danger" , style= "width: 200%;" })
-                    </div>
-                    
                 </div>
-                <div id="needReceipt">
-                    <div class="form-group">
-                        <div class="control-label col-sm-2" style="margin-top:15px">
-                            @Html.Label("Receipt Required Method", htmlAttributes: new { })<span style="color: red">*</span>
-                            
-                        </div>
-                        <div class="col-xs-5" style="margin-left: 333px;margin-top: -43px;">
-                            @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select Required Method --", htmlAttributes: new { @class = "form-control", id = "receipttMethod" })
-                            @Html.ValidationMessageFor(model => model.ReceiptRequiredMethod, "", new { @class = "text-danger" })
-                        </div>
-                        </div>
-                        
-                        
-                        
-
-                    
-                </div>
-
-
-
-
-
-
-
-
-                <div class="form-group">
-
-                    <div class="button-panel">
-
-                        <input type="button" value="Back" name="subBack" id="btnPreStep9" class="btn btn-default left-button" />
-                        <input type="submit" value="Next" class="btn btn-primary btn-next" style="left:40%" />
-
-                        <input type="button" id="clear" value="Clear" class="btn btn-default right-button"/>
-
-                    </div>
-
-                   
-                </div>
-
             </div>
-               
+        </div>
 
-        }
- 
+    </div>
+</div>
+
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step8help")
+    }
+</div>
 
 <script src="~/scripts/CommonFunctions.js"></script>
+
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.loan').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
+
+<script>
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+    });
+
+</script>
+
 <script language="javascript" type="text/javascript">
     function clearValues(){
-        
+
 
         $('#isTitleTrack option:selected').attr('selected',null);
         $('#acceptMethod option:selected').attr('selected',null);
@@ -168,8 +207,8 @@
         $('#TimeLimit').hide();
         $('#RemindEmailDiv').hide();
     };
-    $("#autoRemindEmail").keypress(function(e){   
-      
+    $("#autoRemindEmail").keypress(function(e){
+
         var ch = e.which;
         if ((ch >= 47 && ch <= 57) ||(ch >= 65 && ch <= 90) ||(ch >= 97 && ch <= 122)|| (ch == 46) ||(ch == 64)) {
             return 1;
@@ -190,9 +229,9 @@
         //alert(e);
         if(e1 == "Yes"){
             $('#needTrack').show();
-         
+
         }
-       
+
         else{
             $('#needTrack').hide();
         }
@@ -201,16 +240,16 @@
         //alert(e);
         if((e2 == "At Any Time")||(e2 == "-- Select Time Limit --")){
             $('#RemindEmailDiv').hide();
-           
+
         }
-       
+
         else{
             $('#RemindEmailDiv').show();
         }
     }
     function passvalue(e){
         //alert(e);
-       
+
         if((e == "Title Present To Advance")||(e == "-- Select Accepted Method --")){
             $('#ScannTitle').hide();
             $('#TimeLimit').hide();
@@ -223,20 +262,23 @@
         }
     }
 
-  
+
 </script>
+
 <script language="javascript" type="text/javascript">
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
     });
-</script>    
+</script>
+
 <script language="javascript" type="text/javascript">
 
     $(document).ready(function () {
 
-        
-           
-            
+
+
+
 
         $.fn.loadFunc = function () {
 
@@ -245,92 +287,35 @@
             $('#ScannTitle').hide();
             $('#RemindEmailDiv').hide();
             $('#TimeLimit').hide();
-            
+
             $('#clear').click(function () {
                 clearValues();
-               
-            });  
+
+            });
             $('#timeLimit').change(function(){
-                $('#autoRemindEmail').next("span").children("span").text("");
-                $('#autoRemindEmail').removeClass('input-validation-error');
-              
-                $('#acceptMethod').next("span").children("span").text("");
-                $('#acceptMethod').removeClass('input-validation-error');
-               
-                $('#timeLimit').next("span").children("span").text("");
-                $('#timeLimit').removeClass('input-validation-error');
-                
-                $('#autoRemindEmail').val('');
-               
-                $('#needTrack').show();
-              
-                $('#TimeLimit').show();
-                $('#RemindEmailDiv').hide();
                 var e2 = $('#timeLimit option:selected').text();
-               
+
                 passvalueTimeLimit(e2);
-               
+
             });
 
             $('#isTitleTrack').change(function(){
-                $('#autoRemindEmail').next("span").children("span").text("");
-                $('#autoRemindEmail').removeClass('input-validation-error');
-                $('#acceptMethod option:selected').attr('selected',null);
-                $('#acceptMethod').next("span").children("span").text("");
-                $('#acceptMethod').removeClass('input-validation-error');
-                $('#timeLimit option:selected').attr('selected',null);
-                $('#timeLimit').next("span").children("span").text("");
-                $('#timeLimit').removeClass('input-validation-error');
-               
-                $('#autoRemindEmail').val('');
-                
-                $('#needTrack').hide();
-                
-                $('#TimeLimit').hide();
-                $('#RemindEmailDiv').hide();
                 var e1 = $('#isTitleTrack option:selected').text();
-               
+
                 passvalueTitle(e1);
-               
+
             });
             $('#acceptMethod').change(function(){
-               
-                $('#autoRemindEmail').next("span").children("span").text("");
-                $('#autoRemindEmail').removeClass('input-validation-error');
-              
-                $('#acceptMethod').next("span").children("span").text("");
-                $('#acceptMethod').removeClass('input-validation-error');
-                $('#timeLimit option:selected').attr('selected',null);
-                $('#timeLimit').next("span").children("span").text("");
-                $('#timeLimit').removeClass('input-validation-error');
-                   
-                $('#autoRemindEmail').val('');
-                    
-                $('#needTrack').show();
-                    
-                $('#TimeLimit').show();
-                $('#RemindEmailDiv').hide();
                 var e = $('#acceptMethod option:selected').text();
                 //alert(e);
                 passvalue(e);
             });
             $('#receiptRequired').change(function () {
-               
-                $('#receiptRequired').next("span").children("span").text("");
-                $('#receiptRequired').removeClass('input-validation-error');
-             
-                $('#receipttMethod option:selected').attr('selected',null);
-                $('#receipttMethod').next("span").children("span").text("");
-                $('#receipttMethod').removeClass('input-validation-error');
-               
-                $('#needReceipt').hide();
-               
-               
 
                 if ($('#receiptRequired option:selected').text()=="Yes") {
                     $('#needReceipt').show();
-                   
-                   
+
+
                 }
 
                 else {
@@ -349,53 +334,23 @@
             var e1 = $('#isTitleTrack option:selected').text();
             //alert($('#isTitleTrack option:selected').text());
             passvalueTitle(e1);
-            
+
             $('#clear').click(function () {
                 clearValues();
-               
-            });  
+
+            });
             $('#isTitleTrack').change(function(){
-                $('#autoRemindEmail').next("span").children("span").text("");
-                $('#autoRemindEmail').removeClass('input-validation-error');
-                $('#acceptMethod option:selected').attr('selected',null);
-                $('#acceptMethod').next("span").children("span").text("");
-                $('#acceptMethod').removeClass('input-validation-error');
-                $('#timeLimit option:selected').attr('selected',null);
-                $('#timeLimit').next("span").children("span").text("");
-                $('#timeLimit').removeClass('input-validation-error');
-               
-                $('#autoRemindEmail').val('');
-                
-                $('#needTrack').hide();
-                
-                $('#TimeLimit').hide();
-                $('#RemindEmailDiv').hide();
                 var e1 = $('#isTitleTrack option:selected').text();
                 passvalueTitle(e1);
-               
+
             });
             if($('#isTitleTrack option:selected').text()=="Yes"){
 
                 $('#needTrack').show();
-               
+
                 var e = $('#acceptMethod option:selected').text();
                 passvalue(e);
                 $('#acceptMethod').change(function(){
-                    $('#autoRemindEmail').next("span").children("span").text("");
-                    $('#autoRemindEmail').removeClass('input-validation-error');
-              
-                    $('#acceptMethod').next("span").children("span").text("");
-                    $('#acceptMethod').removeClass('input-validation-error');
-                    $('#timeLimit option:selected').attr('selected',null);
-                    $('#timeLimit').next("span").children("span").text("");
-                    $('#timeLimit').removeClass('input-validation-error');
-                   
-                    $('#autoRemindEmail').val('');
-                    
-                    $('#needTrack').show();
-                    
-                    $('#TimeLimit').show();
-                    $('#RemindEmailDiv').hide();
                     var e = $('#acceptMethod option:selected').text();
                     //alert(e);
                     passvalue(e);
@@ -407,34 +362,19 @@
 
             }
 
-              
+
             var e2 = $('#timeLimit option:selected').text();
             passvalueTimeLimit(e2);
             $('#timeLimit').change(function(){
-                $('#autoRemindEmail').next("span").children("span").text("");
-                $('#autoRemindEmail').removeClass('input-validation-error');
-              
-                $('#acceptMethod').next("span").children("span").text("");
-                $('#acceptMethod').removeClass('input-validation-error');
-               
-                $('#timeLimit').next("span").children("span").text("");
-                $('#timeLimit').removeClass('input-validation-error');
-                
-                $('#autoRemindEmail').val('');
-               
-                $('#needTrack').show();
-              
-                $('#TimeLimit').show();
-                $('#RemindEmailDiv').hide();
                 var e2 = $('#timeLimit option:selected').text();
-               
+
                 passvalueTimeLimit(e2);
-               
+
             });
             if ($('#receiptRequired option:selected').text()=="Yes") {
                 $('#needReceipt').show();
-                   
-                   
+
+
             }
 
             else {
@@ -442,18 +382,11 @@
             }
 
             $('#receiptRequired').change(function () {
-                $('#receiptRequired').next("span").children("span").text("");
-                $('#receiptRequired').removeClass('input-validation-error');
-             
-                $('#receipttMethod option:selected').attr('selected',null);
-                $('#receipttMethod').next("span").children("span").text("");
-                $('#receipttMethod').removeClass('input-validation-error');
-               
-                $('#needReceipt').hide();
+
                 if ($('#receiptRequired option:selected').text()=="Yes") {
                     $('#needReceipt').show();
-                   
-                   
+
+
                 }
 
                 else {
@@ -461,9 +394,9 @@
                 }
 
             });
-           
-            
-          
+
+
+
         }
 
         if(@ViewBag.Edit ==1){
@@ -485,7 +418,8 @@
         $('#btnPreStep9').click(function () {
 
             $('#loadingDiv').show();
-            $.ajax({
+            window.location.href = "Step8";
+            @*$.ajax({
                 url: '@Url.Action("Step8", "SetupProcess")',
                 type: 'GET',
                 data: { edit: 1 },
@@ -500,11 +434,10 @@
                     handleErrorMsg(request.responseText);
 
                 }
-            });
+            });*@
         });
     });
 
-    $(".tab.9").parent("li").addClass("active").siblings().removeClass('active');
+
     Progress(9);
 </script>
-

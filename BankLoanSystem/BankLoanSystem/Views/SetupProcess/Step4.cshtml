@@ -1,5 +1,4 @@
 ﻿@model BankLoanSystem.Models.CompanyViewModel
-
 @{
     ViewBag.Title = "Step4";
     if (ViewBag.AjaxRequest == null)
@@ -7,527 +6,515 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
-
-<style>
-    .first_letter_capital{
-    text-transform: capitalize;
-}
-
-    .form-control{
-        display:inline;
-    }
-    .form-group{
-        margin:auto;
-        margin-bottom: 10px;
-    }
-
-    .col-xs-11{
-
-    width:60%;
-}
-
-    .col-xs-10 {
-    float: unset;
-}
-    .col-xs-11>input{
-    /*width:60%;*/
-}
-
-        .col-xs-9{
-
-
-}
-    .col-xs-9>input , .col-xs-9>select{
-    width:28%;
-}
-
-      table {
-        border-collapse: collapse;
-    }
-
-    table, td {
-        border: 1px solid black;
-        text-align: left;
-    }
-
-    th {
-        border: 1px solid black;
-        background-color: paleturquoise;
-    }
-
-    tr {
-        text-align: left;
-    }
-</style>
-
-@*<script>
-        progress(4);
-
-
-    </script>*@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<div class="form-horizontal">
 
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper partnersetup_border" style="min-height: 629px;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="container body-content">
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/partnerSetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle"><h2>Create Partner Company</h2></div>
+                            <div style="clear:both;"></div>
 
-<h2>Create @ViewBag.ThisCompanyType Company</h2>
+                            @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
+                            {
 
-@if (ViewBag.SuccessMsg != null)
-            {
-    @ViewBag.SuccessMsg
-}
-else if (@ViewBag.ErrorMsg != null)
-{
-    @ViewBag.ErrorMsg
-}
+                                OnFailure = "handleErrorMsg",
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "changeContainer",
+                                LoadingElementId = "loadingDiv"
+                            }, new { id = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
 
-@using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
-{
+                                <div class="topErrors">
+                                    @if (ViewBag.SuccessMsg != null)
+                                    {
+                                        <p class="err_msg">@ViewBag.SuccessMsg</p>
+                                    }
+                                    else if (@ViewBag.ErrorMsg != null)
+                                    {
+                                        <p class="err_msg"> @ViewBag.ErrorMsg</p>
+                                    }
+                                    <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                </div>
 
-    OnFailure = "handleErrorMsg",
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "changeContainer",
-    LoadingElementId = "loadingDiv"
-}, new { id = "form" }))
-{
-    @Html.AntiForgeryToken()
+                                <div class="form-horizontal">
 
-    <div class="form-horizontal">
-        @*@if (ViewBag.SuccessMsg == null)
-            {*@
+                                    @if (Model.Companies.Count > 0)
+                                    {
+                                        <div class="form-group new_form_group">
+                                            <div class="col-xs-8 text_field">
+                                                <a onclick="CreateNewCompany()">create new partner company</a>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div id="nonRegCompanyDiv">
 
-        <div class="form-group">
-            @if (Model.Companies.Count > 0)
-            {
-                <table id="nonRegCompanyTable">
-                    <tr>
-                        <td class="control-label col-sm-3">
-                            @Html.Label("Partner Company Name")
-                        </td>
-                        <td class="control-label col-sm-3">
-                            @Html.Label("Partner Company Address1")
-                        </td>
-                        <td class="control-label col-sm-3">@Html.Label("Edit")</td>
-                        <td class="control-label col-sm-3">@Html.Label("Delete")</td>
-                    </tr>
+                                        <input id="companyCode" name="companyCode" type="hidden" value="" />
 
-                    @for (var i = 0; i < Model.Companies.Count; i++)
-                    {
-                        <tr>
-                            <td class="control-label col-sm-3">
-                                @Html.DisplayFor(x => x.Companies[i].CompanyName)
-                            </td>
-                            <td class="control-label col-sm-3">
-                                @Html.DisplayFor(x => x.Companies[i].CompanyAddress1)
-                            </td>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Company Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyName" } })
 
-                            <td class="control-label col-sm-3">
-                                <a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a>
-                            </td>
-                            <td class="control-label col-sm-3">
-                                <a>Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            }
-        </div>
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyName, "", new { @class = "text-danger" })</p></div>
+                                        </div>
 
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Street Address 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyAddress1" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyAddress1, "", new { @class = "text-danger" })</p></div>
+                                        </div>
 
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Street Address 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "CompanyAddress2" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.CompanyAddress2, "", new { @class = "text-danger" })</p></div>
+                                        </div>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>City</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "City" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger" })</p></div>
+                                        </div>
 
-        @if (Model.Companies.Count > 0)
-                {
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    <a onclick="CreateNewCompany()">create new partner company</a>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Zip</label>
+                                            </div>
+
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.Company.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Zip Code", @id = "ZipPre" } })
+
+                                            </div>
+                                            <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.Company.Extension, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Extension", @id = "Extension" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.Company.Extension, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Phone Number 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Company.PhoneNum1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "PhoneNum1" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.PhoneNum1, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Company.PhoneNum2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "PhoneNum2" } })
+
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.PhoneNum2, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 3<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Company.PhoneNum3, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "PhoneNum3" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Fax<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Company.Fax, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "Fax" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.Fax, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Email<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Company.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "Email" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.Email, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Website Url<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Company.WebsiteUrl, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "WebsiteUrl" } })
+                                            </div>
+                                            <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Company.WebsiteUrl, "", new { @class = "text-danger" })</p></div>
+                                        </div>
+
+                                        <div class="form-group new_form_group clear_next">
+                                            <div>
+                                                <nav>
+                                                    <div class="pager new_pager">
+                                                        <div class="button_box algn_left">
+                                                            <input value="Back" name="subBack" id="btnPreStep4" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div class="button_box algn_center">
+                                                            <input value="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnNext">
+                                                        </div>
+                                                        <div class="button_box algn_right">
+                                                            <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group new_form_group gridArea">
+                                        @if (Model.Companies.Count > 0)
+                                        {
+                                            <table style="width:100%;" class="table_style">
+                                                <tr class="bordr_btm_sp">
+                                                    <th style="width:31px;" class="branch_no">#</th>
+                                                    <th style="width:144px;" class="branch_name">Company Name</th>
+                                                    <th style="width:210px;" class="branch_address">Company Address</th>
+                                                    <th style="width:107px;" class="branch_edit">&nbsp;</th>
+                                                </tr>
+                                                @for (var i = 0; i < Model.Companies.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td class="back_colr">@i</td>
+                                                        <td class="back_colr">@Html.DisplayFor(x => x.Companies[i].CompanyName)</td>
+                                                        <td class="back_colr">@Html.DisplayFor(x => x.Companies[i].CompanyAddress1)</td>
+                                                        <td class="back_colr"><a onclick="EditCompany(@i)" id="CompanyIndex">Edit</a></td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                    </div>
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        }
-        <div id="nonRegCompanyDiv">
-
-        
-        <input id="companyCode" name="companyCode" type="hidden" value="" />
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.CompanyName, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.Company.CompanyName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "CompanyName" } })
-                @Html.ValidationMessageFor(model => model.Company.CompanyName, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
         </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.CompanyAddress1, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.Company.CompanyAddress1, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "CompanyAddress1" } })
-                @Html.ValidationMessageFor(model => model.Company.CompanyAddress1, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.CompanyAddress2, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.Company.CompanyAddress2, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "CompanyAddress2" } })
-                @Html.ValidationMessageFor(model => model.Company.CompanyAddress2, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.City, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-9">
-                @Html.EditorFor(model => model.Company.City, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "City" } })
-                @Html.ValidationMessageFor(model => model.Company.City, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-
-
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
-
-                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger", style = "left:51%;bottom:-50%;" })
-                <div id="customError"><span class="text-danger"></span></div>
-
-
-            </div>
-        </div>
-
-
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-11">
-
-
-                @*<span class="glyphicons glyphicon-minus" style="float:right;margin-top:20px"></span>*@
-
-                @Html.EditorFor(model => model.Company.ZipPre, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Zip Code", @id = "ZipPre" } })
-                @Html.ValidationMessageFor(model => model.Company.ZipPre, "", new { @class = "text-danger", style = "left:2%;bottom:-40%;" })
-
-                @Html.EditorFor(model => model.Company.Extension, new { htmlAttributes = new { style = "width:19%", @class = "form-control", placeholder = "Extension", @id = "Extension" } })
-                @Html.ValidationMessageFor(model => model.Company.Extension, "", new { @class = "text-danger", style = "top: 50%;" })
-                <div id="customError"><span class="text-danger"></span></div>
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.PhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-            <div class="col-xs-9">
-                @Html.EditorFor(model => model.Company.PhoneNum1, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum1" } })
-                @Html.ValidationMessageFor(model => model.Company.PhoneNum1, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-
-                @Html.LabelFor(model => model.Company.PhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
-
-                @Html.EditorFor(model => model.Company.PhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum2" } })
-                @Html.ValidationMessageFor(model => model.Company.PhoneNum2, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-
-        </div>
-
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.PhoneNum3, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-9">
-                @Html.EditorFor(model => model.Company.PhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "PhoneNum3" } })
-                @Html.ValidationMessageFor(model => model.Company.PhoneNum3, "", new { @class = "text-danger", style = "top:100%;left:2%" })
-                @*<div id="customError"><span class="text-danger"></span></div>*@
-
-                @Html.LabelFor(model => model.Company.Fax, htmlAttributes: new { style = "margin-left:27%;" })
-
-                @Html.EditorFor(model => model.Company.Fax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "Fax" } })
-                @Html.ValidationMessageFor(model => model.Company.Fax, "", new { @class = "text-danger", style = "top:100%;left:56%;" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-
-        </div>
-
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.Email, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.Company.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
-                @Html.ValidationMessageFor(model => model.Company.Email, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Company.WebsiteUrl, htmlAttributes: new { })
-            </div>
-            <div class="col-xs-11">
-                @Html.EditorFor(model => model.Company.WebsiteUrl, new { htmlAttributes = new { @class = "form-control", @id = "WebsiteUrl" } })
-                @Html.ValidationMessageFor(model => model.Company.WebsiteUrl, "", new { @class = "text-danger" })
-                <div id="customError"><span class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            <div class="button-panel">
-                <input type="button" value="Back" name="subBack" id="btnPreStep4" class="btn btn-default left-button" />
-
-
-                <input type="submit" value="Next" id="btnNext" class="btn btn-primary btn-next" style="left:40%" />
-                <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-            </div>
-
-
-        </div>
-
     </div>
-        </div>
+</div>
 
-}
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step4help")
+    }
+</div>
+
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.partner').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
+
+<script>
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+    });
+
+</script>
+
 
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script type="text/javascript">
 
-    // Capitalize first letter
-    $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').blur(function (e) {
-       
-            ToTitleCase(this.id, this.value);
-    });
+                                // Capitalize first letter
+                                $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keyup(function (e) {
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
 
 
-    $('#CompanyAddress1, #CompanyAddress2').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                $('#CompanyName, #CompanyAddress1, #CompanyAddress2, #City').keypress(function (e) {
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+                                $('#CompanyAddress1, #CompanyAddress2').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 50);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
-    //Check maximum length
-    $('#CompanyName, #City').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+                                    res = InvalidCharacters(this, array, e.which);
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
+                                //Check maximum length
+                                $('#CompanyName, #City').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 50);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+                                    res = InvalidCharacters(this, array, e.which);
 
-    $('#ZipPre').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            $("#Extension").focus();
-        }
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-    $('#Extension').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                $('#ZipPre').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 4);
+                                    if (res === 0) {
+                                        $("#Extension").focus();
+                                    }
+                                    res = AllowNumbers(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-    //Check maximum length for email address and valid characters
-    $('#Email').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                $('#Extension').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 4);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    res = AllowNumbers(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+                                //Check maximum length for email address and valid characters
+                                $('#Email').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 100);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+                                    res = InvalidCharacters(this, array, e.which);
 
-    $('#PhoneNum1, #PhoneNum2, #PhoneNum3, #Fax').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92 || e.which === 39) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                $('#PhoneNum1, #PhoneNum2, #PhoneNum3, #Fax').keypress(function (e) {
+                                    var res = PhoneNumber(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-    //$('#txtFirstName, #txtLastName').keypress(function (e) {
-    //    //var array = [' ', '/', '`', '~', '!'];
-    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
-    //    var res = InvalidCharacters(this, array, e.which);
+                                    res = CheckMaxLenth(this, this.value, 15);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-    //    if (res === 1) {
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //});
+                                //$('#txtFirstName, #txtLastName').keypress(function (e) {
+                                //    //var array = [' ', '/', '`', '~', '!'];
+                                //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
+                                //    var res = InvalidCharacters(this, array, e.which);
 
-    $('input').keypress(function (e) {
-        var array = [' '];
-        if (this.value.length === 0) {
-            var res = InvalidCharacters(this, array, e.which);
+                                //    if (res === 1) {
+                                //        e.preventDefault();
+                                //        return;
+                                //    }
+                                //});
 
-            if (res === 1) {
-                e.preventDefault();
-                return;
-            }
-        }
-    });
+                                $('input').keypress(function (e) {
+                                    var array = [' '];
+                                    if (this.value.length === 0) {
+                                        var res = InvalidCharacters(this, array, e.which);
 
-    $('#clear').click(function () {
-        if($('#btnNext').val()=="Update")
-        {
-            $('#btnNext').val('Next');
-        }
-        document.getElementsByTagName("form")[0].reset();
-    });
+                                        if (res === 1) {
+                                            e.preventDefault();
+                                            return;
+                                        }
+                                    }
+                                });
 
-    Progress(4);
+                                $('#clear').click(function () {
+                                    if($('#btnNext').val()=="Update")
+                                    {
+                                        $('#btnNext').val('Next');
+                                    }
+                                    document.getElementsByTagName("form")[0].reset();
+                                });
 
-    $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
-    $(function() {
-        $(document).ready(function () {
-            var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
-            if(c>0){
-                $('#nonRegCompanyDiv').hide();
-            }
-            else{
-                $('#nonRegCompanyDiv').show();
-            }
-            // $('#branchDiv').hide();
-        });
-        $('#btnPreStep4').click(function() {
+                                Progress(4);
 
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step3", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1 },
+                                $(".tab.4").parent("li").addClass("active").siblings().removeClass('active');
+                                $(function() {
+                                    $(document).ready(function () {
+                                        var c = $('#nonRegCompanyTable').children('tbody').children('tr').length;
+                                        if(c>0){
+                                            $('#nonRegCompanyDiv').hide();
+                                        }
+                                        else{
+                                            $('#nonRegCompanyDiv').show();
+                                        }
+                                        // $('#branchDiv').hide();
+                                    });
+                                    $('#btnPreStep4').click(function() {
 
-                success: function(partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
+                                        $('#loadingDiv').show();
+                                        window.location.href = "Step3";
+                                        @*$.ajax({
+                                            url: '@Url.Action("step3", "SetupProcess")',
+                                            type: 'GET',
+                                            data: { edit: 1 },
 
-                },
-                error: function(request, status, error) {
-                    handleErrorMsg(request.responseText);
+                                            success: function(partialView) {
+                                                $('#loadingDiv').hide();
+                                                $('#changeContainer').html(partialView);
+                                                $('#changeContainer').show();
 
-                }
-            });
-        });
-    });
+                                            },
+                                            error: function(request, status, error) {
+                                                handleErrorMsg(request.responseText);
+
+                                            }
+                                        });*@
+                                    });
+                                });
 </script>
-
 <script type="text/javascript">
-    function EditCompany(index) {
-        $('#nonRegCompanyDiv').show();
-        $('#btnNext').val('Update');
-        var model = @Html.Raw(Json.Encode(Model));
-        console.log(model);
-        console.log(index);
-        document.getElementById("CompanyName").value = model.Companies[index].CompanyName;
-        document.getElementById("CompanyAddress1").value = model.Companies[index].CompanyAddress1;
-        document.getElementById("CompanyAddress2").value = model.Companies[index].CompanyAddress2;
-        document.getElementById("City").value = model.Companies[index].City;
-        document.getElementById("StateId").value = model.Companies[index].StateId;
-        document.getElementById("ZipPre").value = model.Companies[index].ZipPre;
-        document.getElementById("Extension").value = model.Companies[index].Extension;
-        document.getElementById("PhoneNum1").value = model.Companies[index].PhoneNum1;
-        document.getElementById("PhoneNum2").value = model.Companies[index].PhoneNum2;
-        document.getElementById("PhoneNum3").value = model.Companies[index].PhoneNum3;
-        document.getElementById("Fax").value = model.Companies[index].Fax;
-        document.getElementById("Email").value = model.Companies[index].Email;
-        document.getElementById("WebsiteUrl").value = model.Companies[index].WebsiteUrl;
-        document.getElementById("companyCode").value = model.Companies[index].CompanyCode;
-    };
+                                function EditCompany(index) {
+                                    $('#nonRegCompanyDiv').show();
+                                    $('#btnNext').val('Update');
+                                    var model = @Html.Raw(Json.Encode(Model));
+                                    console.log(model);
+                                    console.log(index);
+                                    document.getElementById("CompanyName").value = model.Companies[index].CompanyName;
+                                    document.getElementById("CompanyAddress1").value = model.Companies[index].CompanyAddress1;
+                                    document.getElementById("CompanyAddress2").value = model.Companies[index].CompanyAddress2;
+                                    document.getElementById("City").value = model.Companies[index].City;
+                                    document.getElementById("StateId").value = model.Companies[index].StateId;
+                                    document.getElementById("ZipPre").value = model.Companies[index].ZipPre;
+                                    document.getElementById("Extension").value = model.Companies[index].Extension;
+                                    document.getElementById("PhoneNum1").value = model.Companies[index].PhoneNum1;
+                                    document.getElementById("PhoneNum2").value = model.Companies[index].PhoneNum2;
+                                    document.getElementById("PhoneNum3").value = model.Companies[index].PhoneNum3;
+                                    document.getElementById("Fax").value = model.Companies[index].Fax;
+                                    document.getElementById("Email").value = model.Companies[index].Email;
+                                    document.getElementById("WebsiteUrl").value = model.Companies[index].WebsiteUrl;
+                                    document.getElementById("companyCode").value = model.Companies[index].CompanyCode;
+                                };
 
-    function CreateNewCompany(){
-        document.getElementById("CompanyName").value = "";
-        document.getElementById("CompanyAddress1").value = "";
-        document.getElementById("CompanyAddress2").value = "";
-        document.getElementById("City").value = "";
-        document.getElementById("StateId").value = "";
-        document.getElementById("ZipPre").value = "";
-        document.getElementById("Extension").value = "";
-        document.getElementById("PhoneNum1").value = "";
-        document.getElementById("PhoneNum2").value = "";
-        document.getElementById("PhoneNum3").value = "";
-        document.getElementById("Fax").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("WebsiteUrl").value = "";
-        document.getElementById("companyCode").value = "";
-        $('#btnNext').val('Next');
-        $('#nonRegCompanyDiv').show();
-    }
+                                function CreateNewCompany(){
+                                    document.getElementById("CompanyName").value = "";
+                                    document.getElementById("CompanyAddress1").value = "";
+                                    document.getElementById("CompanyAddress2").value = "";
+                                    document.getElementById("City").value = "";
+                                    document.getElementById("StateId").value = "";
+                                    document.getElementById("ZipPre").value = "";
+                                    document.getElementById("Extension").value = "";
+                                    document.getElementById("PhoneNum1").value = "";
+                                    document.getElementById("PhoneNum2").value = "";
+                                    document.getElementById("PhoneNum3").value = "";
+                                    document.getElementById("Fax").value = "";
+                                    document.getElementById("Email").value = "";
+                                    document.getElementById("WebsiteUrl").value = "";
+                                    document.getElementById("companyCode").value = "";
+                                    $('#btnNext').val('Next');
+                                    $('#nonRegCompanyDiv').show();
+                                }
 
 
 </script>

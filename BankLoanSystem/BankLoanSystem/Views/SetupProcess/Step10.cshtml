@@ -6,16 +6,9 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-<style>
-    .col-xs-8 {
-        padding-right: 300px;
-    }
-</style>
 
 @if (ViewBag.Redirect == 1)
 {
@@ -24,298 +17,310 @@
         $(location).attr('href', '/UserManagement/UserDetails');
     </script>
 }
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper lonesetup_border" style="min-height:inherit;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="container body-content">
 
-<h2>Curtailment</h2>
+                <div class="row">
+                    <div class="container body-content new_container">
+                        <div class="setupImage"><img src="~/Images/loanSetupImage.png" width="100" alt=""></div>
+                        <div class="setupTitle"><h2>Curtailment</h2></div>
+                        <div style="clear:both;"></div>
 
-@if (ViewBag.SuccessMsg == "Loan setup is completed")
-{
-    <span class="text-success">@ViewBag.SuccessMsg</span>
-    <div class="form-group">
-        <div class="button-panel">
-            Click <a href="/UserManagement/UserDetails">here</a> to go dashboard.
-            <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%" />
-        </div>
-    </div>
-}
-else
-{
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
-    {
-
-        OnFailure = "handleError",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-
-            @if (ViewBag.SuccessMsg != null)
-            {
-                <span style="color: green">
-                    @ViewBag.SuccessMsg
-                </span>
-            }
-            else if (ViewBag.ErrorMsg != null)
-            {
-                <span style="color: red">
-                    @ViewBag.ErrorMsg
-                </span>
-            }
-
-            <input type="hidden" id="cal" name="cal" />
-
-
-            <div class="form-group">
-                <table width="100%">
-                    <tr>
-                        <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
-                        <td width="60%">
-                            :@*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                Full payment
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                Advance*@
-                            @if (Model.CalculationBase == "Full payment")
+                        @if (ViewBag.SuccessMsg == "Loan setup is completed")
+                        {
+                            <span class="text-success">@ViewBag.SuccessMsg</span>
+                            <div class="form-group">
+                                <div class="button-panel">
+                                    Click <a href="/UserManagement/UserDetails">here</a> to go dashboard.
+                                    <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
                             {
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
-                                <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                <text>Advance</text>
-                            }
-                            else if (Model.CalculationBase == "Advance")
+
+                                OnFailure = "handleError",
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "changeContainer",
+                                LoadingElementId = "loadingDiv"
+                            }, new { id = "form" }))
                             {
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true })
-                                <text>Advance</text>
-                            }
-                            else
-                            {
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                <text>Full payment</text>
-                                @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                <text>Advance</text>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div id="customErrorCalBase"><span class="text-danger"></span></div>
-                        </td>
-                    </tr>
-                </table>
+                                @Html.AntiForgeryToken()
 
-                <div>
-                    @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                                <div class="topErrors">
+                                    <p class="err_msg">.</p>
+                                </div>
 
-            <div class="form-group">
+                                <div class="form-horizontal">
+                                    @if (ViewBag.SuccessMsg != null)
+                                    {
+                                        <span style="color: green">
+                                            @ViewBag.SuccessMsg
+                                        </span>
+                                    }
+                                    else if (ViewBag.ErrorMsg != null)
+                                    {
+                                        <span style="color: red">
+                                            @ViewBag.ErrorMsg
+                                        </span>
+                                    }
+                                    <input type="hidden" id="cal" name="cal" />
+
+                                    <div class="form-group new_form_group">
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                                                <td width="60%">
+                                                    :@*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                                        Full payment
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                                        Advance*@
+                                                    @if (Model.CalculationBase == "Full payment")
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
+                                                        <text>Full payment</text>
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                                        <text>Advance</text>
+                                                    }
+                                                    else if (Model.CalculationBase == "Advance")
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                                        <text>Full payment</text>
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true })
+                                                        <text>Advance</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                                        <text>Full payment</text>
+                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
+                                                        <text>Advance</text>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <div id="customErrorCalBase"><span class="text-danger"></span></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div>
+                                            @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group new_form_group">
+                                        @if (Model.RemainingPercentage >= 0)
+                                        {
+                                            <span style="background-color: yellow" id="spnremainPt">
+                                            </span>
+                                            <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
+                                            <span style="background-color: red" id="spnremainPtError"></span>
+                                            <br />
+                                            <span style="background-color: yellow">
+                                                Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
+                                            </span>
 
 
-            </div>
+
+                                        }
+                                        <br />
+                                        <span style="background-color: yellow">
+                                            Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
+                                        </span>
+                                    </div>
+                                    <br />
+                                    <div id="CurtailmentGrid">
+                                        <div class="form-group new_form_group">
+                                            <div style="text-align: center;">
+                                                <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 60%;">
+                                                    <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
+                                                        <th style="width: 10%; text-align: center" height="30px">
+                                                            <p id="cuId"> Curt#</p>
+                                                        </th>
+                                                        <th style="width: 35%; text-align: center" height="30px">
+                                                            <p id="time">@Model.TimeBase</p>
+                                                        </th>
+                                                        <th style="width: 35%; text-align: center" height="30px">
+                                                            <p id="pecentage">Percentage(%)</p>
+                                                        </th>
+                                                        <th style="width: 20%;" height="30px">
+                                                        </th>
+                                                    </tr>
+                                                    @for (int a = 0; a < Model.InfoModel.Count; a++)
+                                                    {
+                                                        <tr>
+                                                            <td style="width: 10%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
+                                                            <td style="width: 35%;">
+                                                                @*<input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">*@
+                                                                @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right", @tabindex = "-1" })
+                                                                <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
+                                                            </td>
+                                                            <td style="width: 35%;">
+                                                                @*<input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">*@
+                                                                @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment", @disabled = "disabled", @style = "text-align: right" })
+                                                                <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
+                                                            </td>
+                                                            <td style="width: 20%;">
+                                                                @*@if (a != 0)
+                                                                    {*@
+                                                                <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" tabindex="-1" />
+                                                                @*}*@
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div id="customErrorTable"><span class="text-danger"></span></div>
+                                        <br />
+                                        <div id="spnremainTimeError"><span class="text-danger"></span></div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group new_form_group">
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="25%">@Html.LabelFor(model => model.LoanStatus, htmlAttributes: new { })</td>
+                                                <td width="60%">
+                                                    :
+                                                    @if (Model.LoanStatus == "Yes")
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
+                                                        <text>Yes</text>
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
+                                                        <text>No</text>
+                                                    }
+                                                    else if (Model.LoanStatus == "No")
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
+                                                        <text>Yes</text>
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active", @checked = true })
+                                                        <text>No</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
+                                                        <text>Yes</text>
+                                                        @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
+                                                        <text>No</text>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 mLable">
+                                            <label>Due Date</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @{
+                                                for (var i = 1; i < 29; i++)
+                                                {
+                                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                }
+                                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                                            }
+                                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
+                                        </div>
+                                        <div class="err_msg_box  mErrMsgBox">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 mLable">
+                                            <label>Remind email</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field" style="width:335px;">
+                                            @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
+                                        </div>
+                                        <div class="err_msg_box  mErrMsgBox">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 mLable">
+                                            <label>Email Remind Period</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field" style="width:335px;">
+                                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                        </div>
+                                        <div class="err_msg_box  mErrMsgBox">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group clear_next clear_next_bordr">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+                                                    <div class="button_box algn_left">
+                                                        <input value="Back" name="subBack" id="btnPreStep10" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" tabindex="-1">
+                                                    </div>
+                                                    <div class="button_box algn_center">
+                                                        <input value="Create" id="btnCreate" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                    </div>
+                                                    <div class="button_box algn_right">
+                                                        <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button" onclick="clearFunction()" tabindex="-1">
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
 
 
-            <div class="form-group">
-                @if (Model.RemainingPercentage >= 0)
-                {
-                    <span style="background-color: yellow" id="spnremainPt">
-                    </span>
-                    <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
-                    <span style="background-color: red" id="spnremainPtError"></span>
-                    <br />
-                    <span style="background-color: yellow">
-                        Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
-                    </span>
+                                </div>
+                                                    }
+                                                }
 
 
-
-                }
-                <br />
-                <span style="background-color: yellow">
-                    Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-                </span>
-            </div>
-            <br />
-            <div id="CurtailmentGrid">
-                <div class="form-group">
-                    <div style="text-align: center;">
-                        <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black; border-collapse: collapse; text-align: center; width: 60%;">
-                            <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
-                                <th style="width: 10%; text-align: center" height="30px">
-                                    <p id="cuId"> Curt#</p>
-                                </th>
-                                <th style="width: 35%; text-align: center" height="30px">
-                                    <p id="time">@Model.TimeBase</p>
-                                </th>
-                                <th style="width: 35%; text-align: center" height="30px">
-                                    <p id="pecentage">Percentage(%)</p>
-                                </th>
-                                <th style="width: 20%;" height="30px">
-                                </th>
-                            </tr>
-                            @for (int a = 0; a < Model.InfoModel.Count; a++)
-                            {
-                                <tr>
-                                    <td style="width: 10%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
-                                    <td style="width: 35%;">
-                                        @*<input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">*@
-                                        @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right", @tabindex = "-1" })
-
-                                        <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td style="width: 35%;">
-                                        @*<input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">*@
-                                        @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment", @disabled = "disabled", @style = "text-align: right" })
-                                        <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
-                                    </td>
-
-                                    <td style="width: 20%;">
-                                        @*@if (a != 0)
-                                            {*@
-                                        <input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" tabindex="-1" />
-                                        @*}*@
-                                    </td>
-
-                                </tr>
-                            }
-                        </table>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div id="customErrorTable"><span class="text-danger"></span></div>
-                <br />
-                <div id="spnremainTimeError"><span class="text-danger"></span></div>
-            </div>
-            <br />
-            <div class="form-group">
-                <table width="100%">
-                    <tr>
-                        <td width="25%">@Html.LabelFor(model => model.LoanStatus, htmlAttributes: new { })</td>
-                        <td width="60%">
-                            :
-                            @if (Model.LoanStatus == "Yes")
-                            {
-                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
-                                <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
-                                <text>No</text>
-                            }
-                            else if (Model.LoanStatus == "No")
-                            {
-                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
-                                <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active", @checked = true })
-                                <text>No</text>
-                            }
-                            else
-                            {
-                                @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active" })
-                                <text>Yes</text>
-                                @Html.RadioButtonFor(m => m.LoanStatus, "No", new { @id = "rdNo", @class = "Active" })
-                                <text>No</text>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div id="customErrorLoanStatus"><span class="text-danger"></span></div>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-
-            <div class="form-group">
-                <table width="50%">
-                    <tr>
-                        <td width="60%">@Html.LabelFor(model => model.DueDate, htmlAttributes: new { })</td>
-                        <td width="40%">
-                            @{
-                                for (var i = 1; i < 29; i++)
-                                {
-                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                }
-                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                            }
-                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control", @id = "CurtailmentDueDate" })
-                            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div id="customErrorDueDate"><span class="text-danger"></span></div>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="form-group">
-                <table width="50%">
-                    <tr>
-                        <td width="60%">@Html.LabelFor(model => model.AutoRemindEmail, htmlAttributes: new { })</td>
-                        <td width="40%">
-                            @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control e", @id = "curtailmentDueEmail" } })
-                            @Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div id="customErrorAutoRemindEmail"><span class="text-danger"></span></div>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="form-group">
-                <table width="50%">
-                    <tr>
-                        <td width="60%">@Html.LabelFor(model => model.EmailRemindPeriod, htmlAttributes: new { })</td>
-                        <td width="40%">
-                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control x", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
-                            @Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div id="customErrorEmailRemindPeriod"><span class="text-danger"></span></div>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="form-group">
-
-                <div class="button-panel">
-                    <input type="button" value="Back" name="subBack" id="btnPreStep10" class="btn btn-default left-button" tabindex="-1" />
-
-                    <input type="button" value="Create" name="submit" id="btnCreate" class="btn btn-primary btn-next" style="left: 40%" />
-                    <input type="button" id="clear" value="Clear" class="btn btn-default right-button" onclick="clearFunction()" tabindex="-1" />
-
-                </div>
-            </div>
         </div>
-                                    }
-                                }
+
+    </div>
+
+
+
+</div>
+
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step8help")
+    }
+</div>
+
 @*Grid view*@
 <script src="~/scripts/CommonFunctions.js"></script>
+
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.loan').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
+
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -329,7 +334,7 @@ else
             return;
         }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' ', ','];
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
         if (res === 1) {
@@ -452,6 +457,8 @@ else
 
         //var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
 
+        //alert(tblLength);
+
         var index = 0;
 
         $('table#tblGrid > tbody > tr').not(':first').each(function() {
@@ -469,44 +476,33 @@ else
             if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
                 // update list
                 list.currentList[index].TimePeriod = timePeriod;
+                //list.currentList[index].Percentage = percentage;
             }
 
             index = parseInt(index) + parseInt(1);
-
             //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
 
             if (parseInt(timePeriod) > parseInt(remainingTime)) {
                 $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
                 isErrorTime = true;
-                return false;
+                return;
             }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
-                return false;
+                return;
             }
             else {
                 isErrorTime = false;
                 $('#spnremainTimeError').children('span').text("");
             }
         });
+        //alert(isErrorTime);
 
-        if (isErrorTime === false && document.getElementById("spnremainPt").innerHTML === 'Problem in time period!') {
-            if (parseInt(remainingPt) > 0) {
-                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('');
-            } else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-                $('#spnremainPtError').text('');
-                document.getElementById("tblGrid").style.borderColor = "green";
-            } else {
-                $('#spnremainPt').text('');
-                $('#spnremainPtComplete').text('');
-                $('#spnremainPtError').text('Error percentage found');
-            }
-        }
-        
+        //currentListLenght = Object.keys(list.currentList).length;
+        //for (var j = 0; j < currentListLenght; j++) {
+        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+        //}
     });
 
     $(document).on('blur', '.clsaddCuirtailment', function(e) {
@@ -577,12 +573,13 @@ else
 
                     var strTr = createTableRow(id);
                     $('#tblGrid').append(strTr);
+                    //alert($('#tblGrid tr:last').find("#timePeriod").html());
                     $('#tblGrid tr:last').find("#timePeriod").focus();
                 }
 
             }
             else if (parseInt(remainingPt) === 0) {
-                
+
                 if (isErrorTime === false) {
                     $('#spnremainPt').text('');
                     $('#spnremainPtComplete').text('Curtailment schedule Completed.');
@@ -605,6 +602,19 @@ else
         //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
         //}
     });
+
+    //$('.clsaddCuirtailment').bind('enterKey', function(e) {
+    //    alert('enterkey');
+    //});
+
+    //$('.clsaddCuirtailment').keypress(function (e) {
+    //    //alert('enterkey');
+    //    var key = e.which;
+    //    if(key === 13)  // the enter key code
+    //    {
+    //        alert('enterkey');
+    //    }
+    //});
 
     var isRowAdded = false;
     var isFullFirst = true;
@@ -683,137 +693,144 @@ else
     });
 
     //delete row
-    //$(document).on('click', '.btnDeleteRow', function () {
-    ////$('#btnDeleteRow').click( function () {
-        
-    //    var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
-    //    $('#customErrorTable').children('span').text("");
-    //    alert(tblLength);
-    //    if(tblLength > 1) {
-            
-    //        var tr = $(this).parents('tr:first');
+    $(document).on('click', '.btnDeleteRow', function () {
+        //alert('delete');
+        var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
+        $('#customErrorTable').children('span').text("");
+        if(tblLength > 1) {
+            //alert('if');
+            var tr = $(this).parents('tr:first');
 
-    //        var curid = tr.find("#lblCur").html();
-    //        var timePeriod = tr.find("#timePeriod").val();
-    //        var percentage = tr.find("#percentage").val();
+            var curid = tr.find("#lblCur").html();
+            var timePeriod = tr.find("#timePeriod").val();
+            var percentage = tr.find("#percentage").val();
 
-    //        if (percentage !== '') {
-    //            var gridTable = document.getElementById('tblGrid');
-    //            gridTable.deleteRow(curid);
-    //            id = id - 1;
+            if (percentage !== '') {
+                var gridTable = document.getElementById('tblGrid');
+                gridTable.deleteRow(curid);
+                id = id - 1;
 
-    //            for (var k = curid; k < id + 1; k++) {
-    //                gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
-    //            }
+                for (var k = curid; k < id + 1; k++) {
+                    gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
+                }
 
-    //            var removeIndex = (parseInt(curid) - parseInt(1));
+                var removeIndex = (parseInt(curid) - parseInt(1));
 
-    //            list.currentList.splice(removeIndex, 1);
-    //            var currentListLenght = Object.keys(list.currentList).length;
+                list.currentList.splice(removeIndex, 1);
+                var currentListLenght = Object.keys(list.currentList).length;
 
-    //            for (var i = removeIndex; i < currentListLenght; i++) {
-    //                list.currentList[i].CurtailmentId = removeIndex + 1;
-    //            }
+                for (var i = removeIndex; i < currentListLenght; i++) {
+                    list.currentList[i].CurtailmentId = removeIndex + 1;
+                }
 
-    //            //for (var j = 0; j < currentListLenght; j++) {
-    //            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-    //            //}
+                //if(isErrorTime === true){}
 
-    //            remainingPt = parseInt(remainingPt) + parseInt(percentage);
+                //for (var j = 0; j < currentListLenght; j++) {
+                //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+                //}
 
-    //            if(parseInt(remainingPt) > 0)
-    //            {
-    //                var val = document.getElementById('spnremainPtComplete').innerHTML;
+                //if(isErrorTime !== true)
+                remainingPt = parseInt(remainingPt) + parseInt(percentage);
 
-    //                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
-    //                $('#spnremainPtComplete').text('');
-    //                $('#spnremainPtError').text('');
-    //            }
-    //            else if (parseInt(remainingPt) === 0) {
-    //                $('#spnremainPt').text('');
-    //                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-    //                $('#spnremainPtError').text('');
-    //            } else {
-    //                $('#spnremainPt').text('');
-    //                $('#spnremainPtComplete').text('');
-    //                $('#spnremainPtError').text('Error percentage found');
-    //            }
-    //        }
+                //alert(isErrorTime);
 
-    //    }
+                if(parseInt(remainingPt) > 0)
+                {
+                    var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-    //    //
-    //    //var index = 0;
+                    $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('');
+                }
+                else if (parseInt(remainingPt) === 0) {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                    $('#spnremainPtError').text('');
+                } else {
+                    $('#spnremainPt').text('');
+                    $('#spnremainPtComplete').text('');
+                    $('#spnremainPtError').text('Error percentage found');
+                }
+            }
 
-    //    //$('table#tblGrid > tbody > tr').not(':first').each(function() {
+        }
 
-    //    //    var curid = $(this).find("#lblCur").html();
-    //    //    var timePeriod = $(this).find("#timePeriod").val();
-    //    //    var percentage = $(this).find("#percentage").val();
-    //    //    var previousTime = 0;
+        //
+        //var index = 0;
 
-    //    //    if(curid > 1)
-    //    //        previousTime = list.currentList[curid - 2].TimePeriod;
+        //$('table#tblGrid > tbody > tr').not(':first').each(function() {
 
-    //    //    //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
-    //    //    if (parseInt(timePeriod) > parseInt(remainingTime)) {
-    //    //        $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-    //    //        isErrorTime = true;
-    //    //    }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-    //    //        $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-    //    //        isErrorTime = true;
-    //    //    }
-    //    //    else {
-    //    //        isErrorTime = false;
-    //    //        $('#spnremainTimeError').children('span').text("");
-    //    //    }
+        //    var curid = $(this).find("#lblCur").html();
+        //    var timePeriod = $(this).find("#timePeriod").val();
+        //    var percentage = $(this).find("#percentage").val();
+        //    var previousTime = 0;
 
-    //    //    // update list
-    //    //    list.currentList[index].TimePeriod = timePeriod;
-    //    //    list.currentList[index].Percentage = percentage;
-    //    //    index = parseInt(index) + parseInt(1);
-    //    //});
+        //    if(curid > 1)
+        //        previousTime = list.currentList[curid - 2].TimePeriod;
 
-    //    var index = 0;
+        //    //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
+        //    if (parseInt(timePeriod) > parseInt(remainingTime)) {
+        //        $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+        //        isErrorTime = true;
+        //    }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+        //        $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+        //        isErrorTime = true;
+        //    }
+        //    else {
+        //        isErrorTime = false;
+        //        $('#spnremainTimeError').children('span').text("");
+        //    }
 
-    //    $('table#tblGrid > tbody > tr').not(':first').each(function() {
+        //    // update list
+        //    list.currentList[index].TimePeriod = timePeriod;
+        //    list.currentList[index].Percentage = percentage;
+        //    index = parseInt(index) + parseInt(1);
+        //});
 
-    //        var curid = $(this).find("#lblCur").html();
-    //        var timePeriod = $(this).find("#timePeriod").val();
-    //        var percentage = $(this).find("#percentage").val();
-    //        var previousTime = 0;
+        var index = 0;
 
-    //        if (parseInt(curid) > 1) {
-    //            previousTime = list.currentList[curid - 2].TimePeriod;
-    //        }
+        $('table#tblGrid > tbody > tr').not(':first').each(function() {
 
-    //        var currentListLenght = Object.keys(list.currentList).length;
-    //        if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
-    //            // update list
-    //            list.currentList[index].TimePeriod = timePeriod;
-    //            //list.currentList[index].Percentage = percentage;
-    //        }
+            var curid = $(this).find("#lblCur").html();
+            var timePeriod = $(this).find("#timePeriod").val();
+            var percentage = $(this).find("#percentage").val();
+            var previousTime = 0;
 
-    //        index = parseInt(index) + parseInt(1);
-    //        //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
+            if (parseInt(curid) > 1) {
+                previousTime = list.currentList[curid - 2].TimePeriod;
+            }
 
-    //        if (parseInt(timePeriod) > parseInt(remainingTime)) {
-    //            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-    //            isErrorTime = true;
-    //            return false;
-    //        }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+            var currentListLenght = Object.keys(list.currentList).length;
+            if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
+                // update list
+                list.currentList[index].TimePeriod = timePeriod;
+                //list.currentList[index].Percentage = percentage;
+            }
 
-    //            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-    //            isErrorTime = true;
-    //            return false;
-    //        }
-    //        else {
-    //            isErrorTime = false;
-    //            $('#spnremainTimeError').children('span').text("");
-    //        }
-    //    });
+            index = parseInt(index) + parseInt(1);
+            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
 
-    //    //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+            if (parseInt(timePeriod) > parseInt(remainingTime)) {
+                $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+                isErrorTime = true;
+                return;
+            }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+
+                $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+                isErrorTime = true;
+                return;
+            }
+            else {
+                isErrorTime = false;
+                $('#spnremainTimeError').children('span').text("");
+            }
+        });
+
+        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+    });
+
+    //$('#curtailmentDueEmail').change(function() {
+    //    alert('hi');
     //});
 
     $('#btnCreate').click(function() {
@@ -839,12 +856,13 @@ else
 
 
         var dueDate = document.getElementById('CurtailmentDueDate').value;
-        
+        //alert(dueDate);
         if (dueDate === '') {
             $('#customErrorDueDate').children('span').text("Please select.");
         } else {
             $('#customErrorDueDate').children('span').text("");
         }
+        //alert(dueDate);
 
         var email = document.getElementById('curtailmentDueEmail').value;
         //if (email === '') {

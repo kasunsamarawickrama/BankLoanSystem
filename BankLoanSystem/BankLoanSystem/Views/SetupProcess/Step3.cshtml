@@ -4,489 +4,491 @@
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
-}
-}
-
-@*<script>
-        progress(3);
-
-
-    </script>*@
-<style>
-    .first_letter_capital{
-    text-transform: capitalize;
-}
-      .form-control{
-        display:inline;
     }
-    .form-group{
-        margin:auto;
-        margin-bottom: 10px;
-    }
-
-    .col-xs-11{
-    
-    width:60%;
 }
 
-    .col-xs-10 {
-    float: unset;
-}
-    .col-xs-11>input{
-    /*width:60%;*/
-}
 
-        .col-xs-9{
-           
-    
-}
-    .col-xs-9>input , .col-xs-9>select{
-    width:28%;
-}
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="container body-content">
 
-</style>
+                <div class="row">
+                    <div class="container body-content new_container">
+                        <div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>
+                        <div class="setupTitle">
+                            <h2>Create User</h2>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-horizontal new_form_horizontal">
+                            <div class="topErrors">
+                                <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                            </div>
+                            <div class="form-horizontal">
+                                @if (ViewBag.SuccessMsg == null)
+                                {
+                                    <div class="skipLink"> <a id="skip" href="#">Skip >></a> </div>
+                                }
+                                <div style="clear:both"></div>
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+                                {
+                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+                                    {
+
+                                        OnFailure = "handleErrorMsg",
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "changeContainer",
+                                        LoadingElementId = "loadingDiv"
+                                    }, new { id = "form", style = "clear: both;" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <span class="text-success">@ViewBag.SuccessMsg</span>
+                                        <div class="form-group">
+                                            <div class="button-panel">
+                                                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
+                                                <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
+
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                    <script>
+                                    $(function () {
+                                        $('#createNewUser').click(function () {
+
+                                            $('#loadingDiv').show();
+                                            $.ajax({
+                                                url: '@Url.Action("Step3")',
+                                                type: 'GET',
 
 
-<div class="form-group">
-    <div class="control-label col-sm-5">
-        <h2>Create User</h2>
-    </div>
-    @if (ViewBag.SuccessMsg == null)
-    {
-        <div class="col-xs-7">
-            <span></span> <input type="button" id="skip" value="Skip" class="btn btn-info right-button" />
+                                                success: function (partialView) {
+                                                    $('#loadingDiv').hide();
+                                                    $('#changeContainer').html(partialView);
+                                                    $('#changeContainer').show();
+                                                },
+
+                                                error: function (request, status, error) {
+                                                    //handleErrorMsg(request.responseText);
+
+                                                }
+                                            });
+
+
+                                        });
+
+                                        $(function () {
+                                            $('#step4').click(function () {
+
+                                                $('#loadingDiv').show();
+                                                $.ajax({
+                                                    url: '@Url.Action("Step4")',
+                                                    type: 'GET',
+
+
+                                                    success: function (partialView) {
+                                                        $('#loadingDiv').hide();
+                                                        $('#changeContainer').html(partialView);
+                                                        $('#changeContainer').show();
+                                                        Progress(4);
+                                                    },
+                                                    error: function (request, status, error) {
+                                                        //handleErrorMsg(request.responseText);
+
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    });
+
+                                    </script>
+
+
+                                }
+
+                                else
+                                {
+
+                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+                                    {
+
+                                        OnFailure = "handleErrorMsg",
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "changeContainer",
+                                        LoadingElementId = "loadingDiv"
+                                    }, new { id = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+
+
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>User Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtUserName" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Password</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtPassword" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Confirm Password</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtConfirmPassword" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>First Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtFirstName" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Last Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtLastName" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtNewEmail" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>
+                                                        Phone Number<br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.EditorFor(model => model.PhoneNumber2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNumber" } })
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+
+                                            <div id="branchDiv" hidden>
+                                                @if (ViewBag.CurrUserRoleType != 2)
+                    {
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 lable_style">
+                                                            <label>Branch </label>
+                                                        </div>
+                                                        @if (ViewBag.BranchId.Items.Count == 1)
+                        {
+                                                            <div class="col-xs-8 text_field short_text_field">
+                                                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId })
+                                                                @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                            </div>
+                                                        }
+                                                        else {
+                                                            <div class="col-xs-8 text_field short_text_field">
+                                                                @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
+                                                            </div>
+                                                        }
+                                                        <div class="err_msg_box">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Role</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
+
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group new_form_group clear_next clear_next_bordr">
+                                                <div>
+                                                    <nav>
+                                                        <div class="pager new_pager">
+                                                            <div class="button_box algn_left">
+                                                                <input value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                            </div>
+                                                            <div class="button_box algn_center">
+                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                            </div>
+                                                            <div class="button_box algn_right">
+                                                                <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+
+                                    <div>
+                                    </div>
+
+                                }
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step3help")
     }
 </div>
 
-@if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
-{
-    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-    {
+<script language="javascript">
 
-        OnFailure = "handleErrorMsg",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form", style= "clear: both;" }))
-    {
-        @Html.AntiForgeryToken()
-        <span class="text-success">@ViewBag.SuccessMsg</span>
-        <div class="form-group" >
+  $(document).ready(function(){
 
-            <div class="button-panel">
-
-                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
-
-                <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
-
-
-            </div>
-
-
-        </div>
-    }
-
-    <script>
-        $(function () {
-            $('#createNewUser').click(function () {
-
-                $('#loadingDiv').show();
-                $.ajax({
-                    url: '@Url.Action("Step3")',
-                    type: 'GET',
-
-
-                    success: function (partialView) {
-                        $('#loadingDiv').hide();
-                        $('#changeContainer').html(partialView);
-                        $('#changeContainer').show();
-                    },
-
-                    error: function (request, status, error) {
-                        //handleErrorMsg(request.responseText);
-
-                    }
-                });
-
-
-            });
-
-            $(function () {
-                $('#step4').click(function () {
-
-                    $('#loadingDiv').show();
-                    $.ajax({
-                        url: '@Url.Action("Step4")',
-                        type: 'GET',
-
-
-                        success: function (partialView) {
-                            $('#loadingDiv').hide();
-                            $('#changeContainer').html(partialView);
-                            $('#changeContainer').show();
-                            Progress(4);
-                        },
-                        error: function (request, status, error) {
-                            //handleErrorMsg(request.responseText);
-
-                        }
-                    });
-                });
-            });
-        });
-
-    </script>
-
-
-}
-
-else
-{
-
-    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-    {
-
-        OnFailure = "handleErrorMsg",
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer",
-        LoadingElementId = "loadingDiv"
-    }, new { id = "form" }))
-    {
-        @Html.AntiForgeryToken()
-
-
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="control-label col-sm-3" style="clear:both">
-                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "txtUserName" } })
-                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                    <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
-                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtFirstName" } })
-                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "txtLastName" } })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.NewEmail, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-11">
-                    @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control", @id = "txtNewEmail" } })
-                    @Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-               
-            </div>
-
-            <div class="form-group">
-                <div class="control-label col-sm-3">
-                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { })<span style="color:red">*</span>
-                </div>
-
-                <div class="col-xs-9">
-                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control", id = "RoleId" })
-                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate", style = "left:2%;bottom:-40%;" })
-                    @*<div id="customError"><span class="text-danger"></span></div>*@
-               
-                    @Html.LabelFor(model => model.PhoneNumber2, htmlAttributes: new { style = "margin-left:3%" })
-               
-                    @Html.EditorFor(model => model.PhoneNumber2, new { htmlAttributes = new { @class = "form-control", @id = "txtPhoneNumber" } })
-                    @Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
-                    <div id="customError"><span class="text-danger"></span></div>
-                </div>
-            </div>
-
-            <div id="branchDiv" hidden>
-            @if (ViewBag.CurrUserRoleType != 2)
-                    {
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.BranchId, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-                        @if (ViewBag.BranchId.Items.Count == 1)
-                        {
-                            <div class="control-label col-sm-3">
-                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId })
-                                @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                                </div>
-                                }
-                                else {
-                                <div class="col-xs-3">
-                                    @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
-                                    @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
-                                    <div id="customError"><span class="text-danger"></span></div>
-                                </div>
-                                }
-                            </div>
-                        }
-            </div>
-
-
-            <div class="form-group">
-
-                <div class="button-panel">
-                    <input type="button" value="Back" name="subBack" id="btnPreStep3" class="btn btn-default left-button" />
-
-
-                    <input type="submit" value="Create" class="btn btn-primary btn-next" style="left:40%" />
-                    <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-                </div>
-
-            </div>
-        </div>
-
-    }
-
-    <div>
-
-    </div>
-
-}
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.user').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
 
 
 
 <script src="~/scripts/CommonFunctions.js"></script>
 
-
-
 <script>
 
-    $("#clear").click(function () {
-        $('#branchDiv').hide();
+                                $("#clear").click(function () {
+                                    $('#branchDiv').hide();
+                                    $(".text-danger").html("");
+                                });
 
-    });
+                                $(function () {
+                                    $('#skip').click(function () {
 
-    $(function () {
-        $('#skip').click(function () {
+                                        $('#loadingDiv').show();
+                                        window.location.href = "Step4";
+                                        Progress(4);
+                                        @*$.ajax({
+                                            url: '@Url.Action("Step4")',
+                                            type: 'GET',
 
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("Step4")',
-                type: 'GET',
 
+                                            success: function (partialView) {
+                                                $('#loadingDiv').hide();
+                                                $('#changeContainer').html(partialView);
+                                                $('#changeContainer').show();
+                                                Progress(4);
+                                            },
+                                            error: function (request, status, error) {
+                                                //handleErrorMsg(request.responseText);
 
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-                    Progress(4);
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
+                                            }
+                                        });*@
+                                    });
+                                });
 </script>
-
 <script type="text/javascript">
-    $(function () {
-        $('#btnPreStep3').click(function () {
+                                $(function () {
+                                    $('#btnPreStep3').click(function () {
 
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step2", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1 },
+                                        $('#loadingDiv').show();
+                                        window.location.href = "Step2";
+                                        @*$.ajax({
+                                            url: '@Url.Action("step2", "SetupProcess")',
+                                            type: 'GET',
+                                            data: { edit: 1 },
 
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
+                                            success: function (partialView) {
+                                                $('#loadingDiv').hide();
+                                                $('#changeContainer').html(partialView);
+                                                $('#changeContainer').show();
 
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
+                                            },
+                                            error: function (request, status, error) {
+                                                //handleErrorMsg(request.responseText);
 
-                }
-            });
-        });
-    });
+                                            }
+                                        });*@
+                                    });
+                                });
 
-    $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
+                                $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
-    Progress(3);
-    $('#RoleId').change(function () {
-        var val = document.getElementById("RoleId").value;
-        if (val == '2' || val == '3') {
-            $('#branchDiv').show();
-        }
-        else {
-            $('#branchDiv').hide();
-        }
-    });
+                                Progress(3);
+                                $('#RoleId').change(function () {
+                                    var val = document.getElementById("RoleId").value;
+                                    if (val == '2' || val == '3') {
+                                        $('#branchDiv').show();
+                                    }
+                                    else {
+                                        $('#branchDiv').hide();
+                                    }
+                                });
 
-    //Validation
+                                //Validation
 
-    // User name validate
-    $('#txtUserName').keypress(function (e) {
-        var code = e.which;
-        if (this.value.length === 0 && (48 <= code && code <= 57)) {
-            //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
-            this.focus();
-            e.preventDefault();
-            return;
-        }
+                                // User name validate
+                                $('#txtUserName').keypress(function (e) {
+                                    var code = e.which;
+                                    if (this.value.length === 0 && (48 <= code && code <= 57)) {
+                                        //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+                                        this.focus();
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        var res = BlockText(e.which);
-        if (res === 1) {
-            //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                    var res = BlockText(e.which);
+                                    if (res === 1) {
+                                        //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-    // change to title case
-   
-    $('#txtFirstName, #txtLastName').blur(function (e) {
-        //ToTitleCase(this.id, this.value);
-        if (e.which !== 37 && e.which !== 8 && e.which !== 32)
-            ToTitleCase(this.id, this.value);
-    });
-  
+                                // change to title case
+                                $('#txtFirstName, #txtLastName').keyup(function (e) {
+                                    //ToTitleCase(this.id, this.value);
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
 
-    //Check maximum length
-    $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 30);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                $('#txtFirstName, #txtLastName').keypress(function (e) {
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
 
-    $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
-        if (this.value.length === 0 && e.which === 32) {
-            e.preventDefault();
-            return;
-        }
-        var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
-        var res = InvalidCharacters(this, array, e.which);
+                                //Check maximum length
+                                $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 30);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
+                                    if (this.value.length === 0 && e.which === 32) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
+                                    var res = InvalidCharacters(this, array, e.which);
 
-    //Check maximum length for email address and valid characters
-    $('#txtNewEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+                                //Check maximum length for email address and valid characters
+                                $('#txtNewEmail').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 100);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+                                    res = InvalidCharacters(this, array, e.which);
 
-    $('#txtFirstName, #txtLastName').keypress(function (e) {
-        //var array = [' ', '/', '`', '~', '!'];
-        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
-        var res = InvalidCharacters(this, array, e.which);
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92 || e.which === 39) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
+                                $('#txtFirstName, #txtLastName').keypress(function (e) {
+                                    //var array = [' ', '/', '`', '~', '!'];
+                                    var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
+                                    var res = InvalidCharacters(this, array, e.which);
 
-        if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-    $('#txtPhoneNumber').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                $('#txtPhoneNumber').keypress(function (e) {
+                                    var res = PhoneNumber(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+
+                                    res = CheckMaxLenth(this, this.value, 15);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
 </script>
 
@@ -494,36 +496,3 @@ else
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@*<script type="text/javascript">
-        function editUser(index) {
-
-            var model = @Html.Raw(Json.Encode(Model));
-            console.log(model);
-            console.log(index);
-
-            document.getElementById("EditableUserName").value = model.Users[index].UserName;
-            //document.getElementById("password").value = model.Users[index].Password;
-            //document.getElementById("confirmPassword").value = model.Users[index].ConfirmPassword;
-            document.getElementById("firstName").value = model.Users[index].FirstName;
-            document.getElementById("lastName").value = model.Users[index].LastName;
-            document.getElementById("EditableEmail").value = model.Users[index].NewEmail;
-            document.getElementById("phone").value = model.Users[index].PhoneNumber;
-            document.getElementById("BranchId").value = model.Users[index].BranchId;
-            document.getElementById("RoleId").value = model.Users[index].RoleId;
-            document.getElementById("editUserId").value = model.Users[index].UserId;
-        };
-
-        function CreateNewUser(){
-            document.getElementById("EditableUserName").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("confirmPassword").value = "";
-            document.getElementById("firstName").value = "";
-            document.getElementById("lastName").value = "";
-            document.getElementById("EditableEmail").value = "";
-            document.getElementById("phone").value = "";
-            document.getElementById("BranchId").value = "";
-            document.getElementById("RoleId").value = "";
-            document.getElementById("editUserId").value = "";
-        }
-
-    </script>*@
