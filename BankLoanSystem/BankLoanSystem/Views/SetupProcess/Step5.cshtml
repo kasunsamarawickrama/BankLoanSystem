@@ -107,7 +107,7 @@
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
-                        {
+                                                        {
                                                             @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
                                                             @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                         }
@@ -128,9 +128,9 @@
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                    {
+                                                    {
 
-                                                        @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId})
+                                                        @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
                                                         @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                     }
                                                     else
@@ -312,9 +312,9 @@
                                                             <th style="width:107px;" class="branch_edit">&nbsp;</th>
                                                         </tr>
                                                         @for (var i = 0; i < Model.NonRegBranches.Count; i++)
-                        {
+                                                        {
                                                             <tr class="bordr_btm" style="height:30px;">
-                                                                <td style="width:31px;" class="back_colr">@i</td>
+                                                                <td style="width:31px;" class="back_colr">@(i+1)</td>
                                                                 <td style="width:144px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchName)</td>
                                                                 <td style="width:210px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchAddress1)</td>
                                                                 <td style="width:107px;" class="back_colr"><a onclick="EditBranch(@i)" id="CompanyIndex">Edit</a></td>
@@ -327,7 +327,7 @@
                                     </div>
 
 
-    }
+                                }
                             }
 
                         </div>
@@ -350,20 +350,13 @@
 
 <script language="javascript">
 
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-  $('.nav li.active ul').removeClass('in');
-  $('.nav li').removeClass('active');
-  $('.nav li.partner').addClass('active');
-  $('.nav li.active ul').addClass('in');
-  })
-</script>
-
-<script>
-             $('#clear').click(function () {
-                      document.getElementsByTagName("form")[0].reset();
-                       $(".text-danger").html("");
-            });
+        $('.nav li.active ul').removeClass('in');
+        $('.nav li').removeClass('active');
+        $('.nav li.partner').addClass('active');
+        $('.nav li.active ul').addClass('in');
+    })
 </script>
 
 
@@ -631,6 +624,10 @@
         $('#Previous').on('change', function() {
             if ($(this).is(':checked')) {
 
+                $('input').parent('div').siblings('div').children('p').children("span").text("");
+                $('select').parent('div').siblings('div').children('p').children("span").text("");
+                $('.input-validation-error').removeClass('input-validation-error');
+
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.CompanyBranch.Company.CompanyName;
                 document.getElementById("branchAddress1").value = model.CompanyBranch.Company.CompanyAddress1;
@@ -664,16 +661,23 @@
 
 
     $('#clear').click(function() {
-        if($('#btnNext').val()=="Update")
-        {
+        if ($('#btnNext').val() === "Update") {
             $('#btnNext').val('Next');
         }
         document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+        $('#lnkCreateNewBranch').hide();
     });
-
+    Progress(5);
 </script>
+
 <script type="text/javascript">
     function EditBranch(index) {
+
+        $('input').parent('div').siblings('div').children('p').children("span").text("");
+        $('select').parent('div').siblings('div').children('p').children("span").text("");
+        $('.input-validation-error').removeClass('input-validation-error');
+
         $('#nonRegBranchDiv').show();
         $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
@@ -699,7 +703,7 @@
         $('#lnkCreateNewBranch').show();
     };
 
-    function CreateNewBranch(){
+    function CreateNewBranch() {
         $('#btnNext').val('Next');
         $('#nonRegBranchDiv').show();
         document.getElementById("branchName").value = "";
@@ -715,14 +719,15 @@
         document.getElementById("branchPhoneNum3").value = "";
         document.getElementById("branchFax").value = "";
         document.getElementById("branchCode").value = "";
-        //document.getElementById("RegBranchId").value = "";
-        //document.getElementById("NonRegCompanyId").value = "";
-        @*if ("@ViewBag.SuccessMsg" === "jjkj" && "@Enumerable.Count(ViewBag.NonRegCompanyId)" === 1)
-        {
-                document.getElementById("RegBranchId").value = "";
-                document.getElementById("NonRegCompanyId").value = "";
-        }*@
+
+        var input = $("#NonRegCompanyId");
+        if(input.attr('type') !== 'hidden')
+            document.getElementById("NonRegCompanyId").value = "";
+
+        input = $("#RegBranchId");
+        if(input.attr('type') !== 'hidden')
+            document.getElementById("RegBranchId").value = "";
     }
 
-    Progress(5);
+
 </script>
