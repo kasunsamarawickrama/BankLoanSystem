@@ -357,7 +357,7 @@
 
         $('#payDate2').blur(function () {
             var val = $(this).val();
-            
+
             if (val === '') {
                 $(this).removeClass('input-validation-error');
                 $('#customErrorPayDate2').siblings('span').text('');
@@ -809,6 +809,7 @@
 
             if ($(this).val() == "") {
                 // required error
+                $('#customErrorPayDate').children('span').text('');
                 return;
             }
             var valid = isValidDate($(this).val());
@@ -834,14 +835,19 @@
                 $('.centered span').text('Error');
             }
 
-            if ($('#payDate').val() === '')
+            if ($('#payDate').val() === '') {
+                $('#customErrorPayDate').children('span').text('');
                 $(this).removeClass('input-validation-error');
+                $('.centered span').text('');
+            }
+                
         });
 
         $('#payDate2').blur(function () {
 
             if ($(this).val() == "") {
                 // required error
+                $('#customErrorPayDate2').children('span').text('');
                 return;
             }
             var valid = isValidDate($(this).val());
@@ -867,8 +873,12 @@
                 $('.centered span').text('Error');
             }
 
-            if ($('#payDate2').val() === '')
+            if ($('#payDate2').val() === '') {
+                $('#customErrorPayDate2').children('span').text('');
                 $(this).removeClass('input-validation-error');
+                $('.centered span').text('');
+            }
+                
 
         });
 
