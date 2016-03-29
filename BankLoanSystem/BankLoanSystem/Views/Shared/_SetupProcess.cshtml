@@ -195,14 +195,107 @@
 
 
 
-            @if(Session["loanStep"] != null)
-            {
-                 <text>globalProgress( 5+  @(((LoanSetupStep)Session["loanStep"]).stepId));
-                Progress(5+ @(((LoanSetupStep)Session["loanStep"]).stepId));</text>
-            }else if(Session["companyStep"] != null) {
-                <text>globalProgress(@Session["companyStep"]);
-                Progress(@Session["companyStep"]);</text>
+           
+
+        $(document).on('click', '.btnDeleteRow', function () {
+             
+        
+            var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
+            $('#customErrorTable').children('span').text("");
+            alert(tblLength);
+            if(tblLength > 1) {
+            
+                var tr = $(this).parents('tr:first');
+
+                var curid = tr.find("#lblCur").html();
+                var timePeriod = tr.find("#timePeriod").val();
+                var percentage = tr.find("#percentage").val();
+
+                if (percentage !== '') {
+                    var gridTable = document.getElementById('tblGrid');
+                    gridTable.deleteRow(curid);
+                    id = id - 1;
+
+                    for (var k = curid; k < id + 1; k++) {
+                        gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
+                    }
+
+                    var removeIndex = (parseInt(curid) - parseInt(1));
+
+                    list.currentList.splice(removeIndex, 1);
+                    var currentListLenght = Object.keys(list.currentList).length;
+
+                    for (var i = removeIndex; i < currentListLenght; i++) {
+                        list.currentList[i].CurtailmentId = removeIndex + 1;
+                    }
+
+                    //for (var j = 0; j < currentListLenght; j++) {
+                    //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
+                    //}
+
+                    remainingPt = parseInt(remainingPt) + parseInt(percentage);
+
+                    if(parseInt(remainingPt) > 0)
+                    {
+                        var val = document.getElementById('spnremainPtComplete').innerHTML;
+
+                        $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                        $('#spnremainPtComplete').text('');
+                        $('#spnremainPtError').text('');
+                    }
+                    else if (parseInt(remainingPt) === 0) {
+                        $('#spnremainPt').text('');
+                        $('#spnremainPtComplete').text('Curtailment schedule Completed.');
+                        $('#spnremainPtError').text('');
+                    } else {
+                        $('#spnremainPt').text('');
+                        $('#spnremainPtComplete').text('');
+                        $('#spnremainPtError').text('Error percentage found');
+                    }
+                }
+
             }
+            var index = 0;
+
+            $('table#tblGrid > tbody > tr').not(':first').each(function() {
+
+                var curid = $(this).find("#lblCur").html();
+                var timePeriod = $(this).find("#timePeriod").val();
+                var percentage = $(this).find("#percentage").val();
+                var previousTime = 0;
+
+                if (parseInt(curid) > 1) {
+                    previousTime = list.currentList[curid - 2].TimePeriod;
+                }
+
+                var currentListLenght = Object.keys(list.currentList).length;
+                if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
+                    // update list
+                    list.currentList[index].TimePeriod = timePeriod;
+                    //list.currentList[index].Percentage = percentage;
+                }
+
+                index = parseInt(index) + parseInt(1);
+                //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
+
+                if (parseInt(timePeriod) > parseInt(remainingTime)) {
+                    $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+                    isErrorTime = true;
+                    return false;
+                }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+
+                    $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+                    isErrorTime = true;
+                    return false;
+                }
+                else {
+                    isErrorTime = false;
+                    $('#spnremainTimeError').children('span').text("");
+                }
+            });
+
+            //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
+        });
 
 
     </script>
@@ -225,7 +318,17 @@
                 Html.RenderAction("SetupDashBoard", "SetupProcess");
             }
 
+            <script>
+                 @if(Session["loanStep"] != null)
+                 {
+                     <text>globalProgress( 5+  @(((LoanSetupStep)Session["loanStep"]).stepId));
+                     Progress(5+ @(((LoanSetupStep)Session["loanStep"]).stepId));</text>
+                 }else if(Session["companyStep"] != null) {
+                     <text>globalProgress(@Session["companyStep"]);
+                     Progress(@Session["companyStep"]);</text>
+                 }
 
+            </script>
             <div id="changeContainer">
                 @RenderBody()
             </div>
