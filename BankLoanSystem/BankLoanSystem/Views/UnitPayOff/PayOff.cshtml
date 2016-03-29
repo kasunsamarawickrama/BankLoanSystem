@@ -810,6 +810,7 @@
             if ($(this).val() == "") {
                 // required error
                 $('#customErrorPayDate').children('span').text('');
+                checkTextBoxBlurCenterError();
                 return;
             }
             var valid = isValidDate($(this).val());
@@ -848,6 +849,7 @@
             if ($(this).val() == "") {
                 // required error
                 $('#customErrorPayDate2').children('span').text('');
+                checkTextBoxBlurCenterError();
                 return;
             }
             var valid = isValidDate($(this).val());
@@ -912,8 +914,6 @@
 
                 e.preventDefault();
             }
-
-
         });
 
         $('.titleReturn').change(function () {
@@ -1160,6 +1160,16 @@
             }
             //alert(ch);
         });
+
+        function checkTextBoxBlurCenterError() {
+
+            if ($('input').next('span').children('span').text().length > 0 || $('select').next('span').children('span').text().length > 0 || $('#customErrorTitleReturn1').children('span').text() != '' || $('#customErrorTitleReturn2').children('span').text()!= '') {
+                $('.centered span').text('Error');
+            } else {
+                $('.centered span').text('');
+            }
+        };
+
     </script>
 </body>
 </html>

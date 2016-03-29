@@ -34,6 +34,8 @@
     // clear error messages when clicked input field if you use custum validation message function to handle error
     $('input').click(function () {
         $(this).next("span").children("span").text("");
+        $(this).closest("div").siblings('div').children("p").children("span").text("");
+        $(this).next("div").children("p").children("span").text("");
         //$(this).siblings('div').children('span').text('');
         //$('input').siblings('div').children('span').text('');
     });
