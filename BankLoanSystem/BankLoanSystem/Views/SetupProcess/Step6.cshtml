@@ -177,7 +177,9 @@
 
                                         </div>
                                         <div class="err_msg_box">
-                                            <p class="err_msg new_err_msg" id="outOffRangeError">@Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" }) &nbsp;&nbsp;&nbsp; @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" }) </p>
+                                            <p class="err_msg new_err_msg" id="outOffRangeError" ></p>
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" }) &nbsp;&nbsp;&nbsp; @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })</p>
+                                            
                                         </div>
                                     </div>
 
@@ -412,11 +414,9 @@
         $("#radioStyle-6").css("background-color", "");
         $("#radioStyle-7").css("background-color", "");
     });
-</script>
 
-<script>
-    $("#Next").click(function (e) {
-        //alert('a');
+    $('#Next').click(function (e) {
+        
         var valid = 0;
         $('.form-horizontal :input[type="text"]').each(function () {
             if ($(this).val() != "") valid += 1;
@@ -434,14 +434,14 @@
             if (($(this).val() == "" || $(this).val() < 0)) { } else valid += 1;
         });
 
-
+       
         if (valid >= 11) {
             if ($("input:checked").length == 0) {
                 $("#unitTypeError").text('Select Atleast One unit type');
                 e.preventDefault();
             }
             else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
-
+                alert(valid);
                 e.preventDefault();
 
             }
@@ -616,7 +616,7 @@
 
     .webGrid th a {
         color: White;
-        text-decoration: none;
+        text-decoration:none;
     }
 
     .webGrid th, .webGrid td {
@@ -699,6 +699,7 @@
             //  $("#radio-" + value).closest('.col-xs-7').siblings().children('.col-xs-5').find('input')
             if ($(':input[type="checkbox"]:checked').length == 1) {
                 $("#radio-" + value).prop("checked", true);
+                
                 $("#unitTypeError").text('');
 
                 //$("#radioStyle-" + value).hide();
@@ -886,12 +887,20 @@
         {
             foreach (UnitType UnitType in (List<UnitType>)Model.selectedUnitTypes)
             {
-
+                
                 <script>
                     $("#radioStyle-@(UnitType.unitTypeId-1)").show();
                     $("#radio-@(UnitType.unitTypeId - 1)").show();
 
                 </script>
+                if (Model.defaultUnitType == UnitType.unitTypeId)
+                {
+                    <script>
+                    
+                        $("#radio-@(UnitType.unitTypeId - 1)").closest("div").css("background-color", "green");
+
+                    </script>
+                }
             }
         }
     }
