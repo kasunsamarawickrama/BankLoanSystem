@@ -1,5 +1,4 @@
 ﻿@model BankLoanSystem.Models.CompanyBranchModel
-
 @{
 
     ViewBag.Title = "Step2";
@@ -9,78 +8,27 @@
     }
 
 }
-<style>
-    .first_letter_capital{
-    text-transform: capitalize;
-}
-
-    .form-control{
-        display:inline;
-    }
-    .form-group{
-        margin:auto;
-        margin-bottom: 10px;
-    }
-
-    .col-xs-11{
-    
-    width:60%;
-}
-
-    .col-xs-10 {
-    float: unset;
-}
-    .col-xs-11>input{
-    /*width:60%;*/
-}
-
-        .col-xs-9{
-           
-    
-}
-    .col-xs-9>input , .col-xs-9>select{
-    width:28%;
-}
-
-
-
-
-
-
-    table {
-        border-collapse: collapse;
-    }
-
-    table, td {
-        border: 1px solid black;
-        text-align: left;
-    }
-
-    th {
-        border: 1px solid black;
-        background-color: paleturquoise;
-    }
-
-    tr {
-        text-align: left;
-    }
-</style>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@*<script>
-        progress(2);
+<div class="form-horizontal">
 
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper companysetup_border">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="container body-content">
 
-    </script>*@
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/companySetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle">
+                                <h2>Create Branch</h2>
+                            </div>
+                            <div style="clear:both;"></div>
 
-
-
-        <h2>Create Branch</h2>
-
-        @using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
+                            @using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
             {
                 OnSuccess = "Progress(3)",
                 OnFailure = "handleErrorMsg",
@@ -91,454 +39,486 @@
             }, new { id = "form" }))
             {
 
-            @Html.AntiForgeryToken()
-            <div class="form-horizontal">
+                                @Html.AntiForgeryToken()
+                                <div class="form-horizontal new_form_horizontal">
+                                    <div class="topErrors">
+                                        <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                    </div>
+                                    <input id="branchCode" name="branchCode" type="hidden" value="" />
+                                    <div class="form-horizontal">
+                                        <div class="form-group new_form_group">
+                                            @if (Model.SubBranches.Count > 0)
+                                            {
+                                                @*<div class="control-label col-sm-2 lable_style">
+                                                        <a onclick="CreateNewBranch()">create new branch</a>
+                                                    </div>*@
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.Label("Same details as company", htmlAttributes: new { }) &nbsp; &nbsp;@Html.CheckBox("Previous", new { @id = "Previous" })
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchName" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Street Address 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress1" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Street Address 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchAddress2" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>City</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchCity" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.StateId, null, "--Select state--", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Zip</label>
+                                            </div>
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code" } })
+                                            </div>
+                                            <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" }) </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Email<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchEmail" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchEmail, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Phone Number 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchPhoneNum1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum1" } })
 
-                @if (Model.SubBranches.Count > 0)
-                {
-                    <div class="form-group">
-                        <table id="branchTable">
-                            <tr>
-                                <td class="control-label col-sm-3">
-                                    @Html.Label("Branch Name")
-                                </td>
-                                <td class="control-label col-sm-3">
-                                    @Html.Label("Branch Address1")
-                                </td>
-                                <td class="control-label col-sm-3">@Html.Label("Edit")</td>
-                                <td class="control-label col-sm-3">@Html.Label("Delete")</td>
-                            </tr>
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum1, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchPhoneNum2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum2" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum2, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 3<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchPhoneNum3, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum3" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum3, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Fax Number<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MainBranch.BranchFax, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchFax" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.BranchFax, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group clear_next">
+                                            <div>
+                                                <nav>
+                                                    <div class="pager new_pager">
+                                                        <div class="button_box algn_left">
+                                                            <input value="Back" name="subBack" id="btnPreStep2" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div class="button_box algn_center">
+                                                            <input id="btnNext" value="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left: 10px" type="submit">
+                                                        </div>
+                                                        <div class="button_box algn_right">
+                                                            <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
 
-                            @for (var i = 0; i < Model.SubBranches.Count; i++)
-                            {
-                                <tr>
-                                    <td class="control-label col-sm-3">
-                                        @Html.DisplayFor(x => x.SubBranches[i].BranchName)
-                                    </td>
-                                    <td class="control-label col-sm-3">
-                                        @Html.DisplayFor(x => x.SubBranches[i].BranchAddress1)
-                                    </td>
+                                        @if (Model.SubBranches.Count > 0)
+                                        {
+                                            <div class="form-group new_form_group gridArea">
+                                                <table style="width:100%;" class="table_style">
+                                                    <tr class="bordr_btm_sp">
+                                                        <th style="width:31px;" class="branch_no">#</th>
+                                                        <th style="width:144px;" class="branch_name">Branch Name</th>
+                                                        <th style="width:210px;" class="branch_address">Branch Address</th>
+                                                        <th style="width:107px;" class="branch_edit">&nbsp;</th>
+                                                    </tr>
+                                                    @for (var i = 0; i < Model.SubBranches.Count; i++)
+                                                    {
+                                                        <tr class="bordr_btm" style="height:30px;">
+                                                            <td class="back_colr">@i</td>
+                                                            <td class="back_colr">@Html.DisplayFor(x => x.SubBranches[i].BranchName)</td>
+                                                            <td class="back_colr">@Html.DisplayFor(x => x.SubBranches[i].BranchAddress1)</td>
+                                                            <td class="back_colr"><a onclick="EditBranch(@i)" id="branchIndex">Edit</a></td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
 
-                                    <td class="control-label col-sm-3">
-                                        <a onclick="EditBranch(@i)" id="branchIndex">Edit</a>
-                                    </td>
-                                    <td class="control-label col-sm-3">
-                                        <a>Delete</a>
-                                    </td>
-                                </tr>
                             }
-                        </table>
-                    </div>
-                }
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @if (Model.SubBranches.Count > 0)
-                    {
-                        <div class="control-label col-sm-3">
-                            <a onclick="CreateNewBranch()">create new branch</a>
+
                         </div>
-                    }
-                    else
-                    {
-                        <div class="control-label col-sm-5" style="text-align: left;width:26%;">
-                            @Html.Label("Same details as company", htmlAttributes: new { })
-                        </div>
-                        <div class="control-label col-sm-1" style="text-align: left">
-                            @Html.CheckBox("Previous", new { @id = "Previous" })
-                        </div>
-                    }
-                </div>
-                <div id="branchDiv">
-                @*this for keep branch code*@
-                <input id="branchCode" name="branchCode" type="hidden" value="" />
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchName)<span style="color: red">*</span>
-                    </div>
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchName" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchAddress1, htmlAttributes: new { })<span style="color: red">*</span>
                     </div>
 
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchAddress1" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchAddress1, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchAddress2, htmlAttributes: new { })
-                    </div>
-
-                    <div class="col-xs-11">
-                        @Html.EditorFor(model => model.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchAddress2" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchAddress2, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchCity, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control first_letter_capital", @id = "branchCity" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchCity, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
-
-
-                        
-                            @Html.LabelFor(model => model.StateId, htmlAttributes: new { style = "margin-left:14.5%" })<span style="color: red">*</span>
-                        
-                            @Html.DropDownListFor(model => model.StateId, null, "--Select state--", htmlAttributes: new { @class = "form-control", id = "StateId" })
-                            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" , style = "left:51%;bottom:-50%;" })
-                        
-                    </div>
-                </div>
-
-                
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.ZipPre, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-11" >
-                       
-                  
-                    @*<span class="glyphicons glyphicon-minus" style="float: right; margin-top: 20px"></span>*@
-                  
-                        @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { style = "width:19%",@class = "form-control", @id = "branchZipPre", placeholder = "Zip Code" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" , style = "left:2%;bottom:-40%;" })
-
-                        @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { style = "width:19%", @class = "form-control", @id = "branchZipExten", placeholder = "Extension" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" , style= "top: 50%;" })
-                    </div>
-                </div>
-
-
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchPhoneNum1, htmlAttributes: new { })<span style="color: red">*</span>
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.MainBranch.BranchPhoneNum1, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchPhoneNum1" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum1, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
-                   
-                        @Html.LabelFor(model => model.MainBranch.BranchPhoneNum2, htmlAttributes: new { style = "margin-left:12%;" })
-                    
-                        @Html.EditorFor(model => model.MainBranch.BranchPhoneNum2, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchPhoneNum2" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum2, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
-                    </div>
 
                 </div>
-
-                <div class="form-group">
-
-                </div>
-
-                <div class="form-group">
-                    <div class="control-label col-sm-3">
-                        @Html.LabelFor(model => model.MainBranch.BranchPhoneNum3, htmlAttributes: new { })
-                    </div>
-
-                    <div class="col-xs-9">
-                        @Html.EditorFor(model => model.MainBranch.BranchPhoneNum3, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchPhoneNum3" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchPhoneNum3, "", new { @class = "text-danger" , style = "top:100%;left:2%" })
-                    
-                        @Html.LabelFor(model => model.MainBranch.BranchFax, htmlAttributes: new { style = "margin-left:27%;" })
-                    
-                        @Html.EditorFor(model => model.MainBranch.BranchFax, new { htmlAttributes = new { style = "width:23%;", @class = "form-control", @id = "branchFax" } })
-                        @Html.ValidationMessageFor(model => model.MainBranch.BranchFax, "", new { @class = "text-danger" , style = "top:100%;left:56%;" })
-                    </div>
-                </div>
-
-              
-                <div class="form-group">
-                        <div class="control-label col-sm-3">
-                            @Html.LabelFor(model => model.MainBranch.BranchEmail, htmlAttributes: new { })
-                    </div>
-
-                        <div class="col-xs-11">
-                            @Html.EditorFor(model => model.MainBranch.BranchEmail, new { htmlAttributes = new { @class = "form-control", @id = "branchEmail" } })
-                            @Html.ValidationMessageFor(model => model.MainBranch.BranchEmail, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-         
-
-                <div class="form-group">
-                        <div class="button-panel">
-
-                            <input type="button" value="Back" name="subBack" id="btnPreStep2" class="btn btn-default left-button" />
-                            <input type="submit" value="Next" id="btnNext"class="btn btn-primary btn-next" style="left:40%"/>
-
-                            <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
-
-                    </div>
-                </div>
-
             </div>
+        </div>
+    </div>
 
-           </div>
+</div>
 
-        }
- 
+<div class="rightPanel">
+    @{
+        @Html.Partial("Step2help")
+    }
+</div>
 
+<script language="javascript">
+
+  $(document).ready(function(){
+
+  $('.nav li.active ul').removeClass('in');
+  $('.nav li').removeClass('active');
+  $('.nav li.company').addClass('active');
+  $('.nav li.active ul').addClass('in');
+  })
+</script>
 
 
 <script src="~/scripts/CommonFunctions.js"></script>
+
 <script>
 
-    // Capitalize first letter 
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
-        
-            ToTitleCase(this.id, this.value);
-    });
+                                // Capitalize first letter
+                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keyup(function (e) {
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
+                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+                                    if (e.which !== 37 && e.which !== 8 && e.which !== 32)
+                                        ToTitleCase(this.id, this.value);
+                                });
 
+                                $('#branchAddress1, #branchAddress2').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 50);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-    $('#branchAddress1, #branchAddress2').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+                                    res = InvalidCharacters(this, array, e.which);
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
+                                //Check maximum length
+                                $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 50);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
-    //Check maximum length
-    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+                                    res = InvalidCharacters(this, array, e.which);
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
+                                //Check maximum Email
+                                $('#branchEmail').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 100);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
-    //Check maximum Email
-    $('#branchEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+                                    var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+                                    res = InvalidCharacters(this, array, e.which);
 
-        var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+                                    if (res === 1) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    else if (e.which === 92 || e.which === 39) {
+                                        //$(this).siblings('div').children('span').text("Invalid character.");
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
+                                //Check maximum PhoneNumbers
+                                $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 15);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    res = PhoneNumber(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
-    });
-    //Check maximum PhoneNumbers
-    $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                //Check maximum ZipExtension
+                                $('#branchZipExten').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 4);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
 
-    //Check maximum ZipExtension
-    $('#branchZipExten').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
-    //Check maximum ZipCode
-    $('#branchZipPre').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            $("#branchZipExten").focus();
-        }
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
+                                    res = AllowNumbers(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
+                                //Check maximum ZipCode
+                                $('#branchZipPre').keypress(function (e) {
+                                    var res = CheckMaxLenth(this, this.value, 4);
+                                    if (res === 0) {
+                                        $("#branchZipExten").focus();
+                                    }
+                                    res = AllowNumbers(this, e.which);
+                                    if (res === 0) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                });
 </script>
 <script type="text/javascript">
-    $(function () {
-        $(document).ready(function () {
-            var c = $('#branchTable').children('tbody').children('tr').length;
-            if(c>0){
-                $('#branchDiv').hide();
-            }
-            else{
-                $('#branchDiv').show();
-            }
-           // $('#branchDiv').hide();
-        });
-        $('#Previous').on('change', function () {
-            $('input').siblings('span').text('');
-            $('.input-validation-error').removeClass('input-validation-error');
-            //text-danger field-validation-valid
-            if ($(this).is(':checked')) {
-                var model = @Html.Raw(Json.Encode(Model));
-                document.getElementById("branchName").value = model.Company.CompanyName;
-                document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
-                document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
-                document.getElementById("StateId").value = model.Company.StateId;
-                document.getElementById("branchCity").value = model.Company.City;
-                document.getElementById("branchZipPre").value = model.Company.ZipPre;
-                document.getElementById("branchZipExten").value = model.Company.Extension;
-                document.getElementById("branchEmail").value = model.Company.Email;
-                document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
-                document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
-                document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
-                document.getElementById("branchFax").value = model.Company.Fax;
-            }
-            else {
-                document.getElementById("branchName").value = "";
-                document.getElementById("branchAddress1").value = "";
-                document.getElementById("branchAddress2").value = "";
-                document.getElementById("StateId").value = "";
-                document.getElementById("branchCity").value = "";
-                document.getElementById("branchZipPre").value = "";
-                document.getElementById("branchZipExten").value = "";
-                document.getElementById("branchEmail").value = "";
-                document.getElementById("branchPhoneNum1").value = "";
-                document.getElementById("branchPhoneNum2").value = "";
-                document.getElementById("branchPhoneNum3").value = "";
-                document.getElementById("branchFax").value = "";
-            }
-        });
-    });
+                                $(function () {
+                                    $(document).ready(function () {
+                                        var c = $('#branchTable').children('tbody').children('tr').length;
+                                        if(c>0){
+                                            $('#branchDiv').hide();
+                                        }
+                                        else{
+                                            $('#branchDiv').show();
+                                        }
+                                        // $('#branchDiv').hide();
+                                    });
+                                    $('#Previous').on('change', function () {
+                                        if ($(this).is(':checked')) {
+
+                                            var model = @Html.Raw(Json.Encode(Model));
+                                            document.getElementById("branchName").value = model.Company.CompanyName;
+                                            document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
+                                            document.getElementById("branchAddress2").value = model.Company.CompanyAddress2;
+                                            document.getElementById("StateId").value = model.Company.StateId;
+                                            document.getElementById("branchCity").value = model.Company.City;
+                                            document.getElementById("branchZipPre").value = model.Company.ZipPre;
+                                            document.getElementById("branchZipExten").value = model.Company.Extension;
+                                            document.getElementById("branchEmail").value = model.Company.Email;
+                                            document.getElementById("branchPhoneNum1").value = model.Company.PhoneNum1;
+                                            document.getElementById("branchPhoneNum2").value = model.Company.PhoneNum2;
+                                            document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
+                                            document.getElementById("branchFax").value = model.Company.Fax;
+                                        }
+                                        else {
+                                            document.getElementById("branchName").value = "";
+                                            document.getElementById("branchAddress1").value = "";
+                                            document.getElementById("branchAddress2").value = "";
+                                            document.getElementById("StateId").value = "";
+                                            document.getElementById("branchCity").value = "";
+                                            document.getElementById("branchZipPre").value = "";
+                                            document.getElementById("branchZipExten").value = "";
+                                            document.getElementById("branchEmail").value = "";
+                                            document.getElementById("branchPhoneNum1").value = "";
+                                            document.getElementById("branchPhoneNum2").value = "";
+                                            document.getElementById("branchPhoneNum3").value = "";
+                                            document.getElementById("branchFax").value = "";
+                                        }
+                                    });
+                                });
 
 
-    $('#clear').click(function () {
-        if($('#btnNext').val()=="Update")
-        {
-            $('#btnNext').val('Next');
-        }
-        document.getElementsByTagName("form")[0].reset();
-    });
+                                $('#clear').click(function () {
+                                    if($('#btnNext').val()=="Update")
+                                    {
+                                        $('#btnNext').val('Next');
+                                    }
+                                    document.getElementsByTagName("form")[0].reset();
+                                    $(".text-danger").html("");
+                                });
 
 </script>
-
 <script type="text/javascript">
-    $(function () {
-        $('#btnPreStep2').click(function () {
+                                $(function () {
+                                    $('#btnPreStep2').click(function () {
 
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step1", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1},
+                                        $('#loadingDiv').show();
+                                        window.location.href = "Step1";
+                                        @*$.ajax({
+                                            url: '@Url.Action("step1", "SetupProcess")',
+                                            type: 'GET',
+                                            data: { edit: 1},
 
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
+                                            success: function (partialView) {
+                                                $('#loadingDiv').hide();
+                                                $('#changeContainer').html(partialView);
+                                                $('#changeContainer').show();
 
-                },
-                error: function (request, status, error) {
-                    handleErrorMsg(request.responseText);
+                                            },
+                                            error: function (request, status, error) {
+                                                handleErrorMsg(request.responseText);
 
-                }
-            });
-        });
-    });
+                                            }
+                                        });*@
+                                    });
+                                });
 </script>
-
 <script type="text/javascript">
-    function EditBranch(index) {
-        $('#branchDiv').show();
-        $('#btnNext').val('Update');
-        var model = @Html.Raw(Json.Encode(Model));
-        console.log(model);
-        console.log(index);
-        document.getElementById("branchName").value = model.SubBranches[index].BranchName;
-        document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
-        document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
-        document.getElementById("StateId").value = model.SubBranches[index].StateId;
-        document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
-        document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
-        document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
-        document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
-        document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
-        document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
-        document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
-        document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
-        document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
+                                function EditBranch(index) {
+                                    $('#branchDiv').show();
+                                    $('#btnNext').val('Update');
+                                    var model = @Html.Raw(Json.Encode(Model));
+                                    console.log(model);
+                                    console.log(index);
+                                    document.getElementById("branchName").value = model.SubBranches[index].BranchName;
+                                    document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
+                                    document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
+                                    document.getElementById("StateId").value = model.SubBranches[index].StateId;
+                                    document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
+                                    document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
+                                    document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
+                                    document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
+                                    document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
+                                    document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
+                                    document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
+                                    document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
+                                    document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
 
-    };
+                                };
 
-    function CreateNewBranch(){
-        document.getElementById("branchName").value = "";
-        document.getElementById("branchAddress1").value = "";
-        document.getElementById("branchAddress2").value = "";
-        document.getElementById("StateId").value = "";
-        document.getElementById("branchCity").value = "";
-        document.getElementById("branchZipPre").value = "";
-        document.getElementById("branchZipExten").value = "";
-        document.getElementById("branchEmail").value = "";
-        document.getElementById("branchPhoneNum1").value = "";
-        document.getElementById("branchPhoneNum2").value = "";
-        document.getElementById("branchPhoneNum3").value = "";
-        document.getElementById("branchFax").value = "";
-        document.getElementById("branchCode").value = "";
-        $('#btnNext').val('Next');
-        $('#branchDiv').show();
-    }
+                                function CreateNewBranch(){
+                                    document.getElementById("branchName").value = "";
+                                    document.getElementById("branchAddress1").value = "";
+                                    document.getElementById("branchAddress2").value = "";
+                                    document.getElementById("StateId").value = "";
+                                    document.getElementById("branchCity").value = "";
+                                    document.getElementById("branchZipPre").value = "";
+                                    document.getElementById("branchZipExten").value = "";
+                                    document.getElementById("branchEmail").value = "";
+                                    document.getElementById("branchPhoneNum1").value = "";
+                                    document.getElementById("branchPhoneNum2").value = "";
+                                    document.getElementById("branchPhoneNum3").value = "";
+                                    document.getElementById("branchFax").value = "";
+                                    document.getElementById("branchCode").value = "";
+                                    $('#btnNext').val('Next');
+                                    $('#branchDiv').show();
+                                }
 
-   
 
-    Progress(2);
-    $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
+
+                                Progress(2);
+                                $(".tab.2").parent("li").addClass("active").siblings().removeClass('active');
 </script>

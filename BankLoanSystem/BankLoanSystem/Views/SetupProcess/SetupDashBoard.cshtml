@@ -5,112 +5,288 @@
 
 
 
-<div class="nav-conatainer">
-    <div class="nav-bars">
-
-        <ul class="nav nav-pills nav-stacked">
-            <li>
-                <div class="profile-elements ">
-
-                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
-
-
-                    <div class="dropdown no-text-decoration">
-
-                        <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-                            <span class="block"><strong>@Model.userName</strong></span><br>
-
-                        </a>
-                        <a class="dropdown-toggle no-text-decoration" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-
-                            <span>@Model.roleName</span>
-                            <span class="caret"></span>
-                        </a>
-
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-
-                            <li role="separator" class="divider"></li>
-                            <li>@Html.ActionLink("Sign out", "UserLogin", "Login", null, null)</li>
-                        </ul>
-                    </div>
-
-
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span> <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs"> <strong class="font-bold">@Model.userName</strong> </span> <span class="text-muted text-xs block">
+                                @Model.roleName<b class="caret"></b>
+                            </span>
+                        </span>
+                    </a>
+                    <div style="clear:both;"></div>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs logoutBut">
+                        <li>@Html.ActionLink("Sign out", "UserLogin", "Login", null, null)</li>
+                    </ul>
                 </div>
+                <div class="logo-element"> TFN </div>
             </li>
 
-            <li role="separator" class="divider"></li>
-            <li class="main-tab 1"><a href="#demo" data-toggle="collapse"><span class="glyphicon glyphicon-th-large" style="margin-right: 2px;"></span> Company Setup<span class="caret arrow" style="margin-top: 5px;float:right"></span> </a></li>
-            <div id="demo" class="collapse nav-bars">
-                <ul class="nav nav-pills nav-stacked secondary">
+            <li class="navig1 company">
+                <a href="#" class="companyIco">
+                    <span class="nav-label">Company Setup</span><span class="numbers">01</span> <span class="caret arrow" style="margin-top:
 
+5px;"></span>
+                </a>
+                <ul style="height: 0px;" class="nav nav-second-level collapse">
                     <li>
-                        @Ajax.ActionLink("Create Company", "Step1", "SetupProcess", new { edit = 1 }, new AjaxOptions { OnSuccess= "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { data_toggle = "tooltip", title = "Create Company", @class = "tab 1" })
+                        <div class="right_arrw 1"></div>
+                        <a href="Step1">Company Details</a>
+                        @*@Ajax.ActionLink("Company Details", "Step1", "SetupProcess", new { edit = 1 }, new AjaxOptions
+                                           {
+                                               OnSuccess = "onAjaxSuccess",
+                                               OnFailure =
 
+                            "handleErrorMsg",
+                                               HttpMethod = "GET",
+                                               InsertionMode = InsertionMode.Replace,
+                                               UpdateTargetId = "changeContainer",
+                                               LoadingElementId = "loadingDiv"
+                                           }, new
+                                           {
+                                               data_toggle =
 
-
-
-
-                        @*<a href="#">Setup 1</a>*@
+                            "tooltip",
+                                               title = "Create Company",
+                                               @class = "tab 1"
+                                           })*@
                     </li>
-
-
                     <li>
-                        @*<a href="#">Setup 2</a>*@
+                        <div class="right_arrw 2"></div>
+                        <a href="Step2">Branch Details</a>
+                        @*@Ajax.ActionLink("Branch Details", "Step2", "SetupProcess", null, new AjaxOptions
+                                           {
+                                               OnSuccess = "onAjaxSuccess",
+                                               OnFailure = "handleErrorMsg",
 
-                        @Ajax.ActionLink("Create Branch", "Step2", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { data_toggle = "tooltip", title = "Create Company Branches" , @class = "tab 2" })
+                                               HttpMethod = "GET",
+                                               InsertionMode = InsertionMode.Replace,
+                                               UpdateTargetId = "changeContainer",
+                                               LoadingElementId = "loadingDiv"
+                                           }, new
+                                           {
+                                               data_toggle = "tooltip",
+                                               title =
+
+                            "Create Company Branches",
+                                               @class = "tab 2"
+                                           })*@
                     </li>
-
-
-                    <li>
-
-                        @Ajax.ActionLink("Create User", "Step3", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 3", data_toggle = "tooltip", title = "Create Users" })
-                        @*<a href="#">Setup 3</a>*@
-                    </li>
-
-
-
-                    <li>
-                        @Ajax.ActionLink("Create Partner Company", "Step4", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 4", data_toggle = "tooltip", title = "Create Client Company" })
-                        @*<a href="#">Setup 4</a>*@
-                    </li>
-
-
-
-                    <li>
-                        @Ajax.ActionLink("Create Partner Branch", "Step5", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 5" , data_toggle = "tooltip", title = "Create Client Company Branches" })
-                        @*<a href="#">Setup 5</a>*@
-                    </li>
-
                 </ul>
+            </li>
 
-            </div>
+            <li class="navig2 user">
+                <a href="#" class="userIco">
+                    <span class="nav-label">User Setup</span><span class="numbers">02</span> <span class="caret arrow" style="margin-top:
 
-            <li class="main-tab 2"><a href="#demo2" data-toggle="collapse"><span class="glyphicon glyphicon-dashboard" style="margin-right: 2px;"></span>  Loan Setup<span class="caret arrow" style="margin-top: 5px;float:right"></span></a></li>
-
-            <div id="demo2" class="collapse nav-bars">
-                <ul class="nav nav-pills nav-stacked secondary">
-
-                    <li>@Ajax.ActionLink("Basic Loan Info", "Step6", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 6" })</li>
-                    <li>@Ajax.ActionLink("Interest", "Step7", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 7" })</li>
+5px;"></span>
+                </a>
+                <ul style="height: 0px;" class="nav nav-second-level collapse">
                     <li>
-                        @Ajax.ActionLink("Fees", "Step8", "SetupProcess", null, new AjaxOptions { OnSuccess = "partialLoad();onAjaxSuccess()",  OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 8" })
-                        @*<a href="#">Setup 5</a>*@
+                        <div class="right_arrw 3"></div>
+                        <a href="Step3">Create User</a>
+                        @*@Ajax.ActionLink("Create User", "Step3", "SetupProcess", null, new AjaxOptions
+                                           {
+                                               OnSuccess = "onAjaxSuccess",
+                                               OnFailure = "handleErrorMsg",
+                                               HttpMethod
+
+                            = "GET",
+                                               InsertionMode = InsertionMode.Replace,
+                                               UpdateTargetId = "changeContainer",
+                                               LoadingElementId = "loadingDiv"
+                                           }, new
+                                           {
+                                               @class = "tab 3",
+                                               data_toggle = "tooltip",
+                                               title
+
+                            = "Create Users"
+                                           })*@
                     </li>
-                    <li>@Ajax.ActionLink("Title/Docs", "Step9", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 9" })</li>
-                    <li>@Ajax.ActionLink("Curtailments", "Step10", "SetupProcess", null, new AjaxOptions { OnSuccess = "onAjaxSuccess", OnFailure = "handleErrorMsg", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "changeContainer", LoadingElementId = "loadingDiv" }, new { @class = "tab 10", @id="step10" })</li>
-
                 </ul>
+            </li>
 
-            </div>
+            <li class="navig3 partner">
+                <a href="#" class="partnerIco">
+                    <span class="nav-label">Partner Setup</span><span class="numbers">03</span> <span class="caret arrow" style="margin-top:
 
+5px;"></span>
+                </a>
+                <ul style="height: 0px;" class="nav nav-second-level collapse">
+                    <li>
+                        <div class="right_arrw 4"></div>
+                        <a href="Step4">Partner Company</a>
+                    </li>
+                    @*@Ajax.ActionLink("Partner Company", "Step4", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+
+                                           HttpMethod = "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle =
+
+                        "tooltip",
+                                           title = "Partner Company"
+                                       })*@
+            </li>
+            <li>
+                <div class="right_arrw 5"></div>
+                <a href="Step5">Partner Branch</a>
+                @*@Ajax.ActionLink("Partner Branch", "Step5", "SetupProcess", null, new AjaxOptions
+                                   {
+                                       OnSuccess = "onAjaxSuccess",
+                                       OnFailure = "handleErrorMsg",
+
+                                       HttpMethod = "GET",
+                                       InsertionMode = InsertionMode.Replace,
+                                       UpdateTargetId = "changeContainer",
+                                       LoadingElementId = "loadingDiv"
+                                   }, new
+                                   {
+                                       @class = "tab 3",
+                                       data_toggle =
+
+                    "tooltip",
+                                       title = "Partner Branch"
+                                   })*@
+            </li>
+        </ul>
+        </li>
+
+        <li class="navig4 loan">
+            <a href="#" class="loanIco">
+                <span class="nav-label">Loan Setup</span><span class="numbers">04</span> <span class="caret arrow" style="margin-top:
+
+5px;"></span>
+            </a>
+            <ul style="height: 0px;" class="nav nav-second-level collapse">
+                <li>
+                    <div class="right_arrw 6"></div>
+                    <a href="Step6">Loan Details</a>
+
+                    @*@Ajax.ActionLink("Loan Details", "Step6", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+
+                                           HttpMethod = "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle =
+
+                        "tooltip",
+                                           title = "Loan Details"
+                                       })*@
+                </li>
+                <li>
+                    <div class="right_arrw 7"></div>
+                    <a href="Step7">Interest</a>
+                    @*@Ajax.ActionLink("Interest", "Step7", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+                                           HttpMethod =
+
+                        "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle = "tooltip",
+                                           title =
+
+                        "Interest"
+                                       })*@
+                </li>
+                <li>
+                    <div class="right_arrw 8"></div>
+                    <a href="Step8">Fees</a>
+                    @*@Ajax.ActionLink("Fees", "Step8", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+                                           HttpMethod =
+
+                        "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle = "tooltip",
+                                           title =
+
+                        "Fees"
+                                       })*@
+                </li>
+                <li>
+                    <div class="right_arrw 9"></div>
+                    <a href="Step9">Title</a>
+                    @*@Ajax.ActionLink("Title", "Step9", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+                                           HttpMethod =
+
+                        "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle = "tooltip",
+                                           title =
+
+                        "Title"
+                                       })*@
+                </li>
+                <li>
+                    <div class="right_arrw 10"></div>
+                    <a href="Step10">Curtailments</a>
+                    @*@Ajax.ActionLink("Curtailments", "Step10", "SetupProcess", null, new AjaxOptions
+                                       {
+                                           OnSuccess = "onAjaxSuccess",
+                                           OnFailure = "handleErrorMsg",
+
+                                           HttpMethod = "GET",
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "changeContainer",
+                                           LoadingElementId = "loadingDiv"
+                                       }, new
+                                       {
+                                           @class = "tab 3",
+                                           data_toggle =
+
+                        "tooltip",
+                                           title = "Curtailments"
+                                       })*@
+                </li>
+            </ul>
+        </li>
 
         </ul>
     </div>
+</nav>
 
-</div>
+
 
 
 <script>
@@ -118,5 +294,10 @@
    // $('a').tooltip();
 
     // Switcheroo!
+
+
+    $(".right_arrw").prepend('<img id="theImg" src="/Images/lockIco.png" />')
+    $(".right_arrw").closest('li').css("pointer-events", "none").css("cursor", "default");
+
 </script>
 
