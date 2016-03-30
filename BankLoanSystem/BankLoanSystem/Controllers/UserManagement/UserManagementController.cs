@@ -173,7 +173,9 @@ namespace BankLoanSystem.Controllers
         /// CreatedDate: 2016/01/13
         /// 
         /// Showing details of selected user
-        /// 
+        /// EditedBy: Piyumi
+        /// EditedDate:2016/03/30
+        /// Edited for new dashboard
         /// </summary>
         /// <returns></returns>
         /// 
@@ -182,7 +184,44 @@ namespace BankLoanSystem.Controllers
             Session["rowId"] = userData.UserId;
             Session["loanStep"] = null;
 
-            return View();
+            if (Session["AuthenticatedUser"] != null)
+            {
+                ViewBag.Username = userData.UserName;
+                ViewBag.Company = userData.CompanyName;
+                if (userData.RoleId == 2)
+                {
+                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "Admin";
+
+                }
+                else if (userData.RoleId == 1)
+                {
+                    ViewBag.Branch = "";
+                    ViewBag.Position = "Super Admin";
+
+                }
+                else if (userData.RoleId == 3)
+                {
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "User";
+
+                }
+                ViewBag.roleId = 1;
+                ViewBag.LoanCount = 1;
+                ViewBag.IsTitleTrack = 0;
+                ViewBag.AddUnits = 1;
+                ViewBag.ViewReports = 1;
+                ViewBag.CompType = 1;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+                
+            
+            
         }
 
 

@@ -56,5 +56,29 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 3/30/2016
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int GetLoanCountByUserId(int para)
+        {
+            //int loanCount = 0;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@para", para });
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spGetLoanCountByUserId", paramertList);
+            }
+            catch
+            {
+                return 0;
+            }
+
+
+        }
     }
 }
