@@ -37,7 +37,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             try
             {
-                if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+                if ((Session["AuthenticatedUser"] != null))// || (Session["loanStep"] != null)
                  {    
                     userData = ((User)Session["AuthenticatedUser"]);
                     if (Session["loanStep"] != null)
@@ -2364,6 +2364,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (lbl == "Details added successfully")
                 {
                     ViewBag.SuccessMsg = "Loan setup is completed";
+                    Session["loanStep"] = null;
                     if (HttpContext.Request.IsAjaxRequest())
                     {
                         ViewBag.AjaxRequest = 1;
