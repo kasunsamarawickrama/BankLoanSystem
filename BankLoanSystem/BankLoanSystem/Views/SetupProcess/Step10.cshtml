@@ -250,7 +250,10 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 mLable">
-                                            <label>Remind email</label>
+                                            <label>
+                                                Remind email<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:335px;">
                                             @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
@@ -261,7 +264,10 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 mLable">
-                                            <label>Email Remind Period</label>
+                                            <label>
+                                                Email Remind Period<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:335px;">
                                             @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
