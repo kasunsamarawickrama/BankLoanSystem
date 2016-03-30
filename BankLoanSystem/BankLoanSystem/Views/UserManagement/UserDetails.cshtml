@@ -3,7 +3,8 @@
     ViewBag.Title = "UserDetails";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
 <style>
     #squares div {
     /* these styles will let the divs line up next to each other
@@ -23,40 +24,147 @@
     @{
         Html.RenderAction("DashBoard", "UserManagement");
     }*@
-
-<div style="margin-left:200px" >
-
-    <h2>Floor plan managenment</h2>
-    <div id="squares" >
-        <div id="1" href="#"><p style="color:white">add a unit</p></div>
-        <div id="2" href="#"><p style="color:white">advance a unit</p></div>
-        <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
-    </div></br></br></br></br></br></br></br></br></br>
+<div id="userInfoDiv" style="border:groove;">
+    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
 
 
-    <div id="squares" href="#">
-        <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
-        <div id="2" href="#"><p style="color:white">Reports</p></div>
-        <div id="3" href="#"><p style="color:white">update titles</p></div>
-    </div></br></br></br></br></br></br></br></br></br>
-    <h2>Manage Details</h2>
 
-    <div id="squares" >
-        <div id="1" href="#"><p style="color:white">Edit user</p></div>
-        <div id="2" href="#"><p style="color:white">Edit branch</p></div>
-        <div id="3" href="#"><p style="color:white">Edit loan</p></div>
-        <div id="4" href="#"><p style="color:white">Edit partner</p></div>
-        <div id="5" href="#"><p style="color:white">Edit company</p></div>
-        <div id="6" href="#"><p style="color:white">Edit user rights</p></div>
-    </div>
-    </br></br></br></br></br></br></br></br></br>
 
-    <h2>Setup</h2>
-    <div id="squares" >
-        <div id="1" href="#"><p style="color:white">create user</p></div>
-        <div id="2" href="#"><p style="color:white">create branch</p></div>
-        <div id="3" href="#"><p style="color:white">create loan</p></div>
-        <div id="4" href="#"><p style="color:white">create partner</p></div>
-    </div>
-    </br></br></br></br></br></br></br></br></br>
+
+    <span class="block"><strong>@ViewBag.Username</strong></span>
+    <br />
+    @*<span> - </span>*@
+    
+    @if (ViewBag.roleId != 1)
+    {
+        <span><strong>@ViewBag.Company</strong></span>
+        <span> - </span>
+        <span><strong>@ViewBag.Branch</strong></span>
+        <br />
+    }
+    else
+    {
+        <span><strong>@ViewBag.Company</strong></span>
+        <br />
+    }
+    <span><strong>@ViewBag.Position</strong></span>
 </div>
+<div style="margin-left:200px" >
+@if (ViewBag.LoanCount > 0)
+{
+    <div id="floorPlanHeadDiv">
+        <h2>Floor plan managenment</h2>
+    </div>
+    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    {
+        <div id="floorPlanDiv">
+           
+
+            @if (ViewBag.LoanCount > 1)
+            {
+            @*<button type="button" id="btnloan" name="selectLoan" value="Select Loan"></button>*@
+            <button type="button">Select Loan</button>
+                <br /><br /><br />
+            }
+            else
+            {
+                <span><strong>Loan #</strong></span>
+                <span> - </span>
+                <span><strong>12345</strong></span>
+                
+                if (ViewBag.CompType == 1)
+                {
+                    <span><strong>Dealer</strong></span>
+                }
+                else if (ViewBag.CompType == 2)
+                {
+                    <span><strong>Lender</strong></span>
+                }
+                <span> - </span>
+                <span><strong>12345</strong></span>
+                
+                <span><strong>Branch</strong></span>
+                <span> - </span>
+                <span><strong>12345</strong></span>
+                <br /><br /><br />
+                <div id="floorPlanBtnDiv">
+                    <div id="squares">
+                        <div id="1" href="#"><p style="color:white">add a unit</p></div>
+                        <div id="2" href="#"><p style="color:white">advance a unit</p></div>
+                        <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
+                    </div>
+
+
+                    <div id="squares" href="#">
+                        <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
+                        <div id="2" href="#"><p style="color:white">Reports</p></div>
+                        @if (ViewBag.IsTitleTrack == 1)
+                        {
+                            <div id="3" href="#"><p style="color:white">update titles</p></div>
+                        }
+
+                    </div>
+                </div>
+            }
+            
+            
+        </div>
+    }
+    else if (ViewBag.roleId == 3)
+    {
+       
+            <div id="squares">
+                @if (ViewBag.AddUnits == 1)
+                {
+                <div id="1" href="#"><p style="color:white">add a unit</p></div>
+                }
+                @if (ViewBag.ViewReports == 1)
+                {
+                <div id="2" href="#"><p style="color:white">Reports</p></div>
+                }
+               
+            </div>
+        
+    }
+ <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+}
+    @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    {
+        <h2>Manage Details</h2>
+
+            <div id="squares">
+                @if (ViewBag.roleId == 1)
+                {
+                    <div id="5" href="#"><p style="color:white">Edit company</p></div>
+                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
+                }
+                <div id="1" href="#"><p style="color:white">Edit user</p></div>
+
+                <div id="3" href="#"><p style="color:white">Edit loan</p></div>
+                <div id="4" href="#"><p style="color:white">Edit partner</p></div>
+                <div id="6" href="#"><p style="color:white">Edit user rights</p></div>
+            </div>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+            <h2>Setup</h2>
+            <div id="squares">
+                <div id="1" href="#"><p style="color:white">create user</p></div>
+                <div id="2" href="#"><p style="color:white">create branch</p></div>
+                <div id="3" href="#"><p style="color:white">create loan</p></div>
+                <div id="4" href="#"><p style="color:white">create partner</p></div>
+            </div>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    }
+
+</div>
+<script>
+    $(document).ready(function(){
+        if(@ViewBag.LoanCount==0){
+            $('#floorPlanDiv').hide();
+        }
+        else{
+            $('#floorPlanDiv').show();
+        }
+    });
+    
+</script>
