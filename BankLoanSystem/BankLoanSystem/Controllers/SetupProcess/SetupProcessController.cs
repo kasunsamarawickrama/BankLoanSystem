@@ -533,6 +533,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
+                if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
                 UserRole tempRole = new UserRole()
                 {
                     RoleId = roleList[i].RoleId,
