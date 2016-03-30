@@ -63,15 +63,16 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public int GetLoanCountByUserId(int para)
+        public int GetLoanCount(int para, int roleId)
         {
             //int loanCount = 0;
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@para", para });
+            paramertList.Add(new object[] { "@role", roleId });
             try
             {
-                return dataHandler.ExecuteSQLReturn("spGetLoanCountByUserId", paramertList);
+                return dataHandler.ExecuteSQLReturn("spGetLoanCount", paramertList);
             }
             catch
             {
@@ -80,5 +81,26 @@ namespace BankLoanSystem.DAL
 
 
         }
+        //public Loan GetLoanDetails(int id)
+        //{
+        //    DataHandler dataHandler = new DataHandler();
+        //    List<object[]> paramertList = new List<object[]>();
+        //    paramertList.Add(new object[] { "@user_id", id });
+        //    try
+        //    {
+        //        DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
+        //        if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+        //        {
+        //            return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+
+        //        }
+        //        return "";
+        //    }
+
+        //    catch
+        //    {
+        //        return "";
+        //    }
+        //}
     }
 }

@@ -186,33 +186,42 @@ namespace BankLoanSystem.Controllers
 
             if (Session["AuthenticatedUser"] != null)
             {
+                DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
                 ViewBag.Company = userData.CompanyName;
                 if (userData.RoleId == 2)
                 {
                     //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
                     ViewBag.Branch = userData.BranchName;
                     ViewBag.Position = "Admin";
 
                 }
                 else if (userData.RoleId == 1)
                 {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
                     ViewBag.Branch = "";
                     ViewBag.Position = "Super Admin";
 
                 }
                 else if (userData.RoleId == 3)
                 {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
                     ViewBag.Branch = userData.BranchName;
                     ViewBag.Position = "User";
 
                 }
+                if (ViewBag.LoanCount == 1)
+                {
+
+                }
                 ViewBag.roleId = 1;
-                ViewBag.LoanCount = 1;
+                
                 ViewBag.IsTitleTrack = 0;
                 ViewBag.AddUnits = 1;
                 ViewBag.ViewReports = 1;
-                ViewBag.CompType = 1;
+                ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                //ViewBag.CompType 
                 return View();
             }
             else
