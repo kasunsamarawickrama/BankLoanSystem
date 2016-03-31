@@ -3,7 +3,28 @@
     ViewBag.Title = "UserDetails";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/scripts/popup.js"></script>
 
+
+
+
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup1">
+
+    <div id="loadingSpan" style="display:none;">
+        <strong><span>Loading... </span></strong>
+    </div>
+    <div id="selcet-panel">
+
+
+
+    </div>
+
+</div>
 <style>
     #squares div {
     /* these styles will let the divs line up next to each other
@@ -25,10 +46,10 @@
     }*@
 
 <div style="margin-left:200px" >
-
+    <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
     <h2>Floor plan managenment</h2>
     <div id="squares" >
-        <div id="1" href="#"><p style="color:white">add a unit</p></div>
+        <div id="1" href="#" ><p style="color:white">@Ajax.ActionLink("Add a Unit", "Selectloan", "UserManagement", new { type = "asderruy" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</p></div>
         <div id="2" href="#"><p style="color:white">advance a unit</p></div>
         <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
     </div></br></br></br></br></br></br></br></br></br>
@@ -60,3 +81,4 @@
     </div>
     </br></br></br></br></br></br></br></br></br>
 </div>
+

@@ -14,7 +14,15 @@ else if (ViewBag.type == "Advance")
     actoinName = "Advance";
     controllerName = "AdvanceUnit";
 }
-
+else if (ViewBag.type == "DashBoard")
+{
+    actoinName = "UserDetails";
+    controllerName = "UserManagement";
+}
+else
+{
+    <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
+}
 <div class="h-panel">
     <ul>
         @if (Model != null)

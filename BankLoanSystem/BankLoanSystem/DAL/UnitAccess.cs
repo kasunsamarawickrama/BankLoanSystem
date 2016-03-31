@@ -1014,5 +1014,93 @@ namespace BankLoanSystem.DAL
         {
             return lstCurtailment.Sum(a => a.Amount);
         }
+
+        /// <summary>
+        /// CreatedBy : Kasun
+        /// CreatedDate: 2016/03/30
+        /// 
+        /// get permissioned loans with branch , non reg branch and loan details
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public LoanSelection GetPermisssionGivenLoanwithBranchDeatils(int userId,int companyId,int? branchId,int roleId)
+        {
+            LoanSelection detailList = new LoanSelection();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@userId", userId });
+            paramertList.Add(new object[] { "@companyId", companyId });
+            paramertList.Add(new object[] { "@branchId", branchId });
+            paramertList.Add(new object[] { "@roleId", roleId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spRetrivePermissionGivenLoans", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    List<Branch> RegBranches = new List<Branch>();
+                    List<NonRegBranch> NonRegBranchList = new List<NonRegBranch>();
+                    List<LoanSetupStep1> LoanList =  new List<LoanSetupStep1>();
+
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Branch branch = new Branch();
+                        NonRegBranch nonRegBranch = new NonRegBranch();
+                        LoanSetupStep1 loan = new LoanSetupStep1();
+
+                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                        branch.BranchName = dataRow["regBranchName"].ToString();
+
+                        nonRegBranch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                        nonRegBranch.BranchId = branch.BranchId;
+                        nonRegBranch.CompanyNameBranchName = dataRow["nonRegBranchName"].ToString();
+
+                        loan.loanId = int.Parse(dataRow["loan_id"].ToString());
+                        loan.loanNumber = dataRow["loan_number"].ToString();
+                        loan.loanCode = dataRow["loan_code"].ToString();
+                        loan.rightId = dataRow["right_id"].ToString();
+                        loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
+                        bool checkBranch = false;
+                        bool checkNonRegBranch = false;
+                        foreach (var br in RegBranches) {
+                            if (br.BranchId == branch.BranchId) {
+                                checkBranch = true;
+                            }
+                        }
+                        if (checkBranch == false) {
+                            RegBranches.Add(branch);
+                        }
+                        foreach (var nrbr in NonRegBranchList)
+                        {
+                            if (nrbr.NonRegBranchId == nonRegBranch.NonRegBranchId)
+                            {
+                                checkNonRegBranch = true;
+                            }
+                        }
+                        if (checkNonRegBranch == false)
+                        {
+                            NonRegBranchList.Add(nonRegBranch);
+                        }
+
+                        
+                        LoanList.Add(loan);
+                    }
+                    detailList.RegBranches = RegBranches;
+                    detailList.NonRegBranchList = NonRegBranchList;
+                    detailList.LoanList = LoanList;
+
+                    return detailList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model BankLoanSystem.Models.LoanSelection
+
 <script src="~/scripts/popup.js"></script>
 
     @{
@@ -34,16 +35,18 @@
         actoinName = "TitleStatusUpdate";
         controllerName = "UnitTitle";
     }
-     
-<div id="load">
-    <strong><span>Loading... </span></strong>
-</div>
-    @if (Model.LoanList != null && Model.LoanList.Count() == 1)
+    else if (ViewBag.type == "DashBoard")
+    {
+        actoinName = "UserDetails";
+        controllerName = "UserManagement";
+    }
+    else
+    {
+        <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
+    }
+    @*@if (Model.LoanList != null)
     {
         <script>
-
-
-
 
             @if (ViewBag.type == "AddUnit")
             {
@@ -72,11 +75,9 @@
 
         </script>
     }
-    else if (Model.RegBranches != null)
+    else*@ @if (Model.RegBranches != null)
     {
-        <script>
-            $('#load').hide();
-        </script>
+
         <div>
             <h4>Select the Loan</h4>
             <hr />
@@ -85,7 +86,7 @@
                 <ul>
                     <li><h5>Branch Name</h5></li>
                     @if (Model.RegBranches.Count() == 1)
-                {
+                    {
                         <li class="active">
                             <a> @Model.RegBranches[0].BranchName</a>
                         </li>
@@ -121,7 +122,7 @@
                             if (Model.NonRegBranchList.Count() == 1)
                             {
                                 <li class="active">
-                                    <a>@Model.NonRegBranchList[0].BranchName </a>
+                                    <a>@Model.NonRegBranchList[0].CompanyNameBranchName </a>
 
 
                                 </li>
@@ -153,15 +154,15 @@
                             foreach (var item in Model.LoanList)
                             {
 
-                               
-                                if (item.LoanStatus)
-                                {
-                                    //@Html.ActionLink(modelItem => item.loanNumber)
-                                    c++;
 
-                                    <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
+                                //if (item.LoanStatus)
+                                //{
+                                //@Html.ActionLink(modelItem => item.loanNumber)
+                                c++;
 
-                                }
+                                <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
+
+                                //}
 
 
 
@@ -171,62 +172,59 @@
                             {
                                 <span class="text-danger"> No Active Loans Found</span>
                             }
-                               
 
-                            }
-                        
+
+                        }
+
                     </ul>
 
                 </div>
             </div>
-            
+
         </div>
         <p>
 
             @*@Html.ActionLink("Back to DashBoard", "Index")*@
         </p>
         <button class="close-btn btn btn-info" style="clear: both;float: right;padding:6px 12px">Close</button>
-    }
-        <style>
-            .h-panel {
-                margin-left: 20px;
-                width: 30%;
-                float: left;
-                height: 100%;
-            }
+                    }
+    <style>
+        .h-panel {
+            margin-left: 20px;
+            width: 30%;
+            float: left;
+            height: 100%;
+        }
 
 
-            .h-panel>ul>li{
-                 position: relative;
-   
-    padding: 8px 0;
-                list-style:none;
+            .h-panel > ul > li {
+                position: relative;
+                padding: 8px 0;
+                list-style: none;
                 border-bottom: solid 1px #d4ded9;
             }
-            .h-panel>ul>li>a{
-                   
-     display: block;
-    color: #0074ba;
-        text-decoration: none;
-            }
+
+                .h-panel > ul > li > a {
+                    display: block;
+                    color: #0074ba;
+                    text-decoration: none;
+                }
 
 
-            li.active>a{
-                  font-weight: 700;
-    color: #2f3432;
-            }
+        li.active > a {
+            font-weight: 700;
+            color: #2f3432;
+        }
+    </style>
+    <script>
 
-           
-        </style>
-<script>
+        $("a").click(function () {
 
-    $("a").click(function () {
+            $(this).parent('li').addClass('active').siblings().removeClass('active');
+        });
 
-        $(this).parent('li').addClass('active').siblings().removeClass('active');
-    });
-
-    $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
+        $(".h-panel ul li a").append("<span class='glyphicon glyphicon-chevron-right' style='float:right'></span>");
 
 
-   
-</script>
+
+    </script>
