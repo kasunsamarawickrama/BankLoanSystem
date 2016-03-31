@@ -142,14 +142,22 @@
 
                 <div id="3" href="#"><p style="color:white">Edit loan</p></div>
                 <div id="4" href="#"><p style="color:white">Edit partner</p></div>
-                <div id="6" href="#"><p style="color:white">Edit user rights</p></div>
+                @if (ViewBag.LoanCount > 0)
+                {
+                    <div id="6" href="#"><p style="color:white">Assign User To Existing Loan</p></div>
+                }
+                
             </div>
             <br /><br /><br /><br /><br /><br /><br /><br /><br />
 
             <h2>Setup</h2>
             <div id="squares">
                 <div id="1" href="#"><p style="color:white">create user</p></div>
-                <div id="2" href="#"><p style="color:white">create branch</p></div>
+                @if (ViewBag.roleId == 1)
+                {
+                    <div id="2" href="#"><p style="color:white">create branch</p></div>
+                }
+                
                 <div id="3" href="#"><p style="color:white">create loan</p></div>
                 <div id="4" href="#"><p style="color:white">create partner</p></div>
             </div>
