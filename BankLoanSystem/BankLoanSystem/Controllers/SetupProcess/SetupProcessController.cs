@@ -245,6 +245,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step2(int? edit)
         {
+            edit = 3;
             int userId = userData.UserId;
             int roleId = userData.RoleId;
             // check he is a super admin or admin
@@ -256,8 +257,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             //StepAccess cs = new StepAccess();
-
             int reslt = Convert.ToInt32(Session["companyStep"]);
+            if ((reslt==0)&&(edit == 3))
+            {
+                reslt = 2;
+            }
+
+            //int reslt = 2;
             if (reslt >= 2)
             {
                 userCompany = new CompanyBranchModel();
@@ -870,8 +876,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step6()
+        public ActionResult Step6(int? dashbrd)
         {
+            dashbrd = 6;
             int userrole = userData.RoleId;
             int userId = userData.UserId;
 
@@ -886,11 +893,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int stepNo = loanData.stepId;
 
+
             if (stepNo < 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-
+            else if ((stepNo == 0)&&(dashbrd==6))
+            {
+                stepNo = 6;
+                loanData.stepId = 1;
+            }
 
             // get the Role Name for front end view
             ViewBag.userroleName = uma.getUserRoleName(userId);
@@ -1047,8 +1059,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step4()
+        public ActionResult Step4(int ? dashbrd)
         {
+            dashbrd = 4;
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo == 3)
@@ -1060,7 +1073,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
-
+            else if ((stepNo == 0) && (dashbrd == 4))
+            {
+                stepNo = 4;
+            }
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
@@ -1168,11 +1184,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //int compType = userData.CompanyType;
             if (compType == 1)
             {
-                ViewBag.compType = "Create Dealer Branch";
+                ViewBag.ThisCompanyType = "Dealer";
             }
             else if (compType == 2)
             {
-                ViewBag.compType = "Create Lender Branch";
+                ViewBag.ThisCompanyType = "Lender";
             }
             else
             {
