@@ -173,7 +173,9 @@ namespace BankLoanSystem.Controllers
         /// CreatedDate: 2016/01/13
         /// 
         /// Showing details of selected user
-        /// 
+        /// EditedBy: Piyumi
+        /// EditedDate:2016/03/30
+        /// Edited for new dashboard
         /// </summary>
         /// <returns></returns>
         /// 
@@ -181,8 +183,107 @@ namespace BankLoanSystem.Controllers
         {
             Session["rowId"] = userData.UserId;
             Session["loanStep"] = null;
+            Loan loan = new Loan();
+            if (Session["AuthenticatedUser"] != null)
+            {
+                DashBoardAccess da = new DashBoardAccess();
+                ViewBag.Username = userData.UserName;
+                ViewBag.Company = userData.CompanyName;
+                ViewBag.roleId = userData.RoleId;
+                if (userData.RoleId == 2)
+                {
+                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "Admin";
 
-            return View();
+                }
+                else if (userData.RoleId == 1)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
+                    ViewBag.Branch = "";
+                    ViewBag.Position = "Super Admin";
+
+                }
+                else if (userData.RoleId == 3)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "User";
+
+                }
+                if (ViewBag.LoanCount == 1)
+                {
+                   
+                    if (userData.RoleId == 2)
+                    {
+                        loan = da.GetLoanDetails(userData.BranchId, 2);
+
+                    }
+                    else if (userData.RoleId == 1)
+                    {
+                        loan = da.GetLoanDetails(userData.Company_Id, 1);
+
+                    }
+                    else if (userData.RoleId == 3)
+                    {
+                        loan = da.GetLoanDetails(userData.UserId, 3);
+
+                    }
+                    if (loan != null)
+                    {
+                       
+                        ViewBag.PartnerName = loan.PartnerName;
+                        ViewBag.PartnerType = loan.PartnerType;
+                        ViewBag.Branch = loan.BranchName;
+                        ViewBag.LoanNum = loan.LoanNumber;
+                        ViewBag.IsTitleTrack = loan.IsTitleTrack;
+
+                        foreach(string s in loan.Rights)
+                        {
+                            if (s=="U004")
+                            {
+                                ViewBag.AddUnits = 1;
+                            }
+                            else
+                            {
+                                ViewBag.AddUnits = 0;
+                            }
+                            if ((s=="U006")||(s=="U007"))
+                            {
+                                ViewBag.ViewReports = 1;
+                            }
+                            else
+                            {
+                                ViewBag.ViewReports = 0;
+                            }
+                        }
+                        
+                        
+                        //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                        //ViewBag.CompType 
+                        return View();
+                    }
+                    else
+                    {
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    return View();
+                }
+
+
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+                
+            
+            
         }
 
 
@@ -825,6 +926,21 @@ namespace BankLoanSystem.Controllers
             }
 
             return rights;
+        }
+
+
+        public ActionResult ManageUserLoanRights()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("ManageUserLoanRights")]
+        public ActionResult ManageUserLoanRightsPost()
+        {
+            return View();
         }
 
     }

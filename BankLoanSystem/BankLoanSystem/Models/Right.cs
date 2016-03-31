@@ -29,4 +29,11 @@ namespace BankLoanSystem.Models
 
     }
 
+    public class UserLoanRightsModel
+    {
+        public int UserId { get; set; }
+        public int LoanId { get; set; }
+        public List<Right> Rights { get; set; }
+    }
+
 }

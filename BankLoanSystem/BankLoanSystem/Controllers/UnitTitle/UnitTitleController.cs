@@ -107,15 +107,15 @@ namespace BankLoanSystem.Controllers.UnitTitle
             }
             if (resultList != null)
             {
-                obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 1);
+                obj2.TitleList = resultList.FindAll(t => t.UnitStatus >= 1);
                 if (obj2.TitleList.Count() == 0)
                 {
-                    obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 2);
-                    if (obj2.TitleList.Count() == 0)
-                    {
-                        obj2.TitleList.AddRange(resultList.Where(t => t.UnitStatus == 0));
+                    obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 0);
+                    //if (obj2.TitleList.Count() == 0)
+                    //{
+                    //    obj2.TitleList.AddRange(resultList.Where(t => t.UnitStatus == 0));
 
-                    }
+                    //}
                 }
                 return PartialView(obj2);
             }

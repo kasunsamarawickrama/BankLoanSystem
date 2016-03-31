@@ -230,6 +230,7 @@
     <Compile Include="DAL\UnitAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
+    <Compile Include="DAL\UserRequestAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +249,7 @@
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanSelection.cs" />
     <Compile Include="Models\LoanSetupStep.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
@@ -261,6 +263,7 @@
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
+    <Compile Include="Models\UserRequest.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -350,6 +353,7 @@
     <Content Include="Views\SetupProcess\Step9help.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordLayout.cshtml" />
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
+    <Content Include="Views\UserManagement\ManageUserLoanRights.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
