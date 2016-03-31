@@ -238,8 +238,28 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loan.BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
-                        ViewBag.AddUnits = 1;
-                        ViewBag.ViewReports = 1;
+
+                        foreach(string s in loan.Rights)
+                        {
+                            if (s=="U004")
+                            {
+                                ViewBag.AddUnits = 1;
+                            }
+                            else
+                            {
+                                ViewBag.AddUnits = 0;
+                            }
+                            if ((s=="U006")||(s=="U007"))
+                            {
+                                ViewBag.ViewReports = 1;
+                            }
+                            else
+                            {
+                                ViewBag.ViewReports = 0;
+                            }
+                        }
+                        
+                        
                         //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
                         //ViewBag.CompType 
                         return View();

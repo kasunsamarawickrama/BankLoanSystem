@@ -105,6 +105,14 @@ namespace BankLoanSystem.DAL
                     {
                         loanObj.IsTitleTrack = 0;
                     }
+                    if (role == 3)
+                    {
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["right_id"].ToString()))
+                        {
+                            loanObj.Rights = dataSet.Tables[0].Rows[0]["right_id"].ToString().Split(',');
+                        }
+                       
+                    }
                     return loanObj;
 
                 }
