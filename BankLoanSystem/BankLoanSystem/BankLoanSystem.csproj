@@ -230,6 +230,7 @@
     <Compile Include="DAL\UnitAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
+    <Compile Include="DAL\UserRequestAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -261,6 +262,7 @@
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
+    <Compile Include="Models\UserRequest.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
