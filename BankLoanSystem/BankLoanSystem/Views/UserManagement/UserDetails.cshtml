@@ -62,7 +62,7 @@
 
             @if (ViewBag.LoanCount > 1)
             {
-            @*<button type="button" id="btnloan" name="selectLoan" value="Select Loan"></button>*@
+            
             <button type="button">Select Loan</button>
                 <br /><br /><br />
             }
@@ -70,22 +70,22 @@
             {
                 <span><strong>Loan #</strong></span>
                 <span> - </span>
-                <span><strong>12345</strong></span>
+                <span><strong>@ViewBag.LoanNum</strong></span>
                 
-                if (ViewBag.CompType == 1)
-                {
-                    <span><strong>Dealer</strong></span>
-                }
-                else if (ViewBag.CompType == 2)
+                if (ViewBag.PartnerType == 1)
                 {
                     <span><strong>Lender</strong></span>
                 }
+                else if (ViewBag.PartnerType == 2)
+                {
+                    <span><strong>Dealer</strong></span>
+                }
                 <span> - </span>
-                <span><strong>12345</strong></span>
+                <span><strong>@ViewBag.PartnerName</strong></span>
                 
                 <span><strong>Branch</strong></span>
                 <span> - </span>
-                <span><strong>12345</strong></span>
+                <span><strong>@ViewBag.Branch</strong></span>
                 <br /><br /><br />
                 <div id="floorPlanBtnDiv">
                     <div id="squares">

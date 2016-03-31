@@ -81,26 +81,40 @@ namespace BankLoanSystem.DAL
 
 
         }
-        //public Loan GetLoanDetails(int id)
-        //{
-        //    DataHandler dataHandler = new DataHandler();
-        //    List<object[]> paramertList = new List<object[]>();
-        //    paramertList.Add(new object[] { "@user_id", id });
-        //    try
-        //    {
-        //        DataSet dataSet = dataHandler.GetDataSet("spGetCompanyCodeByUserId", paramertList);
-        //        if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-        //        {
-        //            return dataSet.Tables[0].Rows[0]["company_code"].ToString();
+        public Loan GetLoanDetails(int id,int role)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@para", id });
+            paramertList.Add(new object[] { "@role", role });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoan", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    Loan loanObj = new Loan();
+                    loanObj.LoanNumber = dataSet.Tables[0].Rows[0]["loan_number"].ToString();
+                    loanObj.PartnerName = dataSet.Tables[0].Rows[0]["company_name"].ToString();
+                    loanObj.PartnerType = int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
+                    loanObj.BranchName = dataSet.Tables[0].Rows[0]["branch_name"].ToString();
+                    if (bool.Parse(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
+                    {
+                        loanObj.IsTitleTrack = 1;
+                    }
+                    else
+                    {
+                        loanObj.IsTitleTrack = 0;
+                    }
+                    return loanObj;
 
-        //        }
-        //        return "";
-        //    }
+                }
+                return null;
+            }
 
-        //    catch
-        //    {
-        //        return "";
-        //    }
-        //}
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

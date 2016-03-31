@@ -183,12 +183,13 @@ namespace BankLoanSystem.Controllers
         {
             Session["rowId"] = userData.UserId;
             Session["loanStep"] = null;
-
+            Loan loan = new Loan();
             if (Session["AuthenticatedUser"] != null)
             {
                 DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
                 ViewBag.Company = userData.CompanyName;
+                ViewBag.roleId = userData.RoleId;
                 if (userData.RoleId == 2)
                 {
                     //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
@@ -213,16 +214,48 @@ namespace BankLoanSystem.Controllers
                 }
                 if (ViewBag.LoanCount == 1)
                 {
+                   
+                    if (userData.RoleId == 2)
+                    {
+                        loan = da.GetLoanDetails(userData.BranchId, 2);
+
+                    }
+                    else if (userData.RoleId == 1)
+                    {
+                        loan = da.GetLoanDetails(userData.Company_Id, 1);
+
+                    }
+                    else if (userData.RoleId == 3)
+                    {
+                        loan = da.GetLoanDetails(userData.UserId, 3);
+
+                    }
+                    if (loan != null)
+                    {
+                       
+                        ViewBag.PartnerName = loan.PartnerName;
+                        ViewBag.PartnerType = loan.PartnerType;
+                        ViewBag.Branch = loan.BranchName;
+                        ViewBag.LoanNum = loan.LoanNumber;
+                        ViewBag.IsTitleTrack = loan.IsTitleTrack;
+                        ViewBag.AddUnits = 1;
+                        ViewBag.ViewReports = 1;
+                        //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                        //ViewBag.CompType 
+                        return View();
+                    }
+                    else
+                    {
+                        return View();
+                    }
 
                 }
-                ViewBag.roleId = 1;
-                
-                ViewBag.IsTitleTrack = 0;
-                ViewBag.AddUnits = 1;
-                ViewBag.ViewReports = 1;
-                ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                //ViewBag.CompType 
-                return View();
+                else
+                {
+                    return View();
+                }
+
+
             }
             else
             {
