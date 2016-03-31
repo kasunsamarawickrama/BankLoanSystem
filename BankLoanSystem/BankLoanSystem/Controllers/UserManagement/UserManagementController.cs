@@ -831,5 +831,20 @@ namespace BankLoanSystem.Controllers
             return rights;
         }
 
+
+        public ActionResult ManageUserLoanRights()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("ManageUserLoanRights")]
+        public ActionResult ManageUserLoanRightsPost()
+        {
+            return View();
+        }
+
     }
 }

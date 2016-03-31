@@ -27,7 +27,8 @@ namespace BankLoanSystem.Controllers.ManageUser
 
         {
             ViewBag.login = false;
-            if (lbl1 != null) {
+            if (lbl1 != null)
+            {
                 ViewBag.SuccessMsg = lbl1;
             }
             else if (lbl2 != null)
@@ -60,9 +61,10 @@ namespace BankLoanSystem.Controllers.ManageUser
                 ///get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(ownerId);
 
-                if (permissionString.Count == 1 ) {
+                if (permissionString.Count == 1)
+                {
 
-                   
+
                     string permission = permissionString[0].rightsPermissionString;
                     if (permission != "")
                     {
@@ -92,20 +94,21 @@ namespace BankLoanSystem.Controllers.ManageUser
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         foreach (var obj in rights)
                         {
-                              
+
                             obj.editorId = userId;
                             obj.userId = ownerId;
 
                         }
-                        
+
                     }
-                    
+
                 }
 
-                else if(permissionString.Count == 0)
+                else if (permissionString.Count == 0)
                 {
                     foreach (var obj in rights)
                     {
@@ -116,7 +119,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                     }
 
                 }
-                else 
+                else
                 {
                     return RedirectToAction("editUser", "UserManagement");
                 }
@@ -128,9 +131,9 @@ namespace BankLoanSystem.Controllers.ManageUser
             else
             {
                 return RedirectToAction("editUser", "UserManagement");
-            }                
+            }
         }
- 
+
         /// <summary>
         ///  CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/17
@@ -141,7 +144,7 @@ namespace BankLoanSystem.Controllers.ManageUser
         /// <returns></returns>
         /// 
         [HttpPost]
-        public ActionResult EditRights(IList<Right> rightList )
+        public ActionResult EditRights(IList<Right> rightList)
         {
             int userId = (int)Session["userId"];
             int ownerId = (int)Session["editUserIds"];
@@ -153,7 +156,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             }
             List<string> returnIntArray = new List<string>();
 
-            for (int i=0; i< rightList.Count;)
+            for (int i = 0; i < rightList.Count;)
             {
                 if (rightList[i].active == false)
                 {
@@ -174,12 +177,13 @@ namespace BankLoanSystem.Controllers.ManageUser
             if (returnAccess.postNewRights(returnRight))
             {
                 ViewBag.SuccessMsg = "Succesfully Updated";
-                return RedirectToAction("EditRights", "EditRights", new { lbl1 = ViewBag.SuccessMsg });             
+                return RedirectToAction("EditRights", "EditRights", new { lbl1 = ViewBag.SuccessMsg });
             }
-            else {
+            else
+            {
                 ViewBag.ErrorMsg = "Sorry, rights can't update";
                 return RedirectToAction("EditRights", "EditRights", new { lbl2 = ViewBag.ErrorMsg });
-            }          
+            }
         }
 
 
@@ -221,7 +225,7 @@ namespace BankLoanSystem.Controllers.ManageUser
 
             UserManageAccess uma = new UserManageAccess();
             // not allow to edit rights for admin and superadmin... not allow user to use this page
-            if (uma.getUserRole(ownerId) < 3 || uma.getUserRole(userId)==3)
+            if (uma.getUserRole(ownerId) < 3 || uma.getUserRole(userId) == 3)
             {
                 return new HttpStatusCodeResult(404);
             }
@@ -340,7 +344,7 @@ namespace BankLoanSystem.Controllers.ManageUser
             returnRight.editorId = rightList[0].editorId;
 
 
-            
+
             UserManageAccess uma = new UserManageAccess();
             // not allow to edit rights for admin and superadmin... not allow user to use this page
             if (uma.getUserRole(returnRight.userId) < 3 || uma.getUserRole(returnRight.editorId) == 3)
@@ -362,6 +366,5 @@ namespace BankLoanSystem.Controllers.ManageUser
                 return RedirectToAction("SetRights", "EditRights", new { lbl2 = ViewBag.ErrorMsg });
             }
         }
-
     }
 }
