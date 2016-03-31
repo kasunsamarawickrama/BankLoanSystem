@@ -100,6 +100,10 @@ namespace BankLoanSystem.Models
         public int Company_Id { get; set; }
 
         public int CompanyType { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string BranchName { get; set; }
     }
 
     /// <summary>

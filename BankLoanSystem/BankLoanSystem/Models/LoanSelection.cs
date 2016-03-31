@@ -9,4 +9,5 @@ namespace BankLoanSystem.Models
         public List<NonRegBranch> NonRegBranchList;
         public List<LoanSetupStep1> LoanList;
     }
+
 }

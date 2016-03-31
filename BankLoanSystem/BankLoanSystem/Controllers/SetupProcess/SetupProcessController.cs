@@ -37,7 +37,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             try
             {
-                if ((Session["AuthenticatedUser"] != null) || (Session["loanStep"] != null))
+                if ((Session["AuthenticatedUser"] != null))// || (Session["loanStep"] != null)
                  {    
                     userData = ((User)Session["AuthenticatedUser"]);
                     if (Session["loanStep"] != null)
@@ -533,6 +533,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
+                if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
                 UserRole tempRole = new UserRole()
                 {
                     RoleId = roleList[i].RoleId,
@@ -2364,6 +2368,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (lbl == "Details added successfully")
                 {
                     ViewBag.SuccessMsg = "Loan setup is completed";
+                    Session["loanStep"] = null;
                     if (HttpContext.Request.IsAjaxRequest())
                     {
                         ViewBag.AjaxRequest = 1;

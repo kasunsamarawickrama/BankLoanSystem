@@ -30,6 +30,12 @@
 
                         @if (ViewBag.SuccessMsg == "Loan setup is completed")
                         {
+                            @*@section JavaScript
+                            {
+                                <script type="text/javascript">
+                                    Progress(0);
+                                </script>
+                            }*@
                             <span class="text-success">@ViewBag.SuccessMsg</span>
                             <div class="form-group">
                                 <div class="button-panel">
@@ -244,7 +250,10 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 mLable">
-                                            <label>Remind email</label>
+                                            <label>
+                                                Remind email<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:335px;">
                                             @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
@@ -255,7 +264,10 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 mLable">
-                                            <label>Email Remind Period</label>
+                                            <label>
+                                                Email Remind Period<br>
+                                                <span class="optional">(Optional)</span>
+                                            </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:335px;">
                                             @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days" } })
@@ -312,13 +324,13 @@
 
 <script language="javascript">
 
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-  $('.nav li.active ul').removeClass('in');
-  $('.nav li').removeClass('active');
-  $('.nav li.loan').addClass('active');
-  $('.nav li.active ul').addClass('in');
-  })
+        $('.nav li.active ul').removeClass('in');
+        $('.nav li').removeClass('active');
+        $('.nav li.loan').addClass('active');
+        $('.nav li.active ul').addClass('in');
+    })
 </script>
 
 <script type="text/javascript">
@@ -755,37 +767,37 @@
 
     //    }
 
-        //
-        //var index = 0;
+    //
+    //var index = 0;
 
-        //$('table#tblGrid > tbody > tr').not(':first').each(function() {
+    //$('table#tblGrid > tbody > tr').not(':first').each(function() {
 
-        //    var curid = $(this).find("#lblCur").html();
-        //    var timePeriod = $(this).find("#timePeriod").val();
-        //    var percentage = $(this).find("#percentage").val();
-        //    var previousTime = 0;
+    //    var curid = $(this).find("#lblCur").html();
+    //    var timePeriod = $(this).find("#timePeriod").val();
+    //    var percentage = $(this).find("#percentage").val();
+    //    var previousTime = 0;
 
-        //    if(curid > 1)
-        //        previousTime = list.currentList[curid - 2].TimePeriod;
+    //    if(curid > 1)
+    //        previousTime = list.currentList[curid - 2].TimePeriod;
 
-        //    //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
-        //    if (parseInt(timePeriod) > parseInt(remainingTime)) {
-        //        $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-        //        isErrorTime = true;
-        //    }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-        //        $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-        //        isErrorTime = true;
-        //    }
-        //    else {
-        //        isErrorTime = false;
-        //        $('#spnremainTimeError').children('span').text("");
-        //    }
+    //    //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
+    //    if (parseInt(timePeriod) > parseInt(remainingTime)) {
+    //        $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+    //        isErrorTime = true;
+    //    }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+    //        $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
+    //        isErrorTime = true;
+    //    }
+    //    else {
+    //        isErrorTime = false;
+    //        $('#spnremainTimeError').children('span').text("");
+    //    }
 
-        //    // update list
-        //    list.currentList[index].TimePeriod = timePeriod;
-        //    list.currentList[index].Percentage = percentage;
-        //    index = parseInt(index) + parseInt(1);
-        //});
+    //    // update list
+    //    list.currentList[index].TimePeriod = timePeriod;
+    //    list.currentList[index].Percentage = percentage;
+    //    index = parseInt(index) + parseInt(1);
+    //});
 
     //    var index = 0;
 

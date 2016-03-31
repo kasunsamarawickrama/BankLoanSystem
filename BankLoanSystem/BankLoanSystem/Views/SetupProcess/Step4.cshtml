@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="container body-content new_container">
                             <div class="setupImage"><img src="~/Images/partnerSetupImage.png" width="100" alt=""></div>
-                            <div class="setupTitle"><h2>Create Partner Company</h2></div>
+                            <div class="setupTitle"><h2>Create @ViewBag.ThisCompanyType Company</h2></div>
                             <div style="clear:both;"></div>
 
                             @using (Ajax.BeginForm("Step4", "SetupProcess", new AjaxOptions()
@@ -109,7 +109,7 @@
                                                 <label>State</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.DropDownListFor(model => model.StateId, null, "Select state", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
+                                                @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
                                             </div>
                                             <div class="err_msg_box"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p></div>
                                         </div>
