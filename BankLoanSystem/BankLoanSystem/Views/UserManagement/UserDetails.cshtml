@@ -77,14 +77,14 @@
     <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
     <h2>Floor plan managenment</h2>
     </div>
-    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
     {
         <div id="floorPlanDiv">
            
 
             @if (ViewBag.LoanCount > 1)
             {
-            
+
             <button type="button">Select Loan</button>
                 <br /><br /><br />
             }
@@ -93,7 +93,7 @@
                 <span><strong>Loan #</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.LoanNum</strong></span>
-                
+
                 if (ViewBag.PartnerType == 1)
                 {
                     <span><strong>Lender</strong></span>
@@ -104,7 +104,7 @@
                 }
                 <span> - </span>
                 <span><strong>@ViewBag.PartnerName</strong></span>
-                
+
                 <span><strong>Branch</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.Branch</strong></span>
@@ -186,6 +186,8 @@
     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
     }
 
+</div>
+}
 </div>
 <script>
     $(document).ready(function(){
