@@ -212,6 +212,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "User";
 
                 }
+               
                 if (ViewBag.LoanCount == 1)
                 {
                    
@@ -265,7 +266,6 @@ namespace BankLoanSystem.Controllers
                             }
 
                         }
-
                         else
                         {
                             ViewBag.AddUnits = 1;
@@ -884,15 +884,34 @@ namespace BankLoanSystem.Controllers
         public ActionResult setLoanCode(string loanCode)
         {
             //Session["loanCode"] = loanCode;
-
             if (loanCode == null) {
                 return RedirectToAction("UserDetails");
             }
-
             LoanSelection list3 = (LoanSelection)Session["detail"];
+            Loan finalSelectedLoan = new Loan();
             foreach (var l in list3.LoanList) {
                 if (l.loanCode == loanCode) {
-                    Session["loanDashboard"] = l;
+
+                    finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
+                    finalSelectedLoan.LoanId = l.loanId;
+                    finalSelectedLoan.LoanNumber = l.loanNumber;
+                    finalSelectedLoan.Rights = l.rightId.Split(',');
+                    //finalSelectedLoan.IsTitleTrack =
+
+                    foreach (var nrbr in list3.NonRegBranchList) {
+                        if (nrbr.NonRegBranchId == l.nonRegisteredBranchId) {
+                            finalSelectedLoan.BranchId = nrbr.BranchId;
+
+                            foreach (var br in list3.RegBranches)
+                            {
+                                if (br.BranchId == finalSelectedLoan.BranchId)
+                                {
+                                    finalSelectedLoan.BranchName = br.BranchName;
+                                }
+                            }
+                        }
+                    }
+                    Session["loanDashboard"] = finalSelectedLoan;
                 }
             }
             Session["detail"]="";
