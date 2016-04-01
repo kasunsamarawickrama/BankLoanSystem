@@ -212,8 +212,89 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "User";
 
                 }
-               
-                if (ViewBag.LoanCount == 1)
+                if (Session["loanDashboard"] != null)
+                {
+                    ViewBag.LoanCount = 1;
+                    Loan loanSelected = (Loan)Session["loanDashboard"];
+                    if (userData.RoleId == 2)
+                    {
+                        //loan = da.GetLoanDetails(userData.BranchId, 2);
+
+                    }
+                    else if (userData.RoleId == 1)
+                    {
+                        //loan = da.GetLoanDetails(userData.Company_Id, 1);
+
+                    }
+                    else if (userData.RoleId == 3)
+                    {
+                        //loan = da.GetLoanDetails(userData.UserId, 3);
+
+                    }
+                    if (loanSelected != null)
+                    {
+                        if (userData.RoleId == 1)
+                        {
+                            ViewBag.PartnerType = 2;
+                        }
+                        else if (userData.RoleId == 2)
+                        {
+                            ViewBag.PartnerType = 1;
+                        }
+                        else {
+                            ViewBag.PartnerType = 0;
+                        }
+                        ViewBag.PartnerName = loanSelected.PartnerName;
+                        
+                        ViewBag.Branch = loanSelected.BranchName;
+                        ViewBag.LoanNum = loanSelected.LoanNumber;
+                        ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
+
+                        if (userData.RoleId == 3)
+                        {
+                            if ((loanSelected.Rights.Count() > 0) && (loan.Rights != null))
+                            {
+                                foreach (string s in loanSelected.Rights)
+                                {
+                                    if (s == "U004")
+                                    {
+                                        ViewBag.AddUnits = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AddUnits = 0;
+                                    }
+                                    if ((s == "U006") || (s == "U007"))
+                                    {
+                                        ViewBag.ViewReports = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.ViewReports = 0;
+                                    }
+                                }
+                            }
+
+                        }
+
+                        else
+                        {
+                            ViewBag.AddUnits = 1;
+                            ViewBag.ViewReports = 1;
+                        }
+
+
+                        //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                        //ViewBag.CompType 
+                        return View();
+                    }
+                    else
+                    {
+                        return View();
+                    }
+
+                }
+                else if (ViewBag.LoanCount == 1)
                 {
                    
                     if (userData.RoleId == 2)
@@ -901,12 +982,19 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.LoanId = l.loanId;
                     finalSelectedLoan.LoanNumber = l.loanNumber;
                     finalSelectedLoan.Rights = l.rightId.Split(',');
+                    if (l.titleTracked == true)
+                    {
+                        finalSelectedLoan.IsTitleTrack = 1;
+                    }
+                    else {
+                        finalSelectedLoan.IsTitleTrack = 0;
+                    }
                     //finalSelectedLoan.IsTitleTrack =
 
                     foreach (var nrbr in list3.NonRegBranchList) {
                         if (nrbr.NonRegBranchId == l.nonRegisteredBranchId) {
                             finalSelectedLoan.BranchId = nrbr.BranchId;
-
+                            finalSelectedLoan.PartnerName = nrbr.CompanyNameBranchName;
                             foreach (var br in list3.RegBranches)
                             {
                                 if (br.BranchId == finalSelectedLoan.BranchId)
@@ -985,6 +1073,105 @@ namespace BankLoanSystem.Controllers
         public ActionResult ManageUserLoanRightsPost()
         {
             return View();
+        }
+
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 4/1/2016
+        /// Create user from dashboard
+        /// </summary>
+        /// <param name="lbls"></param>
+        /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreateDashboardUser(string lbls)
+        {
+
+            // take firstsuperadmin userid....
+            int userId = userData.UserId;
+            StepAccess sa = new StepAccess();
+
+            // check he is a super admin or admin
+
+            int roleId = userData.RoleId;
+
+            if (roleId > 2)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            // check if   step is 3...
+
+            if (lbls != null && lbls.Equals("User Successfully Created"))
+            {
+                ViewBag.SuccessMsg = "User Successfully Created";
+                //sa.updateStepNumberByUserId(userId, 4);
+                //int rol = int.Parse(Session["abcRol"].ToString());
+                //int br = int.Parse(Session["abcBrnc"].ToString());
+                //if ((rol == 1) && (br == 0))
+                //{
+                //    sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                //}
+                //else if ((rol == 2) && (br != 0))
+                //{
+                //    sa.UpdateCompanySetupStep(userData.Company_Id, br, 4);
+                //}
+                //Session["abcRol"] = "";
+                //Session["abcBrnc"] = "";
+                //Session["companyStep"] = 4;
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
+
+            ViewBag.CurrUserRoleType = roleId;
+
+            RoleAccess ra = new RoleAccess();
+            List<UserRole> roleList = ra.GetAllUserRoles();
+            List<UserRole> tempRoleList = new List<UserRole>();
+
+            for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            {
+                if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
+                UserRole tempRole = new UserRole()
+                {
+                    RoleId = roleList[i].RoleId,
+                    RoleName = roleList[i].RoleName
+                };
+                tempRoleList.Add(tempRole);
+            }
+
+            ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+
+
+            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            //return PartialView(userViewModel);
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView();
+            }
+            else
+            {
+
+                return View();
+            }
+
         }
 
     }

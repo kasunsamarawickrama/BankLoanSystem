@@ -99,6 +99,8 @@ namespace BankLoanSystem.Models
 
         public int Company_Id { get; set; }
 
+        public int LoanId { get; set; }
+
         public int CompanyType { get; set; }
 
         public string CompanyName { get; set; }
@@ -106,6 +108,8 @@ namespace BankLoanSystem.Models
         public string BranchName { get; set; }
 
         public string RoleName { get; set; }
+
+        public string UserRights { get; set; }
     }
 
     /// <summary>
