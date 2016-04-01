@@ -78,7 +78,7 @@
         <h2>Floor plan managenment</h2>
     </div>
         </div>
-    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3))
     {
         <div id="floorPlanDiv">
            
@@ -110,30 +110,58 @@
                 <span> - </span>
                 <span><strong>@ViewBag.Branch</strong></span>
                 <br /><br /><br />
-                <div id="floorPlanBtnDiv">
-                    <div id="squares">
+
+            }
+            <div id="floorPlanBtnDiv">
+                <div id="squares">
+                    @if(ViewBag.roleId == 3)
+                    {
+                        if (ViewBag.AddUnits == 1)
+                        {
+                            <div id="1" href="#"><p style="color:white">add a unit</p></div>
+                        }
+                    }
+                    else if((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    {
                         <div id="1" href="#"><p style="color:white">add a unit</p></div>
-                        <div id="2" href="#"><p style="color:white">advance a unit</p></div>
-                        <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
-                    </div>
+                    }
+
+                    <div id="2" href="#"><p style="color:white">advance a unit</p></div>
+                    <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
+                </div>
 
 
-                    <div id="squares" href="#">
-                        <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
-                        <div id="2" href="#"><p style="color:white">Reports</p></div>
-                        @if (ViewBag.IsTitleTrack == 1)
+                <div id="squares" href="#">
+                    <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
+                    @if (ViewBag.roleId == 3)
+                    {
+                        if (ViewBag.ViewReports == 1)
+                        {
+                            <div id="2" href="#"><p style="color:white">Reports</p></div>
+                        }
+
+                        if (ViewBag.IsTitleTrack == 1)
                         {
                             <div id="3" href="#"><p style="color:white">update titles</p></div>
                         }
+                    }
+                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    {
+                        <div id="2" href="#"><p style="color:white">Reports</p></div>
+                        <div id="3" href="#"><p style="color:white">update titles</p></div>
+                    }
+                   
 
-                    </div>
+
                 </div>
-            }
+            </div>
+
+
             
             
         </div>
     }
-    else if (ViewBag.roleId == 3)
+    @*else if (ViewBag.roleId == 3)
     {
        
             <div id="squares">
@@ -148,7 +176,7 @@
                
             </div>
         
-    }
+    }*@
  <br/><br/><br/><br/><br/><br/><br/><br/><br/>
 }
     @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
@@ -175,7 +203,7 @@
 
             <h2>Setup</h2>
             <div id="squares">
-                <div id="1" href="#"><p style="color:white">create user</p></div>
+                <div id="1" href="#"><a href="~/UserManagement/CreateDashboardUser"><p style="color:white">create user</p></a></div>
                 @if (ViewBag.roleId == 1)
                 {
                     <div id="2"><a href="~/SetupProcess/Step2"><p style="color:white">create branch</p></a></div>
@@ -195,9 +223,16 @@
         if(@ViewBag.LoanCount==0){
             $('#floorPlanDiv').hide();
         }
+       
         else{
             $('#floorPlanDiv').show();
         }
+    if(@ViewBag.LoanCount==1){
+        $('#floorPlanBtnDiv').show();
+    }
+    else{
+        $('#floorPlanBtnDiv').hide();
+    }
     });
-    
+
 </script>
