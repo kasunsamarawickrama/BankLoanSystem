@@ -507,24 +507,25 @@ namespace BankLoanSystem.DAL
             try
             {
             DataSet dataSet = dataHandler.GetDataSet("spGetNonRegBranchByNonRegBranchId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-            {
-                DataRow dataRow = dataSet.Tables[0].Rows[0];
-                NonRegBranch branch = new NonRegBranch();
-                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
-                branch.BranchCode = dataRow["branch_code"].ToString();
-                branch.BranchName = dataRow["branch_name"].ToString();
-                branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
-                branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
-                branch.BranchCity = dataRow["city"].ToString();
-
-                return branch;
-            }
-            else
-            {
-                return null;
-            }
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    NonRegBranch branch = new NonRegBranch();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                    branch.BranchAddress2 = dataRow["branch_address_2"].ToString();
+                    branch.BranchCity = dataRow["city"].ToString();
+                    branch.CompanyNameBranchName = dataRow["company_name"].ToString();
+                    branch.NonRegCompanyId = int.Parse(dataRow["company_id"].ToString());
+                    return branch;
+                }
+                else
+                {
+                    return null;
+                }
         }
 
             catch
