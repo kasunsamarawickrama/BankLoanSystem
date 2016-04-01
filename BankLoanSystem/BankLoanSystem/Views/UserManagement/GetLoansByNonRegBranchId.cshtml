@@ -40,7 +40,12 @@ else if (ViewBag.type == "DashBoard")
 else if (ViewBag.type == "linkDealer")
 {
     actoinName = "LinkDealer";
-    controllerName = "CreateDealer";
+    controllerName = "UserManagement";
+}
+else if (ViewBag.type == "assignRights")
+{
+    actoinName = "UserDetails";
+    controllerName = "UserManagement";
 }
 else
 {

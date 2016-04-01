@@ -860,7 +860,7 @@ namespace BankLoanSystem.Controllers
                    
                     }
             }
-
+            Session["popUpSelectionType"] = type;
             if (type == "asderruy") // for add unit page
             {
                 ViewBag.type = "AddUnit";
@@ -900,8 +900,13 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "linkDealer";
                 return PartialView(loanSelection);
             }
+            else if (type == "assignRights")
+            {
+                ViewBag.type = "assignRights";
+                return PartialView(loanSelection);
+            }
 
-
+            
             return PartialView(loanSelection);
         }
 
@@ -967,7 +972,7 @@ namespace BankLoanSystem.Controllers
             return PartialView(loanSelection);
         }
 
-        public ActionResult setLoanCode(string loanCode)
+        public ActionResult setLoanCode(string loanCode)//, string action
         {
             //Session["loanCode"] = loanCode;
             if (loanCode == null) {
@@ -1008,7 +1013,19 @@ namespace BankLoanSystem.Controllers
                 }
             }
             Session["detail"]="";
-            return RedirectToAction("UserDetails");
+            if ((string)Session["popUpSelectionType"] == "assignRights")
+            {
+                return RedirectToAction("../CreateDealer/LinkDealer");
+            }
+            else if ((string)Session["popUpSelectionType"] == "linkDealer")
+            {
+                return RedirectToAction("../CreateDealer/LinkDealer");
+            }
+            else
+            {
+                return RedirectToAction("UserDetails");                
+            }
+            //return RedirectToAction(action);
         }
 
         public List<Right> PermissionList(int userId)
@@ -1172,6 +1189,25 @@ namespace BankLoanSystem.Controllers
                 return View();
             }
 
+        }
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/04/01
+        /// 
+        /// to show the view
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AssignUserRights()
+        {
+            CompanyAccess ca = new CompanyAccess();
+            BranchAccess ba = new BranchAccess();
+            Loan loan = (Loan)Session["loanDashboard"];
+
+            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
+            ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
+            ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
+            return View();
         }
 
     }
