@@ -166,8 +166,6 @@ namespace BankLoanSystem.Controllers
 
 
         }
-
-
         /// <summary>
         /// CreatedBy : Irfan
         /// CreatedDate: 2016/01/13
@@ -215,6 +213,7 @@ namespace BankLoanSystem.Controllers
                 if (Session["loanDashboard"] != null)
                 {
                     ViewBag.LoanCount = 1;
+                    ViewBag.loanSelected = 1;
                     Loan loanSelected = (Loan)Session["loanDashboard"];
                     if (userData.RoleId == 2)
                     {

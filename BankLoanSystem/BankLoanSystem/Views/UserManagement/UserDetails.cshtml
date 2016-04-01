@@ -81,7 +81,12 @@
     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3))
     {
         <div id="floorPlanDiv">
-           
+            @if (ViewBag.loanSelected == 1)
+            {
+
+            <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
+            <br /><br /><br />
+            }
 
             @if (ViewBag.LoanCount > 1)
             {
@@ -89,6 +94,7 @@
                 <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
                 <br /><br /><br />
             }
+           
             else
             {
                 <span><strong>Loan #</strong></span>
@@ -111,7 +117,7 @@
                 <span><strong>@ViewBag.Branch</strong></span>
                 <br /><br /><br />
 
-            }
+                }
                 <div id="floorPlanBtnDiv">
                     <div id="squares">
                     @if (ViewBag.roleId == 3)
