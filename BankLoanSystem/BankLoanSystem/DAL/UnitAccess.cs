@@ -1059,7 +1059,9 @@ namespace BankLoanSystem.DAL
                         loan.loanNumber = dataRow["loan_number"].ToString();
                         loan.loanCode = dataRow["loan_code"].ToString();
                         loan.rightId = dataRow["right_id"].ToString();
-                        loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
+                        if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
+                            loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
+                        }
                         loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
                         bool checkBranch = false;
                         bool checkNonRegBranch = false;
