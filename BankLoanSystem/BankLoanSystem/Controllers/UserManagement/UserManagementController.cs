@@ -239,24 +239,37 @@ namespace BankLoanSystem.Controllers
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
 
-                        foreach(string s in loan.Rights)
+                        if (userData.RoleId == 3)
                         {
-                            if (s=="U004")
+                            if ((loan.Rights.Count() > 0) && (loan.Rights != null))
                             {
-                                ViewBag.AddUnits = 1;
+                                foreach (string s in loan.Rights)
+                                {
+                                    if (s == "U004")
+                                    {
+                                        ViewBag.AddUnits = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AddUnits = 0;
+                                    }
+                                    if ((s == "U006") || (s == "U007"))
+                                    {
+                                        ViewBag.ViewReports = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.ViewReports = 0;
+                                    }
+                                }
                             }
-                            else
-                            {
-                                ViewBag.AddUnits = 0;
-                            }
-                            if ((s=="U006")||(s=="U007"))
-                            {
-                                ViewBag.ViewReports = 1;
-                            }
-                            else
-                            {
-                                ViewBag.ViewReports = 0;
-                            }
+
+                        }
+
+                        else
+                        {
+                            ViewBag.AddUnits = 1;
+                            ViewBag.ViewReports = 1;
                         }
                         
                         
