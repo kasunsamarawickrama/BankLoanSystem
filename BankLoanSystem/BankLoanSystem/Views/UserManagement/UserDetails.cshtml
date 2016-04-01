@@ -81,7 +81,12 @@
     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3))
     {
         <div id="floorPlanDiv">
+            @if (ViewBag.loanSelected == 1)
+            {
            
+            <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
+            <br /><br /><br />
+            }
 
             @if (ViewBag.LoanCount > 1)
             {
@@ -89,6 +94,7 @@
                 <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
                 <br /><br /><br />
             }
+           
             else
             {
                 <span><strong>Loan #</strong></span>
@@ -170,9 +176,12 @@
             <div id="squares">
                 @if (ViewBag.roleId == 1)
                 {
-                    <div id="5" href="#"><p style="color:white">Edit company</p></div>
-                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
+                    
+                    
+                    <div id="7" href="#"><p style="color:white">Join Dealer to Lender</p></div>
+                    <div id="5" href="#"><a href="~/SetupProcess/Step1"><p style="color:white">Edit company</p></a></div>
                 }
+                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
                 <div id="1" href="#"><p style="color:white">Edit user</p></div>
 
                 <div id="3" href="#"><p style="color:white">Edit loan</p></div>
@@ -181,8 +190,13 @@
                 {
                     <div id="6" href="#"><p style="color:white">Assign User To Existing Loan</p></div>
                 }
-        <div id="7" href="#"><p style="color:white">Join Dealer to Lender</p></div>
+           
+                @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+           <br />                   
+           
+                @*<div id="7" href="#"><a href="~/CreateDealer/LinkDealer?count=" @ViewBag.LoanCount><p style="color:white">Join Dealer to Lender</p></a></div>*@
                 
+            @Ajax.ActionLink("Assign User Rights", "Selectloan", "UserManagement", new { type = "assignRights" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
             </div>
             <br /><br /><br /><br /><br /><br /><br /><br /><br />
 
@@ -199,7 +213,7 @@
             </div>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
     }
-}
+
 </div>
 
 
