@@ -167,8 +167,6 @@ namespace BankLoanSystem.Controllers
 
 
         }
-
-
         /// <summary>
         /// CreatedBy : Irfan
         /// CreatedDate: 2016/01/13
@@ -216,6 +214,7 @@ namespace BankLoanSystem.Controllers
                 if (Session["loanDashboard"] != null)
                 {
                     ViewBag.LoanCount = 1;
+                    ViewBag.loanSelected = 1;
                     Loan loanSelected = (Loan)Session["loanDashboard"];
                     if (userData.RoleId == 2)
                     {
@@ -896,7 +895,12 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "DashBoard";
                 return PartialView(loanSelection);
             }
-            
+            else if (type == "linkDealer")
+            {
+                ViewBag.type = "linkDealer";
+                return PartialView(loanSelection);
+            }
+
 
             return PartialView(loanSelection);
         }
