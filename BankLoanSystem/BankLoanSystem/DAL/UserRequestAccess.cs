@@ -1,5 +1,6 @@
 ﻿using BankLoanSystem.Models;
 using System.Collections.Generic;
+using System.Data;
 
 namespace BankLoanSystem.DAL
 {
@@ -66,6 +67,19 @@ namespace BankLoanSystem.DAL
             }
         }
 
-
+        public DataSet SelectRequestAns(UserRequest userRequest)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@user_id", userRequest.user_id });
+                return dataHandler.GetDataSet("spGetUserReque", paramertList);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
