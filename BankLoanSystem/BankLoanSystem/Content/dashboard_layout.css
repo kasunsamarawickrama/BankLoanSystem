@@ -111,27 +111,53 @@
         padding: 20px;
         
     }
+    .container-child h3{
+        padding-bottom:8px;
+    }
     .dsh{
+        color:white;
         margin:10px;
-        background-color:#E2EEFD;
-        height:150px; /*This is for testing*/
+        background-color:#0086b3;
+        height:125px; /*This is for testing*/
+    }
+    .fpm>div{
+         border-style: solid;
+    border-width: 6px;
+    border-color:#c2d6d6;
+        background-color:white;
+         height:150px; /*This is for testing*/
     }
 
     .fpm{
+        clear:both;
         margin:10px;
-        background-color:#E5FFE1;
-        height:150px; /*This is for testing*/
+        background-color:#c2d6d6;
+        padding-top:8px
+    }
+
+     .md>div{
+         border-style: solid;
+    border-width: 6px;
+    border-color:#e0e0d1;
+        background-color:white;
+         height:150px; /*This is for testing*/
     }
     .md{
         margin:10px;
-        background-color:#FFFBF2;
-        height:150px; /*This is for testing*/
+        background-color:#e0e0d1;
+        padding-top:8px
     }
-
+     .setp>div{
+         border-style: solid;
+    border-width: 6px;
+    border-color:#f2f2f2;
+        background-color:white;
+         height:150px; /*This is for testing*/
+    }
     .setp{
         margin:10px;
-        background-color:#F9F6F8;
-        height:150px; /*This is for testing*/
+        background-color:#f2f2f2;
+        padding-top:8px
     }
     .bottom-bar{
         height:150px; /*This is for testing*/
@@ -174,9 +200,10 @@
      }
  .img-name-panel{
      float:left;
-     width:200px;
-     padding:10px;
-      height:100%;
+     width:30%;
+     /*padding:10px;*/
+      /*height:100%;*/
+      padding-left: 20px;
  }
 
  .img-circle {
@@ -195,14 +222,19 @@
 
     /*background:#E8E8DE;*/
     /*border-style: groove;*/
-    padding: 10px;
+    /*padding: 10px;*/
 }
 
 .img-name-panel>div {
-    padding:10%;
+    padding:4%;
     margin-top:auto;
     margin-bottom:auto;
     display:block;
+    float: left;
+}
+.dsh-name {
+    width: 40%;
+    height: 100%;
     float: left;
 }
 
@@ -227,44 +259,59 @@
 .cmp-name-panel{
     
     text-align:left;
-    width:250px;
+    width:30%;
     float:left;
-    height:100%;
+    /*height:100%;*/
 }
 
 .cmp-name-panel>div{
     position: relative;
-    top: 49px;
+    top: 19px;
 }
-.tooltips>p {
- 
-  visibility: hidden;
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+   
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
     width: 120px;
+    /*width:auto;*/
+    font-family: "Times New Roman", Georgia, Serif;
+    letter-spacing: 1px;
     background-color: black;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    /*padding: 5px 0;*/
+    padding:8px;
     position: absolute;
     z-index: 1;
-    bottom: 150%;
+    top: 150%;
     left: 50%;
+    /*left:144%;*/
     margin-left: -60px;
+    font-size:12px;
 }
 
-.tooltips:hover {
- 
-  position: relative;
-}
-
-.tooltips:hover:after {
-   content: "";
+.tooltip .tooltiptext::after {
+    content: "";
     position: absolute;
-    top: 100%;
+    bottom: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: transparent transparent black transparent;
+}
 
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .ved{
+    /*width:auto;*/
+    left: 50%;
 }
