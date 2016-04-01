@@ -77,7 +77,8 @@
     
         <h2>Floor plan managenment</h2>
     </div>
-    @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+        </div>
+    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
     {
         <div id="floorPlanDiv">
            
@@ -187,8 +188,8 @@
     }
 
 </div>
-}
-</div>
+
+
 <script>
     $(document).ready(function(){
         if(@ViewBag.LoanCount==0){
