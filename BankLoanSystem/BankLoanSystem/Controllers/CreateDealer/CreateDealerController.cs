@@ -49,10 +49,9 @@ namespace BankLoanSystem.Controllers.CreateDealer
         {            
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
-            int loan_id = 179;            
-            int nonRegBranchId = 2;
+            Loan loan = (Loan)Session["loanDashboard"];
             
-            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(nonRegBranchId);
+            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
             ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
             return View();
@@ -81,13 +80,13 @@ namespace BankLoanSystem.Controllers.CreateDealer
             user.Email = user.NewEmail;
 
             BranchAccess ba = new BranchAccess();
-            int loan_id = 179;
-            int nonRegBranchId = 2;
-            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(nonRegBranchId);
+            Loan loan = (Loan)Session["loanDashboard"];
+          
+            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
 
             user.NonRegCompanyId = nonRegBranches.NonRegCompanyId;
             user.NonRegBranchId = nonRegBranches.BranchId;
-            user.LoanId = loan_id;
+            user.LoanId = loan.LoanId;
 
             string passwordTemp = user.Password;
 
@@ -162,5 +161,46 @@ namespace BankLoanSystem.Controllers.CreateDealer
             }
         }
 
+        public ActionResult setLoanCode(string loanCode)
+        {
+            //Session["loanCode"] = loanCode;
+            if (loanCode == null)
+            {
+                return RedirectToAction("UserDetails");
+            }
+            LoanSelection list3 = (LoanSelection)Session["detail"];
+            Loan finalSelectedLoan = new Loan();
+            foreach (var l in list3.LoanList)
+            {
+                if (l.loanCode == loanCode)
+                {
+
+                    finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
+                    finalSelectedLoan.LoanId = l.loanId;
+                    finalSelectedLoan.LoanNumber = l.loanNumber;
+                    finalSelectedLoan.Rights = l.rightId.Split(',');
+                    //finalSelectedLoan.IsTitleTrack =
+
+                    foreach (var nrbr in list3.NonRegBranchList)
+                    {
+                        if (nrbr.NonRegBranchId == l.nonRegisteredBranchId)
+                        {
+                            finalSelectedLoan.BranchId = nrbr.BranchId;
+
+                            foreach (var br in list3.RegBranches)
+                            {
+                                if (br.BranchId == finalSelectedLoan.BranchId)
+                                {
+                                    finalSelectedLoan.BranchName = br.BranchName;
+                                }
+                            }
+                        }
+                    }
+                    Session["loanDashboard"] = finalSelectedLoan;
+                }
+            }
+            Session["detail"] = "";
+            return RedirectToAction("LinkDealer");
+        }
     }
 }
