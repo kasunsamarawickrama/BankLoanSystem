@@ -74,7 +74,7 @@
 {
     <div id="floorPlanHeadDiv">
 <div style="margin-left:200px" >
-    <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
+    
         <h2>Floor plan managenment</h2>
     </div>
     @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
@@ -84,8 +84,8 @@
 
             @if (ViewBag.LoanCount > 1)
             {
-            
-            <button type="button">Select Loan</button>
+
+                <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
                 <br /><br /><br />
             }
             else

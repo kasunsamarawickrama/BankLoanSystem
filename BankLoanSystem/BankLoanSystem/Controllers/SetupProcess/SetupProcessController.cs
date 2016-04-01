@@ -902,6 +902,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 stepNo = 6;
                 loanData.stepId = 1;
+                Session["dashboard"] = 1;
             }
 
             // get the Role Name for front end view
@@ -1452,7 +1453,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("UserLogin", "Login");
             }
 
-            if (Session["dashboard"] !=null)
+            if ((Session["dashboard"] !=null))
             {
                 loanData.stepId = 1;
             }
