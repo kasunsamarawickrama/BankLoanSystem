@@ -433,5 +433,56 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 2016/03/30
+        /// 
+        /// Insert Dealser User details
+        /// 
+        /// argument : dealer user (DealerUserModel)
+        /// 
+        ///         
+        /// </summary>
+        /// <returns>1</returns>
+        public int InsertDealerUser(DealerUserModel dealerUser)
+        {
+            // if (this.InsertUser(dealerUser) == 1)
+            //{                
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", dealerUser.UserId });
+            paramertList.Add(new object[] { "@user_name", dealerUser.UserName });
+            paramertList.Add(new object[] { "@password", dealerUser.Password });
+            paramertList.Add(new object[] { "@first_name", dealerUser.FirstName });
+            paramertList.Add(new object[] { "@last_name", dealerUser.LastName });
+            paramertList.Add(new object[] { "@email", dealerUser.Email });
+            paramertList.Add(new object[] { "@phone_no", dealerUser.PhoneNumber });
+            paramertList.Add(new object[] { "@status", dealerUser.Status });
+            paramertList.Add(new object[] { "@is_delete", dealerUser.IsDelete });
+            paramertList.Add(new object[] { "@created_by", dealerUser.CreatedBy });
+            paramertList.Add(new object[] { "@create_Date", DateTime.Now });
+            paramertList.Add(new object[] { "@branch_id", dealerUser.BranchId });
+            paramertList.Add(new object[] { "@role_id", dealerUser.RoleId });
+            paramertList.Add(new object[] { "@Company_id", dealerUser.Company_Id });
+
+            paramertList.Add(new object[] { "@dealer_company_id ", dealerUser.NonRegCompanyId });
+            paramertList.Add(new object[] { "@dealer_branch_id", dealerUser.NonRegBranchId });
+            paramertList.Add(new object[] { "@loan_id", dealerUser.LoanId });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertDealerUser", paramertList) ? 1 : 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            //}
+            //else
+            //{
+            //    return 0;
+            //}
+        }
     }
 }

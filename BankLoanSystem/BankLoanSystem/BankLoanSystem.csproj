@@ -204,6 +204,7 @@
     <Compile Include="Code\PasswordEncryption.cs" />
     <Compile Include="Controllers\AdvanceUnit\AdvanceUnitController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
+    <Compile Include="Controllers\CreateDealer\CreateDealerController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
     <Compile Include="Controllers\Curtailments\CurtailmentsController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Views\Shared\_ForgotPasswordLayout.cshtml" />
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
     <Content Include="Views\UserManagement\ManageUserLoanRights.cshtml" />
+	<Content Include="Views\CreateDealer\LinkDealer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -369,6 +371,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Dealer\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
