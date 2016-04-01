@@ -100,6 +100,12 @@ namespace BankLoanSystem.Models
         public int Company_Id { get; set; }
 
         public int CompanyType { get; set; }
+
+        public string RoleName { get; set; }
+
+        public string BranchName { get; set; }
+
+      
     }
 
     /// <summary>
@@ -119,5 +125,14 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
         public int RoleId { get; set; }
         public List<User> Users { get; set; }
+
+        
+    }
+
+    public class DealerUserModel : User
+    {
+        public int NonRegCompanyId { get; set; }
+        public int NonRegBranchId { get; set; }
+        public int LoanId { get; set; }
     }
 }

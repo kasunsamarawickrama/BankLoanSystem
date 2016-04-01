@@ -90,5 +90,6 @@ namespace BankLoanSystem.Models
     {
         public int NonRegBranchId { get; set; }
         public string CompanyNameBranchName { get; set; }
+        public int NonRegCompanyId { get; set; }
     }
 }
