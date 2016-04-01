@@ -135,7 +135,7 @@
     }
     else if (ViewBag.roleId == 3)
     {
-       
+
             <div id="squares">
                 @if (ViewBag.AddUnits == 1)
                 {
@@ -147,10 +147,10 @@
                 }
                
             </div>
-        
+
     }
 
-    @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
     {
         <h2>Manage Details</h2>
 
@@ -185,7 +185,7 @@
             </div>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
     }
-
+}
 </div>
 
 
