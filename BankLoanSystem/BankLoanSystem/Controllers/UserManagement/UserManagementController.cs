@@ -1070,5 +1070,104 @@ namespace BankLoanSystem.Controllers
             return View();
         }
 
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 4/1/2016
+        /// Create user from dashboard
+        /// </summary>
+        /// <param name="lbls"></param>
+        /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreateDashboardUser(string lbls)
+        {
+
+            // take firstsuperadmin userid....
+            int userId = userData.UserId;
+            StepAccess sa = new StepAccess();
+
+            // check he is a super admin or admin
+
+            int roleId = userData.RoleId;
+
+            if (roleId > 2)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            // check if   step is 3...
+
+            if (lbls != null && lbls.Equals("User Successfully Created"))
+            {
+                ViewBag.SuccessMsg = "User Successfully Created";
+                //sa.updateStepNumberByUserId(userId, 4);
+                //int rol = int.Parse(Session["abcRol"].ToString());
+                //int br = int.Parse(Session["abcBrnc"].ToString());
+                //if ((rol == 1) && (br == 0))
+                //{
+                //    sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                //}
+                //else if ((rol == 2) && (br != 0))
+                //{
+                //    sa.UpdateCompanySetupStep(userData.Company_Id, br, 4);
+                //}
+                //Session["abcRol"] = "";
+                //Session["abcBrnc"] = "";
+                //Session["companyStep"] = 4;
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
+
+            ViewBag.CurrUserRoleType = roleId;
+
+            RoleAccess ra = new RoleAccess();
+            List<UserRole> roleList = ra.GetAllUserRoles();
+            List<UserRole> tempRoleList = new List<UserRole>();
+
+            for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            {
+                if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
+                UserRole tempRole = new UserRole()
+                {
+                    RoleId = roleList[i].RoleId,
+                    RoleName = roleList[i].RoleName
+                };
+                tempRoleList.Add(tempRole);
+            }
+
+            ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+
+
+            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            //return PartialView(userViewModel);
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView();
+            }
+            else
+            {
+
+                return View();
+            }
+
+        }
+
     }
 }

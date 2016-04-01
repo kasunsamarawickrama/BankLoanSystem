@@ -81,6 +81,14 @@ namespace BankLoanSystem.DAL
 
 
         }
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 3/30/2016
+        /// get loan details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="role"></param>
+        /// <returns>Loan</returns>
         public Loan GetLoanDetails(int id,int role)
         {
             DataHandler dataHandler = new DataHandler();
@@ -123,6 +131,50 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+        }
+
+        public int InsertUserInDashboard(User user)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            if (user != null)
+            {
+                paramertList.Add(new object[] { "@user_name", user.UserName });
+                //paramertList.Add(new object[] { "@user_name", user.pa });
+                paramertList.Add(new object[] { "@first_name", user.FirstName });
+                paramertList.Add(new object[] { "@last_name", user.LastName });
+                paramertList.Add(new object[] { "@email", user.Email });
+                paramertList.Add(new object[] { "@phone_no", user.PhoneNumber2 });
+                paramertList.Add(new object[] { "@created_date", DateTime.Now });
+                paramertList.Add(new object[] { "@created_by", user.CreatedBy});
+                paramertList.Add(new object[] { "@company_id", user.Company_Id });
+                paramertList.Add(new object[] { "@branch_id", user.BranchId });
+                paramertList.Add(new object[] { "@role_id", user.RoleId});
+                
+
+                if (user.RoleId == 3)
+                {
+                    paramertList.Add(new object[] { "@rights", user.UserRights });
+                    paramertList.Add(new object[] { "@loan_id", user.LoanId });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@rights",""});
+                    paramertList.Add(new object[] { "@loan_id", 0 });
+                }
+            }
+           
+
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spInsertDashboardUserDetails", paramertList);
+
+            }
+            catch
+            {
+                return 0;
+            }
+           // return 1;
         }
     }
 }
