@@ -1300,6 +1300,7 @@ namespace BankLoanSystem.Controllers
                     return View();
                 }
             }
+        }
 
 
         /// <summary>
