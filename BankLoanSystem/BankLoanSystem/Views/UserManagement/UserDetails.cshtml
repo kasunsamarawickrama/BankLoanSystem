@@ -187,7 +187,10 @@
                 {
                     <div id="6" href="#"><p style="color:white">Assign User To Existing Loan</p></div>
                 }
-        <div id="7" href="#"><p style="color:white">Join Dealer to Lender</p></div>
+                @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+                @*<div id="7" href="#"><a href="~/CreateDealer/LinkDealer?count=" @ViewBag.LoanCount><p style="color:white">Join Dealer to Lender</p></a></div>*@
+                
+        
                 
             </div>
             <br /><br /><br /><br /><br /><br /><br /><br /><br />

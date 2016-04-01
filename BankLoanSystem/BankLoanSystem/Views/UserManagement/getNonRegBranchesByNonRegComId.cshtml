@@ -19,6 +19,11 @@ else if (ViewBag.type == "DashBoard")
     actoinName = "UserDetails";
     controllerName = "UserManagement";
 }
+else if (ViewBag.type == "linkDealer")
+{
+    actoinName = "LinkDealer";
+    controllerName = "CreateDealer";
+}
 else
 {
     <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>

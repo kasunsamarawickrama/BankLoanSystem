@@ -894,7 +894,12 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "DashBoard";
                 return PartialView(loanSelection);
             }
-            
+            else if (type == "linkDealer")
+            {
+                ViewBag.type = "linkDealer";
+                return PartialView(loanSelection);
+            }
+
 
             return PartialView(loanSelection);
         }
