@@ -33,7 +33,11 @@ else if (ViewBag.type == "Title")
     actoinName = "TitleStatusUpdate";
     controllerName = "UnitTitle";
 }
-
+else if (ViewBag.type == "DashBoard")
+{
+    actoinName = "UserDetails";
+    controllerName = "UserManagement";
+}
 <div id="branch-panel">
     <div class="h-panel">
         <ul>
@@ -47,7 +51,7 @@ else if (ViewBag.type == "Title")
                 if (Model.NonRegBranchList.Count() == 1)
                 {
                     <li class="active">
-                        <a>@Model.NonRegBranchList[0].BranchName </a>
+                        <a>@Model.NonRegBranchList[0].CompanyNameBranchName </a>
 
 
                     </li>
@@ -81,14 +85,14 @@ else if (ViewBag.type == "Title")
                 {
 
                    
-                    if (item.LoanStatus)
-                    {
+             //       if (item.LoanStatus)
+              //      {
                         //@Html.ActionLink(modelItem => item.loanNumber)
                         c++;
 
                         <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "b" }) </li>
 
-                        }
+               //         }
 
 
 
