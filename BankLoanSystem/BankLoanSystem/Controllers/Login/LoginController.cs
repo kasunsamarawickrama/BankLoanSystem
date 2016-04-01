@@ -17,6 +17,7 @@ namespace BankLoanSystem.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult UserLogin(string lbl, string lbl3)
+
         {
 
             // for show the popup message in login page
@@ -103,8 +104,10 @@ namespace BankLoanSystem.Controllers
                     userData.UserName = dsUser.Tables[0].Rows[0]["user_name"].ToString();
                     userData.Password = dsUser.Tables[0].Rows[0]["password"].ToString();
                     userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
+                    userData.BranchName = dsUser.Tables[0].Rows[0]["branch_name"].ToString();
                     userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
                     userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                    userData.CompanyName = dsUser.Tables[0].Rows[0]["company_name"].ToString();
 
                     //To compair Database password and user enter password
                     string passwordFromDB = userData.Password;

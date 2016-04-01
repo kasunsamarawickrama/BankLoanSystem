@@ -4,40 +4,147 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+   
 
-    <style>
-        .container-fluid{
-            max-width:1096px;
-            width:100%;
-            margin:auto;
-        }
+   
+    <link href="~/Content/general_foundicons.css" rel="stylesheet" />
 
-    </style>
+    <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
+   
 </head>
 
 
 <body data-scrolling-animations="true">
 
     <header>
-        <div class="container-fluid">
+        <div class="common-box">
+            <div class="left-box">
+              
+                    <div class="soft-info">
 
-            <div class="page-header">
+                        <h1>
+                            Floor Plan Financing
 
-                <h1>
-                    Example page header
-                    <small>Subtext for header</small>
-                </h1>
+                        </h1>
+                        <small><strong> Management Software </strong></small>
+                    </div>
+
+                
 
             </div>
-            <p>This is a sample text.This is a sample text.This is a sample text. This is a sample text.</p>
+
+            <div class="box">
+
+                <div class="signout"><span><a href="#"><strong>LOG OUT&nbsp;</strong><span class="icon-exit"></span></a></span></div>
+
+                <div ><span class="tooltip icon-earth"><span class="tooltiptext notf">Notifications
+</span></span></div>
+
+                <div><span class="tooltip icon-film "><span class="tooltiptext ved" >
+    Watch Video
+</span></span></div>
+
+                <!---->
+
+              
+                    <!---->
+
+
+</div>
+
+
 
 
         </div>
 
     </header>
+    <div class="container-fluid">
 
-    <div>
-        @RenderBody()
+
+        
+            @*<div class="container-child">
+
+                
+                <div class="dsh">
+                    
+                    <div class="img-name-panel">
+                        <div>
+                            <div>
+                                <div>
+                                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+                                </div>
+                            </div>
+                            <div style="margin-top:5px">
+
+                                    <span>User Name</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;">Dashboard</h3></div>
+                    <div class="cmp-name-panel">
+                        <div>
+                            <div>
+                                <span>Company - Branch</span>
+                            </div>
+
+                            <div style="margin-top:10px">
+                                <span>Position</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fpm">
+                    <h3>Floor Plan Management</h3>
+                    <div></div>
+                </div>
+                <div class="md">
+                    <h3>Manage Details</h3>
+                    <div></div>
+                </div>
+                <div class="setp">
+                    <h3>Set Up</h3>
+                    <div></div>
+                </div>
+
+
+            </div>*@
+        
+
+
+
+
+
+
+
+
+
+        <div>
+            @RenderBody()
+        </div>
     </div>
+    <footer>
+        <div class="bottom-bar">
+            <div class="small-space">
+                <div class="clr-prt1">
+
+                </div>
+                <div class="clr-prt2">
+
+                </div>
+            </div>
+
+            <div class="cmd-bar">
+                <div class="cmd-skew-bar">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
 </body>
 </html>

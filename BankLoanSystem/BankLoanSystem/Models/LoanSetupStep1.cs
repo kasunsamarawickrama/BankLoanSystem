@@ -161,6 +161,8 @@ namespace BankLoanSystem.Models
             get; set;
 
         }
+
+        public string rightId { get; set; }
     }
 
     public class UnitType

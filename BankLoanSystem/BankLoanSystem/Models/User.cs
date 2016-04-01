@@ -101,11 +101,11 @@ namespace BankLoanSystem.Models
 
         public int CompanyType { get; set; }
 
-        public string RoleName { get; set; }
+        public string CompanyName { get; set; }
 
         public string BranchName { get; set; }
 
-      
+        public string RoleName { get; set; }
     }
 
     /// <summary>

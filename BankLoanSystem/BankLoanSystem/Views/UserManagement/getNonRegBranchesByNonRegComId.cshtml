@@ -14,7 +14,15 @@ else if (ViewBag.type == "Advance")
     actoinName = "Advance";
     controllerName = "AdvanceUnit";
 }
-
+else if (ViewBag.type == "DashBoard")
+{
+    actoinName = "UserDetails";
+    controllerName = "UserManagement";
+}
+else
+{
+    <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
+}
 <div class="h-panel">
     <ul>
         @if (Model != null)
@@ -22,18 +30,20 @@ else if (ViewBag.type == "Advance")
             <li><h5>Branch Name</h5></li>
             if (Model.Count() == 1)
             {
-                <li class="active">
-                    <a> @Model.Last().BranchName </a>
+                foreach (var item in Model)
+                {
+                    <li class="active">
+                        <a>item.CompanyNameBranchName </a>
+                    </li>
+                }
 
-
-                </li>
             }
             else {
                 foreach (var item in Model)
                 {
                     <li>
                         @*<a>@item.BranchName</a>*@
-                        @Ajax.ActionLink(item.BranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId , type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
+                        @Ajax.ActionLink(item.CompanyNameBranchName, "GetLoansByNonRegBranchId", "UserManagement", new { NonRegBranchId = item.NonRegBranchId , type = ViewBag.type }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "loan-panel", LoadingElementId = "loadingDiv" }) 
                     </li>
                 }
             }

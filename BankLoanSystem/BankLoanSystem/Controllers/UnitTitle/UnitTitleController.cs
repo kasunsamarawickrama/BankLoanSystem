@@ -113,7 +113,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
                     obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 2);
                     if (obj2.TitleList.Count() == 0)
                     {
-                        obj2.TitleList.AddRange(resultList.Where(t => t.UnitStatus == 0));
+                        obj2.TitleList = resultList.FindAll(t => t.UnitStatus == 0);
 
                     }
                 }

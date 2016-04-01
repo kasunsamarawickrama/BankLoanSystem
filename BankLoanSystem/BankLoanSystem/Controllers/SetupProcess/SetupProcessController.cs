@@ -245,6 +245,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step2(int? edit)
         {
+            edit = 3;
             int userId = userData.UserId;
             int roleId = userData.RoleId;
             // check he is a super admin or admin
@@ -256,8 +257,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
 
             //StepAccess cs = new StepAccess();
-
             int reslt = Convert.ToInt32(Session["companyStep"]);
+            if ((reslt==0)&&(edit == 3))
+            {
+                reslt = 2;
+            }
+
+            //int reslt = 2;
             if (reslt >= 2)
             {
                 userCompany = new CompanyBranchModel();
@@ -533,6 +539,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
+                if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
                 UserRole tempRole = new UserRole()
                 {
                     RoleId = roleList[i].RoleId,
@@ -866,8 +876,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step6()
+        public ActionResult Step6(int? dashbrd)
         {
+            dashbrd = 6;
             int userrole = userData.RoleId;
             int userId = userData.UserId;
 
@@ -882,11 +893,17 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int stepNo = loanData.stepId;
 
+
             if (stepNo < 0)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-
+            else if ((stepNo == 0)&&(dashbrd==6))
+            {
+                stepNo = 6;
+                loanData.stepId = 1;
+                Session["dashboard"] = 1;
+            }
 
             // get the Role Name for front end view
             ViewBag.userroleName = uma.getUserRoleName(userId);
@@ -1043,8 +1060,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step4()
+        public ActionResult Step4(int ? dashbrd)
         {
+            dashbrd = 4;
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo == 3)
@@ -1056,7 +1074,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
-
+            else if ((stepNo == 0) && (dashbrd == 4))
+            {
+                stepNo = 4;
+            }
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
@@ -1164,11 +1185,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //int compType = userData.CompanyType;
             if (compType == 1)
             {
-                ViewBag.compType = "Create Dealer Branch";
+                ViewBag.ThisCompanyType = "Dealer";
             }
             else if (compType == 2)
             {
-                ViewBag.compType = "Create Lender Branch";
+                ViewBag.ThisCompanyType = "Lender";
             }
             else
             {
@@ -1432,7 +1453,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("UserLogin", "Login");
             }
 
-            if (Session["dashboard"] !=null)
+            if ((Session["dashboard"] !=null))
             {
                 loanData.stepId = 1;
             }
@@ -1609,6 +1630,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int uId = userData.UserId;
             int branchId = loanData.BranchId;
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             //int branchId = 35;
             List<SelectListItem> listdates = new List<SelectListItem>();
             for (int i = 1; i <= 28; i++)
@@ -1723,6 +1748,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int userId = userData.UserId;
             int branchId = loanData.BranchId;
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
+            
             if (interest.option == "payoff")
             {
                 interest.PaidDate = interest.option;
@@ -1791,6 +1821,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             var userId = userData.UserId;
 
             BranchAccess branch = new BranchAccess();
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             int companyType = branch.getCompanyTypeByUserId(userId);
             //int companyType = userData.CompanyType;
             if (companyType == 1)
@@ -1935,6 +1969,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [HttpPost]
         public ActionResult Step8(Fees fees)
         {
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             StepAccess step = new StepAccess();
 
             if (fees.AdvanceDue == "Vehicle Payoff")
@@ -2029,6 +2067,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int uId = userData.UserId;
             int branchId = loanData.BranchId;
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             //yes no list
             List<SelectListItem> isTitleTrackList = new List<SelectListItem>();
 
@@ -2221,6 +2263,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
             int branchId = loanData.BranchId;
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             //int loanId = 1;
 
 
@@ -2356,6 +2402,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step10(string lbl)
         {
             int userId = userData.UserId;
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
 
             //check user step is valid for this step
             StepAccess sa = new StepAccess();
@@ -2452,6 +2502,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult AddCurtailment(List<Curtailment> curtailmentList, CurtailmentModel curtaiulmentModel)
         {
             //calculate payment percentage
+            if (userData.RoleId >= 3)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+            }
             int index = 0;
             foreach (Curtailment curtailment in curtailmentList)
             {

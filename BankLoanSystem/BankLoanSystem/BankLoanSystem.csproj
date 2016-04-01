@@ -125,6 +125,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\combo.css" />
     <Content Include="Content\commonActions.css" />
+    <Content Include="Content\dashboard_layout.css" />
+    <Content Include="Content\general_foundicons.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\overlaypopup.css" />
     <Content Include="Content\pikaday.css" />
@@ -134,6 +136,10 @@
     <Content Include="Content\theme.css" />
     <Content Include="Content\triangle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\icomoon.eot" />
+    <Content Include="fonts\icomoon.svg" />
+    <Content Include="fonts\icomoon.ttf" />
+    <Content Include="fonts\icomoon.woff" />
     <Content Include="Global.asax" />
     <Content Include="Images\1.jpg" />
     <Content Include="Images\2.png" />
@@ -231,6 +237,7 @@
     <Compile Include="DAL\UnitAccess.cs" />
     <Compile Include="DAL\UserAccess.cs" />
     <Compile Include="DAL\UserManageAccess.cs" />
+    <Compile Include="DAL\UserRequestAccess.cs" />
     <Compile Include="DAL\UserRightsAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -249,6 +256,7 @@
     <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\GetDetails.cs" />
     <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanSelection.cs" />
     <Compile Include="Models\LoanSetupStep.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
@@ -262,6 +270,7 @@
     <Compile Include="Models\UserCompanyModel.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="DAL\DBConnection.cs" />
+    <Compile Include="Models\UserRequest.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -351,7 +360,8 @@
     <Content Include="Views\SetupProcess\Step9help.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordLayout.cshtml" />
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
-    <Content Include="Views\CreateDealer\LinkDealer.cshtml" />
+    <Content Include="Views\UserManagement\ManageUserLoanRights.cshtml" />
+	<Content Include="Views\CreateDealer\LinkDealer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
