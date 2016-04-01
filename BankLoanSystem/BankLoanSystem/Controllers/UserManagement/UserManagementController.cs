@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
+using BankLoanSystem.Code;
 
 namespace BankLoanSystem.Controllers
 {
@@ -1167,6 +1168,117 @@ namespace BankLoanSystem.Controllers
                 return View();
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult CreateDashboardUser(User user)
+        {
+
+            user.PhoneNumber = user.PhoneNumber2;
+
+            int currentUser = userData.UserId;
+
+            // check he is a super admin or admin
+            int roleId = userData.RoleId;
+
+            if (roleId > 2)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            // check if   step is 3...
+            if (Convert.ToInt32(Session["companyStep"]) < 3)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            user.CreatedBy = currentUser;
+            user.IsDelete = false;
+            user.Status = false;
+
+            string passwordTemp = user.Password;
+
+            UserAccess ua = new UserAccess();
+
+            string newSalt = PasswordEncryption.RandomString();
+            user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+
+            user.Email = user.NewEmail;
+
+            //CompanyAccess ca = new CompanyAccess();
+            //Company company = ca.GetCompanyDetailsByFirstSpUserId(currentUser);
+            user.Company_Id = userData.Company_Id;//  company.CompanyId;  - asanka
+
+            //Set admin branch to new user 
+            if (roleId == 2)
+            {
+                user.BranchId = userData.BranchId;
+            }
+
+            //Insert user
+            int res = ua.InsertUser(user);
+
+            //Insert new user to user activation table
+            string activationCode = Guid.NewGuid().ToString();
+            int userId = (new UserAccess()).getUserId(user.Email);
+            res = ua.InsertUserActivation(userId, activationCode);
+            if (res == 1)
+            {
+
+
+                string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                              "<br /><br /> User name: " + user.UserName +
+                                    "<br /> Password : <b>" + passwordTemp +
+                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                              "<br /><br/> Thanks,<br /> Admin.";
+
+                Email email = new Email(user.Email);
+
+                Session["abcRol"] = user.RoleId;
+                Session["abcBrnc"] = user.BranchId;
+                email.SendMail(body, "Account details");
+
+
+
+                ViewBag.SuccessMsg = "User Successfully Created";
+
+                //additional page ----> Add User Rights
+                //if()
+
+                return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
+
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to create user!";
+
+                //Restrict to create above user role 
+                RoleAccess ra = new RoleAccess();
+                List<UserRole> roleList = ra.GetAllUserRoles();
+
+
+
+                ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
+
+
+
+                User curUser = ua.retreiveUserByUserId(userId);
+                // get all branches
+                List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
         }
 
     }
