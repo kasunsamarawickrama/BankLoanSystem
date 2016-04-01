@@ -94,7 +94,7 @@
                 <span><strong>Loan #</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.LoanNum</strong></span>
-                
+
                 if (ViewBag.PartnerType == 1)
                 {
                     <span><strong>Lender</strong></span>
@@ -105,7 +105,7 @@
                 }
                 <span> - </span>
                 <span><strong>@ViewBag.PartnerName</strong></span>
-                
+
                 <span><strong>Branch</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.Branch</strong></span>
@@ -114,14 +114,14 @@
             }
                 <div id="floorPlanBtnDiv">
                     <div id="squares">
-                    @if(ViewBag.roleId == 3)
+                    @if (ViewBag.roleId == 3)
                     {
                         if (ViewBag.AddUnits == 1)
                         {
                         <div id="1" href="#"><p style="color:white">add a unit</p></div>
                         }
                     }
-                    else if((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                     {
                         <div id="1" href="#"><p style="color:white">add a unit</p></div>
                     }
@@ -146,10 +146,10 @@
                         }
                     }
                     else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-                        {
+                    {
                         <div id="2" href="#"><p style="color:white">Reports</p></div>
                             <div id="3" href="#"><p style="color:white">update titles</p></div>
-                        }
+                    }
 
 
 
@@ -161,25 +161,10 @@
             
         </div>
     }
-    @*else if (ViewBag.roleId == 3)
-    {
-       
-            <div id="squares">
-                @if (ViewBag.AddUnits == 1)
-                {
-                <div id="1" href="#"><p style="color:white">add a unit</p></div>
-                }
-                @if (ViewBag.ViewReports == 1)
-                {
-                <div id="2" href="#"><p style="color:white">Reports</p></div>
-                }
-               
-            </div>
-        
-    }
 
-    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-    {
+}
+@if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+{
         <h2>Manage Details</h2>
 
             <div id="squares">
