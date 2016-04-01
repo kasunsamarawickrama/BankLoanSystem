@@ -110,6 +110,8 @@ namespace BankLoanSystem.Models
         public string RoleName { get; set; }
 
         public string UserRights { get; set; }
+
+        public int step_status { get; set; }
     }
 
     /// <summary>
