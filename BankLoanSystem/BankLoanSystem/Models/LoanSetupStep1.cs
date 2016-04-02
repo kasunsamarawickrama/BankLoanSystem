@@ -151,6 +151,8 @@ namespace BankLoanSystem.Models
 
         public string loanCode;
 
+        public bool titleTracked { get; set; }
+
         public string CurtailmentCalculationBase { get; set; }
         public string CurtailmentDueDate { get; set; }
         public string CurtailmentAutoRemindEmail { get; set; }

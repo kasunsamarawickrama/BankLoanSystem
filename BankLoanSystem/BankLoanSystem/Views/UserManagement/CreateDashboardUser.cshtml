@@ -1,6 +1,6 @@
 ﻿@model BankLoanSystem.Models.User
 @{
-    ViewBag.Title = "Step3";
+    ViewBag.Title = "CreateUser";
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
@@ -25,10 +25,7 @@
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                             </div>
                             <div class="form-horizontal">
-                                @if (ViewBag.SuccessMsg == null)
-                                {
-                                    <div class="skipLink"> <a id="skip" href="#">Skip >></a> </div>
-                                }
+                                
                                 <div style="clear:both"></div>
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
@@ -47,7 +44,7 @@
                                         <div class="form-group">
                                             <div class="button-panel">
                                                 <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
-                                                <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
+                                                
 
                                             </div>
 
@@ -221,7 +218,6 @@
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
                                                 </div>
                                             </div>
-
                                             <div id="branchDiv" hidden>
                                                 @if (ViewBag.CurrUserRoleType != 2)
                     {
@@ -247,6 +243,8 @@
                                                     </div>
                                                 }
                                             </div>
+
+
 
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
@@ -286,11 +284,7 @@
     </div>
 </div>
 
-<div class="rightPanel">
-    @{
-        @Html.Partial("Step3help")
-    }
-</div>
+
 
 <script language="javascript">
 
@@ -309,33 +303,20 @@
 
 <script>
 
+    $('#RoleId').change(function () {
+        var val = document.getElementById("RoleId").value;
+        if (val == '2' || val == '3') {
+            $('#branchDiv').show();
+        }
+        else {
+            $('#branchDiv').hide();
+        }
+    });
     $("#clear").click(function () {
         $('#branchDiv').hide();
 
     });
 
-    $(function () {
-        $('#skip').click(function () {
-
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("Step4")',
-                type: 'GET',
-
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-                    Progress(4);
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
 </script>
 
 <script type="text/javascript">
@@ -364,16 +345,8 @@
 
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
-    Progress(3);
-    $('#RoleId').change(function () {
-        var val = document.getElementById("RoleId").value;
-        if (val == '2' || val == '3') {
-            $('#branchDiv').show();
-        }
-        else {
-            $('#branchDiv').hide();
-        }
-    });
+    //Progress(3);
+  
 
     //Validation
 

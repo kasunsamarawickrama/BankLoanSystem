@@ -1,11 +1,20 @@
-﻿@model BankLoanSystem.Models.User
+﻿
+@model BankLoanSystem.Models.User
 @{
-    ViewBag.Title = "Step3";
+    ViewBag.Title = "CreateDealer";
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+@*<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>*@
 
 
 <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
@@ -15,9 +24,9 @@
 
                 <div class="row">
                     <div class="container body-content new_container">
-                        <div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>
+                        @*<div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>*@
                         <div class="setupTitle">
-                            <h2>Create User</h2>
+                            <h2>Join Dealer Account</h2>
                         </div>
                         <div style="clear:both;"></div>
                         <div class="form-horizontal new_form_horizontal">
@@ -25,93 +34,17 @@
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                             </div>
                             <div class="form-horizontal">
-                                @if (ViewBag.SuccessMsg == null)
-                                {
-                                    <div class="skipLink"> <a id="skip" href="#">Skip >></a> </div>
-                                }
+                                
                                 <div style="clear:both"></div>
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
-                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-                                    {
-
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form", style = "clear: both;" }))
-                                    {
-                                        @Html.AntiForgeryToken()
                                         <span class="text-success">@ViewBag.SuccessMsg</span>
-                                        <div class="form-group">
-                                            <div class="button-panel">
-                                                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
-                                                <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
-
-                                            </div>
-
-                                        </div>
-                                    }
-
-                                    <script>
-                                    $(function () {
-                                        $('#createNewUser').click(function () {
-
-                                            $('#loadingDiv').show();
-                                            $.ajax({
-                                                url: '@Url.Action("Step3")',
-                                                type: 'GET',
-
-
-                                                success: function (partialView) {
-                                                    $('#loadingDiv').hide();
-                                                    $('#changeContainer').html(partialView);
-                                                    $('#changeContainer').show();
-                                                },
-
-                                                error: function (request, status, error) {
-                                                    //handleErrorMsg(request.responseText);
-
-                                                }
-                                            });
-
-
-                                        });
-
-                                        $(function () {
-                                            $('#step4').click(function () {
-
-                                                $('#loadingDiv').show();
-                                                $.ajax({
-                                                    url: '@Url.Action("Step4")',
-                                                    type: 'GET',
-
-
-                                                    success: function (partialView) {
-                                                        $('#loadingDiv').hide();
-                                                        $('#changeContainer').html(partialView);
-                                                        $('#changeContainer').show();
-                                                        Progress(4);
-                                                    },
-                                                    error: function (request, status, error) {
-                                                        //handleErrorMsg(request.responseText);
-
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    });
-
-                                    </script>
-
-
+                                       
                                 }
 
                                 else
                                 {
-
-                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+                                    using (Ajax.BeginForm("LinkDealer", "CreateDealer", new AjaxOptions()
                                     {
 
                                         OnFailure = "handleErrorMsg",
@@ -122,9 +55,6 @@
                                     }, new { id = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
-
-
-
                                         <div class="form-horizontal">
                                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                             <div class="form-group new_form_group">
@@ -208,52 +138,97 @@
                                                 </div>
                                             </div>
 
-                                            
+                                            @*@if (ViewBag.nonRegBranches != "")
+                                                {
+                                                    Model.BranchName = ViewBag.nonRegBranches;
+                                                    @Html.LabelFor(model => model.BranchName, htmlAttributes: new { })
+                                                }*@
+
+
+                                            @*<div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Company </label>
+                                                    </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @if (ViewBag.NonRegCompany.Items.Count == 1)
+                                                            {
+                                                                @Html.HiddenFor(model => model.NonRegCompany, new { @Value = (int)ViewBag.NonRegCompany.Items[0].CompanyId })
+                                                                @Html.LabelFor(model => model.NonRegCompany, (string)ViewBag.NonRegCompany.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                            }
+                                                            else
+                                                            {
+
+                                                                @Html.DropDownListFor(model => model.NonRegCompany, null, "--Select company--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                                            }
+
+
+                                                        </div>
+
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NonRegCompany, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>*@
+
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Company </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.Label((string)ViewBag.nonRegCompany)
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Branch </label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.Label((string)ViewBag.nonRegBranches)
+
+                                                    @*@Html.LabelFor(model => model.RoleName, htmlAttributes: new { })*@
+                                                    @*@if (ViewBag.NonRegBranch != "")
+                                                        {
+                                                            @Html.HiddenFor(model => model.NonRegBranch, new { @Value = (int)ViewBag.NonRegBranch.Items[0].CompanyId })
+                                                            @Html.LabelFor(model => model.NonRegBranch, (string)ViewBag.NonRegBranch.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        }
+                                                        else
+                                                        {
+
+                                                            @Html.DropDownListFor(model => model.NonRegBranch, null, "--Select company--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                                        }*@
+
+
+                                                </div>
+
+
+                                            </div>
+
+
+
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
                                                     <label>Role</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
-
+                                                    @*@Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })*@
+                                                    @*@Html.LabelFor(model => model.RoleName, htmlAttributes: new { })*@
+                                                    <label>Dealer User </label>
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
                                                 </div>
                                             </div>
 
-                                            <div id="branchDiv" hidden>
-                                                @if (ViewBag.CurrUserRoleType != 2)
-                    {
-                                                    <div class="form-group new_form_group">
-                                                        <div class="control-label col-sm-2 lable_style">
-                                                            <label>Branch </label>
-                                                        </div>
-                                                        @if (ViewBag.BranchId.Items.Count == 1)
-                        {
-                                                            <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId })
-                                                                @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                                                            </div>
-                                                        }
-                                                        else {
-                                                            <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
-                                                            </div>
-                                                        }
-                                                        <div class="err_msg_box">
-                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
+
 
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
                                                     <nav>
                                                         <div class="pager new_pager">
                                                             <div class="button_box algn_left">
-                                                                <input value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
+                                                                <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
                                                             </div>
                                                             <div class="button_box algn_center">
                                                                 <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
@@ -286,11 +261,6 @@
     </div>
 </div>
 
-<div class="rightPanel">
-    @{
-        @Html.Partial("Step3help")
-    }
-</div>
 
 <script language="javascript">
 
@@ -312,69 +282,11 @@
     $("#clear").click(function () {
         $('#branchDiv').hide();
 
-    });
-
-    $(function () {
-        $('#skip').click(function () {
-
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("Step4")',
-                type: 'GET',
-
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-                    Progress(4);
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
+    });   
 </script>
 
 <script type="text/javascript">
-    $(function () {
-        $('#btnPreStep3').click(function () {
-
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step2", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1 },
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
-
-    $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
-
-    Progress(3);
-    $('#RoleId').change(function () {
-        var val = document.getElementById("RoleId").value;
-        if (val == '2' || val == '3') {
-            $('#branchDiv').show();
-        }
-        else {
-            $('#branchDiv').hide();
-        }
-    });
-
+   
     //Validation
 
     // User name validate
@@ -490,4 +402,6 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 

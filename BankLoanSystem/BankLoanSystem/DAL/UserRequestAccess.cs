@@ -67,13 +67,13 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        public DataSet SelectRequestAns(UserRequest userRequest)
+        public DataSet SelectRequestAns(User user)
         {
             try
             {
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
-                paramertList.Add(new object[] { "@user_id", userRequest.user_id });
+                paramertList.Add(new object[] { "@user_id", user.UserId });
                 return dataHandler.GetDataSet("spGetUserReque", paramertList);
             }
             catch

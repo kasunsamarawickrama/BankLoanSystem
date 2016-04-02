@@ -40,7 +40,17 @@
         actoinName = "UserDetails";
         controllerName = "UserManagement";
     }
-    else
+    else if (ViewBag.type == "linkDealer")
+    {
+        actoinName = "LinkDealer";
+        controllerName = "UserManagement";
+    }
+    else if (ViewBag.type == "assignRights")
+    {
+        actoinName = "assignRights";
+        controllerName = "UserManagement";
+    }
+    else 
     {
         <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
     }

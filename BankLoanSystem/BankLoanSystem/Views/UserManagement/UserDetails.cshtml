@@ -78,10 +78,15 @@
         <h2>Floor plan managenment</h2>
     </div>
         </div>
-    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3))
     {
         <div id="floorPlanDiv">
+            @if (ViewBag.loanSelected == 1)
+            {
            
+            <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
+            <br /><br /><br />
+            }
 
             @if (ViewBag.LoanCount > 1)
             {
@@ -89,12 +94,13 @@
                 <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
                 <br /><br /><br />
             }
+           
             else
             {
                 <span><strong>Loan #</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.LoanNum</strong></span>
-                
+
                 if (ViewBag.PartnerType == 1)
                 {
                     <span><strong>Lender</strong></span>
@@ -105,14 +111,27 @@
                 }
                 <span> - </span>
                 <span><strong>@ViewBag.PartnerName</strong></span>
-                
+
                 <span><strong>Branch</strong></span>
                 <span> - </span>
                 <span><strong>@ViewBag.Branch</strong></span>
                 <br /><br /><br />
+
+            }
                 <div id="floorPlanBtnDiv">
                     <div id="squares">
+                    @if (ViewBag.roleId == 3)
+                    {
+                        if (ViewBag.AddUnits == 1)
+                        {
                         <div id="1" href="#"><p style="color:white">add a unit</p></div>
+                        }
+                    }
+                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    {
+                        <div id="1" href="#"><p style="color:white">add a unit</p></div>
+                    }
+
                         <div id="2" href="#"><p style="color:white">advance a unit</p></div>
                         <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
                     </div>
@@ -120,47 +139,49 @@
 
                     <div id="squares" href="#">
                         <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
+                    @if (ViewBag.roleId == 3)
+                    {
+                        if (ViewBag.ViewReports == 1)
+                        {
                         <div id="2" href="#"><p style="color:white">Reports</p></div>
-                        @if (ViewBag.IsTitleTrack == 1)
+                        }
+
+                        if (ViewBag.IsTitleTrack == 1)
                         {
                             <div id="3" href="#"><p style="color:white">update titles</p></div>
                         }
+                    }
+                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    {
+                        <div id="2" href="#"><p style="color:white">Reports</p></div>
+                            <div id="3" href="#"><p style="color:white">update titles</p></div>
+                    }
+
+
 
                     </div>
                 </div>
-            }
+
+
             
             
         </div>
     }
-    else if (ViewBag.roleId == 3)
-    {
-       
-            <div id="squares">
-                @if (ViewBag.AddUnits == 1)
-                {
-                <div id="1" href="#"><p style="color:white">add a unit</p></div>
-                }
-                @if (ViewBag.ViewReports == 1)
-                {
-                <div id="2" href="#"><p style="color:white">Reports</p></div>
-                }
-               
-            </div>
-        
-    }
- <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
 }
-    @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-    {
+@if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+{
         <h2>Manage Details</h2>
 
             <div id="squares">
                 @if (ViewBag.roleId == 1)
                 {
-                    <div id="5" href="#"><p style="color:white">Edit company</p></div>
-                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
+                    
+                    
+                    <div id="7" href="#"><p style="color:white">Join Dealer to Lender</p></div>
+                    <div id="5" href="#"><a href="~/SetupProcess/Step1"><p style="color:white">Edit company</p></a></div>
                 }
+                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
                 <div id="1" href="#"><p style="color:white">Edit user</p></div>
 
                 <div id="3" href="#"><p style="color:white">Edit loan</p></div>
@@ -169,13 +190,19 @@
                 {
                     <div id="6" href="#"><p style="color:white">Assign User To Existing Loan</p></div>
                 }
+           
+                @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+           <br />                   
+           
+                @*<div id="7" href="#"><a href="~/CreateDealer/LinkDealer?count=" @ViewBag.LoanCount><p style="color:white">Join Dealer to Lender</p></a></div>*@
                 
+            @Ajax.ActionLink("Assign User Rights", "Selectloan", "UserManagement", new { type = "assignRights" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
             </div>
             <br /><br /><br /><br /><br /><br /><br /><br /><br />
 
             <h2>Setup</h2>
             <div id="squares">
-                <div id="1" href="#"><p style="color:white">create user</p></div>
+                <div id="1" href="#"><a href="~/UserManagement/CreateDashboardUser"><p style="color:white">create user</p></a></div>
                 @if (ViewBag.roleId == 1)
                 {
                     <div id="2"><a href="~/SetupProcess/Step2"><p style="color:white">create branch</p></a></div>
@@ -195,9 +222,16 @@
         if(@ViewBag.LoanCount==0){
             $('#floorPlanDiv').hide();
         }
+       
         else{
             $('#floorPlanDiv').show();
         }
+    if(@ViewBag.LoanCount==1){
+        $('#floorPlanBtnDiv').show();
+    }
+    else{
+        $('#floorPlanBtnDiv').hide();
+    }
     });
     
 </script>
