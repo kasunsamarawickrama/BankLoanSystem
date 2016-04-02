@@ -19,6 +19,7 @@
             
         }
         body {
+            overflow-x:hidden;
   text-align:center;
   font-family: Georgia, Serif;
   /*//background: #000000;*/
@@ -102,6 +103,7 @@
            
             font-family:Tahoma;
             color: #054208;
+            font-size: 18px;
     /*text-shadow: 0px 2px 3px #555;*/
 
         }
@@ -118,14 +120,14 @@
         color:white;
         margin:10px;
         background-color:#0086b3;
-        height:125px; /*This is for testing*/
+        height:73px; /*This is for testing*/
     }
     .fpm>div{
          border-style: solid;
     border-width: 6px;
     border-color:#c2d6d6;
         background-color:white;
-         height:150px; /*This is for testing*/
+         /*height:150px;*/ /*This is for testing*/
     }
 
     .fpm{
@@ -140,7 +142,9 @@
     border-width: 6px;
     border-color:#e0e0d1;
         background-color:white;
-         height:150px; /*This is for testing*/
+        padding-left: 25px;
+    padding-right: 25px;
+         /*height:150px;*/ /*This is for testing*/
     }
     .md{
         margin:10px;
@@ -152,7 +156,7 @@
     border-width: 6px;
     border-color:#f2f2f2;
         background-color:white;
-         height:150px; /*This is for testing*/
+         /*height:150px;*/ /*This is for testing*/
     }
     .setp{
         margin:10px;
@@ -163,10 +167,10 @@
         height:150px; /*This is for testing*/
     }
      .small-space{
-         height:12px;
+         height:24px;
      }
      .cmd-bar{
-          height:150px; /*This is for testing*/
+          height:310px; /*This is for testing*/
           background-color:#333;
      }
         .clr-prt2 {
@@ -190,21 +194,35 @@
     transform: skew(45deg); /* Standard syntax */
      }
      .cmd-skew-bar{
-         width:40%;
+         float:left;
+         width:52%;
          height:100%;
          background-color:#2277AA;
-                     margin-left: -30px;
+                     margin-left: -100px;
               -ms-transform: skew(-20deg); /* IE 9 */
     -webkit-transform: skew(-20deg); /* Safari */
     transform: skew(-20deg); /* Standard syntax */
      }
  .img-name-panel{
      float:left;
-     width:30%;
-     /*padding:10px;*/
+     width:11%;
+     padding:4px;
       /*height:100%;*/
-      padding-left: 20px;
+      padding-left: 4%;
  }
+
+  .pos-name-panel{
+      text-align:left;
+     float:left;
+     width:19%;
+    
+      height:100%;
+      /*padding-left: 4%;*/
+ }
+  .pos-name-panel>div {
+    position: relative;
+    top: 15px;
+}
 
  .img-circle {
 	border-radius: 50%;
@@ -226,11 +244,12 @@
 }
 
 .img-name-panel>div {
-    padding:4%;
+    padding:8%;
     margin-top:auto;
     margin-bottom:auto;
     display:block;
     float: left;
+    /*padding-top: 15%;*/
 }
 .dsh-name {
     width: 40%;
@@ -259,14 +278,14 @@
 .cmp-name-panel{
     
     text-align:left;
-    width:30%;
+    width:15%;
     float:left;
     /*height:100%;*/
 }
 
 .cmp-name-panel>div{
     position: relative;
-    top: 19px;
+    top: 15px;
 }
 
 .tooltip {
@@ -314,4 +333,177 @@
 .tooltip .ved{
     /*width:auto;*/
     left: 50%;
+}
+
+.footer-info{
+    float:right;
+    height:100%;
+    width: 350px;
+    padding:10px;
+    padding-top:20px;
+    -ms-transform: skew(20deg);
+    -webkit-transform: skew(20deg);
+    transform: skew(20deg);
+    text-align:left;
+}
+.footer-info> h3{
+    font-size: 31px;
+    
+
+}
+
+.footer-info> div{
+    
+    text-align:left;
+    font-weight:bold;
+    margin-top:20%;
+}
+.footer-info> div >div{
+    
+    text-align:left;
+    margin-top:10%;
+}
+
+.hor-sp{
+    margin-top:10px;
+}
+
+.msg-box{
+    padding:20px;
+    padding-top:20px;
+    font-weight:bold;
+    text-align:left;
+    color:white;
+    float:left;
+    width:470px;
+    height:100%;
+    padding-left:5%;
+}
+
+.msg-box>div{
+
+    margin-bottom:5px;
+}
+
+
+
+   .select-style {
+      display:inline-block;
+    padding-top: 0px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    width: 240px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+
+    background: #fff url("../Images/arrowdown.gif") no-repeat 97% 50%;
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+
+textarea {
+    margin-top:10px;
+    width: 100%;
+    height: 120px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+
+
+.labels{
+    display: table-cell;
+    vertical-align: middle;
+    padding-bottom: 5px;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 9px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button5 {
+    background-color: #555555;
+    color: white;
+    border: 2px solid white;
+}
+
+.button5:hover {
+    background-color: white;
+    color: #555555;
+    border: 2px solid  #555555;
+    
+}
+.fpm>div>div{
+    float:left;
+}
+.big-button {
+    margin:8px;
+    position: relative;
+    background-color: #1ba1e2 ;
+    border: none;
+    font-size: 13px;
+    color: #FFFFFF;
+    /*padding: 10px;*/
+    padding-bottom:5px;
+    width: 110px;
+    height: 110px;
+    text-align: center;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.big-button > [class^="icon-"]{
+/*padding :px;*/
+/*padding-top:20px;*/
+width:100%;
+font-size:32px;
+display: inline-block;
+}
+
+.big-button .txt{
+    width:100%;
+    text-align:center;
+        padding-top: 22px;
+    /* position: relative; */
+    /* top: 20%; */
+    display: inline-block;
+}
+.big-button:hover{
+
+    background-color: white;
+    color: #1ba1e2;
+    border: 2px solid  #1ba1e2;
 }
