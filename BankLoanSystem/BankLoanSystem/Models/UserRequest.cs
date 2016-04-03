@@ -23,11 +23,21 @@ namespace BankLoanSystem.Models
         public int user_id { get; set; }
 
         [Required]
+        [Display(Name = "Role id")]
+        public int role_id { get; set; }
+
+        [Required]
+        [Display(Name = "Loan Code")]
+        public string loan_code { get; set; }
+
+        [Required]
         [Display(Name = "Page Name")]
         public string page_name { get; set; }
 
         public string topic { get; set; }
 
+        [Required(ErrorMessage = "Message is required")]
+        [Display(Name = "Message")]
         public string message { get; set; }
 
         public string priority_level { get; set; }

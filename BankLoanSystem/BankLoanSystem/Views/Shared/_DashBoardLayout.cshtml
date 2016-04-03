@@ -36,10 +36,15 @@
 
             <div class="box">
 
-                <div class="signout"><span><a href="#"><strong>LOG OUT&nbsp;</strong><span class="icon-exit"></span></a></span></div>
+                <div class="signout"><span>
+                    @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, null)
+                    <span class="icon-exit"></span></span></div>
 
-                <div ><span class="tooltip icon-earth"><span class="tooltiptext notf">Notifications
-</span></span></div>
+                <div>
+                    @{
+                        Html.RenderAction("UserRequestAns", "UserManagement");
+                    }
+                </div>
 
                 <div><span class="tooltip icon-film "><span class="tooltiptext ved" >
     Watch Video
@@ -311,52 +316,12 @@
                     </div>
 
                 </div>
-
-                <div class="msg-box">
-                    
-                        <div>
-                            <span>Send us a Message:</span>
-                        </div>
-
-                        <div>
-
-                            <div>
-                                <div style="margin-right:45px;display:inline-block;">
-                                    <label for="email" class="labels">Subject:</label>
-                                </div>
-                                <div class="select-style">
-
-                                    <select>
-                                        <option value="">--Select a category--</option>
-                                        <option value="">Comment/Idea on program</option>
-                                        <option value="">Techincal Support</option>
-                                        <option value="">Billing Question</option>
-                                        <option value="">Other</option>
-                                    </select>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div>
-                            <span>Message:</span>
-
-
-                            <textarea></textarea>
-
-                        </div>
-
-                    <div>
-                        <button class="button button5" style="float:right;">Submit</button>
-                    </div>
-
-                    @*<div style="clear:both;padding-top:10px">
-                        <small><span>*Response will be delivered to your program inbox</span></small>
-                    </div>*@
-                       
-                    
+                <div>
+                    @{
+                        Html.RenderAction("UserRequestMessage", "UserManagement");
+                    }
                 </div>
-
+                
             </div>
 
         </div>

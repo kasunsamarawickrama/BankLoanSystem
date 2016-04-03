@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using BankLoanSystem.Code;
+using System.Data;
 
 namespace BankLoanSystem.Controllers
 {
@@ -1321,7 +1322,78 @@ namespace BankLoanSystem.Controllers
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
             return View();
         }
-    }
+
+        public ActionResult UserRequestAns()
+        {
+            List<UserRequest> RequestList = new List<UserRequest>();
+            try
+            {
+                UserRequestAccess userRequest = new UserRequestAccess();
+                
+                ViewBag.Anscount = 0;
+                DataSet dataset = userRequest.SelectRequestAns(userData);
+                if (dataset != null && dataset.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataset.Tables[0].Rows)
+                    {
+                        UserRequest request = new UserRequest();
+                        request.answer = dataRow["answer"].ToString();
+                        request.is_rep_view = bool.Parse(dataRow["is_rep_view"].ToString());
+                        RequestList.Add(request);
+                        ViewBag.Anscount = int.Parse(dataRow["Anscount"].ToString());
+                    }
+                    var ret= RequestList;
+                    return PartialView(ret);
+                }
+                else
+                {
+                    return PartialView();
+                }
+            }
+            catch
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+
+        public ActionResult UserRequestMessage()
+        {
+            
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ActionName("UserRequestMessage")]
+        public ActionResult UserRequestMessagePost(Models.UserRequest userReq)
+        {
+            return RedirectToAction("UserRequestMessage", userReq);
+        }
+
+        /// <summary>
+        /// CreatedBy: Asanka Senarathna
+        /// CreatedDate: 30/31/2016
+        /// Update View answer in user request table
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult editViewRequestAns()
+        {
+            int currentUserId;
+
+            try
+            {
+                currentUserId = userData.UserId;
+                UserRequestAccess userRequest = new UserRequestAccess();
+                userRequest.UpdateUserViewAnswer(currentUserId);
+
+                return PartialView();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }
+        }
+
+        }
 
     
 }

@@ -1,0 +1,50 @@
+﻿@model BankLoanSystem.Models.UserRequest
+
+@{
+    ViewBag.Title = "User Request Message";
+}
+
+<div class="msg-box">
+    <form>
+        <div>
+            <span>Send us a Message:</span>
+        </div>
+
+        <div>
+
+            <div>
+                <div style="margin-right:45px;display:inline-block;">
+                    <label for="email" class="labels">Subject:</label>
+                </div>
+                <div class="select-style">
+
+                    <select>
+                        <option value="">--Select a category--</option>
+                        <option value="">Comment/Idea on program</option>
+                        <option value="">Techincal Support</option>
+                        <option value="">Billing Question</option>
+                        <option value="">Other</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <span>Message:</span>
+            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
+            @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div>
+            <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float:right;" />
+        </div>
+
+        @*<div style="clear:both;padding-top:10px">
+                <small><span>*Response will be delivered to your program inbox</span></small>
+            </div>*@
+
+    </form>
+</div>
+

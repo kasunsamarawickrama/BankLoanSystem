@@ -29,6 +29,8 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@company_id", userRequest.company_id });
             paramertList.Add(new object[] { "@branch_id", userRequest.branch_id });
             paramertList.Add(new object[] { "@user_id", userRequest.user_id });
+            paramertList.Add(new object[] { "@role_id", userRequest.role_id });
+            paramertList.Add(new object[] { "@loan_code", userRequest.loan_code });
             paramertList.Add(new object[] { "@page_name", userRequest.page_name });
             paramertList.Add(new object[] { "@topic", userRequest.topic });
             paramertList.Add(new object[] { "@message", userRequest.message });
@@ -79,6 +81,21 @@ namespace BankLoanSystem.DAL
             catch
             {
                 return null;
+            }
+        }
+
+        public int UpdateUserViewAnswer(int userid)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@user_id", userid });
+                return dataHandler.ExecuteSQL("spUpdateUserViewAnswer", paramertList) ? 1 : 0;
+            }
+            catch
+            {
+                return 0;
             }
         }
     }

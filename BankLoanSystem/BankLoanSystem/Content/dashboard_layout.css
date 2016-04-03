@@ -73,7 +73,14 @@
         .box>div>span>a{
                text-decoration:none;
                color:#E2DDDD ;
-               font-size:23px
+               /*font-size:23px;  - asanka*/
+
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 18px;
+                font-weight:bold;
+                padding-right:5px;
+
         }
 
         .box>div>span:hover , .box>div>span>a:hover{
@@ -578,3 +585,9 @@ display: inline-block;
    font-weight:bold;
 }
 
+.signoutsapan 
+{
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 18px !important;
+}
