@@ -1,14 +1,24 @@
 ﻿
 @model BankLoanSystem.Models.User
+
+
 @{
     ViewBag.Title = "CreateDealer";
     if (ViewBag.AjaxRequest == null)
     {
-        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+        Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     }
 }
+<style>
+    .err_msg_box {
+    
+    text-align: left;
+}
+</style>
+
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
-<script src="~/scripts/bootstrap.min.js"></script>
+
+@*<script src="~/scripts/bootstrap.min.js"></script>*@
 
 @*<link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
@@ -16,7 +26,7 @@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>*@
 
-
+<div class="container-child">
 <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
@@ -261,7 +271,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 <script language="javascript">
 
