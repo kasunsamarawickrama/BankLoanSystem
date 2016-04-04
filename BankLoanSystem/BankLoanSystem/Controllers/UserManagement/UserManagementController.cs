@@ -976,13 +976,16 @@ namespace BankLoanSystem.Controllers
         public ActionResult setLoanCode(string loanCode)//, string action
         {
             //Session["loanCode"] = loanCode;
-            if (loanCode == null) {
+            if (loanCode == null)
+            {
                 return RedirectToAction("UserDetails");
             }
             LoanSelection list3 = (LoanSelection)Session["detail"];
             Loan finalSelectedLoan = new Loan();
-            foreach (var l in list3.LoanList) {
-                if (l.loanCode == loanCode) {
+            foreach (var l in list3.LoanList)
+            {
+                if (l.loanCode == loanCode)
+                {
 
                     finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
                     finalSelectedLoan.LoanId = l.loanId;
@@ -997,8 +1000,10 @@ namespace BankLoanSystem.Controllers
                     }
                     //finalSelectedLoan.IsTitleTrack =
 
-                    foreach (var nrbr in list3.NonRegBranchList) {
-                        if (nrbr.NonRegBranchId == l.nonRegisteredBranchId) {
+                    foreach (var nrbr in list3.NonRegBranchList)
+                    {
+                        if (nrbr.NonRegBranchId == l.nonRegisteredBranchId)
+                        {
                             finalSelectedLoan.BranchId = nrbr.BranchId;
                             finalSelectedLoan.PartnerName = nrbr.CompanyNameBranchName;
                             foreach (var br in list3.RegBranches)
@@ -1013,10 +1018,10 @@ namespace BankLoanSystem.Controllers
                     Session["loanDashboard"] = finalSelectedLoan;
                 }
             }
-            Session["detail"]="";
+            Session["detail"] = "";
             if ((string)Session["popUpSelectionType"] == "assignRights")
             {
-                return RedirectToAction("../CreateDealer/LinkDealer");
+                return RedirectToAction("AssignRights");                
             }
             else if ((string)Session["popUpSelectionType"] == "linkDealer")
             {
@@ -1024,8 +1029,8 @@ namespace BankLoanSystem.Controllers
             }
             else
             {
-            return RedirectToAction("UserDetails");
-        }
+                return RedirectToAction("UserDetails");
+            }
             //return RedirectToAction(action);
         }
 
@@ -1398,15 +1403,26 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult UserRequestMessage()
         {
-            
+            int userrole = userData.RoleId;
+            int userId = userData.UserId;
+
             return PartialView();
         }
 
         [HttpPost]
         [ActionName("UserRequestMessage")]
-        public ActionResult UserRequestMessagePost(Models.UserRequest userReq)
+        public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
-            return RedirectToAction("UserRequestMessage", userReq);
+            userReq.company_id = userData.Company_Id;
+            userReq.branch_id = userData.BranchId;
+            userReq.user_id = userData.UserId;
+            userReq.role_id = userData.RoleId;
+            userReq.loan_code = "";
+            userReq.page_name = "";
+            userReq.topic = "";
+            userReq.message = userReq.message;
+            userReq.priority_level = "high";
+            return RedirectToAction("UserRequest");
         }
 
         /// <summary>
@@ -1433,7 +1449,47 @@ namespace BankLoanSystem.Controllers
             }
         }
 
+        public ActionResult AssignRights()
+        {
+            Session.Remove("popUpSelectionType");
+            Loan loan = (Loan)Session["loanDashboard"];
+
+            UserManageAccess ua = new UserManageAccess();
+            List<User> userList = ua.getUsersByRoleBranch(3,loan.NonRegBranchId);
+            List<User> tempRoleList = new List<User>();
+
+            //for (int i = roleId - 1; i < userList.Count && ViewBag.CurrUserRoleType != 3; i++)
+            //{
+            //    if (userList[i].RoleId == 4)
+            //    {
+            //        continue;
+            //    }
+            //    UserRole tempRole = new UserRole()
+            //    {
+            //        RoleId = userList[i].RoleId,
+            //        RoleName = userList[i].RoleName
+            //    };
+            //    tempRoleList.Add(tempRole);
+            //}
+
+            ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+
+           
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView();
+            }
+            else
+            {
+
+                return View();
+            }
+            //return View();
+
         }
+
+    }
 
     
 }

@@ -40,198 +40,372 @@
     margin-right: 5px;
 }
 </style>
-@*
-    @{
-        Html.RenderAction("DashBoard", "UserManagement");
-    }*@
-<div id="userInfoDiv" style="border:groove;">
-    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
 
 
 
+<div class="container-child">
 
+    <div class="dsh">
 
-    <span class="block"><strong>@ViewBag.Username</strong></span>
-    <br />
-    @*<span> - </span>*@
-    
-    @if (ViewBag.roleId != 1)
-    {
-        <span><strong>@ViewBag.Company</strong></span>
-        <span> - </span>
-        <span><strong>@ViewBag.Branch</strong></span>
-        <br />
-    }
-    else
-    {
-        <span><strong>@ViewBag.Company</strong></span>
-        <br />
-    }
-    <span><strong>@ViewBag.Position</strong></span>
-</div>
-<div style="margin-left:200px" >
-@if (ViewBag.LoanCount > 0)
-{
-    <div id="floorPlanHeadDiv">
-<div style="margin-left:200px" >
-    
-        <h2>Floor plan managenment</h2>
-    </div>
-        </div>
-    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3))
-    {
-        <div id="floorPlanDiv">
-            @if (ViewBag.loanSelected == 1)
-            {
-           
-            <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
-            <br /><br /><br />
-            }
-
-            @if (ViewBag.LoanCount > 1)
-            {
-
-                <button>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })</button>
-                <br /><br /><br />
-            }
-           
-            else
-            {
-                <span><strong>Loan #</strong></span>
-                <span> - </span>
-                <span><strong>@ViewBag.LoanNum</strong></span>
-
-                if (ViewBag.PartnerType == 1)
-                {
-                    <span><strong>Lender</strong></span>
-                }
-                else if (ViewBag.PartnerType == 2)
-                {
-                    <span><strong>Dealer</strong></span>
-                }
-                <span> - </span>
-                <span><strong>@ViewBag.PartnerName</strong></span>
-
-                <span><strong>Branch</strong></span>
-                <span> - </span>
-                <span><strong>@ViewBag.Branch</strong></span>
-                <br /><br /><br />
-
-            }
-                <div id="floorPlanBtnDiv">
-                    <div id="squares">
-                    @if (ViewBag.roleId == 3)
-                    {
-                        if (ViewBag.AddUnits == 1)
-                        {
-                        <div id="1" href="#"><p style="color:white">add a unit</p></div>
-                        }
-                    }
-                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-                    {
-                        <div id="1" href="#"><p style="color:white">add a unit</p></div>
-                    }
-
-                        <div id="2" href="#"><p style="color:white">advance a unit</p></div>
-                        <div id="3" href="#"><p style="color:white">unit curtailments</p></div>
-                    </div>
-
-
-                    <div id="squares" href="#">
-                        <div id="1" href="#"><p style="color:white">payoff a unit</p></div>
-                    @if (ViewBag.roleId == 3)
-                    {
-                        if (ViewBag.ViewReports == 1)
-                        {
-                        <div id="2" href="#"><p style="color:white">Reports</p></div>
-                        }
-
-                        if (ViewBag.IsTitleTrack == 1)
-                        {
-                            <div id="3" href="#"><p style="color:white">update titles</p></div>
-                        }
-                    }
-                    else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-                    {
-                        <div id="2" href="#"><p style="color:white">Reports</p></div>
-                            <div id="3" href="#"><p style="color:white">update titles</p></div>
-                    }
-
-
-
+        <div class="img-name-panel">
+            <div>
+                <div>
+                    <div>
+                        <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
                     </div>
                 </div>
 
 
-            
-            
+
+            </div>
         </div>
-    }
+
+
+        <div class="pos-name-panel">
+            <div>
+                <div>
+                    <span>@ViewBag.Username</span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span>@ViewBag.Position</span>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">Dashboard</h3></div>
+        <div class="cmp-name-panel">
+            <div>
+                <div>
+
+                </div>
+
+                <div style="margin-top:10px">
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="cmp-name-panel">
+
+           
+                <div>
+                    <div>
+                        <span>@ViewBag.Company</span>
+                    </div>
+
+                    <div style="margin-top:10px">
+@if (ViewBag.roleId != 1)
+            {
+                        <span>@ViewBag.Branch</span>
+}
+else
+{
+    <span></span>
+                
+}
+
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+
+    @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3)))
+    {
+       
+        <div class="fpm">
+            <h3>Floor Plan Management</h3>
+            <div id="floorPlanDiv">
+                <div class="select-loan">
+
+@if (ViewBag.loanSelected == 1) { 
+                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+}
+@if (ViewBag.LoanCount > 1)
+{
+    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+}
+else
+{
+
+    <div>
+        <span>Loan # - @ViewBag.LoanNum</span>
+
+
+
+
+
+
+
+        @if (ViewBag.PartnerType == 1)
+        {
+        <span style="width:36%">Lender : @ViewBag.PartnerName</span>
+
+        }
+        else if (ViewBag.PartnerType == 2)
+        {
+        <span style="width:36%">Dealer : @ViewBag.PartnerName</span>
+
+        }
+
+        <span>Branch : @ViewBag.Branch</span>
+
+    </div>
+
 
 }
+
+                    
+
+                </div>
+                
+
+                @if (ViewBag.roleId == 3)
+                {
+                    if (ViewBag.AddUnits == 1)
+                    {
+                        <button class="big-button">
+                            <span class="icon-truck"></span>
+                            <span class="txt">Add Unit</span>
+                        </button>
+                    }
+                }
+                else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                {
+                    <button class="big-button">
+                        <span class="icon-truck"></span>
+                        <span class="txt">Add Unit</span>
+                    </button>
+                }
+                
+
+                   
+                    <button class="big-button">
+                        <span class="icon-dollar"></span>
+                        <span class="txt">Advance Unit</span>
+                    </button>
+
+                    <button class="big-button">
+                        <span class="icon-coin-dollar"></span>
+                        <span class="txt">Unit Curtailments</span>
+                    </button>
+                    <button class="big-button">
+                        <span class="icon-banknote"></span>
+                        <span class="txt">Pay Off A Unit</span>
+                    </button>
+
+
+                @if (ViewBag.roleId == 3)
+                {
+                    if (ViewBag.ViewReports == 1)
+                    {
+                        <button class="big-button">
+                            <span class="icon-stack"></span>
+                            <span class="txt">Reports</span>
+                        </button>
+                    }
+
+                    if (ViewBag.IsTitleTrack == 1)
+                    {
+                        <button class="big-button">
+                            <span class="icon-files-empty"></span>
+                            <span class="txt">Update Titles</span>
+                        </button>
+                    }
+                }
+                else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                {
+                    <button class="big-button">
+                        <span class="icon-stack"></span>
+                        <span class="txt">Reports</span>
+                    </button>
+
+                    <button class="big-button">
+                        <span class="icon-files-empty"></span>
+                        <span class="txt">Update Titles</span>
+                    </button>
+                }
+                    
+
+                
+            </div>
+        </div>
+
+    }
+
 @if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
 {
-        <h2>Manage Details</h2>
+    <div class="md">
+        <h3>Manage Details</h3>
+        <div>
+            <button class="big-button">
+                <span class="icon-user"></span>
+                <span class="txt">Edit User</span>
+            </button>
+            <button class="big-button">
+                <span class="icon-home2"></span>
+                <span class="txt">Edit Branch</span>
+            </button>
 
-            <div id="squares">
-                @if (ViewBag.roleId == 1)
-                {
-                    
-                    
-                    <div id="7" href="#"><p style="color:white">Join Dealer to Lender</p></div>
-                    <div id="5" href="#"><a href="~/SetupProcess/Step1"><p style="color:white">Edit company</p></a></div>
-                }
-                    <div id="2" href="#"><p style="color:white">Edit branch</p></div>
-                <div id="1" href="#"><p style="color:white">Edit user</p></div>
+            <button class="big-button">
+                <span class="icon-clipboard"></span>
+                <span class="txt">Edit Loan</span>
+            </button>
+            <button class="big-button">
+                <span class="icon-user-tie"></span>
+                <span class="txt">Edit Partner</span>
+            </button>
 
-                <div id="3" href="#"><p style="color:white">Edit loan</p></div>
-                <div id="4" href="#"><p style="color:white">Edit partner</p></div>
-                @if (ViewBag.LoanCount > 0)
-                {
-                    <div id="6" href="#"><p style="color:white">Assign User To Existing Loan</p></div>
-                }
            
-                @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
-           <br />                   
-           
-                @*<div id="7" href="#"><a href="~/CreateDealer/LinkDealer?count=" @ViewBag.LoanCount><p style="color:white">Join Dealer to Lender</p></a></div>*@
-                
-            @Ajax.ActionLink("Assign User Rights", "Selectloan", "UserManagement", new { type = "assignRights" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
-            </div>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-            <h2>Setup</h2>
-            <div id="squares">
-                <div id="1" href="#"><a href="~/UserManagement/CreateDashboardUser"><p style="color:white">create user</p></a></div>
-                @if (ViewBag.roleId == 1)
+            <button class="big-button">
+                <span class="icon-accessibility"></span>
+                <span class="txt">Edit User Rights</span>
+            </button>
+
+            <button class="big-button">
+                <span class="icon-credit"></span>
+                <span class="txt">Fees</span>
+            </button>
+
+            
+
+            @if (ViewBag.LoanCount > 0)
                 {
-                    <div id="2"><a href="~/SetupProcess/Step2"><p style="color:white">create branch</p></a></div>
+                <button class="big-button">
+                    <span class="icon-user-check"></span>
+                    <span class="txt">Assign A User</span>
+                </button>
+            }
+
+
+            @if (ViewBag.roleId == 1)
+                {
+
+                @*<button class="big-button">
+                    <span class="icon-link"></span>
+                    <span class="txt">Join Dealer</span>
+
+                    @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
+                </button>*@
+
+
+            using (Ajax.BeginForm(
+      "Selectloan",
+      "UserManagement", new { type = "linkDealer" },
+      new AjaxOptions
+      {
+          OnFailure = "handleError",
+          HttpMethod = "GET",
+          InsertionMode = InsertionMode.Replace,
+          UpdateTargetId = "selcet-panel",
+          LoadingElementId = "loadingSpan"
+      } , new { style = "display:inline-block" }))
+            {
+                    <button class="big-button show-popup" type="submit" data-showpopup="1">
+                        <span class="icon-link"></span>
+                        <span class="txt">Join Dealer</span>
+
+                        @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+                    </button>
                 }
-                
-                <div id="3" href="#"><a href="~/SetupProcess/Step6"><p style="color:white">create loan</p></a></div>
-                <div id="4" href="#"><a href="~/SetupProcess/Step4"><p style="color:white">create partner</p></a></div>
+
+
+                <button class="big-button">
+                    <span class="icon-office"></span>
+                    <span class="txt">Edit Company</span>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="setp">
+        <h3>Set Up</h3>
+        <div>
+            <div>
+                <div class="pkg">
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Branches</th>
+                            <th>Loans</th>
+                            <th>Users</th>
+                        </tr>
+                        <tr>
+                            <td>Used</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Available</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>2</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
             </div>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-    }
+            <button class="big-button">
+                <span class="icon-user-plus"></span>
+                <span class="txt">Create User</span>
+            </button>
+
+            @if (ViewBag.roleId == 1)
+                {
+                <button class="big-button">
+                    <span class="icon-home"></span>
+                    <span class="txt">Create Branch</span>
+                </button>
+            }
+            
+
+            <button class="big-button">
+                <span class="icon-folder-plus"></span>
+                <span class="txt">Create Loan</span>
+            </button>
+            <button class="big-button">
+                <span class="icon-users"></span>
+                <span class="txt">Create Partner</span>
+            </button>
+
+
+
+        </div>
+    </div>
+
+}
 
 </div>
 
+
+<!---->
 
 <script>
     $(document).ready(function(){
         if(@ViewBag.LoanCount==0){
             $('#floorPlanDiv').hide();
         }
-       
+
         else{
             $('#floorPlanDiv').show();
         }
     if(@ViewBag.LoanCount==1){
-        $('#floorPlanBtnDiv').show();
+        $('.floorPlanDiv .big-button').show();
+        //$('#floorPlanBtnDiv').show();
     }
     else{
-        $('#floorPlanBtnDiv').hide();
+        $('.floorPlanDiv .big-button').show();
+        //$('#floorPlanBtnDiv').hide();
     }
     });
-    
+
 </script>
