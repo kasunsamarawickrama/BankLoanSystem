@@ -1363,15 +1363,26 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult UserRequestMessage()
         {
-            
+            int userrole = userData.RoleId;
+            int userId = userData.UserId;
+
             return PartialView();
         }
 
         [HttpPost]
         [ActionName("UserRequestMessage")]
-        public ActionResult UserRequestMessagePost(Models.UserRequest userReq)
+        public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
-            return RedirectToAction("UserRequestMessage", userReq);
+            userReq.company_id = userData.Company_Id;
+            userReq.branch_id = userData.BranchId;
+            userReq.user_id = userData.UserId;
+            userReq.role_id = userData.RoleId;
+            userReq.loan_code = "";
+            userReq.page_name = "";
+            userReq.topic = "";
+            userReq.message = userReq.message;
+            userReq.priority_level = "high";
+            return RedirectToAction("UserRequest");
         }
 
         /// <summary>
