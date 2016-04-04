@@ -105,7 +105,7 @@ namespace BankLoanSystem.DAL
                     loanObj.PartnerName = dataSet.Tables[0].Rows[0]["company_name"].ToString();
                     loanObj.PartnerType = int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
                     loanObj.BranchName = dataSet.Tables[0].Rows[0]["branch_name"].ToString();
-                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["right_id"].ToString()))
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
                     {
                         if (bool.Parse(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
                         {
