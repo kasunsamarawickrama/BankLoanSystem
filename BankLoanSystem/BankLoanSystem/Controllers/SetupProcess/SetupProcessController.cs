@@ -247,9 +247,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step2(int? edit)
+        public ActionResult Step2(string edit1,int? edit)
         {
-            edit = 3;
+            //edit = 3;
             int userId = userData.UserId;
             int roleId = userData.RoleId;
             // check he is a super admin or admin
@@ -262,7 +262,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             //StepAccess cs = new StepAccess();
             int reslt = Convert.ToInt32(Session["companyStep"]);
-            if ((reslt==0)&&(edit == 3))
+            if ((reslt==0)&&(edit1 == "bshdrdhbrn"))
             {
                 reslt = 2;
             }
@@ -880,9 +880,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step6(int? dashbrd)
+        public ActionResult Step6(string dashbrd)
         {
-            dashbrd = 6;
+            //dashbrd = 6;
             int userrole = userData.RoleId;
             int userId = userData.UserId;
 
@@ -902,7 +902,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-            else if ((stepNo == 0)&&(dashbrd==6))
+            else if ((stepNo == 0)&&(dashbrd== "bshdrdoanl"))
             {
                 stepNo = 6;
                 loanData.stepId = 1;
@@ -1064,9 +1064,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step4(int ? dashbrd)
+        public ActionResult Step4(string dashbrd)
         {
-            dashbrd = 4;
+            //dashbrd = 4;
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo == 3)
@@ -1078,7 +1078,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
-            else if ((stepNo == 0) && (dashbrd == 4))
+            else if ((stepNo == 0) && (dashbrd == "bshdrdhomcrpt"))
             {
                 stepNo = 4;
             }
