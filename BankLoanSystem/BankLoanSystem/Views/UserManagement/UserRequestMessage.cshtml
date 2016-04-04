@@ -4,8 +4,23 @@
     ViewBag.Title = "User Request Message";
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/CommonFunctions.js"></script>
+
+
 <div class="msg-box">
-    <form>
+    @using (Ajax.BeginForm("UserRequestMessage", "UserManagement", new AjaxOptions()
+    {
+
+        OnFailure = "handleErrorMsg",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "changeContainer"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
         <div>
             <span>Send us a Message:</span>
         </div>
@@ -41,10 +56,9 @@
             <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float:right;" />
         </div>
 
-        @*<div style="clear:both;padding-top:10px">
-                <small><span>*Response will be delivered to your program inbox</span></small>
-            </div>*@
-
-    </form>
+        <div style="clear:both;padding-top:10px">
+                <small><span>Response will be delivered to your program inbox</span></small>
+            </div>
+    }
 </div>
 
