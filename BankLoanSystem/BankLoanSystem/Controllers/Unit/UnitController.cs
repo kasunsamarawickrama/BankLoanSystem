@@ -302,7 +302,7 @@ namespace BankLoanSystem.Controllers.Unit
             int userId;
             string loanCode;
             try {
-               userId = userData.UserId;
+                userId = userData.UserId;
 
                 loanCode = Session["loanCode"].ToString();
             }
@@ -322,7 +322,40 @@ namespace BankLoanSystem.Controllers.Unit
             else if (userData.RoleId == 1) {
                 ViewBag.Branch = "Super Admin";
             }
-            ViewBag.roleId = user.RoleId;
+        
+            ////////
+            Loan loan = new Loan();
+            if (Session["AuthenticatedUser"] != null)
+            {
+                DashBoardAccess da = new DashBoardAccess();
+                ViewBag.Username = userData.UserName;
+                ViewBag.Company = userData.CompanyName;
+                ViewBag.roleId = userData.RoleId;
+                if (userData.RoleId == 2)
+                {
+                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "Admin";
+
+                }
+                else if (userData.RoleId == 1)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
+                    ViewBag.Branch = "";
+                    ViewBag.Position = "Super Admin";
+
+                }
+                else if (userData.RoleId == 3)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "User";
+
+                }
+            }
+                //////////
+                ViewBag.roleId = user.RoleId;
             // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
