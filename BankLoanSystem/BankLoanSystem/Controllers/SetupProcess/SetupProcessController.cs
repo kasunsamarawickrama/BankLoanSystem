@@ -20,6 +20,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static string _calMode;
         User userData = new User();
         LoanSetupStep loanData = new LoanSetupStep();
+        int loanstep = 0;
 
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -48,6 +49,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         if(loanData.loanId > 0)
                         {
+                            loanstep = loanData.stepId;
                             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
 
                            
@@ -74,6 +76,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             int userId = userData.UserId;
+
+            stepNo = stepNo + loanstep;
 
             ViewBag.Step = stepNo;
             Session["stepNo"] = stepNo;

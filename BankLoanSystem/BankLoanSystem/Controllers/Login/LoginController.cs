@@ -244,7 +244,9 @@ namespace BankLoanSystem.Controllers
                                 if (dsStepNo.Tables[0].Rows.Count > 0)
                                 {
                                     Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                    return RedirectToAction("Index", "SetupProcess");
+                                    Session["isNotCompleteStep"] = 1;
+                                    //return RedirectToAction("Index", "SetupProcess");
+                                    return RedirectToAction("UserLogin", "Login");
                                 }
                                 else
                                 {
@@ -265,10 +267,12 @@ namespace BankLoanSystem.Controllers
                                         {
                                             loanStep.loanId = 0;
                                         }
+                                        Session["isNotCompleteStep"] = 1;
                                         Session["loanStep"] = loanStep;
                                         if (userData.RoleId == 1)
                                         {
-                                            return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                                            //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                                            return RedirectToAction("UserLogin", "Login");
                                         }
                                     }
                                 }
@@ -307,7 +311,9 @@ namespace BankLoanSystem.Controllers
 
                                         Session["isNotCompleteStep"] = 1;
                                         Session["loanStep"] = loanStep;
-                                        return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+
+                                        //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                                        return RedirectToAction("UserLogin", "Login");
                                     }
 
                                 }
