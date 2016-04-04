@@ -273,15 +273,31 @@ else
                 <span class="txt">Fees</span>
             </button>
 
-            
-
             @if (ViewBag.LoanCount > 0)
                 {
-                <button class="big-button">
-                    <span class="icon-user-check"></span>
+                using (Ajax.BeginForm(
+                "Selectloan",
+                "UserManagement", new { type = "assignRights" },
+                new AjaxOptions
+                {
+                OnFailure = "handleError",
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "selcet-panel",
+                LoadingElementId = "loadingSpan"
+                }, new { style = "display:inline-block" }))
+                {
+                <button class="big-button show-popup" type="submit" data-showpopup="1">
+                    <span class="icon-link"></span>
                     <span class="txt">Assign A User</span>
+
+                    @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
             }
+            }
+
+
+           
 
 
             @if (ViewBag.roleId == 1)
@@ -294,19 +310,20 @@ else
                     @Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })
                 </button>*@
 
-
-            using (Ajax.BeginForm(
-      "Selectloan",
-      "UserManagement", new { type = "linkDealer" },
-      new AjaxOptions
-      {
-          OnFailure = "handleError",
-          HttpMethod = "GET",
-          InsertionMode = InsertionMode.Replace,
-          UpdateTargetId = "selcet-panel",
-          LoadingElementId = "loadingSpan"
-      } , new { style = "display:inline-block" }))
+            if (ViewBag.LoanCount > 1)
             {
+                using (Ajax.BeginForm(
+          "Selectloan",
+          "UserManagement", new { type = "linkDealer" },
+          new AjaxOptions
+          {
+              OnFailure = "handleError",
+              HttpMethod = "GET",
+              InsertionMode = InsertionMode.Replace,
+              UpdateTargetId = "selcet-panel",
+              LoadingElementId = "loadingSpan"
+          }, new { style = "display:inline-block" }))
+                {
                     <button class="big-button show-popup" type="submit" data-showpopup="1">
                         <span class="icon-link"></span>
                         <span class="txt">Join Dealer</span>
@@ -314,12 +331,50 @@ else
                         @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                     </button>
                 }
+            }
+            else if (ViewBag.LoanCount == 1)
+            {
+                @*using (Ajax.BeginForm(
+                    "LinkDealerr",
+                    "CreateDealer", new { loanId = "274", nonRegBranch = "22" },
+                    new AjaxOptions
+                    {
+                        OnFailure = "handleError",
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "selcet-panel",
+                        LoadingElementId = "loadingSpan"
+                    }, new { style = "display:inline-block" }))
+                {
+                                        <button class="big-button">
+                                            <span class="icon-office"></span>
+                                            <span class="txt">jjjj</span>
+                                        </button>
+                }*@
 
+                <button class="big-button" type="submit" onclick="window.location.href='/CreateDealer/LinkDealer?loanId=1&nonRegBranch=22'">
+                    <span class="icon-link"></span>
+                    <span class="txt">Join Dealer</span>
 
-                <button class="big-button">
-                    <span class="icon-office"></span>
-                    <span class="txt">Edit Company</span>
+                    @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
+
+            }
+
+            <button class="big-button" type="submit" onclick="window.location.href='/SetupProcess/Step1?edit=bshdrd'">
+                <span class="icon-link"></span>
+                    <span class="txt">Edit Company</span>
+
+                @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+                </button>
+                
+
+                @*@Html.ActionLink("Edit Company", "Step1", "SetupProcess", new { edit = 1 }, new { @class = "big-button", @type = "submit" , @id="editComp" })*@
+                @*<span class="icon-office"></span>
+                <span class="txt">Edit Company</span>*@
+                
+            
+                
             }
         </div>
     </div>
@@ -361,18 +416,18 @@ else
 
             @if (ViewBag.roleId == 1)
                 {
-                <button class="big-button">
+                <button class="big-button" onclick="window.location.href='/SetupProcess/Step2?edit1=bshdrdhbrn'" type="button">
                     <span class="icon-home"></span>
                     <span class="txt">Create Branch</span>
                 </button>
             }
             
 
-            <button class="big-button">
+            <button class="big-button" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" type="button">
                 <span class="icon-folder-plus"></span>
                 <span class="txt">Create Loan</span>
             </button>
-            <button class="big-button">
+            <button class="big-button" onclick="window.location.href='/SetupProcess/Step4?dashbrd=bshdrdhomcrpt'" type="button">
                 <span class="icon-users"></span>
                 <span class="txt">Create Partner</span>
             </button>
