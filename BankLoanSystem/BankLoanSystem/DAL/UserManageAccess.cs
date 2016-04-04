@@ -326,5 +326,52 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/4
+        /// Retrieve user detaild by attached branch id and role id
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// /// <param name="nonRegBranchId"></param>
+        /// <returns>user object</returns>
+        public List<User> getUsersByRoleBranch(int roleId, int nonRegBranchId)
+        {
+            List<User> UserList = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+           
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@branch_id", nonRegBranchId });
+            paramertList.Add(new object[] { "@role_id", roleId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserDetailsByRoleBranch");
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        User user = new User();
+                        
+                        user.UserId = int.Parse(dataRow["user_id"].ToString());
+                        user.UserName = dataRow["user_name"].ToString();
+                        user.FirstName = dataRow["first_name"].ToString();
+                        user.LastName = dataRow["last_name"].ToString();                      
+
+                        UserList.Add(user);
+                    }
+
+                    return UserList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
