@@ -1107,7 +1107,7 @@ namespace BankLoanSystem.Controllers
             // take firstsuperadmin userid....
             int userId = userData.UserId;
             StepAccess sa = new StepAccess();
-
+            DashBoardAccess da = new DashBoardAccess();
             // check he is a super admin or admin
 
             int roleId = userData.RoleId;
@@ -1150,7 +1150,19 @@ namespace BankLoanSystem.Controllers
             }
 
             ViewBag.CurrUserRoleType = roleId;
+            int loanCount = -1;
+            if (userData.RoleId == 2)
+            {
+                //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                loanCount = da.GetLoanCount(userData.BranchId, 2);
+                
 
+            }
+            else if (userData.RoleId == 1)
+            {
+                loanCount = da.GetLoanCount(userData.Company_Id, 1);
+                
+            }
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
@@ -1158,6 +1170,10 @@ namespace BankLoanSystem.Controllers
             for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
                 if (roleList[i].RoleId == 4)
+                {
+                    continue;
+                }
+                else if((roleList[i].RoleId == 3) &&(loanCount==0)) 
                 {
                     continue;
                 }
@@ -1177,6 +1193,16 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
+            List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
+
+
+            ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
+
+            List<Right> rightLists = (new UserRightsAccess()).getRights();
+
+
+            ViewBag.UserRights = new SelectList(rightLists, "rightId", "description");
+
             //return PartialView(userViewModel);
 
             if (HttpContext.Request.IsAjaxRequest())
@@ -1192,15 +1218,15 @@ namespace BankLoanSystem.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult CreateDashboardUser(User user)
+        
+        public ActionResult InsertDashboardUser(User userObj)
         {
 
-            user.PhoneNumber = user.PhoneNumber2;
+            userObj.PhoneNumber = userObj.PhoneNumber2;
 
             int currentUser = userData.UserId;
 
-            // check he is a super admin or admin
+            //// check he is a super admin or admin
             int roleId = userData.RoleId;
 
             if (roleId > 2)
@@ -1208,56 +1234,66 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("UserLogin", "Login");
             }
 
-            // check if   step is 3...
-            if (Convert.ToInt32(Session["companyStep"]) < 3)
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
 
-            user.CreatedBy = currentUser;
-            user.IsDelete = false;
-            user.Status = false;
 
-            string passwordTemp = user.Password;
+            userObj.CreatedBy = currentUser;
+            userObj.IsDelete = false;
+            userObj.Status = false;
+
+            string passwordTemp = userObj.Password;
 
             UserAccess ua = new UserAccess();
 
             string newSalt = PasswordEncryption.RandomString();
-            user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+            userObj.Password = PasswordEncryption.encryptPassword(userObj.Password, newSalt);
 
-            user.Email = user.NewEmail;
+            userObj.Email = userObj.NewEmail;
 
-            //CompanyAccess ca = new CompanyAccess();
-            //Company company = ca.GetCompanyDetailsByFirstSpUserId(currentUser);
-            user.Company_Id = userData.Company_Id;//  company.CompanyId;  - asanka
 
-            //Set admin branch to new user 
+            userObj.Company_Id = userData.Company_Id;//  company.CompanyId;  - asanka
+
+            ////Set admin branch to new user 
             if (roleId == 2)
             {
-                user.BranchId = userData.BranchId;
+                userObj.BranchId = userData.BranchId;
             }
-
+            if ((userObj.RoleId == 1)&&(userData.RoleId==1))
+            {
+                userObj.step_status = userData.step_status;
+            }
+            else if (userObj.RoleId == 2)
+            {
+            int step= ua.GetStepStatusByUserBranchId(userObj.BranchId);
+            if(step>=0) 
+            {
+                    userObj.step_status = step;
+            }
+                
+            }
+            else if (userObj.RoleId == 3)
+            {
+                userObj.step_status= 1;
+            }
             //Insert user
-            int res = ua.InsertUser(user);
+            int res = ua.InsertUser(userObj);
 
             //Insert new user to user activation table
             string activationCode = Guid.NewGuid().ToString();
-            int userId = (new UserAccess()).getUserId(user.Email);
+            int userId = (new UserAccess()).getUserId(userObj.Email);
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
 
 
-                string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
-                              "<br /><br /> User name: " + user.UserName +
+                string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                              "<br /><br /> User name: " + userObj.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
                               "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
                               "<br /><br/> Thanks,<br /> Admin.";
 
-                Email email = new Email(user.Email);
+                Email email = new Email(userObj.Email);
 
-                Session["abcRol"] = user.RoleId;
-                Session["abcBrnc"] = user.BranchId;
+              
                 email.SendMail(body, "Account details");
 
 
@@ -1267,7 +1303,7 @@ namespace BankLoanSystem.Controllers
                 //additional page ----> Add User Rights
                 //if()
 
-                return RedirectToAction("Step3", new { lbls = ViewBag.SuccessMsg });
+                return RedirectToAction("CreateDashboardUser", new { lbls = ViewBag.SuccessMsg });
 
             }
             else
@@ -1288,7 +1324,10 @@ namespace BankLoanSystem.Controllers
                 // get all branches
                 List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+                List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
 
+
+                ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -1301,6 +1340,7 @@ namespace BankLoanSystem.Controllers
                     return View();
                 }
             }
+            //return View();
         }
 
 

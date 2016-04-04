@@ -6,11 +6,51 @@ using System.Linq;
 
 namespace BankLoanSystem.DAL
 {
-    /// <summary>
-    /// Main Branch and partner branch related operation define inside the class
-    /// </summary>
+    
     public class BranchAccess
     {
+
+    /// <summary>
+    /// CreatedBy: Piyumi
+    /// CreatedDate: 4/4/2016
+    /// Get branches at least one loan assigned
+    /// </summary>
+    /// <param name="companyId"></param>
+    /// <returns></returns>
+        public List<Branch> GetLoansBranches(int companyId)
+        {
+            List<Branch> branchesLists = new List<Branch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", companyId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoanBranchesByCompanyId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Branch branch = new Branch();
+                        branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                        branch.BranchName = dataRow["branch_name"].ToString();
+                        
+
+                        branchesLists.Add(branch);
+                    }
+
+                    return branchesLists;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// CreatedBy: MAM. IRFAN

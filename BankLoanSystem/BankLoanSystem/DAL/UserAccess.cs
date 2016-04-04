@@ -484,5 +484,41 @@ namespace BankLoanSystem.DAL
             //    return 0;
             //}
         }
+
+        public int GetStepStatusByUserBranchId(int branchId)
+        {
+            int step = -1;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@branch_id", branchId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetStepStatusByUserBranchId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                       if(string.IsNullOrEmpty(dataRow["step_status"].ToString())) {
+                            step = int.Parse(dataRow["step_status"].ToString());
+                       }
+
+
+                        return step;
+
+                    }
+
+                    return step;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            catch
+            {
+                return -1;
+            }
+        }
     }
 }
