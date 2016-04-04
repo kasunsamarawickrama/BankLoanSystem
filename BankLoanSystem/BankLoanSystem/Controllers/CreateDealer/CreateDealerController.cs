@@ -51,6 +51,12 @@ namespace BankLoanSystem.Controllers.CreateDealer
             BranchAccess ba = new BranchAccess();
             Loan loan = (Loan)Session["loanDashboard"];
             Session.Remove("popUpSelectionType");
+            if (loan == null)
+            {
+                loan = new Loan();
+                loan.NonRegBranchId = 22;
+                loan.LoanId = 274;
+            }
             NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
             ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
@@ -64,7 +70,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
         /// to show the view
         /// </summary>
         /// <returns></returns>
-        public ActionResult LinkDealerr(string loanId, string nonRegBranch)
+        public ActionResult LinkDealer1(string loanId, string nonRegBranch)
         {
             CompanyAccess ca = new CompanyAccess();
             Loan finalSelectedLoan = new Loan();

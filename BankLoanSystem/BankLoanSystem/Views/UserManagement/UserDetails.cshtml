@@ -312,18 +312,18 @@ else
 
             if (ViewBag.LoanCount > 1)
             {
-            using (Ajax.BeginForm(
-      "Selectloan",
-      "UserManagement", new { type = "linkDealer" },
-      new AjaxOptions
-      {
-          OnFailure = "handleError",
-          HttpMethod = "GET",
-          InsertionMode = InsertionMode.Replace,
-          UpdateTargetId = "selcet-panel",
-          LoadingElementId = "loadingSpan"
+                using (Ajax.BeginForm(
+          "Selectloan",
+          "UserManagement", new { type = "linkDealer" },
+          new AjaxOptions
+          {
+              OnFailure = "handleError",
+              HttpMethod = "GET",
+              InsertionMode = InsertionMode.Replace,
+              UpdateTargetId = "selcet-panel",
+              LoadingElementId = "loadingSpan"
           }, new { style = "display:inline-block" }))
-            {
+                {
                     <button class="big-button show-popup" type="submit" data-showpopup="1">
                         <span class="icon-link"></span>
                         <span class="txt">Join Dealer</span>
@@ -334,9 +334,9 @@ else
             }
             else if (ViewBag.LoanCount == 1)
             {
-                using (Ajax.BeginForm(
+                @*using (Ajax.BeginForm(
                     "LinkDealerr",
-                    "CreateDealer", new { loanId = "274", nonRegBranch="22" },
+                    "CreateDealer", new { loanId = "274", nonRegBranch = "22" },
                     new AjaxOptions
                     {
                         OnFailure = "handleError",
@@ -350,9 +350,16 @@ else
                                             <span class="icon-office"></span>
                                             <span class="txt">jjjj</span>
                                         </button>
-                }
+                }*@
 
+                <button class="big-button" type="submit" onclick="window.location.href='/CreateDealer/LinkDealer?loanId=1&nonRegBranch=22'">
+                    <span class="icon-link"></span>
+                    <span class="txt">Join Dealer</span>
 
+                    @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+                </button>
+
+            }
 
             <button class="big-button" type="submit" onclick="window.location.href='/SetupProcess/Step1?edit=bshdrd'">
                 <span class="icon-link"></span>
@@ -366,7 +373,7 @@ else
                 @*<span class="icon-office"></span>
                 <span class="txt">Edit Company</span>*@
                 
-            }
+            
                 
             }
         </div>
