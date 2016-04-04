@@ -20,6 +20,7 @@
     .overlay-content {
         top: 14%;
         width: 600px;
+        text-align: center;
     }
 
     .validation-summary {
@@ -35,9 +36,9 @@
             }
 </style>
 
-
-@if (Session["companyStep"] != null && int.Parse(Session["companyStep"].ToString()) > 0)
-{
+@{ 
+    if (Session["companyStep"] != null && int.Parse(Session["companyStep"].ToString()) > 0)
+    {
     <div class="overlay-bg">
     </div>
         <div class="overlay-content popup1" style="left:55%">
@@ -56,7 +57,29 @@
 
         </script>
 
-}
+    }
+    else if (Session["loanStep"] != null )
+    {
+    <div class="overlay-bg">
+    </div>
+    <div class="overlay-content popup1" style="left:55%">
+        <h3>Loan Setup is on Progress</h3>
+
+        <span class="text-warning">Do you wish to continue the Loan Setup?</span><br />
+        <span> Press YES to Complete the Setupprocess, or NO to go to Dashboard.</span><br />
+        <br />
+        @Html.ActionLink("YES", "Index", "SetupProcess", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+        @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
+    </div>
+        <script>
+
+    showPopup(1);
+
+
+        </script>
+
+        }
+    }
 
 
 <div class="container loginwrapper">

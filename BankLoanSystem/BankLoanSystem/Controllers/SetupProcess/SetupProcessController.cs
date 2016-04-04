@@ -20,6 +20,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static string _calMode;
         User userData = new User();
         LoanSetupStep loanData = new LoanSetupStep();
+        int loanstep = 0;
 
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -48,6 +49,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         if(loanData.loanId > 0)
                         {
+                            loanstep = loanData.stepId;
                             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
 
                            
@@ -74,6 +76,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             int userId = userData.UserId;
+
+            stepNo = stepNo + loanstep;
 
             ViewBag.Step = stepNo;
             Session["stepNo"] = stepNo;
@@ -122,7 +126,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step1(int? edit)
+        public ActionResult Step1(string edit)
         {
             int userId = userData.UserId;
             int roleId = userData.RoleId;
@@ -142,7 +146,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (Convert.ToInt32(Session["companyStep"]) >= 1)
+            if ((Convert.ToInt32(Session["companyStep"]) >= 1)||((Convert.ToInt32(Session["companyStep"])==0)&&(edit== "bshdrd")))
             {
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                

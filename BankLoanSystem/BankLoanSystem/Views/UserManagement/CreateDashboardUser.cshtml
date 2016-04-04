@@ -228,7 +228,7 @@
                                                         @if (ViewBag.BranchId.Items.Count == 1)
                         {
                                                             <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId })
+                                                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId,id="BranchId2" })
                                                                 @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                             </div>
                                                         }
@@ -244,7 +244,49 @@
                                                 }
                                             </div>
 
+                                            <div id="branchDivUser" hidden>
+                                                @if (ViewBag.CurrUserRoleType != 2)
+                                                {
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Branch </label>
+                                                    </div>
+                                                    @if (ViewBag.BranchIdUser.Items.Count == 1)
+                                                    {
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchIdUser.Items[0].BranchId,id="BranchIdUser2" })
+                                                        @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchIdUser.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchIdUser", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                    </div>
+                                                    }
+                                                    else {
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchIdUser" })
+                                                    </div>
+                                                    }
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                }
+                                            </div>
+                                            @*<div id="rightDiv" hidden>
+                                                <table class="dl-horizontal">
 
+
+                                                    @for (var i = 0; i < ViewBag.UserRights.Items.Count; i++)
+                                                    {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.HiddenFor(ViewBag.UserRights.Items[i].rightId)
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(ViewBag.UserRights.Items[i].description)
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                </table>
+                                            </div>*@
 
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
@@ -254,7 +296,7 @@
                                                                 <input value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
                                                             </div>
                                                             <div class="button_box algn_center">
-                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button" id="btnCreateUser">
                                                             </div>
                                                             <div class="button_box algn_right">
                                                                 <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
@@ -305,11 +347,17 @@
 
     $('#RoleId').change(function () {
         var val = document.getElementById("RoleId").value;
-        if (val == '2' || val == '3') {
+        if (val == '2') {
             $('#branchDiv').show();
+            $('#branchDivUser').hide();
+        }
+        else if (val == '3') {
+            $('#branchDivUser').show();
+            $('#branchDiv').hide();
         }
         else {
             $('#branchDiv').hide();
+            $('#branchDivUser').hide();
         }
     });
     $("#clear").click(function () {
@@ -457,6 +505,63 @@
             return;
         }
     });
+
+    $('#btnCreateUser').click(function () {
+        //alert($('#BranchId2').val());
+        //alert($('#BranchId option:selected').val());
+        InsertUser();
+
+    });
+    function InsertUser() {
+        if ($('#RoleId option:selected').val() == 2) {
+            if ($('#BranchId2').val() != "") {
+                //alert('1');
+                var branch = $('#BranchId2').val();
+                //alert($('#BranchId2').val());
+            }
+            else if ($('#BranchId option:selected').val()!="")
+            {
+                var branch = $('#BranchId option:selected').val();
+            }
+           
+        }
+        else if ($('#RoleId option:selected').val() == 3) {
+            if ($('#BranchIdUser2').val() != "") {
+                //alert('1');
+                var branch = $('#BranchIdUser2').val();
+                //alert($('#BranchId2').val());
+            }
+            else if ($('#BranchIdUser option:selected').val() != "") {
+                var branch = $('#BranchIdUser option:selected').val();
+            }
+            //var branch = $('#BranchIdUser option:selected').val();
+        }
+        var userObj = {
+            "UserName": $('#txtUserName').val(),
+            "Password": $('#txtPassword').val(),
+            "ConfirmPassword": $('#txtConfirmPassword').val(),
+            "FirstName": $('#txtFirstName').val(),
+            "LastName": $('#txtLastName').val(),
+            "NewEmail": $('#txtNewEmail').val(),
+            "PhoneNumber2": $('#txtPhoneNumber').val(),
+            "RoleId": $('#RoleId option:selected').val(),
+            "BranchId": branch
+        };
+        $.ajax({
+            url: '/UserManagement/InsertDashboardUser',
+            data: JSON.stringify(userObj),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (View) {
+                if (View != '1') {
+                    $(location).attr('href', '/UserManagement/InsertDashboardUser');
+                } else {
+                    $(location).attr('href', '/UserManagement/InsertDashboardUser');
+                }
+            }
+        });
+        //alert(para8);
+    }
 
 </script>
 
