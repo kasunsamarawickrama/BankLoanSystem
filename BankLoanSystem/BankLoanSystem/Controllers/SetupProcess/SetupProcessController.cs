@@ -1555,6 +1555,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             dashBoardModel.userName = userData.UserName;
             dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(userData.UserId);
             dashBoardModel.levelId = userLevelId;
+            dashBoardModel.step_status = userData.step_status;
             return PartialView(dashBoardModel);
         }
 
