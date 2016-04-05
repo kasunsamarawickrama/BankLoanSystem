@@ -247,11 +247,14 @@ else
                 <span class="icon-user"></span>
                 <span class="txt">Edit User</span>
             </button>
-           
+            @if (ViewBag.roleId == 1)
+            {
             <button class="big-button" onclick="window.location.href='/SetupProcess/Step2?edit1=bshdrdhbrn'" type="button">
                 <span class="icon-home2"></span>
                 <span class="txt">Edit Branch</span>
             </button>
+            }
+            
             
             
 
@@ -412,7 +415,7 @@ else
                 </div>
 
             </div>
-            <button class="big-button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardUser'" type="button">
                 <span class="icon-user-plus"></span>
                 <span class="txt">Create User</span>
             </button>
