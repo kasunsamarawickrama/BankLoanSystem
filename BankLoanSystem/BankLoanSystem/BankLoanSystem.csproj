@@ -218,6 +218,7 @@
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
+    <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
@@ -342,6 +343,13 @@
     </Compile>
     <Compile Include="Reports\RptDivCurtailmentInvoice.aspx.designer.cs">
       <DependentUpon>RptDivCurtailmentInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.designer.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
