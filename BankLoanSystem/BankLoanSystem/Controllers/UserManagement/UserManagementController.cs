@@ -346,6 +346,7 @@ namespace BankLoanSystem.Controllers
                                     }
                                 }
                             }
+                            
 
                         }
                         else
@@ -353,10 +354,11 @@ namespace BankLoanSystem.Controllers
                             ViewBag.AddUnits = 1;
                             ViewBag.ViewReports = 1;
                         }
-                        
-                        
+
+
                         //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                        //ViewBag.CompType 
+                        //ViewBag.CompType
+                        Session["loanDashboard"] = loan;
                         return View();
                     }
                     else
