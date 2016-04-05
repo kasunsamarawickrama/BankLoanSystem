@@ -150,7 +150,7 @@
     //    Report();
     //});
 
-
+    var errorCount = 0;
 
     function ChangeButtonColor(id) {
         $(id).css({ 'background': 'green' });
@@ -158,21 +158,25 @@
     }
 
     $('#btnLotInspection').click(function () {
+        errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
     });
 
     $('#btnCurtailmentInvoice').click(function () {
+        errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
     });
 
     $('#btnCurtailmentReceipt').click(function () {
+        errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
     });
 
     $('#btnTitlesStatus').click(function () {
+        errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
     });
@@ -182,7 +186,6 @@
         //alert(reportType);
 
         if (rptType !== '') {
-            var errorCount = 0;
             var input = $("#LoanId");
 
             var urlPrefix = "";
@@ -199,9 +202,9 @@
             else if (rptType === 'TitlesStatus') {
                 urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
             }
-
+            var selectedIndex;
             if (input.attr('type') !== 'hidden') {
-                var selectedIndex = $("#LoanId option:selected").index();
+                selectedIndex = $("#LoanId option:selected").index();
                 //alert(selectedIndex);
                 if (selectedIndex === 0) {
                     $('#tagscloudLoanId').children('span').text("Please select a loan");
@@ -259,12 +262,28 @@
 
                     $('#reportViewerDiv').show();
                     //alert(input.attr('type'));
-                    ReportCurtailmentInvoice(val, startDate, endDate, urlPrefix);
+                    urlPrefix = urlPrefix + val + "&startDate=" + startDate + "&endDate=" + endDate;
+                    ReportCurtailmentInvoice(val, urlPrefix);
                 }
             } else if (rptType === 'LotInspection') {
-                Report(val, urlPrefix);
+                urlPrefix = urlPrefix + val;
+                ReportCurtailmentInvoice(val, urlPrefix);
             } else if (rptType === 'TitlesStatus') {
-                Report(val, urlPrefix);
+                //Report(val, urlPrefix);
+                //tagscloudTitleStatus
+                selectedIndex = $("#titleStatus option:selected").index();
+                if (selectedIndex === 0) {
+                    $('#tagscloudTitleStatus').children('span').text("Please select title status");
+                    $("#titleStatus").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //return;
+                } else {
+                    $('#tagscloudTitleStatus').children('span').text("");
+                    $("#titleStatus").removeClass('input-validation-error');
+                    urlPrefix = urlPrefix + val + '&titleStatus=' + selectedIndex;
+                    ReportCurtailmentInvoice(val, urlPrefix);
+                }
+                //alert(selectedIndex);
             }
 
             //alert(errorCount);
@@ -372,6 +391,17 @@
 
     });
 
+    $('#LoanId').click(function () {
+        //alert($(this));
+        $('#tagscloudLoanId').children('span').text('');
+        $(this).removeClass('input-validation-error');
+    });
+
+    $('#titleStatus').click(function () {
+        //alert($(this));
+        $('#tagscloudTitleStatus').children('span').text('');
+        $(this).removeClass('input-validation-error');
+    });
 
     $('#btnPrint').click(function () {
         $.ajax({
@@ -389,25 +419,24 @@
         });
     });
 
-    function Report(val, url) {
-        //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
-        url = url + val;
-        var myFrame = document.getElementById('ifrmReportViewer');
-        if (myFrame !== null) {
-            if (myFrame.src) {
-                myFrame.src = url;
-            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                myFrame.contentWindow.location = url;
-            } else {
-                myFrame.setAttribute('src', url);
-            }
-        }
-    }
+    //function Report(val, url) {
+    //    //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
+    //    url = url + val;
+    //    alert(url);
+    //    var myFrame = document.getElementById('ifrmReportViewer');
+    //    if (myFrame !== null) {
+    //        if (myFrame.src) {
+    //            myFrame.src = url;
+    //        } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+    //            myFrame.contentWindow.location = url;
+    //        } else {
+    //            myFrame.setAttribute('src', url);
+    //        }
+    //    }
+    //}
 
-    function ReportCurtailmentInvoice(val, startDate, endDate, url) {
+    function ReportCurtailmentInvoice(val, url) {
         //alert(startDate + ' ' + endDate);
-
-        url = url + val + "&startDate=" + startDate + "&endDate=" + endDate;
         var myFrame = document.getElementById('ifrmReportViewer');
         if (myFrame !== null) {
             if (myFrame.src) {
