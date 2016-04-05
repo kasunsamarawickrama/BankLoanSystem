@@ -25,6 +25,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             user.Email = user.NewEmail;
             user.RoleId = 1;
             user.Status = true;
+            user.step_status = 0;
 
             UserAccess ua = new UserAccess();
             if (ua.InsertUser(user) >= 1)
