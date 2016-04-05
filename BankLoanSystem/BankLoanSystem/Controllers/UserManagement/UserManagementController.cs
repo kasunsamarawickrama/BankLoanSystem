@@ -190,28 +190,6 @@ namespace BankLoanSystem.Controllers
                 ViewBag.Username = userData.UserName;
                 ViewBag.Company = userData.CompanyName;
                 ViewBag.roleId = userData.RoleId;
-                if (userData.RoleId == 2)
-                {
-                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
-                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "Admin";
-
-                }
-                else if (userData.RoleId == 1)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
-                    ViewBag.Branch = "";
-                    ViewBag.Position = "Super Admin";
-
-                }
-                else if (userData.RoleId == 3 || userData.RoleId == 4)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "User";
-
-                }
                 if (Session["loanDashboard"] != null)
                 {
                     ViewBag.LoanCount = 1;
@@ -296,7 +274,31 @@ namespace BankLoanSystem.Controllers
                     }
 
                 }
-                else if (ViewBag.LoanCount == 1)
+
+                if (userData.RoleId == 2)
+                {
+                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "Admin";
+
+                }
+                else if (userData.RoleId == 1)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
+                    ViewBag.Branch = "";
+                    ViewBag.Position = "Super Admin";
+
+                }
+                else if (userData.RoleId == 3)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "User";
+
+                }
+                
+                if (ViewBag.LoanCount == 1)
                 {
                    
                     if (userData.RoleId == 2)
@@ -1450,9 +1452,9 @@ namespace BankLoanSystem.Controllers
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
-                return RedirectToAction("UserRequest");
-            }
-               
+            return RedirectToAction("UserRequest");
+        }
+
         }
 
         /// <summary>
