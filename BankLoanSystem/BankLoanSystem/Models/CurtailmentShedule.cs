@@ -15,10 +15,12 @@ namespace BankLoanSystem.Models
 
         public string AdvanceDate { get; set; }
         public string DueDate { get; set; }
+        public string PaidDate { get; set; }
 
         public int Status { get; set; }
 
         public decimal CurtAmount { get; set; }
+        public decimal PaidCurtAmount { get; set; }
 
         public string IDNumber { get; set; }
         public int CurtNumber { get; set; }
@@ -27,6 +29,9 @@ namespace BankLoanSystem.Models
 
         public DateTime PayDate { get; set; }
 
+        public decimal PurchasePrice { get; set; }
+        public decimal TotalAmountDue { get; set; }
+        public decimal TotalAmountPaid { get; set; }
 
     }
     public class CurtailmentScheduleModel

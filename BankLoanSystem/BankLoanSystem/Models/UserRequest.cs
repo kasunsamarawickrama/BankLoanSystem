@@ -34,6 +34,8 @@ namespace BankLoanSystem.Models
         [Display(Name = "Page Name")]
         public string page_name { get; set; }
 
+        [Required(ErrorMessage = "Subject is required")]
+        [Display(Name = "Subject")]
         public string topic { get; set; }
 
         [Required(ErrorMessage = "Message is required")]
