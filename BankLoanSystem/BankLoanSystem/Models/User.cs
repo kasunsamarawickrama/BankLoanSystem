@@ -94,6 +94,14 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
 
         [Required]
+        [Display(Name = "Branch ")]
+        public int BranchIdUser { get; set; }
+
+        [Required]
+        [Display(Name = "Branch ")]
+        public int LoanIdUser { get; set; }
+
+        [Required]
         [Display(Name = "Role")]
         public int RoleId { get; set; }
 
@@ -112,6 +120,8 @@ namespace BankLoanSystem.Models
         public string UserRights { get; set; }
 
         public int step_status { get; set; }
+
+        public List<Right> UserRightsList { get; set; }
     }
 
     /// <summary>
