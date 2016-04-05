@@ -358,7 +358,7 @@ namespace BankLoanSystem.Controllers
 
                         //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
                         //ViewBag.CompType
-                        Session["loanDashboard"] = loan;
+                        Session["oneLoanDashboard"] = loan;
                         return View();
                     }
                     else
@@ -1454,7 +1454,17 @@ namespace BankLoanSystem.Controllers
         public ActionResult AssignRights()
         {
             Session.Remove("popUpSelectionType");
-            Loan loan = (Loan)Session["loanDashboard"];
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                //Session.Remove("oneLoanDashboard");
+            }
+            else if (Session["loanDashboard"] != null)
+            {
+                loan = (Loan)Session["loanDashboard"];
+            }
+           
 
             UserManageAccess ua = new UserManageAccess();
             List<User> userList = ua.getUsersByRoleBranch(3,loan.NonRegBranchId);
