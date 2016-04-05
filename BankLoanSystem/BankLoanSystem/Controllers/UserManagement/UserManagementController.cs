@@ -1291,7 +1291,7 @@ namespace BankLoanSystem.Controllers
             string passwordTemp = userObj.Password;
 
             UserAccess ua = new UserAccess();
-
+           DashBoardAccess da = new DashBoardAccess();
             string newSalt = PasswordEncryption.RandomString();
             userObj.Password = PasswordEncryption.encryptPassword(userObj.Password, newSalt);
 
@@ -1321,9 +1321,10 @@ namespace BankLoanSystem.Controllers
             else if (userObj.RoleId == 3)
             {
                 userObj.step_status= 1;
+                userObj.BranchId = userObj.BranchIdUser;
             }
             //Insert user
-            int res = ua.InsertUser(userObj);
+            int res = da.InsertUserInDashboard(userObj);
 
             //Insert new user to user activation table
             string activationCode = Guid.NewGuid().ToString();
@@ -1370,7 +1371,7 @@ namespace BankLoanSystem.Controllers
 
                 User curUser = ua.retreiveUserByUserId(userId);
                 // get all branches
-                List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+                List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
                 List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
 
