@@ -218,6 +218,7 @@
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
+    <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
@@ -343,6 +344,13 @@
     <Compile Include="Reports\RptDivCurtailmentInvoice.aspx.designer.cs">
       <DependentUpon>RptDivCurtailmentInvoice.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.designer.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -430,7 +438,7 @@
     <Content Include="Views\Shared\_ForgotPasswordLayout.cshtml" />
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
     <Content Include="Views\UserManagement\ManageUserLoanRights.cshtml" />
-	<Content Include="Views\CreateDealer\LinkDealer.cshtml" />
+    <Content Include="Views\CreateDealer\LinkDealer.cshtml" />
     <Content Include="Views\UserManagement\AssignRights.cshtml" />
     <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
@@ -439,7 +447,7 @@
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-	 <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
+    <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
     <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="Views\Reports\ReportIndex.cshtml" />
