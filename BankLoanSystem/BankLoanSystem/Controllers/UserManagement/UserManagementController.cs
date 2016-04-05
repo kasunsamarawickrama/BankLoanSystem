@@ -224,7 +224,7 @@ namespace BankLoanSystem.Controllers
                             ViewBag.PartnerType = 0;
                         }
                         ViewBag.PartnerName = loanSelected.PartnerName;
-
+                        
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
@@ -310,7 +310,7 @@ namespace BankLoanSystem.Controllers
                         loan = da.GetLoanDetails(userData.Company_Id, 1);
 
                     }
-                    else if (userData.RoleId == 3)
+                    else if (userData.RoleId == 3 || userData.RoleId == 4)
                     {
                         loan = da.GetLoanDetails(userData.UserId, 3);
 
@@ -360,7 +360,7 @@ namespace BankLoanSystem.Controllers
 
                         //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
                         //ViewBag.CompType
-                        Session["loanDashboard"] = loan;
+                        Session["oneLoanDashboard"] = loan;
                         return View();
                     }
                     else
@@ -1426,7 +1426,33 @@ namespace BankLoanSystem.Controllers
             userReq.topic = "";
             userReq.message = userReq.message;
             userReq.priority_level = "high";
+
+            UserRequestAccess userreqAccsss = new UserRequestAccess();
+            int reslt=userreqAccsss.InsertUserRequest(userReq);
+            if (reslt >= 0)
+            {
+                string body = "User Name      " +userData.UserName+ "< br />" +
+                              "Position       " + (string)Session["searchType"] + "< br />" +
+                              "Company        " + userData.CompanyName + "< br />" +
+                              "Branch         " + userData.BranchName + "< br />" +
+                              "Loan           " + "< br />" +
+                              "Date and Time  " +DateTime.Now+ "< br />" +
+                              "Title          " + "< br />" +
+                              "Message        " + userReq.message+ "< br />" +
+                              "Page           " + "< br />";
+
+                Email email = new Email("asanka@thefuturenet.com");
+                email.SendMail(body, "Account details");
+
+                ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
+                return RedirectToAction("UserRequest");
+            }
+            else
+            {
+                ViewBag.SuccessMsg = "Error Occured";
             return RedirectToAction("UserRequest");
+        }
+
         }
 
         /// <summary>
@@ -1456,7 +1482,17 @@ namespace BankLoanSystem.Controllers
         public ActionResult AssignRights()
         {
             Session.Remove("popUpSelectionType");
-            Loan loan = (Loan)Session["loanDashboard"];
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                //Session.Remove("oneLoanDashboard");
+            }
+            else if (Session["loanDashboard"] != null)
+            {
+                loan = (Loan)Session["loanDashboard"];
+            }
+           
 
             UserManageAccess ua = new UserManageAccess();
             List<User> userList = ua.getUsersByRoleBranch(3,loan.NonRegBranchId);
@@ -1476,7 +1512,7 @@ namespace BankLoanSystem.Controllers
             //    tempRoleList.Add(tempRole);
             //}
 
-            ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
 
            
             if (HttpContext.Request.IsAjaxRequest())

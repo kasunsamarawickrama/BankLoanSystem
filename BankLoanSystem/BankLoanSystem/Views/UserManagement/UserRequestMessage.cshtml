@@ -4,10 +4,7 @@
     ViewBag.Title = "User Request Message";
 }
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/scripts/CommonFunctions.js"></script>
+
 
 
 <div class="msg-box">
@@ -22,7 +19,7 @@
     {
         @Html.AntiForgeryToken()
         <div>
-            <span>Send us a Message:</span>
+            <span >Send us a Message:</span>
         </div>
 
         <div>
@@ -33,13 +30,14 @@
                 </div>
                 <div class="select-style">
 
-                    <select>
+                    <select id="topic">
                         <option value="">--Select a category--</option>
                         <option value="">Comment/Idea on program</option>
                         <option value="">Techincal Support</option>
                         <option value="">Billing Question</option>
                         <option value="">Other</option>
                     </select>
+                    @Html.ValidationMessageFor(model => model.topic, "", new { @class = "text-danger" })
                 </div>
 
             </div>
@@ -57,7 +55,7 @@
         </div>
 
         <div style="clear:both;padding-top:10px">
-                <small><span>Response will be delivered to your program inbox</span></small>
+                <small><span>@ViewBag.SuccessMsg</span></small>
             </div>
     }
 </div>

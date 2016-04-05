@@ -1,8 +1,9 @@
 ﻿@model BankLoanSystem.Models.AdvanceUnit
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
 
+<link rel="stylesheet" href="~/Content/commonActions.css">
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
 <link href="~/Content/triangle.css" rel="stylesheet" />
@@ -12,7 +13,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @{
     ViewBag.Title = "Advance Unit";
-    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }
@@ -38,12 +39,18 @@
 
 
 
+<div class="container-child">
+    @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+    }
+    <div class="container" id="container">
+       
+
 
 
 <div class="body-content" style="width:100%">
 
-    <div id="noUnitLabelDiv" class="info-unit" style="float: unset; font:medium;color:red;margin-right:unset" hidden>
-        @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-left:35%;" })
+    <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
+        @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })
     </div>
     <div class ="info-unit" id ="checkableGridDiv"style="margin-top:10px;padding:unset;margin-right:unset">
         <div>
@@ -235,10 +242,25 @@
 
     </div>
 
+        </div>
+   
+    <div class="link-bar" style="margin-bottom:15px;">
+
+
+        @{
+            Html.RenderAction("GetLinkBar", "Unit");
+        }
+
+
+    </div>
+
+ </div>
                     <script src="~/scripts/CommonFunctions.js"></script>
 
 
                     <script type="text/javascript">
+
+                        $("#lkadv").hide();
 
                         $('#advanceDate').focusout(function () {
                             $(this).attr('placeholder', 'MM/DD/YYYY');
@@ -259,7 +281,7 @@
                             table.find('thead tr').children().each(function (i, v) {
                                 $(v).width(colWidth[i]);
                             });
-                        }).resize(); // Trigger resize handler  
+                        }).resize(); // Trigger resize handler
 
                         $(window).bind("load", function () {
 
@@ -542,14 +564,14 @@
                                                     total = 0;
                                                     $(this).parents('tr').css('background', 'transparent');
                                                 }
-                                                
+
                                                 document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                                 if (checkCount > 0) {
                                                     $("#btnAdvanceAll").removeAttr("disabled");
                                                     $("#startDate").removeAttr("disabled");
                                                     if (totalRecCount == 1) {
                                                         SetTextBoxValues(tr);
-                                                    } 
+                                                    }
                                                 }
 
                                             });
@@ -587,7 +609,7 @@
                                 }
 
                                 if (checkCount == 1) {
-                                   
+
                                     if (checked) {
                                         SetTextBoxValues(tr);
 
@@ -616,13 +638,13 @@
 
                                 }
                                 else {
-                                    
+
                                     ClearTextBoxValues();
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                                 }
 
                                 if (checkCount > 0) {
-                                    
+
                                     ClearSearchGrid();
                                     var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                                     $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
@@ -656,7 +678,7 @@
                                 table.find('thead tr').children().each(function (i, v) {
                                     $(v).width(colWidth[i]);
                                 });
-                            }).resize(); // Trigger resize handler  
+                            }).resize(); // Trigger resize handler
 
                             $(window).bind("load", function () {
 
@@ -751,7 +773,7 @@
 
                                 // required error message
                                 $('#advanceDate').addClass('input-validation-error');
-                                
+
                                 $('.centered span').text('Error');
                                 $('#errorAdvanceDate').text('Advance date is required');
 
@@ -760,7 +782,7 @@
                             }
                             if ($('#iAdvance').val() == "") {
 
-                               
+
 
                                 //advance amount required error message
                                 $('#iAdvance').addClass('input-validation-error');
@@ -843,10 +865,10 @@
                         });
 
                         function ClearSearchGrid() {
-                            
+
                             $("#searchResultGrid").find('.advance').each(function () {
-                                var tr = $(this).parents('tr:first');                                
-                                tr.css('background', 'transparent');                               
+                                var tr = $(this).parents('tr:first');
+                                tr.css('background', 'transparent');
                             });
                         }
 
@@ -1147,7 +1169,7 @@
                             $(this).attr('placeholder', 'VIN/HIN/Serial No');
                         });
 
-                        function roundNumber(number, decimal_points) {                           
+                        function roundNumber(number, decimal_points) {
                             if (!decimal_points) return Math.round(number);
                             if (number == 0) {
                                 var decimals = "";
@@ -1222,7 +1244,7 @@
                                 $(this).addClass('input-validation-error');
                                 $(this).attr('placeholder', 'MM/DD/YYYY');
                                 $('.centered span').text('Error');
-                                
+
                                 return;
                             }
                             var valid = isValidDate($(this).val());

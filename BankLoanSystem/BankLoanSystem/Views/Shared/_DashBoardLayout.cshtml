@@ -11,7 +11,13 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/general_foundicons.css" rel="stylesheet" />
     <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
-   
+    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/scripts/CommonFunctions.js"></script>
 
    
 </head>
@@ -39,7 +45,7 @@
             <div class="box">
 
                 <div class="signout"><span>
-                    @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, null)
+                    @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "5" })
                     <span class="icon-exit"></span></span></div>
 
                 <div>
@@ -68,216 +74,6 @@
     </header>
 
     <div class="container-fluide">
-
-
-        
-            
-        @*<div class="container-child">
-
-
-        <div class="dsh">
-
-            <div class="img-name-panel">
-                <div>
-                    <div>
-                        <div>
-                            <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-
-
-                <div class="pos-name-panel" >
-                    <div>
-                        <div>
-                            <span>User Name</span>
-                        </div>
-
-                        <div style="margin-top:10px">
-                            <span>Position</span>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-            <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">Dashboard</h3></div>
-            <div class="cmp-name-panel">
-                <div>
-                    <div>
-
-                    </div>
-
-                    <div style="margin-top:10px">
-
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="cmp-name-panel">
-                <div>
-                    <div>
-                        <span>Company</span>
-                    </div>
-
-                    <div style="margin-top:10px">
-                        <span>Branch</span>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fpm">
-            <h3>Floor Plan Management</h3>
-            <div>
-                <div class="select-loan">
-                    <div ><button class="nrm-button">Select Loan</button></div>
-                    <div><span >Loan # - 123456</span><span style="width:40%">Dealer/Lender Name</span><span>Branch</span></div>
-
-                </div>
-                <button class="big-button">
-                      <span class="icon-truck"></span>
-                      <span class="txt">Add Unit</span>
-                </button>
-                <button class="big-button">
-                    <span class="icon-dollar"></span>
-                    <span class="txt">Advance Unit</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-coin-dollar"></span>
-                    <span class="txt">Unit Curtailments</span>
-                </button>
-                <button class="big-button">
-                    <span class="icon-banknote"></span>
-                    <span class="txt">Pay Off A Unit</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-stack"></span>
-                    <span class="txt">Reports</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-files-empty"></span>
-                    <span class="txt">Update Titles</span>
-                </button>
-
-            </div>
-        </div>
-        <div class="md">
-            <h3>Manage Details</h3>
-            <div>
-                <button class="big-button">
-                    <span class="icon-user"></span>
-                    <span class="txt">Edit User</span>
-                </button>
-                <button class="big-button">
-                    <span class="icon-home2"></span>
-                    <span class="txt">Edit Branch</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-clipboard"></span>
-                    <span class="txt">Edit Loan</span>
-                </button>
-                <button class="big-button">
-                    <span class="icon-user-tie"></span>
-                    <span class="txt">Edit Partner</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-office"></span>
-                    <span class="txt">Edit Company</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-accessibility"></span>
-                    <span class="txt">Edit User Rights</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-credit"></span>
-                    <span class="txt">Fees</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-user-check"></span>
-                    <span class="txt">Assign A User</span>
-                </button>
-
-            </div>
-        </div>
-        <div class="setp">
-            <h3>Set Up</h3>
-            <div>
-                <div >
-                    <div class="pkg">
-                        <table>
-                            <tr>
-                                <th></th>
-                                <th>Branches</th>
-                                <th>Loans</th>
-                                <th>Users</th>
-                            </tr>
-                            <tr>
-                                <td>Used</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>Available</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>2</td>
-                            </tr>
-
-                        </table>
-
-                    </div>
-
-                </div>
-                <button class="big-button">
-                    <span class="icon-user-plus"></span>
-                    <span class="txt">Create User</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-home"></span>
-                    <span class="txt">Create Branch</span>
-                </button>
-
-                <button class="big-button">
-                    <span class="icon-folder-plus"></span>
-                    <span class="txt">Create Loan</span>
-                </button>
-                <button class="big-button">
-                    <span class="icon-users"></span>
-                    <span class="txt">Create Partner</span>
-                </button>
-
-
-
-            </div>
-        </div>
-
-
-    </div>*@
-
-
-
-
-
-
-
 
 
         <div>
@@ -329,5 +125,7 @@
         </div>
 
     </footer>
+
+    
 </body>
 </html>

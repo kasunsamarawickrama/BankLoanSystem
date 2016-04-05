@@ -12,7 +12,7 @@
                 <div class="dropdown profile-element">
                     <span> 
 @{
-    if (Model.step_status == 2)
+    if (Model.step_status > 0)
     {
         <a href="~/UserManagement/UserDetails"><img alt="image" class="img-circle" src="~/Images/profile_small.jpg"></a>
     }
