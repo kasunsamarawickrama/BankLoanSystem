@@ -180,7 +180,7 @@ else
                 }
                 else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                 {
-                    <button class="big-button">
+                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'" >
                         <span class="icon-truck"></span>
                         <span class="txt">Add Unit</span>
                     </button>
@@ -189,16 +189,16 @@ else
                  if (ViewBag.roleId != 4)
                  {
 
-                    <button class="big-button">
+                    <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
                         <span class="icon-dollar"></span>
                         <span class="txt">Advance Unit</span>
                     </button>
 
-                    <button class="big-button">
+                    <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
                         <span class="icon-coin-dollar"></span>
                         <span class="txt">Unit Curtailments</span>
                     </button>
-                    <button class="big-button">
+                    <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
                         <span class="icon-banknote"></span>
                         <span class="txt">Pay Off A Unit</span>
                     </button>
@@ -217,7 +217,7 @@ else
 
                     if (ViewBag.IsTitleTrack == 1)
                     {
-                        <button class="big-button">
+                        <button class="big-button"  onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                             <span class="icon-files-empty"></span>
                             <span class="txt">Update Titles</span>
                         </button>
@@ -230,7 +230,7 @@ else
                         <span class="txt">Reports</span>
                     </button>
 
-                    <button class="big-button">
+                    <button class="big-button"  onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                         <span class="icon-files-empty"></span>
                         <span class="txt">Update Titles</span>
                     </button>

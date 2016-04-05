@@ -228,6 +228,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
+                        //ViewBag.LoanCode = loanSelected.LoanCode;
 
                         if (userData.RoleId == 3)
                         {
@@ -323,7 +324,8 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loan.BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
-
+                        // 
+                        Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
                             if ((loan.Rights.Count() > 0) && (loan.Rights != null))
