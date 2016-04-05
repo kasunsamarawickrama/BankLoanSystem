@@ -238,9 +238,9 @@
                                                 <div>
                                                     <nav>
                                                         <div class="pager new_pager">
-                                                            <div class="button_box algn_left">
+                                                            @*<div class="button_box algn_left">
                                                                 <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
-                                                            </div>
+                                                            </div>*@
                                                             <div class="button_box algn_center">
                                                                 <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
                                                             </div>
@@ -272,7 +272,7 @@
     </div>
 </div>
 </div>
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript">
 
   $(document).ready(function(){
@@ -292,8 +292,21 @@
 
     $("#clear").click(function () {
         document.getElementsByTagName("form")[0].reset();
-        $('#txtUserName').next('span').children().text('');
-        $("#err_msg new_err_msg").text('');
+        //$('#txtUserName').next('span').children().text('');        
+        $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtUserName').next("div").children("p").children("span").text("");
+        $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPassword').next("div").children("p").children("span").text("");
+        $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+        $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFirstName').next("div").children("p").children("span").text("");
+        $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtLastName').next("div").children("p").children("span").text("");
+        $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNumber').next("div").children("p").children("span").text("");
         
 
     });   

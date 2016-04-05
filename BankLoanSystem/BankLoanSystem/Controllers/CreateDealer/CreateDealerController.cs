@@ -49,14 +49,17 @@ namespace BankLoanSystem.Controllers.CreateDealer
         {            
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
-            Loan loan = (Loan)Session["loanDashboard"];
-            Session.Remove("popUpSelectionType");
-            if (loan == null)
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
             {
-                loan = new Loan();
-                loan.NonRegBranchId = 22;
-                loan.LoanId = 274;
+                loan = (Loan)Session["oneLoanDashboard"];
             }
+            else if (Session["loanDashboard"] != null)
+            {
+                loan = (Loan)Session["loanDashboard"];
+            }
+            Session.Remove("popUpSelectionType");
+           
             NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
             ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
@@ -111,7 +114,17 @@ namespace BankLoanSystem.Controllers.CreateDealer
             user.Email = user.NewEmail;
 
             BranchAccess ba = new BranchAccess();
-            Loan loan = (Loan)Session["loanDashboard"];
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                Session.Remove("oneLoanDashboard");
+            }
+            else if (Session["loanDashboard"] != null)
+            {
+                loan = (Loan)Session["loanDashboard"];
+            }
+           
           
             NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
 

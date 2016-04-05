@@ -129,6 +129,10 @@ namespace BankLoanSystem.DAL
                         }
                        
                     }
+
+                    loanObj.NonRegBranchId = int.Parse(dataSet.Tables[0].Rows[0]["non_reg_branch_id"].ToString());
+                    loanObj.LoanId = int.Parse(dataSet.Tables[0].Rows[0]["loan_id"].ToString());
+
                     return loanObj;
 
                 }

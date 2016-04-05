@@ -311,7 +311,23 @@
 
     $("#clear").click(function () {
         $('#branchDiv').hide();
-
+        $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtUserName').next("div").children("p").children("span").text("");
+        $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPassword').next("div").children("p").children("span").text("");
+        $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+        $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFirstName').next("div").children("p").children("span").text("");
+        $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtLastName').next("div").children("p").children("span").text("");
+        $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('#RoleId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#RoleId').next("div").children("p").children("span").text("");
+        
     });
 
     $(function () {
