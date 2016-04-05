@@ -1,0 +1,433 @@
+﻿@model BankLoanSystem.Models.LoanIdNumberViewModel
+
+@{
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ViewBag.Title = "Reports";
+}
+
+<link rel="stylesheet" href="~/Content/commonActions.css">
+@*Date picker*@
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+
+<script src="~/scripts/bootstrap.min.js"></script>
+
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
+<div class="container-child">
+    @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+    }
+    <div class="container" id="container">
+
+
+
+
+        <div class="form-horizontal" id="divRptType">
+            <input type="hidden" name="selectedButton" id="hdnSelectedButton" value=""/>
+            <button style="width: 100px" type="button" id="btnLotInspection" class="btn btn-info">Lot<br/> Inspection</button>
+            <button style="width: 100px" type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment<br/> Invoice </button>
+
+            <button style="width: 100px" type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment<br/> Receipt </button>
+
+            <button style="width: 100px" type="button" id="btnTitlesStatus" class="btn btn-info">Title <br/>Status</button>
+            <button style="width: 100px" type="button" id="btnFees" class="btn btn-info">Fees</button>
+            <button style="width: 100px" type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
+            @*<div id="2" href="#">
+                    <p style="color: white">advance a unit</p>
+                </div>
+                <div id="3" href="#">
+                    <p style="color: white">unit curtailments</p>
+                </div>*@
+        </div>
+
+        <hr/>
+
+        <div id="liFilteringSection">
+            <table width="100%">
+                <tr>
+                    <td style="width: 40%">
+                        <label class="control-label col-md-2" style="width: 30%">Loan Number</label>
+
+                        <div class="col-md-3">
+                            @*<input type="text" class="form-control" id="txtLoanNumber" autocomplete="off" style="text-align: right;width: 180%" />
+                                <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>*@
+                            @if (Enumerable.Count(ViewBag.LoanId) == 1)
+                            {
+                                @Html.HiddenFor(model => model.LoanId, new {@Value = (int) ViewBag.LoanId.Items[0].LoanId,})
+                                @Html.LabelFor(model => model.LoanId, (string) ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new {@class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;"})
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.LoanId, null, "--Select loan number--", htmlAttributes: new {@class = "form-control text_field_input", id = "LoanId", style = "width: 180%;"})
+                                @Html.ValidationMessageFor(model => model.LoanId, "", new {@class = "text-danger", style = "left:25%"})
+                                <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
+                            }
+                        </div>
+                    </td>
+                    <td style="width: 40%">
+                        <label class="control-label col-md-2" style="width: 30%">Start Date</label>
+                        <div class="col-md-3">
+                            @*<input type="text" class="form-control" id="txtStartDate" autocomplete="off" style="width: 180%"/>*@
+                            @Html.EditorFor(model => model.StartDate, new {htmlAttributes = new {@class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width: 180%;"}})
+                            @Html.ValidationMessageFor(model => model.StartDate, "", new {@class = "text-danger", style = "left:25%"})
+                            <div id="tagscloudStartDate" class="validation-error"><span class="text-danger"></span></div>
+                        </div>
+                    </td>
+                    <td style="width: 20%"><button style="width: 100px" type="button" id="btnDisplay" class="btn btn-info">Display</button></td>
+                </tr>
+                <tr>
+                    <td style="width: 40%"></td>
+                    <td style="width: 40%">
+                        @*<label class="control-label col-md-2" style="width: 30%">End Date</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="txtEndDate" autocomplete="off" style="width: 180%" />
+                                <div id="tagscloudEndDate" class="validation-error"><span class="text-danger"></span></div>
+                            </div>*@
+                        <label class="control-label col-md-2" style="width: 30%">End Date</label>
+                        <div class="col-md-3">
+                            @*<input type="text" class="form-control" id="txtEndDate" autocomplete="off" style="width: 180%" />*@
+                            @Html.EditorFor(model => model.EndDate, new {htmlAttributes = new {@class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width: 180%;"}})
+                            @Html.ValidationMessageFor(model => model.EndDate, "", new {@class = "text-danger", style = "left:25%"})
+                            <div id="tagscloudEndDate" class="validation-error"><span class="text-danger"></span></div>
+                        </div>
+                    </td>
+                    <td style="width: 20%"><button style="width: 100px" type="button" id="btnPrint" class="btn btn-info">Print</button></td>
+                </tr>
+
+                <tr>
+                    <td style="width: 40%"></td>
+                    <td style="width: 40%">
+                        <label class="control-label col-md-2" style="width: 30%">Title Status</label>
+                        <div class="col-md-3">
+                            @*@Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width: 180%;" } })*@
+
+                            @{
+                                List<SelectListItem> TitleStatus = new List<SelectListItem>();
+
+                                TitleStatus.Add(new SelectListItem
+                                {
+                                    Text = "Not Received",
+                                    Value = "0"
+                                });
+                                TitleStatus.Add(new SelectListItem
+                                {
+                                    Text = "Received",
+                                    Value = "1"
+                                });
+                                TitleStatus.Add(new SelectListItem
+                                {
+                                    Text = "Returned to Dealer",
+                                    Value = "2"
+                                });
+                            }
+                            @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new {@class = "form-control", @Style = "width: 180%;", @id = "titleStatus"})
+                            <div id="tagscloudTitleStatus" class="validation-error"><span class="text-danger"></span></div>
+                        </div>
+                    </td>
+                    <td style="width: 20%"></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <hr/>
+
+        <div id="reportViewerDiv" hidden>
+            <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    //$(document).ready(function() {
+    //    Report();
+    //});
+
+
+
+    function ChangeButtonColor(id) {
+        $(id).css({ 'background': 'green' });
+        $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
+    }
+
+    $('#btnLotInspection').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LotInspection');
+    });
+
+    $('#btnCurtailmentInvoice').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('CurtailmentInvoice');
+    });
+
+    $('#btnCurtailmentReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('CurtailmentReceipt');
+    });
+
+    $('#btnTitlesStatus').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('TitlesStatus');
+    });
+
+    $('#btnDisplay').click(function () {
+        var rptType = $('#hdnSelectedButton').val();
+        //alert(reportType);
+
+        if (rptType !== '') {
+            var errorCount = 0;
+            var input = $("#LoanId");
+
+            var urlPrefix = "";
+
+            if (rptType === 'LotInspection') {
+                urlPrefix = "../Reports/RptDivLotInspection.aspx?loanId=";
+            }
+            else if (rptType === 'CurtailmentInvoice') {
+                urlPrefix = "../Reports/RptDivCurtailmentInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'CurtailmentReceipt') {
+                urlPrefix = "../Reports/RptDivCurtailmentReceipt.aspx?loanId=";
+            }
+            else if (rptType === 'TitlesStatus') {
+                urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
+            }
+
+            if (input.attr('type') !== 'hidden') {
+                var selectedIndex = $("#LoanId option:selected").index();
+                //alert(selectedIndex);
+                if (selectedIndex === 0) {
+                    $('#tagscloudLoanId').children('span').text("Please select a loan");
+                    $("#LoanId").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //return;
+                } else {
+                    $('#tagscloudLoanId').children('span').text("");
+                    $("#LoanId").removeClass('input-validation-error');
+                }
+            }
+
+            var val = $('#LoanId').val();
+
+            //alert(val);
+
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt') {
+                var startDate = $('#startDate').val();
+                //alert(startDate);
+                if (startDate === '') {
+                    $('#tagscloudStartDate').children('span').text("Please select start date");
+                    $("#startDate").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //$('.centered span').text('Error');
+                    //return;
+                } else {
+                    $('#tagscloudStartDate').children('span').text("");
+                    $("#startDate").removeClass('input-validation-error');
+                }
+
+                var endDate = $('#endDate').val();
+                if (endDate === '') {
+                    $('#tagscloudEndDate').children('span').text("Please select end date");
+                    $("#endDate").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //$('.centered span').text('Error');
+                    //return;
+                } else {
+                    $('#tagscloudEndDate').children('span').text("");
+                    $("#endDate").removeClass('input-validation-error');
+                }
+
+                if (errorCount <= 0) {
+
+                    if (new Date(startDate) >= new Date(endDate)) {
+                        $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                        $("#startDate").addClass('input-validation-error');
+                        $("#endDate").addClass('input-validation-error');
+                        return;
+                    }
+
+                    $('#tagscloudEndDate').children('span').text("");
+                    $("#startDate").removeClass('input-validation-error');
+                    $("#endDate").removeClass('input-validation-error');
+
+                    $('#reportViewerDiv').show();
+                    //alert(input.attr('type'));
+                    ReportCurtailmentInvoice(val, startDate, endDate, urlPrefix);
+                }
+            } else if (rptType === 'LotInspection') {
+                Report(val, urlPrefix);
+            } else if (rptType === 'TitlesStatus') {
+                Report(val, urlPrefix);
+            }
+
+            //alert(errorCount);
+
+
+
+
+        } else {
+            alert('Please select report type');
+        }
+    });
+
+    function isValidDate(dateString) {
+        // First check for the pattern
+        if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+            return false;
+
+        // Parse the date parts to integers
+        var parts = dateString.split("/");
+        var day = parseInt(parts[1], 10);
+        var month = parseInt(parts[0], 10);
+        var year = parseInt(parts[2], 10);
+
+        // Check the ranges of month and year
+        if (year < 1000 || year > 3000 || month == 0 || month > 12)
+            return false;
+
+        var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        // Adjust for leap years
+        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+            monthLength[1] = 29;
+
+        // Check the range of the day
+        return day > 0 && day <= monthLength[month - 1];
+    };
+
+
+    $('#startDate').blur(function () {
+
+        if ($(this).val() === "") {
+            // required error
+            $('#tagscloudStartDate').children('span').text('Start date required');
+            $(this).addClass('input-validation-error');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            $('#tagscloudStartDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //var selectedDate = new Date($(this).val());
+            //var minDate = new Date
+            //var maxDate = new Date
+            //if (selectedDate < minDate || selectedDate > maxDate) {
+            //    // out off range error
+            //    $('#customErrorPayDate').children('span').text('Out of Range');
+            //    $(this).addClass('input-validation-error');
+            //    //$('.centered span').text('Error');
+            //} else {
+            //    // delete error mssage
+            //    $('#customErrorPayDate').children('span').text('');
+            //    $(this).removeClass('input-validation-error');
+            //}
+        } else {
+
+            // not valid data error
+            $('#tagscloudStartDate').children('span').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            //$('.centered span').text('Error');
+        }
+
+        if ($('#startDate').val() === '') {
+            $('#tagscloudStartDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //$('.centered span').text('');
+        }
+
+    });
+
+    $('#endDate').blur(function () {
+
+        if ($(this).val() === "") {
+            // required error
+            $('#tagscloudEndDate').children('span').text('End date required');
+            $(this).addClass('input-validation-error');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            $('#tagscloudEndDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+        } else {
+
+            // not valid data error
+            $('#tagscloudEndDate').children('span').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            //$('.centered span').text('Error');
+        }
+
+        if ($('#endDate').val() === '') {
+            $('#tagscloudEndDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //$('.centered span').text('');
+        }
+
+    });
+
+
+    $('#btnPrint').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Reports/PrintPage',
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+
+            },
+            error: function (e) {
+
+            }
+        });
+    });
+
+    function Report(val, url) {
+        //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
+        url = url + val;
+        var myFrame = document.getElementById('ifrmReportViewer');
+        if (myFrame !== null) {
+            if (myFrame.src) {
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                myFrame.contentWindow.location = url;
+            } else {
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
+    function ReportCurtailmentInvoice(val, startDate, endDate, url) {
+        //alert(startDate + ' ' + endDate);
+
+        url = url + val + "&startDate=" + startDate + "&endDate=" + endDate;
+        var myFrame = document.getElementById('ifrmReportViewer');
+        if (myFrame !== null) {
+            if (myFrame.src) {
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                myFrame.contentWindow.location = url;
+            } else {
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
+
+    var startDate = new Pikaday({
+        field: document.getElementById('startDate'),
+        format: 'l'
+    });
+
+    var endDate = new Pikaday({
+        field: document.getElementById('endDate'),
+        format: 'l'
+    });
+</script>

@@ -209,7 +209,7 @@ else
                 {
                     if (ViewBag.ViewReports == 1)
                     {
-                        <button class="big-button">
+                        <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                             <span class="icon-stack"></span>
                             <span class="txt">Reports</span>
                         </button>
@@ -225,7 +225,7 @@ else
                 }
                 else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                 {
-                    <button class="big-button">
+                    <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                         <span class="icon-stack"></span>
                         <span class="txt">Reports</span>
                     </button>

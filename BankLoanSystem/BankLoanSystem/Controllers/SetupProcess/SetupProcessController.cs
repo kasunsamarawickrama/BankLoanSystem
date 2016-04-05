@@ -704,7 +704,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 user.BranchId = userData.BranchId;
             }
-
+            user.step_status = userData.step_status;
             //Insert user
             int res = ua.InsertUser(user);
 

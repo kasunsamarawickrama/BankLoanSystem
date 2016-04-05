@@ -38,16 +38,18 @@
                 @Html.CheckBox("selectAll", new { @class = "All" })
                 @Html.Label("Select All")
                 <br />
-                @for (var i = 0; i < Model.UserRightsList.Count; i++)
-                {
+                <div id="rights">
+                    @for (var i = 0; i < Model.UserRightsList.Count; i++)
+                    {
 
-                @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                    @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All" })
-                    @Html.DisplayFor(x => x.UserRightsList[i].description)
-                    <br />
+                        @Html.HiddenFor(x => x.UserRightsList[i].rightId)
+                        @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i.ToString() })
+                        @Html.DisplayFor(x => x.UserRightsList[i].description)
+                        <br />
 
 
-                }
+                    }
+                </div>
 
             </div>
             }
@@ -104,7 +106,20 @@
     //    //    $('#branchDivUser').hide();
     //    //}
     //});
-
+    function modcheck(){
+        var model = @Html.Raw(Json.Encode(Model));
+        //console.log(model);
+        var arr = new Array();
+        for(var j=0,k=0; j< model.UserRightsList.length ;j++){
+            var ids = '#'+ j.toString();
+            if($(ids).is(':checked')){    
+                arr[k] = model.UserRightsList[j].rightId;
+                k++;
+            }
+        }
+        return arr;
+        //console.log(arr);
+    }
     </script>
 
 

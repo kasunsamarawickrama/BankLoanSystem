@@ -221,7 +221,7 @@
                                                 </div>
                                             </div>
                                             <div id="branchDiv" hidden>
-                                                @if (ViewBag.CurrUserRoleType != 2)
+                                                @if (ViewBag.CurrUserRoleType !=3)
                     {
                                                     <div class="form-group new_form_group">
                                                         <div class="control-label col-sm-2 lable_style">
@@ -247,8 +247,7 @@
                                             </div>
 
                                             <div id="branchDivUser" hidden>
-                                                @if (ViewBag.CurrUserRoleType != 2)
-                                                {
+                                                
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 lable_style">
                                                         <label>Branch </label>
@@ -270,13 +269,14 @@
                                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
                                                     </div>
                                                 </div>
-                                                }
+                                                
                                             </div>
+                                            <div id="branchid" class="hidden"></div>
                                             <div id="rightsSection">
-                                                <div id="loanid" class="hidden"></div>
+                                                
                                             </div>
                                            
-                                           
+                                            <div id="loanid" class="hidden"></div>
 
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
@@ -339,13 +339,14 @@
         var val = document.getElementById("RoleId").value;
         if (val == '2') {
             $('#branchDiv').show();
-            
+            $('#branchDivUser').hide();
         }
         else if (val == '3') {
             $('#branchDivUser').show();
 
+
             if (@ViewBag.BranchIdUser.Items.Count == 1){
-                alert($('#BranchIdUser2').val());
+                //alert($('#BranchIdUser2').val());
                 GetLoan($('#BranchIdUser2').val());
             }
            
@@ -364,7 +365,7 @@
             
               var  branchL = $('#BranchIdUser option:selected').val();
             
-            alert(branchL);
+            //alert(branchL);
               GetLoan(branchL);
 
         }
@@ -384,15 +385,17 @@
         //}
     });
     function SendParaTo(loan){
-        document.getElementById("loanid").innerHTML=loan
+        //alert(document.getElementById("loanid").innerHTML);
+        document.getElementById("loanid").innerHTML=loan;
+        //alert(loan);
     };
     $(document).on('change','#LoanIdUser2' , function () {
         
        
             
-        var  branchL = $('#LoanIdUser2 option:selected').val();
-            
-        document.getElementById("loanid").innerHTML =$('#LoanIdUser2 option:selected').val();
+        var  loan = $('#LoanIdUser2 option:selected').val();
+        //alert(loan); 
+        SendParaTo(loan)
     });
     function GetLoan(branchL) {
         $.ajax({
@@ -446,7 +449,7 @@
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
     //Progress(3);
-  
+
 
     //Validation
 
@@ -557,39 +560,49 @@
             return;
         }
     });
-    
+
     $('#btnCreateUser').click(function () {
-        //alert($('hh'));
+        alert('hh');
         //alert($('#BranchId option:selected').val());
         InsertUser();
 
     });
     function InsertUser() {
+
+       // $('#rights').
+        //console.log(model);
+
+        var arrRights = modcheck();
+        var strRights = arrRights.toString();
+        alert(strRights);
+
+var branch="";
         if ($('#RoleId option:selected').val() == 1) {
-            
-           
+
+
         }
         else if ($('#RoleId option:selected').val() == 2) {
-            
-            if ($('#BranchId2').val() != "") {
-                //alert('1');
-                var branch = $('#BranchId2').val();
+
+            if (@ViewBag.BranchId.Items.Count == 1) {
+
+                document.getElementById("branchid").innerHTML = $('#BranchId2').val();
                 //alert($('#BranchId2').val());
             }
-            else if ($('#BranchId option:selected').val()!="")
+            else if (@ViewBag.BranchId.Items.Count > 1)
             {
-                var branch = $('#BranchId option:selected').val();
+
+                document.getElementById("branchid").innerHTML = $('#BranchId option:selected').val();
             }
-           
+
         }
         else if ($('#RoleId option:selected').val() == 3) {
-            if ($('#BranchIdUser2').val() != "") {
+            if (@ViewBag.BranchIdUser.Items.Count == 1) {
                 //alert('1');
-                var branch = $('#BranchIdUser2').val();
+                branch = $('#BranchIdUser2').val();
                 //alert($('#BranchId2').val());
             }
-            else if ($('#BranchIdUser option:selected').val() != "") {
-                var branch = $('#BranchIdUser option:selected').val();
+            else if (@ViewBag.BranchIdUser.Items.Count > 1) {
+                branch = $('#BranchIdUser option:selected').val();
             }
             //var branch = $('#BranchIdUser option:selected').val();
         }
@@ -602,7 +615,7 @@
             "NewEmail": $('#txtNewEmail').val(),
             "PhoneNumber2": $('#txtPhoneNumber').val(),
             "RoleId": $('#RoleId option:selected').val(),
-            "BranchId": branch,
+            "BranchId": document.getElementById("branchid").innerHTML,
             "LoanId":document.getElementById("loanid").innerHTML
         };
         $.ajax({

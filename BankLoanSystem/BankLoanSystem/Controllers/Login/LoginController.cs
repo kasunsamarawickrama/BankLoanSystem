@@ -107,7 +107,14 @@ namespace BankLoanSystem.Controllers
                     userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
                     userData.BranchName = dsUser.Tables[0].Rows[0]["branch_name"].ToString();
                     userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
-                    userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                    if(dsUser.Tables[0].Rows[0]["company_id"].ToString()!="")
+                    {
+                        userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                    }
+                    else
+                    {
+                        userData.Company_Id = 0;
+                    }
                     userData.CompanyName = dsUser.Tables[0].Rows[0]["company_name"].ToString();
                     userData.step_status = int.Parse(dsUser.Tables[0].Rows[0]["step_status"].ToString());
 
