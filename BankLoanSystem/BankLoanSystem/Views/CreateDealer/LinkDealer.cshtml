@@ -9,6 +9,12 @@
         Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     }
 }
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <style>
     .err_msg_box {
     
@@ -51,9 +57,9 @@
                             <div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                             </div>
-                            <div class="topErrors">
+                            @*<div class="topErrors">
                                 <span class="text-success">@ViewBag.SuccessMsg</span>
-                            </div>
+                            </div>*@
                            
                             <div class="form-horizontal">
                                 
@@ -63,17 +69,8 @@
                                         <span class="text-success">@ViewBag.SuccessMsg</span>                                       
                                 }
 
-                                else
-                                {
-                                    using (Ajax.BeginForm("LinkDealer", "CreateDealer", new AjaxOptions()
-                                    {
-
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form" }))
+                               
+                                    @using(Html.BeginForm("LinkDealer", "CreateDealer" , FormMethod.Post , new { @id= "form" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         
@@ -272,7 +269,7 @@
                                     <div>
                                     </div>
 
-                                }
+                                
 
 
                             </div>
@@ -439,9 +436,5 @@
 
 </script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 

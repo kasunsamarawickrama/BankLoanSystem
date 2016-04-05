@@ -169,7 +169,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
 
                 ViewBag.SuccessMsg = "User Successfully Created";
 
-                return PartialView();
+                return View();
 
             }
             else
