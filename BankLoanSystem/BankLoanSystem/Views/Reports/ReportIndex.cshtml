@@ -7,64 +7,36 @@
 
 <link rel="stylesheet" href="~/Content/commonActions.css">
 @*Date picker*@
-    <link href="~/Content/pikaday.css" rel="stylesheet" />
-    <link href="~/Content/theme.css" rel="stylesheet" />
-    <link href="~/Content/triangle.css" rel="stylesheet" />
-    <script src="~/scripts/moment.js"></script>
-    <script src="~/scripts/pikaday.js"></script>
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="~/scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/scripts/bootstrap.min.js"></script>
-
-
-    <script src="~/scripts/bootstrap.min.js"></script>
-
-    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
 
 
+<script src="~/scripts/bootstrap.min.js"></script>
+
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
+<div class="container-child">
+    @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+    }
     <div class="container" id="container">
 
-        <div class="top-bar">
-            <div class="profile-elements ">
-                <div id="userInfoDiv">
-                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"><br>
-                    <span class="block"><strong>@ViewBag.Username</strong></span>
-                    <br />
-                    @*<span> - </span>*@
 
-                    @if (ViewBag.roleId != 1)
-                    {
-                        <span><strong>@ViewBag.Company</strong></span>
-                        <span> - </span>
-                        <span><strong>@ViewBag.Branch</strong></span>
-                        <br />
-                    }
-                    else
-                    {
-                        <span><strong>@ViewBag.Company</strong></span>
-                        <br />
-                    }
-                    <span><strong>@ViewBag.Position</strong></span>
-                </div>
-            </div>
-
-            @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class = "btn btn-info show-logout-popup" })
-
-            @*@Ajax.ActionLink("Add Advance", "Selectloan", "UserManagement", new { type = "tyuirede" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-
-            <h2>@ViewBag.Title</h2>
-        </div>
 
 
         <div class="form-horizontal" id="divRptType">
-            <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
+            <input type="hidden" name="selectedButton" id="hdnSelectedButton" value=""/>
             <button style="width: 100px" type="button" id="btnLotInspection" class="btn btn-info">Lot<br/> Inspection</button>
             <button style="width: 100px" type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment<br/> Invoice </button>
 
             <button style="width: 100px" type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment<br/> Receipt </button>
 
-            <button style="width: 100px" type="button" id="btnTitlesStatus" class="btn btn-info">Title <br />Status</button>
+            <button style="width: 100px" type="button" id="btnTitlesStatus" class="btn btn-info">Title <br/>Status</button>
             <button style="width: 100px" type="button" id="btnFees" class="btn btn-info">Fees</button>
             <button style="width: 100px" type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
             @*<div id="2" href="#">
@@ -75,7 +47,7 @@
                 </div>*@
         </div>
 
-        <hr />
+        <hr/>
 
         <div id="liFilteringSection">
             <table width="100%">
@@ -155,7 +127,7 @@
                                     Value = "2"
                                 });
                             }
-                            @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new { @class = "form-control", @Style = "width: 180%;", @id = "titleStatus" })
+                            @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new {@class = "form-control", @Style = "width: 180%;", @id = "titleStatus"})
                             <div id="tagscloudTitleStatus" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                     </td>
@@ -165,296 +137,297 @@
             </table>
         </div>
 
-        <hr />
+        <hr/>
 
         <div id="reportViewerDiv" hidden>
             <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
         </div>
 
     </div>
-    <script type="text/javascript">
-        //$(document).ready(function() {
-        //    Report();
-        //});
+</div>
+<script type="text/javascript">
+    //$(document).ready(function() {
+    //    Report();
+    //});
 
-        
 
-        function ChangeButtonColor(id) {
-            $(id).css({ 'background': 'green' });
-            $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
-        }
 
-        $('#btnLotInspection').click(function () {
-            ChangeButtonColor(this);
-            $('#hdnSelectedButton').val('LotInspection');
-        });
-        
-        $('#btnCurtailmentInvoice').click(function () {
-            ChangeButtonColor(this);
-            $('#hdnSelectedButton').val('CurtailmentInvoice');
-        });
+    function ChangeButtonColor(id) {
+        $(id).css({ 'background': 'green' });
+        $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
+    }
 
-        $('#btnCurtailmentReceipt').click(function () {
-            ChangeButtonColor(this);
-            $('#hdnSelectedButton').val('CurtailmentReceipt');
-        });
+    $('#btnLotInspection').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LotInspection');
+    });
 
-        $('#btnTitlesStatus').click(function () {
-            ChangeButtonColor(this);
-            $('#hdnSelectedButton').val('TitlesStatus');
-        });
+    $('#btnCurtailmentInvoice').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('CurtailmentInvoice');
+    });
 
-        $('#btnDisplay').click(function () {
-            var rptType = $('#hdnSelectedButton').val();
-            //alert(reportType);
+    $('#btnCurtailmentReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('CurtailmentReceipt');
+    });
 
-            if (rptType !== '') {
-                var errorCount = 0;
-                var input = $("#LoanId");
+    $('#btnTitlesStatus').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('TitlesStatus');
+    });
 
-                var urlPrefix = "";
+    $('#btnDisplay').click(function () {
+        var rptType = $('#hdnSelectedButton').val();
+        //alert(reportType);
 
-                if (rptType === 'LotInspection') {
-                    urlPrefix = "../Reports/RptDivLotInspection.aspx?loanId=";
+        if (rptType !== '') {
+            var errorCount = 0;
+            var input = $("#LoanId");
+
+            var urlPrefix = "";
+
+            if (rptType === 'LotInspection') {
+                urlPrefix = "../Reports/RptDivLotInspection.aspx?loanId=";
+            }
+            else if (rptType === 'CurtailmentInvoice') {
+                urlPrefix = "../Reports/RptDivCurtailmentInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'CurtailmentReceipt') {
+                urlPrefix = "../Reports/RptDivCurtailmentReceipt.aspx?loanId=";
+            }
+            else if (rptType === 'TitlesStatus') {
+                urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
+            }
+
+            if (input.attr('type') !== 'hidden') {
+                var selectedIndex = $("#LoanId option:selected").index();
+                //alert(selectedIndex);
+                if (selectedIndex === 0) {
+                    $('#tagscloudLoanId').children('span').text("Please select a loan");
+                    $("#LoanId").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //return;
+                } else {
+                    $('#tagscloudLoanId').children('span').text("");
+                    $("#LoanId").removeClass('input-validation-error');
                 }
-                else if (rptType === 'CurtailmentInvoice') {
-                    urlPrefix = "../Reports/RptDivCurtailmentInvoice.aspx?loanId=";
-                }
-                else if (rptType === 'CurtailmentReceipt') {
-                    urlPrefix = "../Reports/RptDivCurtailmentReceipt.aspx?loanId=";
-                }
-                else if (rptType === 'TitlesStatus') {
-                    urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
-                }
+            }
 
-                if (input.attr('type') !== 'hidden') {
-                    var selectedIndex = $("#LoanId option:selected").index();
-                    //alert(selectedIndex);
-                    if (selectedIndex === 0) {
-                        $('#tagscloudLoanId').children('span').text("Please select a loan");
-                        $("#LoanId").addClass('input-validation-error');
-                        errorCount = errorCount + 1;
-                        //return;
-                    } else {
-                        $('#tagscloudLoanId').children('span').text("");
-                        $("#LoanId").removeClass('input-validation-error');
-                    }
+            var val = $('#LoanId').val();
+
+            //alert(val);
+
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt') {
+                var startDate = $('#startDate').val();
+                //alert(startDate);
+                if (startDate === '') {
+                    $('#tagscloudStartDate').children('span').text("Please select start date");
+                    $("#startDate").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //$('.centered span').text('Error');
+                    //return;
+                } else {
+                    $('#tagscloudStartDate').children('span').text("");
+                    $("#startDate").removeClass('input-validation-error');
                 }
 
-                var val = $('#LoanId').val();
+                var endDate = $('#endDate').val();
+                if (endDate === '') {
+                    $('#tagscloudEndDate').children('span').text("Please select end date");
+                    $("#endDate").addClass('input-validation-error');
+                    errorCount = errorCount + 1;
+                    //$('.centered span').text('Error');
+                    //return;
+                } else {
+                    $('#tagscloudEndDate').children('span').text("");
+                    $("#endDate").removeClass('input-validation-error');
+                }
 
-                //alert(val);
+                if (errorCount <= 0) {
 
-                if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt') {
-                    var startDate = $('#startDate').val();
-                    //alert(startDate);
-                    if (startDate === '') {
-                        $('#tagscloudStartDate').children('span').text("Please select start date");
+                    if (new Date(startDate) >= new Date(endDate)) {
+                        $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
                         $("#startDate").addClass('input-validation-error');
-                        errorCount = errorCount + 1;
-                        //$('.centered span').text('Error');
-                        //return;
-                    } else {
-                        $('#tagscloudStartDate').children('span').text("");
-                        $("#startDate").removeClass('input-validation-error');
-                    }
-
-                    var endDate = $('#endDate').val();
-                    if (endDate === '') {
-                        $('#tagscloudEndDate').children('span').text("Please select end date");
                         $("#endDate").addClass('input-validation-error');
-                        errorCount = errorCount + 1;
-                        //$('.centered span').text('Error');
-                        //return;
-                    } else {
-                        $('#tagscloudEndDate').children('span').text("");
-                        $("#endDate").removeClass('input-validation-error');
+                        return;
                     }
 
-                    if (errorCount <= 0) {
+                    $('#tagscloudEndDate').children('span').text("");
+                    $("#startDate").removeClass('input-validation-error');
+                    $("#endDate").removeClass('input-validation-error');
 
-                        if (new Date(startDate) >= new Date(endDate)) {
-                            $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
-                            $("#startDate").addClass('input-validation-error');
-                            $("#endDate").addClass('input-validation-error');
-                            return;
-                        }
-
-                        $('#tagscloudEndDate').children('span').text("");
-                        $("#startDate").removeClass('input-validation-error');
-                        $("#endDate").removeClass('input-validation-error');
-
-                        $('#reportViewerDiv').show();
-                        //alert(input.attr('type'));
-                        ReportCurtailmentInvoice(val, startDate, endDate, urlPrefix);
-                    }
-                } else if (rptType === 'LotInspection') {
-                    Report(val, urlPrefix);
-                } else if (rptType === 'TitlesStatus') {
-                    Report(val, urlPrefix);
+                    $('#reportViewerDiv').show();
+                    //alert(input.attr('type'));
+                    ReportCurtailmentInvoice(val, startDate, endDate, urlPrefix);
                 }
-                
-                //alert(errorCount);
-
-
-
-                
-            } else {
-                alert('Please select report type');
-            }
-        });
-
-        function isValidDate(dateString) {
-            // First check for the pattern
-            if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
-                return false;
-
-            // Parse the date parts to integers
-            var parts = dateString.split("/");
-            var day = parseInt(parts[1], 10);
-            var month = parseInt(parts[0], 10);
-            var year = parseInt(parts[2], 10);
-
-            // Check the ranges of month and year
-            if (year < 1000 || year > 3000 || month == 0 || month > 12)
-                return false;
-
-            var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-            // Adjust for leap years
-            if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-                monthLength[1] = 29;
-
-            // Check the range of the day
-            return day > 0 && day <= monthLength[month - 1];
-        };
-
-
-        $('#startDate').blur(function () {
-
-            if ($(this).val() === "") {
-                // required error
-                $('#tagscloudStartDate').children('span').text('Start date required');
-                $(this).addClass('input-validation-error');
-                return;
-            }
-            var valid = isValidDate($(this).val());
-            if (valid) {
-                $('#tagscloudStartDate').children('span').text('');
-                $(this).removeClass('input-validation-error');
-                //var selectedDate = new Date($(this).val());
-                //var minDate = new Date
-                //var maxDate = new Date
-                //if (selectedDate < minDate || selectedDate > maxDate) {
-                //    // out off range error
-                //    $('#customErrorPayDate').children('span').text('Out of Range');
-                //    $(this).addClass('input-validation-error');
-                //    //$('.centered span').text('Error');
-                //} else {
-                //    // delete error mssage
-                //    $('#customErrorPayDate').children('span').text('');
-                //    $(this).removeClass('input-validation-error');
-                //}
-            } else {
-
-                // not valid data error
-                $('#tagscloudStartDate').children('span').text('Not valid date');
-                $(this).addClass('input-validation-error');
-                //$('.centered span').text('Error');
+            } else if (rptType === 'LotInspection') {
+                Report(val, urlPrefix);
+            } else if (rptType === 'TitlesStatus') {
+                Report(val, urlPrefix);
             }
 
-            if ($('#startDate').val() === '') {
-                $('#tagscloudStartDate').children('span').text('');
-                $(this).removeClass('input-validation-error');
-                //$('.centered span').text('');
-            }
-
-        });
-
-        $('#endDate').blur(function () {
-
-            if ($(this).val() === "") {
-                // required error
-                $('#tagscloudEndDate').children('span').text('End date required');
-                $(this).addClass('input-validation-error');
-                return;
-            }
-            var valid = isValidDate($(this).val());
-            if (valid) {
-                $('#tagscloudEndDate').children('span').text('');
-                $(this).removeClass('input-validation-error');
-            } else {
-
-                // not valid data error
-                $('#tagscloudEndDate').children('span').text('Not valid date');
-                $(this).addClass('input-validation-error');
-                //$('.centered span').text('Error');
-            }
-
-            if ($('#endDate').val() === '') {
-                $('#tagscloudEndDate').children('span').text('');
-                $(this).removeClass('input-validation-error');
-                //$('.centered span').text('');
-            }
-
-        });
+            //alert(errorCount);
 
 
-        $('#btnPrint').click(function () {
-            $.ajax({
-                type: "POST",
-                url: '/Reports/PrintPage',
-                data: "",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
 
-                },
-                error: function (e) {
 
-                }
-            });
-        });
+        } else {
+            alert('Please select report type');
+        }
+    });
 
-        function Report(val, url) {
-            //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
-            url = url + val;
-            var myFrame = document.getElementById('ifrmReportViewer');
-            if (myFrame !== null) {
-                if (myFrame.src) {
-                    myFrame.src = url;
-                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                    myFrame.contentWindow.location = url;
-                } else {
-                    myFrame.setAttribute('src', url);
-                }
-            }
+    function isValidDate(dateString) {
+        // First check for the pattern
+        if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+            return false;
+
+        // Parse the date parts to integers
+        var parts = dateString.split("/");
+        var day = parseInt(parts[1], 10);
+        var month = parseInt(parts[0], 10);
+        var year = parseInt(parts[2], 10);
+
+        // Check the ranges of month and year
+        if (year < 1000 || year > 3000 || month == 0 || month > 12)
+            return false;
+
+        var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        // Adjust for leap years
+        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+            monthLength[1] = 29;
+
+        // Check the range of the day
+        return day > 0 && day <= monthLength[month - 1];
+    };
+
+
+    $('#startDate').blur(function () {
+
+        if ($(this).val() === "") {
+            // required error
+            $('#tagscloudStartDate').children('span').text('Start date required');
+            $(this).addClass('input-validation-error');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            $('#tagscloudStartDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //var selectedDate = new Date($(this).val());
+            //var minDate = new Date
+            //var maxDate = new Date
+            //if (selectedDate < minDate || selectedDate > maxDate) {
+            //    // out off range error
+            //    $('#customErrorPayDate').children('span').text('Out of Range');
+            //    $(this).addClass('input-validation-error');
+            //    //$('.centered span').text('Error');
+            //} else {
+            //    // delete error mssage
+            //    $('#customErrorPayDate').children('span').text('');
+            //    $(this).removeClass('input-validation-error');
+            //}
+        } else {
+
+            // not valid data error
+            $('#tagscloudStartDate').children('span').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            //$('.centered span').text('Error');
         }
 
-        function ReportCurtailmentInvoice(val, startDate, endDate, url) {
-            //alert(startDate + ' ' + endDate);
-
-            url = url + val + "&startDate=" + startDate + "&endDate=" + endDate;
-            var myFrame = document.getElementById('ifrmReportViewer');
-            if (myFrame !== null) {
-                if (myFrame.src) {
-                    myFrame.src = url;
-                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                    myFrame.contentWindow.location = url;
-                } else {
-                    myFrame.setAttribute('src', url);
-                }
-            }
+        if ($('#startDate').val() === '') {
+            $('#tagscloudStartDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //$('.centered span').text('');
         }
 
+    });
 
-        var startDate = new Pikaday({
-            field: document.getElementById('startDate'),
-            format: 'l'
-        });
+    $('#endDate').blur(function () {
 
-        var endDate = new Pikaday({
-            field: document.getElementById('endDate'),
-            format: 'l'
+        if ($(this).val() === "") {
+            // required error
+            $('#tagscloudEndDate').children('span').text('End date required');
+            $(this).addClass('input-validation-error');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            $('#tagscloudEndDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+        } else {
+
+            // not valid data error
+            $('#tagscloudEndDate').children('span').text('Not valid date');
+            $(this).addClass('input-validation-error');
+            //$('.centered span').text('Error');
+        }
+
+        if ($('#endDate').val() === '') {
+            $('#tagscloudEndDate').children('span').text('');
+            $(this).removeClass('input-validation-error');
+            //$('.centered span').text('');
+        }
+
+    });
+
+
+    $('#btnPrint').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Reports/PrintPage',
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+
+            },
+            error: function (e) {
+
+            }
         });
-    </script>
+    });
+
+    function Report(val, url) {
+        //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
+        url = url + val;
+        var myFrame = document.getElementById('ifrmReportViewer');
+        if (myFrame !== null) {
+            if (myFrame.src) {
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                myFrame.contentWindow.location = url;
+            } else {
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
+    function ReportCurtailmentInvoice(val, startDate, endDate, url) {
+        //alert(startDate + ' ' + endDate);
+
+        url = url + val + "&startDate=" + startDate + "&endDate=" + endDate;
+        var myFrame = document.getElementById('ifrmReportViewer');
+        if (myFrame !== null) {
+            if (myFrame.src) {
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                myFrame.contentWindow.location = url;
+            } else {
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
+
+    var startDate = new Pikaday({
+        field: document.getElementById('startDate'),
+        format: 'l'
+    });
+
+    var endDate = new Pikaday({
+        field: document.getElementById('endDate'),
+        format: 'l'
+    });
+</script>
