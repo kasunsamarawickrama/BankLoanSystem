@@ -290,7 +290,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "Super Admin";
 
                 }
-                else if (userData.RoleId == 3)
+                else if (userData.RoleId == 3 || userData.RoleId == 4)
                 {
                     ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
                     ViewBag.Branch = userData.BranchName;
