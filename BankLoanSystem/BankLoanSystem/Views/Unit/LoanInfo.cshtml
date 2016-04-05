@@ -83,7 +83,7 @@
 
 
 
-        <div class="top-bar">
+        @*<div class="top-bar">
            
 
 
@@ -96,29 +96,21 @@
 
 
 
-        </div>
+        </div>*@
 
-        <div class="centered">
-            <h5><span class="field-validation-error label label-danger" style="left:49%"></span></h5>
-
-        </div>
-
-        <div class="centered1">
-            <h5><span class="label label-success" style="left:48%"></span></h5>
-
-        </div>
+        
 
         <div class="info">
             @if (ViewBag.Title != "Pay Curtailments")
             {
 
                 <div class="address">
-                    <span style="float:left;width:450px"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
+                    <span style="float:left;width:30%;text-align: left;"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
 
 
 
 
-                    <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+                    <span style="float:left;width:40%;text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
 
 
 
@@ -172,7 +164,15 @@
         </div>
 
 
+<div class="centered">
+    <h5><span class="field-validation-error label label-danger" style="left:49%"></span></h5>
 
+</div>
+
+<div class="centered1">
+    <h5><span class="label label-success" style="left:48%"></span></h5>
+
+</div>
 
         <script>
 
@@ -387,7 +387,7 @@
 
         <div class="overlay-bg">
         </div>
-        <div class="overlay-content popup1" style="width:auto;text-align:center;left: 60%;">
+        <div class="overlay-content popup5" style="width:auto;text-align:center;left: 60%;">
 
 
             <h3>Logout</h3>

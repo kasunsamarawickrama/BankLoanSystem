@@ -1,318 +1,348 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
+    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
-
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/scripts/bootstrap.min.js"></script>
-
-    <style>
-
-       
-
-        .btn-arrow-right {
-            padding-left: 36px;
-            margin-left: 10px;
-        }
-
-            .btn-arrow-right:before,
-            .btn-arrow-right:after { /* make two squares (before and after), looking similar to the button */
-                content: "";
-                position: absolute;
-                top: 5px; /* move it down because of rounded corners */
-                width: 22px; /* same as height */
-                height: 22px; /* button_outer_height / sqrt(2) */
-                background: inherit; /* use parent background */
-                border: inherit; /* use parent border */
-                border-left-color: transparent; /* hide left border */
-                border-bottom-color: transparent; /* hide bottom border */
-                border-radius: 0px 4px 0px 0px; /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
-                -webkit-border-radius: 0px 4px 0px 0px;
-                -moz-border-radius: 0px 4px 0px 0px;
-            }
-
-            .btn-arrow-right:before,
-            .btn-arrow-right:after {
-                transform: rotate(45deg); /* rotate right arrow squares 45 deg to point right */
-                -webkit-transform: rotate(45deg);
-                -moz-transform: rotate(45deg);
-                -o-transform: rotate(45deg);
-                -ms-transform: rotate(45deg);
-            }
-
-            .btn-arrow-right:before { /* align the "before" square to the left */
-                left: -11px;
-            }
-
-            .btn-arrow-right:after { /* align the "after" square to the right */
-                right: -11px;
-            }
-
-            .btn-arrow-right:after { /* bring arrow pointers to front */
-                z-index: 1;
-            }
-
-            .btn-arrow-right:before { /* hide arrow tails background */
-                background-color: aliceblue;
-            }
-
-
-        .link-bar {
-            clear: both;
-            border-radius: 10px;
-            border: 2px solid #31708f;
-            padding: 15px 15px 15px 15px;
-        }
-
-        .body-content {
-            float: left;
-            width: 80%;
-        }
-
-        .details-container {
-            width: 100%;
-            padding: 20px 0px 20px 0px;
-        }
-
-        .side-panel > h5 {
-            color: #38B78C;
-        }
-
-        .side-panel {
-            float: right;
-            width: 100%;
-            margin-top: 50px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            border: 2px solid #5CB85C;
-        }
-
-        .info {
-            padding-top: 18px;
-            padding-left: 20px;
-            margin-top: 35px;
-            padding-bottom: 18px;
-            border-radius: 15px;
-            border: 2px solid #8D987E;
-        }
-
-        .container {
-            background-color: aliceblue;
-        }
-
-        h5 {
-            text-align: center;
-        }
-
-        .centered {
-            margin: 0 auto;
-            clear: both;
-            width: 1170px;
-        }
-
-        h2 {
-            text-align: center;
-            /* clear: both; */
-            width: 1170px;
-        }
 
 
 
-        .page-wrapper {
-            width: 900px;
-            height: 900px; /* for testing*/
-            float: left;
-        }
 
-        .top-bar {
-            float: right;
-            width: inherit;
-            height: 80px;
-            border-bottom-right-radius: 1em;
-            border-bottom-left-radius: 1em;
-        }
+    <link href="~/Content/bootstrap.min.css"  rel="stylesheet" />
+    <link href="~/Content/general_foundicons.css" rel="stylesheet" />
+    <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
+    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
 
-            .top-bar > a {
-                float: right;
-                color: white;
-                text-decoration: none;
-                margin-top: 25px;
-                margin-right: 30px;
-                padding-right: 20px;
-            }
+  
 
 
-        .profile-elements {
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/scripts/CommonFunctions.js"></script>
 
-        .no-bullets {
-            list-style-type: none;
-        }
+ 
 
-        .img-circle {
-            border-radius: 50%;
-        }
-
-        .no-text-decoration {
-            text-decoration: none;
-        }
-
-        .profile-elements {
-            float: left;
-            margin-left: 20px;
-        }
-
-        .input-validation-error {
-            border: 1px solid #ff0000;
-        }
-
-        .form-control[disabled] { 
-            cursor: default; 
-        }
-
-        .gridtable {
-        margin: 30px;
-        border-collapse: collapse;
-        width: 95%;
-        background-color: aliceblue;
-    }
-    .webgrid-header {
-        background-color:paleturquoise;
-        font-weight: bold;
-        color:#337ab7;
-    }
-
-    .gridtable th, .gridtable td {
-        border: 1px solid cadetblue;
-        padding: 5px;
-        width:2%;
-    }
-
-    .webgrid-alternating-row {
-        background-color:aliceblue;
-        color: #000;
-        font-weight:normal;
-    }
-    .webgrid-row-style
-    {
-        padding: 3px 7px 2px;
-    }
-    .gridHead a:hover {
-        text-decoration: underline;
-    }
-
-    .description {
-        width: auto;
-    }
-
-    .select {
-        background-color:mediumaquamarine;
-    }
-
-    .hidden {
-        display: none;
-    }
-     .gridColumn {
-       text-align:right ;
-    }
-
-
-   
-    .info-unit {
-        margin-left: 0px;
-        margin-right: 20px;
-        border-radius: 15px;
-        border: 2px solid #8D987E;
-        padding: 20px 20px 10px 20px;
-    }
-
-    .form-horizontal .control-label {
-        text-align: left;
-        padding-left: 60px;
-    }
-    </style>
 </head>
 
 
+<body data-scrolling-animations="true">
 
-<body>
+    <header>
+        <div class="common-box">
+            <div class="left-box">
 
-    <div class="container" id="container">
-    
+                <div class="soft-info">
+
+                    <h1>
+                        Floor Plan Financing
+
+                    </h1>
+                    <small><strong> Management Software </strong></small>
+                </div>
 
 
 
-        @{
-            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg= @ViewBag.Msg });
-        }
+            </div>
+
+            <div class="box">
+
+                <div class="signout">
+                    <span>
+                        @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "5" })
+                        <span class="icon-exit"></span>
+                    </span>
+                </div>
+
+                <div>
+                    @{
+                        Html.RenderAction("UserRequestAns", "UserManagement");
+                    }
+                </div>
+
+                <div>
+                    <span class="tooltip icon-film ">
+                        <span class="tooltiptext ved">
+                            Watch Video
+                        </span>
+                    </span>
+                </div>
+
+                <!---->
+                <!---->
+
+
+            </div>
 
 
 
-        <div class="details-container">
-
-           
-
-         
-                @RenderBody()
-          
 
         </div>
 
+    </header>
 
-        <div class="link-bar" style="margin-bottom:15px;">
-
-
-            @{
-                Html.RenderAction("GetLinkBar", "Unit");
-            }
+    <div class="container-fluide">
 
 
+
+
+        @*<div class="container-child">
+
+
+                <div class="dsh">
+
+                    <div class="img-name-panel">
+                        <div>
+                            <div>
+                                <div>
+                                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                        <div class="pos-name-panel" >
+                            <div>
+                                <div>
+                                    <span>User Name</span>
+                                </div>
+
+                                <div style="margin-top:10px">
+                                    <span>Position</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">Dashboard</h3></div>
+                    <div class="cmp-name-panel">
+                        <div>
+                            <div>
+
+                            </div>
+
+                            <div style="margin-top:10px">
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cmp-name-panel">
+                        <div>
+                            <div>
+                                <span>Company</span>
+                            </div>
+
+                            <div style="margin-top:10px">
+                                <span>Branch</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fpm">
+                    <h3>Floor Plan Management</h3>
+                    <div>
+                        <div class="select-loan">
+                            <div ><button class="nrm-button">Select Loan</button></div>
+                            <div><span >Loan # - 123456</span><span style="width:40%">Dealer/Lender Name</span><span>Branch</span></div>
+
+                        </div>
+                        <button class="big-button">
+                              <span class="icon-truck"></span>
+                              <span class="txt">Add Unit</span>
+                        </button>
+                        <button class="big-button">
+                            <span class="icon-dollar"></span>
+                            <span class="txt">Advance Unit</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-coin-dollar"></span>
+                            <span class="txt">Unit Curtailments</span>
+                        </button>
+                        <button class="big-button">
+                            <span class="icon-banknote"></span>
+                            <span class="txt">Pay Off A Unit</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-stack"></span>
+                            <span class="txt">Reports</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-files-empty"></span>
+                            <span class="txt">Update Titles</span>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="md">
+                    <h3>Manage Details</h3>
+                    <div>
+                        <button class="big-button">
+                            <span class="icon-user"></span>
+                            <span class="txt">Edit User</span>
+                        </button>
+                        <button class="big-button">
+                            <span class="icon-home2"></span>
+                            <span class="txt">Edit Branch</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-clipboard"></span>
+                            <span class="txt">Edit Loan</span>
+                        </button>
+                        <button class="big-button">
+                            <span class="icon-user-tie"></span>
+                            <span class="txt">Edit Partner</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-office"></span>
+                            <span class="txt">Edit Company</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-accessibility"></span>
+                            <span class="txt">Edit User Rights</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-credit"></span>
+                            <span class="txt">Fees</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-user-check"></span>
+                            <span class="txt">Assign A User</span>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="setp">
+                    <h3>Set Up</h3>
+                    <div>
+                        <div >
+                            <div class="pkg">
+                                <table>
+                                    <tr>
+                                        <th></th>
+                                        <th>Branches</th>
+                                        <th>Loans</th>
+                                        <th>Users</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Used</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Available</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <button class="big-button">
+                            <span class="icon-user-plus"></span>
+                            <span class="txt">Create User</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-home"></span>
+                            <span class="txt">Create Branch</span>
+                        </button>
+
+                        <button class="big-button">
+                            <span class="icon-folder-plus"></span>
+                            <span class="txt">Create Loan</span>
+                        </button>
+                        <button class="big-button">
+                            <span class="icon-users"></span>
+                            <span class="txt">Create Partner</span>
+                        </button>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>*@
+
+
+
+
+
+
+
+
+
+        <div>
+            @RenderBody()
         </div>
-
-      
     </div>
-    <script>
-        // if advance page
-        @if(ViewBag.Title == "Advance Unit") {
+    <footer>
+        <div class="bottom-bar">
+            <div class="small-space">
+                <div class="clr-prt1">
 
-        @*<text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
-            <text>$("#lkadv").click(function (e) { e.preventDefault(); });</text>
-              <text>$("#lkadv").siblings().click(function (e) {
-            return true;
+                </div>
+                <div class="clr-prt2">
 
-        });</text>*@
+                </div>
+            </div>
 
-            <text>$("#lkadv").hide();</text>
-        }else if(ViewBag.Title == "Add Unit Page")
-        {
-                @*<text>
+            <div class="cmd-bar">
+                <div class="cmd-skew-bar">
 
-        //if unit page
-        $("#lkuni").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
-            <text>$("#lkuni").click(function (e) { e.preventDefault(); });</text>
-            <text>$("#lkuni").siblings().click(function (e) {
-            return true;
+                    <div class="footer-info">
 
-        });</text>*@
+                        <h3>Dealer Floor Plan Management Software</h3>
+                        <div>
+                            <div>
+                                <span>Support (800) ###-####</span>
+                                <div class="hor-sp"></div>
+                                <span style="margin-left:30px;margin-top:10px;">Hours: 8am-6pm Central</span>
+                            </div>
 
-            <text>$("#lkuni").hide();</text>
-        }
+                            <div>
+                                <span>Billing (800) ###-####</span>
+                                <div class="hor-sp"></div>
+                                <span style="margin-left:30px;margin-top:10px;">Hours: 9am-5pm Central</span>
+                            </div>
+                        </div>
 
+                    </div>
 
+                </div>
+                <div>
+                    @{
+                        Html.RenderAction("UserRequestMessage", "UserManagement");
+                    }
+                </div>
 
-    </script>
+            </div>
 
+        </div>
 
-   
+    </footer>
 
 
 </body>
