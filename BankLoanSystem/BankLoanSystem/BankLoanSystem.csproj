@@ -232,6 +232,7 @@
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\popup.js" />
+    <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -408,7 +409,6 @@
     <Content Include="Views\UserManagement\AssignRights.cshtml" />
     <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
-    <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\BankLoanSystem.dll.config" />
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
@@ -416,7 +416,6 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
 	 <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
-    <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

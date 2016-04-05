@@ -480,6 +480,11 @@ namespace BankLoanSystem.Controllers
                         //    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
                         //}
                     }
+                    else
+                    {
+                        //User Name Correct but user enter password does not match with database password value
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
+                    }
                 }
                 else
                 {
