@@ -562,27 +562,35 @@
     });
 
     $('#btnCreateUser').click(function () {
-        //alert($('hh'));
+        alert('hh');
         //alert($('#BranchId option:selected').val());
         InsertUser();
 
     });
     function InsertUser() {
-        var branch="";
+
+       // $('#rights').
+        //console.log(model);
+
+        var arrRights = modcheck();
+        var strRights = arrRights.toString();
+        alert(strRights);
+
+var branch="";
         if ($('#RoleId option:selected').val() == 1) {
 
 
         }
         else if ($('#RoleId option:selected').val() == 2) {
-            
+
             if (@ViewBag.BranchId.Items.Count == 1) {
-                
+
                 document.getElementById("branchid").innerHTML = $('#BranchId2').val();
                 //alert($('#BranchId2').val());
             }
             else if (@ViewBag.BranchId.Items.Count > 1)
             {
-                
+
                 document.getElementById("branchid").innerHTML = $('#BranchId option:selected').val();
             }
 
