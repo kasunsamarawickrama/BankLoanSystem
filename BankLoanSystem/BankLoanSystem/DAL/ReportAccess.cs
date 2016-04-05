@@ -145,8 +145,11 @@ namespace BankLoanSystem.DAL
                     totalpaid = totalpaid + Convert.ToDecimal(dataRow["CurtPaidAmount"]);
                     lstCurtailmentShedule.Add(curtailment);
                 }
-                if (lstCurtailmentShedule.Count > 0)
-                    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
+                //if (lstCurtailmentShedule.Count > 0)
+                //    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
+
+                for(int i = 0; i < lstCurtailmentShedule.Count; i++ )
+                    lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
 
                 return lstCurtailmentShedule;
             }
