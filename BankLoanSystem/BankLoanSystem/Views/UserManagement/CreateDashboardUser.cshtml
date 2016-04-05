@@ -274,9 +274,8 @@
                                             </div>
                                             <div id="rightsSection">
                                                 <div id="loanid" class="hidden"></div>
+
                                             </div>
-                                           
-                                           
 
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
@@ -446,7 +445,7 @@
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
     //Progress(3);
-  
+
 
     //Validation
 
@@ -557,20 +556,29 @@
             return;
         }
     });
-    
+
     $('#btnCreateUser').click(function () {
-        //alert($('hh'));
+        alert('hh');
         //alert($('#BranchId option:selected').val());
         InsertUser();
 
     });
     function InsertUser() {
+
+       // $('#rights').
+        //console.log(model);
+        
+        var arrRights = modcheck();
+        var strRights = arrRights.toString();
+        alert(strRights);
+
+
         if ($('#RoleId option:selected').val() == 1) {
-            
-           
+
+
         }
         else if ($('#RoleId option:selected').val() == 2) {
-            
+
             if ($('#BranchId2').val() != "") {
                 //alert('1');
                 var branch = $('#BranchId2').val();
@@ -580,7 +588,7 @@
             {
                 var branch = $('#BranchId option:selected').val();
             }
-           
+
         }
         else if ($('#RoleId option:selected').val() == 3) {
             if ($('#BranchIdUser2').val() != "") {
