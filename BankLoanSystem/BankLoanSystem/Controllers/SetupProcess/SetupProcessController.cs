@@ -1369,12 +1369,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 bool reslt2 = false;
                 if(userData.RoleId == 2)
                 {
-                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, userData.BranchId, reslt, 0, 1);
+                    reslt2 = sa.UpdateLoanSetupStep(userData.UserId,userData.Company_Id, userData.BranchId, reslt, 0, 1);
                 }
 
                 else if(userData.RoleId == 1)
                 {
-                    reslt2 = sa.UpdateLoanSetupStep(userData.Company_Id, nonRegCompanyBranch.RegBranchId, reslt, 0, 1);
+                    reslt2 = sa.UpdateLoanSetupStep(userData.UserId,userData.Company_Id, nonRegCompanyBranch.RegBranchId, reslt, 0, 1);
                 }
                 if (reslt2)
                 {
@@ -1498,7 +1498,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (loanSetupStep1.isInterestCalculate)
                 {
                     
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
+                    sa.UpdateLoanSetupStep(userData.UserId, loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 2);
                     if (loanData.stepId < 2)
                     {
                         loanData.stepId = 2;
@@ -1507,7 +1507,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    sa.UpdateLoanSetupStep(loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
+                    sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanSetupStep1.RegisteredBranchId, loanSetupStep1.nonRegisteredBranchId, loanId, 3);
                     if (loanData.stepId < 3)
                     {
                         loanData.stepId = 3;
@@ -1778,7 +1778,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
                 StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
+                if (sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
                 {
                     if (loanData.stepId < 3)
                     {
@@ -2037,7 +2037,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return RedirectToAction("Step9");
                 }
-                else if (step.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
+                else if (step.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
                     
                     if (loanData.stepId < 4) {
@@ -2288,7 +2288,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
 
-                if (sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
+                if (sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
                     if (loanData.stepId < 5)
                     {
@@ -2523,13 +2523,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
             {
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
                 ViewBag.Redirect = 1;
             }
             else
             {
-                sa.UpdateLoanSetupStep(loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }

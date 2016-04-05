@@ -403,16 +403,16 @@ namespace BankLoanSystem.DAL
         /// <param name="branchId"></param>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public bool UpdateLoanSetupStep(int companyId, int branchId,int nonRegisteredBranchId, int loanId, int stepNumber)
+        public bool UpdateLoanSetupStep(int userId ,int companyId, int branchId,int nonRegisteredBranchId, int loanId, int stepNumber)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@company_id", companyId });
             paramertList.Add(new object[] { "@branch_id", branchId });
             paramertList.Add(new object[] { "@non_registered_branch_id", nonRegisteredBranchId });
             paramertList.Add(new object[] { "@loan_id", loanId });
             paramertList.Add(new object[] { "@step_number", stepNumber });
-
 
             try
             {
