@@ -205,7 +205,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "Super Admin";
 
                 }
-                else if (userData.RoleId == 3)
+                else if (userData.RoleId == 3 || userData.RoleId == 4)
                 {
                     ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
                     ViewBag.Branch = userData.BranchName;
@@ -308,7 +308,7 @@ namespace BankLoanSystem.Controllers
                         loan = da.GetLoanDetails(userData.Company_Id, 1);
 
                     }
-                    else if (userData.RoleId == 3)
+                    else if (userData.RoleId == 3 || userData.RoleId == 4)
                     {
                         loan = da.GetLoanDetails(userData.UserId, 3);
 
@@ -1424,7 +1424,33 @@ namespace BankLoanSystem.Controllers
             userReq.topic = "";
             userReq.message = userReq.message;
             userReq.priority_level = "high";
-            return RedirectToAction("UserRequest");
+
+            UserRequestAccess userreqAccsss = new UserRequestAccess();
+            int reslt=userreqAccsss.InsertUserRequest(userReq);
+            if (reslt >= 0)
+            {
+                string body = "User Name      " +userData.UserName+ "< br />" +
+                              "Position       " + (string)Session["searchType"] + "< br />" +
+                              "Company        " + userData.CompanyName + "< br />" +
+                              "Branch         " + userData.BranchName + "< br />" +
+                              "Loan           " + "< br />" +
+                              "Date and Time  " +DateTime.Now+ "< br />" +
+                              "Title          " + "< br />" +
+                              "Message        " + userReq.message+ "< br />" +
+                              "Page           " + "< br />";
+
+                Email email = new Email("asanka@thefuturenet.com");
+                email.SendMail(body, "Account details");
+
+                ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
+                return RedirectToAction("UserRequest");
+            }
+            else
+            {
+                ViewBag.SuccessMsg = "Error Occured";
+                return RedirectToAction("UserRequest");
+            }
+               
         }
 
         /// <summary>
@@ -1484,7 +1510,7 @@ namespace BankLoanSystem.Controllers
             //    tempRoleList.Add(tempRole);
             //}
 
-            ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
 
            
             if (HttpContext.Request.IsAjaxRequest())

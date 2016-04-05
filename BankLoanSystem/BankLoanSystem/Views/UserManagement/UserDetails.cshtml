@@ -115,7 +115,7 @@ else
         </div>
     </div>
 
-    @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3)))
+    @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
        
         <div class="fpm">
@@ -123,18 +123,18 @@ else
             <div id="floorPlanDiv">
                 <div class="select-loan">
 
-@if (ViewBag.loanSelected == 1) { 
+                @if (ViewBag.loanSelected == 1) { 
+                                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+                }
+                @if (ViewBag.LoanCount > 1)
+                {
                     <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
-}
-@if (ViewBag.LoanCount > 1)
-{
-    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
-}
-else
-{
+                }
+                else
+                {
 
-    <div>
-        <span>Loan # - @ViewBag.LoanNum</span>
+                    <div>
+                        <span>Loan # - @ViewBag.LoanNum</span>
 
 
 
@@ -142,30 +142,30 @@ else
 
 
 
-        @if (ViewBag.PartnerType == 1)
-        {
-        <span style="width:36%">Lender : @ViewBag.PartnerName</span>
+                        @if (ViewBag.PartnerType == 1)
+                        {
+                        <span style="width:36%">Lender : @ViewBag.PartnerName</span>
 
-        }
-        else if (ViewBag.PartnerType == 2)
-        {
-        <span style="width:36%">Dealer : @ViewBag.PartnerName</span>
+                        }
+                        else if (ViewBag.PartnerType == 2)
+                        {
+                        <span style="width:36%">Dealer : @ViewBag.PartnerName</span>
 
-        }
+                        }
 
-        <span>Branch : @ViewBag.Branch</span>
+                        <span>Branch : @ViewBag.Branch</span>
 
-    </div>
+                    </div>
 
 
-}
+                }
 
                     
 
                 </div>
                 
 
-                @if (ViewBag.roleId == 3)
+                @if (ViewBag.roleId == 3 || ViewBag.roleId == 4)
                 {
                     if (ViewBag.AddUnits == 1)
                     {
@@ -183,8 +183,9 @@ else
                     </button>
                 }
                 
+                 @if (ViewBag.roleId != 4)
+                 {
 
-                   
                     <button class="big-button">
                         <span class="icon-dollar"></span>
                         <span class="txt">Advance Unit</span>
@@ -198,9 +199,10 @@ else
                         <span class="icon-banknote"></span>
                         <span class="txt">Pay Off A Unit</span>
                     </button>
+                 }
 
 
-                @if (ViewBag.roleId == 3)
+                @if (ViewBag.roleId == 3 || ViewBag.roleId == 4)
                 {
                     if (ViewBag.ViewReports == 1)
                     {
