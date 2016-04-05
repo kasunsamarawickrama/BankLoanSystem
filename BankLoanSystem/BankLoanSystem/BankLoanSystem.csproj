@@ -404,7 +404,7 @@
     <Content Include="Views\Shared\_ForgotPasswordLayout.cshtml" />
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
     <Content Include="Views\UserManagement\ManageUserLoanRights.cshtml" />
-	<Content Include="Views\CreateDealer\LinkDealer.cshtml" />
+    <Content Include="Views\CreateDealer\LinkDealer.cshtml" />
     <Content Include="Views\UserManagement\AssignRights.cshtml" />
     <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
@@ -414,9 +414,10 @@
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-	 <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
+    <Content Include="Views\UserManagement\CreateDashboardUser.cshtml" />
     <Content Include="Views\UserManagement\UserRequestAns.cshtml" />
     <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
+    <Content Include="Views\UserManagement\GetLoansByBranches.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
