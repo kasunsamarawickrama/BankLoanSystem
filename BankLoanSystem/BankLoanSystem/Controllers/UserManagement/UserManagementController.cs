@@ -1121,6 +1121,7 @@ namespace BankLoanSystem.Controllers
             int userId = userData.UserId;
             StepAccess sa = new StepAccess();
             DashBoardAccess da = new DashBoardAccess();
+            User us = new User();
             // check he is a super admin or admin
 
             int roleId = userData.RoleId;
@@ -1206,15 +1207,24 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
-            List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
+            List<Branch> branchesListsLoan =  new List<Branch>();
+            branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
+            //List<Branch> branchesLists2 = new List<Branch>();
+            //branchesLists2 = branchesListsLoan.Distinct().ToList();
+
+            ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
+
+            //List<Branch> branchesLists3 = new List<Branch>();
+            //branchesLists3 = branchesListsLoan;
+            //Session["BranchLoans"] = branchesLists3;
+            //ViewBag.LoanId = new SelectList(branchesLists3, "LoanId", "BranchName");
+
+            //List<Right> rightLists = new List<Right>();
 
 
-            ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
+            //rightLists = (new UserRightsAccess()).getRights();
 
-            List<Right> rightLists = (new UserRightsAccess()).getRights();
-
-
-            ViewBag.UserRights = new SelectList(rightLists, "rightId", "description");
+            //us.UserRightsList = rightLists;
 
             //return PartialView(userViewModel);
 
@@ -1231,7 +1241,34 @@ namespace BankLoanSystem.Controllers
 
         }
 
-        
+        public ActionResult GetLoansByBranches(int BranchIdL) 
+        {
+            User us = new User();
+            List<Branch> listLoan = new List<Branch>();
+            List<Branch> listLoan2 = new List<Branch>();
+            listLoan = (new BranchAccess()).GetLoansByBranches(BranchIdL);
+            ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
+            List<Right> rightLists = new List<Right>();
+
+
+            rightLists = (new UserRightsAccess()).getRights();
+
+            us.UserRightsList = rightLists;
+
+            //return PartialView(userViewModel);
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(us);
+            }
+            else
+            {
+
+                return PartialView(us);
+            }
+            //return View();
+        }
         public ActionResult InsertDashboardUser(User userObj)
         {
 

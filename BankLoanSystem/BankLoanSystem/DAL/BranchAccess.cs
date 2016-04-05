@@ -33,8 +33,8 @@ namespace BankLoanSystem.DAL
                         Branch branch = new Branch();
                         branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
                         branch.BranchName = dataRow["branch_name"].ToString();
-                        
-
+                        //branch.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        //branch.LoanNumber = dataRow["loan_number"].ToString();
                         branchesLists.Add(branch);
                     }
 
@@ -874,5 +874,40 @@ namespace BankLoanSystem.DAL
             return "";
         }
     }
-}
+
+        public  List<Branch> GetLoansByBranches(int branchIdL)
+        {
+            List<Branch> branchesLists = new List<Branch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@branch_id", branchIdL });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoanByBranchId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Branch branch = new Branch();
+                        branch.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                        branch.BranchName = dataRow["branch_name"].ToString();
+                        branch.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        branch.LoanNumber = dataRow["loan_number"].ToString();
+                        branchesLists.Add(branch);
+                    }
+
+                    return branchesLists;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
+    }
 }
