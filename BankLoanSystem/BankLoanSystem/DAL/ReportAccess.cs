@@ -190,5 +190,53 @@ namespace BankLoanSystem.DAL
 
             return units;
         }
+
+
+        /// <summary>
+        /// CreatedBy:Irfan
+        /// CreatedDate:2016/2/24
+        /// Get just added units by loan id and user id
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns>list of units</returns>
+        public List<Unit> GetJustAddedUnitDetails(int userId, int loanId)
+        {
+
+            List<Unit> justAddedUnitList = new List<Unit>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetJustAddedUnitsByLoanId", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    
+
+
+                    Unit justAddedUnit = new Unit();
+
+                    justAddedUnit.Model = dataRow["model"].ToString();
+                    justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00;
+                    justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
+                    justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
+
+                    justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
+                    justAddedUnit.Make = dataRow["make"].ToString();
+                    justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
+                    justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                    justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
+                    justAddedUnitList.Add(justAddedUnit);
+                    
+                }
+            }
+
+            return justAddedUnitList;
+
+        }
     }
 }
