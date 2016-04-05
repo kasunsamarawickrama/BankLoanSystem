@@ -29,98 +29,8 @@
                             <div class="form-horizontal">
                                 
                                 <div style="clear:both"></div>
-                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
-                                {
-                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-                                    {
-
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form", style = "clear: both;" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <span class="text-success">@ViewBag.SuccessMsg</span>
-                                        <div class="form-group">
-                                            <div class="button-panel">
-                                                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
-                                                
-
-                                            </div>
-
-                                        </div>
-                                    }
-
-                                    <script>
-                                    $(function () {
-                                        $('#createNewUser').click(function () {
-
-                                            $('#loadingDiv').show();
-                                            $.ajax({
-                                                url: '@Url.Action("Step3")',
-                                                type: 'GET',
-
-
-                                                success: function (partialView) {
-                                                    $('#loadingDiv').hide();
-                                                    $('#changeContainer').html(partialView);
-                                                    $('#changeContainer').show();
-                                                },
-
-                                                error: function (request, status, error) {
-                                                    //handleErrorMsg(request.responseText);
-
-                                                }
-                                            });
-
-
-                                        });
-
-                                        $(function () {
-                                            $('#step4').click(function () {
-
-                                                $('#loadingDiv').show();
-                                                $.ajax({
-                                                    url: '@Url.Action("Step4")',
-                                                    type: 'GET',
-
-
-                                                    success: function (partialView) {
-                                                        $('#loadingDiv').hide();
-                                                        $('#changeContainer').html(partialView);
-                                                        $('#changeContainer').show();
-                                                        Progress(4);
-                                                    },
-                                                    error: function (request, status, error) {
-                                                        //handleErrorMsg(request.responseText);
-
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    });
-
-                                    </script>
-
-
-                                }
-
-                                else
-                                {
-
-                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-                                    {
-
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
+                                
+                               
 
 
 
@@ -298,12 +208,12 @@
                                             </div>
                                         </div>
 
-                                    }
+                                    
 
                                     <div>
                                     </div>
 
-                                }
+                                
 
 
                             </div>
@@ -563,7 +473,7 @@
     });
 
     $('#btnCreateUser').click(function () {
-        //alert('hh');
+        alert('hh');
         //alert($('#BranchId option:selected').val());
         InsertUser();
 
@@ -573,8 +483,7 @@
         // $('#rights').
         //console.log(model);
 
-        var arrRights = modcheck();
-        var strRights = arrRights.toString();
+        
         //alert(strRights);
 
 
@@ -597,6 +506,8 @@
 
         }
         else if ($('#RoleId option:selected').val() == 3) {
+            var arrRights = modcheck();
+            var strRights = arrRights.toString();
             @if (ViewBag.BranchId != null && ViewBag.BranchIdUser.Items.Count == 1) {
                 //alert('1');
                 <text>document.getElementById("branchid").innerHTML = $('#BranchIdUser2').val();</text>
@@ -627,9 +538,9 @@
             contentType: 'application/json; charset=utf-8',
             success: function (View) {
                 if (View != '1') {
-                    // $(location).attr('href', '/UserManagement/InsertDashboardUser');
+                    $(location).attr('href', '/UserManagement/CreateDashboardUser');
                 } else {
-                    //  $(location).attr('href', '/UserManagement/InsertDashboardUser');
+                    $(location).attr('href', '/UserManagement/CreateDashboardUser');
                 }
             }
         });
