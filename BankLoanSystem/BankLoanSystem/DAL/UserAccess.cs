@@ -52,6 +52,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_id", user.BranchId });
             paramertList.Add(new object[] { "@role_id", user.RoleId });
             paramertList.Add(new object[] { "@Company_id", user.Company_Id });
+            paramertList.Add(new object[] { "@step_status", user.step_status });
 
             try
             {
@@ -496,18 +497,9 @@ namespace BankLoanSystem.DAL
                 DataSet dataSet = dataHandler.GetDataSet("spGetStepStatusByUserBranchId", paramertList);
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                       if(string.IsNullOrEmpty(dataRow["step_status"].ToString())) {
-                            step = int.Parse(dataRow["step_status"].ToString());
-                       }
-
-
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    step = int.Parse(dataRow["step_status"].ToString());
                         return step;
-
-                    }
-
-                    return step;
                 }
                 else
                 {

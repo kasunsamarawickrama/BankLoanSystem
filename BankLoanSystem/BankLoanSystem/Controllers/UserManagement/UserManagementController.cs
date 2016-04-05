@@ -228,7 +228,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
-                        //ViewBag.LoanCode = loanSelected.LoanCode;
+                        Session["loanCode"] = loanSelected.LoanCode;
 
                         if (userData.RoleId == 3)
                         {
@@ -996,6 +996,7 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
                     finalSelectedLoan.LoanId = l.loanId;
                     finalSelectedLoan.LoanNumber = l.loanNumber;
+                    finalSelectedLoan.LoanCode = l.loanCode;
                     finalSelectedLoan.Rights = l.rightId.Split(',');
                     if (l.titleTracked == true)
                     {
@@ -1012,6 +1013,7 @@ namespace BankLoanSystem.Controllers
                         {
                             finalSelectedLoan.BranchId = nrbr.BranchId;
                             finalSelectedLoan.PartnerName = nrbr.CompanyNameBranchName;
+                           
                             foreach (var br in list3.RegBranches)
                             {
                                 if (br.BranchId == finalSelectedLoan.BranchId)
