@@ -103,6 +103,8 @@ namespace BankLoanSystem.DAL
                     Loan loanObj = new Loan();
                     loanObj.LoanNumber = dataSet.Tables[0].Rows[0]["loan_number"].ToString();
                     loanObj.PartnerName = dataSet.Tables[0].Rows[0]["company_name"].ToString();
+                    loanObj.LoanCode = dataSet.Tables[0].Rows[0]["loan_code"].ToString();
+
                     loanObj.PartnerType = int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
                     loanObj.BranchName = dataSet.Tables[0].Rows[0]["branch_name"].ToString();
                     if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
@@ -129,6 +131,10 @@ namespace BankLoanSystem.DAL
                         }
                        
                     }
+
+                    loanObj.NonRegBranchId = int.Parse(dataSet.Tables[0].Rows[0]["non_reg_branch_id"].ToString());
+                    loanObj.LoanId = int.Parse(dataSet.Tables[0].Rows[0]["loan_id"].ToString());
+
                     return loanObj;
 
                 }

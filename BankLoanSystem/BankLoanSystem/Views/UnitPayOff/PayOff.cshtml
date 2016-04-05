@@ -1,19 +1,14 @@
 ﻿@model BankLoanSystem.Models.UnitPayOffViewModel
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Pay Off";
     WebGrid grid = new WebGrid(Model.UnitPayOffList, defaultSort: "DateEntered", canPage: false);
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Pay Off</title>
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
 
     <link href="~/Content/pikaday.css" rel="stylesheet" />
     <link href="~/Content/theme.css" rel="stylesheet" />
@@ -21,7 +16,7 @@
     <script src="~/scripts/moment.js"></script>
     <script src="~/scripts/pikaday.js"></script>
 
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     <link href="~/Content/commonActions.css" rel="stylesheet" />
@@ -43,8 +38,7 @@
             background-color: lightblue;
         }
     </style>
-</head>
-<body>
+
 
     <div class="container" id="container">
         @{
@@ -1171,5 +1165,4 @@
         };
 
     </script>
-</body>
-</html>
+

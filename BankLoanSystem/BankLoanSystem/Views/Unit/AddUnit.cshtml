@@ -6,12 +6,11 @@
 }
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
-<script src="~/scripts/bootstrap.min.js"></script>
+
 
 <link rel="stylesheet" href="~/Content/commonActions.css">
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
 
 
 <link href="~/Content/pikaday.css" rel="stylesheet" />
@@ -52,7 +51,9 @@
     }
 
    
-
+    .field-validation-error{
+        left: 7%;
+    }
     .validation-error {
         z-index: 10001;
         font-weight: bold;
@@ -62,10 +63,14 @@
 
     .form-horizontal .control-label {
         text-align: left;
-        padding-left: 60px;
+        padding-left: 33px;
     }
 
+    .ui-state-hover{
+        font-size:12px;
+    }
     .ui-autocomplete {
+        font-size:12px;
         max-height: 500px;
         overflow-y: auto; /* prevent horizontal scrollbar */
         overflow-x: hidden; /* add padding to account for vertical scrollbar */
@@ -89,7 +94,8 @@
 </style>
 <div class="container-child">
     
-        @{ Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg }); }
+        @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+             }
     <div class="container" id="container">
         <div class="details-container">
             @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions() { OnFailure = "handleError", HttpMethod = "POST", LoadingElementId = "loadingDiv" }, new { enctype = "multipart/form-data", id = "form" }))
@@ -106,6 +112,8 @@
                 }
 
             </div>
+
+           
             <div class="body-content">
                 @Html.AntiForgeryToken()
 
@@ -744,7 +752,7 @@
                                     <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                                 </div>
 
-                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-4", @style = "padding-left: 157px;" })
+                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 80px;" })
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
@@ -2666,6 +2674,53 @@
 
 
         </div>
+
+
+       
     </div>
 
+    <div class="link-bar" style="margin-bottom:15px;">
+
+
+        @{
+            Html.RenderAction("GetLinkBar", "Unit");
+        }
+
+
+    </div>
+
+
+
 </div>
+
+<script>
+        // if advance page
+        @if(ViewBag.Title == "Advance Unit") {
+
+        @*<text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
+            <text>$("#lkadv").click(function (e) { e.preventDefault(); });</text>
+              <text>$("#lkadv").siblings().click(function (e) {
+            return true;
+
+        });</text>*@
+
+            <text>$("#lkadv").hide();</text>
+        }else if(ViewBag.Title == "Add Unit Page")
+        {
+                @*<text>
+
+        //if unit page
+        $("#lkuni").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
+            <text>$("#lkuni").click(function (e) { e.preventDefault(); });</text>
+            <text>$("#lkuni").siblings().click(function (e) {
+            return true;
+
+        });</text>*@
+
+            <text>$("#lkuni").hide();</text>
+        }
+
+
+
+</script>
+

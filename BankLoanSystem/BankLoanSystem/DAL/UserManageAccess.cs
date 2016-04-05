@@ -345,7 +345,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@role_id", roleId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetUserDetailsByRoleBranch");
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserDetailsByRoleBranch", paramertList);
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)

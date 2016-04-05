@@ -9,10 +9,24 @@
         Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     }
 }
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <style>
     .err_msg_box {
     
     text-align: left;
+}
+
+    #page-wrapper {
+    min-height: 568px;
+    padding: 0 36px;
+    float:unset !important;
+    /* position: relative !important; */
+    margin: auto !important;
 }
 </style>
 
@@ -35,7 +49,7 @@
                 <div class="row">
                     <div class="container body-content new_container">
                         @*<div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>*@
-                        <div class="setupTitle">
+                        <div >
                             <h2>Join Dealer Account</h2>
                         </div>
                         <div style="clear:both;"></div>
@@ -43,29 +57,25 @@
                             <div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                             </div>
+                            @*<div class="topErrors">
+                                <span class="text-success">@ViewBag.SuccessMsg</span>
+                            </div>*@
+                           
                             <div class="form-horizontal">
                                 
                                 <div style="clear:both"></div>
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
-                                        <span class="text-success">@ViewBag.SuccessMsg</span>
-                                       
+                                        <span class="text-success">@ViewBag.SuccessMsg</span>                                       
                                 }
 
-                                else
-                                {
-                                    using (Ajax.BeginForm("LinkDealer", "CreateDealer", new AjaxOptions()
-                                    {
-
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form" }))
+                               
+                                    @using(Html.BeginForm("LinkDealer", "CreateDealer" , FormMethod.Post , new { @id= "form" }))
                                     {
                                         @Html.AntiForgeryToken()
+                                        
                                         <div class="form-horizontal">
+                                          
                                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
@@ -238,9 +248,9 @@
                                                 <div>
                                                     <nav>
                                                         <div class="pager new_pager">
-                                                            <div class="button_box algn_left">
+                                                            @*<div class="button_box algn_left">
                                                                 <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
-                                                            </div>
+                                                            </div>*@
                                                             <div class="button_box algn_center">
                                                                 <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
                                                             </div>
@@ -259,7 +269,7 @@
                                     <div>
                                     </div>
 
-                                }
+                                
 
 
                             </div>
@@ -272,7 +282,7 @@
     </div>
 </div>
 </div>
-
+<script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript">
 
   $(document).ready(function(){
@@ -292,8 +302,21 @@
 
     $("#clear").click(function () {
         document.getElementsByTagName("form")[0].reset();
-        $('#txtUserName').next('span').children().text('');
-        $("#err_msg new_err_msg").text('');
+        //$('#txtUserName').next('span').children().text('');        
+        $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtUserName').next("div").children("p").children("span").text("");
+        $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPassword').next("div").children("p").children("span").text("");
+        $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+        $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFirstName').next("div").children("p").children("span").text("");
+        $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtLastName').next("div").children("p").children("span").text("");
+        $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNumber').next("div").children("p").children("span").text("");
         
 
     });   
@@ -413,9 +436,5 @@
 
 </script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 

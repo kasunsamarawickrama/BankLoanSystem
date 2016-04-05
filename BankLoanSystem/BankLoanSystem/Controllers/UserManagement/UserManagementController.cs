@@ -190,28 +190,6 @@ namespace BankLoanSystem.Controllers
                 ViewBag.Username = userData.UserName;
                 ViewBag.Company = userData.CompanyName;
                 ViewBag.roleId = userData.RoleId;
-                if (userData.RoleId == 2)
-                {
-                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
-                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "Admin";
-
-                }
-                else if (userData.RoleId == 1)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
-                    ViewBag.Branch = "";
-                    ViewBag.Position = "Super Admin";
-
-                }
-                else if (userData.RoleId == 3)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "User";
-
-                }
                 if (Session["loanDashboard"] != null)
                 {
                     ViewBag.LoanCount = 1;
@@ -250,6 +228,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
+                        //ViewBag.LoanCode = loanSelected.LoanCode;
 
                         if (userData.RoleId == 3)
                         {
@@ -295,7 +274,31 @@ namespace BankLoanSystem.Controllers
                     }
 
                 }
-                else if (ViewBag.LoanCount == 1)
+
+                if (userData.RoleId == 2)
+                {
+                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "Admin";
+
+                }
+                else if (userData.RoleId == 1)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
+                    ViewBag.Branch = "";
+                    ViewBag.Position = "Super Admin";
+
+                }
+                else if (userData.RoleId == 3)
+                {
+                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
+                    ViewBag.Branch = userData.BranchName;
+                    ViewBag.Position = "User";
+
+                }
+                
+                if (ViewBag.LoanCount == 1)
                 {
                    
                     if (userData.RoleId == 2)
@@ -308,7 +311,7 @@ namespace BankLoanSystem.Controllers
                         loan = da.GetLoanDetails(userData.Company_Id, 1);
 
                     }
-                    else if (userData.RoleId == 3)
+                    else if (userData.RoleId == 3 || userData.RoleId == 4)
                     {
                         loan = da.GetLoanDetails(userData.UserId, 3);
 
@@ -321,7 +324,8 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loan.BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
-
+                        // 
+                        Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
                             if ((loan.Rights.Count() > 0) && (loan.Rights != null))
@@ -346,6 +350,7 @@ namespace BankLoanSystem.Controllers
                                     }
                                 }
                             }
+                            
 
                         }
                         else
@@ -353,10 +358,11 @@ namespace BankLoanSystem.Controllers
                             ViewBag.AddUnits = 1;
                             ViewBag.ViewReports = 1;
                         }
-                        
-                        
+
+
                         //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                        //ViewBag.CompType 
+                        //ViewBag.CompType
+                        Session["oneLoanDashboard"] = loan;
                         return View();
                     }
                     else
@@ -1459,7 +1465,33 @@ namespace BankLoanSystem.Controllers
             userReq.topic = "";
             userReq.message = userReq.message;
             userReq.priority_level = "high";
+
+            UserRequestAccess userreqAccsss = new UserRequestAccess();
+            int reslt=userreqAccsss.InsertUserRequest(userReq);
+            if (reslt >= 0)
+            {
+                string body = "User Name      " +userData.UserName+ "< br />" +
+                              "Position       " + (string)Session["searchType"] + "< br />" +
+                              "Company        " + userData.CompanyName + "< br />" +
+                              "Branch         " + userData.BranchName + "< br />" +
+                              "Loan           " + "< br />" +
+                              "Date and Time  " +DateTime.Now+ "< br />" +
+                              "Title          " + "< br />" +
+                              "Message        " + userReq.message+ "< br />" +
+                              "Page           " + "< br />";
+
+                Email email = new Email("asanka@thefuturenet.com");
+                email.SendMail(body, "Account details");
+
+                ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
+                return RedirectToAction("UserRequest");
+            }
+            else
+            {
+                ViewBag.SuccessMsg = "Error Occured";
             return RedirectToAction("UserRequest");
+        }
+
         }
 
         /// <summary>
@@ -1489,7 +1521,17 @@ namespace BankLoanSystem.Controllers
         public ActionResult AssignRights()
         {
             Session.Remove("popUpSelectionType");
-            Loan loan = (Loan)Session["loanDashboard"];
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                //Session.Remove("oneLoanDashboard");
+            }
+            else if (Session["loanDashboard"] != null)
+            {
+                loan = (Loan)Session["loanDashboard"];
+            }
+           
 
             UserManageAccess ua = new UserManageAccess();
             List<User> userList = ua.getUsersByRoleBranch(3,loan.NonRegBranchId);
@@ -1509,7 +1551,7 @@ namespace BankLoanSystem.Controllers
             //    tempRoleList.Add(tempRole);
             //}
 
-            ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
 
            
             if (HttpContext.Request.IsAjaxRequest())
