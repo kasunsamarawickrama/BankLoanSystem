@@ -290,7 +290,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "Super Admin";
 
                 }
-                else if (userData.RoleId == 3)
+                else if (userData.RoleId == 3 || userData.RoleId == 4)
                 {
                     ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
                     ViewBag.Branch = userData.BranchName;
@@ -1133,34 +1133,24 @@ namespace BankLoanSystem.Controllers
 
             // check if   step is 3...
 
-            if (lbls != null && lbls.Equals("User Successfully Created"))
+            if (TempData["createUserResult"] != null && int.Parse(TempData["createUserResult"].ToString())==1)
             {
                 ViewBag.SuccessMsg = "User Successfully Created";
                 //sa.updateStepNumberByUserId(userId, 4);
-                //int rol = int.Parse(Session["abcRol"].ToString());
-                //int br = int.Parse(Session["abcBrnc"].ToString());
-                //if ((rol == 1) && (br == 0))
+                
+                //if (HttpContext.Request.IsAjaxRequest())
                 //{
-                //    sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4);
+                //    ViewBag.AjaxRequest = 1;
+                //    return PartialView();
                 //}
-                //else if ((rol == 2) && (br != 0))
+                //else
                 //{
-                //    sa.UpdateCompanySetupStep(userData.Company_Id, br, 4);
+
+                //    return View();
                 //}
-                //Session["abcRol"] = "";
-                //Session["abcBrnc"] = "";
-                //Session["companyStep"] = 4;
-
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
-                    return PartialView();
-                }
-                else
-                {
-
-                    return View();
-                }
+            }
+            else {
+                ViewBag.ErrorMsg = "Failed to create user";
             }
 
             ViewBag.CurrUserRoleType = roleId;
@@ -1269,7 +1259,7 @@ namespace BankLoanSystem.Controllers
             }
             //return View();
         }
-        public ActionResult InsertDashboardUser(User userObj)
+        public int InsertDashboardUser(User userObj)
         {
 
             userObj.PhoneNumber = userObj.PhoneNumber2;
@@ -1279,10 +1269,7 @@ namespace BankLoanSystem.Controllers
             //// check he is a super admin or admin
             int roleId = userData.RoleId;
 
-            if (roleId > 2)
-            {
-                return RedirectToAction("UserLogin", "Login");
-            }
+            
 
 
 
@@ -1349,47 +1336,27 @@ namespace BankLoanSystem.Controllers
 
 
 
-                ViewBag.SuccessMsg = "User Successfully Created";
+                //ViewBag.SuccessMsg = "User Successfully Created";
+                //RoleAccess ra = new RoleAccess();
+                //List<UserRole> roleList = ra.GetAllUserRoles();
 
-                //additional page ----> Add User Rights
-                //if()
 
-                return RedirectToAction("CreateDashboardUser", new { lbls = ViewBag.SuccessMsg });
+
+                //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
+                //List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+                //ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+                //List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
+
+
+                //ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
+                TempData["createUserResult"] = 1;
+                return 1;
 
             }
             else
             {
-                ViewBag.ErrorMsg = "Failed to create user!";
-
-                //Restrict to create above user role 
-                RoleAccess ra = new RoleAccess();
-                List<UserRole> roleList = ra.GetAllUserRoles();
-
-
-
-                ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
-
-
-
-                User curUser = ua.retreiveUserByUserId(userId);
-                // get all branches
-                List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
-                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-                List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
-
-
-                ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
-
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
-                    return PartialView();
-                }
-                else
-                {
-
-                    return View();
-                }
+                TempData["createUserResult"] = 0;
+                return 0;
             }
             //return View();
         }

@@ -154,7 +154,7 @@ namespace BankLoanSystem.DAL
             if (user != null)
             {
                 paramertList.Add(new object[] { "@user_name", user.UserName });
-                //paramertList.Add(new object[] { "@user_name", user.pa });
+                paramertList.Add(new object[] { "@password", user.Password });
                 paramertList.Add(new object[] { "@first_name", user.FirstName });
                 paramertList.Add(new object[] { "@last_name", user.LastName });
                 paramertList.Add(new object[] { "@email", user.Email });
@@ -176,6 +176,7 @@ namespace BankLoanSystem.DAL
                     paramertList.Add(new object[] { "@rights",""});
                     paramertList.Add(new object[] { "@loan_id", 0 });
                 }
+                paramertList.Add(new object[] { "@step_status", user.step_status });
             }
            
 
