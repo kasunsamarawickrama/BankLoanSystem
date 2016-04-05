@@ -46,7 +46,17 @@ namespace BankLoanSystem.Controllers.CreateDealer
         /// </summary>
         /// <returns></returns>
         public ActionResult LinkDealer()
-        {            
+        {
+            if(TempData["msg"] !=null )
+            {
+                if (TempData["msg"].ToString() == "1")
+                {
+                    ViewBag.SuccessMsg = "User Successfully Created";
+                }else if(TempData["msg"].ToString() == "2")
+                {
+                    ViewBag.Error = "Error";
+                }
+            }
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
             Loan loan = new Loan();
@@ -66,31 +76,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             return View();
         }
 
-        /// <summary>
-        /// CreatedBy : Nadeeka
-        /// CreatedDate: 2016/03/30
-        /// 
-        /// to show the view
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult LinkDealer1(string loanId, string nonRegBranch)
-        {
-            CompanyAccess ca = new CompanyAccess();
-            Loan finalSelectedLoan = new Loan();
-            finalSelectedLoan.LoanId = int.Parse(loanId);
-            finalSelectedLoan.NonRegBranchId = int.Parse(nonRegBranch);
-            Session["loanDashboard"] = finalSelectedLoan;
-
-
-            BranchAccess ba = new BranchAccess();
-            Loan loan = (Loan)Session["loanDashboard"];
-            Session.Remove("popUpSelectionType");
-            NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
-            ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
-            ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
-            return View();
-        }
-
+       
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate: 2016/03/30
@@ -166,10 +152,9 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 email.SendMail(body, "Account details");
 
 
-
-                ViewBag.SuccessMsg = "User Successfully Created";
-
-                return View();
+                TempData["msg"] = 1;//"User Successfully Created"
+                return RedirectToAction("LinkDealer");
+                //return View();
 
             }
             else
@@ -192,16 +177,10 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
-                    return PartialView();
-                }
-                else
-                {
+                return RedirectToAction("LinkDealer");
 
-                    return View();
-                }
+                //return View();
+
             }
         }
 
