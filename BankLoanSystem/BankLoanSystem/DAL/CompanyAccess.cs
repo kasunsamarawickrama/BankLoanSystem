@@ -433,6 +433,7 @@ namespace BankLoanSystem.DAL
                     com3.Parameters.Add("@create_Date", SqlDbType.DateTime).Value = DateTime.Now;
                     com3.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
                     com3.Parameters.Add("@role_id", SqlDbType.Int).Value = 1;
+                    com3.Parameters.Add("@step_status", SqlDbType.Int).Value = 1;
                     con.Open();
                     com3.ExecuteNonQuery();
                     con.Close();
@@ -719,6 +720,7 @@ namespace BankLoanSystem.DAL
                     com2.Parameters.Add("@phone_num", SqlDbType.NVarChar).Value = userCompany.Branch.BranchPhoneNum1;
                     com2.Parameters.Add("@fax", SqlDbType.NVarChar).Value = userCompany.Branch.BranchFax;
                     com2.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
+
                     com2.Parameters.Add("@created_date", SqlDbType.DateTime).Value = DateTime.Now;
                     com2.ExecuteNonQuery();
 
