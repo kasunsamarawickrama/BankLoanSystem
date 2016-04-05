@@ -10,7 +10,18 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span> <img alt="image" class="img-circle" src="~/Images/profile_small.jpg"> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <span> 
+@{
+    if (Model.step_status == 2)
+    {
+        <a href="~/UserManagement/UserDetails"><img alt="image" class="img-circle" src="~/Images/profile_small.jpg"></a>
+    }
+    else
+    {
+        <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+    }
+}
+                    </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs"> <strong class="font-bold">@Model.userName</strong> </span> <span class="text-muted text-xs block">
                                 @Model.roleName<b class="caret"></b>

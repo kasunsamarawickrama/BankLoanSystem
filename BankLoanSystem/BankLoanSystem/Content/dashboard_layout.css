@@ -1,8 +1,57 @@
-﻿
+﻿html, body {
+    margin-left: unset;
+    margin-right: unset;
+    width: unset;
+}
+.tooltip {
+    opacity:unset;
+}
+h3{
+    font-weight: 600;
+    margin:unset;
+}
+h1{
+    font-size:30px;
+}
+.msg-box select{
+    color:black;
+    font-size:12px;
+}
+/** {
+	margin: 0;
+	padding: 0;
+    font-size:unset;
+    font-family: 'Helvetica Neue','Helvetica', Arial, sans-serif;
+    color:unset;
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+h1,  h3{
+    
+    font-family: unset; 
+     font-weight: unset; 
+     line-height: unset; 
+     color: unset; 
+     margin-top: unset;
+    margin-bottom: unset;
 
-        /** {
-            padding:0px;margin:0px;
-        }*/
+}
+      
+       */
+footer{
+    clear:both;
+}
+ html,body{
+           font-size:unset;
+           width:unset;
+           color:black;
+           line-height:unset;
+       }
+ body{
+            background-color:unset !important;
+            
+        }
         .container-fluide{
             clear:both;
             max-width:1024px;
@@ -102,6 +151,7 @@
             margin-top:2px;
             color:#2323A0;
             font-family:Tahoma;
+            font-weight:bold;
             margin-bottom:2px;
             /*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));*/
     
@@ -171,7 +221,7 @@
         padding-top:8px
     }
     .bottom-bar{
-        height:150px; /*This is for testing*/
+        /*height:150px;*/ /*This is for testing*/
     }
      .small-space{
          height:24px;
@@ -377,6 +427,7 @@
 
 .msg-box{
     padding:20px;
+    padding-bottom:0px;
     padding-top:20px;
     font-weight:bold;
     text-align:left;
@@ -595,4 +646,8 @@ display: inline-block;
 .text-danger {
 	color: #a94442;
     font-size: 12px;
+}
+
+body {
+    font-family: 'Helvetica Neue','Helvetica', Arial, sans-serif;
 }

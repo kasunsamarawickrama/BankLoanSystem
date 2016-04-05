@@ -41,13 +41,18 @@
         .form-control{
             height:30px;
         }
-        body {
-            font-size: 12px;
-        }
+      .container {
+        font-size: 12px;
+        width:auto;
+            padding: 10px !important;
+       
+        
+    }
 
         .right-panel {
             float: right;
             width: 20%;
+            margin-right:10px;
         }
 
         .btn-arrow-right {
@@ -115,7 +120,8 @@
 
         .body-content {
             float: left;
-            width: 80%;
+            width: 75%;
+            margin:10px;
         }
 
         .details-container {
@@ -131,7 +137,7 @@
             float: right;
             width: 100%;
             margin-top: 50px;
-            border-radius: 15px;
+            
             margin-bottom: 10px;
             border: 2px solid #5CB85C;
         }
@@ -150,18 +156,16 @@
         }
 
         .info {
+            font-size:12px;
             padding-top: 18px;
             padding-left: 20px;
             margin-top: 35px;
             padding-bottom: 18px;
-            border-radius: 15px;
+           margin:10px;
             border: 2px solid #8D987E;
         }
 
-        .container {
-            background-color: aliceblue;
-            
-        }
+        
 
         h5 {
             text-align: center;
@@ -170,13 +174,13 @@
         .centered {
             margin: 0 auto;
             clear: both;
-            width: 1170px;
+            /*width: 1170px;*/
         }
 
         h2 {
             text-align: center;
             /* clear: both; */
-            width: 1170px;
+            /*width: 1170px;*/
         }
 
 
@@ -286,9 +290,11 @@
 
    
     .info-unit {
-        margin-left: 0px;
-        margin-right: 20px;
-        border-radius: 15px;
+        
+        /*margin:10px;*/
+        
+        /*margin-right: 20px;*/
+       
         border: 2px solid #8D987E;
         padding: 20px 20px 10px 20px;
     }

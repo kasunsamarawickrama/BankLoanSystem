@@ -20,6 +20,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         private static string _calMode;
         User userData = new User();
         LoanSetupStep loanData = new LoanSetupStep();
+        int loanstep = 0;
 
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -48,6 +49,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                         if(loanData.loanId > 0)
                         {
+                            loanstep = loanData.stepId;
                             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
 
                            
@@ -74,6 +76,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             int userId = userData.UserId;
+
+            stepNo = stepNo + loanstep;
 
             ViewBag.Step = stepNo;
             Session["stepNo"] = stepNo;
@@ -122,7 +126,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step1(int? edit)
+        public ActionResult Step1(string edit)
         {
             int userId = userData.UserId;
             int roleId = userData.RoleId;
@@ -142,7 +146,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if (Convert.ToInt32(Session["companyStep"]) >= 1)
+            if ((Convert.ToInt32(Session["companyStep"]) >= 1)||((Convert.ToInt32(Session["companyStep"])==0)&&(edit== "bshdrd")))
             {
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                
@@ -243,9 +247,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step2(int? edit)
+        public ActionResult Step2(string edit1,int? edit)
         {
-            edit = 3;
+            //edit = 3;
             int userId = userData.UserId;
             int roleId = userData.RoleId;
             // check he is a super admin or admin
@@ -258,7 +262,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             //StepAccess cs = new StepAccess();
             int reslt = Convert.ToInt32(Session["companyStep"]);
-            if ((reslt==0)&&(edit == 3))
+            if ((reslt==0)&&(edit1 == "bshdrdhbrn"))
             {
                 reslt = 2;
             }
@@ -876,9 +880,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step6(int? dashbrd)
+        public ActionResult Step6(string dashbrd)
         {
-            dashbrd = 6;
+            //dashbrd = 6;
             int userrole = userData.RoleId;
             int userId = userData.UserId;
 
@@ -898,7 +902,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-            else if ((stepNo == 0)&&(dashbrd==6))
+            else if ((stepNo == 0)&&(dashbrd== "bshdrdoanl"))
             {
                 stepNo = 6;
                 loanData.stepId = 1;
@@ -1060,9 +1064,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step4(int ? dashbrd)
+        public ActionResult Step4(string dashbrd)
         {
-            dashbrd = 4;
+            //dashbrd = 4;
             StepAccess sa = new StepAccess();
             int stepNo = Convert.ToInt32(Session["companyStep"]);
             if (stepNo == 3)
@@ -1074,7 +1078,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
-            else if ((stepNo == 0) && (dashbrd == 4))
+            else if ((stepNo == 0) && (dashbrd == "bshdrdhomcrpt"))
             {
                 stepNo = 4;
             }
@@ -1555,6 +1559,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             dashBoardModel.userName = userData.UserName;
             dashBoardModel.roleName = (new UserManageAccess()).getUserRoleName(userData.UserId);
             dashBoardModel.levelId = userLevelId;
+            dashBoardModel.step_status = userData.step_status;
             return PartialView(dashBoardModel);
         }
 
