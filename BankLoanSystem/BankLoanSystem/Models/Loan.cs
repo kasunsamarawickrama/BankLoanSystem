@@ -18,5 +18,6 @@ namespace BankLoanSystem.Models
         public bool AddUnit { get; set; }
         public bool ViewReports { get; set; }
         public string [] Rights { get; set; }
+        public string LoanCode { get; set; }
     }
 }
