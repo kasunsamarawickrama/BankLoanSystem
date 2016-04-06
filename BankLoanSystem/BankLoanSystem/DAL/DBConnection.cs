@@ -429,5 +429,41 @@ namespace BankLoanSystem.DAL
             }
 
         }
+
+        public Int32 ExecuteSQLWithIntOutPutParam(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandText = SQL;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+                    }
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.Int, 50);
+                    returnParameter.Direction = ParameterDirection.Output;
+
+                    command.ExecuteNonQuery();
+                    return Convert.ToInt32(returnParameter.Value.ToString());
+
+                }
+                else
+                    return 0;
+            }
+            catch (Exception exp)
+            {
+                return 0;
+            }
+
+        }
     }
 }
