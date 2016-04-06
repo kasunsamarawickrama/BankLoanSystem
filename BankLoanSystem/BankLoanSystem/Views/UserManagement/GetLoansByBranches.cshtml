@@ -81,10 +81,14 @@ color:#545454;
 
 
 <script type="text/javascript">
+   
+    
     $(function () {
         $('#selectAll').on('change', function () {
+            $('#checkBoxMessage span').text("");
             if ($(this).is(':checked')) {
                 //alert('checked');
+                $('#checkBoxMessage span').text("");
                 $('.All').prop('checked', true);
 
             }
@@ -93,6 +97,10 @@ color:#545454;
                 $('.All').prop('checked', false);
             }
         });
+        $('.All').on('change', function () {
+            $('#checkBoxMessage span').text("");
+            
+        });
     });
     if(@ViewBag.LoanId.Items.Count==1){
         var loan = $('#LoanIdUser').val();
@@ -100,6 +108,7 @@ color:#545454;
     }
     
     $('#LoanIdUser2').change(function () {
+        $('#loanIdMessage span').text("");
         $('#selectAll').prop('checked', false);
         $('.All').prop('checked', false);
 

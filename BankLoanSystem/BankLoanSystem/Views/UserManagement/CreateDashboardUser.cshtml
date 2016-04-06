@@ -1,6 +1,6 @@
 ﻿@model BankLoanSystem.Models.User
 @{
-    ViewBag.Title = "CreateUser";
+    ViewBag.Title = "Create User";
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -37,9 +37,7 @@
                 <div class="row">
                     <div class="container body-content new_container">
                         
-                        <div>
-                            <h2>Create User</h2>
-                        </div>
+                        
                         <div style="clear:both;"></div>
                         <div class="form-horizontal new_form_horizontal">
                             <div class="topErrors">
@@ -298,6 +296,8 @@
         $('#txtNewEmail').next("div").children("p").children("span").text("");
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
         $('#branchDiv').hide();
         $('#branchDivUser').hide();
         $('#rightsSection').hide();
@@ -312,6 +312,8 @@
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
     };
     $(document).on('change','#RoleId',function () {
         //$('#BranchIdUser option:selected').val('');
@@ -374,12 +376,16 @@
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
     });
     $(document).on('change', '#BranchIdUser', function () {
 
 
 
         $('#LoanIdUser2 option:selected').val('');
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
         //alert(loan);
         
     });
@@ -391,6 +397,8 @@
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
 
         var val = document.getElementById("RoleId").value;
         if (val == '3') {
@@ -424,7 +432,8 @@
     $(document).on('change','#LoanIdUser2' , function () {
 
 
-
+        $('#loanIdMessage span').text("");
+       // $('#checkBoxMessage span').text("");
         var  loan = $('#LoanIdUser2 option:selected').val();
         //alert(loan);
         SendParaTo(loan)
@@ -573,13 +582,21 @@
     });
 
     $('#btnCreateUser').click(function () {
-        alert('hh');
+        //alert('hh');
         //alert($('#BranchId option:selected').val());
         if (document.getElementById("loanid").innerHTML == "") {
-            alert('1');
+            //alert('1');
             $('#loanIdMessage span').text("please select a loan.");
             
         }
+        checked = $("input[type=checkbox]:checked").length;
+
+        if (!checked) {
+            //alert("You must check at least one checkbox.");
+            $('#checkBoxMessage span').text("please select at least one right.");
+            e.preventDefault();
+        }
+
         if (($('#txtUserName').val() != "") && ($('#txtPassword').val() != "") && ($('#txtConfirmPassword').val() != "") && ($('#txtFirstName').val() != "") && ($('#txtLastName').val() != "") && ($('#RoleId option:selected').val() != "")) {
             //alert('hh');
             {
@@ -601,6 +618,7 @@
                         InsertUser();
                     }
                     else if (strRights == "") {
+                        alert('4');
                         $('#checkBoxMessage span').text("please select at least one.");
                         e.preventDefault();
                     }
