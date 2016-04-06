@@ -47,8 +47,7 @@
             <button  type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment<br/> Receipt </button>
 
             <button  type="button" id="btnTitlesStatus" class="btn btn-info">Title <br/>Status</button>
-            <button  type="button" id="btnFees" class="btn btn-info">Fees</button>
-            <button  type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
+            <button  type="button" id="btnFullInventory" class="btn btn-info">Full <br /> Inventory</button>
             @*<div id="2" href="#">
                     <p style="color: white">advance a unit</p>
                 </div>
@@ -121,6 +120,11 @@
                         {
                             Text = "Returned to Dealer",
                             Value = "2"
+                        });
+                        TitleStatus.Add(new SelectListItem
+                        {
+                            Text = "All",
+                            Value = "3"
                         });
                     }
                     @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus"  })
@@ -204,6 +208,13 @@
         $('#ttlsts').show().siblings('.hf').hide();
     });
 
+    $('#btnFullInventory').click(function () {
+        errorCount = 0;
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('FullInventory');
+        $('#ttlsts').show().siblings('.hf').hide();
+    });
+
     $('#btnDisplay').click(function () {
         var rptType = $('#hdnSelectedButton').val();
         //alert(reportType);
@@ -224,6 +235,9 @@
             }
             else if (rptType === 'TitlesStatus') {
                 urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
+            }
+            else if (rptType === 'FullInventory') {
+                urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
             }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
@@ -303,10 +317,14 @@
                 } else {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
-                    urlPrefix = urlPrefix + val + '&titleStatus=' + selectedIndex;
+                    urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
                 //alert(selectedIndex);
+            }
+            else if (rptType === 'FullInventory') {
+                urlPrefix = urlPrefix + val;
+                ReportCurtailmentInvoice(val, urlPrefix);
             }
 
             //alert(errorCount);

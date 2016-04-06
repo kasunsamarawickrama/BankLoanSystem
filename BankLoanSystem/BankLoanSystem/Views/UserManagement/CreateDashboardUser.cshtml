@@ -473,10 +473,31 @@
     });
 
     $('#btnCreateUser').click(function () {
-        alert('hh');
+        //alert('hh');
         //alert($('#BranchId option:selected').val());
-        InsertUser();
-
+        if (($('#txtUserName').val() != "") && ($('#txtPassword').val() != "") && ($('#txtConfirmPassword').val() != "") && ($('#txtFirstName').val() != "") && ($('#txtLastName').val() != "") && ($('#RoleId option:selected').val() != "")) {
+            //alert('hh');
+            {
+                if ($('#RoleId option:selected').val() == 1) {
+                    //alert('1');
+                    InsertUser();
+                }
+                else if (($('#RoleId option:selected').val() == 2) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val()!=""))) {
+                 
+                    //alert('2');
+                    InsertUser();
+                }
+                else if (($('#RoleId option:selected').val() == 3) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val() != "")) && (document.getElementById("loanid").innerHTML != "")) {
+                    //alert('3');
+                    var arrRights = modcheck();
+                    var strRights = arrRights.toString();
+                    if (strRights != "") {
+                       // alert('4');
+                        InsertUser();
+                    }
+                }
+            }
+        }
     });
     function InsertUser() {
 
