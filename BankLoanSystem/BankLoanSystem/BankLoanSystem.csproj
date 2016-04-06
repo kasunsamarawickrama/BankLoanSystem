@@ -216,6 +216,7 @@
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
+    <Content Include="Reports\RptDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
@@ -329,6 +330,13 @@
     </Compile>
     <Compile Include="Reports\RptDivCurtailmentReceipt.aspx.designer.cs">
       <DependentUpon>RptDivCurtailmentReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivFullInventory.aspx.cs">
+      <DependentUpon>RptDivFullInventory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivFullInventory.aspx.designer.cs">
+      <DependentUpon>RptDivFullInventory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivLotInspection.aspx.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
@@ -470,6 +478,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
+    <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
     <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>

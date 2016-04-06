@@ -238,5 +238,112 @@ namespace BankLoanSystem.DAL
             return justAddedUnitList;
 
         }
+
+
+        public List<Unit> GeUnitDetailsByTitleStatus(int loanId, int titleStatus)
+        {
+
+            List<Unit> units = new List<Unit>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@title_status", titleStatus });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetUnitsByLoanIdTitleStatus", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Unit unit = new Unit();
+
+                    unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.Year = Convert.ToInt32(dataRow["year"]);
+                    unit.Make = dataRow["make"].ToString();
+                    unit.Model = dataRow["model"].ToString();
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                    unit.AdvanceDateStr = unit.AdvanceDate.ToString("MM/dd/yyyy")
+                    ;
+                    unit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (unit.TitleStatus == 0)
+                    {
+                        unit.TitleStatusText = "Not Received";
+                    }
+                    else if (unit.TitleStatus == 1)
+                    {
+                        unit.TitleStatusText = "Received";
+                    }
+                    else if(unit.TitleStatus == 2)
+                    {
+                        unit.TitleStatusText = "Returned to Dealer";
+                    }
+
+                    unit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00;
+                    unit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
+                    unit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
+                    
+                    units.Add(unit);
+
+                }
+            }
+
+            return units;
+
+        }
+
+        public List<ReportFullInventoryUnit> GetFullInventoryByLoanId(int loanId)
+        {
+            List<ReportFullInventoryUnit> units = new List<ReportFullInventoryUnit>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetFullInventoryByLoanId", paramertList);
+
+            decimal loanBalance = 0.00M;
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    ReportFullInventoryUnit unit = new ReportFullInventoryUnit();
+
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                    unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.Year = Convert.ToInt32(dataRow["year"]);
+                    unit.Make = dataRow["make"].ToString();
+                    unit.Model = dataRow["model"].ToString();
+                    unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["cost"]);
+                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["cost"]);
+                    unit.BalanceDue = Convert.ToDecimal(dataRow["cost"]);
+
+                    int status = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (status == 0)
+                    {
+                        unit.TitleStatus = "Not Received";
+                    }
+                    else if (status == 1)
+                    {
+                        unit.TitleStatus = "Received";
+                    }
+                    else if (status == 2)
+                    {
+                        unit.TitleStatus = "Returned to Dealer";
+                    }
+                    loanBalance += unit.BalanceDue;
+                    units.Add(unit);
+
+                }
+
+                if (units.Count > 0)
+                    units[0].LoanBalance = loanBalance;
+            }
+
+            return units;
+        }
     }
 }
