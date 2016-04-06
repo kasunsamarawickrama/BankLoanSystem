@@ -1,47 +1,185 @@
-﻿@model BankLoanSystem.Models.User
+﻿@model  BankLoanSystem.Models.User
+
 
 @{
-    ViewBag.Title = "AssignRights";
+    ViewBag.Title = "Assign User Rights";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-<h2>AssignRights</h2>
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <div class="form-group new_form_group">
-            <div class="control-label col-sm-2 lable_style">
-                <label>User</label>
-            </div>
-            <div class="col-xs-8 text_field short_text_field">
-                @*@Html.DropDownListFor(model => model.UserName, null, "--Select User--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserName" })*@
-
-            </div>
-            <div class="err_msg_box">
-                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
-            </div>
-        </div>
-
-
-
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+<style>
+    .err_msg_box {
+        text-align: left;
+    }
+
+    #page-wrapper {
+        min-height: 568px;
+        padding: 0 36px;
+        float: unset !important;
+        /* position: relative !important; */
+        margin: auto !important;
+    }
+</style>
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="container body-content">
+
+                <div class="row">
+                    <div class="container body-content new_container">
+
+
+                        <div style="clear:both;"></div>
+                        <div class="form-horizontal new_form_horizontal">
+                            <div class="topErrors">
+                                <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                <div class="text-danger">@ViewBag.Error</div>
+                            </div>
+                            <div class="form-horizontal">
+
+                                <div style="clear:both"></div>
+
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+                                {
+                                    <span class="text-success">@ViewBag.SuccessMsg</span>
+                                }
+
+                                else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
+                                {
+                                    <span class="text-danger">@ViewBag.ErrorMsg</span>
+                                }
+                               @using (Html.BeginForm("AssignRights", "UserManagement", FormMethod.Post, new { id = "form" }))
+                               {
+                                @Html.AntiForgeryToken()
+                                <label id="successLabel">@ViewBag.SuccessMsg</label>
+                                <div class="form-horizontal">
+
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label>Loan </label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field">
+                                            @if (ViewBag.LoanId != null && ViewBag.LoanId > 0)
+                                            {
+                                                @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId })
+                                                @Html.LabelFor(model => model.LoanNumber, (string)ViewBag.LoanNumber, htmlAttributes: new { @class = "form-control text_field_input" })
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div id="rightDiv">
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Select User</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @if (ViewBag.userSelectList != null && ViewBag.userSelectList.Count > 0)
+                                                {
+                                                    @Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.userSelectList, "UserId", "UserName"), "--Select User--", htmlAttributes: new { @class = "form-control" })
+                                                   
+                                                }
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Select Loan Rights</label>
+                                            </div>
+
+                                            <div class="form-group new_form_group">
+                                                <div class="col-sm-6">
+                                                    @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
+                                                    @Html.Label("Select All")
+                                                    <br />
+                                                    <div id="rights">
+                                                        @for (var i = 0; i < Model.UserRightsList.Count; i++)
+                                                        {
+                                                            @Html.HiddenFor(x => x.UserRightsList[i].rightId)
+                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i.ToString() })
+                                                            @Html.DisplayFor(x => x.UserRightsList[i].description)
+                                                            <br />
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                                <div id="checkBoxMessage"><span></span></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group new_form_group clear_next clear_next_bordr">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+
+                                                    <div class="button_box algn_left">
+                                                        <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnCreateUser">
+                                                    </div>
+                                                    <div class="button_box algn_right">
+                                                        <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                               }
+
+                                <div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div style="margin-top: 180px;margin-right: 430px;">
+        @Html.ActionLink("Back to DashBoard", "UserDetails")
+    </div>
+</div>
+
+
+<script>
+    $('#Submit').click(function (e) {
+        var checked = $("input[type=checkbox]:checked").length;
+
+        if (!checked) {
+            //alert("You must check at least one checkbox.");
+            $('#checkBoxMessage span').text("please check at least one checkbox.");
+            e.preventDefault();
+        }
+
+    });
+
+    $(function () {
+        $('#CheckAll').on('change', function () {
+            if ($(this).is(':checked')) {
+                //alert('checked');
+                $('.All').prop('checked', true);
+
+            }
+            else {
+                //alert('unchecked');
+                $('.All').prop('checked', false);
+            }
+        });
+    });
+</script>
