@@ -312,50 +312,13 @@ namespace BankLoanSystem.Controllers.Unit
             }
 
             ViewBag.Title = title;
-            User user = (new UserAccess()).retreiveUserByUserId(userId);
-            ViewBag.Username = user.UserName;
+            
+            ViewBag.Username = userData.UserName;
             BranchAccess ba = new BranchAccess();
-            if (userData.RoleId == 2)
-            {
-                ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
-            }
-            else if (userData.RoleId == 1) {
-                ViewBag.Branch = "Super Admin";
-            }
+          
         
-            ////////
-            Loan loan = new Loan();
-            if (Session["AuthenticatedUser"] != null)
-            {
-                DashBoardAccess da = new DashBoardAccess();
-                ViewBag.Username = userData.UserName;
-                ViewBag.Company = userData.CompanyName;
+          
                 ViewBag.roleId = userData.RoleId;
-                if (userData.RoleId == 2)
-                {
-                    //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
-                    ViewBag.LoanCount = da.GetLoanCount(userData.BranchId, 2);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "Admin";
-
-                }
-                else if (userData.RoleId == 1)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.Company_Id, 1);
-                    ViewBag.Branch = "";
-                    ViewBag.Position = "Super Admin";
-
-                }
-                else if (userData.RoleId == 3)
-                {
-                    ViewBag.LoanCount = da.GetLoanCount(userData.UserId, 3);
-                    ViewBag.Branch = userData.BranchName;
-                    ViewBag.Position = "User";
-
-                }
-            }
-                //////////
-                ViewBag.roleId = user.RoleId;
             // get the Company type for front end view
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
