@@ -465,5 +465,12 @@ namespace BankLoanSystem.Controllers.Unit
 
             return PartialView((new UnitAccess().GetJustAddedUnitDetails(userId, loanSetupStep1.loanId)));
         }
+
+        public ActionResult AddUnitReport()
+        {
+            ViewBag.LoanId = _loan.loanId;
+            ViewBag.UserId = userData.UserId;
+            return View();
+        }
     }
 }

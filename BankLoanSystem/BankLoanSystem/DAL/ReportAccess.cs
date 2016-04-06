@@ -337,9 +337,9 @@ namespace BankLoanSystem.DAL
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
                     unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
-                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["cost"]);
-                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["cost"]);
-                    unit.BalanceDue = Convert.ToDecimal(dataRow["cost"]);
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["TotalPaid"]);
+                    unit.BalanceDue = Convert.ToDecimal(dataRow["Balance"]);
 
                     int status = Convert.ToInt32(dataRow["title_status"]);
 

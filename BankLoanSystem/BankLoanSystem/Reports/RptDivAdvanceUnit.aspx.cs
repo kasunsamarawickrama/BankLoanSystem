@@ -15,17 +15,32 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                RenderReport();
+                int loanId = 0;
+
+                if (Request.QueryString["loanId"] != "")
+                    loanId = Convert.ToInt32(Request.QueryString["loanId"]);
+
+                RenderReport(loanId);
             }
         }
 
-        public void RenderReport()
+        public void RenderReport(int loanId)
         {
             rptViewerAdvanceUnit.Reset();
             rptViewerAdvanceUnit.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceUnit.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceUnit.rdlc");
             List<RptAddUnit> advanceUnits = new List<RptAddUnit>();
             List<Unit> units = (List<Unit>)Session["AdvItems"];
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
             if (units != null && units.Count > 0)
             {
@@ -37,16 +52,9 @@ namespace BankLoanSystem.Reports
                         new XElement("UnitId", unit.UnitId)
                         ));
                     string xmlDoc = xEle.ToString();
-                    ReportAccess ra = new ReportAccess();
+                    
                     advanceUnits = ra.AdvanceUnitsDuringSession(xmlDoc);
-                    List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(advanceUnits[0].LoanId);
-
-                    foreach (var dates in details)
-                    {
-                        dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
-                    }
-
-                    rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+                    
                     rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceUnits));
 
                 }
