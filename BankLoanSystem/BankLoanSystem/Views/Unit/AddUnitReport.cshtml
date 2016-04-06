@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Add Unit Report";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+<div id="reportViewerDiv" hidden>
+    <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
+</div>
+
+<script type="text/javascript">
+    function ReportCurtailmentInvoice(url) {
+        //alert(startDate + ' ' + endDate);
+        $('#reportViewerDiv').show();
+        var myFrame = document.getElementById('ifrmReportViewer');
+
+        if (myFrame !== null) {
+
+            if (myFrame.src) {
+                //alert(1);
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                //alert(2);
+                myFrame.contentWindow.location = url;
+            } else {
+                //alert(3);
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        var url = "../Reports/RptDivAddUnit.aspx?loanId=" + "@ViewBag.LoanId" + "&userId=" + "@ViewBag.UserId";
+        ReportCurtailmentInvoice(url);
+    });
+</script>
+
