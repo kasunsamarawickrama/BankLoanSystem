@@ -317,7 +317,7 @@ else
                 else if (ViewBag.LoanCount == 1)
                 {
                     <button class="big-button" type="submit" onclick="window.location.href='/UserManagement/AssignRights'">
-                        <span class="icon-link"></span>
+                        <span class="icon-user-check"></span>
                         <span class="txt">Assign A User</span>
 
                         @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
@@ -357,7 +357,7 @@ else
                     }
 
                 <button class="big-button" type="submit" onclick="window.location.href='/SetupProcess/Step1?edit=bshdrd'">
-                <span class="icon-link"></span>
+                <span class="icon-office"></span>
                     <span class="txt">Edit Company</span>
 
                 @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
