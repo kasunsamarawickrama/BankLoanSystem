@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BankLoanSystem.Models
@@ -35,7 +36,7 @@ namespace BankLoanSystem.Models
         public string page_name { get; set; }
 
         [Required(ErrorMessage = "Subject is required")]
-        [Display(Name = "Subject")]
+        [Display(Name = "Topic")]
         public string topic { get; set; }
 
         [Required(ErrorMessage = "Message is required")]
@@ -62,6 +63,11 @@ namespace BankLoanSystem.Models
         [Display(Name = "Is View Reply")]
         public bool is_rep_view { get; set; }
 
+        public string user_name { get; set; }
+        public string company_name { get; set; }
+        public string branch_name { get; set; }
+        public string role { get; set; }
 
+        public List<UserRequest> RequestList { get; set; }
     }
 }
