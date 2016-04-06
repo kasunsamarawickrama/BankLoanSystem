@@ -1,0 +1,157 @@
+﻿@model BankLoanSystem.Models.UserRequest
+
+@{
+    ViewBag.Title = "MessageReply";
+    Layout = "~/Views/Shared/_ForgotPasswordLayout.cshtml";
+    WebGrid grid1 = new WebGrid(Model.RequestList, defaultSort: "user_name", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
+}
+
+<link href="~/Content/steps.css" rel="stylesheet" />
+@if (ViewBag.ErrorMsg != "")
+{
+    @ViewBag.ErrorMsg
+}
+<style>
+    .input-validation-error {
+        border: 1px solid #ff0000;
+    }
+
+    .valid {
+        border: 1px solid green;
+    }
+
+    .field-validation-error {
+        z-index: 10001;
+        font-weight: bold;
+        position: absolute;
+        font-size: 12px;
+        left: 4%;
+    }
+
+    .left-button {
+        float: left;
+        margin-left: 15px;
+    }
+
+    .right-button {
+        float: right;
+        margin-right: 15px;
+    }
+
+    .btn-next {
+        margin: 0px -50px;
+        width: 100px;
+        top: 50%;
+        left: 50%;
+    }
+</style>
+
+<h2>Reply Message</h2>
+@using (Html.BeginForm())
+            {
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @if ((Model.RequestList.Count() != 0)&&(Model.RequestList!=null))
+    {
+    <div id="searchGrid" class="info-bar" style="margin-top:15px;padding:unset;">
+        @grid1.GetHtml(
+        tableStyle: "gridtable",
+        headerStyle: "webgrid-header",
+
+        alternatingRowStyle: "webgrid-alternating-row",
+        selectedRowStyle: "select",
+        rowStyle: "webgrid-row-style",
+        htmlAttributes: new { id = "searchResultGrid" },
+        columns: grid1.Columns(
+        grid1.Column("user_name", "user_name", canSort: false, format:@<text>@{<label id="user_name" class="user_name">@item.user_name</label>}</text>),
+        grid1.Column("Possition", "Possition", canSort: false, format:@<text>@{<label id="role" class="role">@item.role</label><input type="hidden" value="@item.request_id" name="rid" class="request_id" id="all" />}</text>),
+        grid1.Column("Company", "Company", canSort: false, format:@<text>@{<label id="company_name" class="company_name">@item.company_name</label>}</text>),
+        grid1.Column("Branch", "Branch", canSort: false, format:@<text>@{<label id="branchname" class="branchname">@item.branch_name</label>}</text>),
+        grid1.Column("Topic", "Topic", canSort: false, format:@<text>@{<label id="topic" class="topic">@item.topic</label>}</text>)
+
+        )
+        )
+        )
+    </div>
+    }
+    else {
+    <div id="noDataLabelDiv" style="padding-bottom: 15px;width:870px;float: unset;margin-top:10px; font:medium;color:red;text-align:center">
+        @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })
+    </div>
+    }
+    <div class="form-group">
+        <div class="control-label col-sm-3">
+            <label>User Name</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.user_name, new {htmlAttributes = new {@class = "form-control", @id = "user_name"}})
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-3">
+            <label>Company Name</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @id = "company_name" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-4">
+            <label>Branch Name</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", @id = "branch_name" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-3">
+            <label>Loan Code</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.loan_code, new { htmlAttributes = new { @class = "form-control", @id = "loan_code" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-3">
+            <label>Subject</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.topic, new { htmlAttributes = new { @class = "form-control", @id = "topic" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-3">
+            <label>Message</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "message" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-sm-4">
+            <label>Answer</label>
+        </div>
+        <div class="col-xs-8">
+            @Html.EditorFor(model => model.answer, new { htmlAttributes = new { @class = "form-control", @id = "answer" } })
+        </div>
+    </div>
+    <div class="form-group">
+
+
+
+        <input type="submit" value="Submit" class="btn btn-primary btn-next" />
+        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+
+
+    </div>
+</div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/CommonFunctions.js"></script>
+
