@@ -181,6 +181,24 @@ namespace BankLoanSystem.Controllers
             int reslt = unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
             TempData["updateReslt"] = reslt;
 
+            // after success save**
+            if(reslt == 1 ) { 
+            // saving for reporting purpose
+            if (Session["AdvItems"] == null)
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist.Add(unit);
+                Session["AdvItems"] = unitlist;
+            }
+            else
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist = (List<Models.Unit>)Session["AdvItems"];
+                unitlist.Add(unit);
+                Session["AdvItems"] = unitlist;
+            }
+            }
+
             return reslt;
 
 
@@ -213,6 +231,21 @@ namespace BankLoanSystem.Controllers
             UnitAccess unitAccess = new UnitAccess();
             int reslt = unitAccess.AdvanceItemList(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);
             TempData["updateReslt"] = reslt;
+
+            // after success save**
+            if(reslt == 1) { 
+            // saving for reporting purpose
+            if(Session["AdvItems"] == null) { 
+            Session["AdvItems"] = list.ItemList;
+            }
+            else
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist = (List<Models.Unit>)Session["AdvItems"];
+                unitlist.AddRange(list.ItemList);
+                Session["AdvItems"] = unitlist;
+            }
+            }
             return reslt;        
         }
 
