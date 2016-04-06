@@ -80,9 +80,8 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("UserLogin", "Login");
             }
 
-
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 
             ViewBag.loanDetails = loanDetails;
@@ -261,6 +260,12 @@ namespace BankLoanSystem.Controllers
             unitList1.Search = unitList2;
            
             return unitList1;
+        }
+
+        public ActionResult AdvanceUnitReport()
+        {
+            ViewBag.LoanId = loan.loanId;
+            return View();
         }
     }
 }
