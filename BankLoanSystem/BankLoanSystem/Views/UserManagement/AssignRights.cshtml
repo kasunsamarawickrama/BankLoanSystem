@@ -25,8 +25,20 @@
         /* position: relative !important; */
         margin: auto !important;
     }
-</style>
+    #rights > input {
+        float: unset;
+        margin-right: 10px;
+        width: 17px;
+        height: 17px;
+    }
 
+    #rights {
+        text-align: left;
+        font-size: 14px;
+        font-weight: normal;
+        color: #545454;
+    }
+</style>
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
@@ -99,22 +111,26 @@
                                             </div>
 
                                             <div class="form-group new_form_group">
-                                                <div class="col-sm-6">
-                                                    @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
-                                                    @Html.Label("Select All")
-                                                    <br />
+                                                <div class="col-sm-6">                                                   
                                                     <div id="rights">
+
+                                                        @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
+                                                        @Html.Label("Select All")
+                                                        <br /><br />
                                                         @for (var i = 0; i < Model.UserRightsList.Count; i++)
                                                         {
                                                             @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i.ToString() })
+                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All"})
                                                             @Html.DisplayFor(x => x.UserRightsList[i].description)
                                                             <br />
                                                         }
                                                     </div>
 
                                                 </div>
-                                                <div id="checkBoxMessage"><span></span></div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg"><div id="checkBoxMessage"><span class="err_msg new_err_msg"></span></div></p>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 
@@ -126,7 +142,7 @@
                                                 <div class="pager new_pager">
 
                                                     <div class="button_box algn_left">
-                                                        <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnCreateUser">
+                                                        <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="Submit">
                                                     </div>
                                                     <div class="button_box algn_right">
                                                         <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
@@ -151,7 +167,7 @@
         </div>
         
     </div>
-    <div style="margin-top: 180px;margin-right: 430px;">
+    <div style="margin-top: 123px;margin-right: 430px;">
         @Html.ActionLink("Back to DashBoard", "UserDetails")
     </div>
 </div>
