@@ -151,12 +151,9 @@ namespace BankLoanSystem.DAL
                 for(int i = 0; i < lstCurtailmentShedule.Count; i++ )
                     lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
 
-                return lstCurtailmentShedule;
+                
             }
-            else
-            {
-                return null;
-            }
+            return lstCurtailmentShedule;
         }
 
         public List<ReportUnitModels> GetAllActiveUnitDetailsRpt(int loanId)
