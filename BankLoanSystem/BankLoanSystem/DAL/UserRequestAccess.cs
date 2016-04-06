@@ -115,6 +115,7 @@ namespace BankLoanSystem.DAL
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
                         UserRequest userRequest = new UserRequest();
+                        userRequest.request_id= int.Parse(dataRow["request_id"].ToString());
                         userRequest.user_name = dataRow["user_name"].ToString();
                         userRequest.role = dataRow["role_name"].ToString();
                         userRequest.company_name = dataRow["company_name"].ToString();
@@ -122,6 +123,7 @@ namespace BankLoanSystem.DAL
                         userRequest.loan_code = dataRow["loan_code"].ToString();
                         //userRequest.message_date = DataSetDateTime(dataRow["message_date"].ToString());
                         userRequest.topic = dataRow["topic"].ToString();
+                        userRequest.message = dataRow["message"].ToString();
 
 
                         resultList.Add(userRequest);
