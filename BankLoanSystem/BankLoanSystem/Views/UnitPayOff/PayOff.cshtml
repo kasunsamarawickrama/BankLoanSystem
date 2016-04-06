@@ -39,11 +39,11 @@
         }
     </style>
 
-
-    <div class="container" id="container">
-        @{
+@{
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-        }
+}
+    <div class="container" id="container">
+       
         <div class="details-container">
             <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
                 @Html.Label("No Unit to Pay Off", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
@@ -296,15 +296,16 @@
         </div>
 
 
-        <div class="link-bar" style="margin-bottom: 15px;">
-            @{
-                Html.RenderAction("GetLinkBar", "Unit");
-            }
-        </div>
+       
 
 
 
     </div>
+<div class="link-bar" style="margin-bottom: 15px;">
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+</div>
 
     <script>
         $(document).ready(function () {

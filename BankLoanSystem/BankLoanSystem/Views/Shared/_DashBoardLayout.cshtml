@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-
+@using BankLoanSystem.Models
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -58,6 +58,14 @@
     Watch Video
 </span></span></div>
 
+                <div>
+                    <span class="tooltip icon-windows8" onclick="window.location.href = '/UserManagement/UserDetails'">
+                        <span class="tooltiptext ved">
+                            DashBoard
+                        </span>
+                    </span>
+                </div>
+
                 <!---->
 
               
@@ -77,7 +85,95 @@
 
 
         <div>
-            @RenderBody()
+            <div class="container-child">
+
+                <div class="dsh">
+
+                    <div class="img-name-panel">
+                        <div>
+                            <div>
+                                <div>
+                                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="pos-name-panel">
+                        <div>
+                            <div>
+                                <span>@*@ViewBag.Username*@ @(((User)Session["AuthenticatedUser"]).UserName) </span>
+                            </div>
+
+                            <div style="margin-top:10px">
+                                @{ 
+                                    int role = ((User)Session["AuthenticatedUser"]).RoleId;
+
+                                    string roleName = null;
+
+                                    if(role == 1)
+                                    {
+                                        roleName = "Super Admin";
+                                    }else if (role == 2)
+                                    {
+                                        roleName = "Admin";
+                                    }else if (role == 3)
+                                    {
+                                        roleName = "User";
+                                    }
+                                }
+                                <span>@*@ViewBag.Position*@ @roleName</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title</h3></div>
+                    <div class="cmp-name-panel">
+                        <div>
+                            <div>
+
+                            </div>
+
+                            <div style="margin-top:10px">
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cmp-name-panel">
+
+
+                        <div>
+                            <div>
+                                <span>@*@ViewBag.Company*@ @(((User)Session["AuthenticatedUser"]).CompanyName)</span>
+                            </div>
+
+                            <div style="margin-top:10px">
+                                @if (role != 1)
+                                {
+                                    <span>@*@ViewBag.Branch*@ @(((User)Session["AuthenticatedUser"]).BranchName)</span>
+                                }
+                                else
+                                {
+                                    <span></span>
+
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @RenderBody()
+            </div>
         </div>
     </div>
     <footer>

@@ -124,6 +124,8 @@ namespace BankLoanSystem.Models
         public int step_status { get; set; }
 
         public List<Right> UserRightsList { get; set; }
+
+        public string ActivationCode { get; set; }
     }
 
     /// <summary>

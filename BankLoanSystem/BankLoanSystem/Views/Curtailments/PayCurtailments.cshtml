@@ -15,7 +15,7 @@
 <link href="~/Content/commonActions.css" rel="stylesheet" />
 
 @{
-    Layout = "~/Views/Shared/_UnitAdvance.cshtml";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Pay Curtailments";
     //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
@@ -24,16 +24,16 @@
 
 
 
-
+@{
+    Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
 
     <div class="container" id="container">
 
 
 
 
-        @{
-            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-        }
+       
 
 
 
@@ -85,18 +85,21 @@
         </div>
 
 
-        <div class="link-bar" style="margin-bottom:15px;">
-
-
-            @{
-                Html.RenderAction("GetLinkBar", "Unit");
-            }
-
-
-        </div>
+       
 
 
     </div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+
+
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+
+
+</div>
+
     <script>
 
         //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');

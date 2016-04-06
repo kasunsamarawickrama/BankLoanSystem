@@ -115,7 +115,10 @@ namespace BankLoanSystem.DAL
                 user.UserName = dataRow["user_name"].ToString();
                 user.UneditUserName = dataRow["user_name"].ToString();
                 user.Password = dataRow["password"].ToString();
-                user.Company_Id = int.Parse(dataRow["company_id"].ToString());
+                if (dataRow["company_id"].ToString() != "")
+                {
+                    user.Company_Id = int.Parse(dataRow["company_id"].ToString());
+                }
 
 
                 return user;
@@ -463,17 +466,18 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@is_delete", dealerUser.IsDelete });
             paramertList.Add(new object[] { "@created_by", dealerUser.CreatedBy });
             paramertList.Add(new object[] { "@create_Date", DateTime.Now });
-            paramertList.Add(new object[] { "@branch_id", dealerUser.BranchId });
+            //paramertList.Add(new object[] { "@branch_id", dealerUser.BranchId });
             paramertList.Add(new object[] { "@role_id", dealerUser.RoleId });
             paramertList.Add(new object[] { "@Company_id", dealerUser.Company_Id });
 
-            paramertList.Add(new object[] { "@dealer_company_id ", dealerUser.NonRegCompanyId });
+            //paramertList.Add(new object[] { "@dealer_company_id ", dealerUser.NonRegCompanyId });
             paramertList.Add(new object[] { "@dealer_branch_id", dealerUser.NonRegBranchId });
             paramertList.Add(new object[] { "@loan_id", dealerUser.LoanId });
+            paramertList.Add(new object[] { "@activation_code", dealerUser.ActivationCode });
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertDealerUser", paramertList) ? 1 : 0;
+                return dataHandler.ExecuteSQLWithIntOutPutParam("spInsertDealerUser", paramertList);
             }
             catch
             {

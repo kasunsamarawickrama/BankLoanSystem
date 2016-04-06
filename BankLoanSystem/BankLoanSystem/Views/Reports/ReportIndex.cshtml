@@ -47,8 +47,7 @@
             <button  type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment<br/> Receipt </button>
 
             <button  type="button" id="btnTitlesStatus" class="btn btn-info">Title <br/>Status</button>
-            <button  type="button" id="btnFees" class="btn btn-info">Fees</button>
-            <button  type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
+            <button  type="button" id="btnFullInventory" class="btn btn-info">Full <br /> Inventory</button>
             @*<div id="2" href="#">
                     <p style="color: white">advance a unit</p>
                 </div>
@@ -80,7 +79,7 @@
 
                 </div>
 
-                <div id="strdate" class="form-group hf" style="margin-left:20px;">
+                <div id="strdate" class="form-group hf" style="margin-left:20px;display:none">
                     <label for="">Start Date</label>
 
 
@@ -90,7 +89,7 @@
                         <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
                 </div>
 
-                <div id="enddate" class="form-group hf" style="margin-left:20px;">
+                <div id="enddate" class="form-group hf" style="margin-left:20px;display:none">
                     <label for="">End Date</label>
 
                     @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off" } })
@@ -121,6 +120,11 @@
                         {
                             Text = "Returned to Dealer",
                             Value = "2"
+                        });
+                        TitleStatus.Add(new SelectListItem
+                        {
+                            Text = "All",
+                            Value = "3"
                         });
                     }
                     @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus"  })
@@ -204,6 +208,33 @@
         $('#ttlsts').show().siblings('.hf').hide();
     });
 
+    $('#btnFullInventory').click(function () {
+        errorCount = 0;
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('FullInventory');
+        $('#ttlsts').show().siblings('.hf').hide();
+    });
+
+    function ReportCurtailmentInvoice(val, url) {
+        //alert(startDate + ' ' + endDate);
+        $('#reportViewerDiv').show();
+        var myFrame = document.getElementById('ifrmReportViewer');
+        
+        if (myFrame !== null) {
+            
+            if (myFrame.src) {
+                //alert(1);
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                //alert(2);
+                myFrame.contentWindow.location = url;
+            } else {
+                //alert(3);
+                myFrame.setAttribute('src', url);
+            }
+        }
+    }
+
     $('#btnDisplay').click(function () {
         var rptType = $('#hdnSelectedButton').val();
         //alert(reportType);
@@ -224,6 +255,9 @@
             }
             else if (rptType === 'TitlesStatus') {
                 urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
+            }
+            else if (rptType === 'FullInventory') {
+                urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
             }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
@@ -283,7 +317,6 @@
                     $("#startDate").removeClass('input-validation-error');
                     $("#endDate").removeClass('input-validation-error');
 
-                    $('#reportViewerDiv').show();
                     //alert(input.attr('type'));
                     urlPrefix = urlPrefix + val + "&startDate=" + startDate + "&endDate=" + endDate;
                     ReportCurtailmentInvoice(val, urlPrefix);
@@ -303,15 +336,19 @@
                 } else {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
-                    urlPrefix = urlPrefix + val + '&titleStatus=' + selectedIndex;
+                    urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
                 //alert(selectedIndex);
             }
+            else if (rptType === 'FullInventory') {
+                urlPrefix = urlPrefix + val;
+                ReportCurtailmentInvoice(val, urlPrefix);
+            }
 
             //alert(errorCount);
 
-
+            //alert(1);
 
 
         } else {
@@ -457,21 +494,6 @@
     //        }
     //    }
     //}
-
-    function ReportCurtailmentInvoice(val, url) {
-        //alert(startDate + ' ' + endDate);
-        var myFrame = document.getElementById('ifrmReportViewer');
-        if (myFrame !== null) {
-            if (myFrame.src) {
-                myFrame.src = url;
-            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                myFrame.contentWindow.location = url;
-            } else {
-                myFrame.setAttribute('src', url);
-            }
-        }
-    }
-
 
     var startDate = new Pikaday({
         field: document.getElementById('startDate'),

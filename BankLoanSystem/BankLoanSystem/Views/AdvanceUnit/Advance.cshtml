@@ -39,7 +39,7 @@
 
 
 
-<div class="container-child">
+
     @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
     }
     <div class="container" id="container">
@@ -91,8 +91,9 @@
             Html.RenderAction("LoanPaymentDetails", "Unit");
         }
 
-
-
+        @if(Session["AdvItems"] != null) {
+            <div><input type="button" value="Report" class="btn btn-info" /></div>
+        }
     </div>
 
     <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px;width:79%">
@@ -254,7 +255,6 @@
 
     </div>
 
- </div>
                     <script src="~/scripts/CommonFunctions.js"></script>
 
 

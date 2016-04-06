@@ -99,6 +99,8 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AdvanceDate { get; set; }
 
+        public string AdvanceDateStr { get; set; }
+
         [Required(ErrorMessage = "The Advance Date is required")]
         public string DisplayAdvanceDate { get; set; }
 
@@ -116,6 +118,7 @@ namespace BankLoanSystem.Models
 
        
         public int TitleStatus { get; set; }
+        public string TitleStatusText { get; set; }
 
         [Display(Name = "Unit Type")]
         public int UnitTypeId { get; set; }

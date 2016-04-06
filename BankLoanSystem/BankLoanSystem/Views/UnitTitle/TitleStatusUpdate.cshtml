@@ -14,15 +14,15 @@
     <link href="~/Content/commonActions.css" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
 
-
+@{
+            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
     <div class="container" id="container">
 
 
 
 
-        @{
-            Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-        }
+       
 
 
 
@@ -146,18 +146,22 @@
         </div>
 
 
-        <div class="link-bar" style="margin-bottom:15px;">
-
-
-            @{
-                Html.RenderAction("GetLinkBar", "Unit");
-            }
-
-
-        </div>
+       
 
 
     </div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+
+
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+
+
+</div>
+
+
 
     <div class="overlay-bg">
     </div>

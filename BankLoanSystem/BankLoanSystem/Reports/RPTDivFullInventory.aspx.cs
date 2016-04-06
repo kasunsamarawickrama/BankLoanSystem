@@ -6,7 +6,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace BankLoanSystem.Reports
 {
-    public partial class RptDivTitleStatus : System.Web.UI.Page
+    public partial class RptDivFullInventory : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,18 +18,17 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-                if(!string.IsNullOrEmpty(Request.QueryString["titleStatus"]))
+                if (!string.IsNullOrEmpty(Request.QueryString["titleStatus"]))
                     titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
                 RenderReport(loanId, titleStatus);
             }
         }
 
-        //public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         public void RenderReport(int loanId, int titleStatus)
         {
-            rptViewerTitleStatus.Reset();
-            rptViewerTitleStatus.LocalReport.EnableExternalImages = true;
-            rptViewerTitleStatus.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTitleStatus.rdlc");
+            rptViewerFullInventory.Reset();
+            rptViewerFullInventory.LocalReport.EnableExternalImages = true;
+            rptViewerFullInventory.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -40,10 +39,10 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<Unit> units = ra.GeUnitDetailsByTitleStatus(loanId, titleStatus);
+            List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
 
-            rptViewerTitleStatus.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerTitleStatus.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+            rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
     }
 }
