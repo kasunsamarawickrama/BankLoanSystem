@@ -115,7 +115,10 @@ namespace BankLoanSystem.DAL
                 user.UserName = dataRow["user_name"].ToString();
                 user.UneditUserName = dataRow["user_name"].ToString();
                 user.Password = dataRow["password"].ToString();
-                user.Company_Id = int.Parse(dataRow["company_id"].ToString());
+                if (dataRow["company_id"].ToString() != "")
+                {
+                    user.Company_Id = int.Parse(dataRow["company_id"].ToString());
+                }
 
 
                 return user;
