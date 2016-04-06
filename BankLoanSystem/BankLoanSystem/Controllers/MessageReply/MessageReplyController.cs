@@ -11,10 +11,11 @@ namespace BankLoanSystem.Controllers.MessageReply
         public ActionResult MessageReply()
         {
             List<Models.UserRequest> result = new List<Models.UserRequest>();
-
+            UserRequest ob = new UserRequest();
             UserRequestAccess userreques = new UserRequestAccess();
             result = userreques.SelectDatalistForAnswer(154);
-            return View(result);
+            ob.RequestList = result;
+            return View(ob);
         }
 
         [HttpPost]
