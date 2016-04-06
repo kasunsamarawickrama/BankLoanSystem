@@ -1,14 +1,33 @@
 ﻿@model BankLoanSystem.Models.User
 @{
-    ViewBag.Title = "CreateUser";
+    ViewBag.Title = "Create User";
     if (ViewBag.AjaxRequest == null)
     {
-        Layout = "~/Views/Shared/_SetupProcess.cshtml";
-
+        Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     }
     //WebGrid grid = new WebGrid(Model.UserRightsList, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+<style>
+    .err_msg_box {
+        text-align: left;
+    }
+
+    #page-wrapper {
+        min-height: 568px;
+        padding: 0 36px;
+        float: unset !important;
+        /* position: relative !important; */
+        margin: auto !important;
+    }
+</style>
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
     <div class="ibox float-e-margins">
@@ -17,196 +36,210 @@
 
                 <div class="row">
                     <div class="container body-content new_container">
-                        <div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>
-                        <div class="setupTitle">
-                            <h2>Create User</h2>
-                        </div>
+                        
+                        
                         <div style="clear:both;"></div>
                         <div class="form-horizontal new_form_horizontal">
                             <div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                <div class="text-danger">@ViewBag.Error</div>
                             </div>
                             <div class="form-horizontal">
                                 
                                 <div style="clear:both"></div>
                                 
-                               
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+                                {
+                                <span class="text-success">@ViewBag.SuccessMsg</span>
+                                }
+
+                                else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
+                                {
+                                <span class="text-danger">@ViewBag.ErrorMsg</span>
+                                }
+                                        @using (Html.BeginForm("CreateDashboardUser", "UserManagement", FormMethod.Post, new { @id = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <div class="form-horizontal">
+                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>User Name</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtUserName" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Password</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtPassword" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Confirm Password</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtConfirmPassword" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>First Name</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtFirstName" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Last Name</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtLastName" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Email</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field">
+                                                        @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtNewEmail" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>
+                                                            Phone Number<br>
+                                                            <span class="optional">(Optional)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.EditorFor(model => model.PhoneNumber2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNumber" } })
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
 
 
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Role</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
 
-                                        <div class="form-horizontal">
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>User Name</label>
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtUserName" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Password</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtPassword" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Confirm Password</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtConfirmPassword" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>First Name</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtFirstName" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Last Name</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtLastName" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Email</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field">
-                                                    @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtNewEmail" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NewEmail, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>
-                                                        Phone Number<br>
-                                                        <span class="optional">(Optional)</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.EditorFor(model => model.PhoneNumber2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtPhoneNumber" } })
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
-
-                                            
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Role</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
-
-                                                </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
-                                                </div>
-                                            </div>
-                                            <div id="branchDiv" hidden>
-                                                @if (ViewBag.CurrUserRoleType !=3)
-                    {
+                                                <div id="branchDiv" hidden>
+                                                    @if (ViewBag.CurrUserRoleType != 3)
+                                                    {
                                                     <div class="form-group new_form_group">
                                                         <div class="control-label col-sm-2 lable_style">
                                                             <label>Branch </label>
                                                         </div>
                                                         @if (ViewBag.BranchId.Items.Count == 1)
-                        {
-                                                            <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId,id="BranchId2" })
-                                                                @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                                                            </div>
+                                                        {
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.HiddenFor(model => model.BranchId, new { @Value = (int)ViewBag.BranchId.Items[0].BranchId, id = "BranchId2" })
+                                                            @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        </div>
                                                         }
                                                         else {
-                                                            <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
-                                                            </div>
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
+                                                        </div>
                                                         }
                                                         <div class="err_msg_box">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
-                                                }
-                                            </div>
-
-                                            <div id="branchDivUser" hidden>
-                                                
-                                                <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-2 lable_style">
-                                                        <label>Branch </label>
-                                                    </div>
-                                                    @if (ViewBag.BranchIdUser.Items.Count == 1)
-                                                    {
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.HiddenFor(model => model.BranchIdUser, new { @Value = (int)ViewBag.BranchIdUser.Items[0].BranchId,id="BranchIdUser2" })
-                                                        @Html.LabelFor(model => model.BranchIdUser, (string)ViewBag.BranchIdUser.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchIdUser", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                                                    </div>
-                                                   
                                                     }
-                                                    else {
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.DropDownListFor(model => model.BranchIdUser, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchIdUser" })
-                                                    </div>
-                                                    }
-                                                    <div class="err_msg_box">
-                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
-                                                    </div>
                                                 </div>
-                                                
-                                            </div>
-                                            <div id="branchid" class="hidden"></div>
-                                            <div id="rightsSection">
-                                                
-                                            </div>
-                                           
-                                            <div id="loanid" class="hidden"></div>
 
-                                            <div class="form-group new_form_group clear_next clear_next_bordr">
-                                                <div>
-                                                    <nav>
-                                                        <div class="pager new_pager">
-                                                            <div class="button_box algn_left">
-                                                                <input value="Back" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
-                                                            </div>
-                                                            <div class="button_box algn_center">
-                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button" id="btnCreateUser">
-                                                            </div>
-                                                            <div class="button_box algn_right">
-                                                                <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                            </div>
-                                                            <div style="clear:both"></div>
+                                                <div id="branchDivUser" hidden>
+
+                                                    <div class="form-group new_form_group">
+                                                        <div class="control-label col-sm-2 lable_style">
+                                                            <label>Branch </label>
                                                         </div>
-                                                    </nav>
+                                                        @if (ViewBag.BranchIdUser.Items.Count == 1)
+                                                        {
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.HiddenFor(model => model.BranchIdUser, new { @Value = (int)ViewBag.BranchIdUser.Items[0].BranchId, id = "BranchIdUser2" })
+                                                            @Html.LabelFor(model => model.BranchIdUser, (string)ViewBag.BranchIdUser.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchIdUser", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        </div>
+
+                                                        }
+                                                        else {
+                                                        <div class="col-xs-8 text_field short_text_field">
+                                                            @Html.DropDownListFor(model => model.BranchIdUser, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchIdUser" })
+                                                        </div>
+                                                        }
+                                                        <div class="err_msg_box">
+                                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchIdUser, "", new { @class = "text-danger" })</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div id="branchid" class="hidden"></div>
+                                                
+                                                <div id="rightsSection">
+                                                    
+                                                   
+                                                </div>
+                                                
+                                                <div id="checkBoxMessage" class="text-danger"><span></span></div>
+                                                <div id="loanid" class="hidden"></div>
+
+                                                <div class="form-group new_form_group clear_next clear_next_bordr">
+                                                    <div>
+                                                        <nav>
+                                                            <div class="pager new_pager">
+                                                                
+                                                                <div class="button_box algn_left">
+                                                                    <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnCreateUser">
+                                                                </div>
+                                                                <div class="button_box algn_right">
+                                                                    <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                                </div>
+                                                                <div style="clear:both"></div>
+                                                            </div>
+                                                        </nav>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                        }
+
+                                        
 
                                     
 
@@ -244,15 +277,78 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script>
-   
-    $('#RoleId').change(function () {
+     $("#clear").click(function () {
+        document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+        $(".text-success").html("");
+        //$('#txtUserName').next('span').children().text('');
+        $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtUserName').next("div").children("p").children("span").text("");
+        $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPassword').next("div").children("p").children("span").text("");
+        $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+        $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFirstName').next("div").children("p").children("span").text("");
+        $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtLastName').next("div").children("p").children("span").text("");
+        $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
+        $('#branchDiv').hide();
+        $('#branchDivUser').hide();
+        $('#rightsSection').hide();
+
+    });
+
+    function clearValues_1() {
+        $('#BranchIdUser').val('');
+        $('#BranchId').val('');
+        $('#LoanIdUser2').val('');
+        $('#BranchId2').val('');
+        $('#BranchIdUser2').val('');
+        document.getElementById("branchid").innerHTML = "";
+        document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
+    };
+    $(document).on('change','#RoleId',function () {
+        //$('#BranchIdUser option:selected').val('');
+        //$('#LoanIdUser2 option:selected').val('');
+        //$('#BranchId option:selected').val('');
+        //$('#selectAll').prop('checked', false);
+        //$('.All').prop('checked', false);
+        //clearValues_1();
         var val = document.getElementById("RoleId").value;
-        if (val == '2') {
+        if (val == '1') {
+            $('#branchDiv').hide();
+            $('#branchDivUser').hide();
+            $('#rightsSection').hide();
+            clearValues_1();
+            
+        }
+        else if (val == '2') {
+            //$('#BranchId').val('');
             $('#branchDiv').show();
             $('#branchDivUser').hide();
+            $('#rightsSection').hide();
+            clearValues_1();
         }
         else if (val == '3') {
+            
+            //$('#BranchIdUser option:selected').val('');
+            //alert('3');
+            $('#LoanIdUser2').val('');
+            //$('#BranchId').val('');
+            $('#selectAll').prop('checked', false);
+            $('.All').prop('checked', false);
+            clearValues_1();
             $('#branchDivUser').show();
+            //$('#BranchIdUser').val('');
+            //document.getElementById("branchid").innerHTML = "";
 
             @if (ViewBag.BranchIdUser!= null){
 
@@ -262,15 +358,48 @@
                 }
             }
             //$('#branchDivLoan').show();
-
+            $('#rightsSection').show();
             $('#branchDiv').hide();
         }
         else {
+            clearValues_1();
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
+            $('#rightsSection').hide();
         }
     });
+    $('#BranchId').change(function () {
+        $('#BranchId2').val('');
+        $('#BranchIdUser option:selected').val('');
+        $('#LoanIdUser2 option:selected').val('');
+        $('#BranchId2').val('');
+        $('#BranchIdUser2').val('');
+        document.getElementById("branchid").innerHTML = "";
+        document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
+    });
+    $(document).on('change', '#BranchIdUser', function () {
+
+
+
+        $('#LoanIdUser2 option:selected').val('');
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
+        //alert(loan);
+        
+    });
     $('#BranchIdUser').change(function () {
+        
+        $('#BranchId option:selected').val('');
+        $('#LoanIdUser2 option:selected').val('');
+        $('#BranchId2').val('');
+        $('#BranchIdUser2').val('');
+        document.getElementById("branchid").innerHTML = "";
+        document.getElementById("loanid").innerHTML = "";
+        $('#loanIdMessage span').text("");
+        $('#checkBoxMessage span').text("");
+
         var val = document.getElementById("RoleId").value;
         if (val == '3') {
 
@@ -303,7 +432,8 @@
     $(document).on('change','#LoanIdUser2' , function () {
 
 
-
+        $('#loanIdMessage span').text("");
+       // $('#checkBoxMessage span').text("");
         var  loan = $('#LoanIdUser2 option:selected').val();
         //alert(loan);
         SendParaTo(loan)
@@ -334,28 +464,7 @@
 </script>
 
 <script type="text/javascript">
-    $(function () {
-        $('#btnPreStep3').click(function () {
-
-            $('#loadingDiv').show();
-            $.ajax({
-                url: '@Url.Action("step2", "SetupProcess")',
-                type: 'GET',
-                data: { edit: 1 },
-
-                success: function (partialView) {
-                    $('#loadingDiv').hide();
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
-
-                }
-            });
-        });
-    });
+    
 
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
@@ -475,6 +584,19 @@
     $('#btnCreateUser').click(function () {
         //alert('hh');
         //alert($('#BranchId option:selected').val());
+        if (document.getElementById("loanid").innerHTML == "") {
+            //alert('1');
+            $('#loanIdMessage span').text("please select a loan.");
+            
+        }
+        checked = $("input[type=checkbox]:checked").length;
+
+        if (!checked) {
+            //alert("You must check at least one checkbox.");
+            $('#checkBoxMessage span').text("please select at least one right.");
+            e.preventDefault();
+        }
+
         if (($('#txtUserName').val() != "") && ($('#txtPassword').val() != "") && ($('#txtConfirmPassword').val() != "") && ($('#txtFirstName').val() != "") && ($('#txtLastName').val() != "") && ($('#RoleId option:selected').val() != "")) {
             //alert('hh');
             {
@@ -494,6 +616,11 @@
                     if (strRights != "") {
                        // alert('4');
                         InsertUser();
+                    }
+                    else if (strRights == "") {
+                        alert('4');
+                        $('#checkBoxMessage span').text("please select at least one.");
+                        e.preventDefault();
                     }
                 }
             }
@@ -570,7 +697,5 @@
 
 </script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 

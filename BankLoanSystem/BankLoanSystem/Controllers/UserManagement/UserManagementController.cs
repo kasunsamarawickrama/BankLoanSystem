@@ -244,7 +244,7 @@ namespace BankLoanSystem.Controllers
                                     {
                                         ViewBag.AddUnits = 0;
                                     }
-                                    if ((s == "U006") || (s == "U007"))
+                                    if (s == "U006")
                                     {
                                         ViewBag.ViewReports = 1;
                                     }
@@ -1133,25 +1133,18 @@ namespace BankLoanSystem.Controllers
 
             // check if   step is 3...
 
-            if (TempData["createUserResult"] != null && int.Parse(TempData["createUserResult"].ToString())==1)
+            if (TempData["createUserResult"] != null)
             {
-                ViewBag.SuccessMsg = "User Successfully Created";
-                //sa.updateStepNumberByUserId(userId, 4);
-                
-                //if (HttpContext.Request.IsAjaxRequest())
-                //{
-                //    ViewBag.AjaxRequest = 1;
-                //    return PartialView();
-                //}
-                //else
-                //{
+            if(int.Parse(TempData["createUserResult"].ToString()) == 1) {
+                    ViewBag.SuccessMsg = "User Successfully Created";
+                }
 
-                //    return View();
-                //}
+                else if (int.Parse(TempData["createUserResult"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed To Create User";
+                }
             }
-            else {
-                ViewBag.ErrorMsg = "Failed to create user";
-            }
+            
 
             ViewBag.CurrUserRoleType = roleId;
             int loanCount = -1;

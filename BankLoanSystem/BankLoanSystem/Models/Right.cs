@@ -15,6 +15,7 @@ namespace BankLoanSystem.Models
     {
         public string rightId { get; set; }
 
+        [Required(ErrorMessage = "Select Rights")]
         [Display(Name = "Add")]
         public bool active { get; set; }
 

@@ -105,8 +105,10 @@ namespace BankLoanSystem.Models
         [Display(Name = "Role")]
         public int RoleId { get; set; }
 
+        
         public int Company_Id { get; set; }
 
+        [Required]
         public int LoanId { get; set; }
 
         public int CompanyType { get; set; }
