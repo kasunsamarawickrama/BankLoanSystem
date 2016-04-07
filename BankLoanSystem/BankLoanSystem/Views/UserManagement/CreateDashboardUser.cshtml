@@ -185,7 +185,8 @@
                                                 </div>
 
                                                 <div id="branchDivUser" hidden>
-
+@if (ViewBag.CurrUserRoleType != 3)
+{
                                                     <div class="form-group new_form_group">
                                                         <div class="control-label col-sm-2 lable_style">
                                                             <label>Branch </label>
@@ -207,7 +208,7 @@
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchIdUser, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
-
+}
                                                 </div>
                                                 
                                                 <div id="branchid" class="hidden"></div>
@@ -584,8 +585,8 @@
     });
 
     $('#btnCreateUser').click(function () {
-        alert('hh');
-        //alert($('#BranchId option:selected').val());
+    //    //alert('hh');
+    //    //alert($('#BranchId option:selected').val());
         if (document.getElementById("loanid").innerHTML == "") {
             //alert('1');
             $('#loanIdMessage span').text("please select a loan.");
@@ -602,34 +603,34 @@
         }
 
 
-        if (($('#txtUserName').val() != "") && ($('#txtPassword').val() != "") && ($('#txtConfirmPassword').val() != "") && ($('#txtFirstName').val() != "") && ($('#txtLastName').val() != "") && ($('#RoleId option:selected').val() != "")) {
-            //alert('hh');
-            {
-                if ($('#RoleId option:selected').val() == 1) {
-                    alert('1');
-                    InsertUser();
-                }
-                else if (($('#RoleId option:selected').val() == 2) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val() != ""))) {
+    //    if (($('#txtUserName').val() != "") && ($('#txtPassword').val() != "") && ($('#txtConfirmPassword').val() != "") && ($('#txtFirstName').val() != "") && ($('#txtLastName').val() != "") && ($('#RoleId option:selected').val() != "")) {
+    //        //alert('hh');
+    //        {
+    //            if ($('#RoleId option:selected').val() == 1) {
+    //                alert('1');
+    //                InsertUser();
+    //            }
+    //            else if (($('#RoleId option:selected').val() == 2) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val() != ""))) {
 
-                    alert($('#BranchId2').val());
-                    InsertUser();
-                }
-                else if (($('#RoleId option:selected').val() == 3) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val() != "")) && (document.getElementById("loanid").innerHTML != "")) {
-                    //alert('3');
-                    var arrRights = modcheck();
-                    var strRights = arrRights.toString();
-                    if (strRights != "") {
-                        // alert('4');
-                        InsertUser();
-                    }
-                    else if (strRights == "") {
-                        alert('4');
-                        $('#checkBoxMessage span').text("please select at least one.");
-                        e.preventDefault();
-                    }
-                }
-            }
-        }
+    //                alert($('#BranchId2').val());
+    //                InsertUser();
+    //            }
+    //            else if (($('#RoleId option:selected').val() == 3) && (($('#BranchId2').val() != "") || ($('#BranchId option:selected').val() != "")) && (document.getElementById("loanid").innerHTML != "")) {
+    //                //alert('3');
+    //                var arrRights = modcheck();
+    //                var strRights = arrRights.toString();
+    //                if (strRights != "") {
+    //                    // alert('4');
+    //                    InsertUser();
+    //                }
+    //                else if (strRights == "") {
+    //                    alert('4');
+    //                    $('#checkBoxMessage span').text("please select at least one.");
+    //                    e.preventDefault();
+    //                }
+    //            }
+    //        }
+    //    }
     });
     function InsertUser() {
 

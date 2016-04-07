@@ -59,7 +59,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 List<Right> rights = access.getRights();
 
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(ownerId);
+                List<Right> permissionString = access.getRightsString(ownerId,0);
 
                 if (permissionString.Count == 1)
                 {
@@ -238,7 +238,7 @@ namespace BankLoanSystem.Controllers.ManageUser
                 List<Right> rights = access.getRights();
 
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(ownerId);
+                List<Right> permissionString = access.getRightsString(ownerId,0);
 
                 if (permissionString.Count == 1)
                 {

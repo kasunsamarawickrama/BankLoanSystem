@@ -374,7 +374,7 @@ namespace BankLoanSystem.Controllers.Unit
             if (userRole == 3)
             {
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
 

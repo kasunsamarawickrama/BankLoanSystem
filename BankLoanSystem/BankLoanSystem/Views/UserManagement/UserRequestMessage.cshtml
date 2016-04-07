@@ -15,7 +15,7 @@
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
         UpdateTargetId = "changeContainer"
-    }, new { id = "form" }))
+    }, new {id = "form"}))
     {
         @Html.AntiForgeryToken()
         <div>
@@ -25,7 +25,7 @@
         <div>
 
             <div>
-                <div style="margin-right:45px;display:inline-block;">
+                <div style="margin-right: 45px; display: inline-block;">
                     <label for="email" class="labels">Subject:</label>
                 </div>
                 <div class="select-style">
@@ -37,51 +37,83 @@
                         <option value="">Billing Question</option>
                         <option value="">Other</option>
                     </select>
-                    @Html.ValidationMessageFor(model => model.topic, "", new { @class = "text-danger" })
-                </div>
+                    @Html.HiddenFor(model => model.topic, new {@Value = "0", @id = "mTopic"})
+                    @Html.ValidationMessageFor(model => model.topic, "", new {@class = "text-danger"})
 
             </div>
+                <div id="divSubjectErr" style="padding-left: 112px;"><span class="text-danger field-validation-error" /></div>
+        </div>
         </div>
 
         <div>
             <span>Message:</span>
-            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox",@id = "txtmessage" } })
+            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
             @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })
 
         </div>
 
         <div>
-            <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float:right;" />
+            <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float: right;"/>
         </div>
 
-        <div style="clear:both;padding-top:10px">
+        <div style="clear: both; padding-top: 10px">
                 <small><span>@ViewBag.SuccessMsg</span></small>
             </div>
     }
 </div>
-@*<script>
-    $(function () {
-        $('#btnSubmit').click(function () {
-            alert();
-            $('#txtmsg').show();
-            $.ajax({
-                url: '@Url.Action("UserRequest")',
-                type: 'GET',
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $('#topic').change(function() {
+        $('#mTopic').val($('#topic :selected').text());
+    });
+    
+    $('#topic').click(function () {
+        //alert($(this));
+        $('#divSubjectErr').children('span').text('');
+        $(this).removeClass('input-validation-error');
+    });
 
+    $('#btnSubmit').click(function () {
+        //alert($('#message').val())
+        //alert(subjectIndex);
+        var error = 0
+        var subjectIndex = $('#topic option:selected').index();
+        if (subjectIndex === 0) {
+            error = error + 1;
+            $('#divSubjectErr').children('span').text('Subject is required');
+        }
+        else {
+            error = error - 1;
+            $('#divSubjectErr').children('span').text('');
+        }
 
-                success: function (partialView) {
-                    $('#txtusername').val('');
-                    $('#changeContainer').html(partialView);
-                    $('#changeContainer').show();
-                },
-                error: function (request, status, error) {
-                    //handleErrorMsg(request.responseText);
+        var message = $('#message').val();
 
-                }
-            });
+        if (message === '') {
+            error = error + 1;
+        }
+        else {
+            error = error - 1;
+        }
+            
+        if (error > 0)
+        {
+            return;
+        }
+        var data = {
+            topic: $('#topic :selected').text(),
+            message: message
+        };
+        $.ajax({
+            url: '/UserManagement/UserRequestMessagePost/',
+            data: JSON.stringify(data),
+            type: 'POST',
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            success: function (partialView) {
+                $('#UserRequestMessage').html(partialView);
+                $('#UserRequestMessage').show();
+            }
         });
     });
-</script>*@
-
-
-
+</script>
