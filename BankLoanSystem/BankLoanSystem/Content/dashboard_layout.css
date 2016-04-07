@@ -49,7 +49,8 @@ footer{
            line-height:unset;
        }
  body{
-            background-color:unset !important;
+            background-color:#f2f2f2 !important;
+            
             
         }
         .container-fluide{
@@ -59,7 +60,7 @@ footer{
             width:100%;
             margin-right:auto;
             margin-left:auto;
-            background:white;
+            background:#f2f2f2;
             min-height: 530px;
         }
         header{
@@ -81,7 +82,7 @@ footer{
             float:left;
             /*border-top-style:outset;
             border-right-style:outset;*/
-            background: #ffffff;
+            background: #f2f2f2;
             margin-left: -30px;
               -ms-transform: skew(45deg); /* IE 9 */
     -webkit-transform: skew(45deg); /* Safari */
@@ -529,7 +530,7 @@ textarea {
 .big-button {
     margin:8px;
     position: relative;
-    background-color: #1ba1e2 ;
+    background-color: #465DAB ;
     border: none;
     font-size: 13px;
     color: #FFFFFF;
@@ -563,9 +564,9 @@ display: inline-block;
 }
 .big-button:hover{
 
-    background-color: white;
-    color: #1ba1e2;
-    border: 2px solid  #1ba1e2;
+    background-color: darkgreen;
+    /*color: #1ba1e2;*/
+    /*border: 2px solid  #1ba1e2;*/
 }
 .select-loan{
     width:100%;

@@ -72,7 +72,6 @@
                                @using (Html.BeginForm("AssignRights", "UserManagement", FormMethod.Post, new { id = "form" }))
                                {
                                 @Html.AntiForgeryToken()
-                                <label id="successLabel">@ViewBag.SuccessMsg</label>
                                 <div class="form-horizontal">
 
                                     <div class="form-group new_form_group">
@@ -82,7 +81,7 @@
                                         <div class="col-xs-8 text_field short_text_field">
                                             @if (ViewBag.LoanId != null && ViewBag.LoanId > 0)
                                             {
-                                                @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId })
+                                                @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId ,@id="LoanId"})
                                                 @Html.LabelFor(model => model.LoanNumber, (string)ViewBag.LoanNumber, htmlAttributes: new { @class = "form-control text_field_input" })
                                             }
 
@@ -94,14 +93,14 @@
                                                 <label>Select User</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @if (ViewBag.userSelectList != null && ViewBag.userSelectList.Count > 0)
-                                                {
-                                                    @Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.userSelectList, "UserId", "UserName"), "--Select User--", htmlAttributes: new { @class = "form-control" })
-                                                   
-                                                }
+                                                @*@if (ViewBag.userSelectList != null && ViewBag.userSelectList.Count > 0)
+                                                {*@
+                                                    @Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.userSelectList, "UserId", "UserName"), "--Select User--", htmlAttributes: new { @class = "form-control" , @id="SelectUser" })
+
+                                                    @*}*@
                                             </div>
                                             <div class="err_msg_box">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })</p>
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" , @id="valid" })</p>
                                             </div>
                                         </div>
 
@@ -119,8 +118,9 @@
                                                         <br /><br />
                                                         @for (var i = 0; i < Model.UserRightsList.Count; i++)
                                                         {
+
                                                             @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All"})
+                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All" ,@id = i+1})
                                                             @Html.DisplayFor(x => x.UserRightsList[i].description)
                                                             <br />
                                                         }
@@ -197,5 +197,72 @@
                 $('.All').prop('checked', false);
             }
         });
+    });
+    $('#SelectUser').change(function () {
+
+        var selectedUser = $('#SelectUser').val();
+        var loanId = $('#LoanId').val();
+        var model = @Html.Raw(Json.Encode(Model));
+        $.ajax({
+            url: '/UserManagement/ExistingUserRights',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ userId: selectedUser, loanId, loanId }),
+            success: function (data) {
+                //alert(data);
+                var array = data.split(',');
+                for (var i = 0 ; i < model.UserRightsList.length; i++){
+                    for (var j = 0 ; j < array.length; j++){
+
+                        if (model.UserRightsList[i].rightId  === array[j] ) {
+                            //alert('checked');
+                            var str = '#'+(i+1);
+                            $(str).prop('checked', true);
+                        }
+                    }
+                }
+                if(data.length >0){
+                    $('#Submit').val("Update");
+                }else{
+                    $('#Submit').val("Assign");
+                }
+                checkAll();
+            },
+            error: function (reponse) {
+            }
+        });
+    });
+    $(function () {
+        $('.All').on('change', function () {
+            $('#checkBoxMessage span').text("");
+            checkAll();
+        });
+    });
+    function checkAll(){
+        var model = @Html.Raw(Json.Encode(Model));
+        var len = model.UserRightsList.length;
+        var count =0;
+        for (var j = 0 ; j < model.UserRightsList.length; j++){
+            var str = '#'+(j+1);
+            if ($(str).is(':checked')) {
+                //alert('checked');
+                count++;
+
+            }
+        }
+        if(count === len){
+            $('#CheckAll').prop('checked', true);
+        }else{
+            $('#CheckAll').prop('checked', false);
+        }
+    };
+
+    $('#clear').click(function(){
+        $('#Submit').val("Assign");
+        $('#checkBoxMessage span').text("");
+        $('#valid').text("");
+        $('#SelectUser').val("");
+        //form.reset() ;
+        
     });
 </script>
