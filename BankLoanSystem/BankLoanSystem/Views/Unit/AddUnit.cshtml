@@ -63,7 +63,7 @@
 
     .form-horizontal .control-label {
         text-align: left;
-        padding-left: 33px;
+        padding-left: 48px;
         font-size: 14px;
     }
 
@@ -72,11 +72,17 @@
     }
     .ui-autocomplete {
         font-size:12px;
+        text-align:left;
         max-height: 500px;
         overflow-y: auto; /* prevent horizontal scrollbar */
         overflow-x: hidden; /* add padding to account for vertical scrollbar */
         z-index: 10005 !important;
     }
+    .ui-tooltip
+{
+    font-size:12px;
+    font-family:Calibri;
+}
 
     .custom-combobox-input {
         text-transform: capitalize;
@@ -92,6 +98,15 @@
     input[type='file'] {
   color: transparent;
 }
+    .rad-style{
+       padding-top:8px;
+    }
+    .col-sm-4{
+        text-align:left;
+    }
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+        padding-left:2px;
+    }
 </style>
 
     
@@ -124,11 +139,13 @@
 
                         @*UNIT MODEL START*@
                         <div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
-                                @Html.HiddenFor(model => model.LoanId)
-                                <div class="col-md-10">
-                                    @{
+                            <div style="padding: 0px 20px 0px 20px;">
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.HiddenFor(model => model.LoanId)
+                                    <div class="col-md-10">
+                                        @{
                                         List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
 
                                         var id = 0;
@@ -159,22 +176,23 @@
                                             id = 0;
                                             name = "";
                                         }
-                                    }
-                                    @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
+                                        }
+                                        @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                                     {
-                                        @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
-                                        @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
-                                        @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+                                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
 
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
+                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
                                     }
-                                    @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                             <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -292,7 +310,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style" >
                                         <div>
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false) Used
@@ -362,7 +380,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, false) Used
@@ -453,7 +471,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.camper.NewOrUsed, false) Used
@@ -518,7 +536,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.atv.NewOrUsed, false) Used
@@ -574,7 +592,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.boat.NewOrUsed, false) Used
@@ -644,7 +662,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false) Used
@@ -699,7 +717,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style">
                                         <div>
                                             @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false) Used
@@ -753,7 +771,7 @@
                                     <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                                 </div>
 
-                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 80px;" })
+                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
@@ -783,7 +801,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width:28%" })
                                     <div class="col-md-2">
-                                        <div class="checkbox">
+                                        <div class="checkbox rad-style">
                                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                                             @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" }) No
                                             @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "top:100%;left:18%" })
@@ -818,13 +836,16 @@
 
                         @if (ViewBag.RoleId != 4)
                 {
-                            <div class="form-group" style="margin-top:15px;margin-left: -87px">
-                                @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "text-align:right;width:39.5%" })
-                                <div class="col-md-2">
-                                    @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
-                                    @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
-                                    @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "top:100%;left:18%" })
+                            <div style="padding:20px 20px 10px 20px">
+                                <div class="form-group" >
+                                    @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:41.5%" })
+                                    <div class="col-md-2 rad-style">
+                                        @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
+                                        @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" }) No
+                                        @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "top:100%;left:18%" })
+                                    </div>
                                 </div>
+
                             </div>
                         }
 
@@ -837,28 +858,32 @@
                                 </div>
                             </div>*@
 
-                        <div class="form-group" id="advanceDateFormDiv" hidden style="margin-left: -71px;">
+                        <div style="padding:0px 20px 0px 20px">
+                            <div class="form-group" id="advanceDateFormDiv" hidden>
 
-                            <div class="control-label col-sm-3" style="text-align:right;margin-left: 10px;">
-                                @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                                <div class="control-label col-sm-3" >
+                                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                                </div>
+
+
+                                <div class="col-xs-3" id="advanceDateDiv">
+                                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
+                                </div>
+
+
                             </div>
-
-
-                            <div class="col-xs-3" id="advanceDateDiv">
-                                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
-                            </div>
-
-
                         </div>
 
-                        <div class="form-group btn-panel">
-                            <input type="button" value="Cancel" id="btnCancel" class="btn btn-default cancel btn-right" tabindex="-1" style="float:right;margin-left:27%;margin-right:4%" />
+                        <div style="padding:0px 20px 0px 20px">
+                            <div class="form-group btn-panel">
+                                <input type="button" value="Cancel" id="btnCancel" class="btn btn-primary m-b next_clear_button clear_back" tabindex="-1" style="float:right;margin-right:4%" />
 
-                            <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-info btn-center" style="float: left;width: 200px;margin-left: 102px;" />
+                                <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-primary m-b next_clear_button next_back" style="width: 200px;margin-left: 102px;" />
 
 
 
+                            </div>
                         </div>
                     </div>
                 </form>

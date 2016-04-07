@@ -125,12 +125,12 @@
                                     <div class="form-group new_form_group">
                                         @if (Model.RemainingPercentage >= 0)
                                         {
-                                            <span style="background-color: yellow" id="spnremainPt">
+                                            <span id="spnremainPt">
                                             </span>
-                                            <span style="background-color: greenyellow" id="spnremainPtComplete"></span>
-                                            <span style="background-color: red" id="spnremainPtError"></span>
+                                            <span style="color: green"  id="spnremainPtComplete"></span>
+                                            <span style="color: red" id="spnremainPtError"></span>
                                             <br />
-                                            <span style="background-color: yellow">
+                                            <span>
                                                 Advance Percentage: @Html.DisplayFor(m => m.AdvancePt, new { htmlAttributes = new { @id = "remainingPercentage" } })
                                             </span>
 
@@ -138,7 +138,7 @@
 
                                         }
                                         <br />
-                                        <span style="background-color: yellow">
+                                        <span>
                                             Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
                                         </span>
                                     </div>
