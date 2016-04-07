@@ -251,6 +251,9 @@
     <Compile Include="Code\GeneratesCode.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Code\PasswordEncryption.cs" />
+    <Compile Include="Code\PrintReportDocument.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\AdvanceUnit\AdvanceUnitController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateDealer\CreateDealerController.cs" />
