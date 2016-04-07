@@ -62,12 +62,12 @@
 
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
-                                    <span class="text-success">@ViewBag.SuccessMsg</span>
+                                    <span class="text-success" id="success">@ViewBag.SuccessMsg</span>
                                 }
 
                                 else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
                                 {
-                                    <span class="text-danger">@ViewBag.ErrorMsg</span>
+                                    <span class="text-danger" id="fail">@ViewBag.ErrorMsg</span>
                                 }
                                @using (Html.BeginForm("AssignRights", "UserManagement", FormMethod.Post, new { id = "form" }))
                                {
@@ -154,7 +154,6 @@
                                     </div>
                                 </div>
                                }
-
                                 <div>
                                 </div>
                             </div>
@@ -231,6 +230,8 @@
             error: function (reponse) {
             }
         });
+        $('#success').text("");
+        $('#fail').text("");
     });
     $(function () {
         $('.All').on('change', function () {
@@ -247,14 +248,15 @@
             if ($(str).is(':checked')) {
                 //alert('checked');
                 count++;
-
             }
         }
         if(count === len){
             $('#CheckAll').prop('checked', true);
         }else{
             $('#CheckAll').prop('checked', false);
-        }
+        }      
+        $('#success').text("");
+        $('#fail').text("");
     };
 
     $('#clear').click(function(){
@@ -263,6 +265,7 @@
         $('#valid').text("");
         $('#SelectUser').val("");
         //form.reset() ;
-        
+        $('#success').text("");
+        $('#fail').text("");
     });
 </script>
