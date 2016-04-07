@@ -843,7 +843,7 @@
                 $("#loanNumber").attr("disabled", "disabled");
                 return;
             }
-            $('#loadingSpan').show();
+            //$('#loadingSpan').show();
             var procemessage = "<option value='0'> Please wait...</option>";
             $("#ddlcity").html(procemessage).show();
             var url = "/SetupProcess/getNonRegBranchesByRegBranchId/";
@@ -859,11 +859,11 @@
                         markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
                     }
                     $("#NonRegisteredBranchId").html(markup).show();
-                    $('#loadingSpan').hide();
+                    //$('#loadingSpan').hide();
                     $("#loanNumber").removeAttr("disabled");
                 },
                 error: function (reponse) {
-                    $('#loadingSpan').hide();
+                   // $('#loadingSpan').hide();
                     alert("error : " + reponse);
                 }
             });

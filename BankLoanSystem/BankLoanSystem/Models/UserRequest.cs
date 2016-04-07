@@ -8,7 +8,7 @@ namespace BankLoanSystem.Models
     {
 
         [Required]
-        [Display(Name = "User Id")]
+        [Display(Name = "Request Id")]
         public int request_id { get; set; }
 
         [Required]

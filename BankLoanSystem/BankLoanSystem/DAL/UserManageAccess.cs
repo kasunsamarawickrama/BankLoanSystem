@@ -335,13 +335,13 @@ namespace BankLoanSystem.DAL
         /// <param name="roleId"></param>
         /// /// <param name="nonRegBranchId"></param>
         /// <returns>user object</returns>
-        public List<User> getUsersByRoleBranch(int roleId, int nonRegBranchId)
+        public List<User> getUsersByRoleBranch(int roleId, int branchId)
         {
             List<User> UserList = new List<User>();
             DataHandler dataHandler = new DataHandler();
-           
+
             List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@branch_id", nonRegBranchId });
+            paramertList.Add(new object[] { "@branch_id", branchId });
             paramertList.Add(new object[] { "@role_id", roleId });
             try
             {
@@ -351,11 +351,11 @@ namespace BankLoanSystem.DAL
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
                         User user = new User();
-                        
+
                         user.UserId = int.Parse(dataRow["user_id"].ToString());
                         user.UserName = dataRow["user_name"].ToString();
                         user.FirstName = dataRow["first_name"].ToString();
-                        user.LastName = dataRow["last_name"].ToString();                      
+                        user.LastName = dataRow["last_name"].ToString();
 
                         UserList.Add(user);
                     }

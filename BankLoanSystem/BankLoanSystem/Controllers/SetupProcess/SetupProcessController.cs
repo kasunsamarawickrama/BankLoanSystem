@@ -907,6 +907,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = 6;
                 loanData.stepId = 1;
                 Session["dashboard"] = 1;
+
+                // set the loan setup session to step 1
+
+               
+                Session["companyStep"] = 5;
+                loanData.stepId = 1;
+                Session["loanStep"] = loanData;
+
+
+
             }
 
             // get the Role Name for front end view

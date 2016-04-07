@@ -21,7 +21,35 @@ namespace BankLoanSystem.Controllers.MessageReply
         [HttpPost]
         public ActionResult MessageReply(UserRequest userrequest)
         {
-            return View();
+            userrequest.request_id = userrequest.request_id;
+            userrequest.answer = userrequest.answer;
+            userrequest.answer_user_id = 0;
+
+            UserRequestAccess userreqAccsss = new UserRequestAccess();
+            int reslt = userreqAccsss.UpdateUserRequestAnswer(userrequest);
+            if (reslt >= 0)
+            {
+                //string body = "User Name      " + userData.UserName + "< br />" +
+                //              "Position       " + (string)Session["searchType"] + "< br />" +
+                //              "Company        " + userData.CompanyName + "< br />" +
+                //              "Branch         " + userData.BranchName + "< br />" +
+                //              "Loan           " + "< br />" +
+                //              "Date and Time  " + DateTime.Now + "< br />" +
+                //              "Title          " + "< br />" +
+                //              "Message        " + userReq.message + "< br />" +
+                //              "Page           " + "< br />";
+
+                //Email email = new Email("asanka@thefuturenet.com");
+                //email.SendMail(body, "Account details");
+
+                ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
+
+            }
+            else
+            {
+                ViewBag.SuccessMsg = "Error Occured";
+            }
+                return View();
         }
 
     }

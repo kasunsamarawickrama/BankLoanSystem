@@ -516,5 +516,34 @@ namespace BankLoanSystem.DAL
                 return -1;
             }
         }
+
+        /// <summary>
+        /// CreatedBy  : kasun
+        /// CreatedDate: 2016/04/04
+        /// 
+        /// Update user right details in user permission table
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool updateUserRightDetails(User user, int loggedUser)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_Id", user.UserId });
+            paramertList.Add(new object[] { "@logged_user_Id", loggedUser });
+            paramertList.Add(new object[] { "@loan_id", user.LoanId });
+            paramertList.Add(new object[] { "@right_id", user.UserRights });
+            paramertList.Add(new object[] { "@modify_date", DateTime.Now });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spUpdateUserRightDetails", paramertList) ? true : false;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
