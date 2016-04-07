@@ -715,7 +715,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
 
@@ -1054,7 +1054,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 //get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
@@ -1446,8 +1446,8 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        [HttpPost]
-        [ActionName("UserRequestMessage")]
+        //[HttpPost]
+        //[ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             userReq.company_id = userData.Company_Id;
@@ -1456,7 +1456,7 @@ namespace BankLoanSystem.Controllers
             userReq.role_id = userData.RoleId;
             userReq.loan_code = Session["loanCode"].ToString(); 
             userReq.page_name = Session["pagetitle"].ToString();
-            userReq.topic = "";
+            userReq.topic = userReq.topic;
             userReq.message = userReq.message;
             userReq.priority_level = "high";
 
@@ -1478,13 +1478,12 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                //ModelState.Clear();
-                //return RedirectToAction("UserRequest");
+                return RedirectToAction("UserRequestMessage");
             }
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
-            return RedirectToAction("UserRequest");
+            return RedirectToAction("UserRequestMessage");
         }
             return View();
         }
@@ -1530,9 +1529,9 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;
-                UserManageAccess ua = new UserManageAccess();
+            UserManageAccess ua = new UserManageAccess();
                 List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
-                List<User> tempRoleList = new List<User>();
+            List<User> tempRoleList = new List<User>();
 
                 for (int i = 0; i < userList.Count; i++)
                 {
@@ -1544,7 +1543,7 @@ namespace BankLoanSystem.Controllers
                     tempRoleList.Add(tempRole);
                 }
                 ViewBag.userSelectList = tempRoleList;
-                //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
                 User user = new Models.User();
                 user.UserRightsList = new List<Right>();
 
@@ -1556,19 +1555,19 @@ namespace BankLoanSystem.Controllers
                 }
                 else
                 {
-
+           
                     return View(user);
                 }
                 //return View();
             }
             else {
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
                     return RedirectToAction("UserDetails");
-                }
-                else
-                {
+            }
+            else
+            {
 
                     return RedirectToAction("UserDetails");
                 }
@@ -1597,7 +1596,15 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        public string ExistingUserRights(int userId, int loanId)
+        {
+            User usr = new User();
+            List<Right> rights = new List<Right>();
+            rights = (new UserRightsAccess()).getRightsString(userId, loanId);
+            string str = rights[0].rightsPermissionString;
+            return str;
+        }
     }
 
-
+    
 }
