@@ -115,5 +115,21 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+
+        public DataSet GetDealerUserCompanyBranch(int userId)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@user_id", userId });
+            try
+            {
+                return dataHandler.GetDataSet("spGetDealerUserCompanyBranch", paramertList);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

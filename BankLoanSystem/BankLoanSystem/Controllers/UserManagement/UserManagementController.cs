@@ -311,9 +311,14 @@ namespace BankLoanSystem.Controllers
                         loan = da.GetLoanDetails(userData.Company_Id, 1);
 
                     }
-                    else if (userData.RoleId == 3 || userData.RoleId == 4)
+                    else if (userData.RoleId == 3)
                     {
                         loan = da.GetLoanDetails(userData.UserId, 3);
+
+                    }
+                    else if (userData.RoleId == 4)
+                    {
+                        loan = da.GetLoanDetails(userData.UserId, 4);
 
                     }
                     if (loan != null)
