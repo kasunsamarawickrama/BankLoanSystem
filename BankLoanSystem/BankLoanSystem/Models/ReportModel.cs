@@ -9,6 +9,7 @@ namespace BankLoanSystem.Models
 
     public class ReportUnitModels
     {
+        public bool View { get; set; }
         public string LoanNumber { get; set; }
         public int LoanId { get; set; }
         public string UnitId { get; set; }
