@@ -196,10 +196,10 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns>list of units</returns>
-        public List<Unit> GetJustAddedUnitDetails(int userId, int loanId)
+        public List<RptAddUnit> GetJustAddedUnitDetails(int userId, int loanId)
         {
 
-            List<Unit> justAddedUnitList = new List<Unit>();
+            List<RptAddUnit> justAddedUnitList = new List<RptAddUnit>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -212,21 +212,45 @@ namespace BankLoanSystem.DAL
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    
+                    //Unit justAddedUnit = new Unit();
 
+                    //justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                    //justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    //justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
+                    //justAddedUnit.Make = dataRow["make"].ToString();
+                    //justAddedUnit.Model = dataRow["model"].ToString();
+                    //justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                    //justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
+                    //justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
 
-                    Unit justAddedUnit = new Unit();
+                    //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
 
-                    justAddedUnit.Model = dataRow["model"].ToString();
-                    justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00;
-                    justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
+                    RptAddUnit justAddedUnit = new RptAddUnit();
+
+                    justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy");
                     justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
-
                     justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
                     justAddedUnit.Make = dataRow["make"].ToString();
-                    justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
-                    justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                    justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
+                    justAddedUnit.Model = dataRow["model"].ToString();
+                    justAddedUnit.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                    justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                    justAddedUnit.UnitStaus = Convert.ToBoolean(dataRow["is_advanced"]) ? "Advanced" : "Not Advanced";
+                    int status = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (status == 0)
+                    {
+                        justAddedUnit.TitleStatus = "Not Received";
+                    }
+                    else if (status == 1)
+                    {
+                        justAddedUnit.TitleStatus = "Received";
+                    }
+                    else if (status == 2)
+                    {
+                        justAddedUnit.TitleStatus = "Returned to Dealer";
+                    }
+
+                    //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
                     justAddedUnitList.Add(justAddedUnit);
                     
                 }
@@ -313,9 +337,9 @@ namespace BankLoanSystem.DAL
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
                     unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
-                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["cost"]);
-                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["cost"]);
-                    unit.BalanceDue = Convert.ToDecimal(dataRow["cost"]);
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["TotalPaid"]);
+                    unit.BalanceDue = Convert.ToDecimal(dataRow["Balance"]);
 
                     int status = Convert.ToInt32(dataRow["title_status"]);
 
@@ -341,6 +365,74 @@ namespace BankLoanSystem.DAL
             }
 
             return units;
+        }
+
+
+        public List<RptAddUnit> AdvanceUnitsDuringSession(string unitIdList)
+        {
+            List<RptAddUnit> AdvanceUnits = new List<RptAddUnit>();
+
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@Input", unitIdList });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetAdvanceUnitsDuringSession", paramertList);
+
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        //Unit justAddedUnit = new Unit();
+
+                        //justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                        //justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
+                        //justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
+                        //justAddedUnit.Make = dataRow["make"].ToString();
+                        //justAddedUnit.Model = dataRow["model"].ToString();
+                        //justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                        //justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
+                        //justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
+
+                        //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
+
+                        RptAddUnit unit = new RptAddUnit();
+                        unit.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                        unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy");
+                        unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                        unit.Year = Convert.ToInt32(dataRow["year"]);
+                        unit.Make = dataRow["make"].ToString();
+                        unit.Model = dataRow["model"].ToString();
+                        unit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                        int status = Convert.ToInt32(dataRow["title_status"]);
+
+                        if (status == 0)
+                        {
+                            unit.TitleStatus = "Not Received";
+                        }
+                        else if (status == 1)
+                        {
+                            unit.TitleStatus = "Received";
+                        }
+                        else if (status == 2)
+                        {
+                            unit.TitleStatus = "Returned to Dealer";
+                        }
+
+                        //unit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
+                        AdvanceUnits.Add(unit);
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return AdvanceUnits;
         }
     }
 }

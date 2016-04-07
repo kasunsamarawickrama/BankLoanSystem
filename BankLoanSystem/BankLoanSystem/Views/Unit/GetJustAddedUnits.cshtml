@@ -1,49 +1,50 @@
 ﻿@model IEnumerable<BankLoanSystem.Models.JustAddedUnit>
 
 @if (Model.Count() != 0) {
-<div class="side-panel"  >
+    <div class="side-panel">
 
-    <h5><strong>Just Added Units</strong></h5>
-    <div style="overflow-x: hidden;
-    overflow-y: scroll;
-    height: 181px;">
+        <h5><strong>Just Added Units</strong></h5>
+        <div style="overflow-x: hidden;
+                                      overflow-y: scroll;
+                                      height: 181px;">
 
-        <table style="text-align: left;color: #07BB9B;font-weight: bold;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;font-size: 90%;width: 93%;">
-            <tr>
-                <th></th>
-            </tr>
-            @{int i = 1;}
-            @foreach (var item in Model)
-            {
+            <table style="text-align: left; color: #07BB9B; font-weight: bold;
+                                                           margin-left: 10px;
+                                                           margin-right: 10px;
+                                                           margin-bottom: 10px; font-size: 90%; width: 93%;">
                 <tr>
-                    <td style="width: 2%;">
-                        @if (item.isAdvance == true)
-                    {
-                            <span class="glyphicon glyphicon-asterisk" style="color:#1D6F64;"></span>
-                        }
-                    </td>
-                    <td style="width: 10%;">
-                        @(i++).
-                    </td>
-
-                    
-                    <td  style="width:35%">
-                        @item.model
-                    </td>
-
-                    <td> - </td>
-                    <td style="text-align:right;">$&nbsp;</td>
-                    <td style="text-align:right;width: 29%;">
-                        @Convert.ToDecimal(item.advanceAmount).ToString("#,##0.00")
-                    </td>
+                    <th></th>
                 </tr>
-            }
+                @{int i = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width: 2%;">
+                            @if (item.isAdvance == true)
+                            {
+                                <span class="glyphicon glyphicon-asterisk" style="color: #1D6F64;"></span>
+                            }
+                        </td>
+                        <td style="width: 10%;">
+                            @(i++).
+                        </td>
 
-        </table>
+
+                        <td style="width: 35%">
+                            @item.model
+                        </td>
+
+                        <td> - </td>
+                        <td style="text-align: right;">$&nbsp;</td>
+                        <td style="text-align: right; width: 29%;">
+                            @Convert.ToDecimal(item.advanceAmount).ToString("#,##0.00")
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
     </div>
-
-</div>
-}
+    <div><a  href = '/Unit/AddUnitReport' value="Report" class="btn btn-info" target="_blank">Report</a></div>
+                    }

@@ -62,4 +62,18 @@ namespace BankLoanSystem.Models
         public string TitleStatus { get; set; }
         public decimal LoanBalance { get; set; }
     }
+
+    public class RptAddUnit
+    {
+        public int LoanId { get; set; }
+        public string AdvanceDate { get; set; }
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public string UnitStaus { get; set; }
+        public string TitleStatus { get; set; }
+    }
 }

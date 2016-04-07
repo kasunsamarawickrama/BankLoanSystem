@@ -24,19 +24,19 @@ namespace BankLoanSystem.DAL
         {
             try
             {
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@company_id", userRequest.company_id });
-            paramertList.Add(new object[] { "@branch_id", userRequest.branch_id });
-            paramertList.Add(new object[] { "@user_id", userRequest.user_id });
-            paramertList.Add(new object[] { "@role_id", userRequest.role_id });
-            paramertList.Add(new object[] { "@loan_code", userRequest.loan_code });
-            paramertList.Add(new object[] { "@page_name", userRequest.page_name });
-            paramertList.Add(new object[] { "@topic", userRequest.topic });
-            paramertList.Add(new object[] { "@message", userRequest.message });
-            paramertList.Add(new object[] { "@priority_level", userRequest.priority_level });
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@company_id", userRequest.company_id });
+                paramertList.Add(new object[] { "@branch_id", userRequest.branch_id });
+                paramertList.Add(new object[] { "@user_id", userRequest.user_id });
+                paramertList.Add(new object[] { "@role_id", userRequest.role_id });
+                paramertList.Add(new object[] { "@loan_code", userRequest.loan_code });
+                paramertList.Add(new object[] { "@page_name", userRequest.page_name });
+                paramertList.Add(new object[] { "@topic", userRequest.topic });
+                paramertList.Add(new object[] { "@message", userRequest.message });
+                paramertList.Add(new object[] { "@priority_level", userRequest.priority_level });
 
-            return dataHandler.ExecuteSQL("spInsertUserRequest", paramertList) ? 1 : 0;
+                return dataHandler.ExecuteSQL("spInsertUserRequest", paramertList) ? 1 : 0;
             }
             catch
             {
@@ -60,7 +60,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@request_id", userRequest.request_id });
                 paramertList.Add(new object[] { "@answer", userRequest.answer });
                 paramertList.Add(new object[] { "@answer_user_id", userRequest.answer_user_id });
-               
+
                 return dataHandler.ExecuteSQL("spUpdateUserRequestAnswer", paramertList) ? 1 : 0;
             }
             catch
@@ -96,6 +96,50 @@ namespace BankLoanSystem.DAL
             catch
             {
                 return 0;
+            }
+        }
+
+        public List<UserRequest> SelectDatalistForAnswer(int userid)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@user_id", userid });
+
+                List<UserRequest> resultList = new List<UserRequest>();
+
+                DataSet dataSet = dataHandler.GetDataSet("spGetUnreadMessages", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UserRequest userRequest = new UserRequest();
+                        userRequest.request_id= int.Parse(dataRow["request_id"].ToString());
+                        userRequest.user_name = dataRow["user_name"].ToString();
+                        userRequest.role = dataRow["role_name"].ToString();
+                        userRequest.company_name = dataRow["company_name"].ToString();
+                        userRequest.branch_name = dataRow["branch_name"].ToString();
+                        userRequest.loan_code = dataRow["loan_code"].ToString();
+                        //userRequest.message_date = DataSetDateTime(dataRow["message_date"].ToString());
+                        userRequest.topic = dataRow["topic"].ToString();
+                        userRequest.message = dataRow["message"].ToString();
+
+
+                        resultList.Add(userRequest);
+                    }
+
+                    return resultList;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
             }
         }
     }
