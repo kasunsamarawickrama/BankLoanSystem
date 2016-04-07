@@ -1065,6 +1065,7 @@ namespace BankLoanSystem.DAL
                         loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
                         bool checkBranch = false;
                         bool checkNonRegBranch = false;
+                        bool checkLoan = false;
                         foreach (var br in RegBranches) {
                             if (br.BranchId == branch.BranchId) {
                                 checkBranch = true;
@@ -1085,8 +1086,18 @@ namespace BankLoanSystem.DAL
                             NonRegBranchList.Add(nonRegBranch);
                         }
 
+                        foreach (var l in LoanList)
+                        {
+                            if (l.loanId == loan.loanId)
+                            {
+                                checkLoan = true;
+                            }
+                        }
+                        if (checkLoan == false)
+                        {
+                            LoanList.Add(loan);
+                        }
                         
-                        LoanList.Add(loan);
                     }
                     detailList.RegBranches = RegBranches;
                     detailList.NonRegBranchList = NonRegBranchList;
