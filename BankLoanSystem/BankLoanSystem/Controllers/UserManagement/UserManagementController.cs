@@ -1423,8 +1423,8 @@ namespace BankLoanSystem.Controllers
             userReq.branch_id = userData.BranchId;
             userReq.user_id = userData.UserId;
             userReq.role_id = userData.RoleId;
-            userReq.loan_code = "";
-            userReq.page_name = "";
+            userReq.loan_code = Session["loanCode"].ToString(); 
+            userReq.page_name = Session["pagetitle"].ToString();
             userReq.topic = "";
             userReq.message = userReq.message;
             userReq.priority_level = "high";
@@ -1437,9 +1437,9 @@ namespace BankLoanSystem.Controllers
                               "Position       " + (string)Session["searchType"] + "< br />" +
                               "Company        " + userData.CompanyName + "< br />" +
                               "Branch         " + userData.BranchName + "< br />" +
-                              "Loan           " + "< br />" +
+                              "Loan           " + Session["loanCode"].ToString()+ "< br />" +
                               "Date and Time  " +DateTime.Now+ "< br />" +
-                              "Title          " + "< br />" +
+                              "Title          " + Session["pagetitle"].ToString()+ "< br />" +
                               "Message        " + userReq.message+ "< br />" +
                               "Page           " + "< br />";
 
@@ -1447,14 +1447,15 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                return RedirectToAction("UserRequest");
+                //ModelState.Clear();
+                //return RedirectToAction("UserRequest");
             }
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
             return RedirectToAction("UserRequest");
         }
-
+            return View();
         }
 
         /// <summary>

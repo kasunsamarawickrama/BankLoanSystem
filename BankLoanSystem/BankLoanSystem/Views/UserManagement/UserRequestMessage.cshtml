@@ -45,7 +45,7 @@
 
         <div>
             <span>Message:</span>
-            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
+            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox",@id = "txtmessage" } })
             @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })
 
         </div>
@@ -59,4 +59,29 @@
             </div>
     }
 </div>
+@*<script>
+    $(function () {
+        $('#btnSubmit').click(function () {
+            alert();
+            $('#txtmsg').show();
+            $.ajax({
+                url: '@Url.Action("UserRequest")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#txtusername').val('');
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                },
+                error: function (request, status, error) {
+                    //handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
+    });
+</script>*@
+
+
 
