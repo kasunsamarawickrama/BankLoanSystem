@@ -3,13 +3,10 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/scripts/popup.js"></script>
-
-
-
 
 <div class="overlay-bg">
 </div>
@@ -41,12 +38,6 @@
 }
 </style>
 
-
-
-
-
-    
-
     @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
        
@@ -66,15 +57,8 @@
                 }
                 else
                 {
-
                     <div>
                         <span>Loan # - @ViewBag.LoanNum</span>
-
-
-
-
-
-
 
                         @if (ViewBag.PartnerType == 1)
                         {
@@ -90,11 +74,7 @@
                         <span>Branch : @ViewBag.Branch</span>
 
                     </div>
-
-
-                }
-
-                    
+                }              
 
                 </div>
                 
@@ -161,12 +141,15 @@
                         <span class="icon-stack"></span>
                         <span class="txt">Reports</span>
                     </button>
+                        if (ViewBag.IsTitleTrack == 1)
+                        {
+                            <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                                <span class="icon-files-empty"></span>
+                                <span class="txt">Update Titles</span>
+                            </button>
+                        }
 
-                    <button class="big-button"  onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
-                        <span class="icon-files-empty"></span>
-                        <span class="txt">Update Titles</span>
-                    </button>
-                }
+                    }
 
                 }
 
@@ -191,10 +174,6 @@
                 <span class="txt">Edit Branch</span>
             </button>
             }
-            
-            
-            
-
             <button class="big-button">
                 <span class="icon-clipboard"></span>
                 <span class="txt">Edit Loan</span>
@@ -216,15 +195,9 @@
                 <span class="txt">Fees</span>
             </button>
 
-           
-
-
-           
-
-
-            @if (ViewBag.roleId == 1)
+            @if (ViewBag.roleId == 1 || ViewBag.roleId == 2)
             {
-                if (ViewBag.LoanCount > 1)
+                if (ViewBag.LoanCount > 0 )
                 {
                     using (Ajax.BeginForm(
                     "Selectloan",
@@ -246,17 +219,15 @@
                         </button>
                     }
                 }
-                else if (ViewBag.LoanCount == 1)
+                @*else if (ViewBag.LoanCount == 1)
                 {
                     <button class="big-button" type="submit" onclick="window.location.href='/UserManagement/AssignRights'">
                         <span class="icon-user-check"></span>
                         <span class="txt">Assign A User</span>
+                 </button>
+                }*@
 
-                        @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-                    </button>
-                }
-
-                if (ViewBag.LoanCount > 1)
+                if (ViewBag.LoanCount > 0)
                 {
                     using (Ajax.BeginForm(
                           "Selectloan",
@@ -278,24 +249,23 @@
                                         </button>
                                     }
                     }
-                    else if (ViewBag.LoanCount == 1)
+                    @*else if (ViewBag.LoanCount == 1)
                     {
                         <button class="big-button" type="submit" onclick="window.location.href='/CreateDealer/LinkDealer'">
                             <span class="icon-link"></span>
                             <span class="txt">Join Dealer</span>
-
-                            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-                        </button>
-                    }
-
+                          </button>
+                    }*@
+                if (ViewBag.roleId == 1)
+                {
                 <button class="big-button" type="submit" onclick="window.location.href='/SetupProcess/Step1?edit=bshdrd'">
                 <span class="icon-office"></span>
                     <span class="txt">Edit Company</span>
 
                 @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
-                
 
+                }
                 @*@Html.ActionLink("Edit Company", "Step1", "SetupProcess", new { edit = 1 }, new { @class = "big-button", @type = "submit" , @id="editComp" })*@
                 @*<span class="icon-office"></span>
                 <span class="txt">Edit Company</span>*@

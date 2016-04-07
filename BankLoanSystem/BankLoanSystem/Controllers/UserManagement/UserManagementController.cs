@@ -720,7 +720,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
 
@@ -1059,7 +1059,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 //get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
@@ -1179,6 +1179,9 @@ namespace BankLoanSystem.Controllers
                 {
                     continue;
                 }
+                else if((userData.RoleId==2)&&(roleList[i].RoleId == 1)) {
+                    continue;
+                }
                 UserRole tempRole = new UserRole()
                 {
                     RoleId = roleList[i].RoleId,
@@ -1191,9 +1194,15 @@ namespace BankLoanSystem.Controllers
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
-
-
-            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+            List<Branch> branchesListAdmin = new List<Branch>();
+            if (userData.RoleId == 1) {
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+            }
+            else {
+                branchesListAdmin = branchesLists.FindAll(t => t.BranchId == userData.BranchId);
+                ViewBag.BranchId = new SelectList(branchesListAdmin, "BranchId", "BranchName");
+            }
+           
 
             List<Branch> branchesListsLoan =  new List<Branch>();
             branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
@@ -1257,7 +1266,8 @@ namespace BankLoanSystem.Controllers
             }
             //return View();
         }
-        public int InsertDashboardUser(User userObj)
+        [HttpPost]
+        public ActionResult CreateDashboardUser(User userObj)
         {
 
             userObj.PhoneNumber = userObj.PhoneNumber2;
@@ -1309,7 +1319,28 @@ namespace BankLoanSystem.Controllers
             {
                 userObj.step_status= 1;
                 userObj.BranchId = userObj.BranchIdUser;
+                string[] arrList = new string[userObj.UserRightsList.Count];
+                int i = 0;
+                foreach (var x in userObj.UserRightsList)
+                {
+                    if (x.active)
+                    {
+                        arrList[i] = x.rightId;
+                        i++;
+                    }
+                }
+
+                arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                //user.UserRights = arrList.ToString();
+                userObj.UserRights = string.Join(",", arrList);
             }
+           
+            //for(int i=0;i<userObj.UserRightsList.Count();i++) {
+            //if(userObj.UserRightsList[i].active) {
+            //        userObj.UserRights = userObj.UserRightsList[i].rightId + ",";
+            //}
+
+            //}
             //Insert user
             int res = da.InsertUserInDashboard(userObj);
 
@@ -1348,15 +1379,15 @@ namespace BankLoanSystem.Controllers
 
                 //ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
                 TempData["createUserResult"] = 1;
-                return 1;
+                //return RedirectToAction("CreateDashboardUser");
 
             }
             else
             {
                 TempData["createUserResult"] = 0;
-                return 0;
+                //return View();
             }
-            //return View();
+            return RedirectToAction("CreateDashboardUser");
         }
 
 
@@ -1420,17 +1451,17 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        [HttpPost]
-        [ActionName("UserRequestMessage")]
+        //[HttpPost]
+        //[ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             userReq.company_id = userData.Company_Id;
             userReq.branch_id = userData.BranchId;
             userReq.user_id = userData.UserId;
             userReq.role_id = userData.RoleId;
-            userReq.loan_code = "";
-            userReq.page_name = "";
-            userReq.topic = "";
+            userReq.loan_code = Session["loanCode"].ToString(); 
+            userReq.page_name = Session["pagetitle"].ToString();
+            userReq.topic = userReq.topic;
             userReq.message = userReq.message;
             userReq.priority_level = "high";
 
@@ -1442,9 +1473,9 @@ namespace BankLoanSystem.Controllers
                               "Position       " + (string)Session["searchType"] + "< br />" +
                               "Company        " + userData.CompanyName + "< br />" +
                               "Branch         " + userData.BranchName + "< br />" +
-                              "Loan           " + "< br />" +
+                              "Loan           " + Session["loanCode"].ToString()+ "< br />" +
                               "Date and Time  " +DateTime.Now+ "< br />" +
-                              "Title          " + "< br />" +
+                              "Title          " + Session["pagetitle"].ToString()+ "< br />" +
                               "Message        " + userReq.message+ "< br />" +
                               "Page           " + "< br />";
 
@@ -1452,14 +1483,14 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                return RedirectToAction("UserRequest");
+                return RedirectToAction("UserRequestMessage");
             }
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
-            return RedirectToAction("UserRequest");
+            return RedirectToAction("UserRequestMessage");
         }
-
+            return View();
         }
 
         /// <summary>
@@ -1499,13 +1530,22 @@ namespace BankLoanSystem.Controllers
             {
                 loan = (Loan)Session["loanDashboard"];
             }
+            if (TempData["submit"] != null) {
+                if ((string)TempData["submit"] == "success") {
+                    ViewBag.SuccessMsg = "User Successfully Created";
+                }
+                else if ((string)TempData["submit"] == "failed")
+                {
+                    ViewBag.ErrorMsg = "Failed To Create User";
+                }
+            }
             if (Session["oneLoanDashboard"] != null || Session["loanDashboard"] != null)
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;
-                UserManageAccess ua = new UserManageAccess();
+            UserManageAccess ua = new UserManageAccess();
                 List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
-                List<User> tempRoleList = new List<User>();
+            List<User> tempRoleList = new List<User>();
 
                 for (int i = 0; i < userList.Count; i++)
                 {
@@ -1517,7 +1557,7 @@ namespace BankLoanSystem.Controllers
                     tempRoleList.Add(tempRole);
                 }
                 ViewBag.userSelectList = tempRoleList;
-                //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
                 User user = new Models.User();
                 user.UserRightsList = new List<Right>();
 
@@ -1529,19 +1569,19 @@ namespace BankLoanSystem.Controllers
                 }
                 else
                 {
-
+           
                     return View(user);
                 }
                 //return View();
             }
             else {
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
                     return RedirectToAction("UserDetails");
-                }
-                else
-                {
+            }
+            else
+            {
 
                     return RedirectToAction("UserDetails");
                 }
@@ -1563,14 +1603,30 @@ namespace BankLoanSystem.Controllers
             //user.UserRights = arrList.ToString();
             user.UserRights = string.Join(",", arrList);
             bool check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
-
+            if(check)
+                TempData["submit"] = "success";
+            else
+                TempData["submit"] = "failed";
 
             return RedirectToAction("AssignRights");
             //return View();
 
         }
 
+        public string ExistingUserRights(int userId, int loanId)
+        {
+            User usr = new User();
+            List<Right> rights = new List<Right>();
+            rights = (new UserRightsAccess()).getRightsString(userId, loanId);
+            string str="";
+            if (rights != null && rights.Count >0)
+            {
+                str = rights[0].rightsPermissionString;
+            }
+            
+            return str;
+        }
     }
 
-
+    
 }
