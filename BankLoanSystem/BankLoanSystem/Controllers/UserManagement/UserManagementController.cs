@@ -1570,7 +1570,12 @@ namespace BankLoanSystem.Controllers
             User usr = new User();
             List<Right> rights = new List<Right>();
             rights = (new UserRightsAccess()).getRightsString(userId, loanId);
-            string str = rights[0].rightsPermissionString;
+            string str="";
+            if (rights != null && rights.Count >0)
+            {
+                str = rights[0].rightsPermissionString;
+            }
+            
             return str;
         }
     }
