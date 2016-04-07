@@ -111,9 +111,9 @@
     </div>
 
 
-<div class="info-unit" id="searchDiv" style="margin-top:10px;width:79%;padding-top:10px">
+<div class="info-unit" id="searchDiv" style="margin-top:10px;width:79%;padding-top:10px;padding-bottom: 18px;">
     
-    <div class="row">
+    <div class="row" style="display:inline-block">
         <div class="col-xs-12" style="padding:unset;">
             <form>
                 <fieldset>
@@ -121,7 +121,7 @@
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
                             @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20",@Style="width:165px" } })
-                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:50px">
                             <label for="">Year</label>
@@ -137,8 +137,8 @@
                             }<SelectListItem>
                                 <SelectListItem>
                              @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
-                            @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                    <div id="vehicleyear"><span class="text-danger"></span></div>
+                            @*@Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })*@
+                                    @*<div id="vehicleyear"><span class="text-danger"></span></div>*@
 
                         </div>
                         <div class="col-md-2" id="div-combobox1-2">
@@ -155,8 +155,8 @@
                                 <SelectListItem>
 
                         @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
-                        @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
-                        <div id="vehiclemake"><span class="text-danger"></span></div>
+                        @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
+                        @*<div id="vehiclemake"><span class="text-danger"></span></div>*@
 
                         </div>
                         <div class="col-md-2" id="div-combobox1-3">
@@ -173,8 +173,8 @@
                                 <SelectListItem>
 
                                             @Html.DropDownList("model", modelList, "--Select--", new { @class = "form-control", @id = "cmbModel" })
-                                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                                            <div id="vehiclemodel"><span class="text-danger"></span></div>
+                                            @*@Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })*@
+                                            @*<div id="vehiclemodel"><span class="text-danger"></span></div>*@
                         </div>
                         <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:29px; margin-top: 16px;margin-bottom: 0px;margin-right: 0px;">Search</button>
                         <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 16px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
@@ -187,7 +187,7 @@
 
 
 <div class="form-horizontal" style="margin-bottom:10px;margin-top:10px">
-    <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset">
+    <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset;padding-top:10px;padding-bottom: 10px;">
 
 
     </div>
