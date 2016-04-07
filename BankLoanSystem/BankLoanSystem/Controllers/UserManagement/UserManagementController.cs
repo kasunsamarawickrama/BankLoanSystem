@@ -1174,6 +1174,9 @@ namespace BankLoanSystem.Controllers
                 {
                     continue;
                 }
+                else if((userData.RoleId==2)&&(roleList[i].RoleId == 1)) {
+                    continue;
+                }
                 UserRole tempRole = new UserRole()
                 {
                     RoleId = roleList[i].RoleId,
@@ -1186,9 +1189,15 @@ namespace BankLoanSystem.Controllers
 
             // get all branches
             List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
-
-
-            ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+            List<Branch> branchesListAdmin = new List<Branch>();
+            if (userData.RoleId == 1) {
+                ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+            }
+            else {
+                branchesListAdmin = branchesLists.FindAll(t => t.BranchId == userData.BranchId);
+                ViewBag.BranchId = new SelectList(branchesListAdmin, "BranchId", "BranchName");
+            }
+           
 
             List<Branch> branchesListsLoan =  new List<Branch>();
             branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
@@ -1252,7 +1261,8 @@ namespace BankLoanSystem.Controllers
             }
             //return View();
         }
-        public int InsertDashboardUser(User userObj)
+        [HttpPost]
+        public ActionResult CreateDashboardUser(User userObj)
         {
 
             userObj.PhoneNumber = userObj.PhoneNumber2;
@@ -1304,7 +1314,28 @@ namespace BankLoanSystem.Controllers
             {
                 userObj.step_status= 1;
                 userObj.BranchId = userObj.BranchIdUser;
+                string[] arrList = new string[userObj.UserRightsList.Count];
+                int i = 0;
+                foreach (var x in userObj.UserRightsList)
+                {
+                    if (x.active)
+                    {
+                        arrList[i] = x.rightId;
+                        i++;
+                    }
+                }
+
+                arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                //user.UserRights = arrList.ToString();
+                userObj.UserRights = string.Join(",", arrList);
             }
+           
+            //for(int i=0;i<userObj.UserRightsList.Count();i++) {
+            //if(userObj.UserRightsList[i].active) {
+            //        userObj.UserRights = userObj.UserRightsList[i].rightId + ",";
+            //}
+
+            //}
             //Insert user
             int res = da.InsertUserInDashboard(userObj);
 
@@ -1343,15 +1374,15 @@ namespace BankLoanSystem.Controllers
 
                 //ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
                 TempData["createUserResult"] = 1;
-                return 1;
+                //return RedirectToAction("CreateDashboardUser");
 
             }
             else
             {
                 TempData["createUserResult"] = 0;
-                return 0;
+                //return View();
             }
-            //return View();
+            return RedirectToAction("CreateDashboardUser");
         }
 
 
