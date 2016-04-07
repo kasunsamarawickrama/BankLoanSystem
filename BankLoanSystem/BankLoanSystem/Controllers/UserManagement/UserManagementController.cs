@@ -1487,8 +1487,8 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        //[HttpPost]
-        //[ActionName("UserRequestMessage")]
+        [HttpPost]
+        [ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             string loancod = "";
@@ -1529,7 +1529,7 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                return RedirectToAction("UserRequestMessage");
+                return RedirectToAction("UserRequestMessage", "UserManagement");
             }
             else
             {
