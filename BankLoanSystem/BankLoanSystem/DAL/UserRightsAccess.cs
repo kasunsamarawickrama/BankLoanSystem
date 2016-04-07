@@ -61,12 +61,13 @@ namespace BankLoanSystem.DAL
         /// <param name="userId"> Profile edit users id</param>
         /// <returns>Right List,  but first Right contain the string, If List have more than 1 value it is going to be an unAuthorize one</returns>
         /// 
-        public List<Right> getRightsString(int userId)
+        public List<Right> getRightsString(int userId, int loanId)
         {
             List<Right> RightsLists = new List<Right>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@userId", userId });
+            paramertList.Add(new object[] { "@loanId", loanId });
             try
             {
                 DataSet dataSet = dataHandler.GetDataSet("spGetRightsStringByUserId", paramertList);

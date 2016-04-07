@@ -538,7 +538,6 @@ namespace BankLoanSystem.DAL
             try
             {
                 return dataHandler.ExecuteSQL("spUpdateUserRightDetails", paramertList) ? true : false;
-
             }
             catch
             {

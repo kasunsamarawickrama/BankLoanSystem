@@ -715,7 +715,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
 
@@ -1054,7 +1054,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 //get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId);
+                List<Right> permissionString = access.getRightsString(userId,0);
                 if (permissionString.Count == 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
@@ -1565,6 +1565,14 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        public string ExistingUserRights(int userId, int loanId)
+        {
+            User usr = new User();
+            List<Right> rights = new List<Right>();
+            rights = (new UserRightsAccess()).getRightsString(userId, loanId);
+            string str = rights[0].rightsPermissionString;
+            return str;
+        }
     }
 
 
