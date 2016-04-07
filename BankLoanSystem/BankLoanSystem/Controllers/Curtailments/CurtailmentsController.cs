@@ -85,8 +85,12 @@ namespace BankLoanSystem.Controllers.Curtailments
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
 
+            string f= dueDate.ToShortDateString(); 
+            DateTime dd = Convert.ToDateTime(f); 
+
+
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dueDate);
+            List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dd);
             CurtailmentScheduleModel curtailmentScheduleModel = new CurtailmentScheduleModel();
             curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
             curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
