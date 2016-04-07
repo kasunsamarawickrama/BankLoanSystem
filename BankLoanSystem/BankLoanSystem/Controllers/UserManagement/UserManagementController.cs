@@ -1525,6 +1525,15 @@ namespace BankLoanSystem.Controllers
             {
                 loan = (Loan)Session["loanDashboard"];
             }
+            if (TempData["submit"] != null) {
+                if ((string)TempData["submit"] == "success") {
+                    ViewBag.SuccessMsg = "User Successfully Created";
+                }
+                else if ((string)TempData["submit"] == "failed")
+                {
+                    ViewBag.ErrorMsg = "Failed To Create User";
+                }
+            }
             if (Session["oneLoanDashboard"] != null || Session["loanDashboard"] != null)
             {
                 ViewBag.LoanId = loan.LoanId;
@@ -1589,7 +1598,10 @@ namespace BankLoanSystem.Controllers
             //user.UserRights = arrList.ToString();
             user.UserRights = string.Join(",", arrList);
             bool check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
-
+            if(check)
+                TempData["submit"] = "success";
+            else
+                TempData["submit"] = "failed";
 
             return RedirectToAction("AssignRights");
             //return View();
