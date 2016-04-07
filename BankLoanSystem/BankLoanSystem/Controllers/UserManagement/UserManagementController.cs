@@ -1487,8 +1487,8 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        //[HttpPost]
-        //[ActionName("UserRequestMessage")]
+        [HttpPost]
+        [ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             string loancod = "";
