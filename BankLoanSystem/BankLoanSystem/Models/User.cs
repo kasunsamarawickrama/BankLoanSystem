@@ -111,6 +111,8 @@ namespace BankLoanSystem.Models
         [Required]
         public int LoanId { get; set; }
 
+        public string LoanNumber { get; set; }
+
         public int CompanyType { get; set; }
 
         public string CompanyName { get; set; }

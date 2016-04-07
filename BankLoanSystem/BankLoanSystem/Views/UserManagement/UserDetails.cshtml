@@ -3,7 +3,7 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/scripts/popup.js"></script>
@@ -239,7 +239,7 @@
                     }, new { style = "display:inline-block" }))
                     {
                         <button class="big-button show-popup" type="submit" data-showpopup="1">
-                            <span class="icon-link"></span>
+                            <span class="icon-user-check"></span>
                             <span class="txt">Assign A User</span>
 
                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@

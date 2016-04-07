@@ -104,7 +104,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             if (Session["oneLoanDashboard"] != null)
             {
                 loan = (Loan)Session["oneLoanDashboard"];
-                Session.Remove("oneLoanDashboard");
+                //Session.Remove("oneLoanDashboard");
             }
             else if (Session["loanDashboard"] != null)
             {

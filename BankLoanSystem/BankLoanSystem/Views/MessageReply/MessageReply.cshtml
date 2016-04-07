@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "MessageReply";
     Layout = "~/Views/Shared/_ForgotPasswordLayout.cshtml";
-    WebGrid grid1 = new WebGrid(Model.RequestList, defaultSort: "user_name", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid1 = new WebGrid(Model.RequestList, defaultSort: "user_name", canPage: false, ajaxUpdateContainerId: "searchGrid", ajaxUpdateCallback: "GridUpdate");
 }
 
 <link href="~/Content/steps.css" rel="stylesheet" />
@@ -12,6 +12,9 @@
     @ViewBag.ErrorMsg
 }
 <style>
+.login-container{
+    width:800px;
+}
     .input-validation-error {
         border: 1px solid #ff0000;
     }
@@ -44,9 +47,15 @@
         top: 50%;
         left: 50%;
     }
+.gridtable
+{
+width:800px;
+}
 </style>
 
-<h2>Reply Message</h2>
+
+
+<h2><u>Reply Message</u></h2><br />
 @using (Html.BeginForm())
             {
     @Html.AntiForgeryToken()
@@ -65,13 +74,14 @@
         rowStyle: "webgrid-row-style",
         htmlAttributes: new { id = "searchResultGrid" },
         columns: grid1.Columns(
-        grid1.Column("user_name", "user_name", canSort: false, format:@<text>@{<label id="user_name" class="user_name">@item.user_name</label>}</text>),
-        grid1.Column("Possition", "Possition", canSort: false, format:@<text>@{<label id="role" class="role">@item.role</label><input type="hidden" value="@item.request_id" name="rid" class="request_id" id="all" />}</text>),
+        grid1.Column("User Name", "User Name", canSort: false, format:@<text>@{<label id="user_name" class="user_name">@item.user_name</label>}</text>),
+        grid1.Column("Possition", "Possition", canSort: false, format:@<text>@{<label id="role" class="role">@item.role</label><input type="hidden" value="@item.request_id" name="request_id" class="request_id" id="request_id" />}</text>),
         grid1.Column("Company", "Company", canSort: false, format:@<text>@{<label id="company_name" class="company_name">@item.company_name</label>}</text>),
         grid1.Column("Branch", "Branch", canSort: false, format:@<text>@{<label id="branchname" class="branchname">@item.branch_name</label>}</text>),
-        grid1.Column("Topic", "Topic", canSort: false, format:@<text>@{<label id="topic" class="topic">@item.topic</label>}</text>)
+        grid1.Column("Loan", "Loan", canSort: false, format:@<text>@{<label id="loan_code" class="loan_code">@item.loan_code</label>}</text>),
+        grid1.Column("Topic", "Topic", canSort: false, format:@<text>@{<label id="topic" class="topic">@item.topic</label><input type="hidden" value="@item.message" name="message" class="message" id="message" />}</text>)
 
-        )
+        
         )
         )
     </div>
@@ -81,77 +91,181 @@
         @Html.Label("No search data found", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })
     </div>
     }
-    <div class="form-group">
-        <div class="control-label col-sm-3">
-            <label>User Name</label>
+    
+<br />
+<br />
+    <div id="">
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                <label>User Name</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.user_name, new {htmlAttributes = new {@class = "form-control", @id = "txtusername", @disabled = "disabled"}})
+                @Html.Hidden("req_id")
+            </div>
         </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.user_name, new {htmlAttributes = new {@class = "form-control", @id = "user_name"}})
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                <label>Company Name</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @id = "txtcompany", @disabled = "disabled" } })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-3">
-            <label>Company Name</label>
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                <label>Branch Name</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", @id = "txtbranch", @disabled = "disabled" } })
+            </div>
         </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @id = "company_name" } })
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                <label>Loan Code</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.loan_code, new { htmlAttributes = new { @class = "form-control", @id = "txtloan", @disabled = "disabled" } })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-4">
-            <label>Branch Name</label>
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                <label>Subject</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.topic, new { htmlAttributes = new { @class = "form-control", @id = "txttopic", @disabled = "disabled" } })
+            </div>
         </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", @id = "branch_name" } })
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                <label>Message</label>
+            </div>
+            <div class="col-xs-8">
+                @*@Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage" , @disabled = "disabled"} })*@
+                @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage", @disabled = "disabled" } })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-3">
-            <label>Loan Code</label>
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                <label>Answer</label>
+            </div>
+            <div class="col-xs-8">
+                @Html.TextAreaFor(model => model.answer, 5, 85, new { htmlAttributes = new { @class = "form-control", @id = "txtanswer" } })
+            </div>
         </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.loan_code, new { htmlAttributes = new { @class = "form-control", @id = "loan_code" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-3">
-            <label>Subject</label>
-        </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.topic, new { htmlAttributes = new { @class = "form-control", @id = "topic" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-3">
-            <label>Message</label>
-        </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "message" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="control-label col-sm-4">
-            <label>Answer</label>
-        </div>
-        <div class="col-xs-8">
-            @Html.EditorFor(model => model.answer, new { htmlAttributes = new { @class = "form-control", @id = "answer" } })
-        </div>
-    </div>
-    <div class="form-group">
+        <div class="form-group">
 
 
 
-        <input type="submit" value="Submit" class="btn btn-primary btn-next" />
-        <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+            <input type="submit" value="Submit" class="btn btn-primary btn-next" />
+            <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
 
 
+        </div>
     </div>
 </div>
 }
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(function () {
+        $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
+            $('.centered span').text('');
+            $(this).css('background', 'lightblue');
+            $(this).siblings().css('background', 'aliceblue');
+            SetTextBoxValues(tr);
+
+        });
+    });
+</script>
+<script>
+
+
+    // Change the selector if needed
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+
+    // Adjust the width of thead cells when window resizes
+    $(window).resize(function() {
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    }).resize(); // Trigger resize handler
+
+    $(window).bind("load",function(){
+
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    });
+</script>
 
 <script src="~/scripts/CommonFunctions.js"></script>
+<script>
+
+        $(document).ready(function () {
+            $('#searchGrid1').hide();
+        });
+        function ClearValues() {
+
+           $('#searchGrid1').show();
+           $('#txtusername').val('');
+           $('#txtcompany').val('');
+           $('#txtbranch').val('');
+           $('#txtloan').val('');
+           $('#txttopic').val('');
+           $('#txtmessage').val('');
+           $('#txtanswer').val('');
+        };
+        //cancel button click event
+        $('#btnCancel').click(function () {
+            $('#searchGrid1').show();
+            $('#txtusername').val('');
+            $('#txtcompany').val('');
+            $('#txtbranch').val('');
+            $('#txtloan').val('');
+            $('#txttopic').val('');
+            $('#txtmessage').val('');
+            $('#txtanswer').val('');
+        });
+        
+
+        //show search grid
+        function ShowDivs() {
+            $('#searchGrid1').show();
+        }
+       
+        
+        //set text box values when row is selected in grid
+        function SetTextBoxValues(tr) {
+            $('#updateTitleDiv span').text('');
+            $('#request_id').val(tr.find('#request_id').val());
+            $('#txtusername').val(tr.find('#user_name').text());
+            $('#txtcompany').val(tr.find('#company_name').text());
+            $('#txtbranch').val(tr.find('#branchname').text());
+            $('#txtloan').val(tr.find('#loan_code').text());
+            $('#txttopic').val(tr.find('#topic').text());
+            $('#txtmessage').val(tr.find('#message').val());
+            document.getElementById("req_id").innerHTML = tr.find("#request_id").val();
+            
+            //document.getElementById("unitid").innerHTML = tr.find("#uId").val();
+
+        };
+</script>
+
 

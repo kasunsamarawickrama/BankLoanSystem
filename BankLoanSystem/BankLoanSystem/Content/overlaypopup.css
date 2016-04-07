@@ -32,11 +32,11 @@ body {
 		display: none;
 		background: #fff;
 		padding: 1%;
-		width: 850px;
+		width: 900px;
 		position: absolute;
 		top: 15%;
-		left: 48%;
-		margin: 0 0 0 -20%; /* add negative left margin for half the width to center the div */
+		left: unset;
+		margin: 3%; /* add negative left margin for half the width to center the div */
 		cursor: default;
 		z-index: 10001;
 		border-radius: 4px;

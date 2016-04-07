@@ -886,7 +886,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int userrole = userData.RoleId;
             int userId = userData.UserId;
 
-            if (userrole == 3)
+            if (userrole >= 3)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
@@ -907,6 +907,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = 6;
                 loanData.stepId = 1;
                 Session["dashboard"] = 1;
+
+                // set the loan setup session to step 1
+
+               
+                Session["companyStep"] = 5;
+                loanData.stepId = 1;
+                Session["loanStep"] = loanData;
+
+
+
             }
 
             // get the Role Name for front end view
@@ -997,8 +1007,33 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 }
 
-                ViewBag.RegisteredBranchId = new SelectList(RegisteredBranchLists, "BranchId", "BranchName");
-                ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "CompanyNameBranchName");
+                // add banches which contain non reg branches only
+                List<Branch> newBranches = new List<Branch>();
+                foreach (Branch branch in RegisteredBranchLists)
+                {
+                    foreach (NonRegBranch nonbranch in NonRegisteredBranchLists)
+                    {
+                        if (branch.BranchId == nonbranch.BranchId)
+                        {
+
+                            newBranches.Add(branch);
+
+                            break;
+                        }
+                    }
+                }
+
+
+                ViewBag.RegisteredBranchId = new SelectList(newBranches, "BranchId", "BranchName");
+
+                if(newBranches.Count > 1)
+                {
+                    ViewBag.NonRegisteredBranchId = new SelectList(new List<NonRegBranch>() , "NonRegBranchId", "CompanyNameBranchName");
+                }else if(newBranches.Count == 1)
+                {
+                    ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "CompanyNameBranchName");
+
+                }
 
             }
 

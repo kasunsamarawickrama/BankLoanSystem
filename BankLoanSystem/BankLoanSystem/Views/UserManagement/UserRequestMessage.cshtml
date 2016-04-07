@@ -39,16 +39,16 @@
                     </select>
                     @Html.HiddenFor(model => model.topic, new {@Value = "0", @id = "mTopic"})
                     @Html.ValidationMessageFor(model => model.topic, "", new {@class = "text-danger"})
-                    
-                </div>
-                <div id="divSubjectErr" style="padding-left: 112px;"><span class="text-danger field-validation-error" /></div>
+
             </div>
+                <div id="divSubjectErr" style="padding-left: 112px;"><span class="text-danger field-validation-error" /></div>
+        </div>
         </div>
 
         <div>
             <span>Message:</span>
-            @Html.TextAreaFor(model => model.message, 5, 85, new {htmlAttributes = new {@class = "form-control-notebox"}})
-            @Html.ValidationMessageFor(model => model.message, "", new {@class = "text-danger"})
+            @Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
+            @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })
 
         </div>
 
@@ -57,8 +57,8 @@
         </div>
 
         <div style="clear: both; padding-top: 10px">
-            <small><span>@ViewBag.SuccessMsg</span></small>
-        </div>
+                <small><span>@ViewBag.SuccessMsg</span></small>
+            </div>
     }
 </div>
 <script src="~/scripts/jquery-1.10.2.min.js"></script>

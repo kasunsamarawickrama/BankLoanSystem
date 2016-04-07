@@ -1423,8 +1423,8 @@ namespace BankLoanSystem.Controllers
             userReq.branch_id = userData.BranchId;
             userReq.user_id = userData.UserId;
             userReq.role_id = userData.RoleId;
-            userReq.loan_code = "";
-            userReq.page_name = "";
+            userReq.loan_code = Session["loanCode"].ToString(); 
+            userReq.page_name = Session["pagetitle"].ToString();
             userReq.topic = userReq.topic;
             userReq.message = userReq.message;
             userReq.priority_level = "high";
@@ -1437,9 +1437,9 @@ namespace BankLoanSystem.Controllers
                               "Position       " + (string)Session["searchType"] + "< br />" +
                               "Company        " + userData.CompanyName + "< br />" +
                               "Branch         " + userData.BranchName + "< br />" +
-                              "Loan           " + "< br />" +
+                              "Loan           " + Session["loanCode"].ToString()+ "< br />" +
                               "Date and Time  " +DateTime.Now+ "< br />" +
-                              "Title          " + "< br />" +
+                              "Title          " + Session["pagetitle"].ToString()+ "< br />" +
                               "Message        " + userReq.message+ "< br />" +
                               "Page           " + "< br />";
 
@@ -1454,7 +1454,7 @@ namespace BankLoanSystem.Controllers
                 ViewBag.SuccessMsg = "Error Occured";
             return RedirectToAction("UserRequestMessage");
         }
-
+            return View();
         }
 
         /// <summary>
@@ -1494,39 +1494,73 @@ namespace BankLoanSystem.Controllers
             {
                 loan = (Loan)Session["loanDashboard"];
             }
-           
-
+            if (Session["oneLoanDashboard"] != null || Session["loanDashboard"] != null)
+            {
+                ViewBag.LoanId = loan.LoanId;
+                ViewBag.LoanNumber = loan.LoanNumber;
             UserManageAccess ua = new UserManageAccess();
-            List<User> userList = ua.getUsersByRoleBranch(3,loan.NonRegBranchId);
+                List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
             List<User> tempRoleList = new List<User>();
 
-            //for (int i = roleId - 1; i < userList.Count && ViewBag.CurrUserRoleType != 3; i++)
-            //{
-            //    if (userList[i].RoleId == 4)
-            //    {
-            //        continue;
-            //    }
-            //    UserRole tempRole = new UserRole()
-            //    {
-            //        RoleId = userList[i].RoleId,
-            //        RoleName = userList[i].RoleName
-            //    };
-            //    tempRoleList.Add(tempRole);
-            //}
-
+                for (int i = 0; i < userList.Count; i++)
+                {
+                    User tempRole = new User()
+                    {
+                        UserId = userList[i].UserId,
+                        UserName = userList[i].UserName
+                    };
+                    tempRoleList.Add(tempRole);
+                }
+                ViewBag.userSelectList = tempRoleList;
             //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+                User user = new Models.User();
+                user.UserRightsList = new List<Right>();
 
+                user.UserRightsList = (new UserRightsAccess()).getRights();
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView(user);
+                }
+                else
+                {
            
+                    return View(user);
+                }
+                //return View();
+            }
+            else {
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
-                return PartialView();
+                    return RedirectToAction("UserDetails");
             }
             else
             {
 
-                return View();
+                    return RedirectToAction("UserDetails");
+                }
             }
+        }
+        [HttpPost]
+        public ActionResult AssignRights(User user)
+        {
+            string[] arrList = new string[user.UserRightsList.Count];
+            int i = 0;
+            foreach (var x in user.UserRightsList) {
+                if (x.active) {
+                    arrList[i] = x.rightId;
+                    i++;
+                }
+            }
+
+            arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            //user.UserRights = arrList.ToString();
+            user.UserRights = string.Join(",", arrList);
+            bool check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
+
+
+            return RedirectToAction("AssignRights");
             //return View();
 
         }
