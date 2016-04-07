@@ -87,6 +87,7 @@
     .custom-combobox-input {
         text-transform: capitalize;
         width: 150px;
+        height: 29px;
     }
     .trim {
         text-transform: capitalize;
@@ -100,6 +101,11 @@
 }
     .rad-style{
        padding-top:8px;
+       font-size:14px;
+    }
+    input[type='radio']{
+        height:16px;
+        width:16px;
     }
     .col-sm-4{
         text-align:left;
@@ -242,7 +248,10 @@
                                         <div id="vehiclemodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.vehicle.Trim, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Trim
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2">
                                         @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim block_invalid_char", @Style = "width: 100%;", @id = "vehicletrim" } })
                                         @Html.ValidationMessageFor(model => model.vehicle.Trim, "", new { @class = "text-danger" })
@@ -250,13 +259,19 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.vehicle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Miles
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
                                     </div>
 
-                                    @Html.LabelFor(model => model.vehicle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Color
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     @Html.EditorFor(model => model.vehicle.Color, new { htmlAttributes = new { @id = "editor1-4", @Style = "display: none;" } })
                                     <div class="col-sm-2 block_invalid" id="div-combobox1-4">
                                         @{
@@ -363,7 +378,10 @@
                                         <div id="rvmodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.rv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Miles
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.rv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "rvmiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.rv.Miles, "", new { @class = "text-danger" })
@@ -371,7 +389,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.rv.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Length
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.rv.Length, new { htmlAttributes = new { @class = "form-control lengths", @placeholder = "0", @id = "rvlength", @style = "width: 179px;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.rv.Length, "", new { @class = "text-danger" })
@@ -440,7 +461,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.camper.HitchStyle, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Hitch Style
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-4">
                                         <div>
                                             @{
@@ -527,7 +551,10 @@
                                         <div id="atvmodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.atv.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
+                                  
+                                    <label class="control-label col-md-2">Miles/Hours
+                                    <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.atv.Miles, "", new { @class = "text-danger" })
@@ -577,13 +604,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.boat.TrailerId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Trailer
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17 } })
                                         @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                                     </div>
 
-                                    @Html.LabelFor(model => model.boat.EngineSerial, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Engine Serial
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap block_invalid_allow_dash", @id = "boatserial", @maxlength = 17 } })
                                         @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
@@ -644,7 +677,10 @@
                                         <div id="motorcyclemodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.motorcycle.Miles, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Miles
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.motorcycle.Miles, new { htmlAttributes = new { @class = "form-control miles", id = "motorcyclemiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.motorcycle.Miles, "", new { @class = "text-danger" })
@@ -652,7 +688,10 @@
                                 </div>
 
                                 <div class="form-group" id="div-combobox6-4">
-                                    @Html.LabelFor(model => model.motorcycle.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Color
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     @Html.EditorFor(model => model.motorcycle.Color, new { htmlAttributes = new { @id = "editor6-4", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
                                         @Html.DropDownList("color", Colourlist, "-- select type --", new { @class = "form-control", @id = "combobox6-4" })
@@ -789,7 +828,10 @@
 
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <label class="control-label col-md-2">
+                                    Note
+                                    <span class="optional">(Optional)</span>
+                                </label>
                                 <div class="col-md-10">
                                     @Html.TextAreaFor(model => model.Note, 5, 85, new { htmlAttributes = new { @class = "form-control-notebox" } })
                                     @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
@@ -2627,15 +2669,15 @@
                     }
                 }
 
-                $('label[for=vehicle_IdentificationNumber], label[for=vehicle_Year],label[for=vehicle_Model],label[for=vehicle_Make],label[for=vehicle_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=rv_IdentificationNumber], label[for=rv_Year],label[for=rv_Model],label[for=rv_Make],label[for=rv_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=camper_IdentificationNumber], label[for=camper_Year],label[for=camper_Model],label[for=camper_Make],label[for=camper_Length],label[for=camper_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=atv_IdentificationNumber], label[for=atv_Year],label[for=atv_Model],label[for=atv_Make],label[for=atv_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=boat_IdentificationNumber], label[for=boat_Year],label[for=boat_Make],label[for=boat_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=motorcycle_IdentificationNumber], label[for=motorcycle_Year],label[for=motorcycle_Model],label[for=motorcycle_Make],label[for=motorcycle_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=snowmobile_IdentificationNumber], label[for=snowmobile_Year],label[for=snowmobile_Model],label[for=snowmobile_Make],label[for=snowmobile_NewOrUsed]').append('<span style="color: red">*</span>');
-                $('label[for=heavyequipment_SerialNumber], label[for=heavyequipment_Year],label[for=heavyequipment_Make]').append('<span style="color: red">*</span>');
-                $('label[for=Cost], label[for=AdvanceAmount],label[for=AdvanceNow]').append('<span style="color: red">*</span>');
+                //$('label[for=vehicle_IdentificationNumber], label[for=vehicle_Year],label[for=vehicle_Model],label[for=vehicle_Make],label[for=vehicle_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=rv_IdentificationNumber], label[for=rv_Year],label[for=rv_Model],label[for=rv_Make],label[for=rv_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=camper_IdentificationNumber], label[for=camper_Year],label[for=camper_Model],label[for=camper_Make],label[for=camper_Length],label[for=camper_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=atv_IdentificationNumber], label[for=atv_Year],label[for=atv_Model],label[for=atv_Make],label[for=atv_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=boat_IdentificationNumber], label[for=boat_Year],label[for=boat_Make],label[for=boat_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=motorcycle_IdentificationNumber], label[for=motorcycle_Year],label[for=motorcycle_Model],label[for=motorcycle_Make],label[for=motorcycle_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=snowmobile_IdentificationNumber], label[for=snowmobile_Year],label[for=snowmobile_Model],label[for=snowmobile_Make],label[for=snowmobile_NewOrUsed]').append('<span style="color: red">*</span>');
+                //$('label[for=heavyequipment_SerialNumber], label[for=heavyequipment_Year],label[for=heavyequipment_Make]').append('<span style="color: red">*</span>');
+                //$('label[for=Cost], label[for=AdvanceAmount],label[for=AdvanceNow]').append('<span style="color: red">*</span>');
 
 
                 // block unwanted characters
