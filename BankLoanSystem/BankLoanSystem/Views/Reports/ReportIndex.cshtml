@@ -163,7 +163,7 @@
         <hr/>
 
         <div id="reportViewerDiv" hidden>
-            <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
+            <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
         </div>
 
     </div>
@@ -188,6 +188,12 @@
     });
 
     $('#btnCurtailmentInvoice').click(function () {
+        var myFrame = document.getElementById('ifrmReportViewer');
+        var frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+        alert(frameDoc);
+        frameDoc.removeChild(frameDoc.documentElement);
+        alert(frameDoc);
+
         errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice'); 

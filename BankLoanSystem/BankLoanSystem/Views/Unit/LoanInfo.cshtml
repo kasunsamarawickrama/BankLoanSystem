@@ -7,43 +7,20 @@
 @using System.Globalization;
 
 <link href="~/Content/overlaypopup.css" rel="stylesheet" />
-<!---->
 
 
-        <!---->
-
-
-
-
-
-        @*<div class="top-bar">
-           
-
-
-            @Html.ActionLink("Sign out", "UserLogin", "Login", null, new { @class = "btn btn-info show-logout-popup", @data_showpopup = "1" })
-
-        
-
-            
-
-
-
-
-        </div>*@
-
-        
 
         <div class="info">
             @if (ViewBag.Title != "Pay Curtailments")
             {
 
                 <div class="address">
-                    <span style="float:left;width:30%;text-align: left;"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
+                    <div style="float:left;width:30%;"><strong>@ViewBag.loanCompanyType :</strong> <span> @ViewBag.loanBranchAddress</span> </div>
 
 
 
 
-                    <span style="float:left;width:40%;text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+                    <div style="float:left;width:40%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
 
@@ -55,21 +32,22 @@
 
                     }
 
-                    <span style="float:right;padding-right:18px;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+                    <div style="float:left;width:15%"></div>
+                    <div style="float:right;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</div>
 
-
+                    
                 </div>
 
                         }
                         else
                         {
                             <div class="address">
-                                <span style="float:left;width:36%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </span>
+                                <div style="float:left;width:30%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </div>
 
 
 
 
-                                <span style="text-align:center"><strong>Loan Number</strong> : @ViewBag.LoanNumber </span>
+                                <div style="float:left;width:40%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
 
@@ -81,14 +59,14 @@
 
                                 }
 
-                                <span style="float:right;padding-right:20px;">
+                                <div style="float:left;width:15%">
                                     <strong>
                                         CurtDueDate : @if (ViewBag.CurtailmentDueDate == "EoM")
                                         { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
                                         else { <label>@ViewBag.CurtailmentDueDate</label> }
                                     </strong>
-                                </span>
-                                <span style="float:right;padding-right:17%;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+                                </div>
+                                <span style="float:right;padding-right:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
 
 
                             </div>

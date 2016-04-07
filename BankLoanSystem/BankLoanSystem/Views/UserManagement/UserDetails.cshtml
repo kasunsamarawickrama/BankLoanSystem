@@ -216,7 +216,7 @@
 
             @if (ViewBag.roleId == 1 || ViewBag.roleId == 2)
             {
-                if (ViewBag.LoanCount > 1)
+                if (ViewBag.LoanCount > 0 )
                 {
                     using (Ajax.BeginForm(
                     "Selectloan",
@@ -246,7 +246,7 @@
                  </button>
                 }*@
 
-                if (ViewBag.LoanCount > 1)
+                if (ViewBag.LoanCount > 0)
                 {
                     using (Ajax.BeginForm(
                           "Selectloan",

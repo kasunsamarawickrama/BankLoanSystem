@@ -104,18 +104,38 @@ namespace BankLoanSystem.Controllers
                     userData.UserId = int.Parse(dsUser.Tables[0].Rows[0]["user_id"].ToString());
                     userData.UserName = dsUser.Tables[0].Rows[0]["user_name"].ToString();
                     userData.Password = dsUser.Tables[0].Rows[0]["password"].ToString();
-                    userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
-                    userData.BranchName = dsUser.Tables[0].Rows[0]["branch_name"].ToString();
+                   
                     userData.RoleId = int.Parse(dsUser.Tables[0].Rows[0]["role_id"].ToString());
-                    if(dsUser.Tables[0].Rows[0]["company_id"].ToString()!="")
+                    if (userData.RoleId == 4)
                     {
-                        userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                        DataSet dsDelearCompany = new DataSet();
+                        dsDelearCompany = login.GetDealerUserCompanyBranch(userData.UserId);
+                        if (dsDelearCompany.Tables[0].Rows[0]["company_id"].ToString() != "")
+                        {
+                            userData.Company_Id = int.Parse(dsDelearCompany.Tables[0].Rows[0]["company_id"].ToString());
+                            userData.CompanyName = dsDelearCompany.Tables[0].Rows[0]["company_name"].ToString();
+                        }
+                        if (dsDelearCompany.Tables[0].Rows[0]["branch_id"].ToString() != "")
+                        {
+                            userData.BranchId = int.Parse(dsDelearCompany.Tables[0].Rows[0]["branch_id"].ToString());
+                            userData.BranchName = dsDelearCompany.Tables[0].Rows[0]["branch_name"].ToString();
+                        }
+
                     }
-                    else
-                    {
-                        userData.Company_Id = 0;
+                    else {
+                        userData.BranchId = int.Parse(dsUser.Tables[0].Rows[0]["branch_id"].ToString());
+                        userData.BranchName = dsUser.Tables[0].Rows[0]["branch_name"].ToString();
+                        if (dsUser.Tables[0].Rows[0]["company_id"].ToString() != "")
+                        {
+                            userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                        }
+                        else
+                        {
+                            userData.Company_Id = 0;
+                        }
+                        userData.CompanyName = dsUser.Tables[0].Rows[0]["company_name"].ToString();
                     }
-                    userData.CompanyName = dsUser.Tables[0].Rows[0]["company_name"].ToString();
+                    
                     userData.step_status = int.Parse(dsUser.Tables[0].Rows[0]["step_status"].ToString());
 
                     //To compair Database password and user enter password

@@ -39,16 +39,21 @@ namespace BankLoanSystem.Reports
             
             List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
 
+            foreach (var unit in units)
+            {
+                unit.View = false;
+            }
+
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
             
             
         }
 
-        //public void PrintPage(int loanId)
-        //{
-        //    string a = "sasasasasas";
-        //    //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspection.LocalReport);
-        //    //rpd.Print();
-        //}
+        public void PrintPage(int loanId)
+        {
+            string a = "sasasasasas";
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspection.LocalReport);
+            //rpd.Print();
+        }
     }
 }
