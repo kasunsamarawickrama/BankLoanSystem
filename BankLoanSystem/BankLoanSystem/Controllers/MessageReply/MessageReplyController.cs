@@ -49,7 +49,13 @@ namespace BankLoanSystem.Controllers.MessageReply
             {
                 ViewBag.SuccessMsg = "Error Occured";
             }
-                return View();
+            //retrieve list from db
+            List<Models.UserRequest> result = new List<Models.UserRequest>();
+            UserRequest ob = new UserRequest();
+            UserRequestAccess userreques = new UserRequestAccess();
+            result = userreques.SelectDatalistForAnswer(154);
+            ob.RequestList = result;
+            return View(ob);
         }
 
     }
