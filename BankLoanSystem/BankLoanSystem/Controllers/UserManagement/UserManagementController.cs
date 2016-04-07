@@ -1415,8 +1415,8 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        [HttpPost]
-        [ActionName("UserRequestMessage")]
+        //[HttpPost]
+        //[ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             userReq.company_id = userData.Company_Id;
@@ -1425,7 +1425,7 @@ namespace BankLoanSystem.Controllers
             userReq.role_id = userData.RoleId;
             userReq.loan_code = "";
             userReq.page_name = "";
-            userReq.topic = "";
+            userReq.topic = userReq.topic;
             userReq.message = userReq.message;
             userReq.priority_level = "high";
 
@@ -1447,12 +1447,12 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                return RedirectToAction("UserRequest");
+                return RedirectToAction("UserRequestMessage");
             }
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
-            return RedirectToAction("UserRequest");
+            return RedirectToAction("UserRequestMessage");
         }
 
         }
