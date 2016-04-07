@@ -50,12 +50,14 @@
                                 
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
-                                <span class="text-success">@ViewBag.SuccessMsg</span>
+                                
+                                <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
                                 }
 
                                 else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
                                 {
-                                <span class="text-danger">@ViewBag.ErrorMsg</span>
+                                
+                                <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
                                 }
 @using (Html.BeginForm("CreateDashboardUser", "UserManagement", FormMethod.Post, new { @id = "form" }))
 {
@@ -281,8 +283,7 @@
 <script>
      $("#clear").click(function () {
         document.getElementsByTagName("form")[0].reset();
-        $(".text-danger").html("");
-        $(".text-success").html("");
+     
         //$('#txtUserName').next('span').children().text('');
         $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtUserName').next("div").children("p").children("span").text("");
@@ -303,6 +304,8 @@
         $('#branchDiv').hide();
         $('#branchDivUser').hide();
         $('#rightsSection').hide();
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
 
     });
 
@@ -316,6 +319,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
     };
     $(document).on('change','#RoleId',function () {
         //$('#BranchIdUser option:selected').val('');
@@ -323,7 +328,7 @@
         //$('#BranchId option:selected').val('');
         //$('#selectAll').prop('checked', false);
         //$('.All').prop('checked', false);
-        //clearValues_1();
+        clearValues_1();
         var val = document.getElementById("RoleId").value;
         if (val == '1') {
             $('#branchDiv').hide();
@@ -381,6 +386,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
     });
     $(document).on('change', '#BranchIdUser', function () {
 
@@ -389,6 +396,8 @@
         $('#LoanIdUser2 option:selected').val('');
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
         //alert(loan);
         
     });
@@ -402,6 +411,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
 
         var val = document.getElementById("RoleId").value;
         if (val == '3') {
@@ -434,7 +445,8 @@
     };
     $(document).on('change','#LoanIdUser2' , function () {
 
-
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
         $('#loanIdMessage span').text("");
        // $('#checkBoxMessage span').text("");
         var  loan = $('#LoanIdUser2 option:selected').val();
@@ -632,65 +644,14 @@
     //        }
     //    }
     });
-    function InsertUser() {
+    
 
+    $("input[type=text]").click(function () {
 
-        if ($('#RoleId option:selected').val() == 2) {
-            alert('22');
-            @if ((ViewBag.BranchId != null )&& (ViewBag.BranchId.Items.Count == 1)) {
-                <text>alert('23');</text>
-                <text>document.getElementById("branchid").innerHTML = $('#BranchId2').val();</text>
-                <text>alert($('#BranchId2').val());</text>
-            }
-            else if (ViewBag.BranchId != null && ViewBag.BranchId.Items.Count > 1)
-            {
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
 
-                <text>document.getElementById("branchid").innerHTML = $('#BranchId option:selected').val();</text>
-            }
-
-        }
-        else if ($('#RoleId option:selected').val() == 3) {
-            var arrRights = modcheck();
-            var strRights = arrRights.toString();
-            @if (ViewBag.BranchId != null && ViewBag.BranchIdUser.Items.Count == 1) {
-                //alert('1');
-                <text>document.getElementById("branchid").innerHTML = $('#BranchIdUser2').val();</text>
-                //alert($('#BranchId2').val());
-            }
-            else if (ViewBag.BranchId != null && ViewBag.BranchIdUser.Items.Count > 1) {
-                <text>document.getElementById("branchid").innerHTML = $('#BranchIdUser option:selected').val();</text>
-            }
-            //var branch = $('#BranchIdUser option:selected').val();
-        }
-        var userObj = {
-            "UserName": $('#txtUserName').val(),
-            "Password": $('#txtPassword').val(),
-            "ConfirmPassword": $('#txtConfirmPassword').val(),
-            "FirstName": $('#txtFirstName').val(),
-            "LastName": $('#txtLastName').val(),
-            "NewEmail": $('#txtNewEmail').val(),
-            "PhoneNumber2": $('#txtPhoneNumber').val(),
-            "RoleId": $('#RoleId option:selected').val(),
-            "BranchId": document.getElementById("branchid").innerHTML,
-            "LoanId": document.getElementById("loanid").innerHTML,
-            "UserRights": strRights
-        };
-        $.ajax({
-            url: '/UserManagement/InsertDashboardUser',
-            data: JSON.stringify(userObj),
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            success: function (View) {
-                if (View != '1') {
-                    $(location).attr('href', '/UserManagement/CreateDashboardUser');
-                } else {
-                    $(location).attr('href', '/UserManagement/CreateDashboardUser');
-                }
-            }
-        });
-        //alert(para8);
-    }
-
+    });
 </script>
 
 

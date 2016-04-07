@@ -786,6 +786,9 @@ namespace BankLoanSystem.DAL
                     case 'X':
                         year = 1999;
                         break;
+                    case 'Y':
+                        year = 2000;
+                        break;
                     case '1':
                         year = 2001;
                         break;

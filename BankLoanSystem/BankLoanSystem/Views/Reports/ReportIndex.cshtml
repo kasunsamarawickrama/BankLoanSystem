@@ -36,9 +36,6 @@
     }
     <div class="container" id="container">
 
-
-
-
         <div class="btns-clm" id="divRptType">
             <input type="hidden" name="selectedButton" id="hdnSelectedButton" value=""/>
             <button  type="button" id="btnLotInspection" class="btn btn-info">Lot<br/> Inspection</button>
@@ -58,7 +55,6 @@
 
         <hr/>
 
-
         <!---->
         <div style="margin-top:15px;" id="liFilteringSection">
             <div class="form-inline">
@@ -76,14 +72,10 @@
                         @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                         <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
                     }
-
                 </div>
 
                 <div id="strdate" class="form-group hf" style="margin-left:20px;display:none">
                     <label for="">Start Date</label>
-
-
-                    
                     @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                         @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
                         <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
@@ -91,69 +83,48 @@
 
                 <div id="enddate" class="form-group hf" style="margin-left:20px;display:none">
                     <label for="">End Date</label>
-
                     @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
                     <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
-
-
                 </div>
 
                 <div id="ttlsts" class="form-group hf" style="margin-left:20px;display:none">
                     <label for="">Title Status</label>
-
-
                     @{
-                        List<SelectListItem> TitleStatus = new List<SelectListItem>();
+                        List<SelectListItem> titleStatus = new List<SelectListItem>();
 
-                        TitleStatus.Add(new SelectListItem
+                        titleStatus.Add(new SelectListItem
                         {
                             Text = "Not Received",
                             Value = "0"
                         });
-                        TitleStatus.Add(new SelectListItem
+                        titleStatus.Add(new SelectListItem
                         {
                             Text = "Received",
                             Value = "1"
                         });
-                        TitleStatus.Add(new SelectListItem
+                        titleStatus.Add(new SelectListItem
                         {
                             Text = "Returned to Dealer",
                             Value = "2"
                         });
-                        TitleStatus.Add(new SelectListItem
+                        titleStatus.Add(new SelectListItem
                         {
                             Text = "All",
                             Value = "3"
                         });
                     }
-                    @Html.DropDownList("Title Status", TitleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus"  })
+                    @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus"  })
                     <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
-
-
                 </div>
-
-
-               
-
             </div>
 
             <div class="form-inline" style="margin-top:15px">
                 <div class="form-group">
-                    
-
                     <button style="width: 100px" type="button" id="btnDisplay" class="btn btn-info">Display</button>
                     <button style="width: 100px;display:none;float:right;" type="button" id="btnPrint" class="btn btn-info" >Print</button>
 
                 </div>
-
-                
-               
-
-                
-
-                
-
             </div>
 
         </div>
@@ -169,15 +140,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    //$(document).ready(function() {
-    //    Report();
-    //});
-
     var errorCount = 0;
 
     function ChangeButtonColor(id) {
         $(id).css({ 'background': 'green' });
         $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
+        $('#reportViewerDiv').hide();
     }
 
     $('#btnLotInspection').click(function () {
@@ -185,19 +153,26 @@
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
         $('#lnum').siblings('.hf').hide();
+        $('#lnum').siblings('.hf').children('input').val('');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
     });
 
     $('#btnCurtailmentInvoice').click(function () {
-        var myFrame = document.getElementById('ifrmReportViewer');
-        var frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-        alert(frameDoc);
-        frameDoc.removeChild(frameDoc.documentElement);
-        alert(frameDoc);
-
         errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice'); 
         $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
     });
 
     $('#btnCurtailmentReceipt').click(function () {
@@ -205,6 +180,14 @@
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
         $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
     });
 
     $('#btnTitlesStatus').click(function () {
@@ -212,39 +195,44 @@
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
         $('#ttlsts').show().siblings('.hf').hide();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
     });
 
     $('#btnFullInventory').click(function () {
         errorCount = 0;
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
-        $('#ttlsts').show().siblings('.hf').hide();
+        $('#lnum').siblings('.hf').hide();
+        $('#lnum').siblings('.hf').children('input').val('');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
     });
 
     function ReportCurtailmentInvoice(val, url) {
-        //alert(startDate + ' ' + endDate);
-        $('#reportViewerDiv').show();
+        
         var myFrame = document.getElementById('ifrmReportViewer');
         
         if (myFrame !== null) {
             
             if (myFrame.src) {
-                //alert(1);
                 myFrame.src = url;
             } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                //alert(2);
                 myFrame.contentWindow.location = url;
             } else {
-                //alert(3);
                 myFrame.setAttribute('src', url);
             }
         }
+        $('#reportViewerDiv').show();
     }
 
     $('#btnDisplay').click(function () {
         var rptType = $('#hdnSelectedButton').val();
-        //alert(reportType);
-
+        
         if (rptType !== '') {
             var input = $("#LoanId");
 
@@ -268,12 +256,10 @@
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
-                //alert(selectedIndex);
                 if (selectedIndex === 0) {
                     $('#tagscloudLoanId').children('span').text("Please select a loan");
                     $("#LoanId").addClass('input-validation-error');
                     errorCount = errorCount + 1;
-                    //return;
                 } else {
                     $('#tagscloudLoanId').children('span').text("");
                     $("#LoanId").removeClass('input-validation-error');
@@ -282,17 +268,15 @@
 
             var val = $('#LoanId').val();
 
-            //alert(val);
+            var myFrame;
+            var frameDoc;
 
             if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt') {
                 var startDate = $('#startDate').val();
-                //alert(startDate);
                 if (startDate === '') {
                     $('#tagscloudStartDate').children('span').text("Please select start date");
                     $("#startDate").addClass('input-validation-error');
                     errorCount = errorCount + 1;
-                    //$('.centered span').text('Error');
-                    //return;
                 } else {
                     $('#tagscloudStartDate').children('span').text("");
                     $("#startDate").removeClass('input-validation-error');
@@ -303,8 +287,6 @@
                     $('#tagscloudEndDate').children('span').text("Please select end date");
                     $("#endDate").addClass('input-validation-error');
                     errorCount = errorCount + 1;
-                    //$('.centered span').text('Error');
-                    //return;
                 } else {
                     $('#tagscloudEndDate').children('span').text("");
                     $("#endDate").removeClass('input-validation-error');
@@ -323,40 +305,46 @@
                     $("#startDate").removeClass('input-validation-error');
                     $("#endDate").removeClass('input-validation-error');
 
-                    //alert(input.attr('type'));
+                    myFrame = document.getElementById('ifrmReportViewer');
+                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                    frameDoc.removeChild(frameDoc.documentElement);
+
                     urlPrefix = urlPrefix + val + "&startDate=" + startDate + "&endDate=" + endDate;
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
             } else if (rptType === 'LotInspection') {
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
                 urlPrefix = urlPrefix + val;
                 ReportCurtailmentInvoice(val, urlPrefix);
             } else if (rptType === 'TitlesStatus') {
-                //Report(val, urlPrefix);
-                //tagscloudTitleStatus
                 selectedIndex = $("#titleStatus option:selected").index();
                 if (selectedIndex === 0) {
                     $('#tagscloudTitleStatus').children('span').text("Please select title status");
                     $("#titleStatus").addClass('input-validation-error');
                     errorCount = errorCount + 1;
-                    //return;
                 } else {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
+                    
+                    myFrame = document.getElementById('ifrmReportViewer');
+                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                    frameDoc.removeChild(frameDoc.documentElement);
+
                     urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
-                //alert(selectedIndex);
             }
             else if (rptType === 'FullInventory') {
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
                 urlPrefix = urlPrefix + val;
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
-
-            //alert(errorCount);
-
-            //alert(1);
-
-
         } else {
             alert('Please select report type');
         }
@@ -374,13 +362,13 @@
         var year = parseInt(parts[2], 10);
 
         // Check the ranges of month and year
-        if (year < 1000 || year > 3000 || month == 0 || month > 12)
+        if (year < 1000 || year > 3000 || month === 0 || month > 12)
             return false;
 
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
         // Adjust for leap years
-        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
             monthLength[1] = 29;
 
         // Check the range of the day
@@ -458,13 +446,11 @@
     });
 
     $('#LoanId').click(function () {
-        //alert($(this));
         $('#tagscloudLoanId').children('span').text('');
         $(this).removeClass('input-validation-error');
     });
 
     $('#titleStatus').click(function () {
-        //alert($(this));
         $('#tagscloudTitleStatus').children('span').text('');
         $(this).removeClass('input-validation-error');
     });
@@ -484,22 +470,6 @@
             }
         });
     });
-
-    //function Report(val, url) {
-    //    //var url = "../Reports/ReportDivLotInspection.aspx?loanId=" + val;
-    //    url = url + val;
-    //    alert(url);
-    //    var myFrame = document.getElementById('ifrmReportViewer');
-    //    if (myFrame !== null) {
-    //        if (myFrame.src) {
-    //            myFrame.src = url;
-    //        } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-    //            myFrame.contentWindow.location = url;
-    //        } else {
-    //            myFrame.setAttribute('src', url);
-    //        }
-    //    }
-    //}
 
     var startDate = new Pikaday({
         field: document.getElementById('startDate'),

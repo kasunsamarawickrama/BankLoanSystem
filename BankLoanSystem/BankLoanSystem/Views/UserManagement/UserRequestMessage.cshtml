@@ -4,7 +4,8 @@
     ViewBag.Title = "User Request Message";
 }
 
-
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
 <div class="msg-box">
@@ -14,7 +15,7 @@
         OnFailure = "handleErrorMsg",
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "changeContainer"
+        UpdateTargetId = "UserRequestMessage"
     }, new {id = "form"}))
     {
         @Html.AntiForgeryToken()
@@ -73,47 +74,50 @@
         $(this).removeClass('input-validation-error');
     });
 
-    $('#btnSubmit').click(function () {
-        //alert($('#message').val())
-        //alert(subjectIndex);
-        var error = 0
-        var subjectIndex = $('#topic option:selected').index();
-        if (subjectIndex === 0) {
-            error = error + 1;
-            $('#divSubjectErr').children('span').text('Subject is required');
-        }
-        else {
-            error = error - 1;
-            $('#divSubjectErr').children('span').text('');
-        }
+    //$('#btnSubmit').click(function (e) {
+    //    //alert($('#message').val())
+    //    //alert(subjectIndex);
+    //    alert('Hi1');
+        
+    //    var error = 0;
+    //    var subjectIndex = $('#topic option:selected').index();
+    //    if (subjectIndex === 0) {
+    //        error = error + 1;
+    //        $('#divSubjectErr').children('span').text('Subject is required');
+    //    }
+    //    else {
+    //        error = error - 1;
+    //        $('#divSubjectErr').children('span').text('');
+    //    }
 
-        var message = $('#message').val();
+    //    var message = $('#message').val();
 
-        if (message === '') {
-            error = error + 1;
-        }
-        else {
-            error = error - 1;
-        }
+    //    if (message === '') {
+    //        error = error + 1;
+    //    }
+    //    else {
+    //        error = error - 1;
+    //    }
             
-        if (error > 0)
-        {
-            return;
-        }
-        var data = {
-            topic: $('#topic :selected').text(),
-            message: message
-        };
-        $.ajax({
-            url: '/UserManagement/UserRequestMessagePost/',
-            data: JSON.stringify(data),
-            type: 'POST',
-            async: true,
-            contentType: 'application/json; charset=utf-8',
-            success: function (partialView) {
-                $('#UserRequestMessage').html(partialView);
-                $('#UserRequestMessage').show();
-            }
-        });
-    });
+    //    if (error > 0)
+    //    {
+    //        return;
+    //    }
+    //    var data = {
+    //        topic: $('#topic :selected').text(),
+    //        message: message
+    //    };
+    //    $.ajax({
+    //        url: '/UserManagement/UserRequestMessagePost/',
+    //        data: JSON.stringify(data),
+    //        type: 'POST',
+    //        async: true,
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (partialView) {
+    //            alert('Hi');
+    //            $('#UserRequestMessage').html(partialView);
+    //            $('#UserRequestMessage').show();
+    //        }
+    //    });
+    //});
 </script>
