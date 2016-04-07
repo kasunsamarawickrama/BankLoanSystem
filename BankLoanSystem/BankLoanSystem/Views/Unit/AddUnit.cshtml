@@ -63,7 +63,7 @@
 
     .form-horizontal .control-label {
         text-align: left;
-        padding-left: 33px;
+        padding-left: 48px;
         font-size: 14px;
     }
 
@@ -92,6 +92,9 @@
     input[type='file'] {
   color: transparent;
 }
+    .rad-style{
+       text-align:left;padding-top:8px;
+    }
 </style>
 
     
@@ -124,11 +127,13 @@
 
                         @*UNIT MODEL START*@
                         <div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
-                                @Html.HiddenFor(model => model.LoanId)
-                                <div class="col-md-10">
-                                    @{
+                            <div style="padding: 0px 20px 0px 20px;">
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.HiddenFor(model => model.LoanId)
+                                    <div class="col-md-10">
+                                        @{
                                         List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
 
                                         var id = 0;
@@ -159,22 +164,23 @@
                                             id = 0;
                                             name = "";
                                         }
-                                    }
-                                    @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
+                                        }
+                                        @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                                     {
-                                        @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
-                                        @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
-                                        @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+                                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
 
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
+                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
                                     }
-                                    @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                             <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -292,7 +298,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 rad-style" >
                                         <div>
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false) Used
@@ -753,7 +759,7 @@
                                     <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                                 </div>
 
-                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 80px;" })
+                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
