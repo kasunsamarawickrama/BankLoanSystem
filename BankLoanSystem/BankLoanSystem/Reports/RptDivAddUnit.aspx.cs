@@ -19,7 +19,7 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
                 if(Request.QueryString["userId"] != "")
-                    userId = Convert.ToInt32(Request.QueryString["loanId"]);
+                    userId = Convert.ToInt32(Request.QueryString["userId"]);
 
                 RenderReport(loanId, userId);
             }
