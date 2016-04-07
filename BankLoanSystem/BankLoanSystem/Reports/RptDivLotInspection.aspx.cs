@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -52,8 +53,8 @@ namespace BankLoanSystem.Reports
         public void PrintPage(int loanId)
         {
             string a = "sasasasasas";
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspection.LocalReport);
-            //rpd.Print();
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspection.LocalReport);
+            rpd.Print();
         }
     }
 }
