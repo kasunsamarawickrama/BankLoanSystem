@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "CreateDealer";
+    ViewBag.Title = "Join Dealer Account";
     if (ViewBag.AjaxRequest == null)
     {
         Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -49,9 +49,9 @@
                 <div class="row">
                     <div class="container body-content new_container">
                         @*<div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>*@
-                        <div >
+                        @*<div >
                             <h2>Join Dealer Account</h2>
-                        </div>
+                        </div>*@
                         <div style="clear:both;"></div>
                         <div class="form-horizontal new_form_horizontal">
                             @*<div class="topErrors">
@@ -249,9 +249,9 @@
                                                 <div>
                                                     <nav>
                                                         <div class="pager new_pager">
-                                                            @*<div class="button_box algn_left">
-                                                                <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">
-                                                            </div>*@
+                                                            <div class="button_box algn_left">
+                                                                @*<input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">*@
+                                                            </div>
                                                             <div class="button_box algn_center">
                                                                 <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
                                                             </div>
@@ -441,29 +441,29 @@
         clearTopMessages();
     });
 
-    $('#txtPassword').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtPassword').click(function () {
+    //    clearTopMessages();
+    //});
 
-    $('#txtConfirmPassword').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtConfirmPassword').click(function () {
+    //    clearTopMessages();
+    //});
 
-    $('#txtFirstName').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtFirstName').click(function () {
+    //    clearTopMessages();
+    //});
 
-    $('#txtLastName').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtLastName').click(function () {
+    //    clearTopMessages();
+    //});
 
-    $('#txtNewEmail').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtNewEmail').click(function () {
+    //    clearTopMessages();
+    //});
 
-    $('#txtPhoneNumber').click(function () {
-        clearTopMessages();
-    });
+    //$('#txtPhoneNumber').click(function () {
+    //    clearTopMessages();
+    //});
 
     function clearTopMessages() {
         $(".text-danger").html("");

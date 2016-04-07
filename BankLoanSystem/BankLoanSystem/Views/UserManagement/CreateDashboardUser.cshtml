@@ -57,7 +57,9 @@
                                 {
                                 <span class="text-danger">@ViewBag.ErrorMsg</span>
                                 }
-                                      
+@using (Html.BeginForm("CreateDashboardUser", "UserManagement", FormMethod.Post, new { @id = "form" }))
+{
+
                                             @Html.AntiForgeryToken()
 
                                             <div class="form-horizontal">
@@ -224,7 +226,7 @@
                                                             <div class="pager new_pager">
                                                                 
                                                                 <div class="button_box algn_left">
-                                                                    <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button" id="btnCreateUser">
+                                                                    <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnCreateUser">
                                                                 </div>
                                                                 <div class="button_box algn_right">
                                                                     <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
@@ -236,11 +238,11 @@
                                                 </div>
                                             </div>
 
-                                        
+}
 
-                                        
 
-                                    
+
+
 
                                     <div>
                                     </div>
@@ -308,7 +310,7 @@
         $('#BranchId').val('');
         $('#LoanIdUser2').val('');
         //$('#BranchId2').val('');
-        $('#BranchIdUser2').val('');
+       // $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
@@ -346,6 +348,7 @@
             $('.All').prop('checked', false);
             clearValues_1();
             $('#branchDivUser').show();
+            $('#rightsSection').show();
             //$('#BranchIdUser').val('');
             //document.getElementById("branchid").innerHTML = "";
 
