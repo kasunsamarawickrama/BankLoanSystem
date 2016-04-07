@@ -1415,17 +1415,17 @@ namespace BankLoanSystem.Controllers
             return PartialView();
         }
 
-        [HttpPost]
-        [ActionName("UserRequestMessage")]
+        //[HttpPost]
+        //[ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
             userReq.company_id = userData.Company_Id;
             userReq.branch_id = userData.BranchId;
             userReq.user_id = userData.UserId;
             userReq.role_id = userData.RoleId;
-            userReq.loan_code = "";
-            userReq.page_name = "";
-            userReq.topic = "";
+            userReq.loan_code = Session["loanCode"].ToString(); 
+            userReq.page_name = Session["pagetitle"].ToString();
+            userReq.topic = userReq.topic;
             userReq.message = userReq.message;
             userReq.priority_level = "high";
 
@@ -1437,9 +1437,9 @@ namespace BankLoanSystem.Controllers
                               "Position       " + (string)Session["searchType"] + "< br />" +
                               "Company        " + userData.CompanyName + "< br />" +
                               "Branch         " + userData.BranchName + "< br />" +
-                              "Loan           " + "< br />" +
+                              "Loan           " + Session["loanCode"].ToString()+ "< br />" +
                               "Date and Time  " +DateTime.Now+ "< br />" +
-                              "Title          " + "< br />" +
+                              "Title          " + Session["pagetitle"].ToString()+ "< br />" +
                               "Message        " + userReq.message+ "< br />" +
                               "Page           " + "< br />";
 
@@ -1447,14 +1447,14 @@ namespace BankLoanSystem.Controllers
                 email.SendMail(body, "Account details");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
-                return RedirectToAction("UserRequest");
+                return RedirectToAction("UserRequestMessage");
             }
             else
             {
                 ViewBag.SuccessMsg = "Error Occured";
-            return RedirectToAction("UserRequest");
+            return RedirectToAction("UserRequestMessage");
         }
-
+            return View();
         }
 
         /// <summary>
@@ -1498,9 +1498,9 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;
-                UserManageAccess ua = new UserManageAccess();
+            UserManageAccess ua = new UserManageAccess();
                 List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
-                List<User> tempRoleList = new List<User>();
+            List<User> tempRoleList = new List<User>();
 
                 for (int i = 0; i < userList.Count; i++)
                 {
@@ -1512,7 +1512,7 @@ namespace BankLoanSystem.Controllers
                     tempRoleList.Add(tempRole);
                 }
                 ViewBag.userSelectList = tempRoleList;
-                //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
+            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
                 User user = new Models.User();
                 user.UserRightsList = new List<Right>();
 
@@ -1524,19 +1524,19 @@ namespace BankLoanSystem.Controllers
                 }
                 else
                 {
-
+           
                     return View(user);
                 }
                 //return View();
             }
             else {
-                if (HttpContext.Request.IsAjaxRequest())
-                {
-                    ViewBag.AjaxRequest = 1;
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
                     return RedirectToAction("UserDetails");
-                }
-                else
-                {
+            }
+            else
+            {
 
                     return RedirectToAction("UserDetails");
                 }
@@ -1575,5 +1575,5 @@ namespace BankLoanSystem.Controllers
         }
     }
 
-
+    
 }
