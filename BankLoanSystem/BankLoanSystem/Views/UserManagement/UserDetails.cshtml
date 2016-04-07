@@ -80,77 +80,96 @@
                 
                 @if (ViewBag.LoanCount == 1)
                 {
-                    if (ViewBag.roleId == 3 || ViewBag.roleId == 4)
+                    if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
+                    {
+                                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'" >
+                                        <span class="icon-truck"></span>
+                                        <span class="txt">Add Unit</span>
+                                    </button>
+
+                                    <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
+                                        <span class="icon-dollar"></span>
+                                        <span class="txt">Advance Unit</span>
+                                    </button>
+
+                                    <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                                        <span class="icon-coin-dollar"></span>
+                                        <span class="txt">Unit Curtailments</span>
+                                    </button>
+
+                        if (ViewBag.IsTitleTrack == 1)
+                        {
+                                            <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                                                <span class="icon-files-empty"></span>
+                                                <span class="txt">Update Titles</span>
+                                            </button>
+                        }
+                                    <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
+                                        <span class="icon-banknote"></span>
+                                        <span class="txt">Pay Off A Unit</span>
+                                    </button>
+
+                                    <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+                                        <span class="icon-stack"></span>
+                                        <span class="txt">Reports</span>
+                                    </button>
+                    }
+                    else if (ViewBag.roleId == 3)
                     {
                         if (ViewBag.AddUnits == 1)
                         {
-                        <button class="big-button"  onclick="window.location.href='/Unit/Addunit'" >
+                        <button class="big-button" onclick="window.location.href='/Unit/Addunit'">
                             <span class="icon-truck"></span>
                             <span class="txt">Add Unit</span>
                         </button>
-                    }
-                }
-                else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-                {
-                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'" >
-                        <span class="icon-truck"></span>
-                        <span class="txt">Add Unit</span>
-                    </button>
-                }
-
-                 if (ViewBag.roleId != 4)
-                 {
-
-                    <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
-                        <span class="icon-dollar"></span>
-                        <span class="txt">Advance Unit</span>
-                    </button>
-
-                    <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
-                        <span class="icon-coin-dollar"></span>
-                        <span class="txt">Unit Curtailments</span>
-                    </button>
-                    <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
-                        <span class="icon-banknote"></span>
-                        <span class="txt">Pay Off A Unit</span>
-                    </button>
-                 }
-
-
-                if (ViewBag.roleId == 3 || ViewBag.roleId == 4)
-                {
-                    if (ViewBag.ViewReports == 1)
-                    {
+                        }
+                        if (ViewBag.AdvanceUnits == 1)
+                        {
+                        <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
+                            <span class="icon-dollar"></span>
+                            <span class="txt">Advance Unit</span>
+                        </button>
+                        }
+                        if (ViewBag.Curtailment == 1)
+                        {
+                        <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                            <span class="icon-coin-dollar"></span>
+                            <span class="txt">Unit Curtailments</span>
+                        </button>
+                        }
+                        if ((ViewBag.IsTitleTrack == 1) && (ViewBag.TitleAdd == 1))
+                        {
+                        <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                            <span class="icon-files-empty"></span>
+                            <span class="txt">Update Titles</span>
+                        </button>
+                        }
+                        if (ViewBag.PayoffUnits == 1)
+                        {
+                        <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
+                            <span class="icon-banknote"></span>
+                            <span class="txt">Pay Off A Unit</span>
+                        </button>
+                        }
+                        if (ViewBag.ViewReports == 1)
+                        {
                         <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                             <span class="icon-stack"></span>
                             <span class="txt">Reports</span>
                         </button>
+                        }
                     }
-
-                    if (ViewBag.IsTitleTrack == 1)
+                    else if (ViewBag.roleId == 4)
                     {
-                        <button class="big-button"  onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
-                            <span class="icon-files-empty"></span>
-                            <span class="txt">Update Titles</span>
-                        </button>
-                    }
-                }
-                else if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
-                {
+                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'">
+                        <span class="icon-truck"></span>
+                        <span class="txt">Add Unit</span>
+                    </button>
                     <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                         <span class="icon-stack"></span>
                         <span class="txt">Reports</span>
                     </button>
-                        if (ViewBag.IsTitleTrack == 1)
-                        {
-                            <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
-                                <span class="icon-files-empty"></span>
-                                <span class="txt">Update Titles</span>
-                            </button>
-                        }
-
                     }
-
                 }
 
             </div>
