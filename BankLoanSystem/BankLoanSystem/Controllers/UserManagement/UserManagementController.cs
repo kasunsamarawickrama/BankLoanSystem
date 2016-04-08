@@ -236,6 +236,38 @@ namespace BankLoanSystem.Controllers
                             {
                                 foreach (string s in loanSelected.Rights)
                                 {
+                                    if (s == "U001")
+                                    {
+                                        ViewBag.AdvanceUnits = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AdvanceUnits = 0;
+                                    }
+                                    if (s == "U002")
+                                    {
+                                        ViewBag.TitleAdd = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.TitleAdd = 0;
+                                    }
+                                    if (s == "U003")
+                                    {
+                                        ViewBag.PayoffUnits = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.PayoffUnits = 0;
+                                    }
+                                    if (s == "U005")
+                                    {
+                                        ViewBag.Curtailment = 1;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.Curtailment = 0;
+                                    }
                                     if (s == "U004")
                                     {
                                         ViewBag.AddUnits = 1;
@@ -244,7 +276,7 @@ namespace BankLoanSystem.Controllers
                                     {
                                         ViewBag.AddUnits = 0;
                                     }
-                                    if (s == "U006")
+                                    if ((s == "U006") || (s == "U007"))
                                     {
                                         ViewBag.ViewReports = 1;
                                     }
