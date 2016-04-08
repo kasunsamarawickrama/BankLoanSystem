@@ -208,11 +208,11 @@
            
                 <fieldset>
                     <div class="form-group row">
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:21%;" >
+                        <div class="col-md-2" style="width:27%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -234,7 +234,7 @@
                         
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row" style="margin-top:15px !important">
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
                             @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
@@ -255,9 +255,9 @@
 
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:5px;margin-left:147px;width:130px" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:2px" disabled />
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;" disabled />
 
 
                 </fieldset>
