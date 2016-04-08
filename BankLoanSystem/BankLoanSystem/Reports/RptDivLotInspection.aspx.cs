@@ -46,15 +46,46 @@ namespace BankLoanSystem.Reports
             }
 
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
-            
-            
         }
 
-        public void PrintPage(int loanId)
+        public int PrintPage(int loanId)
         {
-            string a = "sasasasasas";
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspection.LocalReport);
-            rpd.Print();
+            ReportViewer rptViewerLotInspectionPrint = new ReportViewer();
+
+            rptViewerLotInspectionPrint.Reset();
+            rptViewerLotInspectionPrint.LocalReport.EnableExternalImages = true;
+            rptViewerLotInspectionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerLotInspectionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
+
+            foreach (var unit in units)
+            {
+                unit.View = false;
+            }
+
+            rptViewerLotInspectionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionPrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+            
         }
     }
 }

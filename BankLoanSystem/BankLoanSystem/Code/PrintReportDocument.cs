@@ -156,7 +156,7 @@ namespace BankLoanSystem.Code
             // A start and end page of 0 means generate all pages.
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "<DeviceInfo><OutputFormat>emf</OutputFormat><StartPage>0</StartPage><EndPage>0</EndPage><MarginTop>{0}</MarginTop><MarginLeft>{1}</MarginLeft><MarginRight>{2}</MarginRight><MarginBottom>{3}</MarginBottom><PageHeight>{4}</PageHeight><PageWidth>{5}</PageWidth></DeviceInfo>",
+                "<DeviceInfo><OutputFormat>emf</OutputFormat><StartPage>0</StartPage><EndPage>0</EndPage><MarginTop>{0}</MarginTop><MarginLeft>{1}</MarginLeft><MarginRight>{2}</MarginRight><MarginBottom>{3}</MarginBottom><PageHeight>8.5in</PageHeight>11in<PageWidth></PageWidth></DeviceInfo>",
                 ToInches(margins.Top),
                 ToInches(margins.Left),
                 ToInches(margins.Right),

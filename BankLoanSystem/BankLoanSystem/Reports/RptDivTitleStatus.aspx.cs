@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -44,6 +45,40 @@ namespace BankLoanSystem.Reports
 
             rptViewerTitleStatus.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerTitleStatus.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+        }
+
+        public int PrintPage(int loanId, int titleStatus)
+        {
+            ReportViewer rptViewerTitleStatusPrint = new ReportViewer();
+
+            rptViewerTitleStatusPrint.Reset();
+            rptViewerTitleStatusPrint.LocalReport.EnableExternalImages = true;
+            rptViewerTitleStatusPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTitleStatus.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<Unit> units = ra.GeUnitDetailsByTitleStatus(loanId, titleStatus);
+
+            rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerTitleStatusPrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }
