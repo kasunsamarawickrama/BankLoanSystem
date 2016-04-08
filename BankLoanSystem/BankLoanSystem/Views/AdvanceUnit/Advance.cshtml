@@ -270,7 +270,7 @@
 
 
                     <script type="text/javascript">
-                        
+
 
 
                         $("#lkadv").hide();
@@ -357,7 +357,8 @@
                                 count++;
                             });
                             document.getElementById('all').checked = false;
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+                            var num =roundNumber(total,2);
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + num;
 
                             $("#someID span").html('Select');
                             $("#tagscloud span").html('');
@@ -379,7 +380,7 @@
                                 var isChecked = $(this).find("#all").is(':checked');
                                 if (isChecked === true)
                                     mainGridSelectedCount = mainGridSelectedCount + 1;
-                        });
+                            });
 
                             if (mainGridSelectedCount === 0)
                                 ClearTextBoxValues();
