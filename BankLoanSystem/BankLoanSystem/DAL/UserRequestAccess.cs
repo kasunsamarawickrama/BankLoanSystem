@@ -124,7 +124,7 @@ namespace BankLoanSystem.DAL
                         //userRequest.message_date = DataSetDateTime(dataRow["message_date"].ToString());
                         userRequest.topic = dataRow["topic"].ToString();
                         userRequest.message = dataRow["message"].ToString();
-
+                        userRequest.email = dataRow["email"].ToString();
 
                         resultList.Add(userRequest);
                     }
