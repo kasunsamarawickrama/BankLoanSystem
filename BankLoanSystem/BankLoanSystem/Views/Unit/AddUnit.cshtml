@@ -2679,7 +2679,7 @@
 
                 // block unwanted characters
 
-                $(document).on('keypress','.block_invalid span input,.block_invalid_char' , function(e){
+                $(document).on('keypress','.block_invalid_char' , function(e){
                     var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
                     res = InvalidCharacters(this, array, e.which);
 
@@ -2693,7 +2693,20 @@
                         return;
                     }
                 } );
+                //$(document).on('keypress','.block_invalid span input' , function(e){
+                //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+                //    res = InvalidCharacters(this, array, e.which);
 
+                //    if (res === 1) {
+                //        e.preventDefault();
+                //        return;
+                //    }
+                //    else if (e.which === 92 || e.which === 39) {
+                //        //$(this).siblings('div').children('span').text("Invalid character.");
+                //        e.preventDefault();
+                //        return;
+                //    }
+                //} );
                 $(document).on('keypress','.block_invalid_allow_dash' , function(e){
                     var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
                     res = InvalidCharacters(this, array, e.which);
