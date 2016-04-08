@@ -25,7 +25,7 @@
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })
 </div>
-<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 1px 0px">
+<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
                             <div>
                                 @grid.GetHtml(
                                    tableStyle: "gridtable",
@@ -59,9 +59,13 @@
                                 )
                             )
                          </div>
+    
+                        <div>
+                           
+                            <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
+                            <span id="subtotal" style="margin-right: 30px;float: right;text-align: right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+                        </div>
                         
-                        <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-                        <span id="subtotal" style="margin-left:50% "> Current Curtailment Total : $ 0.00  </span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -127,7 +131,7 @@
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
 
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20", @Style = "width:165px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "6", @Style = "width:165px" } })
                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
 
 
@@ -208,11 +212,11 @@
            
                 <fieldset>
                     <div class="form-group row">
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:21%;" >
+                        <div class="col-md-2" style="width:27%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -234,14 +238,14 @@
                         
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row" style="margin-top:15px !important">
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
                             @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
                             <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
                         </div>
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:17%;">
                             <label for="">Curt Pay Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                             <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
@@ -255,9 +259,9 @@
 
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:5px;margin-left:147px;width:130px" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:2px" disabled />
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;" disabled />
 
 
                 </fieldset>

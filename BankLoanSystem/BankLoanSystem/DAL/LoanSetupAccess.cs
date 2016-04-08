@@ -572,7 +572,13 @@ namespace BankLoanSystem.DAL
                             //loanSetupStep1.RegisteredBranchId = reader["branch_id"] != null ? Convert.ToInt32(reader["branch_id"].ToString()) : 0;
                             loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                             loanSetupStep1.RegisteredCompanyCode = reader["company_code"].ToString();
-                            loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString();
+                            if(reader["curtailment_due_date"].ToString()== "EoM") {
+                                loanSetupStep1.CurtailmentDueDate = "End of Month";
+                            }
+                            else {
+                                loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString()+"th of each month";
+                            }
+                            //loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString();
                         }
 
                         reader.Close();
