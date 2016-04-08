@@ -98,177 +98,183 @@
                                                     @Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.userSelectList, "UserId", "UserName"), "--Select User--", htmlAttributes: new { @class = "form-control" , @id="SelectUser" })
 
                                                     @*}*@
+                                                @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
+                                                {                                                    
+                                                  <p class="err_msg new_err_msg"><span class="err_msg new_err_msg" style="margin-top: 33px;">No Active Users</span></p>
+                                                }
                                             </div>
-                                            <div class="err_msg_box">
+                                            <div class="err_msg_box" style="margin-top: 13px;">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" , @id="valid" })</p>
                                             </div>
-                                        </div>
-
-                                        <div class="form-group new_form_group">
-                                            <div class="control-label col-sm-2 lable_style">
-                                                <label>Select Loan Rights</label>
                                             </div>
 
                                             <div class="form-group new_form_group">
-                                                <div class="col-sm-6">                                                   
-                                                    <div id="rights">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Select Loan Rights</label>
+                                                </div>
 
-                                                        @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
-                                                        @Html.Label("Select All")
-                                                        <br /><br />
-                                                        @for (var i = 0; i < Model.UserRightsList.Count; i++)
-                                                        {
+                                                <div class="form-group new_form_group">
+                                                    <div class="col-sm-6">
+                                                        <div id="rights">
 
-                                                            @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                                                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All" ,@id = i+1})
-                                                            @Html.DisplayFor(x => x.UserRightsList[i].description)
-                                                            <br />
-                                                        }
+                                                            @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
+                                                            @Html.Label("Select All")
+                                                            <br /><br />
+                                                            @for (var i = 0; i < Model.UserRightsList.Count; i++)
+                                                            {
+
+                                                                @Html.HiddenFor(x => x.UserRightsList[i].rightId)
+                                                                @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All" ,@id = i+1})
+                                                                @Html.DisplayFor(x => x.UserRightsList[i].description)
+                                                                <br />
+                                                            }
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg"><div id="checkBoxMessage"><span class="err_msg new_err_msg"></span></div></p>
                                                     </div>
 
                                                 </div>
-                                                <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg"><div id="checkBoxMessage"><span class="err_msg new_err_msg"></span></div></p>
-                                                </div>
-                                                
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group new_form_group clear_next clear_next_bordr">
+                                            <div>
+                                                <nav>
+                                                    <div class="pager new_pager">
+
+                                                        <div class="button_box algn_left">
+                                                            <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="Submit">
+                                                        </div>
+                                                        <div class="button_box algn_right">
+                                                            <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </nav>
                                             </div>
                                         </div>
-
                                     </div>
-
-                                    <div class="form-group new_form_group clear_next clear_next_bordr">
-                                        <div>
-                                            <nav>
-                                                <div class="pager new_pager">
-
-                                                    <div class="button_box algn_left">
-                                                        <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="Submit">
-                                                    </div>
-                                                    <div class="button_box algn_right">
-                                                        <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                    </div>
-                                                    <div style="clear:both"></div>
-                                                </div>
-                                            </nav>
-                                        </div>
+                                   }
+                                    <div>
                                     </div>
                                 </div>
-                               }
-                                <div>
-                                </div>
+
                             </div>
-                            
+
                         </div>
-                        
                     </div>
                 </div>
             </div>
+
         </div>
-        
+        <div style="margin-top: 123px;margin-right: 430px;">
+            @Html.ActionLink("Back to DashBoard", "UserDetails")
+        </div>
     </div>
-    <div style="margin-top: 123px;margin-right: 430px;">
-        @Html.ActionLink("Back to DashBoard", "UserDetails")
-    </div>
-</div>
 
 
-<script>
-    $('#Submit').click(function (e) {
-        var checked = $("input[type=checkbox]:checked").length;
+    <script>
+        $('#Submit').click(function (e) {
+            var checked = $("input[type=checkbox]:checked").length;
 
-        if (!checked) {
-            //alert("You must check at least one checkbox.");
-            $('#checkBoxMessage span').text("please check at least one checkbox.");
-            e.preventDefault();
-        }
-
-    });
-
-    $(function () {
-        $('#CheckAll').on('change', function () {
-            if ($(this).is(':checked')) {
-                //alert('checked');
-                $('.All').prop('checked', true);
-
+            if (!checked) {
+                //alert("You must check at least one checkbox.");
+                $('#checkBoxMessage span').text("please check at least one checkbox.");
+                if($('#SelectUser').val() != ""){
+                    e.preventDefault();
+                }
             }
-            else {
-                //alert('unchecked');
-                $('.All').prop('checked', false);
-            }
+
         });
-    });
-    $('#SelectUser').change(function () {
 
-        var selectedUser = $('#SelectUser').val();
-        var loanId = $('#LoanId').val();
-        var model = @Html.Raw(Json.Encode(Model));
-        $('.All').attr('disabled', true);
-        $.ajax({
-            url: '/UserManagement/ExistingUserRights',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ userId: selectedUser, loanId, loanId }),
-            success: function (data) {
-                //alert(data);
-                var array = data.split(',');
-                for (var i = 0 ; i < model.UserRightsList.length; i++){
-                    for (var j = 0 ; j < array.length; j++){
+        $(function () {
+            $('#CheckAll').on('change', function () {
+                if ($(this).is(':checked')) {
+                    //alert('checked');
+                    $('.All').prop('checked', true);
 
-                        if (model.UserRightsList[i].rightId  === array[j] ) {
-                            //alert('checked');
-                            var str = '#'+(i+1);
-                            $(str).prop('checked', true);
+                }
+                else {
+                    //alert('unchecked');
+                    $('.All').prop('checked', false);
+                }
+            });
+        });
+        $('#SelectUser').change(function () {
+
+            var selectedUser = $('#SelectUser').val();
+            var loanId = $('#LoanId').val();
+            var model = @Html.Raw(Json.Encode(Model));
+            $('.All').attr('disabled', true);
+            $.ajax({
+                url: '/UserManagement/ExistingUserRights',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ userId: selectedUser, loanId, loanId }),
+                success: function (data) {
+                    //alert(data);
+                    var array = data.split(',');
+                    for (var i = 0 ; i < model.UserRightsList.length; i++){
+                        for (var j = 0 ; j < array.length; j++){
+
+                            if (model.UserRightsList[i].rightId  === array[j] ) {
+                                //alert('checked');
+                                var str = '#'+(i+1);
+                                $(str).prop('checked', true);
+                            }
                         }
                     }
+                    if(data.length >0){
+                        $('#Submit').val("Update");
+                    }else{
+                        $('#Submit').val("Assign");
+                    }
+                    $('.All').attr('disabled', false);
+                    checkAll();
+                },
+                error: function (reponse) {
                 }
-                if(data.length >0){
-                    $('#Submit').val("Update");
-                }else{
-                    $('#Submit').val("Assign");
-                }
-                $('.All').attr('disabled', false);
-                checkAll();
-            },
-            error: function (reponse) {
-            }
-        });
-        
-        $('#success').text("");
-        $('#fail').text("");
-    });
-    $(function () {
-        $('.All').on('change', function () {
-            $('#checkBoxMessage span').text("");
-            checkAll();
-        });
-    });
-    function checkAll(){
-        var model = @Html.Raw(Json.Encode(Model));
-        var len = model.UserRightsList.length;
-        var count =0;
-        for (var j = 0 ; j < model.UserRightsList.length; j++){
-            var str = '#'+(j+1);
-            if ($(str).is(':checked')) {
-                //alert('checked');
-                count++;
-            }
-        }
-        if(count === len){
-            $('#CheckAll').prop('checked', true);
-        }else{
-            $('#CheckAll').prop('checked', false);
-        }      
-        $('#success').text("");
-        $('#fail').text("");
-    };
+            });
 
-    $('#clear').click(function(){
-        $('#Submit').val("Assign");
-        $('#checkBoxMessage span').text("");
-        $('#valid').text("");
-        $('#SelectUser').val("");
-        //form.reset() ;
-        $('#success').text("");
-        $('#fail').text("");
-    });
-</script>
+            $('#success').text("");
+            $('#fail').text("");
+        });
+        $(function () {
+            $('.All').on('change', function () {
+                $('#checkBoxMessage span').text("");
+                checkAll();
+            });
+        });
+        function checkAll(){
+            var model = @Html.Raw(Json.Encode(Model));
+            var len = model.UserRightsList.length;
+            var count =0;
+            for (var j = 0 ; j < model.UserRightsList.length; j++){
+                var str = '#'+(j+1);
+                if ($(str).is(':checked')) {
+                    //alert('checked');
+                    count++;
+                }
+            }
+            if(count === len){
+                $('#CheckAll').prop('checked', true);
+            }else{
+                $('#CheckAll').prop('checked', false);
+            }
+            $('#success').text("");
+            $('#fail').text("");
+        };
+
+        $('#clear').click(function(){
+            $('#Submit').val("Assign");
+            $('#checkBoxMessage span').text("");
+            $('#valid').text("");
+            $('#SelectUser').val("");
+            //form.reset() ;
+            $('#success').text("");
+            $('#fail').text("");
+        });
+    </script>
