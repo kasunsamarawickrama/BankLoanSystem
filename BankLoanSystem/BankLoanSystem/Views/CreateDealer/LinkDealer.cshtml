@@ -59,7 +59,8 @@
                             </div>*@
                             <div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                <div class="text-danger">@ViewBag.Error</div>
+                                <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
+                                @*<div class="text-danger">@ViewBag.Error</div>*@
                             </div>
                            
                             <div class="form-horizontal">
@@ -67,7 +68,8 @@
                                 <div style="clear:both"></div>
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
-                                        <span class="text-success">@ViewBag.SuccessMsg</span>                                       
+                                    <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+                                        @*<span class="text-success">@ViewBag.SuccessMsg</span>*@                                       
                                 }
 
                                
@@ -320,6 +322,9 @@
         $('#txtNewEmail').next("div").children("p").children("span").text("");
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
         
 
     });   
@@ -441,33 +446,35 @@
         clearTopMessages();
     });
 
-    //$('#txtPassword').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtPassword').click(function () {
+        clearTopMessages();
+    });
 
-    //$('#txtConfirmPassword').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtConfirmPassword').click(function () {
+        clearTopMessages();
+    });
 
-    //$('#txtFirstName').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtFirstName').click(function () {
+        clearTopMessages();
+    });
 
-    //$('#txtLastName').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtLastName').click(function () {
+        clearTopMessages();
+    });
 
-    //$('#txtNewEmail').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtNewEmail').click(function () {
+        clearTopMessages();
+    });
 
-    //$('#txtPhoneNumber').click(function () {
-    //    clearTopMessages();
-    //});
+    $('#txtPhoneNumber').click(function () {
+        clearTopMessages();
+    });
 
     function clearTopMessages() {
-        $(".text-danger").html("");
-        $(".text-success").html("");
+        //$(".text-danger").html("");
+        //$(".text-success").html("");
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
     }
    
 </script>

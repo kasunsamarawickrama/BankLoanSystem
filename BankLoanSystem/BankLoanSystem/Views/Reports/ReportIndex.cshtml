@@ -308,7 +308,8 @@
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                     frameDoc.removeChild(frameDoc.documentElement);
-
+                    //var startDate1 = moment(startDate, "MM/dd/yyyy");
+                    //var endDate1 = moment(endDate, "MM/dd/yyyy");
                     urlPrefix = urlPrefix + val + "&startDate=" + startDate + "&endDate=" + endDate;
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }

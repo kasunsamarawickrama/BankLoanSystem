@@ -1424,7 +1424,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                     loanData.stepId = 1;
                     Session["loanStep"] = loanData;
-                    return RedirectToAction("Step5", new { lbls = ViewBag.SuccessMsg });
+
+                    if((userData.step_status==1)|| (userData.step_status == 2)) {
+                        return RedirectToAction("Step5", new { lbls = ViewBag.SuccessMsg });
+                    }
+                    else if(userData.step_status == 0) {
+                        return RedirectToAction("Step6");
+                    }
                     //return RedirectToAction("Step5");
                     //ViewBag.SuccessMsg = "First Branch is created successfully";
                 }

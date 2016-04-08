@@ -20,7 +20,12 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
                 if (Request.QueryString["startDate"] != "")
-                    startDate = DateTime.ParseExact(Convert.ToDateTime(Request.QueryString["startDate"]).ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                {
+                    //string d1 = c.ConvertDateString(Request.QueryString["startDate"]);
+                    //startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    endDate = DateTime.ParseExact(Convert.ToDateTime(Request.QueryString["startDate"]).ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                }
+                    
                 if (Request.QueryString["endDate"] != "")
                     endDate = DateTime.ParseExact(Convert.ToDateTime(Request.QueryString["endDate"]).ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
                 //endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture); //Convert.ToDateTime(Request.QueryString["endDate"]);
