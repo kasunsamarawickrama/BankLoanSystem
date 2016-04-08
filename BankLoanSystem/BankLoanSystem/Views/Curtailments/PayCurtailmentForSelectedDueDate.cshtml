@@ -241,7 +241,7 @@
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
                             <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
                         </div>
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:17%;">
                             <label for="">Curt Pay Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                             <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
