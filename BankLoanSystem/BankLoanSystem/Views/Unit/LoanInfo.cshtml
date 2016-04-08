@@ -59,14 +59,15 @@
 
                                 }
 
-                                <div style="float:left;width:15%">
+                                <div style="float:left;width:15%;text-align:left;">
                                     <strong>
-                                        CurtDueDate : @if (ViewBag.CurtailmentDueDate == "EoM")
+                                        CurtDueDate :
+                                    </strong> @if (ViewBag.CurtailmentDueDate == "EoM")
                                         { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
                                         else { <label>@ViewBag.CurtailmentDueDate</label> }
-                                    </strong>
+                                   
                                 </div>
-                                <span style="float:right;padding-right:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+                                <span style="float:right;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
 
 
                             </div>
