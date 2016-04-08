@@ -160,7 +160,7 @@
                                 }
                             }
 
-                                    @Html.DropDownList("make", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+                                    @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
                                     @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
 
                         </div>
@@ -177,7 +177,7 @@
                             }<SelectListItem>
                                 <SelectListItem>
 
-                                    @Html.DropDownList("model", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
                                     @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
 
