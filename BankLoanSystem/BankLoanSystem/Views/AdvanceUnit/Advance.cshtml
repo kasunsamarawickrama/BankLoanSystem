@@ -41,7 +41,11 @@
     }
  input[type="button"]:disabled { background-color: #d9d9d9; cursor: default; } 
 
-
+ #searchDiv .col-md-2{
+     width: 17%;
+    padding: unset;
+    padding-left: 13px;
+ }
 </style>
 
 
@@ -57,12 +61,12 @@
 
 
 
-<div class="body-content" style="width:100%">
+<div class="body-content" style="width:100%;float:unset">
 
     <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
         @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })
     </div>
-    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 30px 1px 0px;">
+    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 30px 30px 0px;">
         <div>
             @grid.GetHtml(
             tableStyle: "gridtable",
@@ -150,8 +154,7 @@
                                         yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
                              @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
                             @*@Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })*@
                                     @*<div id="vehicleyear"><span class="text-danger"></span></div>*@
@@ -167,8 +170,7 @@
                                         makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
 
                         @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
                         @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
@@ -185,8 +187,7 @@
                                         modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
 
                                             @Html.DropDownList("model", modelList, "--Select--", new { @class = "form-control", @id = "cmbModel" })
                                             @*@Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })*@
@@ -258,7 +259,7 @@
 
     </div>
 
-        </div>
+        @*</div>*@
    
     <div class="link-bar" style="margin-bottom:15px;">
 
