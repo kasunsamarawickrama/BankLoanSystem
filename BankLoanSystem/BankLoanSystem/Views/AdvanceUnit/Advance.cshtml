@@ -35,7 +35,7 @@
     text-align:left;
 }
  .gridtable {
-       
+
         width: 97.5%;
         
     }
@@ -92,9 +92,13 @@
 )
             
         </div>
-        <div style="text-align: right">
-            <span id="subtotal" style="font-weight: bold;"> Current Total to Advance :$ 0.00 </span>
+        
+        <div>
+            <span id="subtotal" style="margin-right:15px;float: right;text-align:right;font-weight:bold;"> Current Total to Advance : $ 0.00  </span>
         </div>
+        
+        <div id="unitid" class="hidden"></div>
+    </div>
         <div id="unitid" style="clear:both" class="hidden"></div>
     </div>
 
@@ -132,7 +136,7 @@
                     <div class="form-group row">
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20",@Style= "width:175px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:60px">
@@ -1180,7 +1184,7 @@
 
 
                         $('#identificationNumberSearch').focusout(function () {
-                            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+                            $(this).attr('placeholder', 'last 6 of VIN/HIN/SN');
                         });
 
                         function roundNumber(number, decimal_points) {
