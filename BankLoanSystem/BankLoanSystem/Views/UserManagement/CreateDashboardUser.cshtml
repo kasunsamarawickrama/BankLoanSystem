@@ -152,10 +152,19 @@
                                                     <div class="control-label col-sm-2 lable_style">
                                                         <label>Role</label>
                                                     </div>
+                                                    @if (ViewBag.RoleId.Items.Count == 1)
+                                                    {
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.HiddenFor(model => model.RoleId, new { Value = (int)ViewBag.RoleId.Items[0].RoleId, id = "RoleId2" })
+                                                        @Html.LabelFor(model => model.RoleId, (string)ViewBag.RoleId.Items[0].RoleName, htmlAttributes: new { @class = "form-control text_field_input", id = "RoleIdLbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                    </div>
+                                                    }
+                                                    else {
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
 
                                                     </div>
+                                                    }
                                                     <div class="err_msg_box">
                                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
                                                     </div>
@@ -179,7 +188,7 @@
                                                             @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
                                                         </div>
                                                         }
-                                                        <div class="err_msg_box">
+                                                        <div class="err_msg_box" style="margin-top:5px">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
@@ -206,7 +215,7 @@
                                                             @Html.DropDownListFor(model => model.BranchIdUser, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchIdUser" })
                                                         </div>
                                                         }
-                                                        <div class="err_msg_box">
+                                                        <div class="err_msg_box" style="margin-top:5px">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchIdUser, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
@@ -299,6 +308,12 @@
         $('#txtNewEmail').next("div").children("p").children("span").text("");
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('#RoleId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#RoleId').next("div").children("p").children("span").text("");
+        $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#BranchId').next("div").children("p").children("span").text("");
+        $('#BranchIdUser').closest("div").siblings('div').children("p").children("span").text("");
+        $('#BranchIdUser').next("div").children("p").children("span").text("");
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
         $('#branchDiv').hide();

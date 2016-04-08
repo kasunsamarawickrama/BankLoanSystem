@@ -1023,7 +1023,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult setLoanCode(string loanCode)//, string action
         {
             //Session["loanCode"] = loanCode;
-            if (loanCode == null)
+            if (loanCode == null || Session["detail"] == null)
             {
                 return RedirectToAction("UserDetails");
             }
@@ -1241,12 +1241,18 @@ namespace BankLoanSystem.Controllers
            
 
             List<Branch> branchesListsLoan =  new List<Branch>();
+            List<Branch> branchesListsLoanAd = new List<Branch>();
             branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
             //List<Branch> branchesLists2 = new List<Branch>();
             //branchesLists2 = branchesListsLoan.Distinct().ToList();
-
-            ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
-
+            if (userData.RoleId == 1)
+            {
+                ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
+            }
+            else {
+                branchesListsLoanAd = branchesListsLoan.FindAll(t => t.BranchId == userData.BranchId);
+                ViewBag.BranchIdUser = new SelectList(branchesListsLoanAd, "BranchId", "BranchName");
+            }
             //List<Branch> branchesLists3 = new List<Branch>();
             //branchesLists3 = branchesListsLoan;
             //Session["BranchLoans"] = branchesLists3;
@@ -1515,18 +1521,18 @@ namespace BankLoanSystem.Controllers
             int reslt = userreqAccsss.InsertUserRequest(userReq);
             if (reslt >= 0)
             {
-                string body = "User Name      " + userData.UserName + "< br />" +
-                              "Position       " + (string)Session["searchType"] + "< br />" +
-                              "Company        " + userData.CompanyName + "< br />" +
-                              "Branch         " + userData.BranchName + "< br />" +
-                              "Loan           " + loancod + "< br />" +
-                              "Date and Time  " + DateTime.Now + "< br />" +
-                              "Title          " + userReq.topic + "< br />" +
-                              "Message        " + userReq.message + "< br />" +
-                              "Page           " + page_nam + "< br />";
+                string body = "User Name     :" + userData.UserName + "< br />" +
+                              "Position      :" + (string)Session["searchType"] + "< br />" +
+                              "Company       :" + userData.CompanyName + "< br />" +
+                              "Branch        :" + userData.BranchName + "< br />" +
+                              "Loan          :" + loancod + "< br />" +
+                              "Date and Time :" + DateTime.Now + "< br />" +
+                              "Title         :" + userReq.topic + "< br />" +
+                              "Message       :" + userReq.message + "< br />" +
+                              "Page          :" + page_nam + "< br />";
 
                 Email email = new Email("asanka@thefuturenet.com");
-                email.SendMail(body, "Account details");
+                email.SendMail(body, "User Request From Dealer Floor Plan Management Software");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
                 return RedirectToAction("UserRequestMessage", "UserManagement");

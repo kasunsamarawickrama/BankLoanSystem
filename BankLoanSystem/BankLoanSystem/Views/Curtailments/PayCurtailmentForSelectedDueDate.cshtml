@@ -23,9 +23,9 @@
 }
 </style>
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
-    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+    @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })
 </div>
-<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:unset">
+<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 1px 0px">
                             <div>
                                 @grid.GetHtml(
                                    tableStyle: "gridtable",
@@ -34,7 +34,7 @@
                                    rowStyle: "webgrid-row-style",
                                    htmlAttributes: new { id = "checkableGrid" },
                                    columns: grid.Columns(
-                                   grid.Column(
+                                   grid.Column(style: "gridColumnSelect",
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                                            , header: "{checkall}"
                                    ),
@@ -43,15 +43,15 @@
                                    //     "Date Advanced",
                                    //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
                                    //),
-                                   grid.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
-                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
-                                   grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                                   grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
+                                   grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
+                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
+                                   grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                   grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                                   grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
-                                        "Due Date",
+                                        "Due Date", style: "gridColumnOthers",
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
                                    ),
                                    grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>)
@@ -110,88 +110,86 @@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
-            <input type="button" id="payAll" class="btn btn-primary" style="margin-left:15px" value="Pay Curtailments on all selected" disabled/>
+            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left:15px" value="Pay Curtailments on all selected" disabled/>
         </div>
     </div>
 </form>
 
 
 <div class="info-bar search-panel" style="margin-top:15px;" id ="searchDiv">
-    <div class="form-inline" style="margin-left:25px;">
-        <div class="form-group">
-            <label for="">VIN/HIN/Serial</label>
+    
 
-            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
-            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+    <div class="row" style="display:inline-block">
+        <div class="col-xs-12" style="padding:unset;">
+            <form>
+                <fieldset>
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <label for="">VIN/HIN/Serial</label>
 
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20", @Style = "width:165px" } })
+                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+
+
+
+                        </div>
+                        <div class="col-md-2" id="div-combobox1-1" style="margin-left:50px">
+                            <label for="">Year</label>
+                            @{
+                                List<SelectListItem> yearList = new List<SelectListItem>();
+                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                {
+                                    if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
+                                    {
+                                        yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
+                                    }
+                                }
+                            }
+                                    @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
+                                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-md-2" id="div-combobox1-2">
+                            <label for="">Make</label> @{List<SelectListItem> makeList = new List<SelectListItem>();
+                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                {
+                                    if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                                    {
+                                        makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                    }
+                                }
+                            }
+
+                                    @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+                                    @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-md-2" id="div-combobox1-3">
+                            <label for="">Model</label>
+                            @{List<SelectListItem> modelList = new List<SelectListItem>();
+                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                {
+                                    if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                                    {
+                                        modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                    }
+                                }
+                            }<SelectListItem>
+                                <SelectListItem>
+
+                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+
+
+
+                        </div>
+                        <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:29px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
+                        <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-
-        <div class="form-group" style="margin-left:20px;">
-            <label for="">Year</label>
-
-
-            @{
-                List<SelectListItem> yearList = new List<SelectListItem>();
-                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
-                {
-                    if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
-                    {
-                        yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
-                    }
-                }
-            }
-
-            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
-                            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
-
-        </div>
-
-        <div class="form-group" style="margin-left:20px;">
-            <label for="">Make</label>
-
-            @{List<SelectListItem> makeList = new List<SelectListItem>();
-                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
-                {
-                    if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
-                    {
-                        makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
-                    }
-                }
-            }
-
-        
-        @Html.DropDownList("make", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
-        @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
-
-        </div>
-
-        <div class="form-group" style="margin-left:20px;">
-            <label for="">Model</label>
-
-            @{List<SelectListItem> modelList = new List<SelectListItem>();
-                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
-                {
-                    if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
-                    {
-                        modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
-                    }
-                }
-            }
-            @Html.DropDownList("model", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
-            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
-            
-
-
-        </div>
-
-
-        
-        <button type="button" id="btnClear" tabindex="-1" class="btn btn-default" style="margin-right:25px;float:right;">Clear</button>
-        <button type="button" id="btnSearch" class="btn btn-info" style="margin-right:10px;float:right;">Search</button>
-        
     </div>
-
-
 
 </div>
 

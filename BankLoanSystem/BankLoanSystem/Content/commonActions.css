@@ -248,7 +248,7 @@
         margin-top:10px;
         margin-bottom:10px;
         border-collapse: collapse;
-        width: 95%;
+        width: 97%;
         background-color: aliceblue;
         font-size:12px !important;
     }
@@ -261,7 +261,7 @@
     .gridtable th, .gridtable td {
         border: 1px solid cadetblue;
         padding: 5px;
-        width:2%;
+        /*width:2%;*/
     }
 
     .webgrid-alternating-row {
@@ -290,7 +290,29 @@
     }
      .gridColumn {
        text-align:right ;
+        width: 130px;  
     }
+
+    .gridColumnSelect {
+       text-align:left ; 
+            width: 100px;     
+    }
+    .gridColumnVIN {
+       text-align:left ; 
+        width: 130px;     
+         
+    }
+    .gridColumnSmall {
+       text-align:left ; 
+        width: 70px;     
+       
+    }
+    .gridColumnOthers {
+       text-align:left ; 
+        width: 120px;     
+       
+    }
+     
 
 
    
@@ -325,6 +347,9 @@
      padding:unset;
  }
 
+ .gridtable label{
+     font-size:12px !important;
+ }
 
 
 

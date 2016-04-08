@@ -57,14 +57,14 @@ color:#545454;
             <div class="col-sm-7">
                 
                 <div id="rights">
-                    @Html.CheckBox("selectAll", new { @class = "All" })
+                    @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
                     @Html.Label("All")
                     <br />
                     @for (var i = 0; i < Model.UserRightsList.Count; i++)
                     {
 
                         @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                        @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i.ToString() })
+                        @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i+1 })
                         @Html.DisplayFor(x => x.UserRightsList[i].description)
                         <br />
 
@@ -81,10 +81,10 @@ color:#545454;
 
 
 <script type="text/javascript">
-   
-    
+
+
     $(function () {
-        $('#selectAll').on('change', function () {
+        $('#CheckAll').on('change', function () {
             $('#checkBoxMessage span').text("");
             if ($(this).is(':checked')) {
                 //alert('checked');
@@ -97,29 +97,54 @@ color:#545454;
                 $('.All').prop('checked', false);
             }
         });
-        $('.All').on('change', function () {
-            $('#checkBoxMessage span').text("");
-            
-        });
+        //$('.All').on('change', function () {
+        //    $('#checkBoxMessage span').text("");
+
+        //});
     });
     if(@ViewBag.LoanId.Items.Count==1){
         var loan = $('#LoanIdUser').val();
         SendParaTo(loan);
     }
-    
+
     $('#LoanIdUser2').change(function () {
         $('#loanIdMessage span').text("");
         $('#selectAll').prop('checked', false);
         $('.All').prop('checked', false);
 
     });
+    $(function () {
+        $('.All').on('change', function () {
+            $('#checkBoxMessage span').text("");
+            checkAll();
+        });
+    });
+    function checkAll(){
+        var model = @Html.Raw(Json.Encode(Model));
+        var len = model.UserRightsList.length;
+        var count =0;
+        for (var j = 0 ; j < model.UserRightsList.length; j++){
+            var str = '#'+(j+1);
+            if ($(str).is(':checked')) {
+                //alert('checked');
+                count++;
+            }
+        }
+        if(count === len){
+            $('#CheckAll').prop('checked', true);
+        }else{
+            $('#CheckAll').prop('checked', false);
+        }
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
+    };
     function modcheck(){
         var model = @Html.Raw(Json.Encode(Model));
         //console.log(model);
         var arr = new Array();
         for(var j=0,k=0; j< model.UserRightsList.length ;j++){
             var ids = '#'+ j.toString();
-            if($(ids).is(':checked')){    
+            if($(ids).is(':checked')){
                 arr[k] = model.UserRightsList[j].rightId;
                 k++;
             }

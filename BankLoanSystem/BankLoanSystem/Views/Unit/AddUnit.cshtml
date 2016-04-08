@@ -218,7 +218,7 @@
                                             }
                                         }
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox1-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox1-1" })
                                         @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
                                         <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger"></span></div>
                                     </div>
@@ -227,7 +227,7 @@
                                     @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
                                     <div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" id="div-combobox1-2">
                                         <div>
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox1-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         <div id="vehiclemake" class="validation-error"><span class="text-danger"></span></div>
@@ -239,7 +239,7 @@
                                     @Html.EditorFor(model => model.vehicle.Model, new { htmlAttributes = new { @id = "editor1-3", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-3">
                                         <div>
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox1-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
                                         <div id="vehiclemodel" class="validation-error"><span class="text-danger"></span></div>
@@ -315,7 +315,7 @@
                                                 Value = "Yellow"
                                             });
                                         }
-                                        @Html.DropDownList("color", Colourlist, "-- select type --", new { @class = "form-control", @Style = "width: 136%;", @id = "combobox1-4" })
+                                        @Html.DropDownList("color", Colourlist, "", new { @class = "form-control", @Style = "width: 136%;", @id = "combobox1-4" })
                                         @Html.ValidationMessageFor(model => model.vehicle.Color, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -521,7 +521,7 @@
                                     @Html.EditorFor(model => model.atv.Year, new { htmlAttributes = new { @id = "editor4-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox4-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox4-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox4-1" })
                                         @Html.ValidationMessageFor(model => model.atv.Year, "", new { @class = "text-danger" })
                                         <div id="atvyear" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -530,7 +530,7 @@
                                     @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
                                     <div class="col-sm-2">
                                         <div class="block_invalid" onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" id="div-combobox4-2">
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox4-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.atv.Make, "", new { @class = "text-danger" })
                                         <div id="atvmake" class="validation-error"><span class="text-danger"></span></div>
@@ -542,7 +542,7 @@
                                     @Html.EditorFor(model => model.atv.Model, new { htmlAttributes = new { @id = "editor4-3", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         <div class="block_invalid" onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-3">
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox4-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
                                         <div id="atvmodel" class="validation-error"><span class="text-danger"></span></div>
@@ -2679,7 +2679,7 @@
 
                 // block unwanted characters
 
-                $(document).on('keypress','.block_invalid span input,.block_invalid_char' , function(e){
+                $(document).on('keypress','.block_invalid_char' , function(e){
                     var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
                     res = InvalidCharacters(this, array, e.which);
 
@@ -2693,7 +2693,20 @@
                         return;
                     }
                 } );
+                //$(document).on('keypress','.block_invalid span input' , function(e){
+                //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+                //    res = InvalidCharacters(this, array, e.which);
 
+                //    if (res === 1) {
+                //        e.preventDefault();
+                //        return;
+                //    }
+                //    else if (e.which === 92 || e.which === 39) {
+                //        //$(this).siblings('div').children('span').text("Invalid character.");
+                //        e.preventDefault();
+                //        return;
+                //    }
+                //} );
                 $(document).on('keypress','.block_invalid_allow_dash' , function(e){
                     var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
                     res = InvalidCharacters(this, array, e.which);

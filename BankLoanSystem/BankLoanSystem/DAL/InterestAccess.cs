@@ -113,7 +113,7 @@ namespace BankLoanSystem.DAL
                 DataRow dataRow = dataSet.Tables[0].Rows[0];
 
                 interest.InterestRate = decimal.Parse(dataRow["interest_rate"].ToString());
-                if ((dataRow["paid_date"].ToString().Contains("payoff")))
+                if ((dataRow["paid_date"].ToString().Contains("d"))||(dataRow["paid_date"].ToString().Contains("m")))
                 {
                     interest.option = "payoff";
                     interest.PaidDate = "payoff";
