@@ -209,7 +209,7 @@
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>Payment Method</label>
                                         </div>
-                                        <div class="col-xs-8 text_field short_text_field">
+                                        <div class="col-xs-8 text_field short_text_field" style="width:45%">
                                             @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Payment Method--", htmlAttributes: new { @class = "form-control text_field_input" })
                                         </div>
                                         <div class="err_msg_box">

@@ -695,7 +695,6 @@ namespace BankLoanSystem.DAL
                             vmy.VehicleMake = reader["make"].ToString();
                             modelList.Add(vmy);
 
-
                         }
                     }
                     return modelList;
