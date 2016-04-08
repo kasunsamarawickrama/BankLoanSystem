@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -54,6 +55,42 @@ namespace BankLoanSystem.Reports
 
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+        }
+
+        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerCurtailmentReceiptPrint = new ReportViewer();
+
+            rptViewerCurtailmentReceiptPrint.Reset();
+            rptViewerCurtailmentReceiptPrint.LocalReport.EnableExternalImages = true;
+            rptViewerCurtailmentReceiptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentReceipt.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
+
+            rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptPrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
 
     }

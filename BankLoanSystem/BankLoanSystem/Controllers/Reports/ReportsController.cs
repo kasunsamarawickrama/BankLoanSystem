@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
+using BankLoanSystem.Reports;
 
 namespace BankLoanSystem.Controllers.Reports
 {
@@ -37,6 +39,10 @@ namespace BankLoanSystem.Controllers.Reports
             return View();
         }
 
+        /// <summary>
+        /// Reporting page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ReportIndex()
         {
             ReportAccess ra = new ReportAccess();
@@ -60,6 +66,51 @@ namespace BankLoanSystem.Controllers.Reports
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
             return View();
+        }
+
+        /// <summary>
+        /// Print reports
+        /// </summary>
+        /// <param name="rptType"></param>
+        /// <param name="loanId"></param>
+        /// <param name="range1"></param>
+        /// <param name="range2"></param>
+        /// <param name="titleStatus"></param>
+        [HttpPost]
+        public int PrintPage(string rptType, int loanId, string range1, string range2, string titleStatus)
+        {
+            if (rptType == "LotInspection")
+            {
+                RptDivLotInspection lInspection = new RptDivLotInspection();
+                return lInspection.PrintPage(loanId);
+            }
+            else if (rptType == "CurtailmentInvoice")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivCurtailmentInvoice ciInvoice = new RptDivCurtailmentInvoice();
+                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "CurtailmentReceipt")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
+                return crReceipt.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "TitlesStatus")
+            {
+                RptDivTitleStatus tsStatus = new RptDivTitleStatus();
+                return tsStatus.PrintPage(loanId, 0);
+            }
+            else if (rptType == "FullInventory")
+            {
+                RptDivFullInventory fInventory = new RptDivFullInventory();
+                return fInventory.PrintPage(loanId);
+            }
+            return -1;
         }
 
     }

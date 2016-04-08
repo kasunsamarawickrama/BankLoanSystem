@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.UI;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -46,6 +47,12 @@ namespace BankLoanSystem.Reports
             rptViewerAddUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
 
+        }
+
+        public void PrintPage(int loanId)
+        {
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAddUnit.LocalReport);
+            rpd.Print();
         }
     }
 }
