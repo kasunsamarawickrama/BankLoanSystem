@@ -241,6 +241,7 @@
 
         .form-control[disabled] { 
             cursor: default; 
+
         }
 
         .gridtable {
@@ -350,6 +351,8 @@
  .gridtable label{
      font-size:12px !important;
  }
+
+ input[type="button"]:disabled { background-color: gray; cursor: default; } 
 
 
 
