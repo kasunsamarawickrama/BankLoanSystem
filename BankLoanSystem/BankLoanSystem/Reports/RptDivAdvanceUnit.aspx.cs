@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Xml.Linq;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -67,6 +68,12 @@ namespace BankLoanSystem.Reports
             {
                 units = new List<Unit>();
             }
+        }
+
+        public void PrintPage(int loanId)
+        {
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceUnit.LocalReport);
+            rpd.Print();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
@@ -43,6 +44,39 @@ namespace BankLoanSystem.Reports
 
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+        }
+
+        public int PrintPage(int loanId)
+        {
+            ReportViewer rptViewerFullInventoryPrint = new ReportViewer();
+            rptViewerFullInventoryPrint.Reset();
+            rptViewerFullInventoryPrint.LocalReport.EnableExternalImages = true;
+            rptViewerFullInventoryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
+
+            rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerFullInventoryPrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }
