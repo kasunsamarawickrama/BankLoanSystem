@@ -79,7 +79,7 @@ width:800px;
         grid1.Column("Company", "Company", canSort: false, format:@<text>@{<label id="company_name" class="company_name">@item.company_name</label>}</text>),
         grid1.Column("Branch", "Branch", canSort: false, format:@<text>@{<label id="branchname" class="branchname">@item.branch_name</label>}</text>),
         grid1.Column("Loan", "Loan", canSort: false, format:@<text>@{<label id="loan_code" class="loan_code">@item.loan_code</label>}</text>),
-        grid1.Column("Topic", "Topic", canSort: false, format:@<text>@{<label id="topic" class="topic">@item.topic</label><input type="hidden" value="@item.message" name="message" class="message" id="message" />}</text>)
+        grid1.Column("Topic", "Topic", canSort: false, format:@<text>@{<label id="topic" class="topic">@item.topic</label><input type="hidden" value="@item.message" name="message" class="message" id="message" /><input type="hidden" value="@item.email" name="email" class="email" id="email" />}</text>)
 
         
         )
@@ -141,7 +141,6 @@ width:800px;
                 <label>Message</label>
             </div>
             <div class="col-xs-8">
-                @*@Html.TextAreaFor(model => model.message, 5, 85, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage" , @disabled = "disabled"} })*@
                 @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage", @disabled = "disabled" } })
             </div>
         </div>
@@ -230,7 +229,7 @@ width:800px;
            $('#txtloan').val('');
            $('#txttopic').val('');
            $('#txtmessage').val('');
-           $('#txtanswer').val('');
+           document.getElementById("txtanswer").value = "";
         };
         //cancel button click event
         $('#btnCancel').click(function () {
@@ -241,7 +240,7 @@ width:800px;
             $('#txtloan').val('');
             $('#txttopic').val('');
             $('#txtmessage').val('');
-            $('#txtanswer').val('');
+            document.getElementById("txtanswer").value = "";
         });
         
 
@@ -262,7 +261,8 @@ width:800px;
             $('#txttopic').val(tr.find('#topic').text());
             $('#txtmessage').val(tr.find('#message').val());
             document.getElementById("req_id").innerHTML = tr.find("#request_id").val();
-            $('#txtanswer').val('');
+            //$('#txtanswer').val('');
+            document.getElementById("txtanswer").value = '';
             
             //document.getElementById("unitid").innerHTML = tr.find("#uId").val();
 

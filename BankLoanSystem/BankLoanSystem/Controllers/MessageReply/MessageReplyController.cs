@@ -29,18 +29,12 @@ namespace BankLoanSystem.Controllers.MessageReply
             int reslt = userreqAccsss.UpdateUserRequestAnswer(userrequest);
             if (reslt >= 0)
             {
-                //string body = "User Name      " + userData.UserName + "< br />" +
-                //              "Position       " + (string)Session["searchType"] + "< br />" +
-                //              "Company        " + userData.CompanyName + "< br />" +
-                //              "Branch         " + userData.BranchName + "< br />" +
-                //              "Loan           " + "< br />" +
-                //              "Date and Time  " + DateTime.Now + "< br />" +
-                //              "Title          " + "< br />" +
-                //              "Message        " + userReq.message + "< br />" +
-                //              "Page           " + "< br />";
+                string body = "Title         :" + userrequest.topic+ "< br />" +
+                              "Message       :" + userrequest.message + "< br />" +
+                              "Answer        :" + userrequest.answer + "< br />";
 
-                //Email email = new Email("asanka@thefuturenet.com");
-                //email.SendMail(body, "Account details");
+                Email email = new Email(userrequest.email);
+                email.SendMail(body, "Reply By Dealer Floor Plan Management Software team");
 
                 ViewBag.SuccessMsg = "Response will be delivered to your program inbox";
 
