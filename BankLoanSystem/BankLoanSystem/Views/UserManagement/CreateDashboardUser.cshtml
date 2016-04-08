@@ -435,7 +435,10 @@
               var  branchL = $('#BranchIdUser option:selected').val();
 
             //alert(branchL);
-              GetLoan(branchL);
+              if (branchL > 0) {
+                  GetLoan(branchL);
+              }
+             
 
         }
 
