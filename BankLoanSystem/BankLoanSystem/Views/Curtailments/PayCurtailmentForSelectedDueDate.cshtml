@@ -112,13 +112,13 @@
         <div class="form-inline">
             <div class="form-group">
                 
-                <label for="">Pay Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px", @disabled = "disabled" , maxlength = 10  } })
+                <label for="" style="margin-left: -620px;">Pay Date : </label>
+                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled" , maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
-            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left:15px" value="Pay Curtailments on all selected" disabled/>
+            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -230px;" value="Pay Curtailments on all selected" disabled/>
         </div>
     </div>
 </form>
@@ -263,9 +263,9 @@
 
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 40px;" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;" disabled />
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px; margin-left: 30px;" disabled />   
 
 
                 </fieldset>
