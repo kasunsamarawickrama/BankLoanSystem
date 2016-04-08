@@ -67,6 +67,7 @@ namespace BankLoanSystem.Models
         public string company_name { get; set; }
         public string branch_name { get; set; }
         public string role { get; set; }
+        public string email { get; set; }
 
         public List<UserRequest> RequestList { get; set; }
     }
