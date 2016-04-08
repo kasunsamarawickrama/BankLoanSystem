@@ -34,7 +34,7 @@
                                    rowStyle: "webgrid-row-style",
                                    htmlAttributes: new { id = "checkableGrid" },
                                    columns: grid.Columns(
-                                   grid.Column(
+                                   grid.Column(style: "gridColumnSelect",
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
                                            , header: "{checkall}"
                                    ),
@@ -43,15 +43,15 @@
                                    //     "Date Advanced",
                                    //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
                                    //),
-                                   grid.Column("AdvanceDate", "Date Advanced", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
-                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
-                                   grid.Column("Year", "Year", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   grid.Column("Make", "Make", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                                   grid.Column("Model", "Model", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
+                                   grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
+                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
+                                   grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                   grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                                   grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
-                                        "Due Date",
+                                        "Due Date", style: "gridColumnOthers",
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
                                    ),
                                    grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>)
@@ -212,11 +212,11 @@
            
                 <fieldset>
                     <div class="form-group row">
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:15%;">
                             <label for="">Date Advanced </label>
                             @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
-                        <div class="col-md-2" style="width:21%;" >
+                        <div class="col-md-2" style="width:27%;" >
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -238,14 +238,14 @@
                         
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row" style="margin-top:15px !important">
                         <div class="col-md-2">
                             <label for="">Curt-Amount </label>
                             @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
                             <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
                         </div>
-                        <div class="col-md-2" style="width:13%;">
+                        <div class="col-md-2" style="width:17%;">
                             <label for="">Curt Pay Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                             <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
@@ -259,9 +259,9 @@
 
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-default cancel btn-right" style="float:right; margin-right:5px;margin-left:147px;width:130px" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-info btn-center" style="float:left;width:130px;margin-left:2px" disabled />
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;" disabled />
 
 
                 </fieldset>
