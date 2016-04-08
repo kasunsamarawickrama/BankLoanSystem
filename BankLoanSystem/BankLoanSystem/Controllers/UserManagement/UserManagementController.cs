@@ -1023,7 +1023,7 @@ namespace BankLoanSystem.Controllers
         public ActionResult setLoanCode(string loanCode)//, string action
         {
             //Session["loanCode"] = loanCode;
-            if (loanCode == null)
+            if (loanCode == null || Session["detail"] == null)
             {
                 return RedirectToAction("UserDetails");
             }
