@@ -48,13 +48,13 @@
        
         <div class="details-container">
             <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
-                @Html.Label("No Unit to Pay Off", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;margin-left:40%;" })
+                @Html.Label("No Unit to Pay Off", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })
             </div>
 
             <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto" id="mainGridShow">
 
 
-                <div class="info-bar" id="payOffGridDIv" style="margin-top:15px;padding:unset">
+                <div class="info-bar" id="payOffGridDIv" style="margin-top:10px;padding:1px 0px 20px 0px">
                     <!-- This is for Grid-->
                     <input type="hidden" value="@ViewBag.loanDetails.loanId" id="loanId" />
                     @grid.GetHtml(
@@ -119,7 +119,7 @@
                             @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                         </div>
 
-                        <button type="button" class="btn btn-primary" style="margin-left:15px" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
+                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:15px;width:200px;" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
                     <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
@@ -127,90 +127,89 @@
                 </div>
 
 
-                <div class="info-bar search-panel" style="margin-top:15px;">
+                <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;">
 
-                    <div class="form-inline" style="margin-left:25px;">
-                        <div class="form-group" style="margin-left: -203px;">
-                            <label for="id">VIN/HIN/Serial</label>
+                    <div class="row" style="display:inline-block">
+                        <div class="col-xs-12" style="padding:unset;">
+                            <form>
+                                <fieldset>
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label for="">VIN/HIN/Serial</label>
+                                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" ,@style = "width:165px" } })
+                                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2" id="div-combobox1-1">
+                                            <label for="">Year</label>
+                                            @{
+                                                List<SelectListItem> yearList = new List<SelectListItem>();
+                                                if (ViewBag.payOffList != null)
+                                                {
+                                                    foreach (var type in ViewBag.payOffList)
+                                                    {
+                                                        if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                                        {
+                                                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                                    @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" ,@style= "margin-left: 24px;" })
+                                                    @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
+                                                    <div id="vehicleyear"><span class="text-danger"></span></div>
 
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" } })
-                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+
+                                        </div>
+                                        <div class="col-md-2" id="div-combobox1-2" style="margin-left:1px">
+                                            <label for="">Make</label>
+                                            @{
+                                                List<SelectListItem> makeList = new List<SelectListItem>();
+                                                if (ViewBag.payOffList != null)
+                                                {
+                                                    foreach (var type in ViewBag.payOffList)
+                                                    {
+                                                        if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
+                                                        {
+                                                            makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                                        }
+                                                    }
+                                                }
+
+                                            }
 
 
+                                                    @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
+                                                    @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
+                                                    @*<div id="vehiclemake"><span class="text-danger"></span></div>*@<div id="vehiclemake"><span class="text-danger"></span></div>
+
+                                                   
+                                        </div>
+                                        <div class="col-md-2" id="div-combobox1-3" style="margin-left:1px">
+                                            <label for="">Model</label>
+                                            @{
+                                                List<SelectListItem> modelList = new List<SelectListItem>();
+
+                                                if (ViewBag.payOffList != null)
+                                                {
+                                                    foreach (var type in ViewBag.payOffList)
+                                                    {
+                                                        if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
+                                                        {
+                                                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                                    @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+                                                    @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+
+                                        </div>
+                                        <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:10px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
+                                        <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
+                                    </div>
+                                </fieldset>
+                            </form>
                         </div>
-
-                        <div class="form-group" style="margin-left:20px;">
-                            <label for="">Year</label>
-
-                            @{
-                                List<SelectListItem> yearList = new List<SelectListItem>();
-                                if (ViewBag.payOffList != null)
-                                {
-                                    foreach (var type in ViewBag.payOffList)
-                                    {
-                                        if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
-                                        {
-                                            yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
-                                        }
-                                    }
-                                }
-                            }
-                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" })
-                            @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                            <div id="vehicleyear"><span class="text-danger"></span></div>
-
-                        </div>
-
-                        <div class="form-group" style="margin-left:20px;">
-                            <label for="">Make</label>
-
-                            @{
-                                List<SelectListItem> makeList = new List<SelectListItem>();
-                                if (ViewBag.payOffList != null)
-                                {
-                                    foreach (var type in ViewBag.payOffList)
-                                    {
-                                        if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
-                                        {
-                                            makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
-                                        }
-                                    }
-                                }
-
-                            }
-                        </div>
-                        @Html.DropDownList("make", makeList, "-- select make --", new { @class = "form-control", @id = "cmbMake" })
-                        @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
-                        <div id="vehiclemake"><span class="text-danger"></span></div>
-
-
-
-                        <div class="form-group" style="margin-left: 685px;margin-top: -46px;">
-                            <label for="">Model</label>
-
-                            @{
-                                List<SelectListItem> modelList = new List<SelectListItem>();
-
-                                if (ViewBag.payOffList != null)
-                                {
-                                    foreach (var type in ViewBag.payOffList)
-                                    {
-                                        if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
-                                        {
-                                            modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
-                                        }
-                                    }
-                                }
-                            }
-                            @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
-                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                            <div id="vehiclemodel"><span class="text-danger"></span></div>
-
-                        </div>
-
-
-                        <input type="button" name="search" value="Search" id="btnSearch" class="btn btn-info btn-center" style="margin-left: 20px;margin-top: -43px;" />
-                        <input type="button" value="Clear" id="btnClear" tabindex="-1" class="btn btn-default cancel btn-right" style="margin-top: -43px;" />
                     </div>
                 </div>
 
