@@ -1241,12 +1241,18 @@ namespace BankLoanSystem.Controllers
            
 
             List<Branch> branchesListsLoan =  new List<Branch>();
+            List<Branch> branchesListsLoanAd = new List<Branch>();
             branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
             //List<Branch> branchesLists2 = new List<Branch>();
             //branchesLists2 = branchesListsLoan.Distinct().ToList();
-
-            ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
-
+            if (userData.RoleId == 1)
+            {
+                ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
+            }
+            else {
+                branchesListsLoanAd = branchesListsLoan.FindAll(t => t.BranchId == userData.BranchId);
+                ViewBag.BranchIdUser = new SelectList(branchesListsLoanAd, "BranchId", "BranchName");
+            }
             //List<Branch> branchesLists3 = new List<Branch>();
             //branchesLists3 = branchesListsLoan;
             //Session["BranchLoans"] = branchesLists3;

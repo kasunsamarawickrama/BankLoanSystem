@@ -117,7 +117,7 @@
              }
     <div class="container" id="container">
         <div class="details-container">
-            @using (Ajax.BeginForm("AddUnit", null, new AjaxOptions() { OnFailure = "handleError", HttpMethod = "POST", LoadingElementId = "loadingDiv" }, new { enctype = "multipart/form-data", id = "form" }))
+            @using(Html.BeginForm("AddUnit", "Unit", FormMethod.Post, new { enctype = "multipart/form-data", id = "form" }))
             {  <div class="right-panel">
                 @{
                     Html.RenderAction("LoanPaymentDetails", "Unit");
@@ -901,7 +901,7 @@
                             <div class="form-group" id="advanceDateFormDiv" hidden>
 
                                 <div class="control-label col-sm-3" >
-                                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })<span style="color:red"> *</span>
+                                    @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })@*<span style="color:red"> *</span>*@
                                 </div>
 
 
@@ -2753,7 +2753,7 @@
 
 
     </div>
-
+<div style="clear:both"></div>
 
 
 
