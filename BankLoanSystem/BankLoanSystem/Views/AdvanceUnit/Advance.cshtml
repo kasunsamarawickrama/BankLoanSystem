@@ -55,7 +55,7 @@
     <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
         @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })
     </div>
-    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 0px 1px 0px;">
+    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 0px 30px 0px;">
         <div>
             @grid.GetHtml(
             tableStyle: "gridtable",
@@ -85,7 +85,10 @@
 )
             
         </div>
-        <span id="subtotal" style="margin-left:70%;"> Current Total to Advance : $ 0.00 </span>
+        
+        <div>
+            <span id="subtotal" style="margin-right:15px;float: right;text-align:right;font-weight:bold;"> Current Total to Advance : $ 0.00  </span>
+        </div>
         <div id="unitid" class="hidden"></div>
     </div>
 
@@ -123,7 +126,7 @@
                     <div class="form-group row">
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20",@Style="width:165px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:50px">
@@ -1168,7 +1171,7 @@
 
 
                         $('#identificationNumberSearch').focusout(function () {
-                            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+                            $(this).attr('placeholder', 'last 6 of VIN/HIN/SN');
                         });
 
                         function roundNumber(number, decimal_points) {

@@ -63,7 +63,7 @@
                         <div>
                            
                             <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-                            <span id="subtotal" style="margin-right: 30px;float: right;text-align: right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+                            <span id="subtotal" style="margin-right:10px;float:right;text-align:right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
                         </div>
                         
                         <div id="unitid" class="hidden"></div>
@@ -131,7 +131,7 @@
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
 
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "6", @Style = "width:165px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
 
 
@@ -298,7 +298,7 @@
         $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
     });
     $('#identificationNumberSearch').focusout(function () {
-        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+        $(this).attr('placeholder', 'last 6 of VIN/HIN/SN');
     });
     //block invalid characters
     $("#identificationNumberSearch").keypress(function (e) {
