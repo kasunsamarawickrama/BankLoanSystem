@@ -25,7 +25,7 @@
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     @Html.Label("Curtailments not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })
 </div>
-<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 1px 0px">
+<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
                             <div>
                                 @grid.GetHtml(
                                    tableStyle: "gridtable",
@@ -59,9 +59,13 @@
                                 )
                             )
                          </div>
+    
+                        <div>
+                           
+                            <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
+                            <span id="subtotal" style="margin-right: 30px;float: right;text-align: right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+                        </div>
                         
-                        <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-                        <span id="subtotal" style="margin-left:50% "> Current Curtailment Total : $ 0.00  </span>
                         <div id="unitid" class="hidden"></div>
                 </div>
 <script>
@@ -127,7 +131,7 @@
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
 
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20", @Style = "width:165px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "6", @Style = "width:165px" } })
                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
 
 
