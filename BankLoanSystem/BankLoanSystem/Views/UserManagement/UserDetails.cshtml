@@ -106,7 +106,7 @@
                         }
                                     <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
                                         <span class="icon-banknote"></span>
-                                        <span class="txt">Pay Off A Unit</span>
+                                        <span class="txt">Pay Off Unit</span>
                                     </button>
 
                                     <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
@@ -148,7 +148,7 @@
                         {
                         <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
                             <span class="icon-banknote"></span>
-                            <span class="txt">Pay Off A Unit</span>
+                            <span class="txt">Pay Off Unit</span>
                         </button>
                         }
                         if (ViewBag.ViewReports == 1)
@@ -232,7 +232,7 @@
                     {
                         <button class="big-button show-popup" type="submit" data-showpopup="1">
                             <span class="icon-user-check"></span>
-                            <span class="txt">Assign A User</span>
+                            <span class="txt">Assign User</span>
 
                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                         </button>
@@ -307,13 +307,13 @@
                             <th>Loans</th>
                             <th>Users</th>
                         </tr>
-                        <tr>
+                        <tr class="used">
                             <td>Used</td>
                             <td>1</td>
                             <td>2</td>
                             <td>2</td>
                         </tr>
-                        <tr>
+                        <tr class="avail">
                             <td>Available</td>
                             <td>2</td>
                             <td>3</td>
