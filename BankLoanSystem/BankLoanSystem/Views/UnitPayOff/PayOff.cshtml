@@ -63,7 +63,7 @@
                                     rowStyle: "webgrid-row-style",
                                     htmlAttributes: new { id = "checkableGrid" },
                                     columns: grid.Columns(
-                                    grid.Column(
+                                    grid.Column(style: "gridColumnSelect",
                                      format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                                          , header: "{checkall}"
 
