@@ -188,7 +188,7 @@
                                                             @Html.DropDownListFor(model => model.BranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
                                                         </div>
                                                         }
-                                                        <div class="err_msg_box">
+                                                        <div class="err_msg_box" style="margin-top:5px">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
@@ -215,7 +215,7 @@
                                                             @Html.DropDownListFor(model => model.BranchIdUser, null, "--Select Branch--", htmlAttributes: new { @class = "form-control", id = "BranchIdUser" })
                                                         </div>
                                                         }
-                                                        <div class="err_msg_box">
+                                                        <div class="err_msg_box" style="margin-top:5px">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchIdUser, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
@@ -308,6 +308,12 @@
         $('#txtNewEmail').next("div").children("p").children("span").text("");
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('#RoleId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#RoleId').next("div").children("p").children("span").text("");
+        $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#BranchId').next("div").children("p").children("span").text("");
+        $('#BranchIdUser').closest("div").siblings('div').children("p").children("span").text("");
+        $('#BranchIdUser').next("div").children("p").children("span").text("");
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
         $('#branchDiv').hide();
