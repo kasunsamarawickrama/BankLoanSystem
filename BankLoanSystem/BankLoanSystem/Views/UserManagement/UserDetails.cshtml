@@ -204,10 +204,10 @@
 
            
 
-            <button class="big-button">
+            @*<button class="big-button">
                 <span class="icon-accessibility"></span>
                 <span class="txt">Edit User Rights</span>
-            </button>
+            </button>*@
 
             <button class="big-button">
                 <span class="icon-credit"></span>
@@ -233,6 +233,12 @@
                         <button class="big-button show-popup" type="submit" data-showpopup="1">
                             <span class="icon-user-check"></span>
                             <span class="txt">Assign User</span>
+
+                            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+                        </button>
+                        <button class="big-button show-popup" type="submit" data-showpopup="1">
+                            <span class="icon-user-check"></span>
+                            <span class="txt">Edit User Rights</span>
 
                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                         </button>

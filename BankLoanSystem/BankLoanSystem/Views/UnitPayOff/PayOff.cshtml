@@ -68,11 +68,11 @@
                                          , header: "{checkall}"
 
                                  ),
-                                     grid.Column("Date Entered", "Date Entered", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
-                                        grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                                        grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
-                                        grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
-                                        grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
+                                     grid.Column("Date Entered", "Date Entered", canSort: false, format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
+                                        grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                                        grid.Column("Year", "Year", canSort: false, format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
+                                        grid.Column("Make", "Make", canSort: false, format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
+                                        grid.Column("Model", "Model", canSort: false, format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
                                         grid.Column("Purchase Price ($)", "Purchase Price ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="cost" class="year">@Convert.ToDecimal(item.PurchasePrice).ToString("#,##0.00")</label>}</text>),
                                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                                      )
