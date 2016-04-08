@@ -18,16 +18,15 @@ namespace BankLoanSystem.Reports
             if (!IsPostBack)
             {
                 int loanId = 0;
-                DateTime startDate = new DateTime();
-                DateTime endDate = new DateTime();
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
-                if (Request.QueryString["startDate"] != "")
-                    startDate = DateTime.ParseExact(Convert.ToDateTime(Request.QueryString["startDate"]).ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                if (Request.QueryString["endDate"] != "")
-                    endDate = DateTime.ParseExact(Convert.ToDateTime(Request.QueryString["endDate"]).ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                //endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture); //Convert.ToDateTime(Request.QueryString["endDate"]);
+
+                if (string.IsNullOrEmpty(Request.QueryString["startDate"])) return;
+                var startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
+
+                if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
+                var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
                 RenderReport(loanId, startDate, endDate);
             }
