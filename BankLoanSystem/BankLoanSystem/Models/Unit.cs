@@ -87,8 +87,8 @@ namespace BankLoanSystem.Models
 
         public bool IsTitleReceived { get; set; }
 
-        [Required(ErrorMessage = "Please select")]
-        [Display(Name = "Title(Document) Received ?")]
+        [Required(ErrorMessage = "Please confirm if the title has been received")]
+        [Display(Name = "Has the Title been received?")]
         public string TitleReceived { get; set; }
 
         public string Note { get; set; }
@@ -108,8 +108,8 @@ namespace BankLoanSystem.Models
 
         public bool IsAdvanced { get; set; }
 
-        [Required(ErrorMessage = "Please select")]
-        [Display(Name = "Do you want to advance this unit now ?")]
+        [Required(ErrorMessage = "Please chose if the vehicle will be advanced at this time")]
+        [Display(Name = "Will you advance the unit today?")]
         public string AdvanceNow { get; set; }
 
         public bool IsApproved { get; set; }
