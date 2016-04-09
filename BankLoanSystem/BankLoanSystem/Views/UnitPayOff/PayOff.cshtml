@@ -89,7 +89,7 @@
                                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                                      )
                                      )
-                    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 42px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
+                    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
                 </div>
 
                 <div class="info-bar" style="margin-top:15px">
@@ -120,7 +120,7 @@
                     }
 
 
-                    <div class="form-inline">
+                    <div class="form-inline" style="text-align: left;padding-left: 16px;">
                         <div class="form-group">
                             <label for="">Pay Date : </label>
 
@@ -129,7 +129,7 @@
                             @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                         </div>
 
-                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:15px;width:200px;" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
+                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:77px;width:200px;" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
                     <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
@@ -137,7 +137,7 @@
                 </div>
 
 
-                <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;">
+                <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;text-align:left">
 
                     <div class="row" style="display:inline-block">
                         <div class="col-xs-12" style="padding:unset;">
@@ -224,7 +224,7 @@
                 </div>
 
 
-                <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1">
+                <div class="info-bar" style="margin-top:15px ; padding:unset;padding-top:10px;padding-bottom:10px" id="searchGrid1">
                     <!-- This is for Search Grid-->
 
                 </div>
@@ -237,7 +237,7 @@
                                 <fieldset>
                                     <div class="form-group row">
                                         <input type="hidden" value="" id="iUnitId" />
-                                        <div class="col-md-2" style="width: 19.666667%;">
+                                        <div class="col-md-2" style="width: 26%;">
                                             <label for="">Vin/HIN/Serial </label>
                                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
@@ -266,7 +266,7 @@
                                             <label for="">Pay Off Amount </label>
                                             @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:9%">
                                             <label for="">Pay Date </label>
                                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                         </div>
