@@ -467,7 +467,10 @@
                                         <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Length
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength", @placeholder = "0", @style = "width: 157px;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
