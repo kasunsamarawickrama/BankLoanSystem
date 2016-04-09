@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers
                     var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
                     if (passwordFromDB == null || (checkCharHave == false))
                     {
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                     }
 
                     string passwordEncripted = PasswordEncryption.encryptPassword(user.password, split[1]);
@@ -504,19 +504,19 @@ namespace BankLoanSystem.Controllers
                         //else
                         //{
                         //    //User Name Correct but user enter password does not match with database password value
-                        //    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
+                        //    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                         //}
                     }
                     else
                     {
                         //User Name Correct but user enter password does not match with database password value
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password." });
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                     }
                 }
                 else
                 {
                     //Incorrect UserName
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect username or password" });
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit" });
                 }     
             }
             catch(System.Exception ex)
@@ -547,7 +547,7 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("EmployeeDetail", "EmployeeDashBoard");
             }
             else {
-                return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect username or password" });
+                return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit" });
             }
         }
 
