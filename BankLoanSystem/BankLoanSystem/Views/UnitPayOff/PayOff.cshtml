@@ -146,7 +146,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-2">
                                             <label for="">VIN/HIN/Serial</label>
-                                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" ,@style = "width:165px" } })
+                                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6" ,@style = "width:165px" } })
                                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:40px">
@@ -1151,7 +1151,7 @@
             $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
         });
         $('#identificationNumberSearch').focusout(function () {
-            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+            $(this).attr('placeholder', 'Last 6 of VIN/HIN/SN');
         });
         //block invalid characters
         $("#identificationNumberSearch").keypress(function (e) {
