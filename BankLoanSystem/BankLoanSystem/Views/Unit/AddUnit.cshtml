@@ -189,14 +189,17 @@
                                     }
                                     else
                                     {
-                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", onChange = "valueChangeUnitType();" })
+                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
                                     }
-                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                                    </div>
+                
+                                                </div>
+                
 
-                            </div>
-                            <div class="info-unit" id="vehicle" hidden>
+                                            </div>
+                
+                                            <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
@@ -467,7 +470,7 @@
                                             @{
                                                 List<SelectListItem> hitchlist = new List<SelectListItem>();
 
-                                                hitchlist.Add(new SelectListItem
+                                            hitchlist.Add(new SelectListItem
                                                 {
                                                     Text = "Bumper Pull",
                                                     Value = "Bumper Pull"
