@@ -77,7 +77,8 @@
 }
 else {
     <div id="noDataLabelDiv" style="padding-bottom: 15px;width:870px;float: unset;margin-top:10px; font:medium;color:red;text-align:center">
-        @Html.Label("No units matching the search could be found.", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })
+        @*@Html.Label("No units matching the search could be found.", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })*@
+        <label>No units matching the search could be found.</label>
     </div>
 
 }
