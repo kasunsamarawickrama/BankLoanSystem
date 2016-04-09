@@ -67,7 +67,7 @@
                     }
                     else
                     {
-                        @Html.DropDownListFor(model => model.LoanId, null, "--Select loan number--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
+                        @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
                         @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                         <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
                     }
