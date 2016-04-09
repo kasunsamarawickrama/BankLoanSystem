@@ -439,7 +439,7 @@
                             if (((para1 != "") &&(para1 != null)) && (para1.length < 6)) {
                                 //alert('ff');
                                 $("#searchIdentificationNumber").text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
-                                $('#identificationNumberSearch').val("");
+                                //$('#identificationNumberSearch').val("");
 
                                 $('.centered span').text('Error');
                                 $('#identificationNumberSearch').addClass('input-validation-error')
@@ -457,7 +457,7 @@
                         });
                         $('#identificationNumberSearch').click(function () {
                             $("#searchIdentificationNumber").text('');
-                            $('#identificationNumberSearch').val("");
+                           // $('#identificationNumberSearch').val("");
 
                             $('.centered span').text('');
                             $('#identificationNumberSearch').removeClass('input-validation-error');
