@@ -138,12 +138,17 @@
             <form>
                 <fieldset>
                     <div class="form-group row">
+                        
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
                             @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
-                            <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
+                            <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
                         </div>
+                        
+                           
+                        
+                        
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:60px">
                             <label for="">Year</label>
                             @{
@@ -402,6 +407,8 @@
                             $("#cmbMake").val('');
                             $("#cmbModel").val('');
                             $("#noDataLabelDiv").hide();
+                            $("#searchIdentificationNumber").text('');
+                            $('#identificationNumberSearch').removeClass('input-validation-error');
                             $("#searchGrid1").hide();
 
                         }
@@ -429,14 +436,14 @@
                             var para3 = $("#cmbMake").val();
                             var para4 = $("#cmbModel").val();
                             if (para1 == null) { para1 = ''; }
-                            if (((para1 != "") || (para1 != null)) && (para1.length < 6)) {
-                                alert('ff');
-                                $("searchIdentificationNumber span").text("Please type last 6 characters of VIN/HIN/Serial No");
-                                $(vareditor).val("");
+                            if (((para1 != "") &&(para1 != null)) && (para1.length < 6)) {
+                                //alert('ff');
+                                $("#searchIdentificationNumber").text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+                                $('#identificationNumberSearch').val("");
 
                                 $('.centered span').text('Error');
                                 $('#identificationNumberSearch').addClass('input-validation-error')
-                                $('#searchGrid1').hide();
+                                $('#searchGrid1').hide()
                                 e.preventDefault();
 
                             }
@@ -448,7 +455,13 @@
 
 
                         });
+                        $('#identificationNumberSearch').click(function () {
+                            $("#searchIdentificationNumber").text('');
+                            $('#identificationNumberSearch').val("");
 
+                            $('.centered span').text('');
+                            $('#identificationNumberSearch').removeClass('input-validation-error');
+                        });
                         function ClearMainGrid() {
                             var count = 0;
                             $("#checkableGrid").find("input:checkbox").each(function () {
@@ -926,6 +939,8 @@
                             $('.centered span').text('');
                             $('#errorAdvanceAmount').text('');
                             $("#singleUnitDiv").hide();
+                            $("#searchIdentificationNumber").text('');
+                            $('#identificationNumberSearch').removeClass('input-validation-error');
                         }
 
                         function SetTextBoxValues(tr) {
@@ -1321,6 +1336,8 @@
                                 $('.centered span').text('Error');
                             }
                         });
+
+                       
 
                     </script>
 
