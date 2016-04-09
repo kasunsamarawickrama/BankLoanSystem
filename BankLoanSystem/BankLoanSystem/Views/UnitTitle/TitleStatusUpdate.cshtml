@@ -53,7 +53,7 @@
                         <div class="col-md-2">
                             @Html.EditorFor(model=>model.IdentificationNumberSearch,new { htmlAttributes = new { @class = "form-control",@id = "identificationNumberSearch",@maxlength =6} })
                             @Html.ValidationMessageFor(model => model.IdentificationNumberSearch, "", new { @class = "text-danger" })
-                            <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
+                            <div id="searchIdentificationNumber" class="validation-error" style="width:193px;margin-top:5px;"><span class="text-danger"></span></div>
                         </div>
                         <div class="col-md-2">
                             <button style="margin:unset;margin-left:-10px;" type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnDisplay">Display</button>
@@ -75,34 +75,34 @@
                             <form>
                                 <fieldset>
                                     <div class="form-group row">
-                                        <div class="col-md-2" style="width:21%">
+                                        <div class="col-md-2" style="width:28%;">
                                             <label for="">VIN/HIN/Serial</label>
                                             @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.IdentificationNumber, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2" style="width:10%;text-align:left">
+                                        <div class="col-md-2" style="width:15%;margin-left:-2%">
                                             <label for="">Year</label>
-                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled"} })
+                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled",@style="text-align:left;"} })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Make</label>
                                             @Html.EditorFor(model => model.TitleDetails.Make, new { htmlAttributes = new { @class = "form-control", @id = "unitMake",@disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Model</label>
                                             @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Current Unit Status</label>
                                             @Html.EditorFor(model => model.TitleDetails.CurrentUnitStatus, new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentUnitStatus, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Current Title Status</label>
                                             @Html.EditorFor(model => model.TitleDetails.CurrentTitleStatus, new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentTitleStatus, "", new { @class = "text-danger" })
@@ -173,7 +173,8 @@
 
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popup2" style="left:38%">
+    <div class="overlay-content popup2" style="margin-left: 41px;">
+
         <h3>This unit has not been paid off, do you wish to proceed?</h3>
 
         @*<span class="text-warning">Do you wish to proceed?</span><br />*@
@@ -359,7 +360,7 @@
         //});
         function FocusOutCall(span, vareditor, val)
         {
-            $(span).text("Please type last 6 characters of VIN/HIN/Serial No");
+            $(span).text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
             $(vareditor).val("");
             
             $('.centered span').text('Error');
@@ -459,7 +460,7 @@
             if (($('#identificationNumberSearch').val() == "") &&( ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
             {
                 
-                $('.centered span').text('Search unit and then update the title status');
+                $('.centered span').text('Please search a unit you would like the title to be changed to');
                
             }
             else if ((para1!='')&&(($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != "")))
@@ -484,19 +485,19 @@
            
                 else {
                    
-                    $('#updateTitleDiv span').text("Select the status of the title you would like to update");
+                    $('#updateTitleDiv span').text("Please choose the status you would like the title to be changed to");
                     $('.centered span').text('Error');
                     e.preventDefault();
                 }
             }
             else if ((para1 != '') && (($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
             {
-                $('.centered span').text('Select unit and then update title status');
+                $('.centered span').text('Please choose a unit you would like the title to be changed to');
             }
 
             else {
                 
-                $('#updateTitleDiv span').text("Select the status of the title you would like to update");
+                $('#updateTitleDiv span').text("Please choose the status you would like the title to be changed to");
                 
 
                 $('.centered span').text('Error');
