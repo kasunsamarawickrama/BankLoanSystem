@@ -16,7 +16,7 @@
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
 
-
+<link href="~/Content/commonActions.css" rel="stylesheet" />
 <script src="~/scripts/bootstrap.min.js"></script>
 
 <link href="~/Content/overlaypopup.css" rel="stylesheet" />
@@ -29,10 +29,10 @@
         margin-right: 5px;
     }
 </style>
-<div class="container-child">
+
     @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
     }
-    <div class="container" id="container">
+    <div class="container" id="container" style="padding-top:15px !important">
         <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
         <div class="btns-clm" id="divRptType">
             <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
@@ -119,8 +119,8 @@
 
             <div class="form-inline" style="margin-top:15px">
                 <div class="form-group">
-                    <button style="width: 100px" type="button" id="btnDisplay" class="btn btn-info">Display</button>
-                    <button style="width: 100px;display:none;float:right;" type="button" id="btnPrint" class="btn btn-info">Print</button>
+                    <button style="font-size:14px; width: 100px" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-display"></span>Display</button>
+                    <button style="font-size:14px;width: 100px;display:none;float:right;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-printer"></span> Print</button>
 
                 </div>
             </div>
@@ -131,13 +131,13 @@
 
         <hr />
 
-        <div id="reportViewerDiv" hidden>
+        @*<div id="reportViewerDiv" hidden>
             <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
-        </div>
+        </div>*@
 
 
     </div>
-</div>
+
 <script type="text/javascript">
     var errorCount = 0;
 
@@ -346,7 +346,7 @@
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
-            alert('Please select report type');
+            $('.centered h5 span').text("Please select report type");
         }
     });
 
@@ -515,4 +515,5 @@
         field: document.getElementById('endDate'),
         format: 'l'
     });
+
 </script>

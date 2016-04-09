@@ -41,7 +41,7 @@
     {
     <div class="overlay-bg">
     </div>
-        <div class="overlay-content popup1" style="left:31%">
+        <div class="overlay-content popup1" style="margin-left: 248px;">
             <h3>Company Setup is on Progress</h3>
 
             <span class="text-warning">Do you wish to continue the Company Setup?</span><br />
@@ -62,7 +62,7 @@
     {
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popup1" style="left:31%">
+    <div class="overlay-content popup1" style="margin-left: 248px;">
         <h3>Loan Setup is on Progress</h3>
 
         <span class="text-warning">Do you wish to continue the Loan Setup?</span><br />
@@ -97,7 +97,7 @@
                 @Html.AntiForgeryToken()
                 <div class="text-danger"> <span></span> </div>
                 <div class="form-group login-form-group">
-                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name", id = "userName" } })
+                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "Username", id = "userName" } })
                     <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })</p></div>
                 </div>
 
