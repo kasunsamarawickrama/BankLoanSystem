@@ -5,7 +5,7 @@
     <div>
         <asp:scriptmanager id="ScriptManager1" runat="server"></asp:scriptmanager>
         <rsweb:ReportViewer ID="rptViewerLotInspection" runat="server" Font-Size="8pt" Height="100%" Width="100%" repo Font-Names="Verdana" ProcessingMode="Remote" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt">
-            <ServerReport ReportPath="/Reports/RptLotInspection.rdlc" ReportServerUrl="http://www.dfp.carmartnet.net/reportserver" />
+            <ServerReport ReportPath="/Reports/RptLotInspection.rdlc" ReportServerUrl="http://www.dfpso.com/reportserver" />
             
         </rsweb:ReportViewer>
 
