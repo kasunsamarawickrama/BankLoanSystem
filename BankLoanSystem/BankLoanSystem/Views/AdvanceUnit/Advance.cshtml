@@ -124,7 +124,7 @@
             </div>
             <div class="col-xs-3" id="advanceDateAll" style="width:30%">
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", autocomplete = "off", @disabled = "disabled" , placeholder = "MM/DD/YYYY" , maxlength = 10, @Style = "width:165px" } })
-                <span class="text-danger field-validation-error" id="errorStartDate" style="left:25%"></span>
+                <span class="text-danger field-validation-error" id="errorStartDate" style="left:7%"></span>
         </div>
             <input type="button" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:60px;width:200px;margin-top:0px;margin-left: -185px;" disabled/>
         </div>
@@ -142,7 +142,6 @@
                             <label for="">VIN/HIN/Serial</label>
                             @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
-                            <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:60px">
                             <label for="">Year</label>
@@ -234,7 +233,7 @@
                         </div>
                        
                         </div>
-                    <div class="form-group row" style="margin-top:15px !important;margin-bottom:10px !important">
+                    <div class="form-group row" style="margin-top:15px !important">
 
                         <div class="col-md-2">
                             <label>Price</label>
@@ -248,7 +247,7 @@
                         <div class="col-md-2">
                             <label>Advance Date</label>
                             @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" , maxlength = 10 } })
-                            <span class="text-danger field-validation-error" id="errorAdvanceDate" style="left:25%"></span>
+                            <span class="text-danger field-validation-error" id="errorAdvanceDate" style=""></span>
                         </div>
                     </div>
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 185px;margin-left: -190px;margin-top: 40px;" />
@@ -429,18 +428,7 @@
                             var para3 = $("#cmbMake").val();
                             var para4 = $("#cmbModel").val();
                             if (para1 == null) { para1 = ''; }
-                            if (((para1 != "") || (para1 != null)) && (para1.length < 6)) {
-                                alert('ff');
-                                $("searchIdentificationNumber span").text("Please type last 6 characters of VIN/HIN/Serial No");
-                                $(vareditor).val("");
-
-                                $('.centered span').text('Error');
-                                $('#identificationNumberSearch').addClass('input-validation-error')
-                                $('#searchGrid1').hide();
-                                e.preventDefault();
-
-                            }
-                            else if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+                            if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
                                 Search(para1, para2, para3, para4);
                             } else {
                                 $('#searchGrid1').hide();
@@ -795,7 +783,7 @@
                                 $('#advanceDate').addClass('input-validation-error');
 
                                 $('.centered span').text('Error');
-                                $('#errorAdvanceDate').text('Advance date is required');
+                                $('#errorAdvanceDate').text('Please select the Advance Date');
                                 $('#iAdvance').addClass('input-validation-error');
 
                                 $('.centered span').text('Error');
@@ -809,7 +797,7 @@
                                 $('#advanceDate').addClass('input-validation-error');
 
                                 $('.centered span').text('Error');
-                                $('#errorAdvanceDate').text('Advance date is required');
+                                $('#errorAdvanceDate').text('Please select the Advance Date');
 
                                 e.preventDefault();
                                 return;
@@ -867,7 +855,7 @@
                                 $('#startDate').addClass('input-validation-error');
 
                                 $('.centered span').text('Error');
-                                $('#errorStartDate').text('Advance date is required');
+                                $('#errorStartDate').text('Please select the Advance Date');
                                 e.preventDefault();
                                 return;
                             }
@@ -1080,7 +1068,7 @@
                         //    else if (Number(num) <= 0) {
                         //        $("#tagscloud span").fadeIn();
                         //        $(this).addClass('input-validation-error');
-                        //        $("#tagscloud span").text("Advance must be greater than zero");
+                        //        $("#tagscloud span").text("Please enter an Advance Amount");
 
                         //    } else {
                         //        $("#tagscloud span").fadeOut();
@@ -1172,7 +1160,7 @@
                             else if (Number(num) === 0) {
                                 $(this).addClass('input-validation-error');
                                 $('.centered span').text('Error');
-                                $("#tagscloud span").text("Advance must be greater than zero");
+                                $("#tagscloud span").text("Please enter an Advance Amount");
                             }
                             else if (Number(num) > Number(cost)) {
                                 //$("#tagscloudAdvance span").fadeIn();
@@ -1187,7 +1175,7 @@
                             else if (Number(num) <= 0) {
                                 //$("#tagscloudAdvance span").fadeIn();
                                 $(this).addClass('input-validation-error');
-                                $("#tagscloud span").text("Advance must be greater than zero");
+                                $("#tagscloud span").text("Please enter an Advance Amount");
                             }
                             else if (advance > maxAdvance) {
                                 //$("#tagscloudAdvance span").fadeIn();
@@ -1245,7 +1233,7 @@
                         $('#advanceDate').blur(function () {
 
                             if ($(this).val() == "") {
-                                $('#errorAdvanceDate').text('Advance date is required');
+                                $('#errorAdvanceDate').text('Please select the Advance Date');
                                 $(this).addClass('input-validation-error');
                                 $(this).attr('placeholder', 'MM/DD/YYYY');
                                 $('.centered span').text('Error');
@@ -1288,7 +1276,7 @@
 
                             if ($(this).val() == "") {
 
-                                $('#errorStartDate').text('Advance date is required');
+                                $('#errorStartDate').text('Please select the Advance Date');
                                 $(this).addClass('input-validation-error');
                                 $(this).attr('placeholder', 'MM/DD/YYYY');
                                 $('.centered span').text('Error');
