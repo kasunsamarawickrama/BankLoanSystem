@@ -184,7 +184,17 @@ namespace BankLoanSystem.Controllers
             Session["rowId"] = userData.UserId;
             Session["loanStep"] = null;
             Loan loan = new Loan();
-            if (Session["AuthenticatedUser"] != null)
+
+            if (Session["loanDashboardJoinDealer"] != null)
+            {
+                Session.Remove("loanDashboardJoinDealer");
+            }
+            if (Session["loanDashboardAssignUser"] != null)
+            {
+                Session.Remove("loanDashboardAssignUser");
+            }
+
+                if (Session["AuthenticatedUser"] != null)
             {
                 DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
@@ -1002,7 +1012,16 @@ namespace BankLoanSystem.Controllers
                             }
                         }
                     }
-                    Session["loanDashboard"] = finalSelectedLoan;
+                    if ((string)Session["popUpSelectionType"] == "linkDealer")
+                    {
+                        Session["loanDashboardJoinDealer"] = finalSelectedLoan;
+                    }else if ((string)Session["popUpSelectionType"] == "assignRights")
+                    {
+                        Session["loanDashboardAssignUser"] = finalSelectedLoan;
+                    }
+                    else {
+                        Session["loanDashboard"] = finalSelectedLoan;
+                    }
                 }
             }
             Session["detail"] = "";
@@ -1516,9 +1535,9 @@ namespace BankLoanSystem.Controllers
                 loan = (Loan)Session["oneLoanDashboard"];
                 //Session.Remove("oneLoanDashboard");
             }
-            else if (Session["loanDashboard"] != null)
+            else if (Session["loanDashboardAssignUser"] != null)
             {
-                loan = (Loan)Session["loanDashboard"];
+                loan = (Loan)Session["loanDashboardAssignUser"];
             }
             if (TempData["submit"] != null) {
                 if ((string)TempData["submit"] == "success") {
@@ -1529,7 +1548,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.ErrorMsg = "Failed To Create User";
                 }
             }
-            if (Session["oneLoanDashboard"] != null || Session["loanDashboard"] != null)
+            if (Session["oneLoanDashboard"] != null || Session["loanDashboardAssignUser"] != null)
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;
