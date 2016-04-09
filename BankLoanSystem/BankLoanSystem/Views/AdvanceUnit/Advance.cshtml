@@ -455,6 +455,11 @@
 
                             // clear top error
                             $('.centered span').text('');
+                            $('#errorStartDate').text("");
+                            $('#errorStartDate').removeClass("field-validation-error");
+                            $('#startDate').removeClass("input-validation-error");
+
+                            
                             //$('#errorPayDate').text('');
                             //$('#payDate').removeClass('input-validation-error');
                             //$('#payDate').next('span').children().text('');
@@ -482,8 +487,10 @@
                         function ClearLabelMessages() {
                             $('#noDataLabelDiv').text("");
                             $('.label-success').text("");
+                            $('#errorStartDate').text("");
+                            
                         }
-
+                        
 
                         function Search(para1, para2, para3, para4) {
 
