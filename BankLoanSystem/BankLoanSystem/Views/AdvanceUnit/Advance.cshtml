@@ -142,6 +142,7 @@
                             <label for="">VIN/HIN/Serial</label>
                             @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
+                            <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:60px">
                             <label for="">Year</label>
@@ -428,7 +429,18 @@
                             var para3 = $("#cmbMake").val();
                             var para4 = $("#cmbModel").val();
                             if (para1 == null) { para1 = ''; }
-                            if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+                            if (((para1 != "") || (para1 != null)) && (para1.length < 6)) {
+                                alert('ff');
+                                $("searchIdentificationNumber span").text("Please type last 6 characters of VIN/HIN/Serial No");
+                                $(vareditor).val("");
+
+                                $('.centered span').text('Error');
+                                $('#identificationNumberSearch').addClass('input-validation-error')
+                                $('#searchGrid1').hide();
+                                e.preventDefault();
+
+                            }
+                            else if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
                                 Search(para1, para2, para3, para4);
                             } else {
                                 $('#searchGrid1').hide();
