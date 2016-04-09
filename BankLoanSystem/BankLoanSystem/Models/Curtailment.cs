@@ -22,7 +22,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Do you want Activate Loan?")]
         public string LoanStatus { get; set; }
 
-        [Required(ErrorMessage = "Due date is required.")]
+        [Required(ErrorMessage = "Please select the Curtailment payment date")]
         [Display(Name = "Due Date")]
         public string DueDate { get; set; }
 

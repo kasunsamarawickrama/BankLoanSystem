@@ -112,13 +112,13 @@
         <div class="form-inline">
             <div class="form-group">
                 
-                <label for="" style="margin-left: -620px;">Pay Date : </label>
+                <label for="" style="margin-left: -359px;">Curtailmnet Payment Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled" , maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left:25%"></span>
+                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
-            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -230px;" value="Pay Curtailments on all selected" disabled/>
+            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay Curtailments on all selected" disabled/>
         </div>
     </div>
 </form>
@@ -244,15 +244,15 @@
 
                     <div class="form-group row" style="margin-top:15px !important">
                         <div class="col-md-2">
-                            <label for="">Curt-Amount </label>
+                            <label for="">Curtailment Amount </label>
                             @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
                             @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
-                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:2%;width:274%"></span>
+                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
                         </div>
                         <div class="col-md-2" style="width:17%;">
-                            <label for="">Curt Pay Date </label>
+                            <label for="">Curtailment Payment Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
-                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="left:95%;top:50%;width:125%"></span>
+                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                             @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                             @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
@@ -265,7 +265,7 @@
 
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 40px;" />
 
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px; margin-left: 30px;" disabled />   
+                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px; margin-left: 174px;" disabled />   
 
 
                 </fieldset>
@@ -996,7 +996,7 @@
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
             
-                $('#errorPayDate').text('The Pay date field is Required');
+                $('#errorPayDate').text('Please select the Curtailment payment date');
                 $('#payDate').addClass('input-validation-error');
                 
             }
@@ -1152,7 +1152,7 @@
              var a = 1;
              if($("#payCurtDate").val() == ""){
                  // show error errorCurtPayDate
-                 $('#errorCurtPayDate').text('The Pay date field is Required');
+                 $('#errorCurtPayDate').text('Please select the Curtailment payment date');
                  $('#payCurtDate').addClass('input-validation-error');
                  a=0;
              }
@@ -1163,7 +1163,7 @@
                  a=0;
              }
              if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
-                 $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+                 $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
                  $('#iCurtAmount').removeClass('input-validation-error');
                  
                  
@@ -1251,7 +1251,7 @@
         $(this).val( num);
   
         if(parseFloat($(this).val()).toFixed(2) <= 0){
-            $('#errorCurtAmount').text('Curt Amount should be greater than zero');
+            $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
             $('#iCurtAmount').addClass('input-validation-error');
             $('.centered span').text('Error');
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
