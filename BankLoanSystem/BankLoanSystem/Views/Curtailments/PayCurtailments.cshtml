@@ -50,7 +50,7 @@
             <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
                 <div class="info-bar">
                     <div class="form-group row" style="margin-bottom: 0px;">
-                         <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Curtailment due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                         <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Curtailment Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
                         <div class="col-md-2"  >
                             @*<input class="form-control" type="date" />*@
 
@@ -177,7 +177,7 @@
             } else {
                 
                 // not valid data error
-                $('#errorDueDate').text('The field must be a date');
+                $('#errorDueDate').text('Please enter a valid payment date');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             }

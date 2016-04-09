@@ -101,7 +101,7 @@ namespace BankLoanSystem.Models
 
         public string AdvanceDateStr { get; set; }
 
-        [Required(ErrorMessage = "The Advance Date is required")]
+        [Required(ErrorMessage = "Please select the Advance Date")]
         public string DisplayAdvanceDate { get; set; }
 
         public bool AddAndAdvance { get; set; }
