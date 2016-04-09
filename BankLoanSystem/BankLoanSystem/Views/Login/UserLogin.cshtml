@@ -107,7 +107,7 @@
                         <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</p></div>
                     </div>
 
-                    <div class="errorMsg"><p id="error">@Html.DisplayFor(item => item.lbl)</p></div>
+                    <div class="errorMsg"><p id="error" style="height: 31px;">@Html.DisplayFor(item => item.lbl)</p></div>
                     <div class="login-button">
                         <button class="btn btn-md btn-success btn-block" type="submit">Sign in</button>
                     </div>
