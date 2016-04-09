@@ -38,7 +38,17 @@
             background-color: lightblue;
         }
 
-         input[type="button"]:disabled { background-color: gray; cursor: default; } 
+        .col-md-2{
+    text-align:left;
+}
+
+         input[type="button"]:disabled { background-color: #d9d9d9; cursor: default; } 
+
+          #searchDiv .col-md-2{
+     width: 17%;
+    padding: unset;
+    padding-left: 13px;
+ }
     </style>
 
 @{
@@ -79,21 +89,21 @@
                                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                                      )
                                      )
-                    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 42px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
+                    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
                 </div>
 
                 <div class="info-bar" style="margin-top:15px">
                     @if (ViewBag.IsTitleTrack == "Yes")
                     {
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-bottom:10px !important;">
 
                             @if (ViewBag.ComType == 1)
                             {
-                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                                <label style="text-align:left;width:38%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
                             }
                             else
                             {
-                                <label style="width:28%" for="" class="col-sm-4 form-control-label">Are the titles being returned from lender at this time?</label>
+                                <label style="text-align:left;width:38%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time?</label>
                             }
 
                             <div class="col-md-2">
@@ -110,7 +120,7 @@
                     }
 
 
-                    <div class="form-inline">
+                    <div class="form-inline" style="text-align: left;padding-left: 16px;">
                         <div class="form-group">
                             <label for="">Pay Date : </label>
 
@@ -119,7 +129,7 @@
                             @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
                         </div>
 
-                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:15px;width:200px;" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
+                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:77px;width:200px;" id="btnPayAll" disabled="disabled">Pay off all selected units</button>
                     </div>
 
                     <div id="customErrorPayDate" style="margin-left: 65px;"><span class="text-danger field-validation-error"></span></div>
@@ -127,7 +137,7 @@
                 </div>
 
 
-                <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;">
+                <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;text-align:left">
 
                     <div class="row" style="display:inline-block">
                         <div class="col-xs-12" style="padding:unset;">
@@ -136,10 +146,10 @@
                                     <div class="form-group row">
                                         <div class="col-md-2">
                                             <label for="">VIN/HIN/Serial</label>
-                                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "VIN/HIN/Serial", @maxlength = "20" ,@style = "width:165px" } })
+                                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6" ,@style = "width:165px" } })
                                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2" id="div-combobox1-1">
+                                        <div class="col-md-2" id="div-combobox1-1" style="margin-left:40px">
                                             <label for="">Year</label>
                                             @{
                                                 List<SelectListItem> yearList = new List<SelectListItem>();
@@ -154,13 +164,13 @@
                                                     }
                                                 }
                                             }
-                                                    @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" ,@style= "margin-left: 24px;" })
+                                                    @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear" ,@style= "width:143px" })
                                                     @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
                                                     <div id="vehicleyear"><span class="text-danger"></span></div>
 
 
                                         </div>
-                                        <div class="col-md-2" id="div-combobox1-2" style="margin-left:1px">
+                                        <div class="col-md-2" id="div-combobox1-2" style="margin-left:17px">
                                             <label for="">Make</label>
                                             @{
                                                 List<SelectListItem> makeList = new List<SelectListItem>();
@@ -178,13 +188,13 @@
                                             }
 
 
-                                                    @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
+                                                    @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake" })
                                                     @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
                                                     @*<div id="vehiclemake"><span class="text-danger"></span></div>*@<div id="vehiclemake"><span class="text-danger"></span></div>
 
                                                    
                                         </div>
-                                        <div class="col-md-2" id="div-combobox1-3" style="margin-left:1px">
+                                        <div class="col-md-2" id="div-combobox1-3" style="margin-left:7px;width:19%">
                                             <label for="">Model</label>
                                             @{
                                                 List<SelectListItem> modelList = new List<SelectListItem>();
@@ -200,11 +210,11 @@
                                                     }
                                                 }
                                             }
-                                                    @Html.DropDownList("model", modelList, "-- select model --", new { @class = "form-control", @id = "cmbModel" })
+                                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
                                                     @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
 
                                         </div>
-                                        <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:10px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
+                                        <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:18px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
                                         <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
                                     </div>
                                 </fieldset>
@@ -214,7 +224,7 @@
                 </div>
 
 
-                <div class="info-bar" style="margin-top:15px ; padding:unset" id="searchGrid1">
+                <div class="info-bar" style="margin-top:15px ; padding:unset;padding-top:10px;padding-bottom:10px" id="searchGrid1">
                     <!-- This is for Search Grid-->
 
                 </div>
@@ -227,7 +237,7 @@
                                 <fieldset>
                                     <div class="form-group row">
                                         <input type="hidden" value="" id="iUnitId" />
-                                        <div class="col-md-2" style="width: 19.666667%;">
+                                        <div class="col-md-2" style="width: 26%;">
                                             <label for="">Vin/HIN/Serial </label>
                                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
@@ -251,12 +261,12 @@
                                             @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="margin-top:15px !important">
                                         <div class="col-md-2">
                                             <label for="">Pay Off Amount </label>
                                             @Html.Editor("iBalance", new { @id = "iBalance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:9%">
                                             <label for="">Pay Date </label>
                                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                                         </div>
@@ -264,8 +274,8 @@
                                     </div>
                                     @if (ViewBag.IsTitleTrack == "Yes")
                                     {
-                                        <div class="form-group row">
-                                            <label style="width: 28%" for="" class="col-sm-4 form-control-label">Is the title being returned to Dealer at this time?</label>
+                                        <div class="form-group row" style="margin-top:15px !important">
+                                            <label style="width: 38%;text-align:left" for="" class="col-sm-5 form-control-label">Is the title being returned to Dealer at this time?</label>
 
 
                                             <div class="col-md-2">
@@ -280,8 +290,8 @@
                                             
                                         </div>
                                     }
-                                    <button style="width:100px" type="button" id="btnPay" class="btn btn-info" disabled="disabled">Pay</button>
-                                    <button type="button" class="btn btn-default" id="btnCancel" style="float:right;">Cancel</button>
+                                    <button style="width:100px;" type="button" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" disabled="disabled">Pay</button>
+                                    <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" style="float:right" >Cancel</button>
                                 </fieldset>
                             </form>
                         </div>
@@ -1141,7 +1151,7 @@
             $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
         });
         $('#identificationNumberSearch').focusout(function () {
-            $(this).attr('placeholder', 'VIN/HIN/Serial No');
+            $(this).attr('placeholder', 'Last 6 of VIN/HIN/SN');
         });
         //block invalid characters
         $("#identificationNumberSearch").keypress(function (e) {

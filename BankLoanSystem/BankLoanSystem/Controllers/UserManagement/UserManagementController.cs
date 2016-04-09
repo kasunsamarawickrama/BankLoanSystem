@@ -234,25 +234,11 @@ namespace BankLoanSystem.Controllers
                         {
                             if ((loanSelected.Rights.Count() > 0) && (loan.Rights != null))
                             {
-                                foreach (string s in loanSelected.Rights)
-                                {
-                                    if (s == "U004")
-                                    {
-                                        ViewBag.AddUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AddUnits = 0;
-                                    }
-                                    if (s == "U006")
-                                    {
-                                        ViewBag.ViewReports = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.ViewReports = 0;
-                                    }
-                                }
+                                
+
+                                    ViewBag.RightList = loan.Rights;
+
+                                
                             }
 
                         }
@@ -335,57 +321,9 @@ namespace BankLoanSystem.Controllers
                         {
                             if ((loan.Rights.Count() > 0) && (loan.Rights != null))
                             {
-                                foreach (string s in loan.Rights)
-                                {
-                                    if (s == "U001")
-                                    {
-                                        ViewBag.AdvanceUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AdvanceUnits = 0;
-                                    }
-                                    if (s == "U002")
-                                    {
-                                        ViewBag.TitleAdd = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.TitleAdd = 0;
-                                    }
-                                    if (s == "U003")
-                                    {
-                                        ViewBag.PayoffUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.PayoffUnits = 0;
-                                    }
-                                    if (s == "U005")
-                                    {
-                                        ViewBag.Curtailment = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.Curtailment = 0;
-                                    }
-                                    if (s == "U004")
-                                    {
-                                        ViewBag.AddUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AddUnits = 0;
-                                    }
-                                    if ((s == "U006") || (s == "U007"))
-                                    {
-                                        ViewBag.ViewReports = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.ViewReports = 0;
-                                    }
-                                }
+
+                                ViewBag.RightList = loan.Rights;
+                                
                             }
                             
 

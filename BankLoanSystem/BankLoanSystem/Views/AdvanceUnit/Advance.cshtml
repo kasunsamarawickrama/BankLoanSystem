@@ -39,9 +39,13 @@
         width: 97.5%;
         
     }
- input[type="button"]:disabled { background-color: gray; cursor: default; } 
+ input[type="button"]:disabled { background-color: #d9d9d9; cursor: default; } 
 
-
+ #searchDiv .col-md-2{
+     width: 17%;
+    padding: unset;
+    padding-left: 13px;
+ }
 </style>
 
 
@@ -57,12 +61,12 @@
 
 
 
-<div class="body-content" style="width:100%">
+<div class="body-content" style="width:100%;float:unset">
 
     <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
         @Html.Label("Not advanced units not found", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })
     </div>
-    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 30px 1px 0px;">
+    <div class ="info-unit" id ="checkableGridDiv"style="padding: 1px 30px 30px 0px;">
         <div>
             @grid.GetHtml(
             tableStyle: "gridtable",
@@ -94,7 +98,7 @@
         </div>
         
         <div>
-            <span id="subtotal" style="margin-right:15px;float: right;text-align:right;font-weight:bold;"> Current Total to Advance : $ 0.00  </span>
+            <span id="subtotal" style="margin-right:5px;float: right;text-align:right;font-weight:bold;"> Current Total to Advance : $ 0.00  </span>
         </div>
         
         <div id="unitid" class="hidden"></div>
@@ -150,8 +154,7 @@
                                         yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
                              @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
                             @*@Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })*@
                                     @*<div id="vehicleyear"><span class="text-danger"></span></div>*@
@@ -167,8 +170,7 @@
                                         makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
 
                         @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
                         @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
@@ -185,8 +187,7 @@
                                         modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
 
                                             @Html.DropDownList("model", modelList, "--Select--", new { @class = "form-control", @id = "cmbModel" })
                                             @*@Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })*@
@@ -203,7 +204,7 @@
 
 
 <div class="form-horizontal" style="margin-bottom:10px;margin-top:10px">
-    <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding:unset;padding-top:10px;padding-bottom: 10px;">
+    <div class="info-unit" id="searchGrid1" style="margin-top:10px;padding-top:10px;padding-bottom: 10px;padding-right: 30px;padding-left: 10px;">
 
 
     </div>
@@ -216,9 +217,9 @@
                     <div class="form-group row">
                         <div class="col-md-2">
                             <label>VIN/HIN/Serial</label>
-                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled",@Style= "width:175px" } })
+                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled",@Style= "width:210px" } })
                         </div>
-                        <div class="col-md-2" style="margin-left:50px">
+                        <div class="col-md-2" style="margin-left:90px">
                             <label>Year</label>
                             @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
@@ -230,13 +231,16 @@
                             <label>Model</label>
                             @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @Style = "width:175px" } })
                         </div>
-                        <div class="col-md-2" style="margin-left: 40px">
-                            <label>Price</label>
-                            @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;"} })
-                        </div>
+                       
                         </div>
                     <div class="form-group row" style="margin-top:15px !important">
+
                         <div class="col-md-2">
+                            <label>Price</label>
+                            @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
+                        </div>
+                        <div class="col-md-2" style="
+    margin-left: 92px;">
                             <label>Advance Amount</label>
                             @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                <div id="tagscloud"><span class="text-danger field-validation-error" id="errorAdvanceAmount"></span></div>
@@ -258,7 +262,7 @@
 
     </div>
 
-        </div>
+        @*</div>*@
    
     <div class="link-bar" style="margin-bottom:15px;">
 

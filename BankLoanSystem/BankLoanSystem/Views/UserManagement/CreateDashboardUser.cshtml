@@ -393,8 +393,8 @@
     });
     $('#BranchId').change(function () {
        // $('#BranchId2').val('');
-        $('#BranchIdUser option:selected').val('');
-        $('#LoanIdUser2 option:selected').val('');
+        $('#BranchIdUser').val('');
+        $('#LoanIdUser2').val('');
        // $('#BranchId2').val('');
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
@@ -408,7 +408,7 @@
 
 
 
-        $('#LoanIdUser2 option:selected').val('');
+        $('#LoanIdUser2').val('');
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
         $('#successSpn span').text("");
@@ -418,8 +418,8 @@
     });
     $('#BranchIdUser').change(function () {
         
-        $('#BranchId option:selected').val('');
-        $('#LoanIdUser2 option:selected').val('');
+        $('#BranchId').val('');
+        $('#LoanIdUser2').val('');
         //$('#BranchId2').val('');
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
@@ -435,7 +435,10 @@
               var  branchL = $('#BranchIdUser option:selected').val();
 
             //alert(branchL);
-              GetLoan(branchL);
+              if (branchL > 0) {
+                  GetLoan(branchL);
+              }
+             
 
         }
 

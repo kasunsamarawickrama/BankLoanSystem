@@ -14,6 +14,12 @@
     <link href="~/Content/commonActions.css" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
 
+<style>
+     .col-md-2{
+    text-align:left;
+}
+</style>
+
 @{
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
@@ -40,7 +46,7 @@
               
                 <div class="info-bar">
 
-                    <div class="form-group row" style="margin-bottom: 0px;">
+                    <div class="form-group row" style="margin-bottom: 0px;text-align: left;">
                         <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number for the unit you would like to update the title status of.</label>
 
 
@@ -49,7 +55,9 @@
                             @Html.ValidationMessageFor(model => model.IdentificationNumberSearch, "", new { @class = "text-danger" })
                             <div id="searchIdentificationNumber" class="validation-error"><span class="text-danger"></span></div>
                         </div>
-                         <button type="button" class="btn btn-info" id="btnDisplay">Display</button>
+                        <div class="col-md-2">
+                            <button style="margin:unset;margin-left:-10px;" type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnDisplay">Display</button>
+                        </div>
                     </div>
 
 
@@ -100,11 +108,11 @@
                                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentTitleStatus, "", new { @class = "text-danger" })
                                         </div>
                                         </div>
-                                    <div class="form-group row" style="margin-top:25px">
-                                        <label for="" class="col-sm-9 form-control-label">Select the status you wish to update the title to: </label>
+                                    <div class="form-group row" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
+                                        <label for="" class="col-sm-5 form-control-label">Select the status you wish to update the title to: </label>
 
 
-                                        <div class="col-md-8" style="margin-left:200px">
+                                        <div class="col-md-8" style="margin-left: -63px;display: inline-block;width: 398px;">
                                             <label class="radio-inline">
                                                 <input type="radio" name="inlineRadioOptions" id="notReceived" value="0"> Not Recieved
 
@@ -128,8 +136,8 @@
                                         </div>
                                         <div id="unitid" class="hidden"></div>
                                     </div>
-                                        <button type="button" class="btn btn-info" id="btnUpdate"style="width:100px">Update</button>
-                                        <button type="button" class="btn btn-default" id="btnCancel" tabindex="-1" style="float:right;">Cancel</button>
+                                        <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnUpdate"style="width:100px">Update</button>
+                                        <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
 </fieldset>
                             </form>
                         </div>
@@ -165,7 +173,7 @@
 
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popup2" style="left:55%">
+    <div class="overlay-content popup2" style="left:38%">
         <h3>This unit has not been paid off, do you wish to proceed?</h3>
 
         @*<span class="text-warning">Do you wish to proceed?</span><br />*@
