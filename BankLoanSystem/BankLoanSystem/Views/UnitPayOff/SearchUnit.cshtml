@@ -35,19 +35,19 @@
             $("#payDate").attr("disabled", "disabled");
 
             //remove error message
-            //if ("@ViewBag.IsTitleTrack" === "Yes") {
+            if ("@ViewBag.IsTitleTrack" === "Yes") {
                 $('#customErrorTitleReturn1').children('span').text("");
-            //}
+            }
             $('#customErrorPayDate').children('span').text("");
             $('.centered span').text('');
 
             $("#payDate").val('');
 
             $("#payDate").val('');
-            //if ("@ViewBag.IsTitleTrack" == "Yes") {
+            if ("@ViewBag.IsTitleTrack" == "Yes") {
                 document.getElementById('rdTitleYes1').checked = false;
                 document.getElementById('rdTitleNo1').checked = false;
-            //}
+            }
             countSelect = 0;
             totalToPay = 0;
             totalToPay = totalToPay.toFixed(2);
