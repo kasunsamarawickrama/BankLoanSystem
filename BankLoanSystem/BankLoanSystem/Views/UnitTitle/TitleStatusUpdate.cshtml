@@ -75,34 +75,34 @@
                             <form>
                                 <fieldset>
                                     <div class="form-group row">
-                                        <div class="col-md-2" style="width:21%">
+                                        <div class="col-md-2" style="width:28%;">
                                             <label for="">VIN/HIN/Serial</label>
                                             @Html.EditorFor(model => model.TitleDetails.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.IdentificationNumber, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2" style="width:10%;text-align:left">
+                                        <div class="col-md-2" style="width:15%;margin-left:-2%">
                                             <label for="">Year</label>
-                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled"} })
+                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled",@style="text-align:left;"} })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Make</label>
                                             @Html.EditorFor(model => model.TitleDetails.Make, new { htmlAttributes = new { @class = "form-control", @id = "unitMake",@disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Make, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Model</label>
                                             @Html.EditorFor(model => model.TitleDetails.Model, new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Model, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Current Unit Status</label>
                                             @Html.EditorFor(model => model.TitleDetails.CurrentUnitStatus, new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentUnitStatus, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="margin-left:-2%">
                                             <label for="">Current Title Status</label>
                                             @Html.EditorFor(model => model.TitleDetails.CurrentTitleStatus, new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.CurrentTitleStatus, "", new { @class = "text-danger" })
