@@ -468,27 +468,42 @@
     });
 
     $('#btnPrint').click(function () {
-        var rptType = $('#hdnSelectedButton').val();
-        var loanId = $('#LoanId').val();
-        var range1 = $('#startDate').val();
-        var range2 = $('#endDate').val();
-        var titleStatus=$('#titleStatus').val();
-        //alert(range1);
+        //var rptType = $('#hdnSelectedButton').val();
+        //var loanId = $('#LoanId').val();
+        //var range1 = $('#startDate').val();
+        //var range2 = $('#endDate').val();
+        //var titleStatus=$('#titleStatus').val();
         
-        $.ajax({
-            url: '/Reports/PrintPage',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-            success: function (view) {
-                //alert(view);
-            },
-            error: function (reponse) {
-                //alert(reponse);
-                ('#errPage span').text('No printers are installed.');
+        //$.ajax({
+        //    url: '/Reports/PrintPage',
+        //    type: 'POST',
+        //    contentType: 'application/json;',
+        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
+        //    success: function (view) {
+        //        //alert(view);
+        //    },
+        //    error: function (reponse) {
+        //        //alert(reponse);
+        //        ('#errPage span').text('No printers are installed.');
 
-            }
-        });
+        //    }
+        //});
+
+        //Code for adding HTML content to report viwer
+        var headstr = "<html><head><title></title></head><body>";
+        //End of body tag
+        var footstr = "</body></html>";
+        //This the main content to get the all the html content inside the report viewer control
+        //"ReportViewer1_ctl10" is the main div inside the report viewer
+        //controls who helds all the tables and divs where our report contents or data is available
+        var newstr = $("#rptViewerLotInspection_ctl09").html();
+        //open blank html for printing
+        var popupWin = window.open('', '_blank');
+        //paste data of printing in blank html page
+        popupWin.document.write(headstr + newstr + footstr);
+        //print the page and see is what you see is what you get
+        popupWin.print();
+        return false;
     });
 
     var startDate = new Pikaday({
