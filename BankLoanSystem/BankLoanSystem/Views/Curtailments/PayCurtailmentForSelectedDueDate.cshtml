@@ -138,7 +138,7 @@
                             @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
                             @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
 
-
+                            <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
 
                         </div>
                         <div class="col-md-2" id="div-combobox1-1" style="margin-left:26px">
@@ -343,6 +343,9 @@
         $('#dueDate').removeClass('input-validation-error');
         $('#errorDueDate').text('');
         $("#dueDate").val('@dateTime.ToString("d")');
+        $('#searchIdentificationNumber').text('');
+        $('#identificationNumberSearch').removeClass('input-validation-error');
+        $('#identificationNumberSearch').val('');
 
     });
     function GetCurrentCurtailment(dueDate){
@@ -714,7 +717,18 @@
                 var para3 = $("#cmbMake").val();
                 var para4 = $("#cmbModel").val();
                 if (para1 == null) { para1 = ''; }
-                if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+                if (((para1 != "") &&(para1 != null)) && (para1.length < 6)) {
+                    //alert('ff');
+                    $("#searchIdentificationNumber").text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+                   // $('#identificationNumberSearch').val("");
+
+                    $('.centered span').text('Error');
+                    $('#identificationNumberSearch').addClass('input-validation-error');
+                    $('#searchGrid1').hide()
+                    e.preventDefault();
+
+                }
+                else if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
                     Search(para1, para2, para3, para4);
                 }else{
                     $('#searchGrid1').hide();
@@ -722,7 +736,13 @@
 
 
             });
+            $('#identificationNumberSearch').click(function () {
+                $("#searchIdentificationNumber").text('');
+                //$('#identificationNumberSearch').val("");
 
+                $('.centered span').text('');
+                $('#identificationNumberSearch').removeClass('input-validation-error')
+            });
             //clear text box values and disable feild
             function ClearTextBoxValues() {
                 $('#ivin').val('');
@@ -744,7 +764,8 @@
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
                 $('#payDate').val(''); 
-                $('#payCurtDate').val(''); 
+                $('#payCurtDate').val('');
+                
             }
 
             $('#identificationNumberSearch').focusout(function () {
@@ -770,6 +791,7 @@
                 $('#payDate').next('span').children().text('');
                 $('#payDate').val(''); 
                 $('#payCurtDate').val(''); 
+                
             }
 
             function SetTextBoxValues(tr) {
@@ -875,8 +897,11 @@
         $("#cmbModel").val('');
         $("#noDataLabelDiv").hide();
         $("#searchGrid").hide();
-        //$("#singleUnitDiv").hide();       
-
+        //$("#singleUnitDiv").hide();
+        $("#searchIdentificationNumber").text('');
+        $('.centered span').text('');
+        $('#identificationNumberSearch').removeClass('input-validation-error');
+        
     }
 
     function ClearMainGrid() {

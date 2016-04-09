@@ -17,7 +17,7 @@ namespace BankLoanSystem.Models
         public int IsTitleTrack { get; set; }
         public bool AddUnit { get; set; }
         public bool ViewReports { get; set; }
-        public string [] Rights { get; set; }
+        public string Rights { get; set; }
         public string LoanCode { get; set; }
     }
 }

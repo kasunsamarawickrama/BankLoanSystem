@@ -184,7 +184,17 @@ namespace BankLoanSystem.Controllers
             Session["rowId"] = userData.UserId;
             Session["loanStep"] = null;
             Loan loan = new Loan();
-            if (Session["AuthenticatedUser"] != null)
+
+            if (Session["loanDashboardJoinDealer"] != null)
+            {
+                Session.Remove("loanDashboardJoinDealer");
+            }
+            if (Session["loanDashboardAssignUser"] != null)
+            {
+                Session.Remove("loanDashboardAssignUser");
+            }
+
+                if (Session["AuthenticatedUser"] != null)
             {
                 DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
@@ -232,59 +242,13 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if ((loanSelected.Rights.Count() > 0) && (loan.Rights != null))
+                            if ((loanSelected.Rights.Length > 0) && (loan.Rights != null))
                             {
-                                foreach (string s in loanSelected.Rights)
-                                {
-                                    if (s == "U001")
-                                    {
-                                        ViewBag.AdvanceUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AdvanceUnits = 0;
-                                    }
-                                    if (s == "U002")
-                                    {
-                                        ViewBag.TitleAdd = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.TitleAdd = 0;
-                                    }
-                                    if (s == "U003")
-                                    {
-                                        ViewBag.PayoffUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.PayoffUnits = 0;
-                                    }
-                                    if (s == "U005")
-                                    {
-                                        ViewBag.Curtailment = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.Curtailment = 0;
-                                    }
-                                    if (s == "U004")
-                                    {
-                                        ViewBag.AddUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AddUnits = 0;
-                                    }
-                                    if ((s == "U006") || (s == "U007"))
-                                    {
-                                        ViewBag.ViewReports = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.ViewReports = 0;
-                                    }
-                                }
+                                
+
+                                    ViewBag.RightList = loan.Rights;
+
+                                
                             }
 
                         }
@@ -365,59 +329,11 @@ namespace BankLoanSystem.Controllers
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
-                            if ((loan.Rights.Count() > 0) && (loan.Rights != null))
+                            if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
-                                foreach (string s in loan.Rights)
-                                {
-                                    if (s == "U001")
-                                    {
-                                        ViewBag.AdvanceUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AdvanceUnits = 0;
-                                    }
-                                    if (s == "U002")
-                                    {
-                                        ViewBag.TitleAdd = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.TitleAdd = 0;
-                                    }
-                                    if (s == "U003")
-                                    {
-                                        ViewBag.PayoffUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.PayoffUnits = 0;
-                                    }
-                                    if (s == "U005")
-                                    {
-                                        ViewBag.Curtailment = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.Curtailment = 0;
-                                    }
-                                    if (s == "U004")
-                                    {
-                                        ViewBag.AddUnits = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AddUnits = 0;
-                                    }
-                                    if ((s == "U006") || (s == "U007"))
-                                    {
-                                        ViewBag.ViewReports = 1;
-                                    }
-                                    else
-                                    {
-                                        ViewBag.ViewReports = 0;
-                                    }
-                                }
+
+                                ViewBag.RightList = loan.Rights;
+                                
                             }
                             
 
@@ -1070,7 +986,7 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.LoanId = l.loanId;
                     finalSelectedLoan.LoanNumber = l.loanNumber;
                     finalSelectedLoan.LoanCode = l.loanCode;
-                    finalSelectedLoan.Rights = l.rightId.Split(',');
+                    finalSelectedLoan.Rights = l.rightId;
                     if (l.titleTracked == true)
                     {
                         finalSelectedLoan.IsTitleTrack = 1;
@@ -1096,7 +1012,16 @@ namespace BankLoanSystem.Controllers
                             }
                         }
                     }
-                    Session["loanDashboard"] = finalSelectedLoan;
+                    if ((string)Session["popUpSelectionType"] == "linkDealer")
+                    {
+                        Session["loanDashboardJoinDealer"] = finalSelectedLoan;
+                    }else if ((string)Session["popUpSelectionType"] == "assignRights")
+                    {
+                        Session["loanDashboardAssignUser"] = finalSelectedLoan;
+                    }
+                    else {
+                        Session["loanDashboard"] = finalSelectedLoan;
+                    }
                 }
             }
             Session["detail"] = "";
@@ -1610,9 +1535,9 @@ namespace BankLoanSystem.Controllers
                 loan = (Loan)Session["oneLoanDashboard"];
                 //Session.Remove("oneLoanDashboard");
             }
-            else if (Session["loanDashboard"] != null)
+            else if (Session["loanDashboardAssignUser"] != null)
             {
-                loan = (Loan)Session["loanDashboard"];
+                loan = (Loan)Session["loanDashboardAssignUser"];
             }
             if (TempData["submit"] != null) {
                 if ((string)TempData["submit"] == "success") {
@@ -1623,7 +1548,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.ErrorMsg = "Failed To Create User";
                 }
             }
-            if (Session["oneLoanDashboard"] != null || Session["loanDashboard"] != null)
+            if (Session["oneLoanDashboard"] != null || Session["loanDashboardAssignUser"] != null)
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;

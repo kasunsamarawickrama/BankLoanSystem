@@ -16,7 +16,7 @@
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
 
-
+<link href="~/Content/commonActions.css" rel="stylesheet" />
 <script src="~/scripts/bootstrap.min.js"></script>
 
 <link href="~/Content/overlaypopup.css" rel="stylesheet" />
@@ -29,10 +29,10 @@
         margin-right: 5px;
     }
 </style>
-<div class="container-child">
+
     @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
     }
-    <div class="container" id="container">
+    <div class="container" id="container" style="padding-top:15px !important">
         <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
         <div class="btns-clm" id="divRptType">
             <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
@@ -119,8 +119,8 @@
 
             <div class="form-inline" style="margin-top:15px">
                 <div class="form-group">
-                    <button style="width: 100px" type="button" id="btnDisplay" class="btn btn-info">Display</button>
-                    <button style="width: 100px;display:none;float:right;" type="button" id="btnPrint" class="btn btn-info">Print</button>
+                    <button style="font-size:14px; width: 100px" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-display"></span>Display</button>
+                    <button style="font-size:14px;width: 100px;display:none;float:right;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-printer"></span> Print</button>
 
                 </div>
             </div>
@@ -131,13 +131,13 @@
 
         <hr />
 
-        <div id="reportViewerDiv" hidden>
+        @*<div id="reportViewerDiv" hidden>
             <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
-        </div>
+        </div>*@
 
 
     </div>
-</div>
+
 <script type="text/javascript">
     var errorCount = 0;
 
@@ -346,7 +346,7 @@
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
-            alert('Please select report type');
+            $('.centered h5 span').text("Please select report type");
         }
     });
 
@@ -468,27 +468,42 @@
     });
 
     $('#btnPrint').click(function () {
-        var rptType = $('#hdnSelectedButton').val();
-        var loanId = $('#LoanId').val();
-        var range1 = $('#startDate').val();
-        var range2 = $('#endDate').val();
-        var titleStatus=$('#titleStatus').val();
-        //alert(range1);
+        //var rptType = $('#hdnSelectedButton').val();
+        //var loanId = $('#LoanId').val();
+        //var range1 = $('#startDate').val();
+        //var range2 = $('#endDate').val();
+        //var titleStatus=$('#titleStatus').val();
         
-        $.ajax({
-            url: '/Reports/PrintPage',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-            success: function (view) {
-                //alert(view);
-            },
-            error: function (reponse) {
-                //alert(reponse);
-                ('#errPage span').text('No printers are installed.');
+        //$.ajax({
+        //    url: '/Reports/PrintPage',
+        //    type: 'POST',
+        //    contentType: 'application/json;',
+        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
+        //    success: function (view) {
+        //        //alert(view);
+        //    },
+        //    error: function (reponse) {
+        //        //alert(reponse);
+        //        ('#errPage span').text('No printers are installed.');
 
-            }
-        });
+        //    }
+        //});
+
+        //Code for adding HTML content to report viwer
+        var headstr = "<html><head><title></title></head><body>";
+        //End of body tag
+        var footstr = "</body></html>";
+        //This the main content to get the all the html content inside the report viewer control
+        //"ReportViewer1_ctl10" is the main div inside the report viewer
+        //controls who helds all the tables and divs where our report contents or data is available
+        var newstr = $("#rptViewerLotInspection_ctl09").html();
+        //open blank html for printing
+        var popupWin = window.open('', '_blank');
+        //paste data of printing in blank html page
+        popupWin.document.write(headstr + newstr + footstr);
+        //print the page and see is what you see is what you get
+        popupWin.print();
+        return false;
     });
 
     var startDate = new Pikaday({
@@ -500,4 +515,5 @@
         field: document.getElementById('endDate'),
         format: 'l'
     });
+
 </script>
