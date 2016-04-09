@@ -99,11 +99,11 @@
 
                             @if (ViewBag.ComType == 1)
                             {
-                                <label style="text-align:left;width:38%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
                             }
                             else
                             {
-                                <label style="text-align:left;width:38%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time?</label>
+                                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time?</label>
                             }
 
                             <div class="col-md-2">
@@ -277,7 +277,14 @@
                                     @if (ViewBag.IsTitleTrack == "Yes")
                                     {
                                         <div class="form-group row" style="margin-top:15px !important">
-                                            <label style="width: 38%;text-align:left" for="" class="col-sm-5 form-control-label">Is the title being returned to Dealer at this time?</label>
+                                            @if (ViewBag.ComType == 1)
+                                            {
+                                                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                                            }
+                                            else
+                                            {
+                                                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time?</label>
+                                            }
 
 
                                             <div class="col-md-2">
