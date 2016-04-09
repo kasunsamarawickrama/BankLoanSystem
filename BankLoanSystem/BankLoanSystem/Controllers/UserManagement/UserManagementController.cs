@@ -232,7 +232,7 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if ((loanSelected.Rights.Count() > 0) && (loan.Rights != null))
+                            if ((loanSelected.Rights.Length > 0) && (loan.Rights != null))
                             {
                                 
 
@@ -319,7 +319,7 @@ namespace BankLoanSystem.Controllers
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
-                            if ((loan.Rights.Count() > 0) && (loan.Rights != null))
+                            if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
 
                                 ViewBag.RightList = loan.Rights;
@@ -976,7 +976,7 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.LoanId = l.loanId;
                     finalSelectedLoan.LoanNumber = l.loanNumber;
                     finalSelectedLoan.LoanCode = l.loanCode;
-                    finalSelectedLoan.Rights = l.rightId.Split(',');
+                    finalSelectedLoan.Rights = l.rightId;
                     if (l.titleTracked == true)
                     {
                         finalSelectedLoan.IsTitleTrack = 1;

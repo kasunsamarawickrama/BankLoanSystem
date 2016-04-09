@@ -45,7 +45,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
     foreach (var item in Model)
     {
 
-        if (item.rightId == "U004")
+        if (item.rightsPermissionString.Contains("U004"))
         {
     <button id="lkuni" class="big-button" onclick="window.location.href='/Unit/Addunit'">
         <span class="icon-automobile"></span>
@@ -54,7 +54,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
 
         @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
         }
-        if (item.rightId == "U001")
+        if (item.rightsPermissionString.Contains("U001"))
         {
         <button id="lkadv" class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
             <span class="icon-dollar"></span>
@@ -62,7 +62,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
         </button>
         @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
         }
-        if (item.rightId == "U005")
+        if (item.rightsPermissionString.Contains("U005"))
         {
     <button id="lkcrtl" class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
         <span class="icon-coin-dollar"></span>
@@ -70,7 +70,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
     </button>
         @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
         }
-        if (item.rightId == "U002" && ViewBag.ttlAccess == 1)
+        if (item.rightsPermissionString.Contains("U002") && ViewBag.ttlAccess == 1)
         {
         <button id="lkttl" class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
             <span class="icon-files-empty"></span>
@@ -79,7 +79,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
 
         @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
         }
-        if (item.rightId == "U003")
+        if (item.rightsPermissionString.Contains("U003"))
         {
         <button id="lkpoff" class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
             <span class="icon-banknote"></span>
@@ -88,7 +88,7 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
 
         @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
         }
-        if (item.rightId == "U006")
+        if (item.rightsPermissionString.Contains("U006"))
         {
         <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
             <span class="icon-stack"></span>
