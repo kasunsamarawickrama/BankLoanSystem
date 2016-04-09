@@ -114,50 +114,61 @@
                                         <span class="txt">Reports</span>
                                     </button>
                     }
-                    else if (ViewBag.roleId == 3)
+                    else if ((ViewBag.roleId == 3) && (ViewBag.RightList.Length > 0) && (ViewBag.RightList != null))
                     {
-                        if (ViewBag.AddUnits == 1)
-                        {
-                        <button class="big-button" onclick="window.location.href='/Unit/Addunit'">
-                            <span class="icon-automobile"></span>
-                            <span class="txt">Add Unit</span>
-                        </button>
-                        }
-                        if (ViewBag.AdvanceUnits == 1)
-                        {
-                        <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
-                            <span class="icon-dollar"></span>
-                            <span class="txt">Advance Unit</span>
-                        </button>
-                        }
-                        if (ViewBag.Curtailment == 1)
-                        {
-                        <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
-                            <span class="icon-coin-dollar"></span>
-                            <span class="txt">Unit Curtailments</span>
-                        </button>
-                        }
-                        if ((ViewBag.IsTitleTrack == 1) && (ViewBag.TitleAdd == 1))
-                        {
-                        <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
-                            <span class="icon-files-empty"></span>
-                            <span class="txt">Update Titles</span>
-                        </button>
-                        }
-                        if (ViewBag.PayoffUnits == 1)
-                        {
-                        <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
-                            <span class="icon-banknote"></span>
-                            <span class="txt">Pay Off Unit</span>
-                        </button>
-                        }
-                        if (ViewBag.ViewReports == 1)
-                        {
-                        <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
-                            <span class="icon-stack"></span>
-                            <span class="txt">Reports</span>
-                        </button>
-                        }
+                        
+
+                            if (ViewBag.RightList.Contains("U004"))
+                            {
+                            <button id="lkuni" class="big-button" onclick="window.location.href='/Unit/Addunit'">
+                                <span class="icon-automobile"></span>
+                                <span class="txt">Add Unit</span>
+                            </button>
+
+                            @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
+                            }
+                            if (ViewBag.RightList.Contains("U001"))
+                            {
+                            <button id="lkadv" class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
+                                <span class="icon-dollar"></span>
+                                <span class="txt">Advance Unit</span>
+                            </button>
+                            @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
+                            }
+                            if (ViewBag.RightList.Contains("U005"))
+                            {
+                            <button id="lkcrtl" class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                                <span class="icon-coin-dollar"></span>
+                                <span class="txt">Unit Curtailments</span>
+                            </button>
+                            @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
+                            }
+                            if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1)
+                            {
+                            <button id="lkttl" class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                                <span class="icon-files-empty"></span>
+                                <span class="txt">Update Titles</span>
+                            </button>
+
+                            @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
+                            }
+                            if (ViewBag.RightList.Contains("U003"))
+                            {
+                            <button id="lkpoff" class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
+                                <span class="icon-banknote"></span>
+                                <span class="txt">Pay Off Unit</span>
+                            </button>
+
+                            @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
+                            }
+                            if (ViewBag.RightList.Contains("U006"))
+                            {
+                            <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+                                <span class="icon-stack"></span>
+                                <span class="txt">Reports</span>
+                            </button>
+                            }
+                        
                     }
                     else if (ViewBag.roleId == 4)
                     {

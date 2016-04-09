@@ -113,7 +113,7 @@
 
         @if(Session["AdvItems"] != null) {
             <div>
-                <a href='/AdvanceUnit/AdvanceUnitReport' value="Report" class="btn btn-info" target="_blank">Report</a></div>
+                <a href='/AdvanceUnit/AdvanceUnitReport' value="Report" class="btn btn-info" target="_blank"   style="margin-top: 12px;">Report</a></div>
         }
     </div>
 
@@ -239,8 +239,7 @@
                             <label>Price</label>
                             @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         </div>
-                        <div class="col-md-2" style="
-    margin-left: 92px;">
+                        <div class="col-md-2" style="margin-left: 92px;">
                             <label>Advance Amount</label>
                             @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                <div id="tagscloud"><span class="text-danger field-validation-error" id="errorAdvanceAmount"></span></div>
@@ -251,9 +250,9 @@
                             <span class="text-danger field-validation-error" id="errorAdvanceDate" style="left:25%"></span>
                         </div>
                     </div>
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 75px;margin-left: -80px;" />
+                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 185px;margin-left: -190px;margin-top: 40px;" />
 
-                    <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b next_clear_button next_back" style="width:130px"disabled />
+                    <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;margin-top: 40px;margin-left: 40px;"disabled />
                     </fieldset>
                 </form>
             </div>
@@ -774,11 +773,12 @@
                         });
 
                         $('#btnAdvance').click(function (e) {
-
+                           
                             if ($("#tagscloud span").text() != "" || $('#errorAdvanceDate').text() != "") {
                                 e.preventDefault();
                                 return;
                             }
+                           
                             if (($('#advanceDate').val() == "")&&($('#iAdvance').val() == "")) {
                                 $('#advanceDate').addClass('input-validation-error');
 
@@ -802,7 +802,7 @@
                                 e.preventDefault();
                                 return;
                             }
-                            if ($('#iAdvance').val() == "") {
+                            if ($('#iAdvance').val() == "" || $('#iAdvance').val() == "0") {
 
 
 
@@ -1090,7 +1090,7 @@
                                 //var val = this.value + (e.which - 48);
                                 //alert(cost + ' ' + val);
                                 if (e.which !== 46 && e.which !== 8) {
-                                    if (cost === 0.00 || Number(advance) > Number(cost)) {
+                                    if (cost === 0.00 || Number(advance) > Number(cost) ) {
                                         //$("#tagscloudAdvance span").fadeIn();
                                         $(this).addClass('input-validation-error');
                                         $("#tagscloud span").text("Advance must be less than cost");
@@ -1106,6 +1106,14 @@
                                         //$(this).removeClass('input-validation-error');
                                         e.preventDefault();
                                     }
+                                    //if (Number(advance) === 0.00) {
+                                    //    //$("#tagscloudAdvance span").fadeIn();
+                                    //    $(this).addClass('input-validation-error');
+                                    //    $("#tagscloud span").text("Advance can't be zero");
+                                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                                    //    //$(this).removeClass('input-validation-error');
+                                    //    e.preventDefault();
+                                    //}
                                 }
                             } else {
                                 //$("#tagscloudAdvance span").fadeIn();
@@ -1131,7 +1139,7 @@
                             var cost = document.getElementById('iCost').value.replace(',', '');
                             var advance = document.getElementById('iAdvance').value.replace(',', '');
                             var val = $.trim($(this).val());
-
+                            
                             if (val.indexOf(',') > -1) {
                                 val = val.replace(',', '');
                             }
@@ -1141,13 +1149,18 @@
                             if (isNaN(num)) {
                                 num = '';
                             }
-
+                            
                             if (isNaN(num)) {
 
                                 //$("#tagscloudAdvance span").fadeIn();
                                 $(this).addClass('input-validation-error');
                                 $("#tagscloud span").text("Advance must be a positive number");
 
+                            }
+                            else if (Number(num) === 0) {
+                                $(this).addClass('input-validation-error');
+                                $('.centered span').text('Error');
+                                $("#tagscloud span").text("Advance must be greater than zero");
                             }
                             else if (Number(num) > Number(cost)) {
                                 //$("#tagscloudAdvance span").fadeIn();
@@ -1176,6 +1189,7 @@
                                 //$("#tagscloudAdvance span").fadeOut();
                                 $(this).removeClass('input-validation-error');
                                 $("#tagscloud span").text("");
+                                $('.centered span').text('');
                             }
 
                             $(this).val(num);

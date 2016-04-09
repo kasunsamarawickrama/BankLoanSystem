@@ -123,5 +123,42 @@ namespace BankLoanSystem.DAL
                 return false;
             }
         }
+
+        public List<Right> GetUserRightsByLoanCode(string loanCode,int userId) 
+        {
+            List<Right> resltList = new List<Right>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@loan_code", loanCode });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserRightsByLoanCode", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Right right = new Right();
+                        right.userId = int.Parse(dataRow["user_id"].ToString());
+                        right.rightsPermissionString = dataRow["right_id"].ToString();
+                        
+                        resltList.Add(right);
+                    }
+
+                    return resltList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+
+            //return resltList;
+        }
     }
 }

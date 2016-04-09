@@ -24,6 +24,7 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId)
         {
+            rptViewerLotInspection.ProcessingMode = ProcessingMode.Remote;
             rptViewerLotInspection.Reset();
             rptViewerLotInspection.LocalReport.EnableExternalImages = true;
             rptViewerLotInspection.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");
@@ -37,7 +38,7 @@ namespace BankLoanSystem.Reports
             }
 
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            
+
             List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
 
             foreach (var unit in units)
@@ -46,6 +47,34 @@ namespace BankLoanSystem.Reports
             }
 
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+
+
+            //Server report
+            //rptViewerLotInspection.ProcessingMode = ProcessingMode.Remote;
+
+            //ServerReport sReport = rptViewerLotInspection.ServerReport;
+            //sReport.ReportServerUrl = new Uri("http://www.dfp.carmartnet.net/reportserver");
+            //sReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");
+
+            //ReportAccess ra = new ReportAccess();
+            //List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            //foreach (var dates in details)
+            //{
+            //    dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            //}
+
+            //rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            //List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
+
+            //foreach (var unit in units)
+            //{
+            //    unit.View = false;
+            //}
+
+            //rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
         public int PrintPage(int loanId)

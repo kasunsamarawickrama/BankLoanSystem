@@ -362,70 +362,79 @@ namespace BankLoanSystem.Controllers.Unit
         {
 
             int userId = userData.UserId;
+            string loanCode = "";
 
+            UserRightsAccess access = new UserRightsAccess();
 
-            var access = new UserRightsAccess();
+            /////retrive all rights
+            List<Right> rights = new List<Right>();
 
-            ///retrive all rights
-            List<Right> rights = access.getRights();
-
-            int userRole = (new UserManageAccess()).getUserRole(userId);
-
-            if (userRole == 3)
+            int userRole = userData.RoleId;
+            if((Session["loanCode"]!=null)&&(!string.IsNullOrEmpty(Session["loanCode"].ToString()))) 
             {
-                ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId,0);
-                if (permissionString.Count == 1)
-                {
-
-
-                    string permission = permissionString[0].rightsPermissionString;
-                    if (permission != "")
-                    {
-                        string[] charactors = permission.Split(',');
-
-                        List<Right> temprights = new List<Right>();
-
-                        foreach (var charactor in charactors)
-                        {
-                            foreach (var obj in rights)
-                            {
-                                if (string.Compare(obj.rightId, charactor) == 0)
-                                {
-                                    temprights.Add(obj);
-                                    break;
-
-                                }
-
-                            }
-                        }
-
-                        rights = temprights;
-
-
-                    }
-                    else
-                    {
-                        rights = new List<Right>();
-                    }
-
-
-                }
-
-                else if (permissionString.Count == 0)
-                {
-
-                    rights = new List<Right>();
-                }
-
-
-
+                loanCode = Session["loanCode"].ToString();
             }
 
-            string loanCode = Session["loanCode"].ToString();
+            if(userRole==3) 
+            {
+                rights = access.GetUserRightsByLoanCode(loanCode, userId);
+            }
+            ViewBag.Role = userRole;
+            //if (userRole == 3)
+            //{
+            //    ///get permission string for the relevent user
+            //    List<Right> permissionString = access.getRightsString(userId,0);
+            //    if (permissionString.Count == 1)
+            //    {
 
 
-           
+            //        string permission = permissionString[0].rightsPermissionString;
+            //        if (permission != "")
+            //        {
+            //            string[] charactors = permission.Split(',');
+
+            //            List<Right> temprights = new List<Right>();
+
+            //            foreach (var charactor in charactors)
+            //            {
+            //                foreach (var obj in rights)
+            //                {
+            //                    if (string.Compare(obj.rightId, charactor) == 0)
+            //                    {
+            //                        temprights.Add(obj);
+            //                        break;
+
+            //                    }
+
+            //                }
+            //            }
+
+            //            rights = temprights;
+
+
+            //        }
+            //        else
+            //        {
+            //            rights = new List<Right>();
+            //        }
+
+
+            //    }
+
+            //    else if (permissionString.Count == 0)
+            //    {
+
+            //        rights = new List<Right>();
+            //    }
+
+
+
+            //}
+
+            //string loanCode = Session["loanCode"].ToString();
+
+
+
             Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
             if (ttl.IsTitleTrack)
             {

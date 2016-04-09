@@ -127,7 +127,7 @@ namespace BankLoanSystem.DAL
                     {
                         if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["right_id"].ToString()))
                         {
-                            loanObj.Rights = dataSet.Tables[0].Rows[0]["right_id"].ToString().Split(',');
+                            loanObj.Rights = dataSet.Tables[0].Rows[0]["right_id"].ToString();
                         }
                        
                     }
