@@ -25,21 +25,21 @@ namespace BankLoanSystem.Models
         public motorcycle motorcycle { get; set; }
 
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
         [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the vehicle year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
         [Required(ErrorMessage = "Vehicle Serial Number is required.")]
         public string SerialNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the vehicle Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the vehicle Model")]
         public string Model { get; set; }
 
         [Required]
@@ -75,12 +75,12 @@ namespace BankLoanSystem.Models
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the cost")]
         //[Remote("CalculateAdvance", "Unit", ErrorMessage = "error")]
         [Range(0.009, double.MaxValue, ErrorMessage = "Out of range")]
         public decimal Cost { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please include an advance amount - to auto calculate reenter the Cost field")]
         [Display(Name = "Advance Amount")]
         [Range(0.009, double.MaxValue, ErrorMessage = "Out of range")]
         public decimal AdvanceAmount { get; set; }
@@ -188,18 +188,18 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
         [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the vehicle year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the vehicle Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the vehicle Model")]
         public string Model { get; set; }
 
         public string Trim { get; set; }
@@ -210,7 +210,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the vehicle condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -220,18 +220,18 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the rv VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the rv VIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the rv year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the rv Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the rv Model")]
         public string Model { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
@@ -241,7 +241,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         public double? Length { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the rv condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -251,18 +251,18 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the camper VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the camper VIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the camper year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the camper Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the camper Model")]
         public string Model { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
@@ -272,7 +272,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Hitch Style")]
         public string HitchStyle { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the camper condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -281,25 +281,25 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the atv VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the atv VIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the atv year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the atv Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the atv Model")]
         public string Model { get; set; }
 
         [Display(Name = "Miles/Hours")] 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         public double? Miles { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the atv condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -312,11 +312,11 @@ namespace BankLoanSystem.Models
         [StringLength(17, MinimumLength = 12, ErrorMessage = "Enter between 12-17 charactors for HIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the boat year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the boat Make")]
         public string Make { get; set; }
 
         [Display(Name = "Trailer")]
@@ -327,7 +327,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Engine Serial")]
         public string EngineSerial { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the boat condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -337,18 +337,18 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the motorcycle VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the motorcycle VIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the motorcycle year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the motorcycle Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the motorcycle Model")]
         public string Model { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
@@ -357,7 +357,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Color { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the motorcycle condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -365,21 +365,21 @@ namespace BankLoanSystem.Models
     public class snowmobile
     {
         [Display(Name = "VIN")]
-        [Required(ErrorMessage = "Enter 17 characters for VIN")]
-        [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors for VIN")]
+        [Required(ErrorMessage = "Please enter all 17 Characters of the snowmobile VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the snowmobile VIN")]
         public string IdentificationNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the snowmobile year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the snowmobile Make")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the snowmobile Model")]
         public string Model { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the snowmobile condition")]
         [Display(Name = "Condition")]
         public bool NewOrUsed { get; set; }
 
@@ -387,15 +387,15 @@ namespace BankLoanSystem.Models
     public class heavyequipment
     {
         [Display(Name = "SN")]
-        [Required(ErrorMessage = "Vehicle Serial Number is required.")]
+        [Required(ErrorMessage = "heavyequipment Serial Number is required.")]
         [StringLength(17, MinimumLength = 1, ErrorMessage = "Maximum 17 charactors")]
         public string SerialNumber { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
+        [Required(ErrorMessage = "Please select the heavyequipment year")]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid year, enter 4 numeric digits")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the heavyequipment Make")]
         public string Make { get; set; }
 
     }
