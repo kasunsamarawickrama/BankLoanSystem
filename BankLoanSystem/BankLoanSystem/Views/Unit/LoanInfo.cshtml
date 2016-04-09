@@ -10,7 +10,7 @@
 
 
 
-        <div class="info">
+        <div class="info" style="padding-left:10px;padding-right:10px">
             @if (ViewBag.Title != "Pay Curtailments")
             {
 
@@ -47,7 +47,7 @@
 
 
 
-                                <div style="float:left;width:27%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
+                                <div style="float:left;width:25%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
 
@@ -59,15 +59,15 @@
 
                                 }
 
-                                <div style="float:left;width:25%;text-align:left;">
+                                <div style="float:left;width:30%;padding-right:2%">
                                     <strong>
-                                        CurtDueDate :
+                                        Curtailment Due Date :
                                     </strong> @if (ViewBag.CurtailmentDueDate == "EoM")
                                         { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
                                         else { <label>@ViewBag.CurtailmentDueDate</label> }
                                    
                                 </div>
-                                <span style="float:right;width:18%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+                                <span style="width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
 
 
                             </div>
