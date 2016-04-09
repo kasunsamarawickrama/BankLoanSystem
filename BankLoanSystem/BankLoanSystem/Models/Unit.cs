@@ -188,8 +188,9 @@ namespace BankLoanSystem.Models
     {
 
         [Display(Name = "VIN")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
         [Required(ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
-        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        //[RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Please select the vehicle year")]
