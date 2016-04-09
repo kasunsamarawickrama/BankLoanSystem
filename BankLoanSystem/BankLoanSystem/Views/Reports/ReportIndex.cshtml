@@ -32,7 +32,7 @@
 
     @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
     }
-    <div class="container" id="container" style="padding-top:15px !important">
+    <div class="container" id="container" style="padding-top:20px !important">
         <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
         <div class="btns-clm" id="divRptType">
             <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
@@ -57,8 +57,8 @@
         <div style="margin-top:15px;" id="liFilteringSection">
             <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-                <div id="lnum" class="form-group">
-                    <label for="">Account Details</label>
+                <div id="lnum" class="form-group" style="width:50%;">
+                    <label for="">Account Detail</label>
 
                     @if (Enumerable.Count(ViewBag.LoanId) == 1)
                     {
@@ -120,8 +120,8 @@
 
             <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
                 <div class="form-group" style="float:left;">
-                    <button style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-display"></span> Display</button>
-                    <button style="font-size:14px;width: 100px;float:left;display:none;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"><span class="icon-printer"></span> Print</button>
+                    <button style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"> Display</button>
+                    <button style="font-size:14px;width: 100px;float:left;display:none;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
 
                 </div>
             </div>
@@ -138,6 +138,18 @@
 
 
     </div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+
+
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+
+
+</div>
+
+
 
 <script type="text/javascript">
     var errorCount = 0;
@@ -347,7 +359,7 @@
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
-            $('.centered h5 span').text("Please select report type");
+            $('.centered h5 span').text("Please select report type").css("left", "46%");
         }
     });
 
