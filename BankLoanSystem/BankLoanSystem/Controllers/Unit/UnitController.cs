@@ -161,7 +161,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
 
             GeneratesCode gc = new GeneratesCode();
-            unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
+            unit.UnitId = gc.GenerateUnitId(_loan.loanCode, unit.LoanId);
 
             //if()
 
@@ -294,6 +294,38 @@ namespace BankLoanSystem.Controllers.Unit
             int year = (new UnitAccess()).DecodeVINYear(vin);
 
             return Json(year);
+        }
+
+        /// <summary>
+        /// Auther: kasun
+        /// get make accrding to the vehicle vin number
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns>year</returns>
+        [HttpPost]
+        public ActionResult GetMakeByVin(string vin)
+        {
+            string make = (new UnitAccess()).DecodeVINMake(vin);
+
+            return Json(make);
+        }
+
+
+        [HttpPost]
+        public ActionResult GetModelByVin(string makex, int yearx)
+        {
+            string str = "";
+            List<UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(makex, yearx, 1);
+            if (modelList != null && modelList.Count > 0) {
+                if (modelList.Count == 1)
+                {
+                    str = modelList[0].VehicleModel;
+                }
+                else {
+                    str = "";
+                }
+            }           
+            return Json(str);
         }
 
         public ActionResult LoanInfo(string title, string msg)

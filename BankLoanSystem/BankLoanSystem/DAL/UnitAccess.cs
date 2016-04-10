@@ -711,6 +711,51 @@ namespace BankLoanSystem.DAL
                 }
             }
         }
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/4/09
+        /// Get vehicle make by vin
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns>modelList</returns>
+        public string DecodeVINMake(string vin) {
+            string str="";
+            string strReturn = "";
+            string str3 = vin.Substring(0, 3);
+            string str2 = vin.Substring(0, 2);
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            {
+                try
+                {
+
+                    var command = new SqlCommand("spGetVehicleMakeByVin", con) { CommandType = CommandType.StoredProcedure };
+                    command.Parameters.Add("@str3", SqlDbType.VarChar).Value = str3;
+                    command.Parameters.Add("@str2", SqlDbType.VarChar).Value = str2;
+                    con.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            strReturn = reader["make"].ToString();
+                        }
+                    }
+                    return strReturn;
+                }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+
+            return str;
+        }
 
         public int DecodeVINYear(string vin)
         {
