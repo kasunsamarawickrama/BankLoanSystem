@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
+                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
                     @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                     <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>
                 }
@@ -268,7 +268,6 @@
             }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
-                
                 selectedIndex = $("#LoanId option:selected").index();
                 if (selectedIndex === 0) {
                     $('#tagscloudLoanId').children('span').text("Please select a loan");
@@ -357,9 +356,9 @@
                 } else {
                     
                     if (errorCount <= 0) {
-                        $('#tagscloudTitleStatus').children('span').text("");
-                        $("#titleStatus").removeClass('input-validation-error');
-                        $('.centered h5 span').text("");
+                    $('#tagscloudTitleStatus').children('span').text("");
+                    $("#titleStatus").removeClass('input-validation-error');
+                    $('.centered h5 span').text("");
                         myFrame = document.getElementById('ifrmReportViewer');
                         frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                         frameDoc.removeChild(frameDoc.documentElement);
