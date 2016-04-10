@@ -52,7 +52,7 @@
         </div>
 
         <hr />
-
+        
         <!---->
         <div style="margin-top:15px;" id="liFilteringSection">
             <div class="form-inline">
@@ -131,9 +131,9 @@
 
         <hr />
 
-        @*<div id="reportViewerDiv" hidden>
+        <div id="reportViewerDiv" hidden>
             <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
-        </div>*@
+        </div>
 
 
     </div>
@@ -142,6 +142,7 @@
     var errorCount = 0;
 
     function ChangeButtonColor(id) {
+        $('.centered h5 span').text("");
         $(id).css({ 'background': 'green' });
         $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
         $('#reportViewerDiv').hide();
@@ -290,6 +291,10 @@
                     $("#endDate").removeClass('input-validation-error');
                 }
 
+                if (errorCount > 0) {
+                    $('.centered h5 span').text("Error in Page");
+                }
+
                 if (errorCount <= 0) {
 
                     if (new Date(startDate) >= new Date(endDate)) {
@@ -394,6 +399,7 @@
             // required error
             $('#tagscloudStartDate').children('span').text('Start date required');
             $(this).addClass('input-validation-error');
+            $('.centered h5 span').text("Error in Page");
             return;
         }
         var valid = isValidDate($(this).val());
@@ -435,6 +441,7 @@
             // required error
             $('#tagscloudEndDate').children('span').text('End date required');
             $(this).addClass('input-validation-error');
+            $('.centered h5 span').text("Error in Page");
             return;
         }
         var valid = isValidDate($(this).val());
