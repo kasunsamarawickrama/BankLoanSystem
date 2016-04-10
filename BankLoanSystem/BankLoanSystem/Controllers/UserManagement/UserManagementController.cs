@@ -31,11 +31,18 @@ namespace BankLoanSystem.Controllers
                 if (Session["AuthenticatedUser"] != null)
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
+                    
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                         //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        return;
+                    }
+                        //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch
@@ -761,6 +768,19 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult Selectloan(string type)
         {
+
+
+            if (Session["AuthenticatedUser"] == null)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+
+                    
+                    return new HttpStatusCodeResult(404, "Failed to Setup company.");
+                }
+
+            }
+           
 
             LoanSelection detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId,userData.Company_Id,userData.BranchId,userData.RoleId);
 
