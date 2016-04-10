@@ -161,7 +161,12 @@ namespace BankLoanSystem.Controllers.Unit
             }
 
             GeneratesCode gc = new GeneratesCode();
-            unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
+
+            if (Session["loanCode"] == null) {
+                return RedirectToAction("UserLogin", "Login", null);
+            }
+            string loanCode = Session["loanCode"].ToString();
+            unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
 
             //if()
 
