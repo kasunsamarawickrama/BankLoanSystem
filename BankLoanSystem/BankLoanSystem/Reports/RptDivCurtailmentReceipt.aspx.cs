@@ -36,6 +36,7 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         {
+            rptViewerCurtailmentReceipt.ProcessingMode=ProcessingMode.Local;
             rptViewerCurtailmentReceipt.Reset();
             rptViewerCurtailmentReceipt.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceipt.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentReceipt.rdlc");
@@ -60,7 +61,7 @@ namespace BankLoanSystem.Reports
         public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             ReportViewer rptViewerCurtailmentReceiptPrint = new ReportViewer();
-
+            rptViewerCurtailmentReceiptPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerCurtailmentReceiptPrint.Reset();
             rptViewerCurtailmentReceiptPrint.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceiptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentReceipt.rdlc");

@@ -28,6 +28,7 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, int userId)
         {
+            rptViewerAddUnit.ProcessingMode = ProcessingMode.Local;
             rptViewerAddUnit.Reset();
             rptViewerAddUnit.LocalReport.EnableExternalImages = true;
             rptViewerAddUnit.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAddUnit.rdlc");
@@ -42,17 +43,17 @@ namespace BankLoanSystem.Reports
 
             rptViewerAddUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
-            List<RptAddUnit> units = ra.GetJustAddedUnitDetails(loanId, userId);
+            List<RptAddUnit> units = ra.GetJustAddedUnitDetails(userId, loanId);
 
             rptViewerAddUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
 
         }
 
-        public void PrintPage(int loanId)
-        {
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAddUnit.LocalReport);
-            rpd.Print();
-        }
+        //public void PrintPage(int loanId)
+        //{
+        //    ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAddUnit.LocalReport);
+        //    rpd.Print();
+        //}
     }
 }

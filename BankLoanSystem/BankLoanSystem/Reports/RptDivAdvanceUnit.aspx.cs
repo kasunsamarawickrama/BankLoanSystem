@@ -27,6 +27,7 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId)
         {
+            rptViewerAdvanceUnit.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceUnit.Reset();
             rptViewerAdvanceUnit.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceUnit.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceUnit.rdlc");

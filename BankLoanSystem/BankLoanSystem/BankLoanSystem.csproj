@@ -206,7 +206,13 @@
     <Content Include="Images\usernameIco.png" />
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
+    <Content Include="Reports\RptDivAddUnit.aspx" />
+    <Content Include="Reports\RptDivAdvanceUnit.aspx" />
+    <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
+    <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
+    <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
+    <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
@@ -316,12 +322,54 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\RptDivAddUnit.aspx.cs">
+      <DependentUpon>RptDivAddUnit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivAddUnit.aspx.designer.cs">
+      <DependentUpon>RptDivAddUnit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivAdvanceUnit.aspx.cs">
+      <DependentUpon>RptDivAdvanceUnit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivAdvanceUnit.aspx.designer.cs">
+      <DependentUpon>RptDivAdvanceUnit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivCurtailmentInvoice.aspx.cs">
+      <DependentUpon>RptDivCurtailmentInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivCurtailmentInvoice.aspx.designer.cs">
+      <DependentUpon>RptDivCurtailmentInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivCurtailmentReceipt.aspx.cs">
+      <DependentUpon>RptDivCurtailmentReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivCurtailmentReceipt.aspx.designer.cs">
+      <DependentUpon>RptDivCurtailmentReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivFullInventory.aspx.cs">
+      <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RPTDivFullInventory.aspx.designer.cs">
+      <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivLotInspection.aspx.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\RptDivLotInspection.aspx.designer.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivTitleStatus.aspx.designer.cs">
+      <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -439,7 +487,13 @@
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\RptAddUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
+    <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
+    <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
+    <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

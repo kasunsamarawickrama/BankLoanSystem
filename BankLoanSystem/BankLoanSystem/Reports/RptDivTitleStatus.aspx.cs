@@ -28,6 +28,7 @@ namespace BankLoanSystem.Reports
         //public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         public void RenderReport(int loanId, int titleStatus)
         {
+            rptViewerTitleStatus.ProcessingMode=ProcessingMode.Local;
             rptViewerTitleStatus.Reset();
             rptViewerTitleStatus.LocalReport.EnableExternalImages = true;
             rptViewerTitleStatus.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTitleStatus.rdlc");
@@ -50,7 +51,7 @@ namespace BankLoanSystem.Reports
         public int PrintPage(int loanId, int titleStatus)
         {
             ReportViewer rptViewerTitleStatusPrint = new ReportViewer();
-
+            rptViewerTitleStatusPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerTitleStatusPrint.Reset();
             rptViewerTitleStatusPrint.LocalReport.EnableExternalImages = true;
             rptViewerTitleStatusPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTitleStatus.rdlc");
