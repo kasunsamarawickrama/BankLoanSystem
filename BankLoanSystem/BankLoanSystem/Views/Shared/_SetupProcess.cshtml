@@ -98,7 +98,9 @@
 
                  @if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false)
                  {
-                     <text>if (i == 7) continue;
+                     <text>if (i == 7) {
+                     $(".right_arrw.7").parent('li').css("pointer-events", "none").css("cursor", "default");
+                     continue;}
 
                      </text>
 
