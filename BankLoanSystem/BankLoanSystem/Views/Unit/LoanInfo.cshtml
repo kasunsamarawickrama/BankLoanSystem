@@ -281,7 +281,24 @@
                         }
                     }
                     </text>
+           }else if(ViewBag.Title == "Reports")
+           {
+              
+               <text>
+                    if (isError === false) {
+                        if ($('#tagscloudLoanId').text() != "" || $('#tagscloudStartDate').text() != "" || $('#tagscloudEndDate').text() != "" || $('#tagscloudTitleStatus').text() != "") {
+                            $('.centered span').text('Error in Page');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }
+                    else {
+                        $('.centered span').text('');
+                    }
+                    </text>
            }
+
 
 
 

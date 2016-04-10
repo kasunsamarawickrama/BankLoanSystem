@@ -30,114 +30,114 @@
     }
 </style>
 
-    @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-    }
-    <div class="container" id="container" style="padding-top:20px !important">
-        <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
-        <div class="btns-clm" id="divRptType">
-            <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
-            <button type="button" id="btnLotInspection" class="btn btn-info">Lot Inspection</button>
-            <button type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment Invoice </button>
+@{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
+<div class="container" id="container" style="padding-top:20px !important">
+    <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
+    <div class="btns-clm" id="divRptType">
+        <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
+        <button type="button" id="btnLotInspection" class="btn btn-info">Lot Inspection</button>
+        <button type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment Invoice </button>
 
-            <button type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment Receipt </button>
+        <button type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment Receipt </button>
 
-            <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
-            <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
-            @*<div id="2" href="#">
-                    <p style="color: white">advance a unit</p>
-                </div>
-                <div id="3" href="#">
-                    <p style="color: white">unit curtailments</p>
-                </div>*@
-        </div>
+        <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
+        <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
+        @*<div id="2" href="#">
+                <p style="color: white">advance a unit</p>
+            </div>
+            <div id="3" href="#">
+                <p style="color: white">unit curtailments</p>
+            </div>*@
+    </div>
 
-        <hr />
-        
-        <!---->
-        <div style="margin-top:15px;" id="liFilteringSection">
-            <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
+    <hr />
+
+    <!---->
+    <div style="margin-top:15px;" id="liFilteringSection">
+        <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-                <div id="lnum" class="form-group" style="width:50%;">
-                    <label for="">Account Detail</label>
+            <div id="lnum" class="form-group" style="width:50%;">
+                <label for="">Account Detail</label>
 
-                    @if (Enumerable.Count(ViewBag.LoanId) == 1)
-                    {
-                        @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
-                        @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                    }
-                    else
-                    {
-                        @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
-                        @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
-                        <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
-                    }
-                </div>
-
-                <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
-                    <label for="">Start Date</label>
-                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off" , style="width:100%" } })
-                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
-                    <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
-                </div>
-
-                <div id="enddate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
-                    <label for="">End Date</label>
-                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off" , style = "width:100%" } })
-                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
-                    <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
-                </div>
-
-                <div id="ttlsts" class="form-group hf" style="margin-left:20px;display:none;width:20%">
-                    <label for="">Title Status</label>
-                    @{
-                        List<SelectListItem> titleStatus = new List<SelectListItem>();
-
-                        titleStatus.Add(new SelectListItem
-                        {
-                            Text = "Not Received",
-                            Value = "0"
-                        });
-                        titleStatus.Add(new SelectListItem
-                        {
-                            Text = "Received",
-                            Value = "1"
-                        });
-                        titleStatus.Add(new SelectListItem
-                        {
-                            Text = "Returned to Dealer",
-                            Value = "2"
-                        });
-                        titleStatus.Add(new SelectListItem
-                        {
-                            Text = "All",
-                            Value = "3"
-                        });
-                    }
-                    @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
-                    <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
-                </div>
+                @if (Enumerable.Count(ViewBag.LoanId) == 1)
+                {
+                    @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
+                    @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
+                    @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
+                    <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
+                }
             </div>
 
-            <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
-                <div class="form-group" style="float:left;">
-                    <button style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"> Display</button>
-                    <button style="font-size:14px;width: 100px;float:left;display:none;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
-
-                </div>
+            <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+                <label for="">Start Date</label>
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
+                <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
 
+            <div id="enddate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+                <label for="">End Date</label>
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
+                <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
+            </div>
+
+            <div id="ttlsts" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+                <label for="">Title Status</label>
+                @{
+                    List<SelectListItem> titleStatus = new List<SelectListItem>();
+
+                    titleStatus.Add(new SelectListItem
+                    {
+                        Text = "Not Received",
+                        Value = "0"
+                    });
+                    titleStatus.Add(new SelectListItem
+                    {
+                        Text = "Received",
+                        Value = "1"
+                    });
+                    titleStatus.Add(new SelectListItem
+                    {
+                        Text = "Returned to Dealer",
+                        Value = "2"
+                    });
+                    titleStatus.Add(new SelectListItem
+                    {
+                        Text = "All",
+                        Value = "3"
+                    });
+                }
+                @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
+                <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
+            </div>
         </div>
-        <!---->
 
+        <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
+            <div class="form-group" style="float:left;">
+                <button style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"> Display</button>
+                <button style="font-size:14px;width: 100px;float:left;display:none;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
 
-        <hr />
-
-        <div id="reportViewerDiv" hidden>
-            <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
+            </div>
         </div>
-
 
     </div>
+    <!---->
+
+
+    <hr />
+
+    <div id="reportViewerDiv" hidden>
+        <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
+    </div>
+
+
+</div>
 
 <div class="link-bar" style="margin-bottom:15px;">
 
@@ -160,6 +160,8 @@
         $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
+        $('#LoanId').removeClass('input-validation-error');
+        $('#tagscloudLoanId').children('span').text('');
     }
 
     $('#btnLotInspection').click(function () {
@@ -270,10 +272,12 @@
                 if (selectedIndex === 0) {
                     $('#tagscloudLoanId').children('span').text("Please select a loan");
                     $("#LoanId").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
                     errorCount = errorCount + 1;
                 } else {
                     $('#tagscloudLoanId').children('span').text("");
                     $("#LoanId").removeClass('input-validation-error');
+                    $('.centered h5 span').text("");
                 }
             }
 
@@ -288,10 +292,12 @@
                 if (startDate === '') {
                     $('#tagscloudStartDate').children('span').text("Please select start date");
                     $("#startDate").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
                     errorCount = errorCount + 1;
                 } else {
                     $('#tagscloudStartDate').children('span').text("");
                     $("#startDate").removeClass('input-validation-error');
+                    $('.centered h5 span').text("");
                 }
 
                 var endDate = $('#endDate').val();
@@ -314,6 +320,7 @@
                         $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
                         $("#startDate").addClass('input-validation-error');
                         $("#endDate").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
                         return;
                     }
 
@@ -331,37 +338,44 @@
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
             } else if (rptType === 'LotInspection') {
-                myFrame = document.getElementById('ifrmReportViewer');
-                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                frameDoc.removeChild(frameDoc.documentElement);
+                if (errorCount <= 0) {
+                    myFrame = document.getElementById('ifrmReportViewer');
+                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                    frameDoc.removeChild(frameDoc.documentElement);
 
-                urlPrefix = urlPrefix + val;
-                ReportCurtailmentInvoice(val, urlPrefix);
+                    urlPrefix = urlPrefix + val;
+                    ReportCurtailmentInvoice(val, urlPrefix);
+                }
             } else if (rptType === 'TitlesStatus') {
                 selectedIndex = $("#titleStatus option:selected").index();
                 if (selectedIndex === 0) {
                     $('#tagscloudTitleStatus').children('span').text("Please select title status");
                     $("#titleStatus").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
                     errorCount = errorCount + 1;
                 } else {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
+                    $('.centered h5 span').text("");
+                    if (errorCount <= 0) {
+                        myFrame = document.getElementById('ifrmReportViewer');
+                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                        frameDoc.removeChild(frameDoc.documentElement);
 
+                        urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
+                        ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                }
+            }
+            else if (rptType === 'FullInventory') {
+                if (errorCount <= 0) {
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                     frameDoc.removeChild(frameDoc.documentElement);
 
-                    urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
+                    urlPrefix = urlPrefix + val;
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
-            }
-            else if (rptType === 'FullInventory') {
-                myFrame = document.getElementById('ifrmReportViewer');
-                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                frameDoc.removeChild(frameDoc.documentElement);
-
-                urlPrefix = urlPrefix + val;
-                ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
             $('.centered h5 span').text("Please select report type").css("left", "46%");
@@ -407,123 +421,137 @@
 
 
     $('#startDate').blur(function () {
-
-        if ($(this).val() === "") {
-            // required error
-            $('#tagscloudStartDate').children('span').text('Start date required');
-            $(this).addClass('input-validation-error');
-            $('.centered h5 span').text("Error in Page");
-            return;
-        }
         var valid = isValidDate($(this).val());
         if (valid) {
             $('#tagscloudStartDate').children('span').text('');
             $(this).removeClass('input-validation-error');
-            //var selectedDate = new Date($(this).val());
-            //var minDate = new Date
-            //var maxDate = new Date
-            //if (selectedDate < minDate || selectedDate > maxDate) {
-            //    // out off range error
-            //    $('#customErrorPayDate').children('span').text('Out of Range');
-            //    $(this).addClass('input-validation-error');
-            //    //$('.centered span').text('Error');
-            //} else {
-            //    // delete error mssage
-            //    $('#customErrorPayDate').children('span').text('');
-            //    $(this).removeClass('input-validation-error');
-            //}
+            var endDate = $('#endDate').val();
+
+            if (endDate !== '') {
+                if (new Date(this.value) >= new Date(endDate)) {
+                    $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                    $("#startDate").addClass('input-validation-error');
+                    $("#endDate").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
+                    return;
+                }
+
+                $('#tagscloudEndDate').children('span').text("");
+                $("#startDate").removeClass('input-validation-error');
+                $("#endDate").removeClass('input-validation-error');
+                $('.centered h5 span').text("");
+            }
+
+            
         } else {
 
             // not valid data error
             $('#tagscloudStartDate').children('span').text('Not valid date');
             $(this).addClass('input-validation-error');
-            //$('.centered span').text('Error');
         }
 
         if ($('#startDate').val() === '') {
             $('#tagscloudStartDate').children('span').text('');
             $(this).removeClass('input-validation-error');
-            //$('.centered span').text('');
+            $(this).attr("placeholder", "MM/DD/YYYY");
         }
 
     });
 
     $('#endDate').blur(function () {
-
-        if ($(this).val() === "") {
-            // required error
-            $('#tagscloudEndDate').children('span').text('End date required');
-            $(this).addClass('input-validation-error');
-            $('.centered h5 span').text("Error in Page");
-            return;
-        }
         var valid = isValidDate($(this).val());
         if (valid) {
-            $('#tagscloudEndDate').children('span').text('');
-            $(this).removeClass('input-validation-error');
+            var startDate = $('#startDate').val();
+
+            if (new Date(startDate) >= new Date(this.value)) {
+                $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                $("#startDate").addClass('input-validation-error');
+                $("#endDate").addClass('input-validation-error');
+                $('.centered h5 span').text("Error in Page");
+                return;
+            }
+
+            $('#tagscloudEndDate').children('span').text("");
+            $("#startDate").removeClass('input-validation-error');
+            $("#endDate").removeClass('input-validation-error');
+            $('.centered h5 span').text("");
         } else {
 
             // not valid data error
             $('#tagscloudEndDate').children('span').text('Not valid date');
             $(this).addClass('input-validation-error');
-            //$('.centered span').text('Error');
         }
 
         if ($('#endDate').val() === '') {
             $('#tagscloudEndDate').children('span').text('');
             $(this).removeClass('input-validation-error');
-            //$('.centered span').text('');
+            $(this).attr("placeholder", "MM/DD/YYYY");
         }
 
     });
 
-    $('#LoanId').click(function () {
+    $('#LoanId').change(function () {
         $('#tagscloudLoanId').children('span').text('');
         $(this).removeClass('input-validation-error');
+
+        var rptType = $('#hdnSelectedButton').val();
+
+        if (rptType === 'FullInventory' || rptType === 'LotInspection')
+            $('.centered h5 span').text("");
+        else if (rptType === 'TitlesStatus') {
+            if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
+                $('.centered h5 span').text("");
+        }
     });
 
-    $('#titleStatus').click(function () {
+    $('#titleStatus').change(function () {
         $('#tagscloudTitleStatus').children('span').text('');
         $(this).removeClass('input-validation-error');
+
+        var rptType = $('#hdnSelectedButton').val();
+        if (rptType === 'TitlesStatus') {
+            if (this.value !== '' && $("#LoanId option:selected").index() !== 0)
+                $('.centered h5 span').text("");
+        }
     });
 
     $('#btnPrint').click(function () {
-        //var rptType = $('#hdnSelectedButton').val();
-        //var loanId = $('#LoanId').val();
-        //var range1 = $('#startDate').val();
-        //var range2 = $('#endDate').val();
-        //var titleStatus=$('#titleStatus').val();
-        
-        //$.ajax({
-        //    url: '/Reports/PrintPage',
-        //    type: 'POST',
-        //    contentType: 'application/json;',
-        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-        //    success: function (view) {
-        //        //alert(view);
-        //    },
-        //    error: function (reponse) {
-        //        //alert(reponse);
-        //        ('#errPage span').text('No printers are installed.');
+        var rptType = $('#hdnSelectedButton').val();
+        var loanId = $('#LoanId').val();
+        var range1 = $('#startDate').val();
+        var range2 = $('#endDate').val();
+        var titleStatus=$('#titleStatus').val();
 
-        //    }
-        //});
+        $.ajax({
+            url: '/Reports/PrintPage',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
+            success: function (view) {
+                //alert(view);
+            },
+            error: function (reponse) {
+                //alert(reponse);
+                ('#errPage span').text('No printers are installed.');
 
-        //Code for adding HTML content to report viwer
-        var headstr = "<html><head><title></title></head><body>";
-        //End of body tag
-        var footstr = "</body></html>";
-        //This the main content to get the all the html content inside the report viewer control
-        //"ReportViewer1_ctl10" is the main div inside the report viewer
-        //controls who helds all the tables and divs where our report contents or data is available
-        var newstr = $("#rptViewerLotInspection_ctl09").html();
-        //open blank html for printing
-        var popupWin = window.open('', '_blank');
-        //paste data of printing in blank html page
-        popupWin.document.write(headstr + newstr + footstr);
-        //print the page and see is what you see is what you get
-        popupWin.print();
-        return false;
+            }
+        });
+
+        ////Code for adding HTML content to report viwer
+        //var headstr = "<html><head><title></title></head><body>";
+        ////End of body tag
+        //var footstr = "</body></html>";
+        ////This the main content to get the all the html content inside the report viewer control
+        ////"ReportViewer1_ctl10" is the main div inside the report viewer
+        ////controls who helds all the tables and divs where our report contents or data is available
+        //var newstr = $("#rptViewerLotInspection_ctl09").html();
+        ////open blank html for printing
+        //var popupWin = window.open('', '_blank');
+        ////paste data of printing in blank html page
+        //popupWin.document.write(headstr + newstr + footstr);
+        ////print the page and see is what you see is what you get
+        //popupWin.print();
+        //return false;
     });
 
     var startDate = new Pikaday({
