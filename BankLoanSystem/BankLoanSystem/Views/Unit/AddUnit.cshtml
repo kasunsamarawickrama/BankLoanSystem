@@ -111,15 +111,6 @@
         padding-left:2px;
     }
 
-    input[type="button" i] {
-        position: relative;
-            background-color:black !important;
-        height: 100%;
-        width: auto;
-        opacity: 0;
-        -moz-opacity: 0;
-        filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-    }
 </style>
 
     
@@ -214,7 +205,7 @@
                                     @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "vehicleVin", @style = "width: 225px;" } })
-                                        @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger", @style= "width: 300px; left: 0%;" })
                                         <div id="vehicleVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -241,10 +232,11 @@
                                     @*<div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" onmouseout="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-2">*@
                                     <div class="col-sm-2 block_invalid" id="div-combobox1-2">
 
-                                        <div>
+                                        <div style="margin-left: -8px;">
                                             @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-2" })
+
+                                            @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         <div id="vehiclemake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
@@ -258,7 +250,7 @@
                                             <div>
                                                 @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger"})
                                             <div id="vehiclemodel" class="validation-error"><span class="text-danger"></span></div>
                                         </div>
 
@@ -343,7 +335,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 11%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -355,7 +347,7 @@
                                     @Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "rvVin" } })
-                                        @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="rvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -423,7 +415,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -434,7 +426,7 @@
                                     @Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "camperVin" } })
-                                        @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="camperVIN"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -475,7 +467,10 @@
                                         <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Length
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength", @placeholder = "0", @style = "width: 157px;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
@@ -521,7 +516,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 11%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
                                         </div>
 
                                     </div>
@@ -536,7 +531,7 @@
                                     @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "atvVin" } })
-                                        @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="atvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -593,7 +588,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 5%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -604,7 +599,7 @@
                                     @Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "boatVin" } })
-                                        @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="boatVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -657,7 +652,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -668,7 +663,7 @@
                                     @Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "motorcycleVin" } })
-                                        @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="motorcycleVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -737,7 +732,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -748,7 +743,7 @@
                                     @Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap", @id = "snowmobileVin" } })
-                                        @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 305px; left: 0%;" })
                                         <div id="snowmobileVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -795,7 +790,7 @@
                                         <div>
                                             @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 6%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -806,7 +801,7 @@
                                     @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "heavyequipmentSerial", @maxlength = 17 } })
-                                        @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
@@ -842,7 +837,7 @@
                                 @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-3">
                                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
-                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style= "left: 1%;" })
                                     <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
                                 </div>
 
@@ -850,14 +845,14 @@
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
-                                    @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })
-                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
+                                    @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
+                                                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
                                 </div>
                             </div>
 
@@ -875,19 +870,21 @@
                             </div>
 
                             @if (ViewBag.IsTitleTrack == "Yes")
-                            {
+                                    {
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })
                                     <div class="col-md-2">
                                         <div class="checkbox rad-style">
                                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                                             @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" , @style= "margin-left: 21px;" }) No
-                                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "top:100%;left:18%" })
-                                        </div>
-                                    </div>
-                                </div>
+                                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "left: 1%; text-align: left; width: 260px;" })
+                                                                        </div>
+                                
+                                                                    </div>
+                                
+                                                                </div>
                             }
-                            @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
+                                                @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
                             {
                                 <div class="form-group" id="fileUploader">
                                     @Html.HiddenFor(i => i.FileName)
@@ -920,11 +917,13 @@
                                     <div class="col-md-2 rad-style">
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" , @style = "margin-left: 21px;" }) No
-                                        @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "top:100%;left:18%" })
-                                    </div>
-                                </div>
+                                        @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;" })
+                                                            </div>
+                        
+                                                        </div>
+                        
 
-                            </div>
+                                                    </div>
                         }
 
 
@@ -946,15 +945,19 @@
 
                                 <div class="col-xs-3" id="advanceDateDiv">
                                     @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
-                                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger" })
-                                </div>
+                                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger", @style= "text-align: left; left: 0%; width: 208px; " })
+                                                            </div>
+                            
 
 
-                            </div>
-                        </div>
+                                                        </div>
+                            
+                                                    </div>
+                            
 
-                        <div style="padding:0px 20px 0px 20px">
-                            <div class="form-group btn-panel">
+                                                    <div style="padding:0px 20px 0px 20px">
+                            
+                                                        <div class="form-group btn-panel">
                                 <input type="button" value="Cancel" id="btnCancel" class="btn btn-primary m-b next_clear_button clear_back" tabindex="-1" style="float:right;margin-right:4%" />
 
                                 <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-primary m-b next_clear_button next_back" style="width: 200px;margin-left: 102px;" />
@@ -970,322 +973,322 @@
             <script type="text/javascript">
 
                 _previousMakeYear = "";
-                _previousMake     = "";
+                                    _previousMake     = "";
 
                 function getResult(data) {
-                    alert(data.get_response().get_object().Result);
-                    //$(location).attr('href', '/Unit/AddUnit?flag=1');
-                    if(data === 1)
+                                        alert(data.get_response().get_object().Result);
+                                        //$(location).attr('href', '/Unit/AddUnit?flag=1');
+                                        if(data === 1)
                         $(location).attr('href', '/Unit/AddUnit?flag=1');
                     else if (data === 0)
-                        alert(data);
-                }
+                                            alert(data);
+                                    }
 
                 $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox1-2" ).focusin(function(){
                     $('#vehiclemake').children('span').text("");
-                    GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                });
+                                        GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    });
                 $( "#div-combobox1-3" ).focusin(function(){
                     $('#vehiclemodel').children('span').text("");
-                    GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
-                });
+                                        GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
+                                    });
                 $( "#div-combobox2-1" ).focusin(function(){
                     $('#rvyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox2-2" ).focusin(function(){
                     $('#rvmake').children('span').text("");
-                    GetMakes($('#combobox2-1'),'#combobox2-2',2);
-                });
+                                        GetMakes($('#combobox2-1'),'#combobox2-2',2);
+                                    });
                 $( "#div-combobox2-3" ).focusin(function(){
                     $('#rvmodel').children('span').text("");
-                    GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
-                });
+                                        GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
+                                    });
                 $( "#div-combobox3-1" ).focusin(function(){
                     $('#camperyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox3-2" ).focusin(function(){
                     $('#campermake').children('span').text("");
-                    GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                });
+                                        GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                                    });
                 $( "#div-combobox3-3" ).focusin(function(){
                     $('#campermodel').children('span').text("");
-                    GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);
-                });
+                                        GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);
+                                    });
                 $( "#div-combobox4-1" ).focusin(function(){
                     $('#atvyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox4-2" ).focusin(function(){
                     $('#atvmake').children('span').text("");
-                    GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                });
+                                        GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                                    });
                 $( "#div-combobox4-3" ).focusin(function(){
                     $('#atvmodel').children('span').text("");
-                    GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
-                });
+                                        GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
+                                    });
                 $( "#div-combobox5-1" ).focusin(function(){
                     $('#boatyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox5-2" ).focusin(function(){
                     $('#boatmake').children('span').text("");
-                    GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                });
+                                        GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                                    });
                 $( "#div-combobox6-1" ).focusin(function(){
                     $('#motorcycleyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox6-2" ).focusin(function(){
                     $('#motorcyclemake').children('span').text("");
-                    GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                });
+                                        GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                                    });
                 $( "#div-combobox6-3" ).focusin(function(){
                     $('#motorcyclemodel').children('span').text("");
-                    GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
-                });
+                                        GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
+                                    });
                 $( "#div-combobox7-1" ).focusin(function(){
                     $('#snowmobileyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox7-2" ).focusin(function(){
                     $('#snowmobilemake').children('span').text("");
-                    GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                });
+                                        GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                                    });
                 $( "#div-combobox7-3" ).focusin(function(){
                     $('#snowmobilemodel').children('span').text("");
-                    GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
-                });
+                                        GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
+                                    });
                 $( "#div-combobox8-1" ).focusin(function(){
                     $('#heavyequipmentyear').children('span').text("");
-                });
+                                    });
                 $( "#div-combobox8-2" ).focusin(function(){
                     $('#heavyequipmentmake').children('span').text("");
-                    GetMakes($('#combobox8-1'),'#combobox8-2',8);
-                });
+                                        GetMakes($('#combobox8-1'),'#combobox8-2',8);
+                                    });
 
 
 
                 function GetModels(var1,var2,var3,id)
-                {
-                    var checkYear = var1.val();
-                    var checkMake = var2.val();
-                    checkYear = var1.next().children('input').val();
-                    checkMake = var2.next().children('input').val();
+                                    {
+                                        var checkYear = var1.val();
+                                        var checkMake = var2.val();
+                                        checkYear = var1.next().children('input').val();
+                                        checkMake = var2.next().children('input').val();
 
-                    var markup = "";
-                    if(checkYear != "" && checkMake != ""){
-                        if(_previousMakeYear != checkYear|| _previousMake != checkMake){
+                                        var markup = "";
+                                        if(checkYear != "" && checkMake != ""){
+                                            if(_previousMakeYear != checkYear|| _previousMake != checkMake){
                             $.ajax({
-                                url: '/Unit/GetModels',
+                                                    url: '/Unit/GetModels',
                                 type: 'POST',
                                 contentType: 'application/json;',
                                 data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
                                 success: function (data) {
-                                    //var markup = "<option value='0'>-- select a model --</option>";
-                                    for (var x = 0; x < data.length; x++) {
-                                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                                    }
+                                                        //var markup = "<option value='0'>-- select a model --</option>";
+                                                        for (var x = 0; x < data.length; x++) {
+                                                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                                        }
                                     $(var3).html(markup);
 
                                     $(var3).next('span').children('a').click();
-                                    _previousMakeYear = checkYear;
-                                    _previousMake     = checkMake;
-                                },
+                                                        _previousMakeYear = checkYear;
+                                                        _previousMake     = checkMake;
+                                                    },
                                 error: function (reponse) {
-                                }
-                            });
-                        }
-                    }
-                    else{
-                        markup="";
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        else{
+                                            markup="";
                         $(var3).html(markup);
-                    }
-                }
+                                        }
+                                    }
 
-                function GetMakes(var1,var2,id)
-                {
-                    var checkYear = var1.val();
-                    checkYear = var1.next().children('input').val();
-                    var markup = "";
-                    if(checkYear != ""){
-                        if(_previousMakeYear != checkYear){
+                                    function GetMakes(var1,var2,id)
+                                    {
+                                        var checkYear = var1.val();
+                                        checkYear = var1.next().children('input').val();
+                                        var markup = "";
+                                        if(checkYear != ""){
+                                            if(_previousMakeYear != checkYear){
                             $.ajax({
-                                url: '/Unit/GetMakes',
+                                                    url: '/Unit/GetMakes',
                                 type: 'POST',
                                 contentType: 'application/json;',
                                 data: JSON.stringify({year: checkYear , unitId :id}),
                                 success: function (data) {
-                                    //var markup = "<option value='0'>-- select a model --</option>";
-                                    for (var x = 0; x < data.length; x++) {
-                                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                                    }
+                                                        //var markup = "<option value='0'>-- select a model --</option>";
+                                                        for (var x = 0; x < data.length; x++) {
+                                                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                                        }
                                     $(var2).html(markup);
                                     $(var2).next('span').children('a').click();
-                                    _previousMakeYear = checkYear;
-                                    _previousMake= "";
-                                },
+                                                        _previousMakeYear = checkYear;
+                                                        _previousMake= "";
+                                                    },
                                 error: function (reponse) {
-                                }
-                            });
-                        }
-                    }
-                    else{
-                        markup="";
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        else{
+                                            markup="";
                         $(var2).html(markup);
-                    }
-                }
+                                        }
+                                    }
                 // focusout functions Start
                 // --------------------------
                 $('#div-combobox1-1').focusout(function(){
-                    var yearmakemodel = $('#combobox1-1').next().children('input').val();
-                    document.getElementById('editor1-1').value = yearmakemodel;
-                    focusoutcall('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);
-                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                });
+                                        var yearmakemodel = $('#combobox1-1').next().children('input').val();
+                                        document.getElementById('editor1-1').value = yearmakemodel;
+                                        focusoutcall('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);
+                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    });
                 $('#div-combobox1-2').focusout(function(){
-                    var yearmakemodel = $('#combobox1-2').next().children('input').val();
-                    document.getElementById('editor1-2').value = yearmakemodel;
-                    //GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
-                });
+                                        var yearmakemodel = $('#combobox1-2').next().children('input').val();
+                                        document.getElementById('editor1-2').value = yearmakemodel;
+                                        //GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
+                                    });
                 $('#div-combobox1-3').focusout(function(){
-                    var yearmakemodel = $('#combobox1-3').next().children('input').val();
-                    document.getElementById('editor1-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox1-3').next().children('input').val();
+                                        document.getElementById('editor1-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox1-4').focusout(function(){
-                    var yearmakemodel = $('#combobox1-4').next().children('input').val();
-                    document.getElementById('editor1-4').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox1-4').next().children('input').val();
+                                        document.getElementById('editor1-4').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox2-1').focusout(function(){
-                    var yearmakemodel = $('#combobox2-1').next().children('input').val();
-                    document.getElementById('editor2-1').value = yearmakemodel;
-                    focusoutcall('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
-                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                });
+                                        var yearmakemodel = $('#combobox2-1').next().children('input').val();
+                                        document.getElementById('editor2-1').value = yearmakemodel;
+                                        focusoutcall('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
+                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    });
                 $('#div-combobox2-2').focusout(function(){
-                    var yearmakemodel = $('#combobox2-2').next().children('input').val();
-                    document.getElementById('editor2-2').value = yearmakemodel;
-                    //GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
-                });
+                                        var yearmakemodel = $('#combobox2-2').next().children('input').val();
+                                        document.getElementById('editor2-2').value = yearmakemodel;
+                                        //GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
+                                    });
                 $('#div-combobox2-3').focusout(function(){
-                    var yearmakemodel = $('#combobox2-3').next().children('input').val();
-                    document.getElementById('editor2-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox2-3').next().children('input').val();
+                                        document.getElementById('editor2-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox3-1').focusout(function(){
-                    var yearmakemodel = $('#combobox3-1').next().children('input').val();
-                    document.getElementById('editor3-1').value = yearmakemodel;
-                    focusoutcall('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
-                    //GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                });
+                                        var yearmakemodel = $('#combobox3-1').next().children('input').val();
+                                        document.getElementById('editor3-1').value = yearmakemodel;
+                                        focusoutcall('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
+                                        //GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                                    });
                 $('#div-combobox3-2').focusout(function(){
-                    var yearmakemodel = $('#combobox3-2').next().children('input').val();
-                    document.getElementById('editor3-2').value = yearmakemodel;
-                    //GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',6);
-                });
+                                        var yearmakemodel = $('#combobox3-2').next().children('input').val();
+                                        document.getElementById('editor3-2').value = yearmakemodel;
+                                        //GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',6);
+                                    });
                 $('#div-combobox3-3').focusout(function(){
-                    var yearmakemodel = $('#combobox3-3').next().children('input').val();
-                    document.getElementById('editor3-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox3-3').next().children('input').val();
+                                        document.getElementById('editor3-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox4-1').focusout(function(){
-                    var yearmakemodel = $('#combobox4-1').next().children('input').val();
-                    document.getElementById('editor4-1').value = yearmakemodel;
-                    focusoutcall('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
-                    //GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                });
+                                        var yearmakemodel = $('#combobox4-1').next().children('input').val();
+                                        document.getElementById('editor4-1').value = yearmakemodel;
+                                        focusoutcall('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
+                                        //GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                                    });
                 $('#div-combobox4-2').focusout(function(){
-                    var yearmakemodel = $('#combobox4-2').next().children('input').val();
-                    document.getElementById('editor4-2').value = yearmakemodel;
-                    //GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
-                });
+                                        var yearmakemodel = $('#combobox4-2').next().children('input').val();
+                                        document.getElementById('editor4-2').value = yearmakemodel;
+                                        //GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
+                                    });
                 $('#div-combobox4-3').focusout(function(){
-                    var yearmakemodel = $('#combobox4-3').next().children('input').val();
-                    document.getElementById('editor4-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox4-3').next().children('input').val();
+                                        document.getElementById('editor4-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox5-1').focusout(function(){
-                    var yearmakemodel = $('#combobox5-1').next().children('input').val();
-                    document.getElementById('editor5-1').value = yearmakemodel;
-                    focusoutcall('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
-                    //GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                });
+                                        var yearmakemodel = $('#combobox5-1').next().children('input').val();
+                                        document.getElementById('editor5-1').value = yearmakemodel;
+                                        focusoutcall('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
+                                        //GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                                    });
                 $('#div-combobox5-2').focusout(function(){
-                    var yearmakemodel = $('#combobox5-2').next().children('input').val();
-                    document.getElementById('editor5-2').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox5-2').next().children('input').val();
+                                        document.getElementById('editor5-2').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox6-1').focusout(function(){
-                    var yearmakemodel = $('#combobox6-1').next().children('input').val();
-                    document.getElementById('editor6-1').value = yearmakemodel;
-                    focusoutcall('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
-                   // GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                });
+                                        var yearmakemodel = $('#combobox6-1').next().children('input').val();
+                                        document.getElementById('editor6-1').value = yearmakemodel;
+                                        focusoutcall('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
+                                        // GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                                    });
                 $('#div-combobox6-2').focusout(function(){
-                    var yearmakemodel = $('#combobox6-2').next().children('input').val();
-                    document.getElementById('editor6-2').value = yearmakemodel;
-                    //GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
-                });
+                                        var yearmakemodel = $('#combobox6-2').next().children('input').val();
+                                        document.getElementById('editor6-2').value = yearmakemodel;
+                                        //GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
+                                    });
                 $('#div-combobox6-3').focusout(function(){
-                    var yearmakemodel = $('#combobox6-3').next().children('input').val();
-                    document.getElementById('editor6-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox6-3').next().children('input').val();
+                                        document.getElementById('editor6-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox6-4').focusout(function(){
-                    var yearmakemodel = $('#combobox6-4').next().children('input').val();
-                    document.getElementById('editor6-4').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox6-4').next().children('input').val();
+                                        document.getElementById('editor6-4').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox7-1').focusout(function(){
-                    var yearmakemodel = $('#combobox7-1').next().children('input').val();
-                    document.getElementById('editor7-1').value = yearmakemodel;
-                    focusoutcall('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
-                    //GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                });
+                                        var yearmakemodel = $('#combobox7-1').next().children('input').val();
+                                        document.getElementById('editor7-1').value = yearmakemodel;
+                                        focusoutcall('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
+                                        //GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                                    });
                 $('#div-combobox7-2').focusout(function(){
-                    var yearmakemodel = $('#combobox7-2').next().children('input').val();
-                    document.getElementById('editor7-2').value = yearmakemodel;
-                    //GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
-                });
+                                        var yearmakemodel = $('#combobox7-2').next().children('input').val();
+                                        document.getElementById('editor7-2').value = yearmakemodel;
+                                        //GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
+                                    });
                 $('#div-combobox7-3').focusout(function(){
-                    var yearmakemodel = $('#combobox7-3').next().children('input').val();
-                    document.getElementById('editor7-3').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox7-3').next().children('input').val();
+                                        document.getElementById('editor7-3').value = yearmakemodel;
 
-                });
+                                    });
                 $('#div-combobox8-1').focusout(function(){
-                    var yearmakemodel = $('#combobox8-1').next().children('input').val();
-                    document.getElementById('editor8-1').value = yearmakemodel;
-                    focusoutcall('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
-                    //GetMakes($('#combobox8-1'),'#combobox8-2',8);
-                });
+                                        var yearmakemodel = $('#combobox8-1').next().children('input').val();
+                                        document.getElementById('editor8-1').value = yearmakemodel;
+                                        focusoutcall('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
+                                        //GetMakes($('#combobox8-1'),'#combobox8-2',8);
+                                    });
                 $('#div-combobox8-2').focusout(function(){
-                    var yearmakemodel = $('#combobox8-2').next().children('input').val();
-                    document.getElementById('editor8-2').value = yearmakemodel;
+                                        var yearmakemodel = $('#combobox8-2').next().children('input').val();
+                                        document.getElementById('editor8-2').value = yearmakemodel;
 
-                });
+                                    });
                 // -------------------------
                 //focusout functions End
                 function focusoutcall(span,vareditor,varcombo, val){
-                    // $('#editor1-1').trigger('change');
+                                        // $('#editor1-1').trigger('change');
 
-                    var len = val.length;
-                    if(len == 4){
-                        var isnum = /^\d+$/.test(val);
-                        if(isnum === false){
+                                        var len = val.length;
+                                        if(len == 4){
+                                            var isnum = /^\d+$/.test(val);
+                                            if(isnum === false){
                             //$(span).fadeIn();
                             $(span).text("Invalid : enter only numbers");
                             $(varcombo).next().children('input').val("");
                             $(vareditor).val("");
                             //$(span).delay(3000).fadeOut();
                             $('.centered span').text('Error');
-                        }
-                        else{
+                                            }
+                                            else{
                             $(span).text("");
                             $('.centered span').text('');
-                            middleSpanCheck();
-                        }
-                    }
-                    else if(len > 4){
+                                                middleSpanCheck();
+                                            }
+                                        }
+                                        else if(len > 4){
                         //$(span).fadeIn();
                         $(span).text("Invalid : enter only 4 numbers");
                         $(varcombo).next().children('input').val("");
@@ -1293,23 +1296,23 @@
                         //$(span).delay(3000).fadeOut();
                         $('.centered span').text('Error');
 
-                    }
-                    else if(len == 0){
+                                        }
+                                        else if(len == 0){
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         $('.centered span').text('');
-                        middleSpanCheck();
+                                            middleSpanCheck();
 
-                    }
-                    else{
+                                        }
+                                        else{
                         //$(span).fadeIn();
                         $(span).text("Invalid : need 4 numbers");
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
                         $('.centered span').text('Error');
-                    }
-                }
+                                        }
+                                    }
 
                 // drop down combo boxes
                 $(function() {
