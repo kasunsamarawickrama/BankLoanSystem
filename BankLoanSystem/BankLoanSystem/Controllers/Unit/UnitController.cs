@@ -161,7 +161,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
 
             GeneratesCode gc = new GeneratesCode();
-            unit.UnitId = gc.GenerateUnitId(_loan.loanNumber, unit.LoanId);
+            unit.UnitId = gc.GenerateUnitId(_loan.loanCode, unit.LoanId);
 
             //if()
 
