@@ -778,9 +778,10 @@
                                         }
                                         else {
                                             ClearSearchGrid();
-                                            SetRadioBtnHeaderChecked();
+                                            
                                             ClearTextBoxValues();
                                         }
+                                        SetRadioBtnHeaderChecked();
                                         document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                                         $("#btnAdvanceAll").removeAttr("disabled");
