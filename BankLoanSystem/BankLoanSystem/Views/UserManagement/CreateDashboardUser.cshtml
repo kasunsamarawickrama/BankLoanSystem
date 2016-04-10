@@ -51,13 +51,13 @@
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
                                 {
                                 
-                                <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+                                <span id="successSpn" class="text-success">@ViewBag.SuccessMsg</span>
                                 }
 
                                 else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
                                 {
                                 
-                                <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
+                                <span id="errSpn" class="text-danger">@ViewBag.ErrorMsg</span>
                                 }
 @using (Html.BeginForm("CreateDashboardUser", "UserManagement", FormMethod.Post, new { @id = "form" }))
 {
@@ -319,8 +319,8 @@
         $('#branchDiv').hide();
         $('#branchDivUser').hide();
         $('#rightsSection').hide();
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
 
     });
 
@@ -334,8 +334,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
     };
     $(document).on('change','#RoleId',function () {
         //$('#BranchIdUser option:selected').val('');
@@ -401,8 +401,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
     });
     $(document).on('change', '#BranchIdUser', function () {
 
@@ -411,8 +411,8 @@
         $('#LoanIdUser2').val('');
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
         //alert(loan);
         
     });
@@ -426,8 +426,8 @@
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
 
         var val = document.getElementById("RoleId").value;
         if (val == '3') {
@@ -463,8 +463,8 @@
     };
     $(document).on('change','#LoanIdUser2' , function () {
 
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
         $('#loanIdMessage span').text("");
        // $('#checkBoxMessage span').text("");
         var  loan = $('#LoanIdUser2 option:selected').val();
@@ -666,8 +666,8 @@
 
     $("input[type=text]").click(function () {
 
-        $('#successSpn span').text("");
-        $('#errSpn span').text("");
+        $('#successSpn').text("");
+        $('#errSpn').text("");
 
     });
 </script>

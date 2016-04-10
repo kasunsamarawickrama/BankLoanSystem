@@ -467,7 +467,10 @@
                                         <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                    @Html.LabelFor(model => model.camper.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-2">
+                                        Length
+                                        <span class="optional">(Optional)</span>
+                                    </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.camper.Length, new { htmlAttributes = new { @class = "form-control lengths", @id = "camperlength", @placeholder = "0", @style = "width: 157px;text-align: right;" } })
                                         @Html.ValidationMessageFor(model => model.camper.Length, "", new { @class = "text-danger" })
@@ -842,11 +845,11 @@
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
                                                                     <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
