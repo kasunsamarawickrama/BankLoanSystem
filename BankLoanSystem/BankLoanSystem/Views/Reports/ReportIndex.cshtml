@@ -421,55 +421,65 @@
 
 
     $('#startDate').blur(function () {
-
-        //if ($(this).val() === "") {
-        //    $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
-        //    //// required error
-        //    //$('#tagscloudStartDate').children('span').text('Start date required');
-        //    //$(this).addClass('input-validation-error');
-        //    //$('.centered h5 span').text("Error in Page");
-        //    //return;
-        //}
         var valid = isValidDate($(this).val());
         if (valid) {
             $('#tagscloudStartDate').children('span').text('');
             $(this).removeClass('input-validation-error');
+            var endDate = $('#endDate').val();
+
+            if (endDate !== '') {
+                if (new Date(this.value) >= new Date(endDate)) {
+                    $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                    $("#startDate").addClass('input-validation-error');
+                    $("#endDate").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
+                    return;
+                }
+
+                $('#tagscloudEndDate').children('span').text("");
+                $("#startDate").removeClass('input-validation-error');
+                $("#endDate").removeClass('input-validation-error');
+                $('.centered h5 span').text("");
+            }
+
+            
         } else {
 
             // not valid data error
             $('#tagscloudStartDate').children('span').text('Not valid date');
             $(this).addClass('input-validation-error');
-            //$('.centered span').text('Error');
         }
 
         if ($('#startDate').val() === '') {
             $('#tagscloudStartDate').children('span').text('');
             $(this).removeClass('input-validation-error');
             $(this).attr("placeholder", "MM/DD/YYYY");
-            //$('.centered span').text('');
         }
 
     });
 
     $('#endDate').blur(function () {
-
-        //if ($(this).val() === "") {
-        //    // required error
-        //    $('#tagscloudEndDate').children('span').text('End date required');
-        //    $(this).addClass('input-validation-error');
-        //    $('.centered h5 span').text("Error in Page");
-        //    return;
-        //}
         var valid = isValidDate($(this).val());
         if (valid) {
-            $('#tagscloudEndDate').children('span').text('');
-            $(this).removeClass('input-validation-error');
+            var startDate = $('#startDate').val();
+
+            if (new Date(startDate) >= new Date(this.value)) {
+                $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                $("#startDate").addClass('input-validation-error');
+                $("#endDate").addClass('input-validation-error');
+                $('.centered h5 span').text("Error in Page");
+                return;
+            }
+
+            $('#tagscloudEndDate').children('span').text("");
+            $("#startDate").removeClass('input-validation-error');
+            $("#endDate").removeClass('input-validation-error');
+            $('.centered h5 span').text("");
         } else {
 
             // not valid data error
             $('#tagscloudEndDate').children('span').text('Not valid date');
             $(this).addClass('input-validation-error');
-            //$('.centered span').text('Error');
         }
 
         if ($('#endDate').val() === '') {
@@ -506,42 +516,42 @@
     });
 
     $('#btnPrint').click(function () {
-        //var rptType = $('#hdnSelectedButton').val();
-        //var loanId = $('#LoanId').val();
-        //var range1 = $('#startDate').val();
-        //var range2 = $('#endDate').val();
-        //var titleStatus=$('#titleStatus').val();
+        var rptType = $('#hdnSelectedButton').val();
+        var loanId = $('#LoanId').val();
+        var range1 = $('#startDate').val();
+        var range2 = $('#endDate').val();
+        var titleStatus=$('#titleStatus').val();
 
-        //$.ajax({
-        //    url: '/Reports/PrintPage',
-        //    type: 'POST',
-        //    contentType: 'application/json;',
-        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-        //    success: function (view) {
-        //        //alert(view);
-        //    },
-        //    error: function (reponse) {
-        //        //alert(reponse);
-        //        ('#errPage span').text('No printers are installed.');
+        $.ajax({
+            url: '/Reports/PrintPage',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
+            success: function (view) {
+                //alert(view);
+            },
+            error: function (reponse) {
+                //alert(reponse);
+                ('#errPage span').text('No printers are installed.');
 
-        //    }
-        //});
+            }
+        });
 
-        //Code for adding HTML content to report viwer
-        var headstr = "<html><head><title></title></head><body>";
-        //End of body tag
-        var footstr = "</body></html>";
-        //This the main content to get the all the html content inside the report viewer control
-        //"ReportViewer1_ctl10" is the main div inside the report viewer
-        //controls who helds all the tables and divs where our report contents or data is available
-        var newstr = $("#rptViewerLotInspection_ctl09").html();
-        //open blank html for printing
-        var popupWin = window.open('', '_blank');
-        //paste data of printing in blank html page
-        popupWin.document.write(headstr + newstr + footstr);
-        //print the page and see is what you see is what you get
-        popupWin.print();
-        return false;
+        ////Code for adding HTML content to report viwer
+        //var headstr = "<html><head><title></title></head><body>";
+        ////End of body tag
+        //var footstr = "</body></html>";
+        ////This the main content to get the all the html content inside the report viewer control
+        ////"ReportViewer1_ctl10" is the main div inside the report viewer
+        ////controls who helds all the tables and divs where our report contents or data is available
+        //var newstr = $("#rptViewerLotInspection_ctl09").html();
+        ////open blank html for printing
+        //var popupWin = window.open('', '_blank');
+        ////paste data of printing in blank html page
+        //popupWin.document.write(headstr + newstr + footstr);
+        ////print the page and see is what you see is what you get
+        //popupWin.print();
+        //return false;
     });
 
     var startDate = new Pikaday({
