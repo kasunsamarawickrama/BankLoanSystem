@@ -84,32 +84,32 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivLotInspection lInspection = new RptDivLotInspection();
                 return lInspection.PrintPage(loanId);
             }
-            //else if (rptType == "CurtailmentInvoice")
-            //{
-            //    DateTime startDate = Convert.ToDateTime(range1);
-            //    DateTime endtDate = Convert.ToDateTime(range2);
+            else if (rptType == "CurtailmentInvoice")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
 
-            //    RptDivCurtailmentInvoice ciInvoice = new RptDivCurtailmentInvoice();
-            //    return ciInvoice.PrintPage(loanId, startDate, endtDate);
-            //}
-            //else if (rptType == "CurtailmentReceipt")
-            //{
-            //    DateTime startDate = Convert.ToDateTime(range1);
-            //    DateTime endtDate = Convert.ToDateTime(range2);
+                RptDivCurtailmentInvoice ciInvoice = new RptDivCurtailmentInvoice();
+                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "CurtailmentReceipt")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
 
-            //    RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
-            //    return crReceipt.PrintPage(loanId, startDate, endtDate);
-            //}
-            //else if (rptType == "TitlesStatus")
-            //{
-            //    RptDivTitleStatus tsStatus = new RptDivTitleStatus();
-            //    return tsStatus.PrintPage(loanId, 0);
-            //}
-            //else if (rptType == "FullInventory")
-            //{
-            //    RptDivFullInventory fInventory = new RptDivFullInventory();
-            //    return fInventory.PrintPage(loanId);
-            //}
+                RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
+                return crReceipt.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "TitlesStatus")
+            {
+                RptDivTitleStatus tsStatus = new RptDivTitleStatus();
+                return tsStatus.PrintPage(loanId, 0);
+            }
+            else if (rptType == "FullInventory")
+            {
+                RptDivFullInventory fInventory = new RptDivFullInventory();
+                return fInventory.PrintPage(loanId);
+            }
             return -1;
         }
 
