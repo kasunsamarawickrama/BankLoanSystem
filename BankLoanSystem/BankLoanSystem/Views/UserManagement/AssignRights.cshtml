@@ -41,6 +41,11 @@
 </style>
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
+<link href="~/Content/commonActions.css" rel="stylesheet" />
+
+@{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
+
 <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
