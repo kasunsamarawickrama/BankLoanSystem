@@ -1077,42 +1077,42 @@
                                         var markup = "";
                                         if(checkYear != "" && checkMake != ""){
                                             if(_previousMakeYear != checkYear|| _previousMake != checkMake){
-                                                    $.ajax({
-                                                    url: '/Unit/GetModels',
-                                                    type: 'POST',
-                                                    contentType: 'application/json;',
-                                                    data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
-                                                    success: function (data) {
-                                                        //var markup = "<option value='0'>-- select a model --</option>";
-                                                        for (var x = 0; x < data.length; x++) {
-                                                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                                                        }
-                                                        $(var3).html(markup);
+                                                $.ajax({
+                                                url: '/Unit/GetModels',
+                                                type: 'POST',
+                                                contentType: 'application/json;',
+                                                data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
+                                                success: function (data) {
+                                                    //var markup = "<option value='0'>-- select a model --</option>";
+                                                    for (var x = 0; x < data.length; x++) {
+                                                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                                    }
+                                                    $(var3).html(markup);
 
-                                                        $(var3).next('span').children('a').click();
-                                                                _previousMakeYear = checkYear;
-                                                                _previousMake     = checkMake;
-                                                            },
-                                                            error: function (reponse) {
-                                                            }
-                                                                });
-                                                                }
-                                                            }
-                                                                else{
-                                                                    markup="";
-                                                                    $(var3).html(markup);
-                                                                }
-                                                            }
+                                                    $(var3).next('span').children('a').click();
+                                                            _previousMakeYear = checkYear;
+                                                            _previousMake     = checkMake;
+                                                },
+                                                error: function (reponse) {
+                                                }
+                                                    });
+                                            }
+                                        }
+                                            else{
+                                                markup="";
+                                                $(var3).html(markup);
+                                            }
+                                        }
 
-                                                            function GetMakes(var1,var2,id)
-                                                            {
-                                                                var checkYear = var1.val();
-                                                                checkYear = var1.next().children('input').val();
-                                                                var markup = "";
-                                                                if(checkYear != ""){
-                                                                    if(_previousMakeYear != checkYear){
+                                        function GetMakes(var1,var2,id)
+                                        {
+                                            var checkYear = var1.val();
+                                            checkYear = var1.next().children('input').val();
+                                            var markup = "";
+                                            if(checkYear != ""){
+                                                if(_previousMakeYear != checkYear){
                                                     $.ajax({
-                                                                            url: '/Unit/GetMakes',
+                                                            url: '/Unit/GetMakes',
                                                             type: 'POST',
                                                             contentType: 'application/json;',
                                                             data: JSON.stringify({year: checkYear , unitId :id}),
@@ -1271,21 +1271,21 @@
                 function focusoutcall(span,vareditor,varcombo, val){
                                         // $('#editor1-1').trigger('change');
 
-                                        var len = val.length;
-                                        if(len == 4){
-                                            var isnum = /^\d+$/.test(val);
-                                            if(isnum === false){
-                            //$(span).fadeIn();
-                            $(span).text("Invalid : enter only numbers");
-                            $(varcombo).next().children('input').val("");
-                            $(vareditor).val("");
-                            //$(span).delay(3000).fadeOut();
-                            $('.centered span').text('Error');
-                                            }
-                                            else{
-                            $(span).text("");
-                            $('.centered span').text('');
-                                                middleSpanCheck();
+                    var len = val.length;
+                    if(len == 4){
+                        var isnum = /^\d+$/.test(val);
+                        if(isnum === false){
+                        //$(span).fadeIn();
+                        $(span).text("Invalid : enter only numbers");
+                        $(varcombo).next().children('input').val("");
+                        $(vareditor).val("");
+                        //$(span).delay(3000).fadeOut();
+                        $('.centered span').text('Error');
+                                        }
+                                        else{
+                        $(span).text("");
+                        $('.centered span').text('');
+                                            middleSpanCheck();
                                             }
                                         }
                                         else if(len > 4){

@@ -82,7 +82,7 @@
                                                     @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "advanceAmount", style = "text-align:right" } })
                                                 </div>
                                                 <div class="err_msg_box  mErrMsgBo">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })</p>
+                                                    <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
                                             <div class="form-group new_form_group">
@@ -106,7 +106,7 @@
                                                     @Html.DropDownListFor(model => model.AdvanceFeeCalculateType, listItems8, "-- select type --", new { @id = "advanceCalculateType", @class = "form-control text_field_input short_text_field" })
                                                 </div>
                                                 <div class="err_msg_box  mErrMsgBo">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger" })</p>
+                                                    <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
 
@@ -121,7 +121,7 @@
                                                         @Html.RadioButtonFor(model => model.IsAdvanceFeeCompleteEmailReminder, false, new { @id = "needReminderAdvanceCompleteF" }) No
                                                     </div>
                                                     <div class="err_msg_box  mErrMsgBo">
-                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.IsAdvanceFeeCompleteEmailReminder, "", new { @class = "text-danger" })</p>
+                                                        <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.IsAdvanceFeeCompleteEmailReminder, "", new { @class = "text-danger" })</p>
                                                     </div>
                                                 </div>
                                                 <div id="remindEmailAdvanceComplete">
