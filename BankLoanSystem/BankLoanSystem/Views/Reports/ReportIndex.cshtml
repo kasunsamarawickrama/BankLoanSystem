@@ -58,7 +58,7 @@
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
             <div id="lnum" class="form-group" style="width:50%;">
-                <label for="">Account Detail</label>
+                <label for="">Account Detail</label><br />
 
                 @if (Enumerable.Count(ViewBag.LoanId) == 1)
                 {
@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" })
+                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
                     @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                     <div id="tagscloudLoanId" class="validation-error"><span class="text-danger"></span></div>
                 }
