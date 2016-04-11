@@ -1562,11 +1562,11 @@ namespace BankLoanSystem.Controllers
             }
             if (TempData["submit"] != null) {
                 if ((string)TempData["submit"] == "success") {
-                    ViewBag.SuccessMsg = "User Successfully Created";
+                    ViewBag.SuccessMsg = "User Rights Successfully Updated";
                 }
                 else if ((string)TempData["submit"] == "failed")
                 {
-                    ViewBag.ErrorMsg = "Failed To Create User";
+                    ViewBag.ErrorMsg = "Failed To Update User Rights";
                 }
             }
             if (Session["oneLoanDashboard"] != null || Session["loanDashboardAssignUser"] != null)
