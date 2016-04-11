@@ -1018,6 +1018,7 @@ namespace BankLoanSystem.Controllers
                     }else if ((string)Session["popUpSelectionType"] == "assignRights")
                     {
                         Session["loanDashboardAssignUser"] = finalSelectedLoan;
+
                     }
                     else {
                         Session["loanDashboard"] = finalSelectedLoan;
@@ -1535,7 +1536,7 @@ namespace BankLoanSystem.Controllers
                 loan = (Loan)Session["oneLoanDashboard"];
                 //Session.Remove("oneLoanDashboard");
             }
-            else if (Session["loanDashboardAssignUser"] != null)
+            if (Session["loanDashboardAssignUser"] != null)
             {
                 loan = (Loan)Session["loanDashboardAssignUser"];
             }
