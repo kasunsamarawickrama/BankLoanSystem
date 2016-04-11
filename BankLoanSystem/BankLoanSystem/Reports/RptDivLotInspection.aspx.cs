@@ -52,7 +52,7 @@ namespace BankLoanSystem.Reports
         public int PrintPage(int loanId)
         {
             ReportViewer rptViewerLotInspectionPrint = new ReportViewer();
-
+            rptViewerLotInspectionPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLotInspectionPrint.Reset();
             rptViewerLotInspectionPrint.LocalReport.EnableExternalImages = true;
             rptViewerLotInspectionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");

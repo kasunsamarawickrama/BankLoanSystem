@@ -387,7 +387,7 @@ namespace BankLoanSystem.DAL
                         returnParameter.Direction = ParameterDirection.ReturnValue;
                         cmd.ExecuteNonQuery();
 
-                        if (Convert.ToInt32(returnParameter.Value) == 1)
+                        if (Convert.ToInt32(returnParameter.Value) == 1 && unit.AddAndAdvance)
                         {
                             return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
                            // return true;

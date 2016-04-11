@@ -27,6 +27,7 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, int titleStatus)
         {
+            rptViewerFullInventory.ProcessingMode=ProcessingMode.Local;
             rptViewerFullInventory.Reset();
             rptViewerFullInventory.LocalReport.EnableExternalImages = true;
             rptViewerFullInventory.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
@@ -49,6 +50,7 @@ namespace BankLoanSystem.Reports
         public int PrintPage(int loanId)
         {
             ReportViewer rptViewerFullInventoryPrint = new ReportViewer();
+            rptViewerFullInventoryPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerFullInventoryPrint.Reset();
             rptViewerFullInventoryPrint.LocalReport.EnableExternalImages = true;
             rptViewerFullInventoryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
