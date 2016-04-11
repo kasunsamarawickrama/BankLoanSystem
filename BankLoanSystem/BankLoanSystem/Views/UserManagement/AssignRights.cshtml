@@ -65,12 +65,12 @@
 
                                 <div style="clear:both"></div>
 
-                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Rights Successfully Updated"))
                                 {
                                     <span class="text-success" id="success">@ViewBag.SuccessMsg</span>
                                 }
 
-                                else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create User"))
+                                else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update User Rights"))
                                 {
                                     <span class="text-danger" id="fail">@ViewBag.ErrorMsg</span>
                                 }
