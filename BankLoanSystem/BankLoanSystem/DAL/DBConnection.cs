@@ -23,11 +23,12 @@ namespace BankLoanSystem.DAL
     {
         public SqlConnection connection;
 
-        public DBConnection() {
+        public DBConnection()
+        {
 
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString);
         }
-        
+
         /// <summary>
         /// CreatedBy : Nadeeka
         /// CreatedDate : 2016/03/03
@@ -61,12 +62,12 @@ namespace BankLoanSystem.DAL
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 throw exp;
-                
-            }           
-        }       
+
+            }
+        }
 
         public void Dispose()
         {
@@ -117,21 +118,15 @@ namespace BankLoanSystem.DAL
                         {
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
-                    }                    
+                    }
                     command.ExecuteNonQuery();
-                    connection.ConnectDB();
-                    return  true;
+                    return true;
                 }
                 else
-                {
-                    connection.ConnectDB();
                     return false;
-                }
-                   
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
-                connection.ConnectDB();
                 return false;
             }
 
@@ -166,24 +161,20 @@ namespace BankLoanSystem.DAL
                         {
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
-                       
+
                     }
                     SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Int);
                     returnParameter.Direction = ParameterDirection.ReturnValue;
                     command.ExecuteNonQuery();
-                    connection.DisconnectDB();
+
                     return int.Parse(returnParameter.Value.ToString());
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return 0;
-                }
-                    
             }
-            catch (Exception)
+            catch (Exception exp)
             {
-                connection.DisconnectDB();
+                throw exp;
                 return 0;
             }
 
@@ -226,19 +217,13 @@ namespace BankLoanSystem.DAL
                     dataAdapter.Fill(dataSet);
                     dataAdapter.Dispose();
                     mPara = null;
-                    connection.DisconnectDB();
                     return dataSet;
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return null;
-                }
-                   
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                connection.DisconnectDB();
                 return null;
             }
         }
@@ -268,19 +253,13 @@ namespace BankLoanSystem.DAL
                     dataSet.Clear();
                     dataAdapter.Fill(dataSet);
                     dataAdapter.Dispose();
-                    connection.DisconnectDB();
                     return dataSet;
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return null;
-                }
-                   
             }
             catch
             {
-                connection.DisconnectDB();
                 return null;
             }
         }
@@ -310,19 +289,13 @@ namespace BankLoanSystem.DAL
                     dataSet.Clear();
                     dataAdapter.Fill(dataSet);
                     dataAdapter.Dispose();
-                    connection.DisconnectDB();
                     return dataSet;
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return null;
-                }
-                    
             }
             catch
             {
-                connection.DisconnectDB();
                 return null;
             }
         }
@@ -362,20 +335,14 @@ namespace BankLoanSystem.DAL
 
                     using (var reader = command.ExecuteReader())
                     {
-                        connection.DisconnectDB();
                         return reader.HasRows ? false : true;
                     }
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return false;
-                }
-                    
             }
             catch
             {
-                connection.DisconnectDB();
                 return false;
             }
         }
@@ -416,19 +383,13 @@ namespace BankLoanSystem.DAL
 
                     command.ExecuteNonQuery();
                     int retunVal = int.Parse(returnParameter.Value.ToString());
-                    connection.DisconnectDB();
                     return retunVal;
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return 0;
-                }
-                    
             }
             catch (Exception exp)
             {
-                connection.DisconnectDB();
                 return 0;
             }
 
@@ -453,24 +414,18 @@ namespace BankLoanSystem.DAL
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
                     }
-                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.VarChar,50);
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.VarChar, 50);
                     returnParameter.Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
-                    connection.DisconnectDB();
-                    return  returnParameter.Value.ToString();
-                    
+                    return returnParameter.Value.ToString();
+
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return null;
-                }
-                   
             }
             catch (Exception exp)
             {
-                connection.DisconnectDB();
                 return null;
             }
 
@@ -499,20 +454,14 @@ namespace BankLoanSystem.DAL
                     returnParameter.Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
-                    connection.DisconnectDB();
                     return Convert.ToInt32(returnParameter.Value.ToString());
 
                 }
                 else
-                {
-                    connection.DisconnectDB();
                     return 0;
-                }
-                   
             }
             catch (Exception exp)
             {
-                connection.DisconnectDB();
                 return 0;
             }
 
