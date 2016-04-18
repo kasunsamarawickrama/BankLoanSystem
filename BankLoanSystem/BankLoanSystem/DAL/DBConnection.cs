@@ -60,7 +60,10 @@ namespace BankLoanSystem.DAL
             try
             {
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }        
             }
             catch (Exception exp)
             {
@@ -71,7 +74,7 @@ namespace BankLoanSystem.DAL
 
         public void Dispose()
         {
-            connection.Close();
+            connection.Dispose();
         }
     }
 
@@ -129,6 +132,10 @@ namespace BankLoanSystem.DAL
             {
                 return false;
             }
+            finally
+            {
+                connection.DisconnectDB();
+            }
 
         }
         /// <summary>
@@ -176,6 +183,10 @@ namespace BankLoanSystem.DAL
             {
                 throw exp;
                 return 0;
+            }
+            finally
+            {
+                connection.DisconnectDB();
             }
 
         }
@@ -226,6 +237,10 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+            finally
+            {
+                connection.DisconnectDB();
+            }
         }
 
         /// <summary>
@@ -262,6 +277,10 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+            finally
+            {
+                connection.DisconnectDB();
+            }
         }
 
         /// <summary>
@@ -297,6 +316,10 @@ namespace BankLoanSystem.DAL
             catch
             {
                 return null;
+            }
+            finally
+            {
+                connection.DisconnectDB();
             }
         }
 
@@ -345,6 +368,10 @@ namespace BankLoanSystem.DAL
             {
                 return false;
             }
+            finally
+            {
+                connection.DisconnectDB();
+            }
         }
 
         /// <summary>
@@ -392,6 +419,10 @@ namespace BankLoanSystem.DAL
             {
                 return 0;
             }
+            finally
+            {
+                connection.DisconnectDB();
+            }
 
         }
 
@@ -428,7 +459,10 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
-
+            finally
+            {
+                connection.DisconnectDB();
+            }
         }
 
         public Int32 ExecuteSQLWithIntOutPutParam(string SQL, List<object[]> mPara)
@@ -464,7 +498,10 @@ namespace BankLoanSystem.DAL
             {
                 return 0;
             }
-
+            finally
+            {
+                connection.DisconnectDB();
+            }
         }
     }
 }
