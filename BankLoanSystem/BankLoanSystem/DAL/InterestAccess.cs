@@ -43,25 +43,24 @@ namespace BankLoanSystem.DAL
             }
            
 
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
-            {
-                var command = new SqlCommand("spGetAllAccrualMethods", con) { CommandType = CommandType.StoredProcedure };
-                con.Open();
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        AccrualMethods methods = new AccrualMethods()
-                        {
-                            MethodId = Convert.ToInt32(reader["accrual_method_id"]),
-                            MethodName = reader["accrual_method_name"].ToString()
-                        };
-                        methodList.Add(methods);
-                    }
-                }
-            }
-
-            return methodList;
+            //using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            //{
+            //    var command = new SqlCommand("spGetAllAccrualMethods", con) { CommandType = CommandType.StoredProcedure };
+            //    con.Open();
+            //    using (var reader = command.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            AccrualMethods methods = new AccrualMethods()
+            //            {
+            //                MethodId = Convert.ToInt32(reader["accrual_method_id"]),
+            //                MethodName = reader["accrual_method_name"].ToString()
+            //            };
+            //            methodList.Add(methods);
+            //        }
+            //    }
+            //}
+            //return methodList;
         }
 
         /// <summary>
