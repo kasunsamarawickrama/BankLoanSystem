@@ -721,10 +721,10 @@ namespace BankLoanSystem.DAL
         public int insertBranch(Branch branch, int id)
         {
             if (string.IsNullOrEmpty(branch.BranchCode))
-        {
+            {
                 branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
             }
-           
+
             //branch.BranchCompany = getCompanyIdByUserId(id);
 
             DataHandler dataHandler = new DataHandler();
