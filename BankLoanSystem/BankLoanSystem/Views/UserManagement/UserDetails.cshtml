@@ -109,6 +109,11 @@
                                         <span class="txt">Pay Off Unit</span>
                                     </button>
 
+                                    <button class="big-button">
+                                        <span class="icon-credit"></span>
+                                        <span class="txt">Fees</span>
+                                    </button>
+
                                     <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                                         <span class="icon-stack"></span>
                                         <span class="txt">Reports</span>
@@ -160,9 +165,16 @@
                             </button>
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
-                            }
-                            if (ViewBag.RightList.Contains("U006"))
-                            {
+                        }
+                        if (ViewBag.RightList.Contains("U007"))
+                        {
+                            <button class="big-button">
+                                <span class="icon-credit"></span>
+                                <span class="txt">Fees</span>
+                            </button>
+                        }
+                        if (ViewBag.RightList.Contains("U006"))
+                        {
                             <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                                 <span class="icon-stack"></span>
                                 <span class="txt">Reports</span>
@@ -220,10 +232,7 @@
                 <span class="txt">Edit User Rights</span>
             </button>*@
 
-            <button class="big-button">
-                <span class="icon-credit"></span>
-                <span class="txt">Fees</span>
-            </button>
+            
 
             @if (ViewBag.roleId == 1 || ViewBag.roleId == 2)
             {
