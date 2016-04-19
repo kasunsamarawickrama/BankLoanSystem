@@ -81,7 +81,7 @@
                                         </div>
                                         <div style="" class="form-group new_form_group" id="RemindEmailDiv">
                                             <div class="control-label col-sm-2 longLable">
-                                                <label>Email address for a reminder to be sent if the title has not been received in the timeframe</label>
+                                                <label>Email address for a reminder to be sent if the title has not been received in the time frame</label>
                                             </div>
                                             @if (ViewBag.Edit == 1)
                                             {
@@ -259,26 +259,28 @@
     }
     function passvalueTimeLimit(e2){
         
-        if((e2 == "At Any Time")||(e2 == "")){
+        if ((e2 == "At Any Time") || (e2 == "")) {
+           
             $('#RemindEmailDiv').hide();
 
         }
 
-        else{
+        else {
+           
             $('#RemindEmailDiv').show();
         }
     }
     function passvalue(e){
        
-        if((e == "Title Present To Advance")||(e == "")){
+        if(e == "Title Present To Advance"){
            
             $('#TimeLimit').hide();
            
-
+            //$('#RemindEmailDiv').hide();
         }
         else{
             $('#TimeLimit').show();
-          
+           // $('#RemindEmailDiv').show();
         }
     }
 
@@ -309,22 +311,24 @@
             $('#needTrack').hide();
 
         }
-        if(($('#acceptMethod option:selected').text()== "Title Present To Advance")||($('#acceptMethod option:selected').text() == "")){
+        if(($('#acceptMethod option:selected').text()== "Title Present To Advance")||($('#acceptMethod').val() == "")){
 
             $('#TimeLimit').hide();
-
+            //$('#RemindEmailDiv').hide();
         }
         else{
 
             $('#TimeLimit').show();
-
+            //$('#RemindEmailDiv').hide();
         }
-        if (($('#timeLimit option:selected').text() == "At Any Time") || ($('#timeLimit option:selected').text() == "")) {
+        if (($('#timeLimit option:selected').text() == "At Any Time") || ($('#timeLimit').val() == "")) {
+            //alert('hjfj');
             $('#RemindEmailDiv').hide();
 
         }
 
         else {
+            alert('h');
             $('#RemindEmailDiv').show();
         }
         if ($('#receiptRequired option:selected').text() == "Yes") {

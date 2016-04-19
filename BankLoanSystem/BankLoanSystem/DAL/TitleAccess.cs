@@ -20,74 +20,65 @@ namespace BankLoanSystem.DAL
         /// <returns>TitleObject</returns>
         public Title getTitleDetails(int loanId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetTitleDetailsByLoanId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetTitleDetailsByLoanId", con))
+                    Title obj1 = new Title();
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-
-                        //Title obj1 = null;
-                        Title obj1 = new Title();
-
-
-                        while (reader.Read())
+                        
+                        obj1.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        obj1.IsTitleTrack = bool.Parse(dataRow["is_title_tracked"].ToString());
+                        if (obj1.IsTitleTrack)
                         {
-                            obj1.LoanId = int.Parse(reader["loan_id"].ToString());
-                            obj1.IsTitleTrack = bool.Parse(reader["is_title_tracked"].ToString());
-                            if (obj1.IsTitleTrack)
-                            {
 
-                                obj1.TitleAcceptMethod = reader["title_accept_method"].ToString();
-                                obj1.ReceivedTimeLimit = reader["title_received_time_period"].ToString();
-                                obj1.RemindEmail = reader["auto_remind_email"].ToString();
-                                
+                            obj1.TitleAcceptMethod = dataRow["title_accept_method"].ToString();
+                            obj1.ReceivedTimeLimit = dataRow["title_received_time_period"].ToString();
+
+                            if (!string.IsNullOrEmpty(dataRow["auto_remind_email"].ToString()))
+                            {
+                                obj1.RemindEmail = dataRow["auto_remind_email"].ToString();
                             }
                             else
                             {
                                 LoanSetupAccess st = new LoanSetupAccess();
                                 obj1.RemindEmail = st.getAutoRemindEmailByLoanId(obj1.LoanId);
                             }
-                            obj1.IsReceipRequired = bool.Parse(reader["is_receipt_required"].ToString());
-
-                            if (obj1.IsReceipRequired)
-                            {
-
-                                obj1.ReceiptRequiredMethod = reader["receipt_required_method"].ToString();
-                            }
-
-                           
-
 
                         }
-                       if(obj1 == null)
+                        else 
                         {
-                            obj1.IsTitleTrack = false;
-                            obj1.IsReceipRequired = false;
+                            LoanSetupAccess st = new LoanSetupAccess();
+                            obj1.RemindEmail = st.getAutoRemindEmailByLoanId(obj1.LoanId);
                         }
-                        return obj1;
+                        obj1.IsReceipRequired = bool.Parse(dataRow["is_receipt_required"].ToString());
+
+                        if (obj1.IsReceipRequired)
+                        {
+
+                            obj1.ReceiptRequiredMethod = dataRow["receipt_required_method"].ToString();
+                        }
 
                     }
+                    return obj1;
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
+                  return null;
+                }
+             }
+            catch (Exception ex)
+            {
+                throw ex;
 
-                }
-                finally
-                {
-                    con.Close();
-                }
             }
+           
         }
 
         /// <summary>
@@ -99,70 +90,45 @@ namespace BankLoanSystem.DAL
         /// <returns>countVal</returns>
         public int insertTitleDetails(Title title)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@is_title_tracked", title.IsTitleTrack });
+            if (title.IsTitleTrack)
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spInsertTitleDetails", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                paramertList.Add(new object[] { "@title_accept_method", title.TitleAcceptMethod });
+                paramertList.Add(new object[] { "@title_received_time_period", title.ReceivedTimeLimit });
 
-                        cmd.Parameters.Add("@is_title_tracked", SqlDbType.Bit).Value = title.IsTitleTrack;
-                        if (title.IsTitleTrack)
-                        {
-                            cmd.Parameters.Add("@title_accept_method", SqlDbType.VarChar).Value = title.TitleAcceptMethod;
-                            cmd.Parameters.Add("@title_received_time_period", SqlDbType.VarChar).Value = title.ReceivedTimeLimit;
-
-                            cmd.Parameters.Add("@auto_remind_email", SqlDbType.VarChar).Value = title.RemindEmail;
-                        }
-                        else
-                        {
-                            cmd.Parameters.Add("@title_accept_method", SqlDbType.VarChar).Value = null;
-                            cmd.Parameters.Add("@title_received_time_period", SqlDbType.VarChar).Value = null;
-
-                            cmd.Parameters.Add("@auto_remind_email", SqlDbType.VarChar).Value = null;
-                        }
-
-                        cmd.Parameters.Add("@is_receipt_required", SqlDbType.Bit).Value = title.IsReceipRequired;
-                        if (title.IsReceipRequired)
-                        {
-
-                            cmd.Parameters.Add("receipt_required_method", SqlDbType.VarChar).Value = title.ReceiptRequiredMethod;
-                        }
-                        else
-                        {
-                            cmd.Parameters.Add("receipt_required_method", SqlDbType.VarChar).Value = null;
-                        }
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = title.LoanId;
-
-
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        return countVal;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-
-                }
-                finally
-                {
-                    con.Close();
-                }
+                paramertList.Add(new object[] { "@auto_remind_email", title.RemindEmail });
             }
+            else
+            {
+                paramertList.Add(new object[] { "@title_accept_method", null });
+                paramertList.Add(new object[] { "@title_received_time_period", null });
+
+                paramertList.Add(new object[] { "@auto_remind_email", null});
+            }
+
+            paramertList.Add(new object[] { "@is_receipt_required", title.IsReceipRequired });
+            if (title.IsReceipRequired)
+            {
+
+                paramertList.Add(new object[] { "receipt_required_method", title.ReceiptRequiredMethod });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "receipt_required_method",null});
+            }
+            paramertList.Add(new object[] { "@loan_id", title.LoanId });
+
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spInsertTitleDetails", paramertList);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
         }
         /// <summary>
         /// CreatedBy:Piyumi
