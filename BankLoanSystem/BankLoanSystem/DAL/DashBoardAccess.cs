@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.Sql;
 using BankLoanSystem.Models;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -21,40 +18,20 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="userId">userid</param>
         /// <returns></returns>
+        /// UpdatedBy : Asanka Senarathna
         public int GetUserLevelByUserId(int userId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@userId", userId });
+            try
             {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserLevelByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        SqlParameter returnParameter = cmd.Parameters.Add("@ReturnValue", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int userLevelId = (int)returnParameter.Value;
-
-                        return userLevelId;
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return dataHandler.ExecuteSQLReturn("spGetUserLevelByUserId", paramertList);
             }
+            catch
+            {
+                return 0;
+            }         
         }
 
         /// <summary>
