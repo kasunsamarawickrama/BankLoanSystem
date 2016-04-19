@@ -1026,13 +1026,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 ViewBag.RegisteredBranchId = new SelectList(newBranches, "BranchId", "BranchName");
 
-                if(newBranches.Count > 1)
-                {
-                    ViewBag.NonRegisteredBranchId = new SelectList(new List<NonRegBranch>() , "NonRegBranchId", "CompanyNameBranchName");
-                }else if(newBranches.Count == 1)
+                if (newBranches.Count >= 1)
                 {
                     ViewBag.NonRegisteredBranchId = new SelectList(NonRegisteredBranchLists, "NonRegBranchId", "CompanyNameBranchName");
-
                 }
 
             }
