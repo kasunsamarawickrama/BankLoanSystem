@@ -17,7 +17,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="userType"></param>
         /// <returns>userLogin object</returns>
-        public List<UserLogin> getUserByType(int levelId,int userId)
+        public List<UserLogin> getUserByType(int levelId, int userId)
         {
             List<UserLogin> UserList = new List<UserLogin>();
             DataHandler dataHandler = new DataHandler();
@@ -75,9 +75,9 @@ namespace BankLoanSystem.DAL
             catch
             {
                 return null;
-            }            
+            }
         }
-       
+
         /// <summary>
         /// CreatedBy: Piyumi
         /// CreatedDate:2016/1/18/
@@ -90,7 +90,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", id });
-           
+
             try
             {
                 return dataHandler.ExecuteSQL("spDeleteUser", paramertList);
@@ -98,7 +98,7 @@ namespace BankLoanSystem.DAL
             catch
             {
                 return false;
-            }            
+            }
         }
 
         /// <summary>
@@ -110,40 +110,25 @@ namespace BankLoanSystem.DAL
         /// <returns>userName</returns>
         public string getUserNameById(int createdBy)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", createdBy });
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserNameByUserId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserNameByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = createdBy;
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        UserLogin dtl = new UserLogin();
-
-                        while (reader.Read())
-                        {
-
-                            dtl.userName = reader["user_name"].ToString();
-                           
-
-                        }
-
-                        return dtl.userName;
-                    }
+                    return dataSet.Tables[0].Rows[0]["user_name"].ToString();
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
+                    return "";
                 }
-                finally
-                {
-                    con.Close();
-                }
+            }
+            catch
+            {
+                return "";
             }
         }
 
@@ -163,71 +148,85 @@ namespace BankLoanSystem.DAL
         /// <returns>GetDetails Object</returns>
         public GetDetails getUserById(int user_id)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@user_id", user_id });
+
+            //Company company = new Company();
+            try
             {
-                try
+                DataSet dsCompany = dataHandler.GetDataSet("spGetUserDetailsById", paramertList);
+                if (dsCompany != null && dsCompany.Tables.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserDetailsById", con))
+                    GetDetails dtl = new GetDetails();
+                    //company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                    //company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                    //company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
+                    //company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
+                    //company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                    //company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                    //company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
+                    //company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+
+                    //string[] zipWithExtention = company.Zip.Split('-');
+
+                    //if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                    //if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                    //company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                    //company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
+                    //company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
+                    //company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
+                    //company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                    //company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                    //company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
+
+                    dtl.userId = int.Parse(dsCompany.Tables[0].Rows[0]["user_id"].ToString());
+                    dtl.firstName = dsCompany.Tables[0].Rows[0]["first_name"].ToString();
+                    dtl.lastName = dsCompany.Tables[0].Rows[0]["last_name"].ToString();
+                    dtl.email = dsCompany.Tables[0].Rows[0]["email"].ToString();
+                    dtl.phoneNo = dsCompany.Tables[0].Rows[0]["phone_no"].ToString();
+                    if (bool.Parse(dsCompany.Tables[0].Rows[0]["status"].ToString()))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = user_id;
-
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        GetDetails dtl = new GetDetails();
-
-                        while (reader.Read())
-                        {
-                            dtl.userId= int.Parse(reader["user_id"].ToString());
-                            dtl.firstName = reader["first_name"].ToString();
-                            dtl.lastName = reader["last_name"].ToString();
-                            dtl.email = reader["email"].ToString();
-                            dtl.phoneNo = reader["phone_no"].ToString();
-                            if (bool.Parse(reader["status"].ToString())) {
-
-                                dtl.status = "Active";
-                            }
-                            else
-                            {
-                                dtl.status = "Not Active";
-                            }
-                            DateTime day = DateTime.Parse(reader["created_date"].ToString());
-                            dtl.createdDate = day.ToShortDateString();
-                            
-                            dtl.roleName = reader["role_name"].ToString();
-                            if (reader["branch_name"].ToString() != "")
-                            {
-                                dtl.branchName = reader["branch_name"].ToString();
-                                dtl.BranchId = Convert.ToInt32(reader["branch_id"]);
-                                dtl.BranchCode = reader["BranchCode"].ToString();
-                            }
-                            else
-                            {
-                                dtl.branchName = "";
-                                dtl.BranchId = 0;
-                                dtl.BranchCode = "";
-                            }
-                            dtl.CompanyCode = reader["CompanyCode"].ToString();
-
-                        }
-
-                        return dtl;
+                        dtl.status = "Active";
                     }
-                }
+                    else
+                    {
+                        dtl.status = "Not Active";
+                    }
+                    DateTime day = DateTime.Parse(dsCompany.Tables[0].Rows[0]["created_date"].ToString());
+                    dtl.createdDate = day.ToShortDateString();
 
+                    dtl.roleName = dsCompany.Tables[0].Rows[0]["role_name"].ToString();
+                    if (dsCompany.Tables[0].Rows[0]["branch_name"].ToString() != "")
+                    {
+                        dtl.branchName = dsCompany.Tables[0].Rows[0]["branch_name"].ToString();
+                        dtl.BranchId = Convert.ToInt32(dsCompany.Tables[0].Rows[0]["branch_id"]);
+                        dtl.BranchCode = dsCompany.Tables[0].Rows[0]["BranchCode"].ToString();
+                    }
+                    else
+                    {
+                        dtl.branchName = "";
+                        dtl.BranchId = 0;
+                        dtl.BranchCode = "";
+                    }
+                    dtl.CompanyCode = dsCompany.Tables[0].Rows[0]["CompanyCode"].ToString();
 
-                catch (Exception ex)
-                {
-                    throw ex;
+                    return dtl;
                 }
-                finally
+                else
                 {
-                    con.Close();
+                    return null;
                 }
             }
-        }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }    
 
         /// <summary>
         /// CreatedBy:Piyumi
@@ -236,46 +235,28 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="idval"></param>
         /// <returns>role</returns>
-
-
         public int getUserRole(int idval)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", idval });
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserRole", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserRole", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = idval;
-
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        int role = 0;
-
-                        while (reader.Read())
-                        {
-
-                            role = int.Parse(reader["role_id"].ToString());
-
-                        }
-
-                        return role;
-                    }
+                    return int.Parse(dataSet.Tables[0].Rows[0]["role_id"].ToString());
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
+                    return 0;
                 }
             }
+            catch
+            {
+                return 0;
+            }            
         }
 
         /// <summary>
@@ -285,46 +266,28 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="idval"></param>
         /// <returns>role name</returns>
-
-
         public string getUserRoleName(int idval)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", idval });
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetUserRole", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetUserRole", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = idval;
-
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        string role = "";
-
-                        while (reader.Read())
-                        {
-
-                            role = reader["role_name"].ToString();
-
-                        }
-
-                        return role;
-                    }
+                    return dataSet.Tables[0].Rows[0]["role_name"].ToString();
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
+                    return "";
                 }
             }
+            catch
+            {
+                return "";
+            }            
         }
 
         /// <summary>
