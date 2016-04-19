@@ -410,12 +410,12 @@ namespace BankLoanSystem.Controllers.Unit
             List<Right> rights = new List<Right>();
 
             int userRole = userData.RoleId;
-            if((Session["loanCode"]!=null)&&(!string.IsNullOrEmpty(Session["loanCode"].ToString()))) 
+            if ((Session["loanCode"] != null) && (!string.IsNullOrEmpty(Session["loanCode"].ToString())))
             {
                 loanCode = Session["loanCode"].ToString();
             }
 
-            if(userRole==3) 
+            if (userRole == 3)
             {
                 rights = access.GetUserRightsByLoanCode(loanCode, userId);
             }
@@ -476,7 +476,7 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
-            if (ttl.IsTitleTrack)
+            if (ttl != null && ttl.IsTitleTrack)
             {
                 ViewBag.ttlAccess = 1;
             }
