@@ -276,7 +276,6 @@ namespace BankLoanSystem.DAL
             }
                 return 0;
             }
-
             catch
             {
             return 0;
@@ -501,23 +500,23 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@branch_id", branchId });
             try
             {
-            DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-            {
-                DataRow dataRow = dataSet.Tables[0].Rows[0];
-                Branch branch = new Branch();
+                DataSet dataSet = dataHandler.GetDataSet("spGetBranchByBranchId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    Branch branch = new Branch();
 
-                branch.BranchCode = dataRow["branch_code"].ToString();
-                branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                branch.BranchName = dataRow["branch_name"].ToString();
+                    branch.BranchCode = dataRow["branch_code"].ToString();
+                    branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                    branch.BranchName = dataRow["branch_name"].ToString();
 
-                return branch;
+                    return branch;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
-        }
 
             catch
             {
