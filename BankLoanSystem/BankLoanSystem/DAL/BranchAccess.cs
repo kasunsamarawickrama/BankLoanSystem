@@ -276,7 +276,6 @@ namespace BankLoanSystem.DAL
             }
                 return 0;
             }
-
             catch
             {
             return 0;
