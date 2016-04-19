@@ -23,51 +23,42 @@ namespace BankLoanSystem.DAL
         public List<Unit> GetNotAdvancedUnitDetailsByLoanId(int loanId)
         {
 
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
             List<Unit> unitList = new List<Unit>();
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+
+            parameterList.Add(new object[] { "@loan_id", loanId });
+            try
             {
-                try
+                DataSet dataSet =  dataHandler.GetDataSet("spGetNotAdvancedUnitDetailsByLoanId", parameterList);
+
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-
-                    var command = new SqlCommand("spGetNotAdvancedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
+                    foreach (DataRow reader in dataSet.Tables[0].Rows)
                     {
-                        while (reader.Read())
-                        {
+                        Unit unit = new Unit();
 
-                            Unit NotAdvanced = new Unit();
+                        unit.UnitId = reader["unit_id"].ToString();
+                        unit.CreatedDate = Convert.ToDateTime(reader["created_date"].ToString());
+                        unit.IdentificationNumber = reader["identification_number"].ToString();
+                        unit.Year = Convert.ToInt32(reader["year"].ToString());
+                        unit.Make = reader["make"].ToString();
+                        unit.Model = reader["model"].ToString();
+                        unit.Cost = Convert.ToDecimal(reader["cost"].ToString());
+                        unit.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
 
-                            NotAdvanced.UnitId = reader["unit_id"].ToString();
-                            NotAdvanced.CreatedDate = Convert.ToDateTime(reader["created_date"].ToString());
-                            NotAdvanced.IdentificationNumber = reader["identification_number"].ToString();
-                            NotAdvanced.Year = Convert.ToInt32(reader["year"].ToString());
-                            NotAdvanced.Make = reader["make"].ToString();
-                            NotAdvanced.Model = reader["model"].ToString();
-                            NotAdvanced.Cost = Convert.ToDecimal(reader["cost"].ToString());
-                            NotAdvanced.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
-
-
-                            unitList.Add(NotAdvanced);
-                        }
+                        unitList.Add(unit);
                     }
                     return unitList;
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
+                else {
+                    return null;
                 }
             }
-
-
-
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -83,43 +74,37 @@ namespace BankLoanSystem.DAL
         public int AdvanceItemList(List<Unit> unitList, int loanId, int userId, DateTime advanceDate)
         {
             int countVal = 0;
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            try
             {
-                con.Open();
-                try
+                foreach (Unit unitObj in unitList)
                 {
-                    foreach (Unit unitObj in unitList)
+
+                    parameterList.Add(new object[] { "@loan_id", loanId });
+                    parameterList.Add(new object[] { "@user_id", userId });
+                    parameterList.Add(new object[] { "@advance_date", advanceDate });
+                    parameterList.Add(new object[] { "@unit_id", unitObj.UnitId });
+                    parameterList.Add(new object[] { "@advance_amount", unitObj.AdvanceAmount});
+
+                    this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
+
+                    DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                    parameterList.Clear();
+
+                    if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                     {
-                        using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-
-                            cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                            cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                            cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                            cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
-                            cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
-                            SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-                            returnParameter.Direction = ParameterDirection.ReturnValue;
-                            cmd.ExecuteNonQuery();
-
-                            countVal = (int)returnParameter.Value;
-                            cmd.Parameters.Clear();
-                            //return countVal;
-                        }
-                        this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
-                        //countVal = countVal + 1;
+                        DataRow dataRow = dataSet.Tables[0].Rows[0];
+                        countVal = int.Parse(dataRow["@return"].ToString());  
                     }
-                    return countVal;
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return countVal;
+            }
+            catch
+            {
+                return 0;
             }
         }
 
@@ -135,46 +120,37 @@ namespace BankLoanSystem.DAL
         /// <returns>countVal</returns>
         public int AdvanceItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            try
             {
-                try
+                parameterList.Add(new object[] { "@loan_id", loanId });
+                parameterList.Add(new object[] { "@user_id", userId });
+                parameterList.Add(new object[] { "@advance_date", advanceDate });
+                parameterList.Add(new object[] { "@unit_id", unitObj.UnitId });
+                parameterList.Add(new object[] { "@advance_amount", unitObj.AdvanceAmount });
+
+                this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
+
+                DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                parameterList.Clear();
+
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spAdvanceAllSelectedItems", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                        cmd.Parameters.Add("@advance_date", SqlDbType.DateTime).Value = advanceDate;
-                        cmd.Parameters.Add("@unit_id", SqlDbType.VarChar).Value = unitObj.UnitId;
-                        cmd.Parameters.Add("@advance_amount", SqlDbType.Decimal).Value = unitObj.AdvanceAmount;
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int countVal = (int)returnParameter.Value;
-
-                        this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
-                        return countVal;
-                    }
-
-
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    int countVal = int.Parse(dataRow["@return"].ToString());
+                    return countVal;
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
+                else {
+                    return 0;
                 }
             }
-
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -191,219 +167,214 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public bool InsertUnit(Unit unit, int userId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@loan_id", unit.LoanId });
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@unit_type_id", unit.UnitTypeId });
+            if (unit.UnitTypeId == 1)
             {
-                try
+                paramertList.Add(new object[] { "@identification_number", unit.vehicle.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.vehicle.Year });
+                paramertList.Add(new object[] { "@make", unit.vehicle.Make });
+                paramertList.Add(new object[] { "@model", unit.vehicle.Model });
+                paramertList.Add(new object[] { "@color", unit.vehicle.Color });
+                paramertList.Add(new object[] { "@trim", unit.vehicle.Trim });
+                paramertList.Add(new object[] { "@miles", unit.vehicle.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.vehicle.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 2)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.rv.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.rv.Year });
+                paramertList.Add(new object[] { "@make", unit.rv.Make });
+                paramertList.Add(new object[] { "@model", unit.rv.Model });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.rv.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.rv.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.rv.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 3)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.camper.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.camper.Year });
+                paramertList.Add(new object[] { "@make", unit.camper.Make });
+                paramertList.Add(new object[] { "@model", unit.camper.Model });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.camper.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.camper.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.camper.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 4)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.atv.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.atv.Year });
+                paramertList.Add(new object[] { "@make", unit.atv.Make });
+                paramertList.Add(new object[] { "@model", unit.atv.Model });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.atv.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.atv.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 5)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.boat.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.boat.Year });
+                paramertList.Add(new object[] { "@make", unit.boat.Make });
+                paramertList.Add(new object[] { "@model", "" });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.boat.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.boat.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.boat.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 6)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.motorcycle.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.motorcycle.Year });
+                paramertList.Add(new object[] { "@make", unit.motorcycle.Make });
+                paramertList.Add(new object[] { "@model", unit.motorcycle.Model });
+                paramertList.Add(new object[] { "@color", unit.motorcycle.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.motorcycle.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.motorcycle.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 7)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.snowmobile.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.snowmobile.Year });
+                paramertList.Add(new object[] { "@make", unit.snowmobile.Make });
+                paramertList.Add(new object[] { "@model", unit.snowmobile.Model });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.snowmobile.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else if (unit.UnitTypeId == 8)
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.heavyequipment.SerialNumber });
+                paramertList.Add(new object[] { "@year", unit.heavyequipment.Year });
+                paramertList.Add(new object[] { "@make", unit.heavyequipment.Make });
+                paramertList.Add(new object[] { "@model", "" });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "@identification_number", unit.IdentificationNumber });
+                paramertList.Add(new object[] { "@year", unit.Year });
+                paramertList.Add(new object[] { "@make", unit.Make });
+                paramertList.Add(new object[] { "@model", unit.Model });
+                paramertList.Add(new object[] { "@color", unit.Color });
+                paramertList.Add(new object[] { "@trim", unit.Trim });
+                paramertList.Add(new object[] { "@miles", unit.Miles });
+                paramertList.Add(new object[] { "@new_or_used", unit.NewOrUsed });
+                paramertList.Add(new object[] { "@length", unit.Length });
+                paramertList.Add(new object[] { "@hitch_style", unit.HitchStyle });
+                paramertList.Add(new object[] { "@speed", unit.Speed });
+                paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
+                paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+            }
+
+            paramertList.Add(new object[] { "@cost", unit.Cost });
+            paramertList.Add(new object[] { "@advance_amount", unit.AdvanceAmount });
+
+            if (unit.TitleReceived == "Yes")
+            {
+                unit.TitleStatus = 1;
+            }
+            else
+            {
+                unit.TitleStatus = 0;
+            }
+            paramertList.Add(new object[] { "@title_status", unit.TitleStatus });
+            paramertList.Add(new object[] { "@note", unit.Note });
+            paramertList.Add(new object[] { "@add_or_advance", unit.AddAndAdvance });
+            paramertList.Add(new object[] { "@is_advanced", unit.IsAdvanced });
+            if (unit.IsAdvanced == true)
+            {
+                unit.UnitStatus = 1;
+                paramertList.Add(new object[] { "@advance_date", unit.AdvanceDate });
+
+            }
+            else {
+                unit.UnitStatus = 0;
+                paramertList.Add(new object[] { "@advance_date", DateTime.Now });
+            }
+            paramertList.Add(new object[] { "@unit_status", unit.UnitStatus });
+            paramertList.Add(new object[] { "@is_approved", unit.IsApproved });
+            paramertList.Add(new object[] { "@status", unit.Status });
+
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spInsertUnitDetails", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spInsertUnitDetails", con))
+                    int returnParameter = int.Parse(dataSet.Tables[0].Rows[0]["@return"].ToString());
+
+                    if (returnParameter == 1 && unit.AddAndAdvance)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.AddWithValue("@loan_id", unit.LoanId);
-                        cmd.Parameters.AddWithValue("@user_id", userId);
-                        cmd.Parameters.AddWithValue("@unit_id", unit.UnitId);
-                        cmd.Parameters.AddWithValue("@created_date", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@unit_type_id", unit.UnitTypeId);
-                        if (unit.UnitTypeId == 1)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.vehicle.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.vehicle.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.vehicle.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.vehicle.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.vehicle.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.vehicle.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.vehicle.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.vehicle.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 2)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.rv.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.rv.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.rv.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.rv.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.rv.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.rv.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.rv.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 3)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.camper.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.camper.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.camper.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.camper.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.camper.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.camper.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.camper.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 4)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.atv.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.atv.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.atv.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.atv.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.atv.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.atv.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 5)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.boat.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.boat.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.boat.Make);
-                            cmd.Parameters.AddWithValue("@model", "");
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.boat.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.boat.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.boat.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 6)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.motorcycle.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.motorcycle.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.motorcycle.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.motorcycle.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.motorcycle.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.motorcycle.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.motorcycle.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 7)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.snowmobile.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.snowmobile.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.snowmobile.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.snowmobile.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.snowmobile.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else if (unit.UnitTypeId == 8)
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.heavyequipment.SerialNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.heavyequipment.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.heavyequipment.Make);
-                            cmd.Parameters.AddWithValue("@model", "");
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@identification_number", unit.IdentificationNumber);
-                            cmd.Parameters.AddWithValue("@year", unit.Year);
-                            cmd.Parameters.AddWithValue("@make", unit.Make);
-                            cmd.Parameters.AddWithValue("@model", unit.Model);
-                            cmd.Parameters.AddWithValue("@color", unit.Color);
-                            cmd.Parameters.AddWithValue("@trim", unit.Trim);
-                            cmd.Parameters.AddWithValue("@miles", unit.Miles);
-                            cmd.Parameters.AddWithValue("@new_or_used", unit.NewOrUsed);
-                            cmd.Parameters.AddWithValue("@length", unit.Length);
-                            cmd.Parameters.AddWithValue("@hitch_style", unit.HitchStyle);
-                            cmd.Parameters.AddWithValue("@speed", unit.Speed);
-                            cmd.Parameters.AddWithValue("@trailer_id", unit.TrailerId);
-                            cmd.Parameters.AddWithValue("@engine_serial", unit.EngineSerial);
-                        }
-
-                        cmd.Parameters.AddWithValue("@cost", unit.Cost);
-                        cmd.Parameters.AddWithValue("@advance_amount", unit.AdvanceAmount);
-
-                        if (unit.TitleReceived=="Yes")
-                        {
-                            unit.TitleStatus = 1;
-                        }
-                        else
-                        {
-                            unit.TitleStatus = 0;
-                        }
-                        cmd.Parameters.AddWithValue("@title_status", unit.TitleStatus);
-                        cmd.Parameters.AddWithValue("@note", unit.Note);
-                        cmd.Parameters.AddWithValue("@add_or_advance", unit.AddAndAdvance);
-                        cmd.Parameters.AddWithValue("@is_advanced", unit.IsAdvanced);
-                        if (unit.IsAdvanced == true)
-                        {
-                            unit.UnitStatus = 1;
-                            cmd.Parameters.AddWithValue("@advance_date", unit.AdvanceDate);
-
-                        }
-                        else {
-                            unit.UnitStatus = 0;
-                            cmd.Parameters.AddWithValue("@advance_date", DateTime.Now);
-                        }
-                        cmd.Parameters.AddWithValue("@unit_status", unit.UnitStatus);
-                        cmd.Parameters.AddWithValue("@is_approved", unit.IsApproved);
-                        cmd.Parameters.AddWithValue("@status", unit.Status);
-
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        if (Convert.ToInt32(returnParameter.Value) == 1 && unit.AddAndAdvance)
-                        {
-                            return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
-                           // return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    //return false;
-                    throw ex;
+                    return false;
                 }
             }
+            catch
+            {
+                return false;
+            } 
         }
 
         /// <summary>
@@ -418,31 +389,24 @@ namespace BankLoanSystem.DAL
         public string GetLatestUnitId(int loanId)
         {
             string latestUnitId = "";
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spGetLatestUnitId", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
 
-                        command.Parameters.AddWithValue("@loan_id", loanId);
-                        con.Open();
-                        using (var reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                latestUnitId = reader["unit_id"].ToString();
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
+            parameterList.Add(new object[] {"@loan_id" , loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLatestUnitId", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-                    throw ex;
+                    latestUnitId = row["unit_id"].ToString();
                 }
+                return latestUnitId;
             }
-            return latestUnitId;
+            else {
+                return latestUnitId;
+            }
         }
 
         /// <summary>
@@ -455,30 +419,22 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public bool InsertTitleDocumentUploadInfo(string xmlDoc, string unitId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+            parameterList.Add(new object[] { "@Input", xmlDoc });
+            parameterList.Add(new object[] { "@unit_id", unitId });
+
+            try
             {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spInsertTitleDocumentDetails", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
+                dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList);
 
-                        command.Parameters.AddWithValue("@Input", xmlDoc);
-                        command.Parameters.AddWithValue("@unit_id", unitId);
-
-                        con.Open();
-                        command.ExecuteNonQuery();
-
-                        return true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return true;
             }
-
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -530,45 +486,31 @@ namespace BankLoanSystem.DAL
         /// <returns>LoanPaymentDetails</returns>
         public LoanPaymentDetails GetLoanPaymentDetailsByLoanId(int loanId)
         {
-
             LoanPaymentDetails loanPaymentDetails = new LoanPaymentDetails();
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            parameterList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanPaymentDetailsByLoanId", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-
-                    var command = new SqlCommand("spGetLoanPaymentDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-
-                            loanPaymentDetails.Amount = (Decimal)reader["loan_amount"];
-                            //loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
-                            loanPaymentDetails.PendingAmount = (reader["pending_amount"]) != DBNull.Value ? (Decimal)reader["pending_amount"] : (Decimal)0.00;
-                            loanPaymentDetails.UsedAmount = (reader["used_amount"]) != DBNull.Value ? (Decimal)reader["used_amount"] : (Decimal)0.00;
-                            //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
-                            loanPaymentDetails.BalanceAmount = loanPaymentDetails.Amount - loanPaymentDetails.UsedAmount;
-                        }
-                    }
-                    return loanPaymentDetails;
+                    loanPaymentDetails.Amount = (Decimal)row["loan_amount"];
+                    //loanPaymentDetails.BalanceAmount = (reader["balance_amount"]) != DBNull.Value ? (Decimal) reader["balance_amount"] :  (Decimal)0.00; 
+                    loanPaymentDetails.PendingAmount = (row["pending_amount"]) != DBNull.Value ? (Decimal)row["pending_amount"] : (Decimal)0.00;
+                    loanPaymentDetails.UsedAmount = (row["used_amount"]) != DBNull.Value ? (Decimal)row["used_amount"] : (Decimal)0.00;
+                    //loanPaymentDetails.BalanceAfterPending = (reader["balance_amount_after_pending"]) != DBNull.Value ? (Decimal)reader["balance_amount_after_pending"] : (Decimal)0.00;
+                    loanPaymentDetails.BalanceAmount = loanPaymentDetails.Amount - loanPaymentDetails.UsedAmount;
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return loanPaymentDetails;
             }
-
-
-
+            else {
+                return loanPaymentDetails;
+            }
         }
 
 
@@ -583,43 +525,31 @@ namespace BankLoanSystem.DAL
         {
 
             List<JustAddedUnit> justAddedUnitList = new List<JustAddedUnit>();
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            parameterList.Add(new object[] { "@loan_id", loanId });
+            parameterList.Add(new object[] { "@user_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetJustAddedUnitDetailsByLoanId", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
+                    JustAddedUnit justAddedUnit = new JustAddedUnit();
 
-                    var command = new SqlCommand("spGetJustAddedUnitDetailsByLoanId", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                    command.Parameters.Add("@user_id", SqlDbType.Int).Value = userId;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            JustAddedUnit justAddedUnit = new JustAddedUnit();
-
-                            justAddedUnit.model = reader["model"].ToString();
-                            justAddedUnit.advanceAmount = (reader["advance_amount"]) != DBNull.Value ? (Decimal)reader["advance_amount"] : (Decimal)0.00;
-                            justAddedUnit.isAdvance = Convert.ToBoolean(reader["is_advanced"]);
-                            justAddedUnitList.Add(justAddedUnit);
-                        }
-                    }
-                    return justAddedUnitList;
+                    justAddedUnit.model = row["model"].ToString();
+                    justAddedUnit.advanceAmount = (row["advance_amount"]) != DBNull.Value ? (Decimal)row["advance_amount"] : (Decimal)0.00;
+                    justAddedUnit.isAdvance = Convert.ToBoolean(row["is_advanced"]);
+                    justAddedUnitList.Add(justAddedUnit);
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return justAddedUnitList;
             }
-
-
-
+            else {
+                return justAddedUnitList;
+            }
         }
 
         /// <summary>
@@ -632,39 +562,28 @@ namespace BankLoanSystem.DAL
         public List<UnitYearMakeModel> GetVehicleModelsByMakeYear(string make, int year, int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            parameterList.Add(new object[] { "@unit_type", unitType });
+            parameterList.Add(new object[] { "@make", make });
+            parameterList.Add(new object[] { "@year", year });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetVehicleModelByMakeYear", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-
-                    var command = new SqlCommand("spGetVehicleModelByMakeYear", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@unit_type", SqlDbType.Int).Value = unitType;
-                    command.Parameters.Add("@make", SqlDbType.VarChar).Value = make;
-                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            UnitYearMakeModel vym = new UnitYearMakeModel();
-                            vym.VehicleModel = reader["model"].ToString();
-                            modelList.Add(vym);
-
-
-                        }
-                    }
-                    return modelList;
+                    UnitYearMakeModel vym = new UnitYearMakeModel();
+                    vym.VehicleModel = row["model"].ToString();
+                    modelList.Add(vym);
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return modelList;
+            }
+            else {
+                return modelList;
             }
         }
 
@@ -678,37 +597,27 @@ namespace BankLoanSystem.DAL
         public List<UnitYearMakeModel> GetVehicleMakesByYear(int year, int unitType)
         {
             List<UnitYearMakeModel> modelList = new List<UnitYearMakeModel>();
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            parameterList.Add(new object[] { "@unit_type", unitType });
+            parameterList.Add(new object[] { "@year", year });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetVehicleMakesByYear", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-
-                    var command = new SqlCommand("spGetVehicleMakesByYear", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@unit_type", SqlDbType.Int).Value = unitType;
-                    command.Parameters.Add("@year", SqlDbType.Int).Value = year;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            UnitYearMakeModel vmy = new UnitYearMakeModel();
-                            vmy.VehicleMake = reader["make"].ToString();
-                            modelList.Add(vmy);
-
-                        }
-                    }
-                    return modelList;
+                    UnitYearMakeModel vmy = new UnitYearMakeModel();
+                    vmy.VehicleMake = row["make"].ToString();
+                    modelList.Add(vmy);
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return modelList;
+            }
+            else {
+                return modelList;
             }
         }
         /// <summary>
@@ -719,42 +628,30 @@ namespace BankLoanSystem.DAL
         /// <param name="vin"></param>
         /// <returns>modelList</returns>
         public string DecodeVINMake(string vin) {
-            string str="";
+
             string strReturn = "";
             string str3 = vin.Substring(0, 3);
             string str2 = vin.Substring(0, 2);
 
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+
+            parameterList.Add(new object[] { "@str3", str3 });
+            parameterList.Add(new object[] { "@str2", str2 });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetVehicleMakeByVin", parameterList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                try
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-
-                    var command = new SqlCommand("spGetVehicleMakeByVin", con) { CommandType = CommandType.StoredProcedure };
-                    command.Parameters.Add("@str3", SqlDbType.VarChar).Value = str3;
-                    command.Parameters.Add("@str2", SqlDbType.VarChar).Value = str2;
-                    con.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            strReturn = reader["make"].ToString();
-                        }
-                    }
-                    return strReturn;
+                    strReturn = row["make"].ToString();
                 }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
+                return strReturn;
             }
-
-            return str;
+            else {
+                return strReturn;
+            }
         }
 
         public int DecodeVINYear(string vin)
@@ -947,24 +844,17 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         public void DeleteJustAddedUnits(int userId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+            parameterList.Add(new object[] { "@user_id", userId });
+
+            try
             {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand("spDeleteJustAddedUnit", con))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
+                dataHandler.ExecuteSQL("spDeleteJustAddedUnit", parameterList);
 
-                        command.Parameters.AddWithValue("@user_id", userId);
-
-                        con.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+            }
+            catch
+            {
             }
         }
 
