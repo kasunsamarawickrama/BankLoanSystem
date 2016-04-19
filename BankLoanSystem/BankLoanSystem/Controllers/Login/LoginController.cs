@@ -20,6 +20,7 @@ namespace BankLoanSystem.Controllers
 
         {
             Session["detail"] = null;
+            Session["dashboard"] = null;
             Session["loanDashboard"] = null;
             // for show the popup message in login page
             if (Session["isNotCompleteStep"] != null && int.Parse(Session["isNotCompleteStep"].ToString()) == 1)
