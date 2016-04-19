@@ -21,31 +21,36 @@ namespace BankLoanSystem.DAL
         /// <returns>List<UserRole></returns>
         public List<UserRole> GetAllUserRoles()
         {
+            DataHandler dataHandler = new DataHandler();
+           
             List<UserRole> userRoleList = new List<UserRole>();
-
-            using (
-                var con =
-                    new SqlConnection(
-                        ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            try
             {
-                var command = new SqlCommand("spGetAllUserRole", con) { CommandType = CommandType.StoredProcedure };
-                con.Open();
-
-                using (var reader = command.ExecuteReader())
+                DataSet dataSet = dataHandler.GetDataSet("spGetAllUserRole");
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    while (reader.Read())
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
                         UserRole role = new UserRole
                         {
-                            RoleId = Convert.ToInt32(reader["role_id"]),
-                            RoleName = reader["role_name"].ToString()
+                            RoleId = Convert.ToInt32(dataRow["role_id"]),
+                            RoleName = dataRow["role_name"].ToString()
                         };
                         userRoleList.Add(role);
                     }
+                    return userRoleList;
+                }
+                else
+                {
+                    return null;
                 }
             }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
-            return userRoleList;
+          
         } 
     }
 }
