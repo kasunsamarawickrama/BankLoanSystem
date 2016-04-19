@@ -476,7 +476,7 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
-            if (ttl.IsTitleTrack)
+            if (ttl!=null && ttl.IsTitleTrack)
             {
                 ViewBag.ttlAccess = 1;
             }
