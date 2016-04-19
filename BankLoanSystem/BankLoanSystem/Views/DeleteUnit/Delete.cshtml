@@ -1,0 +1,261 @@
+﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<link href="~/Content/commonActions.css" rel="stylesheet" />
+
+<style>
+    .col-md-2 {
+    text-align: left;
+}
+</style>
+@{
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ViewBag.Title = "Delete Unit";
+    //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+}
+@using System.Threading;
+@using System.Globalization;
+
+
+
+@{
+    Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
+
+<div class="container" style="padding-top:0px !important;">
+
+
+
+
+
+
+
+
+    <div class="details-container">
+
+        @*<div class="right-panel">
+                            @{
+            //Html.RenderAction("LoanPaymentDetails", "Unit");
+                            }
+
+                        </div>*@
+
+
+        <div class="body-content" style="margin-bottom:15px;width:100%;height:auto">
+         
+
+            <div class="info-bar">
+
+                <div class="form-group row" style="text-align:left">
+                    <label for="" class="col-sm-3 form-control-label" style="padding-left: 15px;">View : </label>
+
+
+                    <div class="col-md-8" style="display: inline-block;">
+                        <label class="radio-inline" style="margin-left: 30px;">
+                            <input type="radio" name="inlineRadioOptions" id="notReceived" value="0"> All Units
+
+                        </label>
+                        <label class="radio-inline" style="margin-left: 30px;">
+                            <input type="radio" name="inlineRadioOptions" id="received" value="1"> Active Units
+                        </label>
+
+                        <label class="radio-inline" style="margin-left: 30px;">
+                            <input type="radio" name="inlineRadioOptions" id="received" value="2"> Pending Units
+                        </label>
+
+                    </div>
+                </div>
+                    </div>
+
+
+            <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
+
+
+                <div class="row" style="display:inline-block">
+                    <div class="col-xs-12" style="padding:unset;">
+                        <form>
+                            <fieldset>
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                        <label for="">VIN/HIN/Serial</label>
+
+                                        @*@Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
+                                        @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
+
+                                        @Html.Editor("IdentificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
+
+                                        <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
+
+                                    </div>
+                                    <div class="col-md-2" id="div-combobox1-1" style="margin-left:26px">
+                                        <label for="">Year</label>
+                                        @*@{
+                                            List<SelectListItem> yearList = new List<SelectListItem>();
+                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                            {
+                                                if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
+                                                {
+                                                    yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
+                                                }
+                                            }
+                                        }
+                                        @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
+                                        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })*@
+
+                                        @Html.DropDownList("year", new List<SelectListItem>() , "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
+
+                                    </div>
+                                    <div class="col-md-2" id="div-combobox1-2">
+                                        <label for="">Make</label> @*@{List<SelectListItem> makeList = new List<SelectListItem>();
+                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                            {
+                                                if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                                                {
+                                                    makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                                }
+                                            }
+                                        }
+
+                                        @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+                                        @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })*@
+
+
+                                        @Html.DropDownList("make2", new List<SelectListItem>(), "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+
+                                    </div>
+                                    <div class="col-md-2" id="div-combobox1-3" style="width:20%">
+                                        <label for="">Model</label>
+                                        @*@{List<SelectListItem> modelList = new List<SelectListItem>();
+                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                            {
+                                                if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                                                {
+                                                    modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                                }
+                                            }
+                                        }
+
+                                                @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })*@ 
+
+                                                                                                                                                   @Html.DropDownList("model2", new List<SelectListItem>(), "--select model--", new { @class = "form-control", @id = "cmbModel" })
+
+
+</div>
+                                    <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:29px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
+                                    <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+          <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
+
+              <!-- this is for grid-->
+          </div>
+
+
+            <div class="info-bar search-panel" style="margin-top:15px;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form>
+                            <fieldset>
+                                <div class="form-group row">
+
+                                    <div class="col-md-2">
+                                        <label for="">Date Advanced</label>
+                                        @Html.Editor("DateAdvanced", new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
+
+                                    </div>
+                                    <div class="col-md-2" style="width:28%;">
+                                        <label for="">VIN/HIN/Serial</label>
+                                        @Html.Editor("IdentificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @disabled = "disabled" } })
+                                       
+                                    </div>
+                                    <div class="col-md-2" style="width:15%;">
+                                        <label for="">Year</label>
+                                        @Html.Editor("Year", new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled", @style = "text-align:left;" } })
+                                        
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <label for="">Make</label>
+                                        @Html.Editor("Make", new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @disabled = "disabled" } })
+                                        
+                                    </div>
+
+                                    <div class="col-md-2" >
+                                        <label for="">Model</label>
+                                        @Html.Editor("Model2", new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
+                                       
+                                    </div>
+
+                                   
+                                   
+                                </div>
+
+                                <div class="form-group row" style="margin-top:10px !important;">
+
+                                    <div class="col-md-2" >
+                                        <label for="">Purchase Price</label>
+                                        @Html.Editor("PurchasePrice", new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="">Advance Amount</label>
+                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @disabled = "disabled" } })
+
+                                    </div>
+
+                                </div>
+
+                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnUpdate" style="width:100px">Update</button>
+                                <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+</div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+
+
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+
+
+</div>
+
+

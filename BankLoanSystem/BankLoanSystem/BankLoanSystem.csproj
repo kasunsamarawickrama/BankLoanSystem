@@ -228,6 +228,7 @@
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\popup.js" />
+    <Content Include="Views\DeleteUnit\Delete.cshtml" />
     <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\Curtailments\CurtailmentsController.cs" />
     <Compile Include="Controllers\DashBoard\DashBoardController.cs" />
     <Compile Include="Controllers\DashBoard\EmployeeDashBoardController.cs" />
+    <Compile Include="Controllers\DeleteUnit\DeleteUnitController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
