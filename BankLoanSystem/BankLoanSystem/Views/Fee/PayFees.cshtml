@@ -94,16 +94,16 @@
 
 
                 @{
-                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-                    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                    var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+                    //var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                    //var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
 
                 }
 
-                @{
+                @*@{
                     Html.RenderAction("PayFeesForSelectedDueDate", "Fee", new { dueDate = dateTime });
-                }
+                }*@
 
 
             </div>
@@ -212,7 +212,7 @@
         });
         startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
         startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
-        $("#dueDate").val('@dateTime.ToString("d")');
+        @*$("#dueDate").val('@dateTime.ToString("d")');*@
 
 
 
