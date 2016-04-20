@@ -162,7 +162,34 @@ namespace BankLoanSystem.Models
 
         public bool isEdit { get; set; }
 
-
+        public int FeeId { get; set; }
+        public string UnitId { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime BillDueDate { get; set; }
+        public DateTime PaidDate { get; set; }
+        public DateTime AdvanceDate { get; set; }
+        public bool isPaid { get; set; }
+        public int PaidUserId { get; set; }
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string DueDate { get; set; }
 
     }
+
+    public class FeesModel
+    {
+        public string DueDate { get; set; }
+        public DateTime PayDate { get; set; }
+        public List<Fees> FeeModelList { get; set; }
+
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+    }
+
 }

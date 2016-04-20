@@ -61,5 +61,29 @@ namespace BankLoanSystem.Controllers.Fee
 
             return View();
         }
+
+        public ActionResult PayFeesForSelectedDueDate(DateTime dueDate)
+        {
+            return PartialView(this.GetFees(dueDate));
+        }
+
+        private FeesModel GetFees(DateTime dueDate)
+        {
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            ViewBag.loanDetails = loanDetails;
+                       
+            LoanSetupAccess curtailmentAccess = new LoanSetupAccess();
+            List<Fees> lstFee = curtailmentAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, "advanceFee");
+            FeesModel curtailmentScheduleModel = new FeesModel();
+            curtailmentScheduleModel.FeeModelList = new List<Fees>();
+            curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
+            if (lstFee != null && lstFee.Count > 0)
+            {
+                curtailmentScheduleModel.DueDate = lstFee[0].DueDate;
+            }
+
+            return curtailmentScheduleModel;
+        }
     }
 }

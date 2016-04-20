@@ -552,5 +552,20 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.UserId = userData.UserId;
             return View();
         }
+        /// <summary>
+        /// check Vin already wxist on loan 
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult IsVinExists(string identificationNumber)
+        {
+            //check user name is already exist.  
+            int loanId = _loan.loanId;
+            int num = (new UnitAccess()).IsUniqueVinForaLoan(identificationNumber, loanId);
+
+            return Json(num, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
