@@ -17,6 +17,10 @@
     .col-md-2 {
     text-align: left;
 }
+    .next_back{
+        background-color:red;
+    }
+    .next_back:hover{ background:#AD2121;}
 </style>
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -222,7 +226,19 @@
 
                                 </div>
 
-                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnUpdate" style="width:100px">Update</button>
+                                <div class="form-group row" style="margin-top:10px !important;">
+
+                                    <div class="col-md-12">
+                                    
+                                        <!-- this is for fee grid-->
+
+                                    </div>
+
+                                   
+
+                                </div>
+
+                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnUpdate" style="width:100px;">Delete Unit</button>
                                 <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
                             </fieldset>
                         </form>
