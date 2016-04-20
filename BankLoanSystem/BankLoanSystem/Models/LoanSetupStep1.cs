@@ -165,6 +165,11 @@ namespace BankLoanSystem.Models
         }
 
         public string rightId { get; set; }
+
+        public int AdvanceFee { get; set; }
+        public int LotInspectionFee { get; set; }
+        public int MonthlyLoanFee { get; set; }
+        public bool AdvanceFeePayAtPayoff { get; set; }
     }
 
     public class UnitType
@@ -177,4 +182,5 @@ namespace BankLoanSystem.Models
         public bool isSelected { get; set; }
     }
 
+    
 }

@@ -483,8 +483,39 @@ namespace BankLoanSystem.Controllers.Unit
             else
             {
                 ViewBag.ttlAccess = 0;
-            }
 
+            }
+          
+            if ((Session["oneLoanDashboard"] != null) && (!string.IsNullOrEmpty(Session["oneLoanDashboard"].ToString())))
+            {
+                Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["oneLoanDashboard"];
+                if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
+                    {
+                        ViewBag.FeeLB = 1;
+                    }
+                    else
+                    {
+                        ViewBag.FeeLB = 0;
+                    }
+            }
+           else if ((Session["loanDashboard"] != null) && (!string.IsNullOrEmpty(Session["loanDashboard"].ToString())))
+            {
+                Loan loanObj = new Loan();
+                loanObj = (Loan)Session["loanDashboard"];
+                if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
+                {
+                    ViewBag.FeeLB = 1;
+                }
+                else
+                {
+                    ViewBag.FeeLB = 0;
+                }
+            }
+            else if ((Session["oneLoanDashboard"] == null) && (Session["loanDashboard"] == null))
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             return PartialView(rights);
 
         }
@@ -521,5 +552,20 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.UserId = userData.UserId;
             return View();
         }
+        /// <summary>
+        /// check Vin already wxist on loan 
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult IsVinExists(string identificationNumber)
+        {
+            //check user name is already exist.  
+            int loanId = _loan.loanId;
+            int num = (new UnitAccess()).IsUniqueVinForaLoan(identificationNumber, loanId);
+
+            return Json(num, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

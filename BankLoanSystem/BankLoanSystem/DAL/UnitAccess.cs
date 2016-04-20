@@ -91,14 +91,9 @@ namespace BankLoanSystem.DAL
 
                     this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
 
-                    DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                    countVal = dataHandler.ExecuteSQLWithIntOutPutParam("spAdvanceAllSelectedItems", parameterList);
                     parameterList.Clear();
 
-                    if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                    {
-                        DataRow dataRow = dataSet.Tables[0].Rows[0];
-                        countVal = int.Parse(dataRow["@return"].ToString());  
-                    }
                 }
                 return countVal;
             }
@@ -120,6 +115,7 @@ namespace BankLoanSystem.DAL
         /// <returns>countVal</returns>
         public int AdvanceItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
+            int countVal = 0;
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> parameterList = new List<object[]>();
@@ -134,18 +130,10 @@ namespace BankLoanSystem.DAL
 
                 this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
 
-                DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                countVal = dataHandler.ExecuteSQLWithIntOutPutParam("spAdvanceAllSelectedItems", parameterList);
                 parameterList.Clear();
 
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dataRow = dataSet.Tables[0].Rows[0];
-                    int countVal = int.Parse(dataRow["@return"].ToString());
-                    return countVal;
-                }
-                else {
-                    return 0;
-                }
+                return countVal;
             }
             catch
             {
@@ -352,22 +340,14 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spInsertUnitDetails", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    int returnParameter = int.Parse(dataSet.Tables[0].Rows[0]["@return"].ToString());
+                bool val = dataHandler.ExecuteSQL("spInsertUnitDetails", paramertList) ? true : false ;
 
-                    if (returnParameter == 1 && unit.AddAndAdvance)
-                    {
-                        return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
+
+                if (val == true && unit.AddAndAdvance)
                 {
+                    return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                }
+                else {
                     return false;
                 }
             }
@@ -427,9 +407,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList);
-
-                return true;
+                return dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList) ? true : false;
             }
             catch
             {
@@ -999,6 +977,66 @@ namespace BankLoanSystem.DAL
                         if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
                             loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
                         }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                            {
+                                loan.LotInspectionFee = 1;
+                            }
+                            else
+                            {
+                                loan.LotInspectionFee = 0;
+                            }
+                        }
+
+                        else
+                        {
+                            loan.LotInspectionFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                            {
+                                loan.MonthlyLoanFee = 1;
+                            }
+                            else
+                            {
+                                loan.MonthlyLoanFee = 0;
+                            }
+                        }
+
+                        else
+                        {
+                            loan.MonthlyLoanFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                            {
+                                loan.AdvanceFee = 1;
+                            }
+                            else
+                            {
+                                loan.AdvanceFee = 0;
+                            }
+                            if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                            {
+                                if (dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                                {
+                                    loan.AdvanceFeePayAtPayoff = true;
+                                }
+                                else
+                                {
+                                    loan.AdvanceFeePayAtPayoff = false;
+                                }
+
+                            }
+                        }
+
+                        else
+                        {
+                            loan.AdvanceFee = 0;
+                        }
                         loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
                         bool checkBranch = false;
                         bool checkNonRegBranch = false;
@@ -1052,6 +1090,29 @@ namespace BankLoanSystem.DAL
             {
                 return null;
             }
+        }
+        /// <summary>
+        /// CreatedBy : Kasun
+        /// CreatedDate: 2016/04/20
+        /// 
+        /// vin existing check 
+        /// <param name="vin"></param>
+        /// <param name="loanId"></param>
+        /// <returns>
+        /// 0 - exist in loan advanced
+        /// 1 - exist in loan pending
+        /// 2 - exist in loan but another loan
+        /// 3 - not exist or payoff
+        /// </returns>
+        public int IsUniqueVinForaLoan(string vin, int loanId)
+        {
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@vin", vin });
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            return dataHandler.ExecuteSQLWithIntOutPutParam("spIsUniqueVinForaLoan", paramertList);
         }
     }
 }

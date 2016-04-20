@@ -109,22 +109,32 @@
                                         <span class="txt">Pay Off Unit</span>
                                     </button>
 
-                                    <button class="big-button">
-                                        <span class="icon-credit"></span>
-                                        <span class="txt">Fees</span>
-                                    </button>
+                        if (ViewBag.Fee == 1)
+                        {
+
+                            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+                                <span class="icon-credit"></span>
+                                <span class="txt">Fees</span>
+                            </button>
+                        }
+
 
                                     <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                                         <span class="icon-stack"></span>
                                         <span class="txt">Reports</span>
                                     </button>
+
+                                    <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+                                        <span class="icon-automobile"></span>
+                                        <span class="txt">Delete Unit</span>
+                                    </button>
                     }
                     else if ((ViewBag.roleId == 3) && (ViewBag.RightList.Length > 0) && (ViewBag.RightList != null))
                     {
-                        
 
-                            if (ViewBag.RightList.Contains("U004"))
-                            {
+
+                        if (ViewBag.RightList.Contains("U004"))
+                        {
                             <button id="lkuni" class="big-button" onclick="window.location.href='/Unit/Addunit'">
                                 <span class="icon-automobile"></span>
                                 <span class="txt">Add Unit</span>
@@ -148,7 +158,7 @@
                             </button>
                             @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
                             }
-                            if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1)
+                            if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                             {
                             <button id="lkttl" class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 <span class="icon-files-empty"></span>
@@ -166,9 +176,9 @@
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
                         }
-                        if (ViewBag.RightList.Contains("U007"))
+                        if (ViewBag.RightList.Contains("U007")&&(ViewBag.Fee == 1))
                         {
-                            <button class="big-button">
+                            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
                                 <span class="icon-credit"></span>
                                 <span class="txt">Fees</span>
                             </button>
@@ -179,8 +189,14 @@
                                 <span class="icon-stack"></span>
                                 <span class="txt">Reports</span>
                             </button>
-                            }
-                        
+                        }
+                        if (ViewBag.RightList.Contains("U008"))
+                        {
+                            <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+                                <span class="icon-automobile"></span>
+                                <span class="txt">Delete Unit</span>
+                            </button>
+                        }
                     }
                     else if (ViewBag.roleId == 4)
                     {

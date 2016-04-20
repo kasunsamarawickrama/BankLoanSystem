@@ -35,12 +35,24 @@
         <span class="icon-banknote"></span>
         <span class="txt">Pay Off Unit</span>
     </button>
+    if (ViewBag.FeeLB == 1)
+    {
+
+        <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+            <span class="icon-credit"></span>
+            <span class="txt">Fees</span>
+        </button>
+    }
     <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
         <span class="icon-stack"></span>
         <span class="txt">Reports</span>
     </button>
+    <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+        <span class="icon-automobile"></span>
+        <span class="txt">Delete Unit</span>
+    </button>
 }
-else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
+else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
 {
     foreach (var item in Model)
     {
@@ -85,8 +97,15 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
             <span class="icon-banknote"></span>
             <span class="txt">Pay Off Unit</span>
         </button>
-
+        
         @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
+        }
+        if (item.rightsPermissionString.Contains("U007") && (ViewBag.FeeLB == 1))
+        {
+            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+                <span class="icon-credit"></span>
+                <span class="txt">Fees</span>
+            </button>
         }
         if (item.rightsPermissionString.Contains("U006"))
         {
@@ -94,11 +113,18 @@ else if ((ViewBag.Role == 3)&&(Model.Count()>0) && (Model!=null))
             <span class="icon-stack"></span>
             <span class="txt">Reports</span>
         </button>
-                }
-            }
         }
-        else if (ViewBag.Role == 4)
+        if (item.rightsPermissionString.Contains("U008"))
         {
+            <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+                <span class="icon-automobile"></span>
+                <span class="txt">Delete Unit</span>
+            </button>
+        }
+    }
+}
+else if (ViewBag.Role == 4)
+{
 <button id="lkuni" class="big-button" onclick="window.location.href='/Unit/Addunit'">
     <span class="icon-automobile"></span>
     <span class="txt">Add Unit</span>
