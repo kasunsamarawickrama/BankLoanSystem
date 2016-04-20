@@ -1,4 +1,4 @@
-﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+﻿@model BankLoanSystem.Models.FeesModel
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
@@ -27,14 +27,6 @@
 }
 
 <div class="container" id="container">
-
-
-
-
-
-
-
-
     <div class="details-container">
 
         @*<div class="right-panel">
@@ -43,12 +35,10 @@
                             }
 
                         </div>*@
-
-
         <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
             <div class="info-bar">
                 <div class="form-group row" style="margin-bottom: 0px;">
-                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Curtailment Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Fee Due Date</label>
                     <div class="col-md-2">
                         @*<input class="form-control" type="date" />*@
 
@@ -69,7 +59,7 @@
                 }
 
                 @{
-                    Html.RenderAction("PayCurtailmentForSelectedDueDate", "Curtailments", new { dueDate = dateTime });
+                    Html.RenderAction("PayFeesForSelectedDueDate", "Fee", new { dueDate = dateTime });
                 }
 
 
@@ -119,7 +109,7 @@
 
 
                 $.ajax({
-                    url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+                    url: '/Fee/PayFeesForSelectedDueDate/',
                     data: JSON.stringify({ dueDate: dueDate }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
