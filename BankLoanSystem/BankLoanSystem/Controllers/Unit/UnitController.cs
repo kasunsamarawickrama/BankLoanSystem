@@ -483,8 +483,39 @@ namespace BankLoanSystem.Controllers.Unit
             else
             {
                 ViewBag.ttlAccess = 0;
-            }
 
+            }
+          
+            if ((Session["oneLoanDashboard"] != null) && (!string.IsNullOrEmpty(Session["oneLoanDashboard"].ToString())))
+            {
+                Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["oneLoanDashboard"];
+                if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
+                    {
+                        ViewBag.FeeLB = 1;
+                    }
+                    else
+                    {
+                        ViewBag.FeeLB = 0;
+                    }
+            }
+           else if ((Session["loanDashboard"] != null) && (!string.IsNullOrEmpty(Session["loanDashboard"].ToString())))
+            {
+                Loan loanObj = new Loan();
+                loanObj = (Loan)Session["loanDashboard"];
+                if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
+                {
+                    ViewBag.FeeLB = 1;
+                }
+                else
+                {
+                    ViewBag.FeeLB = 0;
+                }
+            }
+            else if ((Session["oneLoanDashboard"] == null) && (Session["loanDashboard"] == null))
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             return PartialView(rights);
 
         }

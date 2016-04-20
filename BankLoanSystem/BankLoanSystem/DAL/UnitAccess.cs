@@ -999,6 +999,66 @@ namespace BankLoanSystem.DAL
                         if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
                             loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
                         }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                            {
+                                loan.LotInspectionFee = 1;
+                            }
+                            else
+                            {
+                                loan.LotInspectionFee = 0;
+                            }
+                        }
+
+                        else
+                        {
+                            loan.LotInspectionFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                            {
+                                loan.MonthlyLoanFee = 1;
+                            }
+                            else
+                            {
+                                loan.MonthlyLoanFee = 0;
+                            }
+                        }
+
+                        else
+                        {
+                            loan.MonthlyLoanFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        {
+                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                            {
+                                loan.AdvanceFee = 1;
+                            }
+                            else
+                            {
+                                loan.AdvanceFee = 0;
+                            }
+                            if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                            {
+                                if (dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                                {
+                                    loan.AdvanceFeePayAtPayoff = true;
+                                }
+                                else
+                                {
+                                    loan.AdvanceFeePayAtPayoff = false;
+                                }
+
+                            }
+                        }
+
+                        else
+                        {
+                            loan.AdvanceFee = 0;
+                        }
                         loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
                         bool checkBranch = false;
                         bool checkNonRegBranch = false;
