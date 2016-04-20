@@ -1030,6 +1030,9 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.LoanNumber = l.loanNumber;
                     finalSelectedLoan.LoanCode = l.loanCode;
                     finalSelectedLoan.Rights = l.rightId;
+                    finalSelectedLoan.AdvanceFee = l.AdvanceFee;
+                    finalSelectedLoan.MonthlyLoanFee = l.MonthlyLoanFee;
+                    finalSelectedLoan.LotInspectionFee = l.LotInspectionFee;
                     if (l.titleTracked == true)
                     {
                         finalSelectedLoan.IsTitleTrack = 1;
