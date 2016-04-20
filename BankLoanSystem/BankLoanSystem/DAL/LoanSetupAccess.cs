@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using BankLoanSystem.Models;
+using System.Linq;
 
 namespace BankLoanSystem.DAL
 {
@@ -19,40 +18,27 @@ namespace BankLoanSystem.DAL
         /// <returns>true or false</returns>
         public bool IsUniqueLoanNumberForBranch(string loanNumber, int RegisteredBranchId, User user,int loanId)
         {
-
-            using (
-                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
+            try
             {
-
-                //if (user.RoleId == 2)
-                //{
-                //    loanId = la.getLoanIdByBranchId(user.BranchId);
-                    
-                //}
-                //else if (user.RoleId == 1)
-                //{
-                //    loanId = la.getLoanIdByUserId(user.UserId);
-                //}
-                //loanId = la.getLoanIdByBranchId(user.BranchId);
-                
-               
-                
-                var command = new SqlCommand("spIsUniqueLoanNumberForBranch", con) { CommandType = CommandType.StoredProcedure };
-                command.Parameters.Add("@loan_number", SqlDbType.NVarChar).Value = loanNumber;
-                command.Parameters.Add("@branch_id", SqlDbType.Int).Value = RegisteredBranchId;
-                command.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-                con.Open();
-
-                using (var reader = command.ExecuteReader())
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_number", loanNumber });
+                paramertList.Add(new object[] { "@branch_id", RegisteredBranchId });
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                DataSet dataSet = dataHandler.GetDataSet("spIsUniqueLoanNumberForBranch", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    while (reader.Read())
-                    {
-                        return false;
-                    }
+                    return false;
+                }
+                else
+                {
+                    return true;
                 }
             }
-
-            return true;
+            catch
+            {
+                return true;
+            }
 
         }
 
@@ -62,50 +48,38 @@ namespace BankLoanSystem.DAL
         /// getting all unit types
         /// </summary>
         /// <returns>IList<UnitType></returns>
-
+        /// UpdatedBy:Asanka Senarathna
+        /// 
         internal IList<UnitType> getAllUnitTypes()
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            List<UnitType> unitTypes = new List<UnitType>();
+            DataHandler dataHandler = new DataHandler();
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetAllUnitTypes", null);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetAllUnitTypes", con))
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        UnitType unitType = new UnitType();
+                        unitType.unitTypeName = dataRow["unit_type_name"].ToString();
 
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        List<UnitType> unitTypes = new List<UnitType>();
-
-
-                        while (reader.Read())
-                        {
-                            UnitType unitType = new UnitType();
-                           
-
-                            unitType.unitTypeName = reader["unit_type_name"].ToString();
-
-                            unitType.unitTypeId = int.Parse(reader["unit_type_id"].ToString());
-                            unitType.isSelected = false;
-                            unitTypes.Add(unitType);
-
-                        }
-                        return unitTypes;
-
+                        unitType.unitTypeId = int.Parse(dataRow["unit_type_id"].ToString());
+                        unitType.isSelected = false;
+                        unitTypes.Add(unitType);
                     }
+
+                    return unitTypes;
                 }
-
-
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
-
+                    return null;
                 }
-                finally
-                {
-                    con.Close();
-                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         
@@ -115,42 +89,26 @@ namespace BankLoanSystem.DAL
         /// get loanId by userId from step table
         /// </summary>
         /// <returns>loanId</returns>
+      
         public int getLoanIdByUserId(int uId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@user_id", uId });
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoanIdByUserId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetLoanIdByUserId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value =uId;
-
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int loanId = (int)returnParameter.Value;
-
-                        return loanId;
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
+                    return int.Parse(dataSet.Tables[0].Rows[0]["return"].ToString());
 
                 }
-                finally
-                {
-                    con.Close();
-                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         /// <summary>
@@ -167,41 +125,23 @@ namespace BankLoanSystem.DAL
         /// <returns>loanId</returns>
         public int getLoanIdByBranchId(int branchId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@branch_id", branchId });
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoanIdByBranchId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetLoanIdByBranchId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        //cmd.Parameters.Add("@company_id", SqlDbType.Int).Value = companyId;
-                        cmd.Parameters.Add("@branch_id", SqlDbType.Int).Value = branchId;
-                        //cmd.Parameters.Add("@non_reg_branch_id", SqlDbType.Int).Value = nonRegBranchId;
-                        con.Open();
-
-                        SqlParameter returnParameter = cmd.Parameters.Add("@return", SqlDbType.Int);
-
-
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
-                        cmd.ExecuteNonQuery();
-
-                        int loanId = (int)returnParameter.Value;
-
-                        return loanId;
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
+                    return int.Parse(dataSet.Tables[0].Rows[0]["return"].ToString());
 
                 }
-                finally
-                {
-                    con.Close();
-                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         /// <summary>
@@ -217,105 +157,82 @@ namespace BankLoanSystem.DAL
         {
             Fees fees = new Fees();
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spCheckLoanIsInAdvanceFeeTable", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInAdvanceFeeTable", con))
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+
+                    fees.AdvanceAmount = decimal.Parse(dataRow["advance_fee_amount"].ToString());
+                    fees.AdvanceFeeCalculateType = dataRow["advance_fee_calculate_type"].ToString();
+                    fees.AdvanceNeedReceipt = bool.Parse(dataRow["receipt"].ToString());
+                    fees.AdvanceDue = dataRow["payment_due_method"].ToString();
+                    fees.AdvanceDueDate = dataRow["payment_due_date"].ToString();
+                    fees.AdvanceFeeDealerEmail = dataRow["auto_remind_dealer_email"].ToString();
+                    if (dataRow["delaer_remind_period"] != System.DBNull.Value)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read()) {                          
-                            fees.AdvanceAmount = decimal.Parse(reader["advance_fee_amount"].ToString());
-                            fees.AdvanceFeeCalculateType = reader["advance_fee_calculate_type"].ToString();
-                            fees.AdvanceNeedReceipt = bool.Parse(reader["receipt"].ToString());
-                            fees.AdvanceDue = reader["payment_due_method"].ToString();
-                            fees.AdvanceDueDate = reader["payment_due_date"].ToString();
-                            fees.AdvanceFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
-                            if (reader["delaer_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.AdvanceFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
-                            }
-                            fees.AdvanceDueEmail = reader["due_auto_remind_email"].ToString();
-                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.AdvanceDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
-                            }
-                            
-                        }
-                        reader.Close();
+                        fees.AdvanceFeeDealerEmailRemindPeriod = int.Parse(dataRow["delaer_remind_period"].ToString());
                     }
-                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInMonthlyLoanFeeTable", con))
+                    fees.AdvanceDueEmail = dataRow["due_auto_remind_email"].ToString();
+                    if (dataRow["due_auto_remind_period"] != System.DBNull.Value)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            fees.MonthlyLoanAmount = decimal.Parse(reader["monthly_loan_fee_amount"].ToString());
-                            fees.MonthlyLoanNeedReceipt = bool.Parse(reader["receipt"].ToString());
-                            fees.MonthlyLoanDue = reader["payment_due_method"].ToString();
-                            fees.MonthlyLoanDueDate = reader["payment_due_date"].ToString();
-                            fees.MonthlyLoanFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
-                            if (reader["delaer_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.MonthlyLoanFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
-                            }
-                            fees.MonthlyLoanDueEmail = reader["due_auto_remind_email"].ToString();
-                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.MonthlyLoanDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
-                            }
-
-                        }
-                        reader.Close();
+                        fees.AdvanceDueEmailRemindPeriod = int.Parse(dataRow["due_auto_remind_period"].ToString());
                     }
-                    using (SqlCommand cmd = new SqlCommand("spCheckLoanIsInLotInspectionFeeTable", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            fees.LotInspectionAmount = decimal.Parse(reader["lot_inspection_amount"].ToString());
-                            fees.LotInspectionNeedReceipt = bool.Parse(reader["receipt"].ToString());
-                            fees.LotInspectionDue = reader["payment_due_method"].ToString();
-                            fees.LotInspectionDueDate = reader["payment_due_date"].ToString();
-                            fees.LotInspectionFeeDealerEmail = reader["auto_remind_dealer_email"].ToString();
-                            if (reader["delaer_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.LotInspectionFeeDealerEmailRemindPeriod = int.Parse(reader["delaer_remind_period"].ToString());
-                            }
-                            fees.LotInspectionDueEmail = reader["due_auto_remind_email"].ToString();
-                            if (reader["due_auto_remind_period"] != System.DBNull.Value)
-                            {
-                                fees.LotInspectionDueEmailRemindPeriod = int.Parse(reader["due_auto_remind_period"].ToString());
-                        }
-                        }
-                        reader.Close();
-                    }
-
-                    return fees;
                 }
 
 
-                catch (Exception ex)
+                DataSet dataSet1 = dataHandler.GetDataSet("spCheckLoanIsInMonthlyLoanFeeTable", paramertList);
+                if (dataSet1 != null && dataSet1.Tables.Count != 0 && dataSet1.Tables[0].Rows.Count != 0)
                 {
-                    throw ex;
+                    DataRow dataRow1 = dataSet1.Tables[0].Rows[0];
+
+                    fees.MonthlyLoanAmount = decimal.Parse(dataRow1["monthly_loan_fee_amount"].ToString());
+                    fees.MonthlyLoanNeedReceipt = bool.Parse(dataRow1["receipt"].ToString());
+                    fees.MonthlyLoanDue = dataRow1["payment_due_method"].ToString();
+                    fees.MonthlyLoanDueDate = dataRow1["payment_due_date"].ToString();
+                    fees.MonthlyLoanFeeDealerEmail = dataRow1["auto_remind_dealer_email"].ToString();
+                    if (dataRow1["delaer_remind_period"] != System.DBNull.Value)
+                    {
+                        fees.MonthlyLoanFeeDealerEmailRemindPeriod = int.Parse(dataRow1["delaer_remind_period"].ToString());
+                    }
+                    fees.MonthlyLoanDueEmail = dataRow1["due_auto_remind_email"].ToString();
+                    if (dataRow1["due_auto_remind_period"] != System.DBNull.Value)
+                    {
+                        fees.MonthlyLoanDueEmailRemindPeriod = int.Parse(dataRow1["due_auto_remind_period"].ToString());
+                    }
+                }
+
+                DataSet dataSet2 = dataHandler.GetDataSet("spCheckLoanIsInLotInspectionFeeTable", paramertList);
+                if (dataSet2 != null && dataSet2.Tables.Count != 0 && dataSet2.Tables[0].Rows.Count != 0)
+                {
+                    DataRow dataRow2 = dataSet2.Tables[0].Rows[0];
+                    fees.LotInspectionAmount = decimal.Parse(dataRow2["lot_inspection_amount"].ToString());
+                    fees.LotInspectionNeedReceipt = bool.Parse(dataRow2["receipt"].ToString());
+                    fees.LotInspectionDue = dataRow2["payment_due_method"].ToString();
+                    fees.LotInspectionDueDate = dataRow2["payment_due_date"].ToString();
+                    fees.LotInspectionFeeDealerEmail = dataRow2["auto_remind_dealer_email"].ToString();
+                    if (dataRow2["delaer_remind_period"] != System.DBNull.Value)
+                    {
+                        fees.LotInspectionFeeDealerEmailRemindPeriod = int.Parse(dataRow2["delaer_remind_period"].ToString());
+                    }
+                    fees.LotInspectionDueEmail = dataRow2["due_auto_remind_email"].ToString();
+                    if (dataRow2["due_auto_remind_period"] != System.DBNull.Value)
+                    {
+                        fees.LotInspectionDueEmailRemindPeriod = int.Parse(dataRow2["due_auto_remind_period"].ToString());
+                    }
 
                 }
-                finally
-                {
-                    con.Close();
-                }
+
+                return fees;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         /// <summary>
@@ -326,50 +243,34 @@ namespace BankLoanSystem.DAL
         /// <returns>autoRemindEmail</returns>
         public string getAutoRemindEmailByLoanId(int loanId)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            string autoRemindEmail = null;
+
+            try
             {
-                try
+                DataSet dataSet = dataHandler.GetDataSet("spGetAutoRemindEmailByLoanId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    using (SqlCommand cmd = new SqlCommand("spGetAutoRemindEmailByLoanId", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@loan_id", SqlDbType.Int).Value = loanId;
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-
-                        string autoRemindEmail = null;
-
-                        while (reader.Read())
-                        {
-
-
-                            autoRemindEmail = reader["auto_remind_email"].ToString();
-                                
-
-                        }
-                        return autoRemindEmail;
-
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
+                    autoRemindEmail= dataSet.Tables[0].Rows[0]["auto_remind_email"].ToString();
 
                 }
-                finally
-                {
-                    con.Close();
-                }
+                return autoRemindEmail;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         internal int insertLoanStepOne(LoanSetupStep1 loanSetupStep1, int loanId)
         {
+            //DataHandler dataHandler = new DataHandler();
+            //List<object[]> paramertList = new List<object[]>();
+            //paramertList.Add(new object[] { "@loan_id", loanId });
+
+
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ToString()))
             {
                 try
