@@ -476,7 +476,56 @@ namespace BankLoanSystem.DAL
                                 loanSetupStep1.CurtailmentDueDate = "End of Month";
                             }
                             else {
-                                loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString()+"th of each month";
+                                string dueDate = reader["curtailment_due_date"].ToString();
+                                if (dueDate.Length > 0)
+                                {
+                                    if (dueDate.Length == 1)
+                                    {
+                                        if (dueDate.Contains("1"))
+                                        {
+                                            loanSetupStep1.CurtailmentDueDate = dueDate+ "st of each month";
+                                        }
+                                        else if (dueDate.Contains("2"))
+                                        {
+                                            loanSetupStep1.CurtailmentDueDate = dueDate + "nd of each month";
+                                        }
+                                        else if (dueDate.Contains("3"))
+                                        {
+                                            loanSetupStep1.CurtailmentDueDate = dueDate + "rd of each month";
+                                        }
+                                        else
+                                        {
+                                            loanSetupStep1.CurtailmentDueDate = dueDate + "th of each month";
+                                        }
+                                    }
+                                    else if(dueDate.Length > 1)
+                                    {
+                                        if (!dueDate.ElementAt(dueDate.Length - 2).ToString().Contains("1"))
+                                        {
+                                            if (dueDate.ElementAt(dueDate.Length - 1).ToString().Contains("1"))
+                                            {
+                                                loanSetupStep1.CurtailmentDueDate = dueDate + "st of each month";
+                                            }
+                                            else if (dueDate.ElementAt(dueDate.Length - 1).ToString().Contains("2"))
+                                            {
+                                                loanSetupStep1.CurtailmentDueDate = dueDate + "nd of each month";
+                                            }
+                                            else if (dueDate.ElementAt(dueDate.Length - 1).ToString().Contains("3"))
+                                            {
+                                                loanSetupStep1.CurtailmentDueDate = dueDate + "rd of each month";
+                                            }
+                                            else
+                                            {
+                                                loanSetupStep1.CurtailmentDueDate = dueDate + "th of each month";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            loanSetupStep1.CurtailmentDueDate = dueDate + "th of each month";
+                                        }
+                                    }
+                                }
+                                //loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString()+"th of each month";
                             }
                             //loanSetupStep1.CurtailmentDueDate = reader["curtailment_due_date"].ToString();
                         }

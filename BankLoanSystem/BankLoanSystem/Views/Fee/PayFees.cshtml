@@ -1,6 +1,5 @@
 ﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
 
-
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
 <link href="~/Content/pikaday.css" rel="stylesheet" />
@@ -15,7 +14,7 @@
 
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
-    ViewBag.Title = "Pay Curtailments";
+    ViewBag.Title = "Pay Fee's";
     //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 @using System.Threading;
@@ -27,67 +26,67 @@
     Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
 
-    <div class="container" id="container">
+<div class="container" id="container">
 
 
 
 
-       
 
 
 
-        <div class="details-container">
 
-            @*<div class="right-panel">
+    <div class="details-container">
+
+        @*<div class="right-panel">
+                            @{
+            //Html.RenderAction("LoanPaymentDetails", "Unit");
+                            }
+
+                        </div>*@
+
+
+        <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+            <div class="info-bar">
+                <div class="form-group row" style="margin-bottom: 0px;">
+                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Curtailment Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                    <div class="col-md-2">
+                        @*<input class="form-control" type="date" />*@
+
+                        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off", maxlength = 10 } })
+                        <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="changeContainer">
+
                 @{
-//Html.RenderAction("LoanPaymentDetails", "Unit");
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                    var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
                 }
 
-            </div>*@
-
-
-            <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
-                <div class="info-bar">
-                    <div class="form-group row" style="margin-bottom: 0px;">
-                         <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Curtailment Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
-                        <div class="col-md-2"  >
-                            @*<input class="form-control" type="date" />*@
-
-                            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off" , maxlength = 10} })
-                            <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
-                        </div>
-                    </div> 
-                </div>
-                
-                <div id="changeContainer">
-
-                    @{
-                        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-
-                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                        var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
-
-                    }
-
-                    @{
-                        Html.RenderAction("PayCurtailmentForSelectedDueDate", "Curtailments", new { dueDate = dateTime });
-                    }
+                @{
+                    Html.RenderAction("PayCurtailmentForSelectedDueDate", "Curtailments", new { dueDate = dateTime });
+                }
 
 
 
-                </div>
-               
-
-             
             </div>
+
+
 
         </div>
 
-
-       
-
-
     </div>
+
+
+
+
+
+</div>
 
 <div class="link-bar" style="margin-bottom:15px;">
 
@@ -99,7 +98,7 @@
 
 </div>
 
-    <script>
+<script>
 
         //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
         //$("#lkcrtl").click(function (e) { e.preventDefault(); });
@@ -150,7 +149,7 @@
         $('#dueDate').blur(function () {
 
             if ($(this).val() == "") {
-                
+
 
                 $(this).attr('placeholder', 'MM/DD/YYYY');
                 return;
@@ -170,17 +169,17 @@
                     $('#errorDueDate').text('');
                     $(this).removeClass('input-validation-error');
                 }
-                
 
-                
+
+
             } else {
-                
+
                 // not valid data error
                 $('#errorDueDate').text('Please enter a valid payment date');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             }
         });
-        </script>
+</script>
 
 
