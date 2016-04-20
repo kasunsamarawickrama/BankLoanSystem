@@ -1,4 +1,4 @@
-﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+﻿@model BankLoanSystem.Models.FeesModel
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
@@ -27,11 +27,12 @@
         margin-right: 5px;
     }
 
-    .btns-clm > button.activee{
-       background: green;
-    }
-    .gridsdiv{
-            margin-top: 11px;
+        .btns-clm > button.activee {
+            background: green;
+        }
+
+    .gridsdiv {
+        margin-top: 11px;
     }
 </style>
 
@@ -40,7 +41,7 @@
     Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
 
-<div class="btns-clm" id="fee-tabs" >
+<div class="btns-clm" id="fee-tabs">
     <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
     <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
     <button type="button" id="mfi" class="btn btn-info">Monthly Fee Invoice </button>
@@ -73,7 +74,7 @@
                 <div class="form-group row" style="margin-bottom: 0px;">
                     <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Fee Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
                     <div class="col-md-2">
-                        
+
 
                         @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
@@ -92,8 +93,18 @@
             <div id="advanceGrid" class="gridsdiv" hidden>
 
 
-                <!-- this is for Advance fee grid-->
-                <h2>this is for Advance fee grid</h2>
+                @{
+                    //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                    //var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                    //var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+                }
+
+                @*@{
+                    Html.RenderAction("PayFeesForSelectedDueDate", "Fee", new { dueDate = dateTime });
+                }*@
+
 
             </div>
 
@@ -131,9 +142,9 @@
 
                             <label for="" style="margin-left: -412px;">Pay Date : </label>
                             @Html.Editor("PayDate", new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", maxlength = 10 } })
-                            
+
                             <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
-                          
+
                         </div>
                         <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
                     </div>
@@ -185,14 +196,14 @@
 
 
                 $.ajax({
-                    url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+                    url: '/Fee/PayFeesForSelectedDueDate/',
                     data: JSON.stringify({ dueDate: dueDate }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (partialView) {
-                        $('#changeContainer').html(partialView);
-                        $('#changeContainer').show();
+                        $('#advanceGrid').html(partialView);
+                        $('#advanceGrid').show();
                         $('.centered span').text('');
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     }
@@ -252,7 +263,7 @@
 
     $('#fee-tabs button').click(function () {
         $(this).addClass('activee').siblings().removeClass('activee');
-        
+
 
         if ($(this).attr('id') == "adf") {
             $("#advanceGrid").show().siblings('.gridsdiv').hide();
@@ -264,7 +275,7 @@
             $("#lotInspectGrid").show().siblings('.gridsdiv').hide();
 
         }
-  
+
     });
 
     // each
