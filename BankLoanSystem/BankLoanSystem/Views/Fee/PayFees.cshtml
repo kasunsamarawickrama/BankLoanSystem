@@ -1,0 +1,273 @@
+﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<link href="~/Content/pikaday.css" rel="stylesheet" />
+<link href="~/Content/theme.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />
+<script src="~/scripts/moment.js"></script>
+<script src="~/scripts/pikaday.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<link href="~/Content/commonActions.css" rel="stylesheet" />
+
+@{
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ViewBag.Title = "Pay Fee's";
+    //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
+}
+@using System.Threading;
+@using System.Globalization;
+<style>
+    .btns-clm > button {
+        width: 180px;
+        height: 40px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .btns-clm > button.activee{
+       background: green;
+    }
+    .gridsdiv{
+            margin-top: 11px;
+    }
+</style>
+
+
+@{
+    Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
+
+<div class="btns-clm" id="fee-tabs" >
+    <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
+    <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+    <button type="button" id="mfi" class="btn btn-info">Monthly Fee Invoice </button>
+
+    <button type="button" id="lif" class="btn btn-info">Lot Inspection Fee</button>
+
+</div>
+
+<div class="container" id="container">
+
+
+
+
+
+
+
+
+    <div class="details-container">
+
+        @*<div class="right-panel">
+                            @{
+            //Html.RenderAction("LoanPaymentDetails", "Unit");
+                            }
+
+                        </div>*@
+
+
+        <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
+            <div class="info-bar">
+                <div class="form-group row" style="margin-bottom: 0px;">
+                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Fee Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                    <div class="col-md-2">
+                        
+
+                        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "dueDate", autocomplete = "off", maxlength = 10 } })
+                        <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
+                    </div>
+
+                    <label for="" class="col-sm-2 form-control-label" style="width:18%;text-align:right; margin-top:5px;margin-left: 263px;">Due Date : @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                    <div class="col-md-2" style="text-align: left;
+    padding-left: 0px;">
+
+
+                        <label for="" class="form-control-label" style="margin-top:5px;">3rd of the month</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanceGrid" class="gridsdiv" hidden>
+
+
+                <!-- this is for Advance fee grid-->
+                <h2>this is for Advance fee grid</h2>
+
+            </div>
+
+            <div id="monthlyLoanGrid" class="gridsdiv" hidden>
+
+                <!-- this is for Monthly fee grid-->
+                <h2>this is for Monthly fee grid</h2>
+
+                <div class="info-bar" style="margin-top:15px" id="payDateDiv">
+                    <div class="form-inline">
+                        <div class="form-group">
+
+                            <label for="" style="margin-left: -412px;">Pay Date : </label>
+                            @Html.Editor("PayDate", new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", maxlength = 10 } })
+
+                            <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
+
+                        </div>
+                        <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="lotInspectGrid" class="gridsdiv" hidden>
+
+
+                <!-- this is for Lot inspection fee grid-->
+                <h2>this is for Lot inspection fee grid</h2>
+
+                <div class="info-bar" style="margin-top:15px" id="payDateDiv">
+                    <div class="form-inline">
+                        <div class="form-group">
+
+                            <label for="" style="margin-left: -412px;">Pay Date : </label>
+                            @Html.Editor("PayDate", new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", maxlength = 10 } })
+                            
+                            <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
+                          
+                        </div>
+                        <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+
+
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+
+
+</div>
+
+<script>
+
+        //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+        //$("#lkcrtl").click(function (e) { e.preventDefault(); });
+        //$("#lkcrtl").siblings().click(function (e) {
+        //    return true;
+
+        //});
+
+        $("#lkcrtl").hide();
+
+        startPicker = new Pikaday({
+            field: document.getElementById('dueDate'),
+            format: 'l',
+
+            bound: true,
+            onSelect: function () {
+                var dueDate = this.getDate();
+
+
+                $.ajax({
+                    url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
+                    data: JSON.stringify({ dueDate: dueDate }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (partialView) {
+                        $('#changeContainer').html(partialView);
+                        $('#changeContainer').show();
+                        $('.centered span').text('');
+                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    }
+                });
+            }
+        });
+        startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+        startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+        @*$("#dueDate").val('@dateTime.ToString("d")');*@
+
+
+
+
+        $('#dueDate').click(function () {
+
+            $('#errorDueDate').text('');
+            $(this).removeClass('input-validation-error');
+
+        });
+        $('#dueDate').blur(function () {
+
+            if ($(this).val() == "") {
+
+
+                $(this).attr('placeholder', 'MM/DD/YYYY');
+                return;
+            }
+            var valid = isValidDate($(this).val());
+            if (valid) {
+                var selectedDate = new Date($(this).val());
+                var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                if (selectedDate < minDate || selectedDate > maxDate) {
+                    // out off range error
+                    $('#errorDueDate').text('Out of Range');
+                    $(this).addClass('input-validation-error');
+                    $('.centered span').text('Error');
+                } else {
+                    // delete error mssage
+                    $('#errorDueDate').text('');
+                    $(this).removeClass('input-validation-error');
+                }
+
+
+
+            } else {
+
+                // not valid data error
+                $('#errorDueDate').text('Please enter a valid payment date');
+                $(this).addClass('input-validation-error');
+                $('.centered span').text('Error');
+            }
+        });
+
+
+    // fee tabs functionality
+
+    $('#fee-tabs button').click(function () {
+        $(this).addClass('activee').siblings().removeClass('activee');
+        
+
+        if ($(this).attr('id') == "adf") {
+            $("#advanceGrid").show().siblings('.gridsdiv').hide();
+        }
+        else if ($(this).attr('id') == "mfi") {
+            $("#monthlyLoanGrid").show().siblings('.gridsdiv').hide();
+
+        } else if ($(this).attr('id') == "lif") {
+            $("#lotInspectGrid").show().siblings('.gridsdiv').hide();
+
+        }
+  
+    });
+
+    // each
+</script>
+
+
