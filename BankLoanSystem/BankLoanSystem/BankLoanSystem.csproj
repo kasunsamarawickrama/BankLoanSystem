@@ -253,6 +253,7 @@
     <Compile Include="Controllers\DashBoard\EmployeeDashBoardController.cs" />
     <Compile Include="Controllers\DeleteUnit\DeleteUnitController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
+    <Compile Include="Controllers\Fee\FeeController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
@@ -474,6 +475,7 @@
     <Content Include="Views\Unit\AddUnitReport.cshtml" />
     <Content Include="Views\AdvanceUnit\AdvanceUnitReport.cshtml" />
     <Content Include="Views\MessageReply\MessageReply.cshtml" />
+    <Content Include="Views\Fee\PayFees.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
