@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using BankLoanSystem.Models;
+using System.Linq;
 
 namespace BankLoanSystem.DAL
 {
