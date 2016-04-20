@@ -15,6 +15,10 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
         public string BranchName { get; set; }
         public int IsTitleTrack { get; set; }
+        public int AdvanceFee { get; set; }
+        public int LotInspectionFee { get; set; }
+        public int MonthlyLoanFee { get; set; }
+        public bool AdvanceFeePayAtPayoff { get; set; }
         public bool AddUnit { get; set; }
         public bool ViewReports { get; set; }
         public string Rights { get; set; }
