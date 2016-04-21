@@ -977,9 +977,9 @@ namespace BankLoanSystem.DAL
                         if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
                             loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_lot_inspection_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_lot_inspection_fee"].ToString()))
                             {
                                 loan.LotInspectionFee = 1;
                             }
@@ -993,9 +993,9 @@ namespace BankLoanSystem.DAL
                         {
                             loan.LotInspectionFee = 0;
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_monthly_loan_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_monthly_loan_fee"].ToString()))
                             {
                                 loan.MonthlyLoanFee = 1;
                             }
@@ -1009,9 +1009,9 @@ namespace BankLoanSystem.DAL
                         {
                             loan.MonthlyLoanFee = 0;
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_advance_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_advance_fee"].ToString()))
                             {
                                 loan.AdvanceFee = 1;
                             }
@@ -1019,9 +1019,9 @@ namespace BankLoanSystem.DAL
                             {
                                 loan.AdvanceFee = 0;
                             }
-                            if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                            if (!string.IsNullOrEmpty(dataRow["payment_due_method"].ToString()))
                             {
-                                if (dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                                if (dataRow["payment_due_method"].ToString().Contains("Vehicle Payoff"))
                                 {
                                     loan.AdvanceFeePayAtPayoff = true;
                                 }
