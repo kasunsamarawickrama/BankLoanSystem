@@ -241,6 +241,7 @@
                         <form>
                             <fieldset>
                                 <div class="form-group row">
+                                    <input type="hidden" id="unitId"/>
 
                                     <div class="col-md-2">
                                         <label for="">Date Advanced</label>
@@ -323,7 +324,7 @@
 
 <div class="overlay-bg">
 </div>
-@*<div class="overlay-content popup1" style="margin-left: 248px;">
+@*<div class="overlay-content popupdelete" style="margin-left: 248px;">
     <h3>Delete Unit</h3>
 
     <span class="text-warning">Do you wish to delete this unit?</span><br />
@@ -333,7 +334,7 @@
 </div>*@
 
 
-<div class="overlay-content popup1" style="margin-left: 248px;" id="confirmBox">
+<div class="overlay-content popupdelete" id="confirmBox">
     <h3>Delete Unit</h3>
     <div class="text-warning message"></div>
     <span class="btn btn-info yes" style = "width: 70px; margin-right: 20px;">Yes</span>
@@ -418,12 +419,19 @@
         }
     });
 
+    function showPopup(whichpopup) {
+        //var docHeight = $(document).height(); //grab the height of the page
+        //var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        //$('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        //$('.popup' + whichpopup).show().css({ 'top': scrollTop + 140 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
     function doConfirm(msg, yesFn, noFn) {
 
         var docHeight = $(document).height(); //grab the height of the page
-        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        var scrollTop = $(window).height() / 2; //grab the px value from the top of the page to where you're scrolling
         $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('#confirmBox').show().css({ 'top': scrollTop + 14 + '%' }); //show the appropriate popup and set the content 20px from the window top
+        $('#confirmBox').show().css({ 'top': scrollTop - 100 + 'px' }); //show the appropriate popup and set the content 20px from the window top
 
         var confirmBox = $("#confirmBox");
         confirmBox.find(".message").text(msg);
@@ -436,15 +444,34 @@
     }
 
     $("#btnDelete").click(function () {
-        //showPopup(1);
-        doConfirm("Do you wish to delete this unit?", function yes() {
-            //form.submit();
-            alert(1);
-        }, function no() {
-            // do nothing
-            
+        //showPopup('delete');
 
-        });
+        alert($('#unitId').val());
+
+        if ($('#unitId').val() !== "") {
+            doConfirm("Do you wish to delete this unit?", function yes() {
+                //form.submit();
+                $.ajax({
+                    url: '/DeleteUnit/DeleteUnitPost',
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    data: JSON.stringify({ unitId: $('#unitId').val()}),
+                    success: function (View) {
+                        location.reload();
+
+                        //.highlight { background-color: lightblue; }
+                    },
+                    error: function (reponse) {
+                        $('#loadingSpan').hide();
+                        alert("error : " + reponse);
+                    }
+                });
+            }, function no() {
+                // do nothing
+                $('.overlay-bg, .overlay-content').hide();
+            });
+        }
+        
     });
 
     function ClearTextBoxText() {
@@ -455,8 +482,7 @@
         $('#unitModel').val('');
         $('#purchasePrice').val('');
         $('#advanceAmount').val('');
-
-
+        $('#unitId').val('');
     }
 
 </script>

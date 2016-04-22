@@ -55,15 +55,13 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
-
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             UnitDeleteViewModel unitDeleteViewModel = new UnitDeleteViewModel();
 
             //get all units
             UnitAccess ua = new UnitAccess();
-            unitDeleteViewModel.DeleteUnits = ua.GetAllUnitsByLoanId(loanDetails.loanId);
+            unitDeleteViewModel.DeleteUnits = ua.GetAllUnitsByLoanId(loan.loanId);
             Session["UnitDeleteList"] = unitDeleteViewModel.DeleteUnits;
             ViewBag.DeleteList = unitDeleteViewModel.DeleteUnits;
 
@@ -150,6 +148,10 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     {
                         unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Model == model).ToList();
                     }
+                    else
+                    {
+                        unitModel.DeleteUnits = new List<UnitDeleteModel>();
+                    }
                 }
             }
 
@@ -160,6 +162,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
 
         public ActionResult FeeDetails(string unitId)
         {
+            _paidCurtAmount = 0.00M;
             UnitFeeTypeViewModel feeDetailsModel = new UnitFeeTypeViewModel();
 
             UnitAccess ua = new UnitAccess();
@@ -199,9 +202,12 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return PartialView(feeDetailsModelNew);
         }
 
-        public void DeleteUnitPost(int loanId, string unitId)
+        public ActionResult DeleteUnitPost(string unitId)
         {
-            
+            UnitAccess ua = new UnitAccess();
+
+            int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+            return RedirectToAction("Delete");
         }
     }
 }
