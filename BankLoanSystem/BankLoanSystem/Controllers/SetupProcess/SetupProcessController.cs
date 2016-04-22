@@ -2065,6 +2065,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             fees.LoanId = loanData.loanId;
 
+            // after hide the due methods
+
+            fees.MonthlyLoanDue = "Once a Month";
+            fees.LotInspectionDue = "Monthly";
+
             if (step.InsertFeesDetails(fees))
             {
                 var userId = userData.UserId;
