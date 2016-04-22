@@ -59,21 +59,35 @@ namespace BankLoanSystem.Controllers.Fee
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
 
+            Loan loanSelected = new Loan();
+
             if (Session["loanDashboard"] != null)
             {
                 
-                Loan loanSelected = (Loan)Session["loanDashboard"];
+                 loanSelected = (Loan)Session["loanDashboard"];
             }
             else if (Session["oneLoanDashboard"] != null)
             {
                 
-                Loan loanSelected = (Loan)Session["loanDashboard"];
+                loanSelected = (Loan)Session["loanDashboard"];
             }
             else
             {
                 return RedirectToAction("Login","UserLogin");
             }
+            ViewBag.loanSelected = loanSelected;
 
+            string advDuedate;
+            string monDueDate;
+            string lotDuedate;
+            bool returnValue = (new FeeAccess()).GetFeesDueDates(loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
+
+            
+            ViewBag.advDuedate = advDuedate;
+            ViewBag.monDueDate = monDueDate;
+            ViewBag.lotDuedate = lotDuedate;
+
+            Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
                 return View();
         }
 
