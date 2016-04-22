@@ -193,21 +193,20 @@
             bound: true,
             onSelect: function () {
                 var dueDate = this.getDate();
+                FilterFees();
 
+                //$.ajax({
+                //    url: '/Fee/PayFeesForSelectedDueDate/',
+                //    data: JSON.stringify({ dueDate: dueDate }),
+                //    type: 'POST',
+                //    contentType: 'application/json; charset=utf-8',
 
-                $.ajax({
-                    url: '/Fee/PayFeesForSelectedDueDate/',
-                    data: JSON.stringify({ dueDate: dueDate }),
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-
-                    success: function (partialView) {
-                        $('#advanceGrid').html(partialView);
-                        $('#advanceGrid').show();
-                        $('.centered span').text('');
-                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    }
-                });
+                //    success: function (partialView) {
+                //        $('#advanceGrid').html(partialView);
+                //        $('#advanceGrid').show();
+                //        $('.centered span').text('');                       
+                //    }
+                //});
             }
         });
         startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
@@ -267,16 +266,39 @@
 
         if ($(this).attr('id') == "adf") {
             $("#advanceGrid").show().siblings('.gridsdiv').hide();
+            $("#hdnSelectedButton").val('advanceFee');            
+            FilterFees();
         }
         else if ($(this).attr('id') == "mfi") {
             $("#monthlyLoanGrid").show().siblings('.gridsdiv').hide();
+            $("#hdnSelectedButton").val('monthlyLoanFee');
+            FilterFees();
 
         } else if ($(this).attr('id') == "lif") {
             $("#lotInspectGrid").show().siblings('.gridsdiv').hide();
+            $("#hdnSelectedButton").val('lotInspectionFee');
+            FilterFees();
 
         }
 
     });
+
+    function FilterFees() {       
+        if ($('#dueDate').val() != "" && $('#hdnSelectedButton').val() != "") {
+            $.ajax({
+                url: '/Fee/PayFeesForSelectedDueDate/',
+                data: JSON.stringify({ dueDate: $('#dueDate').val(), type: $("#hdnSelectedButton").val() }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (partialView) {
+                    $('#advanceGrid').html(partialView);
+                    $('#advanceGrid').show();
+                    $('.centered span').text('');
+                }
+            });
+        }
+    }
 
     // each
 </script>
