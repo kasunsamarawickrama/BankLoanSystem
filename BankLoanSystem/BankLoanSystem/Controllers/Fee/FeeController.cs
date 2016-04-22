@@ -102,8 +102,8 @@ namespace BankLoanSystem.Controllers.Fee
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
                        
-            LoanSetupAccess curtailmentAccess = new LoanSetupAccess();
-            List<Fees> lstFee = curtailmentAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
+            FeeAccess feeAccess = new FeeAccess();
+            List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
             FeesModel curtailmentScheduleModel = new FeesModel();
             curtailmentScheduleModel.FeeModelList = new List<Fees>();
             curtailmentScheduleModel.Type = type;
@@ -116,6 +116,16 @@ namespace BankLoanSystem.Controllers.Fee
             }
 
             return curtailmentScheduleModel;
+        }
+
+        [HttpPost]
+        public string PayFees(List<Fees> lstFee)
+        {
+            int userId = userData.UserId;
+            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+            string returnValue = "";// curtailmentAccess.updateCurtailmets(lstFee, userId);
+
+            return returnValue;
         }
     }
 }
