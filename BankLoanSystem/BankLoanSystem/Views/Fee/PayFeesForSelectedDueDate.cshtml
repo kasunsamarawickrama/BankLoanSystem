@@ -30,38 +30,68 @@
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     <label style="float:unset;margin-top:2%;margin-bottom:2%">No Fees matching the due date could be found.</label>
 </div>
+
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
     <div>
-        @grid.GetHtml(
-                                   tableStyle: "gridtable",
-                                   headerStyle: "webgrid-header",
-                                   alternatingRowStyle: "webgrid-alternating-row",
-                                   rowStyle: "webgrid-row-style",
-                                   htmlAttributes: new { id = "checkableGrid" },
-                                   columns: grid.Columns(
-                                   grid.Column(style: "gridColumnSelect",
-                                        format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
-                                           , header: "{checkall}"
-                                   ),
-                                   //grid.Column(
-                                   //     "AdvanceDate",
-                                   //     "Date Advanced", style: "gridColumnOthers",
-                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   //),
-                                   grid.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+        @if (Model.Type == "advanceFee")
+        {
+                @grid.GetHtml(
 
-                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                                   grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                                   grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column(
-                                        "BillDueDate",
-                                        "Due Date", style: "gridColumnOthers",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
-                                   ),
-                                   grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
-                                )
-                            )
+                                              tableStyle: "gridtable",
+                                              headerStyle: "webgrid-header",
+                                              alternatingRowStyle: "webgrid-alternating-row",
+                                              rowStyle: "webgrid-row-style",
+                                              htmlAttributes: new { id = "checkableGrid" },
+
+
+                                              columns: grid.Columns(
+                                                      grid.Column(style: "gridColumnSelect",
+                                                           format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                              , header: "{checkall}"
+                                                      ),
+
+                                                       grid.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                      grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                                                      grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                                      grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                                                      grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+
+                                                      grid.Column(
+                                                           "BillDueDate",
+                                                           "Due Date", style: "gridColumnOthers",
+                                                           format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                      ),
+                                                      grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                                           )
+
+                                       )
+        }
+        else
+        {
+            @grid.GetHtml(
+
+                                                 tableStyle: "gridtable",
+                                                 headerStyle: "webgrid-header",
+                                                 alternatingRowStyle: "webgrid-alternating-row",
+                                                 rowStyle: "webgrid-row-style",
+                                                 htmlAttributes: new { id = "checkableGrid" },
+
+
+                                                 columns: grid.Columns(
+                                                         grid.Column(style: "gridColumnSelect",
+                                                              format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                                 , header: "{checkall}"
+                                                         ),
+                                                              grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
+                                                         grid.Column(
+                                                              "BillDueDate",
+                                                              "Due Date", style: "gridColumnlarge",
+                                                              format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                         ), grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnlargeWithAlign", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                                                 )
+
+                                          )
+        }
     </div>
 
     <div>
@@ -70,6 +100,7 @@
 
     <div id="unitid" class="hidden"></div>
 </div>
+
 <script>
 
 
@@ -112,16 +143,14 @@
 
                 <label for="" style="margin-left: -288px;">Pay Date : </label>
                 @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
-                @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
-                @*<input class="form-control" type="date" style="margin-left:15px" />*@@*<input class="form-control" type="date" style="margin-left:15px" />*@
+                 <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
             </div>
             <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay fees on all selected units" disabled />
         </div>
     </div>
 </form>
 
-
+@if (Model.Type == "advanceFee") {
 <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
 
 
@@ -202,6 +231,7 @@
     </div>
 
 </div>
+}
 
 <div id="searchGrid1" hidden>
 
@@ -209,7 +239,8 @@
 </div>
 
 
-
+@if (Model.Type == "advanceFee")
+{
 <div class="info-bar reset" style="margin-top:15px" id="singleUnitDiv" hidden>
 
 
@@ -248,7 +279,7 @@
                     <div class="col-md-2">
                         <label for="">Fee Amount </label>
                         @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
-                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled" , style = "text-align:right;" } })
+                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
                     </div>
                     <div class="col-md-2" style="width:17%;">
@@ -278,7 +309,7 @@
 
 
 </div>
-
+}
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
@@ -455,7 +486,7 @@
                 var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
 
-                changePartialPaymentRowColor();
+                //changePartialPaymentRowColor();
 
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
@@ -575,20 +606,6 @@
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).width(colWidth[i]);
                     });
-                });
-            }
-
-            //$(document).ready(function () {
-            //    changePartialPaymentRowColor();
-            //});
-
-            function changePartialPaymentRowColor() {
-                $('.curtAmount').each(function () {
-                    var tr = $(this).parents('tr:first');
-                    if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#fffae6');     //not checked color of partial payment
-                        $('#partialPaymentColor').show();
-            }
                 });
             }
 
@@ -836,7 +853,7 @@
                         $('#searchGrid1').html(View);
                         $('#searchGrid1').removeAttr('hidden');
                         $('#searchGrid1').show();
-                        changePartialPaymentRowColor();
+                        //changePartialPaymentRowColor();
                         // Change the selector if needed
                         var table = $('table'),
                             bodyCells = table.find('tbody tr:first').children(),
@@ -910,7 +927,7 @@
         $('#errorPayDate').text('');
         $('#payDate').removeClass('input-validation-error');
         $('#payDate').next('span').children().text('');
-        changePartialPaymentRowColor();
+        //changePartialPaymentRowColor();
     }
 
     function ClearSearchGrid() {

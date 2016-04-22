@@ -111,7 +111,7 @@
             <div id="monthlyLoanGrid" class="gridsdiv" hidden>
 
                 <!-- this is for Monthly fee grid-->
-                <h2>this is for Monthly fee grid</h2>
+                @*<h2>this is for Monthly fee grid</h2>
 
                 <div class="info-bar" style="margin-top:15px" id="payDateDiv">
                     <div class="form-inline">
@@ -125,7 +125,7 @@
                         </div>
                         <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
                     </div>
-                </div>
+                </div>*@
 
 
             </div>
@@ -134,7 +134,7 @@
 
 
                 <!-- this is for Lot inspection fee grid-->
-                <h2>this is for Lot inspection fee grid</h2>
+                @*<h2>this is for Lot inspection fee grid</h2>
 
                 <div class="info-bar" style="margin-top:15px" id="payDateDiv">
                     <div class="form-inline">
@@ -148,7 +148,7 @@
                         </div>
                         <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
                     </div>
-                </div>
+                </div>*@
 
 
             </div>
@@ -295,6 +295,13 @@
                     $('#advanceGrid').html(partialView);
                     $('#advanceGrid').show();
                     $('.centered span').text('');
+                    //if ($("#hdnSelectedButton").val() == "advanceFee") {                       
+                    //    //$('#advanceGrid').show();
+                    //    $('#checkableGridDiv').show();
+                    //    $('.centered span').text('');
+                    //} else {
+                    //    $('#checkableGridDiv').show();
+                    //}
                 }
             });
         }
