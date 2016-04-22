@@ -45,7 +45,7 @@
                                    ),
                                    grid.Column(
                                         "AdvanceDate",
-                                        "Date Advanced",
+                                        "Date Advanced", style: "gridColumnOthers",
                                         format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
                                    ),
 
@@ -54,13 +54,12 @@
                                    grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                  grid.Column(
-                                        "DueDate",
+                                   grid.Column(
+                                        "BillDueDate",
                                         "Due Date", style: "gridColumnOthers",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
-                                   )@*,
-                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>))*@
-
+                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                   ),
+                                   grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                                 )
                             )
     </div>
@@ -353,25 +352,9 @@
         $('#identificationNumberSearch').val('');
 
     });
-    function GetCurrentCurtailment(dueDate){
+   
 
-        // alert(dueDate);
-        $.ajax({
-            url: '/Fee/PayFeesForSelectedDueDate/',
-            data: JSON.stringify({ dueDate: dueDate }),
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-
-            success: function (partialView) {
-                $('#advanceGrid').html(partialView);
-                $('#advanceGrid').show();
-                $('.centered span').text('');
-
-                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-            }
-        });
-
-    };
+   
 </script>
 <script>
 

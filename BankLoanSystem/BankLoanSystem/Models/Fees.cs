@@ -190,6 +190,8 @@ namespace BankLoanSystem.Models
         public int Year { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
+        public DateTime BillDueDate { get; set; }
+        public decimal Amount { get; set; }
     }
 
 }

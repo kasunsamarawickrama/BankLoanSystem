@@ -792,10 +792,10 @@ namespace BankLoanSystem.DAL
                     {
                         fee.Model = dataRow["model"].ToString();
                     }
-                    if (!string.IsNullOrEmpty(dataRow["payment_due_date"].ToString()))
-                    {
-                        fee.DueDate = dataRow["payment_due_date"].ToString();
-                    }
+                    //if (!string.IsNullOrEmpty(dataRow["payment_due_date"].ToString()))
+                    //{
+                    //    fee.DueDate = dataRow["payment_due_date"].ToString();
+                    //}
                     if (!string.IsNullOrEmpty(dataRow["advance_date"].ToString()))
                     {
                         fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
