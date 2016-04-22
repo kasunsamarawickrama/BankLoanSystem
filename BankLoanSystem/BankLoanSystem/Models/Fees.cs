@@ -183,7 +183,7 @@ namespace BankLoanSystem.Models
     public class FeesModel
     {
         public string DueDate { get; set; }
-        public DateTime PayDate { get; set; }
+        public DateTime FeePayDate { get; set; }
         public List<Fees> FeeModelList { get; set; }
 
         public string IdentificationNumber { get; set; }
