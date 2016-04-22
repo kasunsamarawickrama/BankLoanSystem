@@ -127,8 +127,6 @@
                 @if (ViewBag.Title == "Add Unit Page")
                 {
                     Html.RenderAction("GetJustAddedUnits", "Unit");
-
-
                 }
 
             </div>
@@ -353,6 +351,9 @@
                                         @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="rvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -431,6 +432,9 @@
                                         @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "camperVin" } })
                                         @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="camperVIN"><span class="text-danger"></span></div>
+                                    </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
                                     </div>
                                 </div>
 
@@ -537,6 +541,9 @@
                                         @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="atvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -605,6 +612,9 @@
                                         @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="boatVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -668,6 +678,9 @@
                                         @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "motorcycleVin" } })
                                         @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="motorcycleVIN" class="validation-error"><span class="text-danger"></span></div>
+                                    </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
                                     </div>
                                 </div>
 
@@ -749,6 +762,9 @@
                                         @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 305px; left: 0%;" })
                                         <div id="snowmobileVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -806,6 +822,9 @@
                                         @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char vinUnique", @id = "heavyequipmentSerial", @maxlength = 17 } })
                                         @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
+                                    </div>
+                                    <div class="col-sm-2" style="width: 271px;">
+                                        <div class="validation-error"><span class="text-danger vinCheck"></span></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -881,11 +900,11 @@
                                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
                                             @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" , @style= "margin-left: 21px;" }) No
                                             @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "left: 1%; text-align: left; width: 260px;" })
-                                                                        </div>
+                                        </div>
                                 
-                                                                    </div>
+                                    </div>
                                 
-                                                                </div>
+                                </div>
                             }
                                                 @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
                             {
@@ -921,12 +940,12 @@
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" , @style = "margin-left: 21px;" }) No
                                         @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;" })
-                                                            </div>
+                                    </div>
                         
-                                                        </div>
+                                </div>
                         
 
-                                                    </div>
+                            </div>
                         }
 
 
@@ -949,18 +968,18 @@
                                 <div class="col-xs-3" id="advanceDateDiv">
                                     @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger", @style= "text-align: left; left: 0%; width: 208px; " })
-                                                            </div>
+                                    </div>
                             
 
 
-                                                        </div>
+                                </div>
                             
-                                                    </div>
+                            </div>
                             
 
-                                                    <div style="padding:0px 20px 0px 20px">
+                            <div style="padding:0px 20px 0px 20px">
                             
-                                                        <div class="form-group btn-panel">
+                                <div class="form-group btn-panel">
                                 <input type="button" value="Cancel" id="btnCancel" class="btn btn-primary m-b next_clear_button clear_back" tabindex="-1" style="float:right;margin-right:4%" />
 
                                 <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-primary m-b next_clear_button next_back" style="width: 200px;margin-left: 102px;" />
@@ -1148,7 +1167,7 @@
                         contentType: 'application/json;',
                         data: JSON.stringify({identificationNumber :$(this).val()}),
                         success: function (data) {
-                            alert(data);
+                            //alert(data);
                             if(data == 0){
                                 $('.centered span').text('Error');
                                 $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
@@ -1158,8 +1177,7 @@
                                 $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
                             }
                             else if(data == 2){
-                                $('.centered span').text('Error');
-                                $('.vinCheck').text("still not completed");
+                                showPopup(8);
                             }
                             else{
                                 $('.vinCheck').text("");
@@ -2695,10 +2713,11 @@
                         //$(this).removeClass('input-validation-error');
                         e.preventDefault();
                     } else {
+                       
                     }
-
-
-
+                    if( $('.vinCheck').text().length > 0){
+                        e.preventDefault();
+                    }
                 });
 
 
@@ -2823,9 +2842,9 @@
                     if ($('input').next('span').children('span').text().length > 1) {
                         $('.centered span').text('Error');
                     }
-                    else if ($('.vinCheck').text().length > 0) {
-                        $('.centered span').text('Error');
-                    }
+                    //else if ($('.vinCheck').text().length > 0) {
+                    //    $('.centered span').text('Error');
+                    //}
                     else{
                         $('.centered span').text('');
                     }
@@ -2896,9 +2915,6 @@
 
                 } );
 
-
-
-
                 $(document).on('keypress','.allow_numeric span input' , function(e){
 
 
@@ -2912,7 +2928,10 @@
                     }
                 } );
 
-
+                function ClearVin(){
+                    $('.vinUnique').val("");
+                
+                }
             </script>
 
 
@@ -2967,3 +2986,61 @@
 
 </script>
 
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup8" style="width:auto;text-align:center;margin-left: 105px;">
+
+
+    <h3>VIN Exist</h3>
+
+    <span class="text-warning"> This unit is currently active in another loan on our system, would you still like to add it at this time?</span><br />
+    <br />
+    <button class="close-btn btn btn-info">Yes</button>
+    <button class="close-btn btn btn-info" onclick="ClearVin();">No</button>
+
+
+</div>
+<script >
+
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
+
+
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn, .overlay-bg').click(function () {
+        closePopup();
+    });
+
+    // hide the popup when user presses the esc key
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // if user presses esc key
+            closePopup();
+        }
+    });
+</script>

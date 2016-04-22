@@ -59,7 +59,22 @@ namespace BankLoanSystem.Controllers.Fee
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
 
-            return View();
+            if (Session["loanDashboard"] != null)
+            {
+                
+                Loan loanSelected = (Loan)Session["loanDashboard"];
+            }
+            else if (Session["oneLoanDashboard"] != null)
+            {
+                
+                Loan loanSelected = (Loan)Session["loanDashboard"];
+            }
+            else
+            {
+                return RedirectToAction("Login","UserLogin");
+            }
+
+                return View();
         }
 
         public ActionResult PayFeesForSelectedDueDate(DateTime dueDate, string type)
