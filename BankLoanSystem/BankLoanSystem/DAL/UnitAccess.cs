@@ -1053,5 +1053,101 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+
+        public List<UnitDeleteModel> GetAllUnitsByLoanId(int loanId)
+        {
+            List<UnitDeleteModel> units = new List<UnitDeleteModel>();
+
+            DataHandler dataHandler = new DataHandler();
+            //List<object[]> paramertList = new List<object[]> {new object[] {"@loanId", loanId}};
+
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetAllUnits", paramertList);
+            try
+            {
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UnitDeleteModel unit = new UnitDeleteModel();
+
+                        unit.LoanId = loanId;
+                        unit.UnitId = dataRow["unit_id"].ToString();
+                        unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                        unit.Year = dataRow["year"].ToString();
+                        unit.Make = dataRow["make"].ToString();
+                        unit.Model = dataRow["model"].ToString();
+                        unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                        unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                        unit.UnitStaus = Convert.ToInt32(dataRow["unit_status"]);
+                        units.Add(unit);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return units;
+        }
+
+        public List<UnitFeeType> GetUnitFeeType(string unitId)
+        {
+            List<UnitFeeType> unitFeeTypes = new List<UnitFeeType>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> {new object[] {"@unit_id", unitId}};
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetUnitPaymentDetailsByUnitId", paramertList);
+
+            try
+            {
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UnitFeeType unitFeeType = new UnitFeeType();
+
+                        unitFeeType.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                        unitFeeType.UnitId = unitId;
+                        unitFeeType.CurtNumber = Convert.ToInt32(dataRow["curt_number"]);
+                        unitFeeType.TblName = dataRow["TableName"].ToString();
+                        unitFeeType.FeeType = dataRow["FeeType"].ToString();
+                        unitFeeType.PaidAmount = Convert.ToDecimal(dataRow["curt_amount"]);
+                        unitFeeType.PaidDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
+                        unitFeeTypes.Add(unitFeeType);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return unitFeeTypes;
+        }
+
+        public int DeleteUnit(int loanId, string unitId)
+        {
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@unit_id", unitId });
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spManageUnitDelete", paramertList);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
