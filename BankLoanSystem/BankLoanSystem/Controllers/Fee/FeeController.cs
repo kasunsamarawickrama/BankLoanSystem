@@ -87,7 +87,7 @@ namespace BankLoanSystem.Controllers.Fee
             ViewBag.monDueDate = monDueDate;
             ViewBag.lotDuedate = lotDuedate;
 
-            Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
+            //Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
                 return View();
         }
 
