@@ -127,8 +127,6 @@
                 @if (ViewBag.Title == "Add Unit Page")
                 {
                     Html.RenderAction("GetJustAddedUnits", "Unit");
-
-
                 }
 
             </div>
@@ -2844,9 +2842,9 @@
                     if ($('input').next('span').children('span').text().length > 1) {
                         $('.centered span').text('Error');
                     }
-                    else if ($('.vinCheck').text().length > 0) {
-                        $('.centered span').text('Error');
-                    }
+                    //else if ($('.vinCheck').text().length > 0) {
+                    //    $('.centered span').text('Error');
+                    //}
                     else{
                         $('.centered span').text('');
                     }

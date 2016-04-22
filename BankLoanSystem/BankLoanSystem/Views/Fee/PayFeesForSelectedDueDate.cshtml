@@ -43,32 +43,29 @@
                                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
                                            , header: "{checkall}"
                                    ),
-                                   grid.Column(
-                                        "AdvanceDate",
-                                        "Date Advanced",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   ),
-
+                                   //grid.Column(
+                                   //     "AdvanceDate",
+                                   //     "Date Advanced", style: "gridColumnOthers",
+                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                                   //),
+                                   grid.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
 
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                                    grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                  grid.Column(
-                                        "DueDate",
+                                   grid.Column(
+                                        "BillDueDate",
                                         "Due Date", style: "gridColumnOthers",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
-                                   )@*,
-                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>))*@
-
+                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                   ),
+                                   grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                                 )
                             )
     </div>
 
     <div>
-
-        <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-        <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+        <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Fee Total : $ 0.00  </span>
     </div>
 
     <div id="unitid" class="hidden"></div>
@@ -113,13 +110,13 @@
         <div class="form-inline">
             <div class="form-group">
 
-                <label for="" style="margin-left: -359px;">Curtailmnet Payment Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
+                <label for="" style="margin-left: -288px;">Pay Date : </label>
+                @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
-                @*<input class="form-control" type="date" style="margin-left:15px" />*@<input class="form-control" type="date" style="margin-left:15px" />
+                @*<input class="form-control" type="date" style="margin-left:15px" />*@@*<input class="form-control" type="date" style="margin-left:15px" />*@
             </div>
-            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay Curtailments on all selected" disabled />
+            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay fees on all selected units" disabled />
         </div>
     </div>
 </form>
@@ -249,14 +246,14 @@
 
                 <div class="form-group row" style="margin-top:15px !important">
                     <div class="col-md-2">
-                        <label for="">Curtailment Amount </label>
+                        <label for="">Fee Amount </label>
                         @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
-                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
+                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled" , style = "text-align:right;" } })
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
                     </div>
                     <div class="col-md-2" style="width:17%;">
-                        <label for="">Curtailment Payment Date </label>
-                        @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
+                        <label for="">Fee Due Date </label>
+                        @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                         @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
@@ -353,25 +350,9 @@
         $('#identificationNumberSearch').val('');
 
     });
-    function GetCurrentCurtailment(dueDate){
+   
 
-        // alert(dueDate);
-        $.ajax({
-            url: '/Fee/PayFeesForSelectedDueDate/',
-            data: JSON.stringify({ dueDate: dueDate }),
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-
-            success: function (partialView) {
-                $('#advanceGrid').html(partialView);
-                $('#advanceGrid').show();
-                $('.centered span').text('');
-
-                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-            }
-        });
-
-    };
+   
 </script>
 <script>
 
@@ -716,7 +697,7 @@
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 var para1 = $("#identificationNumberSearch").val();
                 var para2 = $('#cmbYear').val();
                 var para3 = $("#cmbMake").val();
@@ -764,7 +745,7 @@
                 $("#singleUnitDiv").hide();
                 $('.centered span').text('');
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
@@ -789,7 +770,7 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('.centered span').text('');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
@@ -814,7 +795,7 @@
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorCurtPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
 
@@ -1167,13 +1148,13 @@
              if($('#errorCurtPayDate').text() != ""){
                  a=0;
              }
-             if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
-                 $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-                 $('#iCurtAmount').removeClass('input-validation-error');
+             //if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
+             //    $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
+             //    $('#iCurtAmount').removeClass('input-validation-error');
 
 
-                 a=0;
-             }
+             //    a=0;
+             //}
              if(a== 0 ){
                  $('.centered span').text('Error');
                  return;
@@ -1217,70 +1198,70 @@
         }
     });
 
-    $("#iCurtAmount").keypress(function (e){
+    //$("#iCurtAmount").keypress(function (e){
 
-        var charCode = !e.charCode ? e.which : e.charCode;
+    //    var charCode = !e.charCode ? e.which : e.charCode;
 
-        if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
-        else
-            e.preventDefault();
-
-
-
-
-    });
-
-    $("#iCurtAmount").blur(function (e){
+    //    if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
+    //    else
+    //        e.preventDefault();
 
 
 
-        if($(this).val() == ""){
-            $(this).val("0.00");
-        }
 
-        var val = $.trim($(this).val());
+    //});
 
-        if (val.indexOf(',') > -1) {
-            val = val.replace(',', '');
-        }
-        //if (val.indexOf('$') > -1) {
-        //    val = val.replace('$', '');
-        //}
-        var num = parseFloat(val);
-        var num = num.toFixed(2);
-        if (isNaN(num)) {
-            num = '';
-        }
+    //$("#iCurtAmount").blur(function (e){
 
 
-        $(this).val( num);
 
-        if(parseFloat($(this).val()).toFixed(2) <= 0){
-            $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-            $('#iCurtAmount').addClass('input-validation-error');
-            $('.centered span').text('Error');
-        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-            $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
-            $('#iCurtAmount').addClass('input-validation-error');
-            $('.centered span').text('Error');
-        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-            $('#errorCurtAmount').text('');
-            $('#iCurtAmount').removeClass('input-validation-error');
+    //    if($(this).val() == ""){
+    //        $(this).val("0.00");
+    //    }
 
-        }
+    //    var val = $.trim($(this).val());
 
-    });
+    //    if (val.indexOf(',') > -1) {
+    //        val = val.replace(',', '');
+    //    }
+    //    //if (val.indexOf('$') > -1) {
+    //    //    val = val.replace('$', '');
+    //    //}
+    //    var num = parseFloat(val);
+    //    var num = num.toFixed(2);
+    //    if (isNaN(num)) {
+    //        num = '';
+    //    }
 
-    $("#iCurtAmount").on('click', function(e) {
-        $('#errorCurtAmount').text('');
-        $('#iCurtAmount').removeClass('input-validation-error');
-        if (this.value === "0.00") {
-            document.getElementById(this.id).value = "";
-        }
-        else if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
-    });
+
+    //    $(this).val( num);
+
+    //    if(parseFloat($(this).val()).toFixed(2) <= 0){
+    //        $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
+    //        $('#iCurtAmount').addClass('input-validation-error');
+    //        $('.centered span').text('Error');
+    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
+    //        $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+    //        $('#iCurtAmount').addClass('input-validation-error');
+    //        $('.centered span').text('Error');
+    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
+    //        $('#errorCurtAmount').text('');
+    //        $('#iCurtAmount').removeClass('input-validation-error');
+
+    //    }
+
+    //});
+
+    //$("#iCurtAmount").on('click', function(e) {
+    //    $('#errorCurtAmount').text('');
+    //    $('#iCurtAmount').removeClass('input-validation-error');
+    //    if (this.value === "0.00") {
+    //        document.getElementById(this.id).value = "";
+    //    }
+    //    else if (this.value === "0") {
+    //        document.getElementById(this.id).value = "";
+    //    }
+    //});
 
 
     function showPopup5(whichpopup , array) {
