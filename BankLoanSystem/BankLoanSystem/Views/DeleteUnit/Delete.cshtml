@@ -1,4 +1,4 @@
-﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+﻿@model BankLoanSystem.Models.UnitDeleteViewModel
 
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
@@ -17,19 +17,58 @@
     .col-md-2 {
     text-align: left;
 }
+
+    .overlay-content {
+        top: 14%;
+        width: 600px;
+        text-align: center;
+    }
+
+    #confirmBox {
+        display: none;
+        background-color: #eee;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+        position: fixed;
+        width: 300px;
+        left: 50%;
+        margin-left: -150px;
+        padding: 6px 8px 8px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+        #confirmBox .button {
+            background-color: #ccc;
+            display: inline-block;
+            border-radius: 3px;
+            border: 1px solid #aaa;
+            padding: 2px;
+            text-align: center;
+            width: 80px;
+            cursor: pointer;
+        }
+
+            #confirmBox .button:hover {
+                background-color: #ddd;
+            }
+
+        #confirmBox .message {
+            text-align: left;
+            margin-bottom: 8px;
+        }
     .next_back{
         background-color:red;
     }
     .next_back:hover{ background:#AD2121;}
+    .dsh-name > h3{
+        color:#B50C0C;
+    }
 </style>
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Delete Unit";
-    //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
-@using System.Threading;
-@using System.Globalization;
-
 
 
 @{
@@ -66,15 +105,15 @@
 
                     <div class="col-md-8" style="display: inline-block;">
                         <label class="radio-inline" style="margin-left: 30px;">
-                            <input type="radio" name="inlineRadioOptions" id="notReceived" value="0"> All Units
+                            <input type="radio" name="inlineRadioOptions" id="allUnit" class="viewType" value="0"> All Units
 
                         </label>
                         <label class="radio-inline" style="margin-left: 30px;">
-                            <input type="radio" name="inlineRadioOptions" id="received" value="1"> Active Units
+                            <input type="radio" name="inlineRadioOptions" id="activeUit" class="viewType" value="1"> Active Units
                         </label>
 
                         <label class="radio-inline" style="margin-left: 30px;">
-                            <input type="radio" name="inlineRadioOptions" id="received" value="2"> Pending Units
+                            <input type="radio" name="inlineRadioOptions" class="viewType" id="pendingUnit" value="2"> Pending Units
                         </label>
 
                     </div>
@@ -96,13 +135,29 @@
                                         @*@Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
                                         @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
 
-                                        @Html.Editor("IdentificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
-
+                                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @style = "width:165px" } })
                                         <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
 
                                     </div>
                                     <div class="col-md-2" id="div-combobox1-1" style="margin-left:26px">
                                         <label for="">Year</label>
+
+                                        @{
+                                            List<SelectListItem> yearList = new List<SelectListItem>();
+                                            if (ViewBag.DeleteList != null)
+                                            {
+                                                foreach (var type in ViewBag.DeleteList)
+                                                {
+                                                    if (!yearList.Exists(a => a.Value == type.Year.ToString()) && type.Year.ToString() != "")
+                                                    {
+                                                        yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", @style = "width:143px" })
+                                        <div id="vehicleyear"><span class="text-danger"></span></div>
+
                                         @*@{
                                             List<SelectListItem> yearList = new List<SelectListItem>();
                                             foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
@@ -116,43 +171,50 @@
                                         @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
                                         @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })*@
 
-                                        @Html.DropDownList("year", new List<SelectListItem>() , "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
+                                        @*@Html.DropDownList("year", new List<SelectListItem>() , "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })*@
 
                                     </div>
                                     <div class="col-md-2" id="div-combobox1-2">
-                                        <label for="">Make</label> @*@{List<SelectListItem> makeList = new List<SelectListItem>();
-                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                        <label for="">Make</label>
+
+                                        @{
+                                            List<SelectListItem> makeList = new List<SelectListItem>();
+                                            if (ViewBag.DeleteList != null)
                                             {
-                                                if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                                                foreach (var type in ViewBag.DeleteList)
+                                            {
+                                                    if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
                                                 {
-                                                    makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                                        makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
+                                                    }
                                                 }
                                             }
+
                                         }
 
-                                        @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
-                                        @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })*@
 
+                                        @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake" })
 
-                                        @Html.DropDownList("make2", new List<SelectListItem>(), "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
+                                        @*@Html.DropDownList("make2", new List<SelectListItem>(), "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })*@
 
                                     </div>
                                     <div class="col-md-2" id="div-combobox1-3" style="width:20%">
                                         <label for="">Model</label>
-                                        @*@{List<SelectListItem> modelList = new List<SelectListItem>();
-                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                        @{
+                                            List<SelectListItem> modelList = new List<SelectListItem>();
+
+                                            if (ViewBag.DeleteList != null)
                                             {
-                                                if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                                                foreach (var type in ViewBag.DeleteList)
+                                            {
+                                                    if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
                                                 {
-                                                    modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                                        modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
+                                                    }
                                                 }
                                             }
                                         }
-
                                                 @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
-                                                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })*@ 
-
-                                                                                                                                                   @Html.DropDownList("model2", new List<SelectListItem>(), "--select model--", new { @class = "form-control", @id = "cmbModel" })
 
 
 </div>
@@ -166,9 +228,10 @@
 
             </div>
 
-          <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
+            <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
 
               <!-- this is for grid-->
+
           </div>
 
 
@@ -181,7 +244,7 @@
 
                                     <div class="col-md-2">
                                         <label for="">Date Advanced</label>
-                                        @Html.Editor("DateAdvanced", new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
+                                        @Html.Editor("DateAdvanced", new { htmlAttributes = new { @class = "form-control", @id = "dateAdvanced", @disabled = "disabled" } })
 
                                     </div>
                                     <div class="col-md-2" style="width:28%;">
@@ -194,13 +257,13 @@
                                         @Html.Editor("Year", new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled", @style = "text-align:left;" } })
                                         
                                     </div>
-                                    <div class="col-md-2" >
+                                    <div class="col-md-2">
                                         <label for="">Make</label>
                                         @Html.Editor("Make", new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @disabled = "disabled" } })
                                         
                                     </div>
 
-                                    <div class="col-md-2" >
+                                    <div class="col-md-2">
                                         <label for="">Model</label>
                                         @Html.Editor("Model2", new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
                                        
@@ -210,35 +273,29 @@
                                    
                                 </div>
 
-                                <div class="form-group row" style="margin-top:10px !important;">
+                                <div class="form-group row" style="margin-top: 10px !important;">
 
-                                    <div class="col-md-2" >
+                                    <div class="col-md-2">
                                         <label for="">Purchase Price</label>
-                                        @Html.Editor("PurchasePrice", new { htmlAttributes = new { @class = "form-control", @id = "unitStatus", @disabled = "disabled" } })
+                                        @Html.Editor("PurchasePrice", new { htmlAttributes = new { @class = "form-control", @id = "purchasePrice", @disabled = "disabled" } })
 
                                     </div>
 
                                     <div class="col-md-2">
                                         <label for="">Advance Amount</label>
-                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "titleStatus", @disabled = "disabled" } })
+                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", @disabled = "disabled" } })
 
                                     </div>
 
-                                </div>
-
-                                <div class="form-group row" style="margin-top:10px !important;">
-
-                                    <div class="col-md-12">
-                                    
-                                        <!-- this is for fee grid-->
-
                                     </div>
 
-                                   
+                                <div class="info-bar" id="FeeDetails" style="margin-top:10px;padding:1px 0px 30px 0px">
+
+                                    <!-- this is for grid-->
 
                                 </div>
 
-                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnUpdate" style="width:100px;">Delete Unit</button>
+                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnDelete" style="width:100px">Delete Unit</button>
                                 <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
                             </fieldset>
                         </form>
@@ -264,6 +321,25 @@
 
 </div>
 
+<div class="overlay-bg">
+</div>
+@*<div class="overlay-content popup1" style="margin-left: 248px;">
+    <h3>Delete Unit</h3>
+
+    <span class="text-warning">Do you wish to delete this unit?</span><br />
+    <br />
+    @Html.ActionLink("YES", "Index", "SetupProcess", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+        @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
+</div>*@
+
+
+<div class="overlay-content popup1" style="margin-left: 248px;" id="confirmBox">
+    <h3>Delete Unit</h3>
+    <div class="text-warning message"></div>
+    <span class="btn btn-info yes" style = "width: 70px; margin-right: 20px;">Yes</span>
+    <span class="btn btn-info no" style = "width: 70px;">No</span>
+</div>
+
 <div class="link-bar" style="margin-bottom:15px;">
 
 
@@ -274,4 +350,113 @@
 
 </div>
 
+<script>
+    
+    $('.viewType').change(function () {
+        var viewType = $('.viewType').filter(':checked').val();
+        ClearTextBoxText();
 
+        $("#identificationNumberSearch").val('');
+        $("#identificationNumberSearch").attr('placeholder', 'Last 6 of VIN/HIN/SN');
+        $('#cmbYear').val('');
+        $("#cmbMake").val('');
+        $("#cmbModel").val('');
+
+        $.ajax({
+            url: '/DeleteUnit/GridView',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ viewType: viewType, id: "", year: "", make: "", model: "" }),
+            success: function (View) {
+                $('#checkableGridDiv').html(View);
+                $('#checkableGridDiv').show();
+
+                //.highlight { background-color: lightblue; }
+            },
+            error: function (reponse) {
+                $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
+        });
+    });
+
+    $('#btnSearch').click(function () {
+        var viewType = 5;
+
+        var id = $("#identificationNumberSearch").val();
+        var year = $('#cmbYear').val();
+        var make = $("#cmbMake").val();
+        var model = $("#cmbModel").val();
+
+        document.getElementById('allUnit').checked = false;
+        document.getElementById('activeUit').checked = false;
+        document.getElementById('pendingUnit').checked = false;
+
+        ClearTextBoxText();
+        $('#feeDetails').hide();
+        $.ajax({
+            url: '/DeleteUnit/GridView',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ viewType: viewType, id: id, year: year, make: make, model: model }),
+            success: function (View) {
+                $('#checkableGridDiv').html(View);
+                $('#checkableGridDiv').show();
+
+                //.highlight { background-color: lightblue; }
+            },
+            error: function (reponse) {
+                $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
+        });
+    });
+
+    $("#identificationNumberSearch").blur(function () {
+        if ($(this).val() === "") {
+            $(this).attr('placeholder', 'Last 6 of VIN/HIN/SN');
+        }
+    });
+
+    function doConfirm(msg, yesFn, noFn) {
+
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('#confirmBox').show().css({ 'top': scrollTop + 14 + '%' }); //show the appropriate popup and set the content 20px from the window top
+
+        var confirmBox = $("#confirmBox");
+        confirmBox.find(".message").text(msg);
+        confirmBox.find(".yes,.no").unbind().click(function () {
+            confirmBox.hide();
+        });
+        confirmBox.find(".yes").click(yesFn);
+        confirmBox.find(".no").click(noFn);
+        confirmBox.show();
+    }
+
+    $("#btnDelete").click(function () {
+        //showPopup(1);
+        doConfirm("Do you wish to delete this unit?", function yes() {
+            //form.submit();
+            alert(1);
+        }, function no() {
+            // do nothing
+            
+
+        });
+    });
+
+    function ClearTextBoxText() {
+        $('#dateAdvanced').val('');
+        $('#identificationNumber').val('');
+        $('#unitYear').val('');
+        $('#unitMake').val('');
+        $('#unitModel').val('');
+        $('#purchasePrice').val('');
+        $('#advanceAmount').val('');
+
+
+    }
+
+</script>
