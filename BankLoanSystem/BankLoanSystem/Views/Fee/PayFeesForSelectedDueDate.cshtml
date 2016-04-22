@@ -46,7 +46,7 @@
 
                                               columns: grid.Columns(
                                                       grid.Column(style: "gridColumnSelect",
-                                                           format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                           format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                               , header: "{checkall}"
                                                       ),
 
@@ -79,7 +79,7 @@
 
                                                  columns: grid.Columns(
                                                          grid.Column(style: "gridColumnSelect",
-                                                              format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                              format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                                  , header: "{checkall}"
                                                          ),
                                                               grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
@@ -98,7 +98,7 @@
         <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Fee Total : $ 0.00  </span>
     </div>
 
-    <div id="unitid" class="hidden"></div>
+    <div id="FeeId" class="hidden"></div>
 </div>
 
 <script>
@@ -287,7 +287,7 @@
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
-                        @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
+                        @Html.Hidden("iFeeId", "", new { @id = "iFeeId" })
                     </div>
 
 
@@ -430,10 +430,8 @@
                                 }
                                 total = 0;
                                 totalRecCount = 0;total = 0;
-                               // $('.advanceAmount').each(function () {
                                 $('#checkableGrid').find('.curtAmount') .each(function () {
                                     var tr = $(this).parents('tr:first');
-
                                     totalRecCount++;
                                     if (document.getElementById('all').checked) {
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
@@ -446,25 +444,24 @@
 
                                     } else {
                                         checkCount = 0;
-
                                         if (tr.find("#curtailmentStatus").val() === '2') {
                                             $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();
                                         }else{
                                         $(this).parents('tr').css('background', 'transparent');
-                                    }
+                                        }
 
                                     }
                                     document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total, 2);
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
-                                        if (totalRecCount == 1) {
+                                        if (totalRecCount == 1 &&  $("#hdnSelectedButton").val() == "advanceFee") {
                                             SetTextBoxValues(tr);
                                         }
                                     }
 
                                 });
-                                if (checkCount > 1) {
+                                if (checkCount > 1 &&  $("#hdnSelectedButton").val() == "advanceFee") {
                                     ClearTextBoxValues();ClearSearchGrid();
                                 }
                                 else if (checkCount == 0 || totalRecCount == 0) {
@@ -476,7 +473,9 @@
                                     $('.centered span').text('');
                                     $('#payDate').removeClass('input-validation-error');
                                     $('#payDate').next('span').children().text('');
-                                    ClearTextBoxValues();
+                                    if($("#hdnSelectedButton").val() == "advanceFee"){
+                                        ClearTextBoxValues();
+                                    }
                                 }
                                 //changePartialPaymentRowColor();
                             }
@@ -516,7 +515,7 @@
 
                     }
 
-                    if (checkCount == 1) {
+                    if (checkCount == 1 &&  $("#hdnSelectedButton").val() == "advanceFee") {
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -526,7 +525,7 @@
                                 var tr = $(this).parents('tr:first');
                                 var checked = tr.find("#all").is(':checked');
 
-                                if (checked) {
+                                if (checked &&  $("#hdnSelectedButton").val() == "advanceFee") {
                                     SetTextBoxValues(tr);
                                 }
 
@@ -538,7 +537,9 @@
                     }
                     else if (checkCount == 0) {
                         document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
-                        ClearTextBoxValues();
+                        if( $("#hdnSelectedButton").val() == "advanceFee"){
+                            ClearTextBoxValues();
+                        }
                         $("#payAll").attr("disabled", "disabled");
                         $("#payDate").attr("disabled", "disabled");
                         // clear top error
@@ -550,13 +551,17 @@
 
                     }
                     else {
-
-                        ClearTextBoxValues();
+                        if($("#hdnSelectedButton").val() == "advanceFee"){
+                            ClearTextBoxValues();
+                        }
                         document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                     }
 
-                    if (checkCount > 0) {ClearSearchGrid() ;
+                    if (checkCount > 0) {
+                        if($("#hdnSelectedButton").val() == "advanceFee"){
+                            ClearSearchGrid() ;
+                        }
                         var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
                         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
 
@@ -635,13 +640,14 @@
                             checkCount++;
                             total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
-                            if (checkCount == 1) {ClearSearchGrid() ;
+                            if (checkCount == 1 &&  $("#hdnSelectedButton").val() == "advanceFee") {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
                             }
-                            else {
-                                SetRadioBtnHeaderChecked();
+                            else if($("#hdnSelectedButton").val() == "advanceFee"){
+                                //SetRadioBtnHeaderChecked();
                                 ClearTextBoxValues();
                             }
+                            SetRadioBtnHeaderChecked();
                             document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
@@ -739,6 +745,7 @@
 
 
             });
+
             $('#identificationNumberSearch').click(function () {
                 $("#searchIdentificationNumber").text('');
                 //$('#identificationNumberSearch').val("");
@@ -746,6 +753,7 @@
                 $('.centered span').text('');
                 $('#identificationNumberSearch').removeClass('input-validation-error')
             });
+
             //clear text box values and disable feild
             function ClearTextBoxValues() {
                 $('#ivin').val('');
@@ -798,16 +806,12 @@
             }
 
             function SetTextBoxValues(tr) {
-
-
-
                 $('#iVin').val(tr.find("#vin").text());
                 $('#iYear').val(tr.find("#year").text());
                 $('#iMake').val(tr.find("#make").text());
                 $('#iModel').val(tr.find("#model").text());
-                $('#iUnitID').val(tr.find("#all").val());
+                $('#iFeeId').val(tr.find("#all").val());
                 $('#iCurtNumber').val(tr.find("#CurtNumber").text());
-
                 $('#iDateAdvance').val(tr.find("#dateAdvance").text());
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
@@ -815,10 +819,7 @@
                 //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorCurtPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
-
                 //document.getElementById("unitid").innerHTML = tr.find("#all").val();
-
-
                 $("#btnPay").removeAttr("disabled");
                 $("#advanceDate").removeAttr("disabled");
                 $("#singleUnitDiv").show();
@@ -942,9 +943,6 @@
 
     }
 
-
-
-
     payPicker = new Pikaday({
         field: document.getElementById('payDate'),
         format: 'l',
@@ -993,9 +991,10 @@
         return value.getMonth()+1 + "/" + value.getDate() + "/" + value.getFullYear();
     }
 
-    var data = { SelectedCurtailmentSchedules: [] };
+    var data = { Fees: [] };
+
     $('#payAll').click(function () {
-        data = { SelectedCurtailmentSchedules: [] };
+        data = { Fees: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
 
@@ -1008,60 +1007,68 @@
         }
 
         if($("#errorPayDate").text() != ""){
-
             return;
         }
 
-
         if (checkCount >= 1) {
-
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
+               
                 if (checked) {
-                    data.SelectedCurtailmentSchedules.push({ UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(',','')});
-
+                    data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
                 }
             });
-
-            //alert(data.SelectedCurtailmentSchedules.length);
-            $.ajax({
-                url: '/Curtailments/PayCurtailments/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-
-                success: function (View) {
-
-
-                    //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    if(View == ""){
-                        $('.centered1 span').text('Successfully Updated');
-                        GetCurrentCurtailment($('#dueDate').val());
-                    }
-                    if(View.length > 5){
-
-                        var array = View.split(',');
-
-                        showPopup5(5 , array);
-
-
-                    }
-
-                }
-
-
-            });
+            PayFees(data.Fees);
         }
 
     });
+
+    $('#btnPay').click(function (e) {
+        data = { Fees: [] };
+        if ($('#payDate').val() != '') {
+            var a = 1;
+            if($("#payCurtDate").val() == ""){
+                // show error errorCurtPayDate
+                $('#errorCurtPayDate').text('Please select the Curtailment payment date');
+                $('#payCurtDate').addClass('input-validation-error');
+                a=0;
+            }
+            if($('#errorCurtPayDate').text() != ""){
+                a=0;
+            }
+            if(a== 0 ){
+                $('.centered span').text('Error');
+                return;
+            }
+
+            //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
+            data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
+            PayFees(data.Fees);
+        }
+    });
+
+    function PayFees(lst,date){
+        $.ajax({
+            url: '/Fee/PayFees/',
+            data: JSON.stringify(lst),date,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (View) {
+                if(View == ""){
+                    $('.centered1 span').text('Successfully Updated');
+                    GetCurrentCurtailment($('#dueDate').val());
+                }
+            }
+        });
+    }
 
     $('#payDate').click(function(e){
 
         $('#errorPayDate').text('');
         $(this).next('span').children('span').remove();
     });
-
 
     $('#payDate').blur(function () {
 
@@ -1097,19 +1104,12 @@
             $('.centered span').text('Error');
         }
     });
-
-
-
-
     $('#payCurtDate').click(function(e){
 
         $('#errorCurtPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
-
-
-
 
     $('#payCurtDate').blur(function () {
 
@@ -1145,185 +1145,6 @@
             $('.centered span').text('Error');
         }
     });
-
-
-    $('#btnPay').click(function (e) {
-
-        data = { SelectedCurtailmentSchedules: [] };
-
-         if ($('#iVin').val() != '') {
-             var a = 1;
-             if($("#payCurtDate").val() == ""){
-                 // show error errorCurtPayDate
-                 $('#errorCurtPayDate').text('Please select the Curtailment payment date');
-                 $('#payCurtDate').addClass('input-validation-error');
-                 a=0;
-             }
-             if($('#errorCurtAmount').text() != "" ){
-                 a=0;
-             }
-             if($('#errorCurtPayDate').text() != ""){
-                 a=0;
-             }
-             //if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
-             //    $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-             //    $('#iCurtAmount').removeClass('input-validation-error');
-
-
-             //    a=0;
-             //}
-             if(a== 0 ){
-                 $('.centered span').text('Error');
-                 return;
-             }
-
-
-
-
-
-
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
-
-
-
-                //alert(data.SelectedCurtailmentSchedules.length);
-                $.ajax({
-                    url: '/Curtailments/PayCurtailments/',
-                    data: JSON.stringify(data),
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-
-                    success: function (View) {
-
-                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        if(View == ""){
-                            $('.centered1 span').text('Successfully Updated');
-                            GetCurrentCurtailment($('#dueDate').val());
-                        }
-                        if(View.length > 5){
-
-                            var array = View.split(',');
-
-                            showPopup5(5 , array);
-
-
-                        }
-
-                    }
-                });
-
-        }
-    });
-
-    //$("#iCurtAmount").keypress(function (e){
-
-    //    var charCode = !e.charCode ? e.which : e.charCode;
-
-    //    if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
-    //    else
-    //        e.preventDefault();
-
-
-
-
-    //});
-
-    //$("#iCurtAmount").blur(function (e){
-
-
-
-    //    if($(this).val() == ""){
-    //        $(this).val("0.00");
-    //    }
-
-    //    var val = $.trim($(this).val());
-
-    //    if (val.indexOf(',') > -1) {
-    //        val = val.replace(',', '');
-    //    }
-    //    //if (val.indexOf('$') > -1) {
-    //    //    val = val.replace('$', '');
-    //    //}
-    //    var num = parseFloat(val);
-    //    var num = num.toFixed(2);
-    //    if (isNaN(num)) {
-    //        num = '';
-    //    }
-
-
-    //    $(this).val( num);
-
-    //    if(parseFloat($(this).val()).toFixed(2) <= 0){
-    //        $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-    //        $('#iCurtAmount').addClass('input-validation-error');
-    //        $('.centered span').text('Error');
-    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-    //        $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
-    //        $('#iCurtAmount').addClass('input-validation-error');
-    //        $('.centered span').text('Error');
-    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-    //        $('#errorCurtAmount').text('');
-    //        $('#iCurtAmount').removeClass('input-validation-error');
-
-    //    }
-
-    //});
-
-    //$("#iCurtAmount").on('click', function(e) {
-    //    $('#errorCurtAmount').text('');
-    //    $('#iCurtAmount').removeClass('input-validation-error');
-    //    if (this.value === "0.00") {
-    //        document.getElementById(this.id).value = "";
-    //    }
-    //    else if (this.value === "0") {
-    //        document.getElementById(this.id).value = "";
-    //    }
-    //});
-
-
-    function showPopup5(whichpopup , array) {
-
-        console.log(data);
-        var length = array.length;
-        var VinNumbers = [];
-        for(var i=0 ; i<length ; i++ ){
-
-
-
-
-            if(array[i].length > 5){
-
-                for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
-
-                    if(data.SelectedCurtailmentSchedules[j].UnitId == array[i]){
-                        VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
-                        break;
-                    }
-
-                }
-
-            }
-
-        }
-
-        // append the message to span
-        var vinString = VinNumbers.join(" , ");
-
-        $('#payOffAlert strong').text(vinString);
-        if(VinNumbers.length == 1){
-
-            $('#payOffAlert').text('This '+ VinNumbers[0] + ' Unit Successfully paid off. Do you Like to Update the Title Status?');
-        }
-
-
-        var docHeight = $(document).height(); //grab the height of the page
-        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-
-
-
-    }
 </script>
 
 
