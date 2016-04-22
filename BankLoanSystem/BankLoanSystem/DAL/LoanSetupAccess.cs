@@ -776,29 +776,29 @@ namespace BankLoanSystem.DAL
                     fee.Type = dataRow["type"].ToString();
                     fee.Amount = Convert.ToDecimal(dataRow["amount"].ToString());
                     fee.BillDueDate = Convert.ToDateTime(dataRow["bill_due_date"].ToString());//.ToString("MM/dd/yyyy"
-                    if (!string.IsNullOrEmpty(dataRow["identification_number"].ToString()))
+
+                    if (type.Equals("advanceFee"))
                     {
-                        fee.IdentificationNumber = dataRow["identification_number"].ToString();
-                    }
-                    if (!string.IsNullOrEmpty(dataRow["year"].ToString()))
-                    {
-                        fee.Year = int.Parse(dataRow["year"].ToString());
-                    }
-                    if (!string.IsNullOrEmpty(dataRow["make"].ToString()))
-                    {
-                        fee.Make = dataRow["make"].ToString();
-                    }
-                    if (!string.IsNullOrEmpty(dataRow["model"].ToString()))
-                    {
-                        fee.Model = dataRow["model"].ToString();
-                    }
-                    //if (!string.IsNullOrEmpty(dataRow["payment_due_date"].ToString()))
-                    //{
-                    //    fee.DueDate = dataRow["payment_due_date"].ToString();
-                    //}
-                    if (!string.IsNullOrEmpty(dataRow["advance_date"].ToString()))
-                    {
-                        fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["identification_number"].ToString()))
+                        {
+                            fee.IdentificationNumber = dataRow["identification_number"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["year"].ToString()))
+                        {
+                            fee.Year = int.Parse(dataRow["year"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["make"].ToString()))
+                        {
+                            fee.Make = dataRow["make"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["model"].ToString()))
+                        {
+                            fee.Model = dataRow["model"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["advance_date"].ToString()))
+                        {
+                            fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                        }
                     }
 
                     lstFee.Add(fee);

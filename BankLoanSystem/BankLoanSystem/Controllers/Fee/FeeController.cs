@@ -106,7 +106,9 @@ namespace BankLoanSystem.Controllers.Fee
             List<Fees> lstFee = curtailmentAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
             FeesModel curtailmentScheduleModel = new FeesModel();
             curtailmentScheduleModel.FeeModelList = new List<Fees>();
-            
+            curtailmentScheduleModel.Type = type;
+
+
             if (lstFee != null && lstFee.Count > 0)
             {
                 curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
