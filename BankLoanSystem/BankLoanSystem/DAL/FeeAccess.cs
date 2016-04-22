@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace BankLoanSystem.DAL
 {
@@ -120,5 +121,49 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+
+        internal string updateFees(List<Fees> lstFee,DateTime paidDate, int loanId , int userId)
+        {
+            try
+            {
+                int i = 1;
+                XElement xEle = new XElement("Fee",
+                    from fee in lstFee
+                    select new XElement("FeeUnit",
+                        new XElement("FeeId", fee.FeeId),
+                        new XElement("Type", fee.Type),
+                       
+                        
+                        new XElement("id", i++)
+                        ));
+                string xmlDoc = xEle.ToString();
+
+
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList2 = new List<object[]>();
+                paramertList2.Add(new object[] { "@loan_id", loanId });
+                paramertList2.Add(new object[] { "@paid_date", paidDate });
+                paramertList2.Add(new object[] { "@user_id", userId });
+                paramertList2.Add(new object[] { "@Input", xmlDoc });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLWithStringReturnVal("spUpdateFee", paramertList2);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+        }
+
     }
 }

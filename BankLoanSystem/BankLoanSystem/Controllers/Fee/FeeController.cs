@@ -12,6 +12,8 @@ namespace BankLoanSystem.Controllers.Fee
     {
         User userData = new User();
         string lCode = string.Empty;
+        
+       
 
         // GET: Fee
         public ActionResult Index()
@@ -26,6 +28,7 @@ namespace BankLoanSystem.Controllers.Fee
                 if (Session["AuthenticatedUser"] != null)
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
+                    
                 }
                 else
                 {
@@ -55,12 +58,13 @@ namespace BankLoanSystem.Controllers.Fee
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            ViewBag.loanDetails = loanDetails;
+           
+            LoanSetupStep1 _loanDetails = new LoanSetupStep1();
+            _loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            ViewBag.loanDetails = _loanDetails;
+
 
             Loan loanSelected = new Loan();
-
             if (Session["loanDashboard"] != null)
             {
                 
@@ -80,7 +84,7 @@ namespace BankLoanSystem.Controllers.Fee
             string advDuedate;
             string monDueDate;
             string lotDuedate;
-            bool returnValue = (new FeeAccess()).GetFeesDueDates(loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
+            bool returnValue = (new FeeAccess()).GetFeesDueDates(_loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
 
             
             ViewBag.advDuedate = advDuedate;
@@ -96,7 +100,7 @@ namespace BankLoanSystem.Controllers.Fee
             return PartialView(this.GetFees(dueDate, type));
         }
 
-        private FeesModel GetFees(DateTime dueDate, string type)
+        public FeesModel GetFees(DateTime dueDate, string type)
         {
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
@@ -122,8 +126,10 @@ namespace BankLoanSystem.Controllers.Fee
         public string PayFees(List<Fees> lstFee)
         {
             int userId = userData.UserId;
-            CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            string returnValue = "";// curtailmentAccess.updateCurtailmets(lstFee, userId);
+            FeeAccess feeAccess = new FeeAccess();
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            string returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
 
             return returnValue;
         }
