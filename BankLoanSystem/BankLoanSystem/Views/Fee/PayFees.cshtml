@@ -41,14 +41,38 @@
     Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
 
+@{int count = 0;
+    string type = ""; }
 <div class="btns-clm" id="fee-tabs">
     <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
-    <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+
+    @if(ViewBag.loanSelected != null && ViewBag.loanSelected.AdvanceFee != null && ViewBag.loanSelected.AdvanceFee == 1) {
+                count++;
+                type = "adf";
+            <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+    }
+
+@if (ViewBag.loanSelected != null && ViewBag.loanSelected.MonthlyLoanFee != null && ViewBag.loanSelected.MonthlyLoanFee == 1)
+{
+    count++;
+    type = "mfi";
     <button type="button" id="mfi" class="btn btn-info">Monthly Fee Invoice </button>
+}
 
+    @if (ViewBag.loanSelected != null && ViewBag.loanSelected.LotInspectionFee != null && ViewBag.loanSelected.LotInspectionFee == 1)
+    {
+        count++;
+        type = "lif";
     <button type="button" id="lif" class="btn btn-info">Lot Inspection Fee</button>
-
+    }
 </div>
+
+@if(count == 0)
+{
+    <script>
+        window.location.href = "/UserManagement/UserDetails";
+    </script>
+}
 
 <div class="container" id="container">
 
@@ -80,12 +104,18 @@
                         <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
                     </div>
 
-                    <label for="" class="col-sm-2 form-control-label" style="width:18%;text-align:right; margin-top:5px;margin-left: 263px;">Due Date : @*- all curtailments due prior to and on this date will be displayed.*@</label>
-                    <div class="col-md-2" style="text-align: left;
+
+
+
+
+                    <div id="dueDatePanel" hidden>
+                        <label for="" class="col-sm-2 form-control-label" style="width:18%;text-align:right; margin-top:5px;margin-left: 263px;">Due Date : @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                        <div class="col-md-2" style="text-align: left;
     padding-left: 0px;">
 
 
-                        <label for="" class="form-control-label" style="margin-top:5px;">3rd of the month</label>
+                            <label id="dueDateLabel" for="" class="form-control-label" style="margin-top:5px;">3rd of the month</label>
+                        </div>
                     </div>
                 </div>
             </div>
