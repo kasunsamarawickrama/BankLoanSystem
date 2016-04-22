@@ -100,6 +100,66 @@ namespace BankLoanSystem.DAL
                     {
                         loanObj.IsTitleTrack = 0;
                     }
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        {
+                            loanObj.LotInspectionFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.LotInspectionFee = 0;
+                        }
+                    }
+
+                    else
+                    {
+                        loanObj.LotInspectionFee = 0;
+                    }
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        {
+                            loanObj.MonthlyLoanFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.MonthlyLoanFee = 0;
+                        }
+                    }
+
+                    else
+                    {
+                        loanObj.MonthlyLoanFee = 0;
+                    }
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        {
+                            loanObj.AdvanceFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.AdvanceFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                        {
+                            if(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                            {
+                                loanObj.AdvanceFeePayAtPayoff = true;
+                            }
+                            else
+                            {
+                                loanObj.AdvanceFeePayAtPayoff = false;
+                            }
+                            
+                        }
+                    }
+
+                    else
+                    {
+                        loanObj.AdvanceFee = 0;
+                    }
                     if (role == 3)
                     {
                         if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["right_id"].ToString()))

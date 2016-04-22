@@ -25,16 +25,16 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Advance Fee calculate Type is required.")]
         [Display(Name = "Advance Fee calculate")]
         public string AdvanceFeeCalculateType { get; set; }
-        [Required(ErrorMessage = "Advance fee complete Remind Email is required.")]
+        [Required(ErrorMessage = "Advance fee complete Remind email is required.")]
         public bool IsAdvanceFeeCompleteEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Advance Email is required.")]
-        [Display(Name = "Dealer Email")]
+        [Required(ErrorMessage = "Advance email is required.")]
+        [Display(Name = "Dealer email")]
         public string AdvanceFeeDealerEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Advance Email Remind numeric value Period is required.")]
+        [Display(Name = "email Remind Period")]
+        [Required(ErrorMessage = "Advance email Remind numeric value Period is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int AdvanceFeeDealerEmailRemindPeriod { get; set; }
@@ -46,18 +46,18 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Advance Due Date is required.")]
         [Display(Name = "Due Date")]
         public string AdvanceDueDate { get; set; }
-        [Required(ErrorMessage = "Advance fee Due Remind Email is required.")]
+        [Required(ErrorMessage = "Advance fee Due Remind email is required.")]
         public bool IsAdvanceFeeDueEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Remind Email is required.")]
-        [Display(Name = "Remind Email")]
+        [Required(ErrorMessage = "Remind email is required.")]
+        [Display(Name = "Remind email")]
         public string AdvanceDueEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
+        [Display(Name = "email Remind Period")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
-        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Required(ErrorMessage = "email Remind Period numeric value is required.")]
         public int AdvanceDueEmailRemindPeriod { get; set; }
 
 
@@ -75,16 +75,16 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "loan reciept need required.")]
         [Display(Name = "Recipt for Loan Paid")]
         public bool MonthlyLoanNeedReceipt { get; set; }
-        [Required(ErrorMessage = "loan fee complete Remind Email is required.")]
+        [Required(ErrorMessage = "loan fee complete Remind email is required.")]
         public bool IsLoanFeeCompleteEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Dealer Email is required.")]
-        [Display(Name = "Dealer Email")]
+        [Required(ErrorMessage = "Dealer email is required.")]
+        [Display(Name = "Dealer email")]
         public string MonthlyLoanFeeDealerEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Display(Name = "email Remind Period")]
+        [Required(ErrorMessage = "email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int MonthlyLoanFeeDealerEmailRemindPeriod { get; set; }
@@ -96,16 +96,16 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Loan Due Date is required.")]
         [Display(Name = "Due Date")]
         public string MonthlyLoanDueDate { get; set; }
-        [Required(ErrorMessage = "loan fee Due Remind Email is required.")]
+        [Required(ErrorMessage = "loan fee Due Remind email is required.")]
         public bool IsLoanFeeDueEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Remind Email is required.")]
-        [Display(Name = "Remind Email")]
+        [Required(ErrorMessage = "Remind email is required.")]
+        [Display(Name = "Remind email")]
         public string MonthlyLoanDueEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Display(Name = "email Remind Period")]
+        [Required(ErrorMessage = "email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int MonthlyLoanDueEmailRemindPeriod { get; set; }
@@ -125,16 +125,16 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "lot reciept need required.")]
         [Display(Name = "Recipt for Lot Inspection Paid")]
         public bool LotInspectionNeedReceipt { get; set; }
-        [Required(ErrorMessage = "lot fee complete Remind Email is required.")]
+        [Required(ErrorMessage = "lot fee complete Remind email is required.")]
         public bool IsLotFeeCompleteEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Dealer Email is required.")]
-        [Display(Name = "Dealer Email")]
+        [Required(ErrorMessage = "Dealer email is required.")]
+        [Display(Name = "Dealer email")]
         public string LotInspectionFeeDealerEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Display(Name = "email Remind Period")]
+        [Required(ErrorMessage = "email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int LotInspectionFeeDealerEmailRemindPeriod { get; set; }
@@ -146,23 +146,53 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Lot Due Date is required.")]
         [Display(Name = "Due Date")]
         public string LotInspectionDueDate { get; set; }
-        [Required(ErrorMessage = "lot fee Due Remind Email is required.")]
+        [Required(ErrorMessage = "lot fee Due Remind email is required.")]
         public bool IsLotFeeDueEmailReminder { get; set; }
 
         [EmailAddress]
-        [Required(ErrorMessage = "Remind Email is required.")]
-        [Display(Name = "Remind Email")]
+        [Required(ErrorMessage = "Remind email is required.")]
+        [Display(Name = "Remind email")]
         public string LotInspectionDueEmail { get; set; }
 
-        [Display(Name = "Email Remind Period")]
-        [Required(ErrorMessage = "Email Remind Period numeric value is required.")]
+        [Display(Name = "email Remind Period")]
+        [Required(ErrorMessage = "email Remind Period numeric value is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int LotInspectionDueEmailRemindPeriod { get; set; }
 
         public bool isEdit { get; set; }
 
-
+        public int FeeId { get; set; }
+        public string UnitId { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime BillDueDate { get; set; }
+        public DateTime PaidDate { get; set; }
+        public DateTime AdvanceDate { get; set; }
+        public bool isPaid { get; set; }
+        public int PaidUserId { get; set; }
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string DueDate { get; set; }
 
     }
+
+    public class FeesModel
+    {
+        public string DueDate { get; set; }
+        public DateTime FeePayDate { get; set; }
+        public List<Fees> FeeModelList { get; set; }
+
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public DateTime BillDueDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Type { get; set; }
+    }
+
 }

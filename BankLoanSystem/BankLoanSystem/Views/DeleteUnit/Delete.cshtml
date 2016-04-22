@@ -15,8 +15,8 @@
 
 <style>
     .col-md-2 {
-        text-align: left;
-    }
+    text-align: left;
+}
 
     .overlay-content {
         top: 14%;
@@ -57,6 +57,10 @@
             text-align: left;
             margin-bottom: 8px;
         }
+    .next_back{
+        background-color:red;
+    }
+    .next_back:hover{ background:#AD2121;}
 </style>
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -88,7 +92,7 @@
 
 
         <div class="body-content" style="margin-bottom:15px;width:100%;height:auto">
-
+         
 
             <div class="info-bar">
 
@@ -111,7 +115,7 @@
 
                     </div>
                 </div>
-            </div>
+                    </div>
 
 
             <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
@@ -126,7 +130,7 @@
                                         <label for="">VIN/HIN/Serial</label>
 
                                         @*@Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
-                                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
+                                        @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
 
                                         @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @style = "width:165px" } })
                                         <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
@@ -152,17 +156,17 @@
                                         <div id="vehicleyear"><span class="text-danger"></span></div>
 
                                         @*@{
-                                                List<SelectListItem> yearList = new List<SelectListItem>();
-                                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                            List<SelectListItem> yearList = new List<SelectListItem>();
+                                            foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                            {
+                                                if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
                                                 {
-                                                    if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
-                                                    {
-                                                        yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
-                                                    }
+                                                    yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                                                 }
                                             }
-                                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
-                                            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })*@
+                                        }
+                                        @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
+                                        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })*@
 
                                         @*@Html.DropDownList("year", new List<SelectListItem>() , "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })*@
 
@@ -175,9 +179,9 @@
                                             if (ViewBag.DeleteList != null)
                                             {
                                                 foreach (var type in ViewBag.DeleteList)
-                                                {
+                                            {
                                                     if (!makeList.Exists(a => a.Value == type.Make.ToString()) && type.Make.ToString() != "")
-                                                    {
+                                                {
                                                         makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                                     }
                                                 }
@@ -199,18 +203,18 @@
                                             if (ViewBag.DeleteList != null)
                                             {
                                                 foreach (var type in ViewBag.DeleteList)
-                                                {
+                                            {
                                                     if (!modelList.Exists(a => a.Value == type.Model.ToString()) && type.Model.ToString() != "")
-                                                    {
+                                                {
                                                         modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                                                     }
                                                 }
                                             }
                                         }
-                                        @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                                @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
 
 
-                                    </div>
+</div>
                                     <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="margin-left:29px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Search</button>
                                     <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnClear" tabindex="-1" style="margin-top: 19px;margin-bottom: 0px;margin-right: 0px;">Clear</button>
                                 </div>
@@ -223,9 +227,9 @@
 
             <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
 
-                <!-- this is for grid-->
+              <!-- this is for grid-->
 
-            </div>
+          </div>
 
 
             <div class="info-bar search-panel" style="margin-top:15px;">
@@ -243,27 +247,27 @@
                                     <div class="col-md-2" style="width:28%;">
                                         <label for="">VIN/HIN/Serial</label>
                                         @Html.Editor("IdentificationNumber", new { htmlAttributes = new { @class = "form-control", @id = "identificationNumber", @disabled = "disabled" } })
-
+                                       
                                     </div>
                                     <div class="col-md-2" style="width:15%;">
                                         <label for="">Year</label>
                                         @Html.Editor("Year", new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled", @style = "text-align:left;" } })
-
+                                        
                                     </div>
                                     <div class="col-md-2">
                                         <label for="">Make</label>
                                         @Html.Editor("Make", new { htmlAttributes = new { @class = "form-control", @id = "unitMake", @disabled = "disabled" } })
-
+                                        
                                     </div>
 
                                     <div class="col-md-2">
                                         <label for="">Model</label>
                                         @Html.Editor("Model2", new { htmlAttributes = new { @class = "form-control", @id = "unitModel", @disabled = "disabled" } })
-
+                                       
                                     </div>
 
-
-
+                                   
+                                   
                                 </div>
 
                                 <div class="form-group row" style="margin-top: 10px !important;">
@@ -280,7 +284,7 @@
 
                                     </div>
 
-                                </div>
+                                    </div>
 
                                 <div class="info-bar" id="FeeDetails" style="margin-top:10px;padding:1px 0px 30px 0px">
 
@@ -288,7 +292,7 @@
 
                                 </div>
 
-                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnDelete" style="width:100px">Delete</button>
+                                <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnDelete" style="width:100px">Delete Unit</button>
                                 <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
                             </fieldset>
                         </form>
@@ -304,9 +308,9 @@
 
 
 
-        </div>
+                </div>
 
-    </div>
+            </div>
 
 
 

@@ -1,8 +1,8 @@
-﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+﻿@model BankLoanSystem.Models.FeesModel
 
-@{ 
+@{
     Layout = null;
-    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid = new WebGrid(Model.FeeModelList, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
 
 
 }
@@ -12,70 +12,98 @@
 
 
 <style>
+    #checkableGridDiv table tbody,
+    #checkableGridDiv table thead {
+        display: block;
+    }
 
-#checkableGridDiv table tbody,
-#checkableGridDiv table thead { display: block; }
+    #checkableGridDiv table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
-#checkableGridDiv table tbody {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.col-md-2{
-    text-align:left;
-}
+    .col-md-2 {
+        text-align: left;
+    }
 </style>
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
-    @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
-    <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
+    <label style="float:unset;margin-top:2%;margin-bottom:2%">No Fees matching the due date could be found.</label>
 </div>
-<div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
-                            <div>
-                                @grid.GetHtml(
-                                   tableStyle: "gridtable",
-                                   headerStyle: "webgrid-header",
-                                   alternatingRowStyle: "webgrid-alternating-row",
-                                   rowStyle: "webgrid-row-style",
-                                   htmlAttributes: new { id = "checkableGrid" },
-                                   columns: grid.Columns(
-                                   grid.Column(style: "gridColumnSelect",
-                                        format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                                           , header: "{checkall}"
-                                   ),
-                                   //grid.Column(
-                                   //     "AdvanceDate",
-                                   //     "Date Advanced",
-                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   //),
-                                   grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
-                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
-                                   grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   @*grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),*@
-                                   grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
-                                   grid.Column(
-                                        "DueDate",
-                                        "Due Date", style: "gridColumnOthers",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
-                                   ),
-                                   grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label><input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status" />}</text>)
-                                   
-                                )
-                            )
-                         </div>
-    
-                        <div>
-                           
-                            <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-                            <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
-                        </div>
-                        
-                        <div id="unitid" class="hidden"></div>
-                </div>
+
+<div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
+    <div>
+        @if (Model.Type == "advanceFee")
+        {
+                @grid.GetHtml(
+
+                                              tableStyle: "gridtable",
+                                              headerStyle: "webgrid-header",
+                                              alternatingRowStyle: "webgrid-alternating-row",
+                                              rowStyle: "webgrid-row-style",
+                                              htmlAttributes: new { id = "checkableGrid" },
+
+
+                                              columns: grid.Columns(
+                                                      grid.Column(style: "gridColumnSelect",
+                                                           format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                              , header: "{checkall}"
+                                                      ),
+
+                                                       grid.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                      grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+                                                      grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                                      grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                                                      grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+
+                                                      grid.Column(
+                                                           "BillDueDate",
+                                                           "Due Date", style: "gridColumnOthers",
+                                                           format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                      ),
+                                                      grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                                           )
+
+                                       )
+        }
+        else
+        {
+            @grid.GetHtml(
+
+                                                 tableStyle: "gridtable",
+                                                 headerStyle: "webgrid-header",
+                                                 alternatingRowStyle: "webgrid-alternating-row",
+                                                 rowStyle: "webgrid-row-style",
+                                                 htmlAttributes: new { id = "checkableGrid" },
+
+
+                                                 columns: grid.Columns(
+                                                         grid.Column(style: "gridColumnSelect",
+                                                              format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                                                                 , header: "{checkall}"
+                                                         ),
+                                                              grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
+                                                         grid.Column(
+                                                              "BillDueDate",
+                                                              "Due Date", style: "gridColumnlarge",
+                                                              format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                         ), grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnlargeWithAlign", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                                                 )
+
+                                          )
+        }
+    </div>
+
+    <div>
+        <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Fee Total : $ 0.00  </span>
+    </div>
+
+    <div id="unitid" class="hidden"></div>
+</div>
+
 <script>
 
-    
+
     // Change the selector if needed
     var table = $('table'),
         bodyCells = table.find('tbody tr:first').children(),
@@ -87,24 +115,24 @@
         colWidth = bodyCells.map(function() {
             return $(this).width();
         }).get();
-    
+
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
             $(v).width(colWidth[i]);
-        });    
-    }).resize(); // Trigger resize handler  
+        });
+    }).resize(); // Trigger resize handler
 
     $(window).bind("load",function(){
-    
+
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
             return $(this).width();
         }).get();
-    
+
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
             $(v).width(colWidth[i]);
-        });    
+        });
     });
 </script>
 
@@ -112,21 +140,19 @@
     <div class="info-bar" style="margin-top:15px" id="payDateDiv">
         <div class="form-inline">
             <div class="form-group">
-                
-                <label for="" style="margin-left: -359px;">Curtailmnet Payment Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled" , maxlength = 10 } })
-                @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
-                @*<input class="form-control" type="date" style="margin-left:15px" />*@
+
+                <label for="" style="margin-left: -288px;">Pay Date : </label>
+                @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
+                 <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
             </div>
-            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay Curtailments on all selected" disabled/>
+            <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay fees on all selected units" disabled />
         </div>
     </div>
 </form>
 
+@if (Model.Type == "advanceFee") {
+<div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
 
-<div class="info-bar search-panel" style="margin-top:15px;" id ="searchDiv">
-    
 
     <div class="row" style="display:inline-block">
         <div class="col-xs-12" style="padding:unset;">
@@ -146,28 +172,30 @@
                             <label for="">Year</label>
                             @{
                                 List<SelectListItem> yearList = new List<SelectListItem>();
-                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
                                     if (!yearList.Exists(a => a.Value == CurtailmentSchedule.Year.ToString()) && CurtailmentSchedule.Year.ToString() != "")
                                     {
                                         yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                                     }
                                 }
-                            }
+                            }<SelectListItem>
+                                <SelectListItem>
                                     @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
                                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
 
                         </div>
                         <div class="col-md-2" id="div-combobox1-2">
                             <label for="">Make</label> @{List<SelectListItem> makeList = new List<SelectListItem>();
-                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
                                     if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
                                     {
                                         makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
                                     }
                                 }
-                            }
+                            }<SelectListItem>
+                                <SelectListItem>
 
                                     @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
                                     @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
@@ -176,7 +204,7 @@
                         <div class="col-md-2" id="div-combobox1-3">
                             <label for="">Model</label>
                             @{List<SelectListItem> modelList = new List<SelectListItem>();
-                                foreach (var CurtailmentSchedule in Model.CurtailmentScheduleInfoModel)
+                                foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
                                     if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
                                     {
@@ -185,9 +213,11 @@
                                 }
                             }<SelectListItem>
                                 <SelectListItem>
+                                    <SelectListItem>
+                                        <SelectListItem>
 
-                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
-                                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                                            @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
 
 
@@ -201,6 +231,7 @@
     </div>
 
 </div>
+}
 
 <div id="searchGrid1" hidden>
 
@@ -208,87 +239,88 @@
 </div>
 
 
-
+@if (Model.Type == "advanceFee")
+{
 <div class="info-bar reset" style="margin-top:15px" id="singleUnitDiv" hidden>
 
 
     <div class="row">
         <div class="col-xs-12">
-           
-                <fieldset>
-                    <div class="form-group row">
-                        <div class="col-md-2" style="width:15%;">
-                            <label for="">Date Advanced </label>
-                            @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        </div>
-                        <div class="col-md-2" style="width:27%;padding-left:29px;" >
-                            <label for="">Vin/HIN/Serial </label>
-                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        </div>
-                        <div class="col-md-2" style="width:10%;">
-                            <label for="firstName">Year </label>
-                            @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        </div>
 
-                        <div class="col-md-2" style="width:15%;">
-                            <label for="">Make </label>
-                            @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        </div>
-
-                        <div class="col-md-2" style="width:15%;">
-                            <label for="firstName">Model </label>
-                            @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        </div>
-
-                        
+            <fieldset>
+                <div class="form-group row">
+                    <div class="col-md-2" style="width:15%;">
+                        <label for="">Date Advanced </label>
+                        @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
+                    <div class="col-md-2" style="width:27%;padding-left:29px;">
+                        <label for="">Vin/HIN/Serial </label>
+                        @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
+                    <div class="col-md-2" style="width:10%;">
+                        <label for="firstName">Year </label>
+                        @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                     </div>
 
-                    <div class="form-group row" style="margin-top:15px !important">
-                        <div class="col-md-2">
-                            <label for="">Curtailment Amount </label>
-                            @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
-                            @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
-                            <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
-                        </div>
-                        <div class="col-md-2" style="width:17%;">
-                            <label for="">Curtailment Payment Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
-                            <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
-                            @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
-                            @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
-                        </div>
+                    <div class="col-md-2" style="width:15%;">
+                        <label for="">Make </label>
+                        @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
 
-
+                    <div class="col-md-2" style="width:15%;">
+                        <label for="firstName">Model </label>
+                        @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                     </div>
 
 
+                </div>
+
+                <div class="form-group row" style="margin-top:15px !important">
+                    <div class="col-md-2">
+                        <label for="">Fee Amount </label>
+                        @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
+                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
+                        <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
+                    </div>
+                    <div class="col-md-2" style="width:17%;">
+                        <label for="">Fee Due Date </label>
+                        @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
+                        <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
+                        @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
+                        @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
+                    </div>
 
 
-                    <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 40px;" />
-
-                    <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px; margin-left: 174px;" disabled />   
+                </div>
 
 
-                </fieldset>
-            
+
+
+                <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 40px;" />
+
+                <input type="button" name="Pay" value="Pay" id="btnPay" class="btn btn-primary m-b next_clear_button next_back" style="width:130px; margin-left: 174px;" disabled />
+
+
+            </fieldset>
+
         </div>
     </div>
 
 
 
 </div>
-
+}
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
     $(document).ready(function(){
         if ($('#checkableGrid').children('tbody').children('tr').length == 0)
-        {            
+        {  
             $('#noCurtLabelDiv').show();
             $('#checkableGridDiv').hide();
             $('#searchDiv').hide();
             $('#payDateDiv').hide();
-            
+
         }
         else{
             $('#noCurtLabelDiv').hide();
@@ -320,7 +352,7 @@
     });
 
     $('#checkableGrid thead tr th a').each(function() {
-        var _href = $(this).attr("href"); 
+        var _href = $(this).attr("href");
         $(this).attr("href", _href + '&dueDate='+$('#dueDate').val());
     });
 
@@ -338,9 +370,9 @@
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
-        $('#payDate').val(''); 
-        $('#payCurtDate').val(''); 
-        //$('#dueDate').val(''); 
+        $('#payDate').val('');
+        $('#payCurtDate').val('');
+        //$('#dueDate').val('');
         $('#dueDate').removeClass('input-validation-error');
         $('#errorDueDate').text('');
         $("#dueDate").val('@dateTime.ToString("d")');
@@ -349,25 +381,9 @@
         $('#identificationNumberSearch').val('');
 
     });
-    function GetCurrentCurtailment(dueDate){
+   
 
-        // alert(dueDate);
-        $.ajax({
-            url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
-            data: JSON.stringify({ dueDate: dueDate }),
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-
-            success: function (partialView) {
-                $('#changeContainer').html(partialView);
-                $('#changeContainer').show();
-                $('.centered span').text('');
-
-                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-            }
-        });
-
-    };
+   
 </script>
 <script>
 
@@ -376,7 +392,7 @@
             var totalRecCount = 0;
 
             $(function () {
-               
+
                 GridUpdate();
             });
 
@@ -396,7 +412,7 @@
                                 if (chk) {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                    
+
 
                                 } else {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
@@ -406,7 +422,7 @@
                                     // clear top error
                                     $('.centered span').text('');
                                     $('#errorPayDate').text('');
-                                    
+
                                     $('#payDate').removeClass('input-validation-error');
                                     $('#payDate').next('span').children().text('');
                                     totalRecCount = 0;
@@ -430,7 +446,7 @@
 
                                     } else {
                                         checkCount = 0;
-                                        
+
                                         if (tr.find("#curtailmentStatus").val() === '2') {
                                             $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();
                                         }else{
@@ -455,7 +471,7 @@
                                     $("#payAll").attr("disabled", "disabled");
                                     $("#payDate").attr("disabled", "disabled");
                                     // clear top error
-                                    
+
                                     $('#errorPayDate').text('');
                                     $('.centered span').text('');
                                     $('#payDate').removeClass('input-validation-error');
@@ -470,15 +486,15 @@
                 var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                 $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
 
-                changePartialPaymentRowColor();
-                
+                //changePartialPaymentRowColor();
+
                 $('.checkboxAll').change(function () {
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
 
                     if (checked) {
                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        
+
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
@@ -499,8 +515,8 @@
                     }
 
                     }
-                    
-                    if (checkCount == 1) { 
+
+                    if (checkCount == 1) {
                         if (checked) {
                             SetTextBoxValues(tr);
 
@@ -572,38 +588,24 @@
                     colWidth = bodyCells.map(function() {
                         return $(this).width();
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).width(colWidth[i]);
-                    });    
-                }).resize(); // Trigger resize handler  
+                    });
+                }).resize(); // Trigger resize handler
 
                 $(window).bind("load",function(){
-    
+
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function() {
                         return $(this).width();
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).width(colWidth[i]);
-                    });    
-                });
-            }
-
-            //$(document).ready(function () {
-            //    changePartialPaymentRowColor();
-            //});
-
-            function changePartialPaymentRowColor() {
-                $('.curtAmount').each(function () {
-                    var tr = $(this).parents('tr:first');
-                    if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#fffae6');     //not checked color of partial payment
-                        $('#partialPaymentColor').show();
-            }
+                    });
                 });
             }
 
@@ -697,7 +699,7 @@
                 $('#payDate').next('span').children().text('');
                 $('.centered span').text('');
                 $('#errorPayDate').text('');
-                
+
                 ClearMainGrid();
                 //var count = 0;
                 //$("#checkableGrid").find("input:checkbox").each(function () {
@@ -712,7 +714,7 @@
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 var para1 = $("#identificationNumberSearch").val();
                 var para2 = $('#cmbYear').val();
                 var para3 = $("#cmbMake").val();
@@ -760,13 +762,13 @@
                 $("#singleUnitDiv").hide();
                 $('.centered span').text('');
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
-                $('#payDate').val(''); 
+                $('#payDate').val('');
                 $('#payCurtDate').val('');
-                
+
             }
 
             $('#identificationNumberSearch').focusout(function () {
@@ -785,14 +787,14 @@
                 $("#advanceDate").attr("disabled", "disabled");
                 $("#singleUnitDiv").hide();
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('.centered span').text('');
                 $('#errorPayDate').text('');
                 $('#payDate').removeClass('input-validation-error');
                 $('#payDate').next('span').children().text('');
-                $('#payDate').val(''); 
-                $('#payCurtDate').val(''); 
-                
+                $('#payDate').val('');
+                $('#payCurtDate').val('');
+
             }
 
             function SetTextBoxValues(tr) {
@@ -810,12 +812,12 @@
                 $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
+                //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorCurtPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
 
-                //document.getElementById("unitid").innerHTML = tr.find("#all").val(); 
-                
+                //document.getElementById("unitid").innerHTML = tr.find("#all").val();
+
 
                 $("#btnPay").removeAttr("disabled");
                 $("#advanceDate").removeAttr("disabled");
@@ -851,7 +853,7 @@
                         $('#searchGrid1').html(View);
                         $('#searchGrid1').removeAttr('hidden');
                         $('#searchGrid1').show();
-                        changePartialPaymentRowColor();
+                        //changePartialPaymentRowColor();
                         // Change the selector if needed
                         var table = $('table'),
                             bodyCells = table.find('tbody tr:first').children(),
@@ -902,7 +904,7 @@
         $("#searchIdentificationNumber").text('');
         $('.centered span').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
-        
+
     }
 
     function ClearMainGrid() {
@@ -925,7 +927,7 @@
         $('#errorPayDate').text('');
         $('#payDate').removeClass('input-validation-error');
         $('#payDate').next('span').children().text('');
-        changePartialPaymentRowColor();
+        //changePartialPaymentRowColor();
     }
 
     function ClearSearchGrid() {
@@ -996,23 +998,23 @@
         data = { SelectedCurtailmentSchedules: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
-            
+
                 $('#errorPayDate').text('Please select the Curtailment payment date');
                 $('#payDate').addClass('input-validation-error');
-                
+
             }
             $('.centered span').text('Error');
             return;
         }
 
         if($("#errorPayDate").text() != ""){
-            
+
             return;
         }
 
 
         if (checkCount >= 1) {
-           
+
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
@@ -1031,16 +1033,16 @@
 
                 success: function (View) {
 
-                   
+
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == ""){
                         $('.centered1 span').text('Successfully Updated');
                         GetCurrentCurtailment($('#dueDate').val());
                     }
                     if(View.length > 5){
-                            
+
                         var array = View.split(',');
-                      
+
                         showPopup5(5 , array);
 
 
@@ -1048,19 +1050,19 @@
 
                 }
 
-                
+
             });
         }
 
     });
 
     $('#payDate').click(function(e){
-    
+
         $('#errorPayDate').text('');
         $(this).next('span').children('span').remove();
     });
 
-    
+
     $('#payDate').blur(function () {
 
         if ($(this).val() == "") {
@@ -1097,16 +1099,16 @@
     });
 
 
-   
+
 
     $('#payCurtDate').click(function(e){
-    
+
         $('#errorCurtPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
 
-  
+
 
 
     $('#payCurtDate').blur(function () {
@@ -1144,7 +1146,7 @@
         }
     });
 
-   
+
     $('#btnPay').click(function (e) {
 
         data = { SelectedCurtailmentSchedules: [] };
@@ -1163,20 +1165,20 @@
              if($('#errorCurtPayDate').text() != ""){
                  a=0;
              }
-             if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
-                 $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-                 $('#iCurtAmount').removeClass('input-validation-error');
-                 
-                 
-                 a=0;
-             }
+             //if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
+             //    $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
+             //    $('#iCurtAmount').removeClass('input-validation-error');
+
+
+             //    a=0;
+             //}
              if(a== 0 ){
                  $('.centered span').text('Error');
                  return;
              }
 
 
-            
+
 
 
 
@@ -1192,16 +1194,16 @@
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (View) {
-                     
+
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == ""){
                             $('.centered1 span').text('Successfully Updated');
                             GetCurrentCurtailment($('#dueDate').val());
                         }
                         if(View.length > 5){
-                            
+
                             var array = View.split(',');
-                          
+
                             showPopup5(5 , array);
 
 
@@ -1213,70 +1215,70 @@
         }
     });
 
-    $("#iCurtAmount").keypress(function (e){
-        
-        var charCode = !e.charCode ? e.which : e.charCode;
+    //$("#iCurtAmount").keypress(function (e){
 
-        if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
-        else
-            e.preventDefault();
+    //    var charCode = !e.charCode ? e.which : e.charCode;
 
-
-      
-    
-    });
-
-    $("#iCurtAmount").blur(function (e){
-        
+    //    if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
+    //    else
+    //        e.preventDefault();
 
 
-        if($(this).val() == ""){
-            $(this).val("0.00");
-        }
-
-        var val = $.trim($(this).val());
-
-        if (val.indexOf(',') > -1) {
-            val = val.replace(',', '');
-        }
-        //if (val.indexOf('$') > -1) {
-        //    val = val.replace('$', '');
-        //}
-        var num = parseFloat(val);
-        var num = num.toFixed(2);
-        if (isNaN(num)) {
-            num = '';
-        }
 
 
-        $(this).val( num);
-  
-        if(parseFloat($(this).val()).toFixed(2) <= 0){
-            $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-            $('#iCurtAmount').addClass('input-validation-error');
-            $('.centered span').text('Error');
-        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-            $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
-            $('#iCurtAmount').addClass('input-validation-error');
-            $('.centered span').text('Error');
-        }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-            $('#errorCurtAmount').text('');
-            $('#iCurtAmount').removeClass('input-validation-error');
-           
-        }
-    
-    });
+    //});
 
-    $("#iCurtAmount").on('click', function(e) {
-        $('#errorCurtAmount').text('');
-        $('#iCurtAmount').removeClass('input-validation-error');
-        if (this.value === "0.00") {
-            document.getElementById(this.id).value = "";
-        }
-        else if (this.value === "0") {
-            document.getElementById(this.id).value = "";
-        }
-    });
+    //$("#iCurtAmount").blur(function (e){
+
+
+
+    //    if($(this).val() == ""){
+    //        $(this).val("0.00");
+    //    }
+
+    //    var val = $.trim($(this).val());
+
+    //    if (val.indexOf(',') > -1) {
+    //        val = val.replace(',', '');
+    //    }
+    //    //if (val.indexOf('$') > -1) {
+    //    //    val = val.replace('$', '');
+    //    //}
+    //    var num = parseFloat(val);
+    //    var num = num.toFixed(2);
+    //    if (isNaN(num)) {
+    //        num = '';
+    //    }
+
+
+    //    $(this).val( num);
+
+    //    if(parseFloat($(this).val()).toFixed(2) <= 0){
+    //        $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
+    //        $('#iCurtAmount').addClass('input-validation-error');
+    //        $('.centered span').text('Error');
+    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
+    //        $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+    //        $('#iCurtAmount').addClass('input-validation-error');
+    //        $('.centered span').text('Error');
+    //    }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
+    //        $('#errorCurtAmount').text('');
+    //        $('#iCurtAmount').removeClass('input-validation-error');
+
+    //    }
+
+    //});
+
+    //$("#iCurtAmount").on('click', function(e) {
+    //    $('#errorCurtAmount').text('');
+    //    $('#iCurtAmount').removeClass('input-validation-error');
+    //    if (this.value === "0.00") {
+    //        document.getElementById(this.id).value = "";
+    //    }
+    //    else if (this.value === "0") {
+    //        document.getElementById(this.id).value = "";
+    //    }
+    //});
 
 
     function showPopup5(whichpopup , array) {
@@ -1287,8 +1289,8 @@
         for(var i=0 ; i<length ; i++ ){
 
 
-            
-                            
+
+
             if(array[i].length > 5){
 
                 for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
@@ -1297,9 +1299,9 @@
                         VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
                         break;
                     }
-                   
+
                 }
-                
+
             }
 
         }
@@ -1320,9 +1322,9 @@
         $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
 
 
-       
+
     }
-    </script>
+</script>
 
 
 <div class="overlay-bg">

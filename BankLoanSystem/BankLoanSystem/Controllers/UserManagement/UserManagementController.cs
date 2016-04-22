@@ -245,6 +245,14 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
+                        if ((loanSelected.AdvanceFee == 1) || (loanSelected.LotInspectionFee == 1) || (loanSelected.MonthlyLoanFee == 1))
+                        {
+                            ViewBag.Fee = 1;
+                        }
+                        else
+                        {
+                            ViewBag.Fee = 0;
+                        }
                         Session["loanCode"] = loanSelected.LoanCode;
 
                         if (userData.RoleId == 3)
@@ -262,8 +270,13 @@ namespace BankLoanSystem.Controllers
 
                         else
                         {
+                            ViewBag.AdvanceUnits = 1;
                             ViewBag.AddUnits = 1;
                             ViewBag.ViewReports = 1;
+                            ViewBag.PayoffUnits = 1;
+                            ViewBag.Curtailment = 1;
+                            ViewBag.TitleAdd = 1;
+                            ViewBag.PayFees = 1;
                         }
 
 
@@ -332,6 +345,15 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loan.BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
+                        if ((loan.AdvanceFee==1) || (loan.LotInspectionFee==1) || (loan.MonthlyLoanFee==1))
+                        {
+                            ViewBag.Fee = 1;
+                        }
+                        else
+                        {
+                            ViewBag.Fee = 0;
+                        }
+                       
                         // 
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
@@ -345,7 +367,7 @@ namespace BankLoanSystem.Controllers
                             
 
                         }
-                        else
+                        else if((userData.RoleId == 1)||(userData.RoleId == 2))
                         {
                             ViewBag.AdvanceUnits = 1;
                             ViewBag.AddUnits = 1;
@@ -353,6 +375,7 @@ namespace BankLoanSystem.Controllers
                             ViewBag.PayoffUnits = 1;
                             ViewBag.Curtailment = 1;
                             ViewBag.TitleAdd = 1;
+                            ViewBag.PayFees = 1;
                         }
 
 
@@ -1007,6 +1030,9 @@ namespace BankLoanSystem.Controllers
                     finalSelectedLoan.LoanNumber = l.loanNumber;
                     finalSelectedLoan.LoanCode = l.loanCode;
                     finalSelectedLoan.Rights = l.rightId;
+                    finalSelectedLoan.AdvanceFee = l.AdvanceFee;
+                    finalSelectedLoan.MonthlyLoanFee = l.MonthlyLoanFee;
+                    finalSelectedLoan.LotInspectionFee = l.LotInspectionFee;
                     if (l.titleTracked == true)
                     {
                         finalSelectedLoan.IsTitleTrack = 1;

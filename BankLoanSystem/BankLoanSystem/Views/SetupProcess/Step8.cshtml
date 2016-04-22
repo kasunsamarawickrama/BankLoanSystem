@@ -45,7 +45,7 @@
                                         <hr>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn"><label>Advance</label></h3>
+                                                <h3 class="text_algn" style="font-size: 18px;"><label>Advance Fee</label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @{
@@ -85,30 +85,6 @@
                                                     <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 mLable">
-                                                    <label>Advance Fee calculate</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @{
-                                                        List<SelectListItem> listItems8 = new List<SelectListItem>();
-                                                        listItems8.Add(new SelectListItem
-                                                        {
-                                                            Text = "Per Month",
-                                                            Value = "Month"
-                                                        });
-                                                        listItems8.Add(new SelectListItem
-                                                        {
-                                                            Text = "Per Pay Period",
-                                                            Value = "PayPeriod"
-                                                        });
-                                                    }
-                                                    @Html.DropDownListFor(model => model.AdvanceFeeCalculateType, listItems8, "-- select type --", new { @id = "advanceCalculateType", @class = "form-control text_field_input short_text_field" })
-                                                </div>
-                                                <div class="err_msg_box  mErrMsgBo">
-                                                    <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger" })</p>
-                                                </div>
-                                            </div>
 
                                             @if (ViewBag.isLender == true)
                                             {
@@ -129,8 +105,8 @@
                                                         <div class="control-label col-sm-2 mLable">
                                                             @Html.LabelFor(model => model.AdvanceFeeDealerEmail, htmlAttributes: new { })
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "advanceDealerEmail", placeholder = "example@example.com" } })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
                                                             <p class="err_msg new_err_msg"> @Html.ValidationMessageFor(model => model.AdvanceFeeDealerEmail, "", new { @class = "text-danger" })</p>
@@ -141,8 +117,8 @@
                                                         <div class="control-label col-sm-2 mLable">
                                                             @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "advanceDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;"> 
+                                                            @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "advanceDealerEmailRemindPeriod", placeholder = "days" } })
 
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -206,6 +182,30 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-group new_form_group" id="advanceFeeCalculateType">
+                                                <div class="control-label col-sm-2 mLable">
+                                                    <label>Advance Fee calculate</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @{
+                                                        List<SelectListItem> listItems8 = new List<SelectListItem>();
+                                                        listItems8.Add(new SelectListItem
+                                                        {
+                                                            Text = "Per Month",
+                                                            Value = "Month"
+                                                        });
+                                                        listItems8.Add(new SelectListItem
+                                                        {
+                                                            Text = "Per Pay Period",
+                                                            Value = "PayPeriod"
+                                                        });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.AdvanceFeeCalculateType, listItems8, "-- select type --", new { @id = "advanceCalculateType", @class = "form-control text_field_input short_text_field" })
+                                                </div>
+                                                <div class="err_msg_box  mErrMsgBo">
+                                                    <p class="err_msg new_err_msg" style="padding-left: 51px;">@Html.ValidationMessageFor(model => model.AdvanceFeeCalculateType, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <div class="control-label col-sm-2">
                                                     @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
@@ -222,8 +222,8 @@
                                                     <div class="control-label col-sm-2 mLable">
                                                         <label>Remind Email</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "advanceDueEmail", placeholder = "example@example.com" } })
+                                                    <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                        @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "advanceDueEmail", placeholder = "example@example.com" } })
                                                     </div>
                                                     <div class="err_msg_box  mErrMsgBox">
                                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })</p>
@@ -234,8 +234,8 @@
                                                     <div class="control-label col-sm-2 mLable">
                                                         <label>Email Remind Period</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "advanceDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                    <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                        @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "advanceDueEmailRemindPeriod", placeholder = "days" } })
                                                     </div>
                                                     <div class="err_msg_box  mErrMsgBox">
                                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueEmailRemindPeriod, "", new { @class = "text-danger" })</p>
@@ -247,7 +247,7 @@
 
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn"><label>Monthly Loan</label></h3>
+                                                <h3 class="text_algn" style="font-size: 18px;"><label>Monthly Loan Fee</label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLoan();" })
@@ -292,8 +292,8 @@
                                                         <div class="control-label col-sm-2 mLable" style="margin-top:10px">
                                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmail, htmlAttributes: new { })
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "loanDealerEmail", placeholder = "example@example.com" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "loanDealerEmail", placeholder = "example@example.com" } })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MonthlyLoanFeeDealerEmail, "", new { @class = "text-danger" })</p>
@@ -304,8 +304,8 @@
                                                         <div class="control-label col-sm-2 mLable">
                                                             @Html.LabelFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "loanDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                            @Html.EditorFor(model => model.MonthlyLoanFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "loanDealerEmailRemindPeriod", placeholder = "days" } })
 
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -315,7 +315,7 @@
                                                 </div>
                                             }
 
-                                            <div class="form-group new_form_group">
+                                            @*<div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
                                                     @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
                                                 </div>
@@ -342,12 +342,12 @@
                                                     @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control text_field_input short_text_field", onChange = "changeDropDownValueDueLoan();" })
                                                     @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div id="monthLoan">
                                                 <div class="form-group new_form_group">
 
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Due Date</label>
+                                                        <label>Monthly Due Date</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -385,8 +385,8 @@
                                                     <div class="control-label col-sm-2 mLable">
                                                         <label>Remind Email</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "loanDueEmail", placeholder = "example@example.com" } })
+                                                    <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "loanDueEmail", placeholder = "example@example.com" } })
 
                                                     </div>
                                                     <div class="err_msg_box  mErrMsgBox">
@@ -398,8 +398,8 @@
                                                     <div class="control-label col-sm-2 mLable">
                                                         <label>Email Remind Period</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field">
-                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "loanDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                    <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                        @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "loanDueEmailRemindPeriod", placeholder = "days" } })
 
                                                     </div>
                                                     <div class="err_msg_box  mErrMsgBox">
@@ -411,7 +411,7 @@
                                         <hr>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn"><label>Lot Inspection</label></h3>
+                                                <h3 class="text_algn" style="font-size: 18px;"><label>Lot Inspection Fee</label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLot();" })
@@ -453,10 +453,10 @@
                                                     <div class="form-group new_form_group">
 
                                                         <div class="control-label col-sm-2 mLable">
-                                                            @Html.LabelFor(model => model.LotInspectionFeeDealerEmail, htmlAttributes: new { })
+                                                            <label>Dealer email</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field e", @id = "lotDealerEmail", placeholder = "example@example.com" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "lotDealerEmail", placeholder = "example@example.com" } })
 
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -466,10 +466,10 @@
                                                     <div class="form-group new_form_group">
 
                                                         <div class="control-label col-sm-2 mLable">
-                                                            @Html.LabelFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, htmlAttributes: new { })
+                                                            <label>email Remind Period</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field x", @id = "lotDealerEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                            @Html.EditorFor(model => model.LotInspectionFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "lotDealerEmailRemindPeriod", placeholder = "days" } })
 
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -479,7 +479,7 @@
                                                 </div>
                                             }
 
-                                            <div class="form-group new_form_group">
+                                            @*<div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
                                                     <label>Due Type</label>
                                                 </div>
@@ -490,6 +490,7 @@
                                                         {
                                                             Text = "Monthly",
                                                             Value = "Monthly"
+
                                                         });
                                                         listItems3.Add(new SelectListItem
                                                         {
@@ -506,17 +507,16 @@
                                                             Text = "Random",
                                                             Value = "Random"
                                                         });
-
                                                     }
-                                                    @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, "-- select due type --", new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control text_field_input short_text_field" })
+                                                    @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control text_field_input short_text_field" })
                                                 </div>
                                                 <div class="err_msg_box  mErrMsgBox"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })</p></div>
-                                            </div>
+                                            </div>*@
 
                                             <div id="monthLot">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Due Date</label>
+                                                        <label>Monthly Due Date</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -552,10 +552,10 @@
                                                 <div id="remindEmailLotDue">
                                                     <div class="form-group new_form_group">
                                                         <div class="control-label col-sm-2 mLable">
-                                                            <label>Remind Email</label>
+                                                            <label>Remind email</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e", @id = "lotDueEmail", placeholder = "example@example.com" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                            @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "lotDueEmail", placeholder = "example@example.com" } })
 
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -564,10 +564,10 @@
                                                     </div>
                                                     <div class="form-group new_form_group">
                                                         <div class="control-label col-sm-2 mLable">
-                                                            <label>Email Remind Period</label>
+                                                            <label>email Remind Period</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field">
-                                                            @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x", @id = "lotDueEmailRemindPeriod", placeholder = "Number of Days" } })
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                            @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "lotDueEmailRemindPeriod", placeholder = "days" } })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDueEmailRemindPeriod, "", new { @class = "text-danger" })</p>
@@ -598,7 +598,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                                            }
+                              }
 
 
                         </div>
@@ -647,10 +647,13 @@
 
         if (document.getElementById("advanceDue").value == "Once a Month") {
             $("#monthAdvance").show("slow");
+            $('#advanceFeeCalculateType').show("slow");
         }
         else {
+            document.getElementById("advanceCalculateType").value = "";
             document.getElementById("advanceDueDate").value = "";
             $("#monthAdvance").hide("slow");
+            $('#advanceFeeCalculateType').hide("slow");
             $('#monthAdvance').children('div').children('div').children('select').next('span').children('span').text('');
             $('#monthAdvance').children('div').children('div').children('select').removeClass('valid');
             $('#monthAdvance').children('div').children('div').children('select').removeClass('input-validation-error');
@@ -662,51 +665,50 @@
 
         }
     }
-    function changeDropDownValueDueLoan() {
+    //function changeDropDownValueDueLoan() {
 
-        if (document.getElementById("loanDue").value == "Once a Month") {
-            $("#monthLoan").show("slow");
-        }
-        else {
-            document.getElementById("loanDueDate").value = "";
-            $("#monthLoan").hide("slow");
-            $('#monthLoan').children('div').children('div').children('select').next('span').children('span').text('');
-            $('#monthLoan').children('div').children('div').children('select').removeClass('valid');
-            $('#monthLoan').children('div').children('div').children('select').removeClass('input-validation-error');
+    //    if (document.getElementById("loanDue").value == "Once a Month") {
+    //        $("#monthLoan").show("slow");
+    //    }
+    //    else {
+    //        document.getElementById("loanDueDate").value = "";
+    //        $("#monthLoan").hide("slow");
+    //        $('#monthLoan').children('div').children('div').children('select').next('span').children('span').text('');
+    //        $('#monthLoan').children('div').children('div').children('select').removeClass('valid');
+    //        $('#monthLoan').children('div').children('div').children('select').removeClass('input-validation-error');
 
-            $("#monthLoan").children('div').children('div').children("p").children("span").text("");
-        }
-    }
-    function changeDropDownValueDueLot() {
-        $("#lotRemEmail").show("slow");
-        if (document.getElementById("lotDue").value == "Monthly") {
-            $("#monthLot").show("slow");
-        }
-        else {
-            document.getElementById("lotDueDate").value = "";
-            $("#monthLot").hide("slow");
-            if (document.getElementById("lotDue").value == "Random") {
+    //        $("#monthLoan").children('div').children('div').children("p").children("span").text("");
+    //    }
+    //}
+    //function changeDropDownValueDueLot() {
+    //    $("#lotRemEmail").show("slow");
+    //    if (document.getElementById("lotDue").value == "Monthly") {
+    //        $("#monthLot").show("slow");
+    //    }
+    //    else {
+    //        document.getElementById("lotDueDate").value = "";
+    //        $("#monthLot").hide("slow");
+    //        if (document.getElementById("lotDue").value == "Random") {
 
-                document.getElementById("lotDueEmailRemindPeriod").value = "";
-                $('#lotDueEmailRemindPeriod').next('span').children('span').text('');
-                $('#lotDueEmailRemindPeriod').removeClass('valid');
-                $('#lotDueEmailRemindPeriod').removeClass('input-validation-error');
-                $('#needReminderLotDueT').prop('checked',false);
-                $('#needReminderLotDueF').prop('checked',false);
-                $('#remindEmailLotDue').hide();
-                @*@Model.IsLotFeeDueEmailReminder = "";*@
-                $("#lotRemEmail").next('span').children('span').text('');
-                $("#lotRemEmail").hide("slow");
+    //            document.getElementById("lotDueEmailRemindPeriod").value = "";
+    //            $('#lotDueEmailRemindPeriod').next('span').children('span').text('');
+    //            $('#lotDueEmailRemindPeriod').removeClass('valid');
+    //            $('#lotDueEmailRemindPeriod').removeClass('input-validation-error');
+    //            $('#needReminderLotDueT').prop('checked',false);
+    //            $('#needReminderLotDueF').prop('checked',false);
+    //            $('#remindEmailLotDue').hide();
+    //            $("#lotRemEmail").next('span').children('span').text('');
+    //            $("#lotRemEmail").hide("slow");
 
-            }
-            $('#monthLot').children('div').children('div').children('select').next('span').children('span').text('');
-            $('#monthLot').children('div').children('div').children('select').removeClass('valid');
-            $('#monthLot').children('div').children('div').children('select').removeClass('input-validation-error');
+    //        }
+    //        $('#monthLot').children('div').children('div').children('select').next('span').children('span').text('');
+    //        $('#monthLot').children('div').children('div').children('select').removeClass('valid');
+    //        $('#monthLot').children('div').children('div').children('select').removeClass('input-validation-error');
 
-            $("#monthLot").children('div').children('div').children("p").children("span").text("");
+    //        $("#monthLot").children('div').children('div').children("p").children("span").text("");
 
-        }
-    }
+    //    }
+    //}
     @if (ViewBag.isLender == true) { <text>
 
 
@@ -798,6 +800,8 @@
             $('#advance').hide("slow");
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
+            $("#monthAdvance").hide();
+            $('#advanceFeeCalculateType').hide();
             $("#needReminderAdvanceDueT").prop("checked", false);
             //$("#advanceNeedReceiptT").prop("checked", false);
             $("#needReminderAdvanceDueF").prop("checked", false);
@@ -871,7 +875,7 @@
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             document.getElementById("loanAmount").value = "";
-            document.getElementById("loanDue").value = "";
+            //document.getElementById("loanDue").value = "";
 
             $("#loan input").each(function(){
                 //$(this).val('');
@@ -907,6 +911,7 @@
             //$('select').next('span').children('span').text('');
             document.getElementById('loanAmount').value = "";
             $('#loanAmount').val("");
+            $("#monthLoan").show();
             $('#loan').show("slow");
         }
     }
@@ -931,7 +936,7 @@
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             document.getElementById("lotAmount").value = "";
-            document.getElementById("lotDue").value = "";
+            //document.getElementById("lotDue").value = "";
 
 
             $("#lot input").each(function(){
@@ -967,7 +972,8 @@
             // for dropdown field
             //$('select').next('span').children('span').text('');
             document.getElementById('lotAmount').value = "";
-            $('#lotAmount').val("");
+            $('#lotAmount').val("");           
+            $("#monthLot").show();
             $('#lot').show("slow");
         }
     }
@@ -1018,6 +1024,7 @@
                 document.getElementById("dropDownAdvance").value = "2";
                 $('#advance').hide();
                 $("#monthAdvance").hide();
+                $('#advanceFeeCalculateType').hide();
                 $('#remindEmailAdvanceComplete').hide();
                 $('#remindEmailAdvanceDue').hide();
                 $("#needReminderAdvanceDueT").prop("checked", false);
@@ -1078,6 +1085,7 @@
                 document.getElementById("dropDownLoan").value = "2";
                 $('#loan').hide();
                 $("#monthLoan").hide();
+                $('#advanceFeeCalculateType').hide();
                 $('#remindEmailLoanComplete').hide();
                 $('#remindEmailLoanDue').hide();
                 document.getElementById("loanDueDate").value = "";
@@ -1095,7 +1103,7 @@
                 //document.getElementById("loanDueEmail").value = "";
                 document.getElementById("loanDueEmailRemindPeriod").value = "";
                 document.getElementById("loanAmount").value = "";
-                document.getElementById("loanDue").value = "";
+                //document.getElementById("loanDue").value = "";
             }
             if (model.LotInspectionAmount > 0) {
                 document.getElementById("dropDownLot").value = "1";
@@ -1157,13 +1165,14 @@
                 //document.getElementById("lotDueEmail").value = "";
                 document.getElementById("lotDueEmailRemindPeriod").value = "";
                 document.getElementById("lotAmount").value = "";
-                document.getElementById("lotDue").value = "";
+                //document.getElementById("lotDue").value = "";
             }
         }
         else{
 
             $('#advance').hide();
             $("#monthAdvance").hide();
+            $('#advanceFeeCalculateType').hide();
             $('#remindEmailAdvanceComplete').hide();
             $('#remindEmailAdvanceDue').hide();
             $("#needReminderAdvanceDueT").prop("checked", false);
@@ -1204,7 +1213,7 @@
             //document.getElementById("loanDueEmail").value = "";
             document.getElementById("loanDueEmailRemindPeriod").value = "";
             document.getElementById("loanAmount").value = "";
-            document.getElementById("loanDue").value = "";
+            //document.getElementById("loanDue").value = "";
 
             $('#lot').hide();
             $("#monthLot").hide();
@@ -1226,7 +1235,7 @@
             //document.getElementById("lotDueEmail").value = "";
             document.getElementById("lotDueEmailRemindPeriod").value = "";
             document.getElementById("lotAmount").value = "";
-            document.getElementById("lotDue").value = "";
+            //document.getElementById("lotDue").value = "";
         }
     }
     $('#clearx').click(function () {
@@ -1243,6 +1252,7 @@
 
         $('#advance').hide();
         $("#monthAdvance").hide();
+        $('#advanceFeeCalculateType').hide();
         $('#remindEmailAdvanceComplete').hide();
         $('#remindEmailAdvanceDue').hide();
         $("#needReminderAdvanceDueT").prop("checked", false);
@@ -1283,7 +1293,7 @@
         //document.getElementById("loanDueEmail").value = "";
         document.getElementById("loanDueEmailRemindPeriod").value = "";
         document.getElementById("loanAmount").value = "";
-        document.getElementById("loanDue").value = "";
+        //document.getElementById("loanDue").value = "";
 
         $('#lot').hide();
         $("#monthLot").hide();
@@ -1304,7 +1314,7 @@
         //document.getElementById("lotDueEmail").value = "";
         document.getElementById("lotDueEmailRemindPeriod").value = "";
         document.getElementById("lotAmount").value = "";
-        document.getElementById("lotDue").value = "";
+        //document.getElementById("lotDue").value = "";
     });
 
 
@@ -1483,15 +1493,14 @@
 
     });
 
-    $('#advanceDueEmailRemindPeriod').focusout(function () {
-        $(this).attr('placeholder', 'Number of Days');
+    $('.remindPeriod').focusout(function () {
+        $(this).attr('placeholder', 'days');
     });
-    $('#loanDueEmailRemindPeriod').focusout(function () {
-        $(this).attr('placeholder', 'Number of Days');
+
+    $('.dueEmail').focusout(function () {
+        $(this).attr('placeholder', 'example@example.com');
     });
-    $('#lotDueEmailRemindPeriod').focusout(function () {
-        $(this).attr('placeholder', 'Number of Days');
-    });
+
     $(".tab.8").parent("li").addClass("active").siblings().removeClass('active');
     Progress(8);
 
@@ -1519,5 +1528,23 @@
         </text>
 
     }
+
+
+    // this is for helpers
+
+    $("#dropDownAdvance").click(function(){
+    
+        $("#simplediv p").html('Advance fee was clicked');
+    });
+
+    $("#dropDownLoan").click(function(){
+    
+        $("#simplediv p").html('Monthly Loan fee was clicked');
+    });
+
+    $("#LotInspectionId").click(function(){
+    
+        $("#simplediv p").html('Lot Inspection fee was clicked');
+    });
 
 </script>
