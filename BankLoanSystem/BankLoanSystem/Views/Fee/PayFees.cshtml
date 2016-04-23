@@ -324,6 +324,48 @@
 
     // fee tabs functionality
 
+    @if(count == 1)
+    {
+    <text>
+    $('#@type').addClass('activee');
+
+    </text>
+
+        if(type == "adf")
+        {
+            if(ViewBag.advDuedate != null && ViewBag.advDuedate != "" && ViewBag.advDuedate != "ToA" && ViewBag.advDuedate != "VP") {
+
+                <text>
+    $('#dueDatePanel').show();
+    $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
+    </text>
+                }
+        }else if (type == "mfi")
+        {
+            if(ViewBag.monDueDate != null && ViewBag.monDueDate != "" && ViewBag.monDueDate != "ToA" && ViewBag.monDueDate != "VP") {
+
+                <text>
+    $('#dueDatePanel').show();
+    $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
+    </text>
+            }
+        }
+        else if (type == "lif")
+        {
+            if(ViewBag.lotDuedate != null && ViewBag.lotDuedate != "" && ViewBag.lotDuedate != "ToA" && ViewBag.lotDuedate != "VP") {
+
+                <text>
+            $('#dueDatePanel').show();
+            $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
+    </text>
+            }
+
+        }
+    }
+    else
+    {
+        <text>
+
     $('#fee-tabs button').click(function () {
         $(this).addClass('activee').siblings().removeClass('activee');
 
@@ -335,9 +377,9 @@
 
                 <text>
             $('#dueDatePanel').show();
-            $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
-            </text>
-                }
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
+                </text>
+            }
 
 
 
@@ -352,8 +394,8 @@
 
                 <text>
             $('#dueDatePanel').show();
-            $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
-            </text>
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
+                </text>
             }
 
             $("#monthlyLoanGrid").show().siblings('.gridsdiv').hide();
@@ -367,8 +409,8 @@
 
                 <text>
             $('#dueDatePanel').show();
-            $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
-            </text>
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
+                </text>
             }
 
             $("#lotInspectGrid").show().siblings('.gridsdiv').hide();
@@ -378,6 +420,11 @@
         }
 
     });
+    
+    </text>
+    }
+
+   
 
     function FilterFees() {
         if ($('#dueDate').val() != "" && $('#hdnSelectedButton').val() != "") {
@@ -391,7 +438,7 @@
                     $('#advanceGrid').html(partialView);
                     $('#advanceGrid').show();
                     $('.centered span').text('');
-                    //if ($("#hdnSelectedButton").val() == "advanceFee") {                       
+                    //if ($("#hdnSelectedButton").val() == "advanceFee") {
                     //    //$('#advanceGrid').show();
                     //    $('#checkableGridDiv').show();
                     //    $('.centered span').text('');
