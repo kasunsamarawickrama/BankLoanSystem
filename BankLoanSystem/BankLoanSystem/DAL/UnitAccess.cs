@@ -1259,7 +1259,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@due_date", unit.AdvanceDate });
                 paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
 
-                return dataHandler.ExecuteSQLWithIntOutPutParam("spInsertAdvanceFee", paramertList);
+                 dataHandler.ExecuteSQL("spInsertAdvanceFee", paramertList);
             }
 
 
