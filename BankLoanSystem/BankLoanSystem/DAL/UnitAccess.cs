@@ -1155,7 +1155,14 @@ namespace BankLoanSystem.DAL
                     fee_amount = decimal.Parse(row["advance_fee_amount"].ToString());
                         if(fee_type!="")
                         {
-                            fee_due_date = int.Parse(row["payment_due_date"].ToString());
+                            if(row["payment_due_date"].ToString()== "EoM")
+                            {
+                                fee_due_date= DateTime.DaysInMonth(fee_billdate.Year, fee_billdate.Month+1);
+                            }
+                            else
+                            {
+                                fee_due_date = int.Parse(row["payment_due_date"].ToString());
+                            } 
                         }
                 }
             }
