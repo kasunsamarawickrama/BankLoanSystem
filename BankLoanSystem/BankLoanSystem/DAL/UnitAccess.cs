@@ -1235,14 +1235,19 @@ namespace BankLoanSystem.DAL
                 if (fee_type== "Month")
                 {
                         fee_billdate = fee_billdate.AddMonths(1);
-                }
+                        fee_billdate = new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
+                 }
                 else if (fee_type == "PayPeriod")
                 {
                         if(fee_billdate.Date.Day> fee_due_date)
                         {
-
+                            fee_billdate = fee_billdate.AddMonths(1);
+                            fee_billdate=new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
                         }
-                        //fee_billdate=;
+                        else
+                        {
+                            fee_billdate = new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
+                        }
                  }
 
                     List<object[]> paramertList = new List<object[]>();
