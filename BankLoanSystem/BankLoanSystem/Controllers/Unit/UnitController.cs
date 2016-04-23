@@ -172,6 +172,25 @@ namespace BankLoanSystem.Controllers.Unit
 
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId);
+
+            //if mention advance fee, then insert in to fee table
+            if (res == true && unit.AddAndAdvance)
+            {
+                if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                {
+                    Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["loanDashboard"];
+                    if (loanObj.AdvanceFee == 1)
+                    {
+                        //check advance amount and other details
+                       
+                        ua.insertFreeDetails(unit);
+                    }
+                }
+            }
+
+
+
             flag = 1;
             if (res)
             {
