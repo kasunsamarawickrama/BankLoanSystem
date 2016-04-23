@@ -290,12 +290,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@loan_status", false });
             paramertList.Add(new object[] { "@is_delete", false });
 
-                DataSet dataSet = dataHandler.GetDataSet("spInsertLoanStepOne", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    loanId =int.Parse(dataSet.Tables[0].Rows[0]["return"].ToString());
+                //DataSet dataSet = dataHandler.GetDataSet("spInsertLoanStepOne", paramertList);
+                //if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                //{
+                //    loanId =int.Parse(dataSet.Tables[0].Rows[0]["return"].ToString());
 
-                }
+                //}
+
+                loanId=dataHandler.ExecuteSQLWithReturnVal("spInsertLoanStepOne", paramertList);
 
                 if (loanId == 0)
                 {
