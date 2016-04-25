@@ -338,6 +338,7 @@
                 <text>
     $('#dueDatePanel').show();
     $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
+    $("#hdnSelectedButton").val('advanceFee');
     </text>
                 }
         }else if (type == "mfi")
@@ -347,6 +348,7 @@
                 <text>
     $('#dueDatePanel').show();
     $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
+    $("#hdnSelectedButton").val('monthlyLoanFee');
     </text>
             }
         }
@@ -357,6 +359,7 @@
                 <text>
             $('#dueDatePanel').show();
             $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
+    $("#hdnSelectedButton").val('lotInspectionFee');
     </text>
             }
 
