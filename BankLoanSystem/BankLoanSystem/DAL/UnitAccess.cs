@@ -391,6 +391,9 @@ namespace BankLoanSystem.DAL
 
                     return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
                 }
+                else if (val == true) {
+                    return true;
+                }
                 else {
                     return false;
                 }
