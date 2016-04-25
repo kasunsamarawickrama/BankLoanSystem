@@ -55,7 +55,7 @@
                                                       grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                                       grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                                       grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.BillDueDate.ToShortDateString()</label>}</text>),
                                                       //grid.Column(
                                                       //     "BillDueDate",
                                                       //     "Due Date", style: "gridColumnOthers",
@@ -857,7 +857,7 @@
                 var curtList = @Html.Raw(Json.Encode(Model));
 
                 $.ajax({
-                    url: '/Curtailments/SearchCurtailment',
+                    url: '/Fee/SearchFee',
                     type: 'POST',
                     contentType: 'application/json;',
                     data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
