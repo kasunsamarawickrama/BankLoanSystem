@@ -149,7 +149,10 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/24
+        /// 
         /// Advance a selected item
+        /// 
+        /// 
         /// </summary>
         /// <param name="advanceDate"></param>
         /// <param name="loanId"></param>
@@ -192,11 +195,15 @@ namespace BankLoanSystem.DAL
         /// EditedBy: Piyumi
         /// EditedDate: 03/16/2016
         /// add isActive field to parameter list
+        /// 
+        /// EditedBy: Irfan
+        /// EditedDate: 4/25/2016
+        /// adding output value IDNumber for logging purpose
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public bool InsertUnit(Unit unit, int userId)
+        public bool InsertUnit(Unit unit, int userId ,out string IDNumber)
         {
 
             DataHandler dataHandler = new DataHandler();
@@ -222,6 +229,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.vehicle.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 2)
             {
@@ -238,6 +246,8 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.rv.IdentificationNumber;
+
             }
             else if (unit.UnitTypeId == 3)
             {
@@ -254,6 +264,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.camper.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 4)
             {
@@ -270,6 +281,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.atv.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 5)
             {
@@ -286,6 +298,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.boat.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.boat.EngineSerial });
+                IDNumber = unit.boat.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 6)
             {
@@ -302,6 +315,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.motorcycle.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 7)
             {
@@ -318,6 +332,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.snowmobile.IdentificationNumber;
             }
             else if (unit.UnitTypeId == 8)
             {
@@ -334,6 +349,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.heavyequipment.SerialNumber;
             }
             else
             {
@@ -350,6 +366,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@speed", unit.Speed });
                 paramertList.Add(new object[] { "@trailer_id", unit.TrailerId });
                 paramertList.Add(new object[] { "@engine_serial", unit.EngineSerial });
+                IDNumber = unit.IdentificationNumber;
             }
 
             paramertList.Add(new object[] { "@cost", unit.Cost });

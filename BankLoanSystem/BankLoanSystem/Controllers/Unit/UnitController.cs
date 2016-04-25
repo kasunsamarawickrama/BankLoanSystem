@@ -169,17 +169,26 @@ namespace BankLoanSystem.Controllers.Unit
             unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
 
             //if()
-
+            string IDNumber;
             UnitAccess ua = new UnitAccess();
-            var res = ua.InsertUnit(unit, userId);
+            var res = ua.InsertUnit(unit, userId , out IDNumber);
 
             //if mention advance fee, then insert in to fee table
             if (res == true && unit.AddAndAdvance)
             {
+
+                
                 if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                 {
                     Loan loanObj = new Loan();
-                    loanObj = (Loan)Session["loanDashboard"];
+                    if (Session["loanDashboard"] != null)
+                    {
+                        loanObj = (Loan)Session["loanDashboard"];
+                    }
+                    else
+                    {
+                        loanObj = (Loan)Session["oneLoanDashboard"];
+                    }
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
@@ -194,6 +203,11 @@ namespace BankLoanSystem.Controllers.Unit
             flag = 1;
             if (res)
             {
+
+                //insert to log 
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
                 //Handling file attachments
 
                 //Check directory is already exists, if not create new

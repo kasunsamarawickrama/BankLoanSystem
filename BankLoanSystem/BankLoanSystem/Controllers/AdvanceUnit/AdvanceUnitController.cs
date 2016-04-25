@@ -282,7 +282,15 @@ namespace BankLoanSystem.Controllers
                 if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                 {
                     Loan loanObj = new Loan();
-                    loanObj = (Loan)Session["loanDashboard"];
+                    if (Session["loanDashboard"] != null)
+                    {
+                        loanObj = (Loan)Session["loanDashboard"];
+                    }
+                    else
+                    {
+                        loanObj = (Loan)Session["oneLoanDashboard"];
+                    }
+                        //loanObj = (Loan)Session["loanDashboard"];
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
