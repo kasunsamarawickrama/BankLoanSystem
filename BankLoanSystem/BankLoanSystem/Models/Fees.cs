@@ -194,6 +194,7 @@ namespace BankLoanSystem.Models
         public decimal Amount { get; set; }
         public string Type { get; set; }
         public DateTime AdvanceDate { get; set; }
+        public string Description { get; set; }
     }
 
 }
