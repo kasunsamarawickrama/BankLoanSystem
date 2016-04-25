@@ -79,7 +79,7 @@ namespace BankLoanSystem.Controllers
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login");
             }
-
+            ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
@@ -88,10 +88,6 @@ namespace BankLoanSystem.Controllers
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
 
-            List<TitleUpload> tl  = (new UnitAccess()).GetUploadTitlesByLoanId(loanDetails.loanId);
-            if (tl != null && tl.Count >0) {
-                ViewBag.Titles = tl;
-            }
             Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
             if((TempData["updateReslt"]!=null)&&(TempData["updateReslt"].ToString() != ""))
@@ -110,6 +106,16 @@ namespace BankLoanSystem.Controllers
             return View(advanceUnit);
         }
 
+
+        public ActionResult loadTitles(string unitId) {
+
+            List<TitleUpload> tl = (new UnitAccess()).GetUploadTitlesByLoanId(unitId);
+            //if (tl != null && tl.Count > 0)
+            //{
+            //    ViewBag.Titles = tl;
+            //}
+            return PartialView(tl);
+        }
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/27

@@ -336,7 +336,7 @@
                     <div class="form-group row" style="margin-top:15px !important">
 
                         <div class="col-md-2">
-                            <input type="button" class="btn btn-primary titleView" value="View Titles"/>
+                            <input type="button" id="titleShow" class="btn btn-primary titleView" value="View Titles"/>
                         </div>
                     </div>
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 185px;margin-left: -190px;margin-top: 40px;" />
@@ -663,6 +663,7 @@
     var total = 0;
     var checkCount = 0;
     var totalRecCount = 0;
+    var unitIdSelect = "";
 
     function GridUpdate() {
         var ctrl =
@@ -747,10 +748,13 @@
             }
 
             if (checkCount == 1) {
-
+               
                 if (checked) {
                     SetTextBoxValues(tr);
-
+                    //alert("r");
+                    var x = tr.find("#all").val();
+                    //$('#uId').val(x);
+                    unitIdSelect = x;
                 } else {
                     $('.advanceAmount').each(function () {
 
@@ -759,6 +763,10 @@
 
                         if (checked) {
                             SetTextBoxValues(tr);
+                            //alert("r");
+                            var x = tr.find("#all").val();
+                            //$('#uId').val(x);
+                            unitIdSelect = x;
                         }
                     });
                 }
@@ -858,12 +866,17 @@
                     total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
                     if (checkCount == 1) {
+
                         ClearSearchGrid();
                         SetTextBoxValues(row);
+                        //alert("r");
+                        var x = row.find("#all").val();
+                        //$('#uId').val(x);
+                        unitIdSelect = x;
                     }
                     else {
                         ClearSearchGrid();
-                                            
+
                         ClearTextBoxValues();
                     }
                     SetRadioBtnHeaderChecked();
@@ -891,12 +904,12 @@
     });
 
     $('#btnAdvance').click(function (e) {
-                           
+
         if ($("#tagscloud span").text() != "" || $('#errorAdvanceDate').text() != "") {
             e.preventDefault();
             return;
         }
-                           
+
         if (($('#advanceDate').val() == "")&&($('#iAdvance').val() == "")) {
             $('#advanceDate').addClass('input-validation-error');
 
@@ -1272,7 +1285,7 @@
         var cost = document.getElementById('iCost').value.replace(',', '');
         var advance = document.getElementById('iAdvance').value.replace(',', '');
         var val = $.trim($(this).val());
-                            
+
         if (val.indexOf(',') > -1) {
             val = val.replace(',', '');
         }
@@ -1282,7 +1295,7 @@
         if (isNaN(num)) {
             num = '';
         }
-                            
+
         if (isNaN(num)) {
 
             //$("#tagscloudAdvance span").fadeIn();
@@ -1443,139 +1456,35 @@
         }
     });
 
-    $('.titleView').click(function () {
-        showPopup(9);
-
-    });
- 
-
-</script>
-
-
-
-
-<div class="overlay-bg">
-</div>
-<div class="overlay-content popup9" style="width:auto;text-align:center;margin-left: 105px;">
-
-
-    <h3>Titles</h3>
-    <fieldset>
-        @if (ViewBag.Titles != null && ViewBag.Titles.Count > 0)
-        {
-            foreach (var person in ViewBag.Titles)
-            {
-                if (Path.GetExtension(person.OriginalFileName) == ".doc")
-                {
-                    var FilePath = "~/Images/doc.png";
-                    <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-                else if (Path.GetExtension(person.OriginalFileName) == ".ppt")
-                {
-                    var FilePath = "~/Images/ppt.png";
-                    <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-                else if (Path.GetExtension(person.OriginalFileName) == ".xls")
-                {
-                    var FilePath = "~/Images/xls.png";
-                    <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-                else if (Path.GetExtension(person.OriginalFileName) == ".pdf")
-                {
-                    var FilePath = "~/Images/pdf.png";
-                    <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-                else if (Path.GetExtension(person.OriginalFileName) == ".sql")
-                {
-                    var FilePath = "~/Images/sql.png";
-                    <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-                else {
-                    <div style="padding:10px;">
-                       <img src="@Url.Content(person.FilePath)" onclick="window.open(this.src)" alt="Image" style="max-width: 500px;max-height: 500px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
-                    </div>
-                }
-            }
-        }
-    </fieldset>
-    <br />
-    <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
-
-</div>
-
-
-<script>
-
-    // function to show our popups
-    function showPopup(whichpopup) {
-        var docHeight = $(document).height(); //grab the height of the page
-        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-    }
-
-    // function to close our popups
-    function closePopup() {
-        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
-    }
-
-    // timer if we want to show a popup after a few seconds.
-    //get rid of this if you don't want a popup to show up automatically
-    // setTimeout(function() {
-    // Show popup3 after 2 seconds
-    //    showPopup(3);
-    // }, 2000);
-
-
-    // show popup when you click on the link
-    $('.show-popup').click(function (event) {
-        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
-        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
-
-        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
-    });
-
-    // hide popup when user clicks on close button or if user clicks anywhere outside the container
-    $('.close-btn, .overlay-bg').click(function () {
-        closePopup();
-    });
-
-    // hide the popup when user presses the esc key
-    $(document).keyup(function (e) {
-        if (e.keyCode == 27) { // if user presses esc key
-            closePopup();
-        }
-    });
-
-
-    //$('.down').click(function () {
-
-    //    var image = "loginBanner.png";
-    //    var path = "~/Images/";
-    //    $.ajax({
-    //        url: '/AdvanceUnit/Download',
-    //        type: 'POST',
-    //        contentType: 'application/json;',
-    //        data: JSON.stringify({ image: image, path: path }),
-    //        success: function (data) {
-    //        },
-    //        error: function (reponse) {
-    //        }
-    //    });
+    //$('.titleView').click(function () {
+    //    showPopup(9);
 
     //});
+    $('#titleShow').click(function () {
+
+        //var uId = $('#uId').val();
+        var uId = unitIdSelect;
+        //alert(uId);
+        $.ajax({
+            url: '/AdvanceUnit/loadTitles',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ unitId : uId }),
+            success: function (data) {
+                //alert("k");
+                $('#titles').html(data);
+                $('#titles').show();
+                showPopup(9);
+            },
+            error: function (reponse) {
+            }
+        });
+
+    });
+
 </script>
 
 
+<div id="titles"></div>
 
 

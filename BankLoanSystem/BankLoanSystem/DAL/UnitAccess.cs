@@ -68,17 +68,17 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns></returns>
-        public List<TitleUpload> GetUploadTitlesByLoanId(int loanId)
+        public List<TitleUpload> GetUploadTitlesByLoanId(string unitId)
         {
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> parameterList = new List<object[]>();
             List<TitleUpload> titleList = new List<TitleUpload>();
 
-            parameterList.Add(new object[] { "@loan_id", loanId });
+            parameterList.Add(new object[] { "@unit_id", unitId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByLoanId", parameterList);
+                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByUnitId", parameterList);
 
                 if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
@@ -390,6 +390,9 @@ namespace BankLoanSystem.DAL
                 {
 
                     return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                }
+                else if (val == true) {
+                    return true;
                 }
                 else {
                     return false;
