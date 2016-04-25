@@ -10,8 +10,12 @@
     
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/general_foundicons.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/style.min.css" rel="stylesheet" />
+
     <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
 
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -19,17 +23,18 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
-
+    <script src="~/scripts/menu.js"></script>
    
 </head>
 
 
-<body data-scrolling-animations="true">
 
-    <header>
-        <div class="common-box">
-            <div class="left-box">
-              
+<body data-scrolling-animations="true">
+    <div id="o-wrapper" class="o-wrapper">
+        <header>
+            <div class="common-box">
+                <div class="left-box">
+
                     <div class="soft-info">
 
                         <h1>
@@ -39,79 +44,88 @@
                         <small><strong> Management Software </strong></small>
                     </div>
 
-                
 
-            </div>
 
-            <div class="box">
-
-                <div class="signout"><span>
-                    @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "7" })
-                    <span class="icon-exit"></span></span></div>
-
-                <div>
-                    @{
-                        Html.RenderAction("UserRequestAns", "UserManagement");
-                    }
                 </div>
 
-                <div><span class="tooltip icon-film "><span class="tooltiptext ved" >
-    Watch Video
-</span></span></div>
+                <div class="box">
 
-                <div>
-                    <span class="tooltip icon-home3" onclick="window.location.href = '/UserManagement/UserDetails'">
-                        <span class="tooltiptext ved">
-                            Dashboard
+                    <div class="signout">
+                        <span>
+                            @Html.ActionLink("LOG OUT", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "7" })
+                            <span class="icon-exit"></span>
                         </span>
-                    </span>
-                </div>
+                    </div>
 
-                <!---->
+                    <div>
+                        @{
+                        Html.RenderAction("UserRequestAns", "UserManagement");
+                        }
+                    </div>
 
-              
-                    <!---->
+                    <div>
+                        <span class="tooltip icon-film ">
+                            <span class="tooltiptext ved">
+                                Watch Video
+                            </span>
+                        </span>
+                    </div>
 
-
-</div>
-
-
-
-
-        </div>
-
-    </header>
-
-    <div class="container-fluide">
-
-
-        <div>
-            <div class="container-child">
-
-                <div class="dsh">
-
-                    <div class="img-name-panel">
-                        <div>
-                            <div>
-                                <div>
-                                    <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
-                                </div>
-                            </div>
-
-
-
-                        </div>
+                    <div>
+                        <span class="tooltip icon-home3" onclick="window.location.href = '/UserManagement/UserDetails'">
+                            <span class="tooltiptext ved">
+                                Dashboard
+                            </span>
+                        </span>
                     </div>
 
 
-                    <div class="pos-name-panel">
-                        <div>
-                            <div>
-                                <span>@*@ViewBag.Username*@ @(((User)Session["AuthenticatedUser"]).UserName) </span>
-                            </div>
+                    <div>
+                        <button id="c-button--slide-right" class="c-button">Slide Right</button>
+                    </div>
+                    <!---->
+                    <!---->
 
-                            <div style="margin-top:10px">
-                                @{ 
+
+                </div>
+
+
+
+
+            </div>
+
+        </header>
+
+        <div class="container-fluide">
+
+
+            <div>
+                <div class="container-child">
+
+                    <div class="dsh">
+
+                        <div class="img-name-panel">
+                            <div>
+                                <div>
+                                    <div>
+                                        <img alt="image" class="img-circle" src="~/Images/profile_small.jpg">
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="pos-name-panel">
+                            <div>
+                                <div>
+                                    <span>@*@ViewBag.Username*@ @(((User)Session["AuthenticatedUser"]).UserName) </span>
+                                </div>
+
+                                <div style="margin-top:10px">
+                                    @{
                                     int role = ((User)Session["AuthenticatedUser"]).RoleId;
 
                                     string roleName = null;
@@ -126,103 +140,139 @@
                                     {
                                         roleName = "User";
                                     }
-                                }
-                                <span>@*@ViewBag.Position*@ @roleName</span>
+                                    }
+                                    <span>@*@ViewBag.Position*@ @roleName</span>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
 
 
 
-                    <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title</h3></div>
-                    <div class="cmp-name-panel">
-                        <div>
+                        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title</h3></div>
+                        <div class="cmp-name-panel">
                             <div>
+                                <div>
 
-                            </div>
+                                </div>
 
-                            <div style="margin-top:10px">
+                                <div style="margin-top:10px">
 
 
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="cmp-name-panel">
+                        <div class="cmp-name-panel">
 
 
-                        <div>
                             <div>
-                                <span>@*@ViewBag.Company*@ @(((User)Session["AuthenticatedUser"]).CompanyName)</span>
-                            </div>
+                                <div>
+                                    <span>@*@ViewBag.Company*@ @(((User)Session["AuthenticatedUser"]).CompanyName)</span>
+                                </div>
 
-                            <div style="margin-top:10px">
-                                @if (role != 1)
+                                <div style="margin-top:10px">
+                                    @if (role != 1)
                                 {
-                                    <span>@*@ViewBag.Branch*@ @(((User)Session["AuthenticatedUser"]).BranchName)</span>
+                                        <span>@*@ViewBag.Branch*@ @(((User)Session["AuthenticatedUser"]).BranchName)</span>
                                 }
                                 else
                                 {
-                                    <span></span>
+                                        <span></span>
 
                                 }
 
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+                    @RenderBody()
                 </div>
-                @RenderBody()
             </div>
         </div>
-    </div>
-    <footer>
-        <div class="bottom-bar">
-            <div class="small-space">
-                <div class="clr-prt1">
 
+
+
+        <footer>
+            <div class="bottom-bar">
+                <div class="small-space">
+                    <div class="clr-prt1">
+
+                    </div>
+                    <div class="clr-prt2">
+
+                    </div>
                 </div>
-                <div class="clr-prt2">
 
-                </div>
-            </div>
+                <div class="cmd-bar">
+                    <div class="cmd-skew-bar">
 
-            <div class="cmd-bar">
-                <div class="cmd-skew-bar">
+                        <div class="footer-info">
 
-                    <div class="footer-info">
-
-                        <h3>Dealer Floor Plan Management Software</h3>
-                        <div>
+                            <h3>Dealer Floor Plan Management Software</h3>
                             <div>
-                                <span>Support (800) ###-####</span>
-                                <div class="hor-sp"></div>
-                                <span style="margin-left:30px;margin-top:10px;">Hours: 8am-6pm Central</span>
+                                <div>
+                                    <span>Support (800) ###-####</span>
+                                    <div class="hor-sp"></div>
+                                    <span style="margin-left:30px;margin-top:10px;">Hours: 8am-6pm Central</span>
+                                </div>
+
+                                <div>
+                                    <span>Billing (800) ###-####</span>
+                                    <div class="hor-sp"></div>
+                                    <span style="margin-left:30px;margin-top:10px;">Hours: 9am-5pm Central</span>
+                                </div>
                             </div>
 
-                            <div>
-                                <span>Billing (800) ###-####</span>
-                                <div class="hor-sp"></div>
-                                <span style="margin-left:30px;margin-top:10px;">Hours: 9am-5pm Central</span>
-                            </div>
                         </div>
 
                     </div>
-
-                </div>
-                <div id="UserRequestMessage">
-                    @{
+                    <div id="UserRequestMessage">
+                        @{
                         Html.RenderAction("UserRequestMessage", "UserManagement");
-                    }
+                        }
+                    </div>
+
                 </div>
-                
+
             </div>
 
-        </div>
+        </footer>
 
-    </footer>
+    </div>
 
-   
+    <nav id="c-menu--slide-right" class="c-menu c-menu--slide-right">
+        <button class="c-menu__close">Close Help &rarr;</button>
+        <ul class="c-menu__items">
+            <li class="c-menu__item"><h3 href="#" class="c-menu__link">Help</h3></li>
+            <li class="c-menu__item"><p href="#" class="c-menu__link">This is Helper</p></li>
+           
+        </ul>
+    </nav><!-- /c-menu slide-right -->
+
+    <div id="c-mask" class="c-mask"></div><!-- /c-mask -->
 </body>
+
+
 </html>
+
+<script>
+    /**
+   * Slide right instantiation and action.
+   */
+    var slideRight = new Menu({
+        wrapper: '#o-wrapper',
+        type: 'slide-right',
+        menuOpenerClass: '.c-button',
+        maskId: '#c-mask'
+    });
+
+    var slideRightBtn = document.querySelector('#c-button--slide-right');
+
+    slideRightBtn.addEventListener('click', function (e) {
+        e.preventDefault;
+        slideRight.open();
+    });
+
+</script>

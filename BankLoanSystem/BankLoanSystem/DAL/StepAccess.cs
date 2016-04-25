@@ -310,6 +310,13 @@ namespace BankLoanSystem.DAL
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
+                        if (fees.AdvanceId == "1")
+                        {
+                            command.Parameters.Add("@advance_id", SqlDbType.Bit).Value = true;
+                        }
+                        else {
+                            command.Parameters.Add("@advance_id", SqlDbType.Bit).Value = false;
+                        }
                         command.Parameters.Add("@advance_fee_amount", SqlDbType.Decimal).Value = fees.AdvanceAmount;
                         command.Parameters.Add("@advance_fee_calculate_type", SqlDbType.NVarChar).Value = fees.AdvanceFeeCalculateType;
                         command.Parameters.Add("@advance_receipt", SqlDbType.Bit).Value = fees.AdvanceNeedReceipt;
@@ -320,6 +327,13 @@ namespace BankLoanSystem.DAL
                         command.Parameters.Add("@advance_due_auto_remind_email", SqlDbType.NVarChar).Value = fees.AdvanceDueEmail;
                         command.Parameters.Add("@advance_due_auto_remind_period", SqlDbType.NVarChar).Value = fees.AdvanceDueEmailRemindPeriod;
 
+                        if (fees.MonthlyLoanId == "1")
+                        {
+                            command.Parameters.Add("@monthly_loan_id", SqlDbType.Bit).Value = true;
+                        }
+                        else {
+                            command.Parameters.Add("@monthly_loan_id", SqlDbType.Bit).Value  = false;
+                        }
                         command.Parameters.Add("@monthly_loan_fee_amount", SqlDbType.Decimal).Value = fees.MonthlyLoanAmount;
                         command.Parameters.Add("@monthly_loan_receipt", SqlDbType.Bit).Value = fees.MonthlyLoanNeedReceipt;
                         command.Parameters.Add("@monthly_loan_payment_due_method", SqlDbType.NVarChar).Value = fees.MonthlyLoanDue;
@@ -329,6 +343,13 @@ namespace BankLoanSystem.DAL
                         command.Parameters.Add("@monthly_loan_due_auto_remind_email", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueEmail;
                         command.Parameters.Add("@monthly_loan_due_auto_remind_period", SqlDbType.NVarChar).Value = fees.MonthlyLoanDueEmailRemindPeriod;
 
+                        if (fees.LotInspectionId == "1")
+                        {
+                            command.Parameters.Add("@lot_inspection_id", SqlDbType.Bit).Value = true;
+                        }
+                        else {
+                            command.Parameters.Add("@lot_inspection_id", SqlDbType.Bit).Value = false;
+                        }
                         command.Parameters.Add("@lot_inspection_amount", SqlDbType.Decimal).Value = fees.LotInspectionAmount;
                         command.Parameters.Add("@lot_inspection_receipt", SqlDbType.Bit).Value = fees.LotInspectionNeedReceipt;
                         command.Parameters.Add("@lot_payment_due_method", SqlDbType.NVarChar).Value = fees.LotInspectionDue;

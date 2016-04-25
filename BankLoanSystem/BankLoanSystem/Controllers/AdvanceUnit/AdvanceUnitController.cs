@@ -87,6 +87,11 @@ namespace BankLoanSystem.Controllers
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
+
+            List<TitleUpload> tl  = (new UnitAccess()).GetUploadTitlesByLoanId(loanDetails.loanId);
+            if (tl != null && tl.Count >0) {
+                ViewBag.Titles = tl;
+            }
             Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
             if((TempData["updateReslt"]!=null)&&(TempData["updateReslt"].ToString() != ""))
@@ -181,9 +186,23 @@ namespace BankLoanSystem.Controllers
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1 ) { 
-            // saving for reporting purpose
-            if (Session["AdvItems"] == null)
+            if(reslt == 1 ) {
+                ////if mention advance fee, then insert in to fee table - asanka
+                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                //{
+                //    Loan loanObj = new Loan();
+                //    loanObj = (Loan)Session["loanDashboard"];
+                //    if (loanObj.AdvanceFee == 1)
+                //    {
+                //        //check advance amount and other details
+                //        unitAccess.insertFreeDetails(unit);
+                //    }
+                //}
+
+
+
+                // saving for reporting purpose
+                if (Session["AdvItems"] == null)
             {
                 List<Models.Unit> unitlist = new List<Models.Unit>();
                 unitlist.Add(unit);
@@ -232,9 +251,24 @@ namespace BankLoanSystem.Controllers
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1) { 
-            // saving for reporting purpose
-            if(Session["AdvItems"] == null) { 
+            if(reslt == 1) {
+                ////if mention advance fee, then insert in to fee table - asanka
+                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                //{
+                //    Loan loanObj = new Loan();
+                //    loanObj = (Loan)Session["loanDashboard"];
+                //    if (loanObj.AdvanceFee == 1)
+                //    {
+                //        //check advance amount and other details
+                //        foreach (BankLoanSystem.Models.Unit unitObj in list.ItemList)
+                //        {
+                //            unitAccess.insertFreeDetails(unitObj);
+                //        }
+                //    }
+                //}
+
+                // saving for reporting purpose
+                if (Session["AdvItems"] == null) { 
             Session["AdvItems"] = list.ItemList;
             }
             else
@@ -266,6 +300,14 @@ namespace BankLoanSystem.Controllers
         {
             ViewBag.LoanId = loan.loanId;
             return View();
+        }
+        public FileResult Download(string ImageName)
+        {
+            return File(ImageName, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
+        public FileResult Downloadx(string image, string path)
+        {
+            return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
     }
 }

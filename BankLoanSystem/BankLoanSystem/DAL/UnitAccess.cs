@@ -52,6 +52,49 @@ namespace BankLoanSystem.DAL
                     return unitList;
                 }
                 else {
+                    return unitList;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/4/22
+        /// 
+        /// Get all titles for a loan
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public List<TitleUpload> GetUploadTitlesByLoanId(int loanId)
+        {
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+            List<TitleUpload> titleList = new List<TitleUpload>();
+
+            parameterList.Add(new object[] { "@loan_id", loanId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByLoanId", parameterList);
+
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    foreach (DataRow reader in dataSet.Tables[0].Rows)
+                    {
+                        TitleUpload title = new TitleUpload();
+
+                        title.FilePath = reader["file_path"].ToString();
+                        title.UnitId = reader["unit_id"].ToString();
+                        title.OriginalFileName = reader["original_file_name"].ToString();
+
+                        titleList.Add(title);
+                    }
+                    return titleList;
+                }
+                else {
                     return null;
                 }
             }
@@ -91,14 +134,9 @@ namespace BankLoanSystem.DAL
 
                     this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
 
-                    DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                    countVal = dataHandler.ExecuteSQLWithIntOutPutParam("spAdvanceAllSelectedItems", parameterList);
                     parameterList.Clear();
 
-                    if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                    {
-                        DataRow dataRow = dataSet.Tables[0].Rows[0];
-                        countVal = int.Parse(dataRow["@return"].ToString());  
-                    }
                 }
                 return countVal;
             }
@@ -120,6 +158,7 @@ namespace BankLoanSystem.DAL
         /// <returns>countVal</returns>
         public int AdvanceItem(Unit unitObj, int loanId, int userId, DateTime advanceDate)
         {
+            int countVal = 0;
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> parameterList = new List<object[]>();
@@ -134,18 +173,10 @@ namespace BankLoanSystem.DAL
 
                 this.GetLoanCurtailmentDetails(loanId, unitObj.UnitId, advanceDate, unitObj.AdvanceAmount, unitObj.Cost);
 
-                DataSet dataSet = dataHandler.GetDataSet("spAdvanceAllSelectedItems", parameterList);
+                countVal = dataHandler.ExecuteSQLWithIntOutPutParam("spAdvanceAllSelectedItems", parameterList);
                 parameterList.Clear();
 
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dataRow = dataSet.Tables[0].Rows[0];
-                    int countVal = int.Parse(dataRow["@return"].ToString());
-                    return countVal;
-                }
-                else {
-                    return 0;
-                }
+                return countVal;
             }
             catch
             {
@@ -352,22 +383,15 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spInsertUnitDetails", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
-                {
-                    int returnParameter = int.Parse(dataSet.Tables[0].Rows[0]["@return"].ToString());
+                bool val = dataHandler.ExecuteSQL("spInsertUnitDetails", paramertList) ? true : false ;
 
-                    if (returnParameter == 1 && unit.AddAndAdvance)
-                    {
-                        return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
+
+                if (val == true && unit.AddAndAdvance)
                 {
+
+                    return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                }
+                else {
                     return false;
                 }
             }
@@ -427,9 +451,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList);
-
-                return true;
+                return dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList) ? true : false;
             }
             catch
             {
@@ -1113,111 +1135,289 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
-
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:4/20/2016
-        /// Get InActive Loans 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="company_Id"></param>
-        /// <param name="branchId"></param>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        public LoanSelection GetInActiveLoans(int userId, int companyId, int branchId, int roleId)
+        /// CreatedBy : Kasun
+        /// CreatedDate: 2016/04/20
+        /// 
+        /// vin existing check 
+        /// <param name="vin"></param>
+        /// <param name="loanId"></param>
+        /// <returns>
+        /// 0 - exist in loan advanced
+        /// 1 - exist in loan pending
+        /// 2 - exist in loan but another loan
+        /// 3 - not exist or payoff
+        /// </returns>
+        public int IsUniqueVinForaLoan(string vin, int loanId)
         {
-            LoanSelection detailList = new LoanSelection();
+
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@vin", vin });
+            paramertList.Add(new object[] { "@loan_id", loanId });
 
-            paramertList.Add(new object[] { "@userId", userId });
-            paramertList.Add(new object[] { "@companyId", companyId });
-            paramertList.Add(new object[] { "@branchId", branchId });
-            paramertList.Add(new object[] { "@roleId", roleId });
+            return dataHandler.ExecuteSQLWithIntOutPutParam("spIsUniqueVinForaLoan", paramertList);
+        }
+
+        /// <summary>
+        /// Created by :Asanka senarathna
+        /// Created date : 2016/04/20
+        /// insert fee 
+        /// </summary>
+        /// <param name="loan">loan id</param>
+        /// <param name="unitid">unit id</param>
+        /// <param name="type">fee type</param>
+        /// <param name="dis">discription</param>
+        /// <param name="amount">fee amount</param>
+        /// <param name="duedate">fee due date</param>
+        /// <param name="billdate">Bill due date</param>
+        /// <returns></returns>
+        public int insertFreeDetails(Unit unit)
+        {
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetInActiveLoans", paramertList);
-                if (dataSet != null && dataSet.Tables.Count != 0)
+                string fee_type = "";
+            string fee_due_method = "";
+            decimal fee_amount = 0;
+            int fee_due_date = 0;
+            DateTime fee_billdate=unit.AdvanceDate;
+                string v_vin="", v_year="", v_model="", v_make="";
+
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList1 = new List<object[]>();
+            paramertList1.Add(new object[] { "@loan_id", unit.LoanId });
+            DataSet dataSet = dataHandler.GetDataSet("spGetAdvanceFeeData", paramertList1);
+
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            {
+                foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-                    List<Branch> RegBranches = new List<Branch>();
-                    List<NonRegBranch> NonRegBranchList = new List<NonRegBranch>();
-                    List<LoanSetupStep1> LoanList = new List<LoanSetupStep1>();
-
-                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-                    {
-                        Branch branch = new Branch();
-                        NonRegBranch nonRegBranch = new NonRegBranch();
-                        LoanSetupStep1 loan = new LoanSetupStep1();
-
-                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
-                        branch.BranchName = dataRow["regBranchName"].ToString();
-
-                        nonRegBranch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
-                        nonRegBranch.BranchId = branch.BranchId;
-                        nonRegBranch.CompanyNameBranchName = dataRow["nonRegBranchName"].ToString();
-
-                        loan.loanId = int.Parse(dataRow["loan_id"].ToString());
-                        loan.loanNumber = dataRow["loan_number"].ToString();
-                        loan.loanCode = dataRow["loan_code"].ToString();
-                        loan.loanAmount = decimal.Parse(dataRow["loan_amount"].ToString());
-                        loan.CreatedDate = DateTime.Parse(dataRow["created_date"].ToString());
-                        loan.CurrentLoanStatus = bool.Parse(dataRow["loan_status"].ToString());
-                        
-                        loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
-                        bool checkBranch = false;
-                        bool checkNonRegBranch = false;
-                        bool checkLoan = false;
-                        foreach (var br in RegBranches)
+                    fee_due_method = row["payment_due_method"].ToString();
+                    fee_type = row["advance_fee_calculate_type"].ToString();
+                    fee_amount = decimal.Parse(row["advance_fee_amount"].ToString());
+                        if(fee_type!="")
                         {
-                            if (br.BranchId == branch.BranchId)
+                            if(row["payment_due_date"].ToString()== "EoM")
                             {
-                                checkBranch = true;
+                                fee_due_date= DateTime.DaysInMonth(fee_billdate.Year, fee_billdate.Month+1);
                             }
-                        }
-                        if (checkBranch == false)
-                        {
-                            RegBranches.Add(branch);
-                        }
-                        foreach (var nrbr in NonRegBranchList)
-                        {
-                            if (nrbr.NonRegBranchId == nonRegBranch.NonRegBranchId)
+                            else
                             {
-                                checkNonRegBranch = true;
-                            }
+                                fee_due_date = int.Parse(row["payment_due_date"].ToString());
+                            } 
                         }
-                        if (checkNonRegBranch == false)
-                        {
-                            NonRegBranchList.Add(nonRegBranch);
-                        }
-
-                        foreach (var l in LoanList)
-                        {
-                            if (l.loanId == loan.loanId)
-                            {
-                                checkLoan = true;
-                            }
-                        }
-                        if (checkLoan == false)
-                        {
-                            LoanList.Add(loan);
-                        }
-
-                    }
-                    detailList.RegBranches = RegBranches;
-                    detailList.NonRegBranchList = NonRegBranchList;
-                    detailList.LoanList = LoanList;
-
-                    return detailList;
-                }
-                else
-                {
-                    return null;
                 }
             }
+                if (unit.UnitTypeId == 1)
+                {
+                    v_vin=  unit.vehicle.IdentificationNumber;
+                    v_make = unit.vehicle.Make;
+                    v_model = unit.vehicle.Model;
+                    v_year = unit.vehicle.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 2)
+                {
+                    v_vin = unit.rv.IdentificationNumber;
+                    v_make = unit.rv.Make;
+                    v_model = unit.rv.Model;
+                    v_year = unit.rv.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 3)
+                {
+                    v_vin = unit.camper.IdentificationNumber;
+                    v_make = unit.camper.Make;
+                    v_model = unit.camper.Model;
+                    v_year = unit.camper.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 4)
+                {
+                    v_vin = unit.atv.IdentificationNumber;
+                    v_make = unit.atv.Make;
+                    v_model = unit.atv.Model;
+                    v_year = unit.atv.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 5)
+                {
+                    v_vin = unit.boat.IdentificationNumber;
+                    v_make = unit.boat.Make;
+                    v_model = "";
+                    v_year = unit.boat.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 6)
+                {
+                    v_vin = unit.motorcycle.IdentificationNumber;
+                    v_make = unit.motorcycle.Make;
+                    v_model = unit.motorcycle.Model;
+                    v_year = unit.motorcycle.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 7)
+                {
+                    v_vin = unit.snowmobile.IdentificationNumber;
+                    v_make = unit.snowmobile.Make;
+                    v_model = unit.snowmobile.Model;
+                    v_year = unit.snowmobile.Year.ToString();
+                }
+                else if (unit.UnitTypeId == 8)
+                {
+                    v_vin = unit.heavyequipment.SerialNumber;
+                    v_make = unit.heavyequipment.Make;
+                    v_model ="";
+                    v_year = unit.heavyequipment.Year.ToString();
+                }
+                string discription = fee_due_method + ","+v_vin + "," + v_year + "," + v_make + "," + v_model;
 
+            if (fee_due_method== "Time of Advance")
+            {
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", unit.LoanId });
+                paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+                paramertList.Add(new object[] { "@type", "advanceFee" });
+                paramertList.Add(new object[] { "@description", discription });
+                paramertList.Add(new object[] { "@amount", fee_amount });
+                paramertList.Add(new object[] { "@due_date", unit.AdvanceDate });
+                paramertList.Add(new object[] { "@bill_due_date", unit.AdvanceDate });
+
+                 dataHandler.ExecuteSQL("spInsertAdvanceFee", paramertList);
+            }
+            else if (fee_due_method == "Once a Month")
+            {
+                if (fee_type== "Month")
+                {
+                        fee_billdate = fee_billdate.AddMonths(1);
+                        fee_billdate = new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
+                 }
+                else if (fee_type == "PayPeriod")
+                {
+                        if(fee_billdate.Date.Day> fee_due_date)
+                        {
+                            fee_billdate = fee_billdate.AddMonths(1);
+                            fee_billdate=new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
+                        }
+                        else
+                        {
+                            fee_billdate = new DateTime(fee_billdate.Year, fee_billdate.Month, fee_due_date);
+                        }
+                 }
+
+                    List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", unit.LoanId });
+                paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+                paramertList.Add(new object[] { "@type", "advanceFee" });
+                paramertList.Add(new object[] { "@description", discription });
+                paramertList.Add(new object[] { "@amount", fee_amount });
+                paramertList.Add(new object[] { "@due_date", unit.AdvanceDate });
+                paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
+
+                 dataHandler.ExecuteSQL("spInsertAdvanceFee", paramertList);
+            }
+
+
+
+                return 0;
+            }
             catch
             {
-                return null;
+                return 0;
+            }
+                
+        }
+
+
+        public List<UnitDeleteModel> GetAllUnitsByLoanId(int loanId)
+        {
+            List<UnitDeleteModel> units = new List<UnitDeleteModel>();
+
+            DataHandler dataHandler = new DataHandler();
+            //List<object[]> paramertList = new List<object[]> {new object[] {"@loanId", loanId}};
+
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetAllUnits", paramertList);
+            try
+            {
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UnitDeleteModel unit = new UnitDeleteModel();
+
+                        unit.LoanId = loanId;
+                        unit.UnitId = dataRow["unit_id"].ToString();
+                        unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                        unit.Year = dataRow["year"].ToString();
+                        unit.Make = dataRow["make"].ToString();
+                        unit.Model = dataRow["model"].ToString();
+                        unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                        unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                        unit.UnitStaus = Convert.ToInt32(dataRow["unit_status"]);
+                        units.Add(unit);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return units;
+        }
+
+        public List<UnitFeeType> GetUnitFeeType(string unitId)
+        {
+            List<UnitFeeType> unitFeeTypes = new List<UnitFeeType>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> {new object[] {"@unit_id", unitId}};
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetUnitPaymentDetailsByUnitId", paramertList);
+
+            try
+            {
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UnitFeeType unitFeeType = new UnitFeeType();
+
+                        unitFeeType.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                        unitFeeType.UnitId = unitId;
+                        unitFeeType.CurtNumber = Convert.ToInt32(dataRow["curt_number"]);
+                        unitFeeType.TblName = dataRow["TableName"].ToString();
+                        unitFeeType.FeeType = dataRow["FeeType"].ToString();
+                        unitFeeType.PaidAmount = Convert.ToDecimal(dataRow["curt_amount"]);
+                        unitFeeType.PaidDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
+                        unitFeeTypes.Add(unitFeeType);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return unitFeeTypes;
+        }
+
+        public int DeleteUnit(int loanId, string unitId, decimal paidAmount)
+        {
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@unit_id", unitId });
+            paramertList.Add(new object[] { "@paid_amount", paidAmount });
+
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spManageUnitDelete", paramertList);
+            }
+            catch (Exception ex)
+            {
+                return 0;
             }
         }
     }

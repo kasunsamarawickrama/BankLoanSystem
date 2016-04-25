@@ -249,6 +249,10 @@
             }else if(ViewBag.Title == "Add Unit Page") {
                  <text>
                     if (isError === false) {
+                        if ($('.vinCheck').text().length > 0) {
+                            $('.centered span').text('Error');
+                            isError = true;
+                        }
                         if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
                             $('.centered span').text('Error');
                             isError = true;
@@ -256,6 +260,8 @@
                             isError = false;
                         }
                     }
+                    //alert($('.vinCheck').text().length);
+                    
                     </text>
             }
 
@@ -304,7 +310,7 @@
 
 
 
-                    //$('.centered span').text('Error');
+                    $('.centered span').text('Error');
                     if (isError === false)
                         $('.centered span').text('');
                 });

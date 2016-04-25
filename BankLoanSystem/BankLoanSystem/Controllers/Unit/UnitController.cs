@@ -172,6 +172,25 @@ namespace BankLoanSystem.Controllers.Unit
 
             UnitAccess ua = new UnitAccess();
             var res = ua.InsertUnit(unit, userId);
+
+            //if mention advance fee, then insert in to fee table
+            if (res == true && unit.AddAndAdvance)
+            {
+                if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                {
+                    Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["loanDashboard"];
+                    if (loanObj.AdvanceFee == 1)
+                    {
+                        //check advance amount and other details
+                       
+                        ua.insertFreeDetails(unit);
+                    }
+                }
+            }
+
+
+
             flag = 1;
             if (res)
             {
@@ -552,5 +571,20 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.UserId = userData.UserId;
             return View();
         }
+        /// <summary>
+        /// check Vin already wxist on loan 
+        /// </summary>
+        /// <param name="vin"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult IsVinExists(string identificationNumber)
+        {
+            //check user name is already exist.  
+            int loanId = _loan.loanId;
+            int num = (new UnitAccess()).IsUniqueVinForaLoan(identificationNumber, loanId);
+
+            return Json(num, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

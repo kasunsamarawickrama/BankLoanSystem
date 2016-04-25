@@ -1,8 +1,8 @@
-﻿@model BankLoanSystem.Models.CurtailmentScheduleModel
+﻿@model BankLoanSystem.Models.FeesModel
 
 @{ 
     Layout = null;
-    WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
+    WebGrid grid = new WebGrid(Model.FeeModelList, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");
 
 
 }
@@ -26,9 +26,8 @@
     text-align:left;
 }
 </style>
-<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
-    @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
-    <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
+<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>   
+    <label style="float:unset;margin-top:2%;margin-bottom:2%">No Fees matching the due date could be found.</label>
 </div>
 <div  class="info-bar" id ="checkableGridDiv"style="margin-top:10px;padding:1px 0px 30px 0px">
                             <div>
@@ -51,7 +50,7 @@
                                    grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
                                    grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   @*grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),*@
+                                   grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                                    grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
@@ -283,7 +282,7 @@
 
     $(document).ready(function(){
         if ($('#checkableGrid').children('tbody').children('tr').length == 0)
-        {            
+        {   alert('came');         
             $('#noCurtLabelDiv').show();
             $('#checkableGridDiv').hide();
             $('#searchDiv').hide();

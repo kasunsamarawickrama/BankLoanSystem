@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace BankLoanSystem.Models
 {
@@ -26,7 +27,7 @@ namespace BankLoanSystem.Models
 
         [Display(Name = "VIN")]
         [Required(ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
-        [RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        //[RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Please select the vehicle year")]
@@ -147,7 +148,6 @@ namespace BankLoanSystem.Models
 
         public string CurrentUnitStatus { get; set; }
 
-
     }
 
     public class LoanPaymentDetails {
@@ -191,6 +191,7 @@ namespace BankLoanSystem.Models
         [StringLength(17, MinimumLength = 17, ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
         [Required(ErrorMessage = "Please enter all 17 Characters of the vehicle VIN")]
         //[RegularExpression(@"^[A-HJ-NPR-Z0-9]{13}[0-9]{4}$", ErrorMessage = "Invalid VIN Format.")]
+        //[Remote("IsVinExistss", "Unit", ErrorMessage = "Vehicle already exist on your loan")]
         public string IdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Please select the vehicle year")]
@@ -399,5 +400,42 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please enter the heavyequipment Make")]
         public string Make { get; set; }
 
+    }
+
+    public class UnitDeleteModel
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public string AdvanceDate { get; set; }
+        public string IdentificationNumber { get; set; }
+        public string Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public int UnitStaus { get; set; }
+    }
+
+    public class UnitDeleteViewModel
+    {
+        public List<UnitDeleteModel> DeleteUnits { get; set; }
+
+        public string IdentificationNumber { get; set; }
+    }
+
+    public class UnitFeeType
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public int CurtNumber { get; set; }
+        public string TblName { get; set; }
+        public string FeeType { get; set; }
+        public decimal PaidAmount { get; set; }
+        public string PaidDate { get; set; }
+    }
+
+    public class UnitFeeTypeViewModel
+    {
+        public List<UnitFeeType> UnitFeeTypes { get; set; }
     }
 }

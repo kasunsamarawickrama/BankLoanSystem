@@ -255,6 +255,7 @@ namespace BankLoanSystem.DAL
             }
             return searchList;
         }
+
         public List<UnitPayOffModel> GetSearchPayOffList(List<UnitPayOffModel> unitList, string identificationNumber, string year, string make, string vehicleModel)
         {
             List<Models.UnitPayOffModel> resultList = new List<Models.UnitPayOffModel>();
@@ -377,6 +378,130 @@ namespace BankLoanSystem.DAL
                 }
             }
             return resultList;
+        }
+
+        public List<Fees> GetSearchFeeList(FeesModel curtailmentList, string identificationNumber, string year, string make, string vehicleModel)
+        {
+
+            List<Fees> searchList = new List<Fees>();
+
+            foreach (Fees curtailmentShedule in curtailmentList.FeeModelList)
+            {
+                if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Make.ToLower().StartsWith(make))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+                else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
+                {
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    {
+                        searchList.Add(curtailmentShedule);
+                    }
+                }
+            }
+            return searchList;
         }
     }
 }

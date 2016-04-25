@@ -33,5 +33,7 @@ namespace BankLoanSystem.Models
         public int UnitTypeId { get; set; }
 
         public vehicle vehicle { get; set; }
+
+        public List<TitleUpload> filePaths { get; set; }
     }   
 }
