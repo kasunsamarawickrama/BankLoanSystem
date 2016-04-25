@@ -108,18 +108,20 @@ namespace BankLoanSystem.Controllers.Fee
                        
             FeeAccess feeAccess = new FeeAccess();
             List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
-            FeesModel curtailmentScheduleModel = new FeesModel();
-            curtailmentScheduleModel.FeeModelList = new List<Fees>();
-            curtailmentScheduleModel.Type = type;
+            FeesModel feeModel = new FeesModel();
+            feeModel.FeeModelList = new List<Fees>();
+            feeModel.Type = type;
 
 
             if (lstFee != null && lstFee.Count > 0)
             {
-                curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
-                curtailmentScheduleModel.DueDate = lstFee[0].DueDate;
+                feeModel.FeeModelList.AddRange(lstFee);
+                Session["feeList"] = feeModel.FeeModelList;
+                //feeModel.DueDate = lstFee[0].DueDate;
             }
+           
 
-            return curtailmentScheduleModel;
+            return feeModel;
         }
 
         [HttpPost]
@@ -147,15 +149,25 @@ namespace BankLoanSystem.Controllers.Fee
         public ActionResult SearchFee(string identificationNumber, string year, string make, string vehicleModel, FeesModel CurtailmentList)
         {
             List<Fees> SearchList = new List<Fees>();
-
-            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+            if (Session["feeList"] != null)
             {
-                //search through list elements
-                Search sc = new Search();
+                List<Fees> feeModel = (List<Fees>)Session["feeList"];
 
-                SearchList = sc.GetSearchFeeList(CurtailmentList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
 
-                return PartialView(SearchList);
+                if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+                {
+                    //search through list elements
+                    Search sc = new Search();
+
+                    SearchList = sc.GetSearchFeeList(feeModel, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
+
+                    return PartialView(SearchList);
+                }
+                else
+                {
+
+                    return PartialView(SearchList);
+                }
             }
             else
             {

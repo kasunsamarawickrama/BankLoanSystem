@@ -193,20 +193,23 @@ namespace BankLoanSystem.Controllers
 
             // after success save**
             if(reslt == 1 ) {
-                ////if mention advance fee, then insert in to fee table - asanka
-                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
-                //{
-                //    Loan loanObj = new Loan();
-                //    loanObj = (Loan)Session["loanDashboard"];
-                //    if (loanObj.AdvanceFee == 1)
-                //    {
-                //        //check advance amount and other details
-                //        unitAccess.insertFreeDetails(unit);
-                //    }
-                //}
+                //if mention advance fee, then insert in to fee table - asanka
+                if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                {
+                    Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["loanDashboard"];
+                    if (loanObj.AdvanceFee == 1)
+                    {
+                        //check advance amount and other details
+                        unitAccess.insertFreeDetailsForAdvance(unit, loanSetupStep1.loanId);
+                    }
+                }
 
 
+                //insert to log 
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advance - "+unit.UnitId, DateTime.Now);
 
+                int islog = (new LogAccess()).InsertLog(log);
                 // saving for reporting purpose
                 if (Session["AdvItems"] == null)
             {
@@ -258,20 +261,37 @@ namespace BankLoanSystem.Controllers
 
             // after success save**
             if(reslt == 1) {
-                ////if mention advance fee, then insert in to fee table - asanka
-                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
-                //{
-                //    Loan loanObj = new Loan();
-                //    loanObj = (Loan)Session["loanDashboard"];
-                //    if (loanObj.AdvanceFee == 1)
-                //    {
-                //        //check advance amount and other details
-                //        foreach (BankLoanSystem.Models.Unit unitObj in list.ItemList)
-                //        {
-                //            unitAccess.insertFreeDetails(unitObj);
-                //        }
-                //    }
-                //}
+                string[] arrList = new string[list.ItemList.Count];
+                int i = 0;
+                foreach (var x in list.ItemList)
+                {
+                    if (!string.IsNullOrEmpty(x.UnitId))
+                    {
+                        arrList[i] = x.UnitId;
+                        i++;
+                    }
+                }
+
+                //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                ////user.UserRights = arrList.ToString();
+                string units = string.Join(",", arrList);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advance - " + units, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
+                //if mention advance fee, then insert in to fee table - asanka
+                if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                {
+                    Loan loanObj = new Loan();
+                    loanObj = (Loan)Session["loanDashboard"];
+                    if (loanObj.AdvanceFee == 1)
+                    {
+                        //check advance amount and other details
+                        foreach (BankLoanSystem.Models.Unit unitObj in list.ItemList)
+                        {
+                            unitAccess.insertFreeDetailsForAdvance(unitObj, loanSetupStep1.loanId);
+                        }
+                    }
+                }
 
                 // saving for reporting purpose
                 if (Session["AdvItems"] == null) { 
