@@ -78,7 +78,7 @@ namespace BankLoanSystem.DAL
             parameterList.Add(new object[] { "@unit_id", unitId });
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByLoanId", parameterList);
+                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByUnitId", parameterList);
 
                 if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
