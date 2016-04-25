@@ -291,7 +291,7 @@
                     <div class="col-md-2" style="width:17%;">
                         <label for="">Fee Pay Date </label>
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
-                        <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
+                        <span class="text-danger field-validation-error" id="errorFeesPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                         @Html.Hidden("iFeeId", "", new { @id = "iFeeId" })
                     </div>
@@ -825,7 +825,7 @@
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
                 //$('#iCurtAmount').removeClass('input-validation-error');
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
                 //document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 $("#btnPay").removeAttr("disabled");
@@ -962,7 +962,7 @@
         onSelect: function () {
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
             $("#payCurtDate").val(formatDate(thisDate));
         }
@@ -983,7 +983,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payCurtDate').removeClass('input-validation-error');
             $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
@@ -1037,15 +1037,15 @@
 
     $('#btnPay').click(function (e) {
         data = { Fees: [] };
-        if ($('#payDate').val() != '') {
+       
             var a = 1;
             if($("#payCurtDate").val() == ""){
-                // show error errorCurtPayDate
-                $('#errorCurtPayDate').text('Please select the Curtailment payment date');
+                // show error errorFeesPayDate
+                $('#errorFeesPayDate').text('Please select the Fees payment date');
                 $('#payCurtDate').addClass('input-validation-error');
                 a=0;
             }
-            if($('#errorCurtPayDate').text() != ""){
+            if($('#errorFeesPayDate').text() != ""){
                 a=0;
             }
             if(a== 0 ){
@@ -1056,7 +1056,7 @@
             //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
             data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
             PayFees(data.Fees);
-        }
+        
     });
 
     function PayFees(lst,date){
@@ -1117,7 +1117,7 @@
     });
     $('#payCurtDate').click(function(e){
 
-        $('#errorCurtPayDate').text('');
+        $('#errorFeesPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
@@ -1137,12 +1137,12 @@
             var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
             if (selectedDate < minDate || selectedDate > maxDate) {
                 // out off range error
-                $('#errorCurtPayDate').text('Out of Range');
+                $('#errorFeesPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             } else {
                 // delete error mssage
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $(this).removeClass('input-validation-error');
             }
 
@@ -1151,7 +1151,7 @@
         } else {
 
             // not valid data error
-            $('#errorCurtPayDate').text('The field must be a date');
+            $('#errorFeesPayDate').text('The field must be a date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
         }

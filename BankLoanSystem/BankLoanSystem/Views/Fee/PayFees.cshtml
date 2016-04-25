@@ -77,7 +77,7 @@
 
 @{int count = 0;
     string type = ""; }
-<div class="btns-clm" id="fee-tabs">
+<div class="btns-clm" id="fee-tabs" style="margin-top: 31px;">
     <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
 
     @if(ViewBag.loanSelected != null && ViewBag.loanSelected.AdvanceFee != null && ViewBag.loanSelected.AdvanceFee == 1) {
@@ -241,14 +241,9 @@
 
 <script>
 
-    //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-    //$("#lkcrtl").click(function (e) { e.preventDefault(); });
-    //$("#lkcrtl").siblings().click(function (e) {
-    //    return true;
-
-    //});
-
-    $("#lkcrtl").hide();
+  
+    // hiding the fee link bar button
+    $("#lkfee").hide();
 
     startPicker = new Pikaday({
         field: document.getElementById('dueDate'),
@@ -257,7 +252,10 @@
         bound: true,
         onSelect: function () {
             var dueDate = this.getDate();
-            FilterFees();
+            
+                FilterFees();
+            
+           
 
             //$.ajax({
             //    url: '/Fee/PayFeesForSelectedDueDate/',
@@ -318,6 +316,11 @@
             $('#errorDueDate').text('Please enter a valid payment date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
+        }
+
+        if ($('#hdnSelectedButton').val() == "") {
+            $('.centered span').text('Please select the Fee type');
+
         }
     });
 
