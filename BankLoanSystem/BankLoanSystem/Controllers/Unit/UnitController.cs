@@ -169,13 +169,15 @@ namespace BankLoanSystem.Controllers.Unit
             unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
 
             //if()
-
+            string IDNumber;
             UnitAccess ua = new UnitAccess();
-            var res = ua.InsertUnit(unit, userId);
+            var res = ua.InsertUnit(unit, userId , out IDNumber);
 
             //if mention advance fee, then insert in to fee table
             if (res == true && unit.AddAndAdvance)
             {
+
+                
                 if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                 {
                     Loan loanObj = new Loan();
@@ -194,6 +196,11 @@ namespace BankLoanSystem.Controllers.Unit
             flag = 1;
             if (res)
             {
+
+                //insert to log 
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Advance amount edited to "+ unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
                 //Handling file attachments
 
                 //Check directory is already exists, if not create new
