@@ -52,7 +52,7 @@ namespace BankLoanSystem.DAL
                     return unitList;
                 }
                 else {
-                    return null;
+                    return unitList;
                 }
             }
             catch
