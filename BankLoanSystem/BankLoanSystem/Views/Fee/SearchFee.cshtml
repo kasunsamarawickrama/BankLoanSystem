@@ -1,0 +1,114 @@
+﻿@model IEnumerable<BankLoanSystem.Models.Fees> 
+@{
+    Layout = null;
+    WebGrid grid1 = new WebGrid(Model, defaultSort: "CreatedDate", selectionFieldName: "selectedRow" , canPage:false);// grid with sorting and paging
+}
+
+
+
+<style>
+    #searchGrid table tbody,
+    #searchGrid table thead {
+        display: block;
+    }
+
+
+
+    #searchGrid table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+
+
+
+@if (Model.Count() != 0)
+{
+     <div id="searchGrid" class="info-bar" style="margin-top:15px;padding-top:10px;padding-bottom:10px;" @*style="margin-top:15px;overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
+         @grid1.GetHtml(
+            tableStyle: "gridtable",
+                     headerStyle: "webgrid-header",
+
+                     alternatingRowStyle: "webgrid-alternating-row",
+                     selectedRowStyle: "select",
+                     rowStyle: "webgrid-row-style",
+                     htmlAttributes: new { id = "searchResultGrid" },
+                     columns: grid1.Columns(
+                         grid1.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                         grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />}</text>),
+                         grid1.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                         grid1.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                         grid1.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                         grid1.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.BillDueDate.ToShortDateString()</label>}</text>),
+                        grid1.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                     
+                 )
+        )
+
+
+     </div>
+
+   
+
+}
+else {
+    <div class="info-bar" id="noDataLabelDiv" style="padding-bottom: 15px;margin-top:10px; font:medium;color:red;text-align:center">
+        @*@Html.Label("No units matching the search could be found.", htmlAttributes: new { @class = "control-label col-sm-3", @style = "float:unset" })*@
+        <label>No units matching the search could be found.</label>
+    </div>
+
+}
+
+
+
+<script>
+
+    $(function () {
+
+
+        $('#searchResultGrid').children('tbody').children('tr').click(function () {
+            var tr = $(this);
+            ClearMainGrid();
+            //$(this).css('background', 'lightblue');
+            SetTextBoxValues(tr);
+            //changePartialPaymentRowColor(); 
+            ClearGrid();
+            if (tr.find("#curtailmentStatus").val() === '2') {
+                tr.css('background', '#fff5cc');//checked color of partial payment   
+            } else { 
+                tr.css('background', 'lightblue');
+            }
+        });
+
+        $(document).ready(function () {
+            changePartialPaymentRowColor();
+        });
+
+        function changePartialPaymentRowColor() {
+            $('.advanceAmount').each(function () {
+                var tr = $(this).parents('tr:first');
+                if (tr.find("#curtailmentStatus").val() === '2') {
+                    $(this).parents('tr').css('background', '#fffae6');
+                }
+            });
+        }
+
+        function ClearGrid() {
+            $('.advanceAmount').each(function () {
+                var tr = $(this).parents('tr:first');
+                
+                if (tr.find("#curtailmentStatus").val() === '2') {                   
+                    tr.css('background', '#fffae6');
+                } else {                   
+                    tr.css('background', 'transparent');
+                }
+            });
+            //GridUpdate();
+            //ChangeCheckBoxText('Select');
+           
+        }
+
+        
+    });
+</script>
