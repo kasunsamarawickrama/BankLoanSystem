@@ -69,44 +69,23 @@ else {
 
         $('#searchResultGrid').children('tbody').children('tr').click(function () {
             var tr = $(this);
-            ClearMainGrid();
-            //$(this).css('background', 'lightblue');
+
+            $(this).css('background', 'lightblue');
+            $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
-            //changePartialPaymentRowColor(); 
-            ClearGrid();
-            if (tr.find("#curtailmentStatus").val() === '2') {
-                tr.css('background', '#fff5cc');//checked color of partial payment   
-            } else { 
-                tr.css('background', 'lightblue');
-            }
-        });
+            ClearMainGrid();
 
-        $(document).ready(function () {
-            changePartialPaymentRowColor();
-        });
 
-        function changePartialPaymentRowColor() {
-            $('.advanceAmount').each(function () {
-                var tr = $(this).parents('tr:first');
-                if (tr.find("#curtailmentStatus").val() === '2') {
-                    $(this).parents('tr').css('background', '#fffae6');
-                }
-            });
-        }
+
+        });
+       
 
         function ClearGrid() {
-            $('.advanceAmount').each(function () {
+            $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
+                tr.css('background', 'transparent');
                 
-                if (tr.find("#curtailmentStatus").val() === '2') {                   
-                    tr.css('background', '#fffae6');
-                } else {                   
-                    tr.css('background', 'transparent');
-                }
-            });
-            //GridUpdate();
-            //ChangeCheckBoxText('Select');
-           
+            });           
         }
 
         
