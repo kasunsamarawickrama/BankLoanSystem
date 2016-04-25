@@ -335,5 +335,10 @@ namespace BankLoanSystem.Controllers
         {
             return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
+        public ActionResult Downloaderx(string ImageName)
+        {
+            return File(ImageName, "application/pdf");
+
+        }
     }
 }
