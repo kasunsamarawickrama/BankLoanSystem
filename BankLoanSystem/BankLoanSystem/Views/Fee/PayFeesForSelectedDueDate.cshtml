@@ -91,11 +91,13 @@
                                                                  , header: "{checkall}"
                                                          ),
                                                               @*grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),*@
-                                                         grid.Column(
-                                                              "BillDueDate",
-                                                              "Due Date", style: "gridColumnlarge",
-                                                              format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
-                                                         ), grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnlargeWithAlign", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
+                                                        grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="DueDate" class="AdvanceDate">@item.BillDueDate.ToShortDateString()</label>}</text>),
+            //grid.Column(
+            //                                                  "BillDueDate",
+            //                                                  "Due Date", style: "gridColumnlarge",
+            //                                                  format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                         //), 
+                                                        grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnlargeWithAlign", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                                                  )
 
                                           )
@@ -1036,7 +1038,7 @@
                     if('@Model.Type' == 'advanceFee'){
                         data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").val()});
                     }else{
-                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),DueDate:$('#DueDate').text()});
                     }
                 }
             });
@@ -1067,7 +1069,7 @@
             if('@Model.Type' == 'advanceFee'){
                 data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:$('#iVin').val() });
             }else{
-                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),DueDate:$('#dateAdvance').val()});
             }
             PayFees(data.Fees);
 
