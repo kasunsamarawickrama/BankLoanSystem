@@ -205,7 +205,7 @@ namespace BankLoanSystem.Controllers.Unit
             {
 
                 //insert to log 
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Advance amount edited to "+ unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 //Handling file attachments
