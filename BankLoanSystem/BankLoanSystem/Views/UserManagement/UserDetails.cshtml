@@ -221,7 +221,7 @@
     <div class="md">
         <h3>Manage Details</h3>
         <div>
-            <button class="big-button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/EditUserAtDashboard'" type="button">
                 <span class="icon-user"></span>
                 <span class="txt">Edit User</span>
             </button>
@@ -232,10 +232,24 @@
                 <span class="txt">Edit Branch</span>
             </button>
             }
-            <button class="big-button">
+            @using (Ajax.BeginForm(
+            "Selectloan",
+            "UserManagement", new { type = "tidenaol" },
+            new AjaxOptions
+            {
+            OnFailure = "handleError",
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "selcet-panel",
+            LoadingElementId = "loadingSpan"
+            }, new { style = "display:inline-block" }))
+            {
+            <button class="big-button show-popup" type="submit" data-showpopup="1">
                 <span class="icon-clipboard"></span>
                 <span class="txt">Edit Loan</span>
             </button>
+            }
+           
             <button class="big-button"  onclick="window.location.href='/SetupProcess/Step4?dashbrd=bshdrdhomcrpt'" type="button">
                 <span class="icon-user-tie"></span>
                 <span class="txt">Edit Partner</span>

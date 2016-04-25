@@ -88,6 +88,8 @@ namespace BankLoanSystem.Models
         public int LoanId { get; set; }
 
         public string LoanNumber { get; set; }
+
+        public string BranchNameAddress { get; set; }
     }
 
     public class NonRegBranch : Branch

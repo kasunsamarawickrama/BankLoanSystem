@@ -133,5 +133,36 @@ namespace BankLoanSystem.Controllers.Fee
 
             return returnValue;
         }
+
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/25
+        /// Search Fees
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchFee(string identificationNumber, string year, string make, string vehicleModel, FeesModel CurtailmentList)
+        {
+            List<Fees> SearchList = new List<Fees>();
+
+            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+            {
+                //search through list elements
+                Search sc = new Search();
+
+                SearchList = sc.GetSearchFeeList(CurtailmentList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
+
+                return PartialView(SearchList);
+            }
+            else
+            {
+
+                return PartialView(SearchList);
+            }
+        }
+
     }
 }

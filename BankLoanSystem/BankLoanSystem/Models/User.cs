@@ -11,7 +11,7 @@ namespace BankLoanSystem.Models
     {
 
         [Required]
-        [Display(Name = "User Id")]
+        [Display(Name = "User Name")]
         public int UserId { get; set; }
 
 
@@ -60,8 +60,17 @@ namespace BankLoanSystem.Models
         [Required]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [Display(Name = "Current Password")]
+        public string CurrentPassword { get; set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [Required]
+        public bool ChangePassword { get; set; }
 
         [Required]
         [Display(Name = "Confirm Password")]
@@ -70,7 +79,7 @@ namespace BankLoanSystem.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "IsActive")]
+        [Display(Name = "Status")]
         public bool Status { get; set; }
 
         [Required]
@@ -128,6 +137,9 @@ namespace BankLoanSystem.Models
         public List<Right> UserRightsList { get; set; }
 
         public string ActivationCode { get; set; }
+
+        public List<Branch> BranchList { get; set; }
+        public List<User> UserList { get; set; }
     }
 
     /// <summary>
@@ -157,4 +169,6 @@ namespace BankLoanSystem.Models
         public int NonRegBranchId { get; set; }
         public int LoanId { get; set; }
     }
+
+   
 }

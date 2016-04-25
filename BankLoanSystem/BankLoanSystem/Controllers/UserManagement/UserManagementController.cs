@@ -803,19 +803,39 @@ namespace BankLoanSystem.Controllers
                 }
 
             }
+            LoanSelection detail = new LoanSelection();
+            //if edit loan
+           if (!string.IsNullOrEmpty(type) && type.Contains("tidenaol")) 
+           {
+                detail = (new UnitAccess()).GetInActiveLoans(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
+                if(detail!=null) 
+                {
+                    Session["detail"] = detail;
+                }
+                else 
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+           else if(!string.IsNullOrEmpty(type)) 
+           {
+                detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
+                if (detail == null)
+                {
+                    ViewBag.type = "return";
+                    return PartialView();
+                }
+                else if(detail!=null){
+                    Session["detail"] = detail;
+                }
+
+                
+            }
+            
+
            
 
-            LoanSelection detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId,userData.Company_Id,userData.BranchId,userData.RoleId);
-
-            if (detail == null)
-            {
-                ViewBag.type = "return";
-                return PartialView();
-            }
-
-            Session["detail"] = detail;
-
-            int userId = userData.UserId; ;
+            int userId = userData.UserId; 
             // if Session is expired throw an error
 
 
@@ -945,7 +965,11 @@ namespace BankLoanSystem.Controllers
                 return PartialView(loanSelection);
             }
 
-
+            else if (type == "tidenaol") // for add unit page
+            {
+                ViewBag.type = "EditLoan";
+                return PartialView(loanSelection);
+            }
             return PartialView(loanSelection);
         }
 
@@ -1041,7 +1065,10 @@ namespace BankLoanSystem.Controllers
                         finalSelectedLoan.IsTitleTrack = 0;
                     }
                     //finalSelectedLoan.IsTitleTrack =
-
+                    //for edit loan
+                    finalSelectedLoan.CurrentLoanStatus = l.CurrentLoanStatus;
+                    finalSelectedLoan.CreatedDate = l.CreatedDate;
+                    finalSelectedLoan.LoanAmount = l.loanAmount;
                     foreach (var nrbr in list3.NonRegBranchList)
                     {
                         if (nrbr.NonRegBranchId == l.nonRegisteredBranchId)
@@ -1066,6 +1093,11 @@ namespace BankLoanSystem.Controllers
                         Session["loanDashboardAssignUser"] = finalSelectedLoan;
 
                     }
+                    else if ((string)Session["popUpSelectionType"] == "tidenaol")
+                    {
+                        Session["loanDashboardEditLoan"] = finalSelectedLoan;
+
+                    }
                     else {
                         Session["loanDashboard"] = finalSelectedLoan;
                     }
@@ -1079,6 +1111,10 @@ namespace BankLoanSystem.Controllers
             else if ((string)Session["popUpSelectionType"] == "linkDealer")
             {
                 return RedirectToAction("../CreateDealer/LinkDealer");
+            }
+            else if ((string)Session["popUpSelectionType"] == "tidenaol")
+            {
+                return RedirectToAction("EditLoan");
             }
             else
             {
@@ -1682,7 +1718,477 @@ namespace BankLoanSystem.Controllers
             
             return str;
         }
-    }
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/04/20
+        /// 
+        /// edit loan
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public ActionResult SelectInActiveLoan(string type)
+        {
+            if ((userData.RoleId == 1) || (userData.RoleId == 2))
+            {
+                LoanSelection detail = (new UnitAccess()).GetInActiveLoans(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
+
+                if (detail != null)
+                {
+                    Session["InActiveLoanDetails"] = detail;
+                }
+
+                //Session["detail"] = detail;
+
+                int userId = userData.UserId; 
+                // if Session is expired throw an error
+
+
+                loanSelection.RegBranches = new List<Branch>();
+                loanSelection.NonRegBranchList = new List<NonRegBranch>();
+                loanSelection.LoanList = new List<LoanSetupStep1>();
+
+
+                //getting user role
+                UserAccess ua = new UserAccess();
+
+
+
+                // curUser.Company_Id   asanka 8/3/2016
+                //create list for nonRegisterCompaniers
+
+                List<NonRegBranch> NonRegisteredBranchLists = detail.NonRegBranchList; //(new BranchAccess()).getNonRegBranches(userData.Company_Id);
+
+                if (userData.RoleId == 1)
+                {
+
+                    loanSelection.RegBranches = detail.RegBranches; //(new BranchAccess()).getBranches(userData.Company_Id);
+
+                    if (loanSelection.RegBranches.Count() == 1)
+                    {
+
+
+
+                        // the get non registered branches details for perticular branch  from the non registeres branches list
+                        foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                        {
+                            if (branch.BranchId == loanSelection.RegBranches[0].BranchId)
+                            {
+
+                                loanSelection.NonRegBranchList.Add(branch);
+
+
+                            }
+                        }
+
+
+
+                        if (loanSelection.NonRegBranchList.Count() == 1)
+                        {
+
+                            List<LoanSetupStep1> loanLists = detail.LoanList; //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+                            loanSelection.LoanList = new List<LoanSetupStep1>();
+                            foreach (LoanSetupStep1 loan in loanLists)
+                            {
+                                // if(loan.LoanStatus == true)
+                                //  {
+                                loanSelection.LoanList.Add(loan);
+                                //  }
+                            }
+
+                            //if loans count is one redirect to add unit page
+                        }
+                    }
+
+                }
+                else if (userData.RoleId == 2)
+                {
+
+                    //loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
+
+                    loanSelection.RegBranches.Add(detail.RegBranches[0]);
+
+
+                    // the get non registered branches details for perticular branch  from the non registeres branches list
+                    foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                    {
+                        if (branch.BranchId == userData.BranchId)
+                        {
+
+                            loanSelection.NonRegBranchList.Add(branch);
+
+
+                        }
+                    }
+                    if (loanSelection.NonRegBranchList.Count() == 1)
+                    {
+                        loanSelection.LoanList = detail.LoanList; //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+
+                    }
+                }
+                Session["popUpType"] = type;
+                if (type == "tidenaol") // for add unit page
+                {
+                    ViewBag.type = "EditLoan";
+                    return PartialView(loanSelection);
+                }
+
+                else
+                {
+                    return View();
+                }
+
+
+                //return PartialView(loanSelection);
+
+
+                //return View();
+            }
+
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/04/20
+        /// 
+        /// edit loan
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public ActionResult EditLoan()
+        {
+            Session.Remove("popUpSelectionType");
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                //Session.Remove("oneLoanDashboard");
+            }
+            if (Session["loanDashboardAssignUser"] != null)
+            {
+                loan = (Loan)Session["loanDashboardAssignUser"];
+            }
+            if (Session["loanDashboardEditLoan"] != null)
+            {
+                loan = (Loan)Session["loanDashboardEditLoan"];
+            }
+            if (TempData["EditReslt"] != null)
+            {
+                if ((string)TempData["EditReslt"] == "success")
+                {
+                    ViewBag.SuccessMsg = "Loan Status Successfully Updated";
+                    if ((Session["loanDashboardEditLoan"] != null) && (Session["loanDashboardEditLoan"].ToString() != ""))
+                    {
+                        loan.CurrentLoanStatus = true;
+                    }
+
+                        //Session["loanDashboardEditLoan"] = null;
+                        //loan = new Loan();
+                        //return View(loan);
+                    }
+                else if ((string)TempData["EditReslt"] == "failed")
+                {
+                    ViewBag.ErrorMsg = "Failed To Update Loan Status";
+                }
+            }
+            if ((Session["loanDashboardEditLoan"] != null)&&(Session["loanDashboardEditLoan"].ToString()!=""))
+            {
+            
+                
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView(loan);
+                }
+                else
+                {
+
+                    return View(loan);
+                }
+                //return View();
+            }
+            else {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return RedirectToAction("UserDetails");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserDetails");
+                }
+            }
+            //return View();
+        }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/04/20
+        /// 
+        /// edit loan - post
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+       
+        public void UpdateLoanStatus(int slctdLoanId,string slctdLoanCode)
+        {
+           if((slctdLoanId>0)&&(!string.IsNullOrEmpty(slctdLoanCode))) 
+           {
+                LoanSetupAccess ls = new LoanSetupAccess();
+                int reslt = ls.UpdateLoanStatus(slctdLoanId, slctdLoanCode);
+                if(reslt==1) 
+                {
+                    TempData["EditReslt"] = "success";
+                    //Session["loanDashboardEditLoan"] = "";
+                }
+                else 
+                {
+                    TempData["EditReslt"] = "failed";
+                }
+           }
+            else
+            {
+                TempData["EditReslt"] = "failed";
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/04/22
+        /// 
+        /// edit user(not include edit rights)
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public ActionResult EditUserAtDashboard()
+        {
+            if (Session["AuthenticatedUser"] != null)
+            {
+                ViewBag.UserRole = userData.RoleId;
+
+                if(TempData["UpdteReslt"]!=null) 
+                {
+                if(int.Parse(TempData["UpdteReslt"].ToString())==1) 
+                {
+                        ViewBag.SuccessMsg = "User is successfully updated";
+                }
+                   else if (int.Parse(TempData["UpdteReslt"].ToString()) == 0)
+                    {
+                        ViewBag.ErrorMsg = "Failed to update user";
+                    }
+                }
+
+                RoleAccess ra = new RoleAccess();
+                List<UserRole> roleList = ra.GetAllUserRoles();
+                List<UserRole> tempRoleList = new List<UserRole>();
+
+                for (int i = 0; i < roleList.Count; i++)
+                {
+                    if ((userData.RoleId == 2) && (roleList[i].RoleId == 1))
+                    {
+                        continue;
+                    }
+                    UserRole tempRole = new UserRole()
+                    {
+                        RoleId = roleList[i].RoleId,
+                        RoleName = roleList[i].RoleName
+                    };
+                    tempRoleList.Add(tempRole);
+                }
+
+                ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
+                if ((userData.RoleId == 1) ||(userData.RoleId == 2))
+                {
+                    User eum = new User();
+                    List<User> usrList = new List<User>();
+
+                    UserAccess uas = new UserAccess();
+                    //usrList = uas.GetAllUsersByCompanyId(userData.Company_Id);
+
+                    if (userData.RoleId == 1)
+                    {
+                        //get all branches for the company
+                        BranchAccess ba = new BranchAccess();
+                        
+                        eum.BranchList = ba.GetBranchesByCompanyId(userData.Company_Id);
+
+                        if (eum.BranchList == null)
+                        {
+                            eum.BranchList = new List<Branch>();
+                        }
+                        eum.UserList = new List<User>();
+
+                        ViewBag.BranchId = new SelectList(eum.BranchList, "BranchId", "BranchNameAddress");
+                        ViewBag.UserId = new SelectList(eum.UserList, "UserId", "UserName");
+
+                        //return View(eum);
+                    }
+                    else if (userData.RoleId == 2)
+                    {
+                        eum.BranchList = new List<Branch>();
+                        eum.UserList = new List<User>();
+                        ViewBag.BranchId = new SelectList(eum.BranchList, "BranchId", "BranchNameAddress");
+                        ViewBag.UserId = new SelectList(eum.UserList, "UserId", "UserName");
+                    }
+
+
+                    return View(eum);
+                }
+               
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+            //return View();
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 4/22/2016
+        /// Get Users By BranchId
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetUsersByBranchId(int roleId,int branchId)
+        {
+        if(branchId==0) 
+        {
+            if(userData.BranchId>0) 
+            {
+                        branchId = userData.BranchId;
+            }
+        }
+            if ((branchId > 0)&&(roleId>1))
+            {
+                User eum = new User();
+                UserAccess uas = new UserAccess();
+                eum.UserList = uas.GetAllUsersByBranchId(roleId,branchId);
+                 if(eum.UserList != null) 
+                {
+                    //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
+                    return Json(eum);
+                }
+               else 
+               {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 4/22/2016
+        /// Get super admins
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetSuperAdminsDetails(int roleId)
+        {
+            if (roleId == 1)
+            {
+                User eum = new User();
+                UserAccess uas = new UserAccess();
+                eum.UserList = uas.GetSuperAdminsByCompanyId(userData.Company_Id);
+                //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
+                //return Json(UserList1);
+               if (eum.UserList != null)
+                {
+                    //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
+                    return Json(eum);
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 4/22/2016
+        /// Get Users By UserId
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetUserByUserId(int userId)
+        {
+            if (userId > 0)
+            {
+                User userObj = new User();
+                UserAccess uas = new UserAccess();
+                userObj = uas.retreiveUserByUserId(userId);
+                //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
+                return Json(userObj);
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/04/22
+        /// 
+        /// post method - edit user(not include edit rights)
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult EditUserAtDashboard(User user)
+        {
+        if(user!=null) 
+        {
+        if((!string.IsNullOrEmpty(user.CurrentPassword)) && (!string.IsNullOrEmpty(user.Password))&& (!string.IsNullOrEmpty(user.ConfirmPassword))) 
+        {
+                    string newSalt = PasswordEncryption.RandomString();
+                    user.CurrentPassword = PasswordEncryption.encryptPassword(user.CurrentPassword, newSalt);
+                    user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+        }
+
+                UserAccess usrAcc = new UserAccess();
+                int reslt = usrAcc.UpdateUser(user,userData.UserId);
+                if(reslt==1) 
+                {
+                    TempData["UpdteReslt"] = 1;
+                }
+                else 
+                {
+                    TempData["UpdteReslt"] = 0;
+                }
+                return RedirectToAction("EditUserAtDashboard");
+            }
+        else 
+        {
+                return RedirectToAction("UserLogin", "Login");
+        }
+            
+        }
+        }
 
     
 }

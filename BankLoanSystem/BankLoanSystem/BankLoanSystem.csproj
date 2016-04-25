@@ -287,6 +287,7 @@
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\InterestAccess.cs" />
     <Compile Include="DAL\LoanSetupAccess.cs" />
+    <Compile Include="DAL\LogAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
     <Compile Include="DAL\ReportAccess.cs" />
     <Compile Include="DAL\RoleAccess.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Models\LoanSelection.cs" />
     <Compile Include="Models\LoanSetupStep.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
@@ -495,6 +497,10 @@
     <Content Include="Uploads\LEN01\LEN01_01\example.pdf" />
     <Content Include="Views\DeleteUnit\GridView.cshtml" />
     <Content Include="Views\DeleteUnit\FeeDetails.cshtml" />
+    <Content Include="Views\UserManagement\EditLoan.cshtml" />
+    <Content Include="Views\UserManagement\SelectInActiveLoan.cshtml" />
+    <Content Include="Views\UserManagement\EditUserAtDashboard.cshtml" />
+	<Content Include="Views\Fee\SearchFee.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
