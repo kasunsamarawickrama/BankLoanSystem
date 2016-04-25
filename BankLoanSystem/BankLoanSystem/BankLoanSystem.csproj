@@ -181,6 +181,7 @@
     <Content Include="Images\companySetupImage.png" />
     <Content Include="Images\currentstpIco.png" />
     <Content Include="Images\deleteRow.png" />
+    <Content Include="Images\doc.png" />
     <Content Include="Images\formTitleBG.png" />
     <Content Include="Images\infoIcon.png" />
     <Content Include="Images\loanBG.png" />
@@ -195,19 +196,23 @@
     <Content Include="Images\partnersetupIco.png" />
     <Content Include="Images\partnerSetupImage.png" />
     <Content Include="Images\passwordIco.png" />
+    <Content Include="Images\pdf.png" />
     <Content Include="Images\pendingIco.png" />
     <Content Include="Images\plus.jpg" />
+    <Content Include="Images\ppt.png" />
     <Content Include="Images\profile_small.jpg" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\rightBG.jpg" />
     <Content Include="Images\rightIco.png" />
     <Content Include="Images\slogoutIcon.png" />
     <Content Include="Images\small_loading.gif" />
+    <Content Include="Images\sql.png" />
     <Content Include="Images\subBG.png" />
     <Content Include="Images\userBG.png" />
     <Content Include="Images\usernameIco.png" />
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
+    <Content Include="Images\xls.png" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
     <Content Include="Reports\RptDivAdvanceUnit.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
@@ -231,6 +236,9 @@
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\popup.js" />
+    <Content Include="Uploads\LEN01\LEN01_01\script.sql" />
+    <Content Include="Uploads\LEN01\LEN01_02\ffffffffffff.jpg" />
+    <Content Include="Uploads\LEN01\LEN01_02\imagesee.jpg" />
     <Content Include="Views\DeleteUnit\Delete.cshtml" />
     <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="Web.config">
@@ -481,6 +489,9 @@
     <Content Include="Views\Fee\PayFees.cshtml" />
     <Content Include="Views\Fee\PayFeesForSelectedDueDate.cshtml" />
     <Content Include="Views\Fee\PayFeesForSelectedDueDate2.cshtml" />
+    <Content Include="Uploads\LEN01\LEN01_01\vehicledata-new list.xls" />
+    <Content Include="Uploads\LEN01\LEN01_01\Presentations-Tips.ppt" />
+    <Content Include="Uploads\LEN01\LEN01_01\example.pdf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -490,7 +501,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\LEN01\LEN01_01\" />
     <Folder Include="Views\Dealer\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />

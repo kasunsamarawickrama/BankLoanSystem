@@ -148,7 +148,6 @@ namespace BankLoanSystem.Models
 
         public string CurrentUnitStatus { get; set; }
 
-
     }
 
     public class LoanPaymentDetails {

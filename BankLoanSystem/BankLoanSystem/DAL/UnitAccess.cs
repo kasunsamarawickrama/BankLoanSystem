@@ -60,6 +60,49 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+        /// <summary>
+        /// CreatedBy:kasun
+        /// CreatedDate:2016/4/22
+        /// 
+        /// Get all titles for a loan
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public List<TitleUpload> GetUploadTitlesByLoanId(int loanId)
+        {
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> parameterList = new List<object[]>();
+            List<TitleUpload> titleList = new List<TitleUpload>();
+
+            parameterList.Add(new object[] { "@loan_id", loanId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetUploadTitlesByLoanId", parameterList);
+
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    foreach (DataRow reader in dataSet.Tables[0].Rows)
+                    {
+                        TitleUpload title = new TitleUpload();
+
+                        title.FilePath = reader["file_path"].ToString();
+                        title.UnitId = reader["unit_id"].ToString();
+                        title.OriginalFileName = reader["original_file_name"].ToString();
+
+                        titleList.Add(title);
+                    }
+                    return titleList;
+                }
+                else {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// CreatedBy:Piyumi
