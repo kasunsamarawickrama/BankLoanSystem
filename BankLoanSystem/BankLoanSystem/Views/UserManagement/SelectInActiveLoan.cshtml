@@ -2,64 +2,22 @@
 
 <script src="~/scripts/popup.js"></script>
 
-    @{
-        string actoinName = "";
-        string controllerName = "";
-    }
+@{
+    string actoinName = "";
+    string controllerName = "";
+}
 
-    @if (ViewBag.type == "AddUnit")
-    {
-        actoinName = "addunit";
-        controllerName = "unit";
-    }
-    else if (ViewBag.type == "Advance")
-    {
-        actoinName = "Advance";
-        controllerName = "AdvanceUnit";
-    }
+@if (ViewBag.type == "EditLoan")
+{
+    actoinName = "EditLoan";
+    controllerName = "UserManagement";
+}
 
-    else if (ViewBag.type == "Curtailment")
-    {
-        actoinName = "PayCurtailments";
-        controllerName = "Curtailments";
-    }
-
-    else if (ViewBag.type == "PayOff")
-    {
-        actoinName = "PayOff";
-        controllerName = "UnitPayOff";
-    }
-
-    else if (ViewBag.type == "Title")
-    {
-        actoinName = "TitleStatusUpdate";
-        controllerName = "UnitTitle";
-    }
-    else if (ViewBag.type == "DashBoard")
-    {
-        actoinName = "UserDetails";
-        controllerName = "UserManagement";
-    }
-    else if (ViewBag.type == "linkDealer")
-    {
-        actoinName = "LinkDealer";
-        controllerName = "UserManagement";
-    }
-    else if (ViewBag.type == "assignRights")
-    {
-        actoinName = "assignRights";
-        controllerName = "UserManagement";
-    }
-    else if (ViewBag.type == "EditLoan")
-    {
-        actoinName = "EditLoan";
-        controllerName = "UserManagement";
-    }
-    else
-    {
-        <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
-    }
-    @*@if (Model.LoanList != null)
+else
+{
+    <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
+}
+@*@if (Model.LoanList != null)
     {
         <script>
 
@@ -106,7 +64,8 @@
                             <a> @Model.RegBranches[0].BranchName</a>
                         </li>
                     }
-                    else {
+                    else
+                    {
                         foreach (var item in Model.RegBranches)
                         {
                             <li>
@@ -142,7 +101,8 @@
 
                                 </li>
                             }
-                            else {
+                            else
+                            {
                                 foreach (var item in Model.NonRegBranchList)
                                 {
                                     <li>
@@ -162,38 +122,35 @@
                         <li><h5>Loan Number</h5></li>
                         @if (Model.LoanList != null)
                         {
-                            if (Model.LoanList.Count() == 0)
+                            if (Model.NonRegBranchList.Count() == 1 && Model.LoanList.Count() == 0)
                             {
-                                <span class="text-danger" style="float:left;margin-left:-100%;font-size:medium"> No loans to edit could be found</span>
+                                <span class="text-danger"> No Loans Found</span>
                             }
-                            else {
-                                foreach (var item in Model.LoanList)
-                                {
+                            foreach (var item in Model.LoanList)
+                            {
 
 
-                                    //if (item.LoanStatus)
-                                    //{
-                                    //@Html.ActionLink(modelItem => item.loanNumber)
-                                    c++;
+                                //if (item.LoanStatus)
+                                //{
+                                //@Html.ActionLink(modelItem => item.loanNumber)
+                                c++;
 
-                                    <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
+                                <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
 
-                                    //}
+                                //}
 
 
 
-                                }
                             }
 
-
-                            @*if (c == 0 && Model.LoanList.Count() == 0)
+                            if (c == 0 && Model.LoanList.Count() != 0)
                             {
                                 <span class="text-danger"> No Active Loans Found</span>
-                            }*@
+                            }
 
 
                         }
-                       
+
                     </ul>
 
                 </div>
@@ -245,6 +202,6 @@
 
 
 
-
-
     </script>
+
+

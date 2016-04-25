@@ -1,0 +1,219 @@
+﻿@model BankLoanSystem.Models.Loan
+
+
+@{
+    ViewBag.Title = "Edit Loan";
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    }
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+<style>
+    .err_msg_box {
+        text-align: left;
+    }
+
+    #page-wrapper {
+        min-height: 568px;
+        padding: 0 36px;
+        float: unset !important;
+        /* position: relative !important; */
+        margin: auto !important;
+    }
+</style>
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+
+@*<script src="~/scripts/bootstrap.min.js"></script>*@
+
+@*<link href="~/Content/pikaday.css" rel="stylesheet" />
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />
+    <script src="~/scripts/moment.js"></script>
+    <script src="~/scripts/pikaday.js"></script>*@
+
+<link href="~/Content/commonActions.css" rel="stylesheet" />
+
+
+
+
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 706px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="container body-content">
+
+                <div class="row">
+                    <div class="container body-content new_container">
+                        @*<div class="setupImage"><img src="~/Images/UserSetupImage.png" width="100" alt=""></div>*@
+                        @*<div >
+                                <h2>Join Dealer Account</h2>
+                            </div>*@
+                        <div style="clear:both;"></div>
+                        <div class="form-horizontal new_form_horizontal">
+                            @*<div class="topErrors">
+                                    <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                </div>*@
+                            <div class="topErrors">
+                                <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
+                                @*<div class="text-danger">@ViewBag.Error</div>*@
+                            </div>
+
+                            <div class="form-horizontal">
+
+                                <div style="clear:both"></div>
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Loan Status Successfully Updated"))
+                                {
+                                <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+                                
+
+                                }
+                                
+                               else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update Loan Status"))
+                                {
+                                <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+
+                                }
+
+
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Branch Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtLender", @disabled = "disabled" } })
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Partner Branch Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.PartnerName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtDealer", @disabled = "disabled" } })
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Loan Number</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.LoanNumber, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtLoanNum", @disabled = "disabled" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Loan Amount<span style="float:right;margin-top: -3px;font-size: 18px;">$</span></label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.LoanAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtLoanAmount", @disabled = "disabled" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Created Date</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCreatedDate", @disabled = "disabled" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Current Loan Status</label>
+                                            </div>
+                                            @if (Model != null && Model.CurrentLoanStatus)
+                                            {
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.Editor("Active", new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCurrentStatus", @disabled = "disabled", @Value = "Active" } })
+                                            </div>
+                                            }
+                                            else if (Model != null)
+                                            {
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.Editor("In Active", new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCurrentStatus", @disabled = "disabled", @Value = "Not Active" } })
+                                            </div>
+                                            }
+                                            
+                                        </div>
+                                        <div id="loanid" class="hidden"></div>
+                                        <div id="loancode" class="hidden"></div>
+
+                 <div class="form-group new_form_group clear_next clear_next_bordr">
+                                            <div>
+                                                <nav>
+                                                    <div class="pager new_pager">
+                                                        <div class="button_box algn_left">
+                                                            @*<input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button">*@
+                                                        </div>
+                                                            @if (Model != null && Model.CurrentLoanStatus)
+                                                            {
+                                                                <div class="button_box algn_center" hidden>
+                                                                    <input value="Deactivate Loan" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button" id="btnActiveLoan">
+                                                                </div>
+                                                            }
+                                                            else if(Model != null)
+                                                            {
+                                                                <div class="button_box algn_center">
+                                                                    <input value="Activate Loan" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="button" id="btnActiveLoan">
+                                                                </div>
+                                                            }
+
+                                                        <div class="button_box algn_right">
+                                                            <input id="btnDashbrd" value="Go to Dashboard" class="btn btn-primary m-b next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                
+                                <div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnActiveLoan').click(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+       // alert(model.LoanId+model.LoanCode);
+       // document.getElementById('#btnActiveLoan').innerHTML = model.LoanId;
+        $.ajax({
+            url: '/UserManagement/UpdateLoanStatus/',
+            data: JSON.stringify({ slctdLoanId: model.LoanId,slctdLoanCode:model.LoanCode }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (View) {
+                $(location).attr('href', '/UserManagement/EditLoan');
+
+                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+            },
+            error: function (response) {$(location).attr('href', '/Login/UserLogin');}
+        });
+    });
+</script>
+

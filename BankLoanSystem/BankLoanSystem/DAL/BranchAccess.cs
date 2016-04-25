@@ -908,5 +908,61 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/22/2016
+        /// Get all branches by companyId
+        /// </summary>
+        /// <param name="company_Id"></param>
+        /// <returns></returns>
+        public List<Branch> GetBranchesByCompanyId(int company_Id)
+        {
+            List<Branch> branchesLists = new List<Branch>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@companyId", company_Id });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetBranchesByCompanyId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Branch branch = new Branch();
+
+                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+
+                        branch.BranchName = dataRow["branch_name"].ToString();
+                        branch.BranchCode = dataRow["branch_code"].ToString();
+                        //branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                        branch.BranchAddress1 = dataRow["branch_address_1"].ToString();
+                       
+                        branch.BranchCity = dataRow["city"].ToString();
+
+                        if (!string.IsNullOrEmpty(branch.BranchAddress1) && !string.IsNullOrEmpty(branch.BranchCity))
+                        {
+                            branch.BranchNameAddress = branch.BranchName + "-" + branch.BranchAddress1 + "," + branch.BranchCity;
+                        }
+                        else
+                        {
+                            branch.BranchNameAddress = branch.BranchName;
+                        }
+                      
+                        branchesLists.Add(branch);
+                    }
+                    return branchesLists;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

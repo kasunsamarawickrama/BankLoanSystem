@@ -756,7 +756,40 @@ namespace BankLoanSystem.DAL
             }
         }
 
-       
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate: 4/21/2016
+        /// Update Loan Status
+        /// </summary>
+        /// <param name="slctdLoanId"></param>
+        /// <param name="slctdLoanCode"></param>
+        /// <returns></returns>
+        public int UpdateLoanStatus(int slctdLoanId, string slctdLoanCode)
+        {
+            if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)))
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+
+               
+                paramertList.Add(new object[] { "@loan_id", slctdLoanId });
+                paramertList.Add(new object[] { "@loan_code", slctdLoanCode });
+                paramertList.Add(new object[] { "@loan_status", 1 });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLReturn("spUpdateLoanStatus", paramertList);
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+            else 
+            {
+                return 0;
+            }
+        }
     }
 
 
