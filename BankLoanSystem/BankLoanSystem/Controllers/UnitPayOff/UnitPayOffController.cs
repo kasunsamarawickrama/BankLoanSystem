@@ -174,13 +174,18 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 if(result == 1)
                 {
-                    string VinNumbers = "";
-                    foreach(var payoff in payOffModelList)
+
+                    List<string> IDNumbers = new List<string>();
+
+                    foreach (var payoff in payOffModelList)
                     {
-                        VinNumbers = VinNumbers + payoff.IdentificationNumber +", ";
+                        IDNumbers.Add(payoff.IdentificationNumber);
+                       
+
                     }
+
                     //insert to log 
-                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, payOffModelList[0].LoanId, "Pay Off", "Pay Off unit(s) : " + VinNumbers + "Pay Date : " + payDate.ToString("dd/MM/yyyy"), DateTime.Now);
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, payOffModelList[0].LoanId, "Pay Off", "Pay Off unit(s) : " + string.Join(",", IDNumbers) + ", Pay Date : " + payDate.ToString("dd/MM/yyyy"), DateTime.Now);
 
                     int islog = (new LogAccess()).InsertLog(log);
                 }

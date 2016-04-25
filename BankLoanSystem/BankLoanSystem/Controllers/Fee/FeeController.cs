@@ -165,6 +165,69 @@ namespace BankLoanSystem.Controllers.Fee
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
 
+            //insert to log 
+            if (returnValue == 1)
+            {
+                
+                
+                Log log;
+
+                if(type == "advanceFee")
+                {
+
+
+                    List<string> IDNumbers = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        IDNumbers.Add(fee.IdentificationNumber);
+
+
+                    }
+
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees","Advance Fee Paid for the unit(s) : " + string.Join(",", IDNumbers) + " , Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "monthlyLoanFee")
+                {
+
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", " Monthly Loan Fee Paid for the due date(s) : { "+ string.Join(",", DueDates) + "}" + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "lotInspectionFee")
+                {
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", "Lot Inspection Fee Paid for the due date(s) : { " + string.Join(",", DueDates) + " } " + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+
+
+                
+            }
+
             return returnValue;
         }
 
