@@ -33,20 +33,14 @@
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
     <div>
+        <div  id="gridHeader" style="text-align:left;font-weight: bold;">
+           
+        </div>
         @if (Model.Type == "advanceFee")
         {
-                @grid.GetHtml(
-
-                                              tableStyle: "gridtable",
-                                              headerStyle: "webgrid-header",
-                                              alternatingRowStyle: "webgrid-alternating-row",
-                                              rowStyle: "webgrid-row-style",
-                                              htmlAttributes: new { id = "checkableGrid" },
-
-
-                                              columns: grid.Columns(
-                                                      grid.Column(style: "gridColumnSelect",
-                                                           format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
+           
+           
+                 @grid.GetHtml(  tableStyle: "gridtable", headerStyle: "webgrid-header", alternatingRowStyle: "webgrid-alternating-row", rowStyle: "webgrid-row-style", htmlAttributes: new { id = "checkableGrid" },   columns: grid.Columns( grid.Column(style: "gridColumnSelect", format: @<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                               , header: "{checkall}"
                                                       ),
 
@@ -68,6 +62,7 @@
         }
         else
         {
+            <div id="monthlyLotFeeHeader" class="" hidden></div>
             @grid.GetHtml(
 
                                                  tableStyle: "gridtable",
