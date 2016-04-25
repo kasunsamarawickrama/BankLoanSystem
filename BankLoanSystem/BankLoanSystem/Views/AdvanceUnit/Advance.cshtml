@@ -953,7 +953,11 @@
                 "IdentificationNumber": $('#iVin').val(),
                 "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
                 "AdvanceDate": $('#advanceDate').val(),
-                "Cost": $('#iCost').val().replace(',', '')
+                "Cost": $('#iCost').val().replace(',', ''), 
+                "IdentificationNumber": $('#iVin').val().replace(',', ''),
+                "Year": $('#iYear').val().replace(',', ''),
+                "Make": $('#iMake').val().replace(',', ''),
+                "Model": $('#iModel').val().replace(',', '')
             };
 
             $.ajax({
@@ -997,7 +1001,16 @@
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
                 if (checked) {
-                    data.ItemList.push({ UnitId: tr.find("#all").val(), IdentificationNumber: tr.find("#vin").text(), AdvanceAmount: tr.find("#am").text().replace(',', ''), AdvanceDate: $('#startDate').val(), Cost: $('#iCost').val().replace(',', '') });
+                    data.ItemList.push({
+                        UnitId: tr.find("#all").val(),
+                        IdentificationNumber: tr.find("#vin").text(),
+                        AdvanceAmount: tr.find("#am").text().replace(',', ''),
+                        AdvanceDate: $('#startDate').val(),
+                        Cost: $('#iCost').val().replace(',', ''),
+                        Year: tr.find("#year").text(),
+                        Make: tr.find("#make").text(),
+                        Model: tr.find("#model").text()
+                    });
 
                 }
             });

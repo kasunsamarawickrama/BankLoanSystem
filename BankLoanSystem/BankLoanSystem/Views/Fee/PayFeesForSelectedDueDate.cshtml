@@ -55,12 +55,12 @@
                                                       grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                                       grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                                       grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-
-                                                      grid.Column(
-                                                           "BillDueDate",
-                                                           "Due Date", style: "gridColumnOthers",
-                                                           format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
-                                                      ),
+                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.BillDueDate.ToShortDateString()</label>}</text>),
+                                                      //grid.Column(
+                                                      //     "BillDueDate",
+                                                      //     "Due Date", style: "gridColumnOthers",
+                                                      //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                      //),
                                                       grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                                            )
 
@@ -282,10 +282,16 @@
                         @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
                     </div>
-                    <div class="col-md-2" style="width:17%;">
+
+                    <div class="col-md-2" style="width:15%;">
                         <label for="">Fee Due Date </label>
+                        @Html.Editor("iDateDue", new { @id = "iDateDue", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
+
+                    <div class="col-md-2" style="width:17%;">
+                        <label for="">Fee Pay Date </label>
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
-                        <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
+                        <span class="text-danger field-validation-error" id="errorFeesPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                         @Html.Hidden("iFeeId", "", new { @id = "iFeeId" })
                     </div>
@@ -366,7 +372,9 @@
 
          }
         var dueDate = '@dateTime';
-        GetCurrentCurtailment(dueDate);
+        //GetCurrentCurtailment(dueDate);
+        $('#dueDate').val(dueDate);
+        FilterFees();
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
@@ -802,6 +810,8 @@
                 $('#payDate').next('span').children().text('');
                 $('#payDate').val('');
                 $('#payCurtDate').val('');
+                $('#iDateDue').val('');
+                
 
             }
 
@@ -817,12 +827,15 @@
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
                 //$('#iCurtAmount').removeClass('input-validation-error');
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
                 //document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 $("#btnPay").removeAttr("disabled");
                 $("#advanceDate").removeAttr("disabled");
                 $("#singleUnitDiv").show();
+                $('#iDateDue').val(tr.find("#BillDueDate").text());
+
+                
             }
 
             function ClearLabelMessages() {
@@ -846,7 +859,7 @@
                 var curtList = @Html.Raw(Json.Encode(Model));
 
                 $.ajax({
-                    url: '/Curtailments/SearchCurtailment',
+                    url: '/Fee/SearchFee',
                     type: 'POST',
                     contentType: 'application/json;',
                     data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
@@ -951,7 +964,7 @@
         onSelect: function () {
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
             $("#payCurtDate").val(formatDate(thisDate));
         }
@@ -972,7 +985,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payCurtDate').removeClass('input-validation-error');
             $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
@@ -998,7 +1011,7 @@
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
 
-                $('#errorPayDate').text('Please select the Curtailment payment date');
+                $('#errorPayDate').text('Please select the Fees payment date');
                 $('#payDate').addClass('input-validation-error');
 
             }
@@ -1026,15 +1039,15 @@
 
     $('#btnPay').click(function (e) {
         data = { Fees: [] };
-        if ($('#payDate').val() != '') {
+       
             var a = 1;
             if($("#payCurtDate").val() == ""){
-                // show error errorCurtPayDate
-                $('#errorCurtPayDate').text('Please select the Curtailment payment date');
+                // show error errorFeesPayDate
+                $('#errorFeesPayDate').text('Please select the Fees payment date');
                 $('#payCurtDate').addClass('input-validation-error');
                 a=0;
             }
-            if($('#errorCurtPayDate').text() != ""){
+            if($('#errorFeesPayDate').text() != ""){
                 a=0;
             }
             if(a== 0 ){
@@ -1045,7 +1058,7 @@
             //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
             data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
             PayFees(data.Fees);
-        }
+        
     });
 
     function PayFees(lst,date){
@@ -1056,9 +1069,15 @@
             contentType: 'application/json; charset=utf-8',
 
             success: function (View) {
-                if(View == ""){
+                if(View == 1){
                     $('.centered1 span').text('Successfully Updated');
-                    GetCurrentCurtailment($('#dueDate').val());
+                   
+
+                    FilterFees();
+                }else if(View == 0){
+                    $('.centered span').text('Error');
+
+                   
                 }
             }
         });
@@ -1106,7 +1125,7 @@
     });
     $('#payCurtDate').click(function(e){
 
-        $('#errorCurtPayDate').text('');
+        $('#errorFeesPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
@@ -1126,12 +1145,12 @@
             var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
             if (selectedDate < minDate || selectedDate > maxDate) {
                 // out off range error
-                $('#errorCurtPayDate').text('Out of Range');
+                $('#errorFeesPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             } else {
                 // delete error mssage
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $(this).removeClass('input-validation-error');
             }
 
@@ -1140,7 +1159,7 @@
         } else {
 
             // not valid data error
-            $('#errorCurtPayDate').text('The field must be a date');
+            $('#errorFeesPayDate').text('The field must be a date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
         }
@@ -1148,7 +1167,7 @@
 </script>
 
 
-<div class="overlay-bg">
+@*<div class="overlay-bg">
 </div>
 <div class="overlay-content popup5" style="width:auto;text-align:center;margin-left: 173px;top:280px">
 
@@ -1168,7 +1187,7 @@
 
 
 
-</div>
+</div>*@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

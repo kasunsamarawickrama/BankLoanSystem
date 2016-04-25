@@ -123,15 +123,46 @@ namespace BankLoanSystem.Controllers.Fee
         }
 
         [HttpPost]
-        public string PayFees(List<Fees> lstFee)
+        public int PayFees(List<Fees> lstFee)
         {
             int userId = userData.UserId;
             FeeAccess feeAccess = new FeeAccess();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            string returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+            int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
 
             return returnValue;
         }
+
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/25
+        /// Search Fees
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchFee(string identificationNumber, string year, string make, string vehicleModel, FeesModel CurtailmentList)
+        {
+            List<Fees> SearchList = new List<Fees>();
+
+            if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+            {
+                //search through list elements
+                Search sc = new Search();
+
+                SearchList = sc.GetSearchFeeList(CurtailmentList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
+
+                return PartialView(SearchList);
+            }
+            else
+            {
+
+                return PartialView(SearchList);
+            }
+        }
+
     }
 }
