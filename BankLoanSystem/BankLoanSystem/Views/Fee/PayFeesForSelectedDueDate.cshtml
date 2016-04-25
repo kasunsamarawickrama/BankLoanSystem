@@ -372,7 +372,9 @@
 
          }
         var dueDate = '@dateTime';
-        GetCurrentCurtailment(dueDate);
+        //GetCurrentCurtailment(dueDate);
+        $('#dueDate').val(dueDate);
+        FilterFees();
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
@@ -1069,7 +1071,9 @@
             success: function (View) {
                 if(View == ""){
                     $('.centered1 span').text('Successfully Updated');
-                    GetCurrentCurtailment($('#dueDate').val());
+                   
+
+                    FilterFees();
                 }
             }
         });
