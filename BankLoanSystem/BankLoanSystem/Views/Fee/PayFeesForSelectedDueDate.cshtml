@@ -55,12 +55,12 @@
                                                       grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                                       grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                                       grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-
-                                                      grid.Column(
-                                                           "BillDueDate",
-                                                           "Due Date", style: "gridColumnOthers",
-                                                           format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
-                                                      ),
+                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                      //grid.Column(
+                                                      //     "BillDueDate",
+                                                      //     "Due Date", style: "gridColumnOthers",
+                                                      //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.BillDueDate)
+                                                      //),
                                                       grid.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                                            )
 
@@ -282,8 +282,14 @@
                         @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left:8%;width:274%"></span>
                     </div>
-                    <div class="col-md-2" style="width:17%;">
+
+                    <div class="col-md-2" style="width:15%;">
                         <label for="">Fee Due Date </label>
+                        @Html.Editor("iDateDue", new { @id = "iDateDue", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
+
+                    <div class="col-md-2" style="width:17%;">
+                        <label for="">Fee Pay Date </label>
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
@@ -802,6 +808,8 @@
                 $('#payDate').next('span').children().text('');
                 $('#payDate').val('');
                 $('#payCurtDate').val('');
+                $('#iDateDue').val('');
+                
 
             }
 
@@ -823,6 +831,9 @@
                 $("#btnPay").removeAttr("disabled");
                 $("#advanceDate").removeAttr("disabled");
                 $("#singleUnitDiv").show();
+                $('#iDateDue').val(tr.find("#BillDueDate").text());
+
+                
             }
 
             function ClearLabelMessages() {
