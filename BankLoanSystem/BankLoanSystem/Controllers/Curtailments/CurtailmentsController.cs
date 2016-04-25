@@ -134,6 +134,27 @@ namespace BankLoanSystem.Controllers.Curtailments
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
 
+            if (returnValue!=null)
+            {
+                //insert to log
+                string[] arrList = new string[selectedCurtailmentList.SelectedCurtailmentSchedules.Count];
+                int i = 0;
+                foreach (var x in selectedCurtailmentList.SelectedCurtailmentSchedules)
+                {
+                    if (!string.IsNullOrEmpty(x.UnitId))
+                    {
+                        arrList[i] = "Pay Curtailment(s) for unit(s): " + x.IDNumber +" ,Curtailment No: " +x.CurtNumber+" ,Curtailment Amount:"+x.CurtAmount+" ,Paid Date:"+x.PayDate;
+                        i++;
+                    }
+                }
+
+                //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                ////user.UserRights = arrList.ToString();
+                string units = string.Join(",", arrList);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Curtailments", units, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
+            }
             return returnValue;
         }
 

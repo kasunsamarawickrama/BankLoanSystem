@@ -207,7 +207,8 @@ namespace BankLoanSystem.Controllers
 
 
                 //insert to log 
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advance - "+unit.UnitId, DateTime.Now);
+                //Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit", unit.UnitId + " unit " + (unit.AddAndAdvance ? "added and advanced" : "added") + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Advance amount edited to " + unit.AdvanceAmount : ""), DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advanced Unit:"+unit.IdentificationNumber+ (unit.Cost * loanSetupStep1.advancePercentage / 100 != unit.AdvanceAmount ? ",Advance amount edited to: " + unit.AdvanceAmount : ",Advance amount: "+ unit.AdvanceAmount)+" ,Advance date:"+unit.AdvanceDate, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 // saving for reporting purpose
@@ -267,15 +268,15 @@ namespace BankLoanSystem.Controllers
                 {
                     if (!string.IsNullOrEmpty(x.UnitId))
                     {
-                        arrList[i] = x.UnitId;
+                        arrList[i] = "Advanced Unit: "+x.IdentificationNumber+" ,Advance amount:" + x.AdvanceAmount+" ,Advance date: " + x.AdvanceDate;
                         i++;
                     }
                 }
-
+                
                 //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 ////user.UserRights = arrList.ToString();
                 string units = string.Join(",", arrList);
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advance - " + units, DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit",units, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 //if mention advance fee, then insert in to fee table - asanka
