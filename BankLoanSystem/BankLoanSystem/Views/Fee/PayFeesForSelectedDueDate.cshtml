@@ -1069,11 +1069,15 @@
             contentType: 'application/json; charset=utf-8',
 
             success: function (View) {
-                if(View == ""){
+                if(View == 1){
                     $('.centered1 span').text('Successfully Updated');
                    
 
                     FilterFees();
+                }else if(View == 0){
+                    $('.centered span').text('Error');
+
+                   
                 }
             }
         });

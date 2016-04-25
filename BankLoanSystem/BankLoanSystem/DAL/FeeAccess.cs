@@ -122,7 +122,7 @@ namespace BankLoanSystem.DAL
         }
 
 
-        internal string updateFees(List<Fees> lstFee,DateTime paidDate, int loanId , int userId)
+        internal int updateFees(List<Fees> lstFee,DateTime paidDate, int loanId , int userId)
         {
             try
             {
@@ -148,17 +148,17 @@ namespace BankLoanSystem.DAL
 
                 try
                 {
-                    return dataHandler.ExecuteSQLWithStringReturnVal("spUpdateFee", paramertList2);
+                    return dataHandler.ExecuteSQLWithReturnVal("spUpdateFee", paramertList2);
                 }
                 catch (Exception ex)
                 {
-                    return null;
+                    return 0;
                 }
 
             }
             catch (Exception ex)
             {
-                return null;
+                return 0;
             }
 
 
