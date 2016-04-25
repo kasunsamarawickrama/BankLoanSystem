@@ -108,18 +108,18 @@ namespace BankLoanSystem.Controllers.Fee
                        
             FeeAccess feeAccess = new FeeAccess();
             List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
-            FeesModel curtailmentScheduleModel = new FeesModel();
-            curtailmentScheduleModel.FeeModelList = new List<Fees>();
-            curtailmentScheduleModel.Type = type;
+            FeesModel feeModel = new FeesModel();
+            feeModel.FeeModelList = new List<Fees>();
+            feeModel.Type = type;
 
 
             if (lstFee != null && lstFee.Count > 0)
             {
-                curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
-                curtailmentScheduleModel.DueDate = lstFee[0].DueDate;
+                feeModel.FeeModelList.AddRange(lstFee);
+                //feeModel.DueDate = lstFee[0].DueDate;
             }
 
-            return curtailmentScheduleModel;
+            return feeModel;
         }
 
         [HttpPost]
