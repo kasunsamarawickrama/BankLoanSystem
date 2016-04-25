@@ -1460,6 +1460,22 @@ namespace BankLoanSystem.Controllers
 
 
                 //ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
+                string roleName = "";
+                if (userObj.RoleId == 1)
+                {
+                    roleName = "Super Admin";
+                }
+                else if (userObj.RoleId == 2)
+                {
+                    roleName = "Admin";
+                }
+                else if (userObj.RoleId == 3)
+                {
+                    roleName = "User";
+                }
+                Log log = new Log(userData.UserId, userData.Company_Id, userObj.BranchId, 0, "Create User", "Create "+roleName+" ,Username:"+userObj.UserName, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
                 TempData["createUserResult"] = 1;
                 //return RedirectToAction("CreateDashboardUser");
 
