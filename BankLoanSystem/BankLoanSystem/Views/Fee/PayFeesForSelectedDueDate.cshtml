@@ -1033,7 +1033,7 @@
                 var checked = tr.find("#all").is(':checked');
                
                 if (checked) {
-                    data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                    data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").val()});
                 }
             });
             PayFees(data.Fees);
@@ -1060,7 +1060,7 @@
             }
 
             //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
-            data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
+            data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:$('#iVin').val() });
             PayFees(data.Fees);
         
     });
@@ -1069,6 +1069,7 @@
         $.ajax({
             url: '/Fee/PayFees/',
             data: JSON.stringify(lst),date,
+            data: JSON.stringify({ lstFee: lst, type: '@Model.Type' }),
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
 
