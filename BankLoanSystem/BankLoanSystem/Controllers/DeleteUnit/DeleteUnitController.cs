@@ -202,11 +202,18 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return PartialView(feeDetailsModelNew);
         }
 
-        public ActionResult DeleteUnitPost(string unitId)
+        public ActionResult DeleteUnitPost(string unitId,string identificationNo)
         {
             UnitAccess ua = new UnitAccess();
 
             int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+            if (res == 1)
+            {
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loan.loanId, "Delete Unit", "Delete Unit:" + identificationNo, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
+            }
+
             return RedirectToAction("Delete");
         }
     }
