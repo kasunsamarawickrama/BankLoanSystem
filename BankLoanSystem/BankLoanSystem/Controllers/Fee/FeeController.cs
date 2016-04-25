@@ -123,13 +123,13 @@ namespace BankLoanSystem.Controllers.Fee
         }
 
         [HttpPost]
-        public string PayFees(List<Fees> lstFee)
+        public int PayFees(List<Fees> lstFee)
         {
             int userId = userData.UserId;
             FeeAccess feeAccess = new FeeAccess();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            string returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+            int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
 
             return returnValue;
         }
