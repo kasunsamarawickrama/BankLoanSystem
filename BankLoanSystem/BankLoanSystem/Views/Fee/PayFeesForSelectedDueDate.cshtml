@@ -459,7 +459,7 @@
                                         }
 
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total, 2);
+                                    document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total, 2);
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -539,12 +539,12 @@
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ 0.00";
                         if( $("#hdnSelectedButton").val() == "advanceFee"){
                             ClearTextBoxValues();
                         }
@@ -562,7 +562,7 @@
                         if($("#hdnSelectedButton").val() == "advanceFee"){
                             ClearTextBoxValues();
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                     }
 
@@ -656,7 +656,7 @@
                                 ClearTextBoxValues();
                             }
                             SetRadioBtnHeaderChecked();
-                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                            document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -724,7 +724,7 @@
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -855,9 +855,9 @@
 
 
             function Search(para1, para2, para3, para4) {
-
+               
                 var curtList = @Html.Raw(Json.Encode(Model));
-
+                //alert(curtList);
                 $.ajax({
                     url: '/Fee/SearchFee',
                     type: 'POST',
@@ -933,7 +933,7 @@
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error
