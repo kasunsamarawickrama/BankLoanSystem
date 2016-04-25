@@ -82,7 +82,7 @@
                                                               format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                                  , header: "{checkall}"
                                                          ),
-                                                              grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
+                                                              @*grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),*@
                                                          grid.Column(
                                                               "BillDueDate",
                                                               "Due Date", style: "gridColumnlarge",
@@ -945,13 +945,9 @@
     }
 
     function ClearSearchGrid() {
-         $("#searchResultGrid").find('.advanceAmount').each(function () {
-            var tr = $(this).parents('tr:first');
-            if (tr.find("#curtailmentStatus").val() != '2') {
-                tr.css('background', 'transparent');
-            }else{
-                tr.css('background', '#fffae6');
-            }
+        $("#searchResultGrid").find('.curtAmount').each(function () {
+            var tr = $(this).parents('tr:first');           
+            tr.css('background', 'transparent');       
         });
 
     }
