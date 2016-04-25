@@ -357,6 +357,8 @@
         var viewType = $('.viewType').filter(':checked').val();
         ClearTextBoxText();
 
+        $('#feeDetails').hide();
+
         $("#identificationNumberSearch").val('');
         $("#identificationNumberSearch").attr('placeholder', 'Last 6 of VIN/HIN/SN');
         $('#cmbYear').val('');
@@ -485,4 +487,5 @@
         $('#unitId').val('');
     }
 
+    $("#lkdeluni").hide();
 </script>
