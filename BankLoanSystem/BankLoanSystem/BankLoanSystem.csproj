@@ -283,6 +283,7 @@
     <Compile Include="DAL\CompanyAccess.cs" />
     <Compile Include="DAL\CurtailmentAccess.cs" />
     <Compile Include="DAL\DashBoardAccess.cs" />
+    <Compile Include="DAL\FeeAccess.cs" />
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\InterestAccess.cs" />
     <Compile Include="DAL\LoanSetupAccess.cs" />
@@ -492,6 +493,8 @@
     <Content Include="Uploads\LEN01\LEN01_01\vehicledata-new list.xls" />
     <Content Include="Uploads\LEN01\LEN01_01\Presentations-Tips.ppt" />
     <Content Include="Uploads\LEN01\LEN01_01\example.pdf" />
+    <Content Include="Views\DeleteUnit\GridView.cshtml" />
+    <Content Include="Views\DeleteUnit\FeeDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

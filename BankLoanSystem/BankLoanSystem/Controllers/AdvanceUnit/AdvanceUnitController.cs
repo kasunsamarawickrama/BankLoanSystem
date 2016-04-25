@@ -186,9 +186,23 @@ namespace BankLoanSystem.Controllers
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1 ) { 
-            // saving for reporting purpose
-            if (Session["AdvItems"] == null)
+            if(reslt == 1 ) {
+                ////if mention advance fee, then insert in to fee table - asanka
+                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                //{
+                //    Loan loanObj = new Loan();
+                //    loanObj = (Loan)Session["loanDashboard"];
+                //    if (loanObj.AdvanceFee == 1)
+                //    {
+                //        //check advance amount and other details
+                //        unitAccess.insertFreeDetails(unit);
+                //    }
+                //}
+
+
+
+                // saving for reporting purpose
+                if (Session["AdvItems"] == null)
             {
                 List<Models.Unit> unitlist = new List<Models.Unit>();
                 unitlist.Add(unit);
@@ -237,9 +251,24 @@ namespace BankLoanSystem.Controllers
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1) { 
-            // saving for reporting purpose
-            if(Session["AdvItems"] == null) { 
+            if(reslt == 1) {
+                ////if mention advance fee, then insert in to fee table - asanka
+                //if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                //{
+                //    Loan loanObj = new Loan();
+                //    loanObj = (Loan)Session["loanDashboard"];
+                //    if (loanObj.AdvanceFee == 1)
+                //    {
+                //        //check advance amount and other details
+                //        foreach (BankLoanSystem.Models.Unit unitObj in list.ItemList)
+                //        {
+                //            unitAccess.insertFreeDetails(unitObj);
+                //        }
+                //    }
+                //}
+
+                // saving for reporting purpose
+                if (Session["AdvItems"] == null) { 
             Session["AdvItems"] = list.ItemList;
             }
             else

@@ -36,19 +36,77 @@
     }
 </style>
 
+@functions{ 
+
+    string ofTheMonth(string val)
+    {
+        string retString;
+        if(val == "EoM")
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+            var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+            val = DateTime.DaysInMonth(dateTime.Year, dateTime.Month).ToString();
+        }
+
+        if(val.Substring(val.Length - 1) == "1")
+        {
+            retString = val + "" + "st of the month";
+        }else if (val.Substring(val.Length - 1) == "2")
+        {
+            retString = val + "" + "nd of the month";
+        }else if (val.Substring(val.Length - 1) == "3")
+        {
+            retString = val + "" + "rd of the month";
+        }
+        else
+        {
+            retString = val + "" + "th of the month";
+        }
+
+        return retString;
+
+    }
+
+}
 
 @{
     Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
 
+@{int count = 0;
+    string type = ""; }
 <div class="btns-clm" id="fee-tabs">
     <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
-    <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+
+    @if(ViewBag.loanSelected != null && ViewBag.loanSelected.AdvanceFee != null && ViewBag.loanSelected.AdvanceFee == 1) {
+                count++;
+                type = "adf";
+            <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+    }
+
+@if (ViewBag.loanSelected != null && ViewBag.loanSelected.MonthlyLoanFee != null && ViewBag.loanSelected.MonthlyLoanFee == 1)
+{
+    count++;
+    type = "mfi";
     <button type="button" id="mfi" class="btn btn-info">Monthly Fee Invoice </button>
+}
 
+    @if (ViewBag.loanSelected != null && ViewBag.loanSelected.LotInspectionFee != null && ViewBag.loanSelected.LotInspectionFee == 1)
+    {
+        count++;
+        type = "lif";
     <button type="button" id="lif" class="btn btn-info">Lot Inspection Fee</button>
-
+    }
 </div>
+
+@if(count == 0)
+{
+    <script>
+        window.location.href = "/UserManagement/UserDetails";
+    </script>
+}
 
 <div class="container" id="container">
 
@@ -80,12 +138,18 @@
                         <span class="text-danger field-validation-error" id="errorDueDate" style="left:8%;width:101%"></span>
                     </div>
 
-                    <label for="" class="col-sm-2 form-control-label" style="width:18%;text-align:right; margin-top:5px;margin-left: 263px;">Due Date : @*- all curtailments due prior to and on this date will be displayed.*@</label>
-                    <div class="col-md-2" style="text-align: left;
+
+
+
+
+                    <div id="dueDatePanel" hidden>
+                        <label for="" class="col-sm-2 form-control-label" style="width:18%;text-align:right; margin-top:5px;margin-left: 263px;">Due Date : @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                        <div class="col-md-2" style="text-align: left;
     padding-left: 0px;">
 
 
-                        <label for="" class="form-control-label" style="margin-top:5px;">3rd of the month</label>
+                            <label id="dueDateLabel" for="" class="form-control-label" style="margin-top:5px;"></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,7 +175,7 @@
             <div id="monthlyLoanGrid" class="gridsdiv" hidden>
 
                 <!-- this is for Monthly fee grid-->
-                <h2>this is for Monthly fee grid</h2>
+                @*<h2>this is for Monthly fee grid</h2>
 
                 <div class="info-bar" style="margin-top:15px" id="payDateDiv">
                     <div class="form-inline">
@@ -125,7 +189,7 @@
                         </div>
                         <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
                     </div>
-                </div>
+                </div>*@
 
 
             </div>
@@ -134,7 +198,7 @@
 
 
                 <!-- this is for Lot inspection fee grid-->
-                <h2>this is for Lot inspection fee grid</h2>
+                @*<h2>this is for Lot inspection fee grid</h2>
 
                 <div class="info-bar" style="margin-top:15px" id="payDateDiv">
                     <div class="form-inline">
@@ -148,7 +212,7 @@
                         </div>
                         <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay selected fees" />
                     </div>
-                </div>
+                </div>*@
 
 
             </div>
@@ -177,104 +241,178 @@
 
 <script>
 
-        //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-        //$("#lkcrtl").click(function (e) { e.preventDefault(); });
-        //$("#lkcrtl").siblings().click(function (e) {
-        //    return true;
+    //$("#lkcrtl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
+    //$("#lkcrtl").click(function (e) { e.preventDefault(); });
+    //$("#lkcrtl").siblings().click(function (e) {
+    //    return true;
 
-        //});
+    //});
 
-        $("#lkcrtl").hide();
+    $("#lkcrtl").hide();
 
-        startPicker = new Pikaday({
-            field: document.getElementById('dueDate'),
-            format: 'l',
+    startPicker = new Pikaday({
+        field: document.getElementById('dueDate'),
+        format: 'l',
 
-            bound: true,
-            onSelect: function () {
-                var dueDate = this.getDate();
-                FilterFees();
+        bound: true,
+        onSelect: function () {
+            var dueDate = this.getDate();
+            FilterFees();
 
-                //$.ajax({
-                //    url: '/Fee/PayFeesForSelectedDueDate/',
-                //    data: JSON.stringify({ dueDate: dueDate }),
-                //    type: 'POST',
-                //    contentType: 'application/json; charset=utf-8',
+            //$.ajax({
+            //    url: '/Fee/PayFeesForSelectedDueDate/',
+            //    data: JSON.stringify({ dueDate: dueDate }),
+            //    type: 'POST',
+            //    contentType: 'application/json; charset=utf-8',
 
-                //    success: function (partialView) {
-                //        $('#advanceGrid').html(partialView);
-                //        $('#advanceGrid').show();
-                //        $('.centered span').text('');                       
-                //    }
-                //});
-            }
-        });
-        startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-        startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
-        @*$("#dueDate").val('@dateTime.ToString("d")');*@
-
-
-
-
-        $('#dueDate').click(function () {
-
-            $('#errorDueDate').text('');
-            $(this).removeClass('input-validation-error');
-
-        });
-        $('#dueDate').blur(function () {
-
-            if ($(this).val() == "") {
-
-
-                $(this).attr('placeholder', 'MM/DD/YYYY');
-                return;
-            }
-            var valid = isValidDate($(this).val());
-            if (valid) {
-                var selectedDate = new Date($(this).val());
-                var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-                if (selectedDate < minDate || selectedDate > maxDate) {
-                    // out off range error
-                    $('#errorDueDate').text('Out of Range');
-                    $(this).addClass('input-validation-error');
-                    $('.centered span').text('Error');
-                } else {
-                    // delete error mssage
-                    $('#errorDueDate').text('');
-                    $(this).removeClass('input-validation-error');
-                }
+            //    success: function (partialView) {
+            //        $('#advanceGrid').html(partialView);
+            //        $('#advanceGrid').show();
+            //        $('.centered span').text('');
+            //    }
+            //});
+        }
+    });
+    startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
+    startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    @*$("#dueDate").val('@dateTime.ToString("d")');*@
 
 
 
-            } else {
 
-                // not valid data error
-                $('#errorDueDate').text('Please enter a valid payment date');
+    $('#dueDate').click(function () {
+
+        $('#errorDueDate').text('');
+        $(this).removeClass('input-validation-error');
+
+    });
+    $('#dueDate').blur(function () {
+
+        if ($(this).val() == "") {
+
+
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+            return;
+        }
+        var valid = isValidDate($(this).val());
+        if (valid) {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                // out off range error
+                $('#errorDueDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
+            } else {
+                // delete error mssage
+                $('#errorDueDate').text('');
+                $(this).removeClass('input-validation-error');
             }
-        });
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errorDueDate').text('Please enter a valid payment date');
+            $(this).addClass('input-validation-error');
+            $('.centered span').text('Error');
+        }
+    });
 
 
     // fee tabs functionality
+
+    @if(count == 1)
+    {
+    <text>
+    $('#@type').addClass('activee');
+
+    </text>
+
+        if(type == "adf")
+        {
+            if(ViewBag.advDuedate != null && ViewBag.advDuedate != "" && ViewBag.advDuedate != "ToA" && ViewBag.advDuedate != "VP") {
+
+                <text>
+    $('#dueDatePanel').show();
+    $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
+    </text>
+                }
+        }else if (type == "mfi")
+        {
+            if(ViewBag.monDueDate != null && ViewBag.monDueDate != "" && ViewBag.monDueDate != "ToA" && ViewBag.monDueDate != "VP") {
+
+                <text>
+    $('#dueDatePanel').show();
+    $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
+    </text>
+            }
+        }
+        else if (type == "lif")
+        {
+            if(ViewBag.lotDuedate != null && ViewBag.lotDuedate != "" && ViewBag.lotDuedate != "ToA" && ViewBag.lotDuedate != "VP") {
+
+                <text>
+            $('#dueDatePanel').show();
+            $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
+    </text>
+            }
+
+        }
+    }
+    else
+    {
+        <text>
 
     $('#fee-tabs button').click(function () {
         $(this).addClass('activee').siblings().removeClass('activee');
 
 
         if ($(this).attr('id') == "adf") {
+
+            $('#dueDatePanel').hide();
+            @if(ViewBag.advDuedate != null && ViewBag.advDuedate != "" && ViewBag.advDuedate != "ToA" && ViewBag.advDuedate != "VP") {
+
+                <text>
+            $('#dueDatePanel').show();
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.advDuedate)');
+                </text>
+            }
+
+
+
             $("#advanceGrid").show().siblings('.gridsdiv').hide();
-            $("#hdnSelectedButton").val('advanceFee');            
+            $("#hdnSelectedButton").val('advanceFee');
             FilterFees();
         }
         else if ($(this).attr('id') == "mfi") {
+
+            $('#dueDatePanel').hide();
+            @if(ViewBag.monDueDate != null && ViewBag.monDueDate != "" && ViewBag.monDueDate != "ToA" && ViewBag.monDueDate != "VP") {
+
+                <text>
+            $('#dueDatePanel').show();
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.monDueDate)');
+                </text>
+            }
+
             $("#monthlyLoanGrid").show().siblings('.gridsdiv').hide();
             $("#hdnSelectedButton").val('monthlyLoanFee');
             FilterFees();
 
         } else if ($(this).attr('id') == "lif") {
+
+            $('#dueDatePanel').hide();
+            @if(ViewBag.lotDuedate != null && ViewBag.lotDuedate != "" && ViewBag.lotDuedate != "ToA" && ViewBag.lotDuedate != "VP") {
+
+                <text>
+            $('#dueDatePanel').show();
+                $('#dueDateLabel').html('@ofTheMonth(ViewBag.lotDuedate)');
+                </text>
+            }
+
             $("#lotInspectGrid").show().siblings('.gridsdiv').hide();
             $("#hdnSelectedButton").val('lotInspectionFee');
             FilterFees();
@@ -282,8 +420,13 @@
         }
 
     });
+    
+    </text>
+    }
 
-    function FilterFees() {       
+   
+
+    function FilterFees() {
         if ($('#dueDate').val() != "" && $('#hdnSelectedButton').val() != "") {
             $.ajax({
                 url: '/Fee/PayFeesForSelectedDueDate/',
@@ -295,6 +438,13 @@
                     $('#advanceGrid').html(partialView);
                     $('#advanceGrid').show();
                     $('.centered span').text('');
+                    //if ($("#hdnSelectedButton").val() == "advanceFee") {
+                    //    //$('#advanceGrid').show();
+                    //    $('#checkableGridDiv').show();
+                    //    $('.centered span').text('');
+                    //} else {
+                    //    $('#checkableGridDiv').show();
+                    //}
                 }
             });
         }

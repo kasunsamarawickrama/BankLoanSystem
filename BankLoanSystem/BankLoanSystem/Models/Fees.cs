@@ -192,6 +192,7 @@ namespace BankLoanSystem.Models
         public string Model { get; set; }
         public DateTime BillDueDate { get; set; }
         public decimal Amount { get; set; }
+        public string Type { get; set; }
     }
 
 }

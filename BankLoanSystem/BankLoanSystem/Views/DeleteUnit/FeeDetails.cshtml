@@ -1,0 +1,28 @@
+﻿@model BankLoanSystem.Models.UnitFeeTypeViewModel
+
+@{
+    WebGrid grid1 = new WebGrid(Model.UnitFeeTypes, defaultSort: "CreatedDate", canPage: false);
+}
+
+@if (Model.UnitFeeTypes.Count() != 0)
+{
+    <div id="grid">
+        @grid1.GetHtml(
+            tableStyle: "gridtable",
+            headerStyle: "webgrid-header",
+
+            alternatingRowStyle: "webgrid-alternating-row",
+            rowStyle: "webgrid-row-style",
+            htmlAttributes: new { id = "feeDetails" },
+            columns: grid1.Columns(
+                grid1.Column("Fee Type", "Fee Type", canSort: false, style: "gridColumnVIN", format: @<text>@{
+                        <label id="vin" class="vin">@item.FeeType</label>
+                }</text>),
+                grid1.Column("Fee Amount", "Fee Amount", canSort: false, style: "gridColumnSmall", format: @<text>@{
+                            <label id="aAmount" class="year">@Convert.ToDecimal(item.PaidAmount).ToString("#,##0.00")</label>
+                }</text>),
+                grid1.Column("Date Advanced", "Date Advanced", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.PaidDate))
+                )
+            )
+    </div>
+}

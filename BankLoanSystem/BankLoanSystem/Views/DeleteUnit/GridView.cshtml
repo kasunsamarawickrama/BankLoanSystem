@@ -1,0 +1,88 @@
+﻿@model BankLoanSystem.Models.UnitDeleteViewModel
+    
+@{
+    WebGrid grid = new WebGrid(Model.DeleteUnits, defaultSort: "CreatedDate", canPage: false);
+}
+
+@if (Model.DeleteUnits.Count() != 0)
+{
+    <div id="grid">
+        @grid.GetHtml(
+            tableStyle: "gridtable",
+            headerStyle: "webgrid-header",
+
+            alternatingRowStyle: "webgrid-alternating-row",
+            rowStyle: "webgrid-row-style",
+            htmlAttributes: new {id = "deleteGrid"},
+            columns: grid.Columns(
+                grid.Column(null, null, format: @<input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/>),
+                grid.Column("Date Advanced", "Date Advanced", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)),
+                grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{
+                                                                                                                                       <label id="vin" class="vin">@item.IdentificationNumber</label>
+                                                                                                                                   }</text>),
+                grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format: @<text>@{
+                                                                                                         <label id="year" class="vin">@item.Year</label>
+                                                                                                     }</text>),
+                grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format: @<text>@{
+                                                                                                          <label id="make" class="vin">@item.Make</label>
+                                                                                                      }</text>),
+                grid.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format: @<text>@{
+                                                                                                            <label id="model" class="vin">@item.Model</label>
+                                                                                                        }</text>),
+                grid.Column("Purchase Price ($)", "Purchase Price ($)", canSort: false, style: "gridColumn", format: @<text>@{
+                                                                                                                                <label id="cost" class="year">@Convert.ToDecimal(item.PurchasePrice).ToString("#,##0.00")</label>
+                                                                                                                            }</text>),
+                grid.Column("Advance Amount ($)", "Advance Amount ($)", canSort: false, style: "gridColumn", format: @<text>@{
+                                                                                                                                <label id="aAmount" class="year">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>
+                                                                                                                            }</text>)
+                )
+            )
+    </div>
+
+    <script>
+        $('#deleteGrid').children('tbody').children('tr').click(function(e) {
+            var tr = $(this);
+
+            $(this).css('background', '#9F6000');
+            $(this).siblings().css('background', 'aliceblue');
+
+            SetTextBoxValues(tr);
+
+            $.ajax({
+                url: '/DeleteUnit/FeeDetails',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ unitId: tr.find("#all").val() }),
+                success: function(View) {
+                    $('#FeeDetails').html(View);
+                    $('#FeeDetails').show();
+
+                    //.highlight { background-color: lightblue; }
+                },
+                error: function(reponse) {
+                    $('#loadingSpan').hide();
+                    alert("error : " + reponse);
+                }
+            });
+
+        });
+
+        function SetTextBoxValues(tr) {
+            $('#dateAdvanced').val(tr.find('td:eq(1)').text());
+            $('#identificationNumber').val(tr.find("#vin").text());
+            $('#unitYear').val(tr.find("#year").text());
+            $('#unitMake').val(tr.find("#make").text());
+            $('#unitModel').val(tr.find("#model").text());
+            $('#purchasePrice').val(tr.find("#cost").text());
+            $('#advanceAmount').val(tr.find("#aAmount").text());
+            $('#unitId').val(tr.find("#all").val());
+        }
+
+    </script>
+}
+else
+{
+    <div id="noDataLabelDiv" style="padding-bottom: 15px; width: 870px; float: unset; margin-top: 10px; font: medium; color: red; text-align: center">
+        <label> No units matching the search could be found.</label>
+    </div>
+}

@@ -401,4 +401,41 @@ namespace BankLoanSystem.Models
         public string Make { get; set; }
 
     }
+
+    public class UnitDeleteModel
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public string AdvanceDate { get; set; }
+        public string IdentificationNumber { get; set; }
+        public string Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public int UnitStaus { get; set; }
+    }
+
+    public class UnitDeleteViewModel
+    {
+        public List<UnitDeleteModel> DeleteUnits { get; set; }
+
+        public string IdentificationNumber { get; set; }
+    }
+
+    public class UnitFeeType
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public int CurtNumber { get; set; }
+        public string TblName { get; set; }
+        public string FeeType { get; set; }
+        public decimal PaidAmount { get; set; }
+        public string PaidDate { get; set; }
+    }
+
+    public class UnitFeeTypeViewModel
+    {
+        public List<UnitFeeType> UnitFeeTypes { get; set; }
+    }
 }

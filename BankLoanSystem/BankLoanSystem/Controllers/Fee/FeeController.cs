@@ -12,6 +12,8 @@ namespace BankLoanSystem.Controllers.Fee
     {
         User userData = new User();
         string lCode = string.Empty;
+        
+       
 
         // GET: Fee
         public ActionResult Index()
@@ -26,6 +28,7 @@ namespace BankLoanSystem.Controllers.Fee
                 if (Session["AuthenticatedUser"] != null)
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
+                    
                 }
                 else
                 {
@@ -55,25 +58,40 @@ namespace BankLoanSystem.Controllers.Fee
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            ViewBag.loanDetails = loanDetails;
+           
+            LoanSetupStep1 _loanDetails = new LoanSetupStep1();
+            _loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            ViewBag.loanDetails = _loanDetails;
 
+
+            Loan loanSelected = new Loan();
             if (Session["loanDashboard"] != null)
             {
                 
-                Loan loanSelected = (Loan)Session["loanDashboard"];
+                 loanSelected = (Loan)Session["loanDashboard"];
             }
             else if (Session["oneLoanDashboard"] != null)
             {
                 
-                Loan loanSelected = (Loan)Session["loanDashboard"];
+                loanSelected = (Loan)Session["loanDashboard"];
             }
             else
             {
                 return RedirectToAction("Login","UserLogin");
             }
+            ViewBag.loanSelected = loanSelected;
 
+            string advDuedate;
+            string monDueDate;
+            string lotDuedate;
+            bool returnValue = (new FeeAccess()).GetFeesDueDates(_loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
+
+            
+            ViewBag.advDuedate = advDuedate;
+            ViewBag.monDueDate = monDueDate;
+            ViewBag.lotDuedate = lotDuedate;
+
+            //Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
                 return View();
         }
 
@@ -82,17 +100,19 @@ namespace BankLoanSystem.Controllers.Fee
             return PartialView(this.GetFees(dueDate, type));
         }
 
-        private FeesModel GetFees(DateTime dueDate, string type)
+        public FeesModel GetFees(DateTime dueDate, string type)
         {
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
                        
-            LoanSetupAccess curtailmentAccess = new LoanSetupAccess();
-            List<Fees> lstFee = curtailmentAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
+            FeeAccess feeAccess = new FeeAccess();
+            List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
             FeesModel curtailmentScheduleModel = new FeesModel();
             curtailmentScheduleModel.FeeModelList = new List<Fees>();
-            
+            curtailmentScheduleModel.Type = type;
+
+
             if (lstFee != null && lstFee.Count > 0)
             {
                 curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
@@ -100,6 +120,18 @@ namespace BankLoanSystem.Controllers.Fee
             }
 
             return curtailmentScheduleModel;
+        }
+
+        [HttpPost]
+        public string PayFees(List<Fees> lstFee)
+        {
+            int userId = userData.UserId;
+            FeeAccess feeAccess = new FeeAccess();
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            string returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+
+            return returnValue;
         }
     }
 }
