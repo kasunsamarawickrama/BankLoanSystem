@@ -28,8 +28,8 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@branch_id", log.BranchId });
                 paramertList.Add(new object[] { "@loan_id", log.LoanId });
                 paramertList.Add(new object[] { "@description", log.Description });
-                
-               
+                paramertList.Add(new object[] { "@page", log.Page });
+
 
                 try
                 {

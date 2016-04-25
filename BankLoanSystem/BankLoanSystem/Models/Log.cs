@@ -13,5 +13,6 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
         public int LoanId { get; set; }
         public string Description { get; set; }
+        public string Page { get; set; }
     }
 }
