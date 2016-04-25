@@ -819,7 +819,7 @@
                 $('#payDate').val('');
                 $('#payCurtDate').val('');
                 $('#iDateDue').val('');
-                
+
 
             }
 
@@ -843,7 +843,7 @@
                 $("#singleUnitDiv").show();
                 $('#iDateDue').val(tr.find("#BillDueDate").text());
 
-                
+
             }
 
             function ClearLabelMessages() {
@@ -863,7 +863,7 @@
 
 
             function Search(para1, para2, para3, para4) {
-               
+
                 var curtList = @Html.Raw(Json.Encode(Model));
                 //alert(curtList);
                 $.ajax({
@@ -954,8 +954,8 @@
 
     function ClearSearchGrid() {
         $("#searchResultGrid").find('.curtAmount').each(function () {
-            var tr = $(this).parents('tr:first');           
-            tr.css('background', 'transparent');       
+            var tr = $(this).parents('tr:first');
+            tr.css('background', 'transparent');
         });
 
     }
@@ -1031,9 +1031,13 @@
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
-               
+
                 if (checked) {
-                    data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                    if('@Model.Type' == 'advanceFee'){
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").val()});
+                    }else{
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                    }
                 }
             });
             PayFees(data.Fees);
@@ -1043,7 +1047,7 @@
 
     $('#btnPay').click(function (e) {
         data = { Fees: [] };
-       
+
             var a = 1;
             if($("#payCurtDate").val() == ""){
                 // show error errorFeesPayDate
@@ -1059,29 +1063,34 @@
                 return;
             }
 
-            //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
-            data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
+        //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
+            if('@Model.Type' == 'advanceFee'){
+                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:$('#iVin').val() });
+            }else{
+                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+            }
             PayFees(data.Fees);
-        
+
     });
 
     function PayFees(lst,date){
         $.ajax({
             url: '/Fee/PayFees/',
             data: JSON.stringify(lst),date,
+            data: JSON.stringify({ lstFee: lst, type: '@Model.Type' }),
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
 
             success: function (View) {
                 if(View == 1){
                     $('.centered1 span').text('Successfully Updated');
-                   
+
 
                     FilterFees();
                 }else if(View == 0){
                     $('.centered span').text('Error');
 
-                   
+
                 }
             }
         });
