@@ -97,41 +97,116 @@ namespace BankLoanSystem.Controllers.Fee
 
         public ActionResult PayFeesForSelectedDueDate(DateTime dueDate, string type)
         {
-            return PartialView(this.GetFees(dueDate, type));
-        }
-
-        public FeesModel GetFees(DateTime dueDate, string type)
-        {
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
-                       
+
             FeeAccess feeAccess = new FeeAccess();
             List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
-            FeesModel curtailmentScheduleModel = new FeesModel();
-            curtailmentScheduleModel.FeeModelList = new List<Fees>();
-            curtailmentScheduleModel.Type = type;
+            FeesModel feeModel = new FeesModel();
+            feeModel.FeeModelList = new List<Fees>();
+            feeModel.Type = type;
 
 
             if (lstFee != null && lstFee.Count > 0)
             {
-                curtailmentScheduleModel.FeeModelList.AddRange(lstFee);
-                curtailmentScheduleModel.DueDate = lstFee[0].DueDate;
+                feeModel.FeeModelList.AddRange(lstFee);
+                Session["feeList"] = feeModel.FeeModelList;
+                //feeModel.DueDate = lstFee[0].DueDate;
             }
 
-            return curtailmentScheduleModel;
+            if (feeModel != null)
+            {
+                return PartialView(feeModel);
+            }
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(feeModel);
+            }
+            else
+            {
+
+                return View(feeModel);
+            }
         }
 
+        //public FeesModel GetFees(DateTime dueDate, string type)
+        //{
+        //    LoanSetupStep1 loanDetails = new LoanSetupStep1();
+        //    loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+        //    ViewBag.loanDetails = loanDetails;
+                       
+        //    FeeAccess feeAccess = new FeeAccess();
+        //    List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
+        //    FeesModel feeModel = new FeesModel();
+        //    feeModel.FeeModelList = new List<Fees>();
+        //    feeModel.Type = type;
+
+
+        //    if (lstFee != null && lstFee.Count > 0)
+        //    {
+        //        feeModel.FeeModelList.AddRange(lstFee);
+        //        Session["feeList"] = feeModel.FeeModelList;
+        //        //feeModel.DueDate = lstFee[0].DueDate;
+        //    }
+           
+
+        //    return feeModel;
+        //}
+
         [HttpPost]
-        public string PayFees(List<Fees> lstFee)
+        public int PayFees(List<Fees> lstFee, string type)
         {
             int userId = userData.UserId;
             FeeAccess feeAccess = new FeeAccess();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            string returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+            int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
 
             return returnValue;
         }
+
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/25
+        /// Search Fees
+        /// </summary>
+        /// <param name="identificationNumber"></param>
+        /// <param name="year"></param>
+        /// <param name="make"></param>
+        /// <param name="vehicleModel"></param>
+        /// <returns></returns>
+        public ActionResult SearchFee(string identificationNumber, string year, string make, string vehicleModel, FeesModel CurtailmentList)
+        {
+            List<Fees> SearchList = new List<Fees>();
+            if (Session["feeList"] != null)
+            {
+                List<Fees> feeModel = (List<Fees>)Session["feeList"];
+
+
+                if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
+                {
+                    //search through list elements
+                    Search sc = new Search();
+
+                    SearchList = sc.GetSearchFeeList(feeModel, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower());
+
+                    return PartialView(SearchList);
+                }
+                else
+                {
+
+                    return PartialView(SearchList);
+                }
+            }
+            else
+            {
+
+                return PartialView(SearchList);
+            }
+        }
+
     }
 }

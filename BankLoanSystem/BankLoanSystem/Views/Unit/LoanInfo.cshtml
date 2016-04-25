@@ -10,74 +10,72 @@
 
 
 
-<div class="info" style="padding-left:10px;padding-right:10px;padding-bottom: 47px;">
-    @if (ViewBag.Title != "Pay Curtailments")
+        <div class="info" style="padding-left:10px;padding-right:10px;padding-bottom: 47px;">
+            @if (ViewBag.Title != "Pay Curtailments")
             {
 
-        <div class="address">
-            <div style="float:left;width:40%;text-align:left;padding-left:5px;">
-                <strong>@ViewBag.loanCompanyType : </strong><span style="max-width:39%;display: inline-flex;
+                <div class="address">
+                    <div style="float:left;width:40%;text-align:left;padding-left:5px;"><strong>@ViewBag.loanCompanyType : </strong><span style="max-width:39%;display: inline-flex;
     text-align: left;">@ViewBag.NonRegBranchName</span> - <span style="width:41%;display: inline-flex;
-    text-align: left;">@ViewBag.loanBranchAddress</span>
-</div>
+    text-align: left;"> @ViewBag.loanBranchAddress</span> </div>
 
 
 
 
-<div style="float:left;width:30%;text-align:left"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
+                    <div style="float:left;width:30%;text-align:left"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
 
-@{
-    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    @{
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-    var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                        var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
 
-}
+                    }
 
-<div style="float:left;width:15%"></div>
-<div style="float:right;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</div>
+                    <div style="float:left;width:15%"></div>
+                    <div style="float:right;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</div>
 
+                    
+                </div>
+                        }
+                        else
+                        {
 
-</div>
-
-    }
-    else
-    {
-        <div class="address">
-            <div style="float:left;width:30%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </div>
-
-
-
-
-            <div style="float:left;width:25%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
+                            <div class="address">
+                                <div style="float:left;width:30%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </div>
 
 
 
-            @{
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-                var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
-
-            }
-
-            <div style="float:left;width:30%;padding-right:2%">
-                <strong>
-                    Curtailment Due Date :
-                </strong> @if (ViewBag.CurtailmentDueDate == "EoM")
-                { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
-                else { <label>@ViewBag.CurtailmentDueDate</label> }
-
-            </div>
-            <span style="width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+                                <div style="float:left;width:25%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
+
+                                @{
+                                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                                    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                                    var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+                                }
+
+                                <div style="float:left;width:30%;padding-right:2%">
+                                    <strong>
+                                        Curtailment Due Date :
+                                    </strong> @if (ViewBag.CurtailmentDueDate == "EoM")
+                                        { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
+                                        else { <label>@ViewBag.CurtailmentDueDate</label> }
+                                   
+                                </div>
+                                <span style="width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+
+
+                            </div>
+
+                                    }
         </div>
-
-                }
-</div>
 
 
 <div class="centered">
@@ -90,11 +88,11 @@
 
 </div>
 
-<script>
+        <script>
 
-    $(document).ready(function () {
+            $(document).ready(function () {
 
-        @if (ViewBag.Msg == "Success")
+                @if (ViewBag.Msg == "Success")
         {
            <text> $('.centered1 span').text('Successfully Updated');</text>
         } else if (ViewBag.Msg == "Error") {
@@ -110,242 +108,234 @@
 
             <text> $('.centered span').text('PayOff Failed');</text>
         }
-        else if (ViewBag.Msg == "DeleteError")
-        {
-            <text> $('.centered span').text('Faild deleted the unit');</text>
-        }
-        else if (ViewBag.Msg == "DeleteSuccess")
-        {
-            <text> $('.centered1 span').text('Successfully deleted the unit');</text>
-        }
 
-        // show popup when you click on the link
+                // show popup when you click on the link
 
-        $(document).on('click', 'input,button', function () {
-            $('.centered1 span').text('');
-        });
+                $(document).on('click', 'input,button', function () {
+                    $('.centered1 span').text('');
+                });
 
-        $(document).on('change', 'select', function () {
-            $('.centered1 span').text('');
-        });
+                $(document).on('change', 'select', function () {
+                    $('.centered1 span').text('');
+                });
 
 
-        //$(document).on("click", function () {
-        //    alert("click bound to document listening for #test-element");
-        //    middleSpanCheck();
-        //});
+                //$(document).on("click", function () {
+                //    alert("click bound to document listening for #test-element");
+                //    middleSpanCheck();
+                //});
 
 
 
-        $(document).on('click', '.show-logout-popup', function (event) {
+                $(document).on('click', '.show-logout-popup', function (event) {
 
 
 
 
 
-            @if(ViewBag.Title == "Advance Unit") {
+                    @if(ViewBag.Title == "Advance Unit") {
                  <text>if ($('#iVin').val() != "") { event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup); }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
 
                                 <text>if (($('#txtCost').val() != "" && $('#txtCost').val() != 0) || ($('#txtAdvanceAmount').val() != "" && $('#txtAdvanceAmount').val() != 0) || $("#rdYes").is(":checked") == true || $("#rdNo").is(":checked") == true || $("#rdAdvanceYes").is(":checked") == true || $("#rdAdvanceNo").is(":checked") == true) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }</text>
+                        event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                    }</text>
             }
             else if (ViewBag.Title == "Title Status Update")
             {
                  <text>if (($('#identificationNumber').val() != "" && $('#identificationNumber').val() != null) || ($('#unitYear').val() != "" && $('#unitYear').val() != 0) || ($('#unitMake').val() != "" && $('#unitMake').val() != null) || ($('#unitModel').val() != "" && $('#unitModel').val() != null) || ($('#unitStatus').val() != "" && $('#unitStatus').val() != null) || ($('#titleStatus').val() != "" && $('#titleStatus').val() != null) || $("#notReceived").is(":checked") == true || $("#received").is(":checked") == true || $("#returnDealer").is(":checked") == true || $("#sentBank").is(":checked") == true) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }</text>
+                        event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                    }</text>
             }
 
             else if (ViewBag.Title == "Pay Curtailments")
             {
                 <text>if ($('#iVin').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }</text>
+                        event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                    }</text>
             }
 
             else if (ViewBag.Title == "Pay Off")
             {
                 <text>if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }</text>
+                        event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                    }</text>
             }
 
-        });
+                });
 
 
 
 
-        // function to show our popups
-        function showPopup(whichpopup) {
-            var docHeight = $(document).height(); //grab the height of the page
-            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-        }
-
-        // function to close our popups
-        function closePopup() {
-            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
-        }
-
-        // timer if we want to show a popup after a few seconds.
-        //get rid of this if you don't want a popup to show up automatically
-        // setTimeout(function() {
-        // Show popup3 after 2 seconds
-        //    showPopup(3);
-        // }, 2000);
-
-
-        // show popup when you click on the link
-        $('.show-popup').click(function (event) {
-            //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
-            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
-
-            showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
-        });
-
-        // hide popup when user clicks on close button or if user clicks anywhere outside the container
-        $('.close-btn, .overlay-bg').click(function () {
-            closePopup();
-        });
-
-        // hide the popup when user presses the esc key
-        $(document).keyup(function (e) {
-            if (e.keyCode == 27) { // if user presses esc key
-                closePopup();
-            }
-        });
-        //$(document).click(function() {
-        //    if ($('input').next('span').children('span').text().length <= 0) {
-        //        $('.centered span').text('');
-        //    }
-        //});
-        $(document).on("blur", "input", function () {
-            var isError = false;
-            //$('.centered span').text('');
-            if ($('input').next('span').children('span').text().length > 0) {
-                $('.centered span').text('Error');
-                isError = true;
-            }
-            //else if ($(this).siblings().next('span').children('span').length === 0) {
-
-            //    $('.centered span').text('');
-            //}
-
-
-            $.each($('input').next('span'), function (i, obj) {
-                if ($(obj).children('span').length > 0) {
-                    isError = true;
+                // function to show our popups
+                function showPopup(whichpopup) {
+                    var docHeight = $(document).height(); //grab the height of the page
+                    var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                    $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
                 }
-            });
-            if ($('input').next('span').children('span').text().length <= 0) {
-                $('.centered span').text('');
-            }
 
-            @if(ViewBag.Title == "Advance Unit") {
+                // function to close our popups
+                function closePopup() {
+                    $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+                }
+
+                // timer if we want to show a popup after a few seconds.
+                //get rid of this if you don't want a popup to show up automatically
+                // setTimeout(function() {
+                // Show popup3 after 2 seconds
+                //    showPopup(3);
+                // }, 2000);
+
+
+                // show popup when you click on the link
+                $('.show-popup').click(function (event) {
+                    //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+                    var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+                    showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+                });
+
+                // hide popup when user clicks on close button or if user clicks anywhere outside the container
+                $('.close-btn, .overlay-bg').click(function () {
+                    closePopup();
+                });
+
+                // hide the popup when user presses the esc key
+                $(document).keyup(function (e) {
+                    if (e.keyCode == 27) { // if user presses esc key
+                        closePopup();
+                    }
+                });
+                //$(document).click(function() {
+                //    if ($('input').next('span').children('span').text().length <= 0) {
+                //        $('.centered span').text('');
+                //    }
+                //});
+                $(document).on("blur", "input", function () {
+                    var isError = false;
+                    //$('.centered span').text('');
+                    if ($('input').next('span').children('span').text().length > 0) {
+                        $('.centered span').text('Error');
+                        isError = true;
+                    }
+                    //else if ($(this).siblings().next('span').children('span').length === 0) {
+
+                    //    $('.centered span').text('');
+                    //}
+
+
+                    $.each($('input').next('span'), function (i, obj) {
+                        if ($(obj).children('span').length > 0) {
+                            isError = true;
+                        }
+                    });
+                    if ($('input').next('span').children('span').text().length <= 0) {
+                        $('.centered span').text('');
+                    }
+
+                    @if(ViewBag.Title == "Advance Unit") {
                 <text>
-            if (isError == false) {
-                if ($(this).next('#tagscloud').children('span').text() != "") {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
-            }</text>
+                    if (isError == false) {
+                        if ($(this).next('#tagscloud').children('span').text() != "") {
+                            $('.centered span').text('Error');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }</text>
 
             }else if(ViewBag.Title == "Add Unit Page") {
                  <text>
-            if (isError === false) {
-                if ($('.vinCheck').text().length > 0) {
-                    $('.centered span').text('Error');
-                    isError = true;
-                }
-                if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
-            }
-            //alert($('.vinCheck').text().length);
-
-            </text>
+                    if (isError === false) {
+                        //if ($('.vinCheck').text().length > 0) {
+                        //    $('.centered span').text('Error');
+                        //    isError = true;
+                        //}
+                        if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
+                            $('.centered span').text('Error');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }
+                    //alert($('.vinCheck').text().length);
+                    
+                    </text>
             }
 
             else if(ViewBag.Title == "Pay Curtailments") {
                 <text>
-            if (isError === false) {
-                if ($('#errorPayDate').text() != "" || $('#errorCurtAmount').text() != "" || $('#errorCurtPayDate').text() != "") {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
-            }
-            </text>
+                    if (isError === false) {
+                        if ($('#errorPayDate').text() != "" || $('#errorCurtAmount').text() != "" || $('#errorCurtPayDate').text() != "") {
+                            $('.centered span').text('Error');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }
+                    </text>
             }
            else if(ViewBag.Title == "Pay Off") {
                <text>
-            if (isError === false) {
-                if ($('#customErrorTitleReturn1').text() != "" || $('#customErrorTitleReturn2').text() != "" || $('#customErrorPayDate1').text() != "" || $('#customErrorPayDate2').text() != "") {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
-            }
-            </text>
+                    if (isError === false) {
+                        if ($('#customErrorTitleReturn1').text() != "" || $('#customErrorTitleReturn2').text() != "" || $('#customErrorPayDate1').text() != "" || $('#customErrorPayDate2').text() != "") {
+                            $('.centered span').text('Error');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }
+                    </text>
            }else if(ViewBag.Title == "Reports")
            {
-
+              
                <text>
-            if (isError === false) {
-                if ($('#tagscloudLoanId').text() != "" || $('#tagscloudStartDate').text() != "" || $('#tagscloudEndDate').text() != "" || $('#tagscloudTitleStatus').text() != "") {
-                    $('.centered span').text('Error in Page');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
-            }
-            else {
-                $('.centered span').text('');
-            }
-            </text>
+                    if (isError === false) {
+                        if ($('#tagscloudLoanId').text() != "" || $('#tagscloudStartDate').text() != "" || $('#tagscloudEndDate').text() != "" || $('#tagscloudTitleStatus').text() != "") {
+                            $('.centered span').text('Error in Page');
+                            isError = true;
+                        } else {
+                            isError = false;
+                        }
+                    }
+                    else {
+                        $('.centered span').text('');
+                    }
+                    </text>
            }
 
 
 
 
 
-            $('.centered span').text('Error');
-            if (isError === false)
-                $('.centered span').text('');
-        });
-    });
+                    $('.centered span').text('Error');
+                    if (isError === false)
+                        $('.centered span').text('');
+                });
+            });
 
 
-</script>
-
-
-
-
-<div class="overlay-bg">
-</div>
-<div class="overlay-content popup7" style="width:auto;text-align:center;margin-left: 262px;">
-
-
-    <h3>Logout</h3>
-
-    <span class="text-warning"> Are you sure you want to logout?</span><br />
-    <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
-    <br />
-    @Html.ActionLink("OK", "UserLogin", "Login", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
-    <button class="close-btn btn btn-info">Cancel</button>
+        </script>
 
 
 
-</div>
+
+        <div class="overlay-bg">
+        </div>
+        <div class="overlay-content popup7" style="width:auto;text-align:center;margin-left: 262px;">
+
+
+            <h3>Logout</h3>
+
+            <span class="text-warning"> Are you sure you want to logout?</span><br />
+            <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
+            <br />
+            @Html.ActionLink("OK", "UserLogin", "Login", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+            <button class="close-btn btn btn-info">Cancel</button>
+
+
+
+        </div>
 

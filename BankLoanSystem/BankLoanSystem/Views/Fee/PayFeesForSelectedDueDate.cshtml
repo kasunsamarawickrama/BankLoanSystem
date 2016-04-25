@@ -33,20 +33,14 @@
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
     <div>
+        
         @if (Model.Type == "advanceFee")
         {
-                @grid.GetHtml(
+            <h4 id="gridHeader" style="font-weight: bold;">
+                Advance Fee
+            </h4>
 
-                                              tableStyle: "gridtable",
-                                              headerStyle: "webgrid-header",
-                                              alternatingRowStyle: "webgrid-alternating-row",
-                                              rowStyle: "webgrid-row-style",
-                                              htmlAttributes: new { id = "checkableGrid" },
-
-
-                                              columns: grid.Columns(
-                                                      grid.Column(style: "gridColumnSelect",
-                                                           format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
+                 @grid.GetHtml(  tableStyle: "gridtable", headerStyle: "webgrid-header", alternatingRowStyle: "webgrid-alternating-row", rowStyle: "webgrid-row-style", htmlAttributes: new { id = "checkableGrid" },   columns: grid.Columns( grid.Column(style: "gridColumnSelect", format: @<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                               , header: "{checkall}"
                                                       ),
 
@@ -55,7 +49,7 @@
                                                       grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                                       grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                                       grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.BillDueDate.ToShortDateString()</label>}</text>),
                                                       //grid.Column(
                                                       //     "BillDueDate",
                                                       //     "Due Date", style: "gridColumnOthers",
@@ -68,6 +62,20 @@
         }
         else
         {
+            if (Model.Type == "monthlyLoanFee")
+            {
+                <h4 id="gridHeader" style="font-weight: bold;">
+                    Monthly Loan Fee
+                </h4>
+            }
+            else {
+
+                <h4 id="gridHeader" style="font-weight: bold;">
+                    Lot Inspection Fee
+                </h4>
+            }
+
+            <div id="monthlyLotFeeHeader" class="" hidden></div>
             @grid.GetHtml(
 
                                                  tableStyle: "gridtable",
@@ -82,7 +90,7 @@
                                                               format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                                  , header: "{checkall}"
                                                          ),
-                                                              grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
+                                                              @*grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),*@
                                                          grid.Column(
                                                               "BillDueDate",
                                                               "Due Date", style: "gridColumnlarge",
@@ -291,7 +299,7 @@
                     <div class="col-md-2" style="width:17%;">
                         <label for="">Fee Pay Date </label>
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
-                        <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left:95%;top:50%;width:125%"></span>
+                        <span class="text-danger field-validation-error" id="errorFeesPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
                         @Html.Hidden("iFeeId", "", new { @id = "iFeeId" })
                     </div>
@@ -372,7 +380,9 @@
 
          }
         var dueDate = '@dateTime';
-        GetCurrentCurtailment(dueDate);
+        //GetCurrentCurtailment(dueDate);
+        $('#dueDate').val(dueDate);
+        FilterFees();
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
@@ -457,7 +467,7 @@
                                         }
 
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total, 2);
+                                    document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total, 2);
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -537,12 +547,12 @@
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
                     else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ 0.00";
                         if( $("#hdnSelectedButton").val() == "advanceFee"){
                             ClearTextBoxValues();
                         }
@@ -560,7 +570,7 @@
                         if($("#hdnSelectedButton").val() == "advanceFee"){
                             ClearTextBoxValues();
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                     }
 
@@ -654,7 +664,7 @@
                                 ClearTextBoxValues();
                             }
                             SetRadioBtnHeaderChecked();
-                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                            document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -722,7 +732,7 @@
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -809,7 +819,7 @@
                 $('#payDate').val('');
                 $('#payCurtDate').val('');
                 $('#iDateDue').val('');
-                
+
 
             }
 
@@ -825,7 +835,7 @@
                 $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
                 $('#errorCurtAmount').text('');
                 //$('#iCurtAmount').removeClass('input-validation-error');
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $('#payCurtDate').removeClass('input-validation-error');
                 //document.getElementById("unitid").innerHTML = tr.find("#all").val();
                 $("#btnPay").removeAttr("disabled");
@@ -833,7 +843,7 @@
                 $("#singleUnitDiv").show();
                 $('#iDateDue').val(tr.find("#BillDueDate").text());
 
-                
+
             }
 
             function ClearLabelMessages() {
@@ -855,9 +865,9 @@
             function Search(para1, para2, para3, para4) {
 
                 var curtList = @Html.Raw(Json.Encode(Model));
-
+                //alert(curtList);
                 $.ajax({
-                    url: '/Curtailments/SearchCurtailment',
+                    url: '/Fee/SearchFee',
                     type: 'POST',
                     contentType: 'application/json;',
                     data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
@@ -931,7 +941,7 @@
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error
@@ -943,13 +953,9 @@
     }
 
     function ClearSearchGrid() {
-         $("#searchResultGrid").find('.advanceAmount').each(function () {
+        $("#searchResultGrid").find('.curtAmount').each(function () {
             var tr = $(this).parents('tr:first');
-            if (tr.find("#curtailmentStatus").val() != '2') {
-                tr.css('background', 'transparent');
-            }else{
-                tr.css('background', '#fffae6');
-            }
+            tr.css('background', 'transparent');
         });
 
     }
@@ -962,7 +968,7 @@
         onSelect: function () {
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
             $("#payCurtDate").val(formatDate(thisDate));
         }
@@ -983,7 +989,7 @@
             var thisDate = this.getDate();
             $('#errorPayDate').text('');
             $('#payDate').removeClass('input-validation-error');
-            $('#errorCurtPayDate').text('');
+            $('#errorFeesPayDate').text('');
             $('#payCurtDate').removeClass('input-validation-error');
             $('#payDate').next('span').children('span').text('');
             $("#payDate").val(formatDate(thisDate));
@@ -1025,9 +1031,13 @@
             $('.curtAmount').each(function () {
                 var tr = $(this).parents('tr:first');
                 var checked = tr.find("#all").is(':checked');
-               
+
                 if (checked) {
-                    data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                    if('@Model.Type' == 'advanceFee'){
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").val()});
+                    }else{
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+                    }
                 }
             });
             PayFees(data.Fees);
@@ -1037,15 +1047,15 @@
 
     $('#btnPay').click(function (e) {
         data = { Fees: [] };
-        if ($('#payDate').val() != '') {
+
             var a = 1;
             if($("#payCurtDate").val() == ""){
-                // show error errorCurtPayDate
-                $('#errorCurtPayDate').text('Please select the Curtailment payment date');
+                // show error errorFeesPayDate
+                $('#errorFeesPayDate').text('Please select the Fees payment date');
                 $('#payCurtDate').addClass('input-validation-error');
                 a=0;
             }
-            if($('#errorCurtPayDate').text() != ""){
+            if($('#errorFeesPayDate').text() != ""){
                 a=0;
             }
             if(a== 0 ){
@@ -1053,23 +1063,34 @@
                 return;
             }
 
-            //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
-            data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val() });
+        //data.Fees.push({ FeeId: $('#iFeeId').val(), PaidDate: $('#payDate').val()});
+            if('@Model.Type' == 'advanceFee'){
+                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:$('#iVin').val() });
+            }else{
+                data.Fees.push({ FeeId: $('#iFeeId').val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val()});
+            }
             PayFees(data.Fees);
-        }
+
     });
 
     function PayFees(lst,date){
         $.ajax({
             url: '/Fee/PayFees/',
             data: JSON.stringify(lst),date,
+            data: JSON.stringify({ lstFee: lst, type: '@Model.Type' }),
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
 
             success: function (View) {
-                if(View == ""){
+                if(View == 1){
                     $('.centered1 span').text('Successfully Updated');
-                    GetCurrentCurtailment($('#dueDate').val());
+
+
+                    FilterFees();
+                }else if(View == 0){
+                    $('.centered span').text('Error');
+
+
                 }
             }
         });
@@ -1117,7 +1138,7 @@
     });
     $('#payCurtDate').click(function(e){
 
-        $('#errorCurtPayDate').text('');
+        $('#errorFeesPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
@@ -1137,12 +1158,12 @@
             var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
             if (selectedDate < minDate || selectedDate > maxDate) {
                 // out off range error
-                $('#errorCurtPayDate').text('Out of Range');
+                $('#errorFeesPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
                 $('.centered span').text('Error');
             } else {
                 // delete error mssage
-                $('#errorCurtPayDate').text('');
+                $('#errorFeesPayDate').text('');
                 $(this).removeClass('input-validation-error');
             }
 
@@ -1151,7 +1172,7 @@
         } else {
 
             // not valid data error
-            $('#errorCurtPayDate').text('The field must be a date');
+            $('#errorFeesPayDate').text('The field must be a date');
             $(this).addClass('input-validation-error');
             $('.centered span').text('Error');
         }

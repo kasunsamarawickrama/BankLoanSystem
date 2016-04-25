@@ -47,6 +47,11 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime startDate { get; set; }
 
+        [Display(Name = "Created Date")]
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime CreatedDate { get; set; }
+
         [Required]
         [Display(Name = "Maturity Date")]
         //[DataType(DataType.Date)]
@@ -90,6 +95,10 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Payment Method")]
         public string paymentMethod { get; set; }
+
+        
+        [Display(Name = "Current Loan Status")]
+        public bool CurrentLoanStatus { get; set; }
 
         [Required]
         [Display(Name = "Unit Types")]

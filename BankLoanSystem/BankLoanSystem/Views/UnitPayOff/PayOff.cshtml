@@ -716,10 +716,12 @@
                         var loanId = document.getElementById('loanId').value;
                         var unitId = $(this).find("#all").val();
                         var balance = $(this).find("#balance").text().replace(',', '');
+                        var idNum = $(this).find("#vin").text();
                         var payOffModel = {
                             LoanId: loanId,
                             UnitId: unitId,
-                            Balance: balance
+                            Balance: balance,
+                            IdentificationNumber: idNum
                         };
                         data.payOffModelList.push(payOffModel);
                     }

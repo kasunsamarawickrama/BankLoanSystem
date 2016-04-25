@@ -38,16 +38,16 @@
     if (ViewBag.FeeLB == 1)
     {
 
-        <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+        <button id="lkfee" class="big-button" onclick="window.location.href='/Fee/PayFees'">
             <span class="icon-credit"></span>
             <span class="txt">Fees</span>
         </button>
     }
-    <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+    <button id="lkrep" class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
         <span class="icon-stack"></span>
         <span class="txt">Reports</span>
     </button>
-    <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+    <button id="lkdeluni" class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
         <span class="icon-automobile"></span>
         <span class="txt">Delete Unit</span>
     </button>
@@ -102,21 +102,21 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
         }
         if (item.rightsPermissionString.Contains("U007") && (ViewBag.FeeLB == 1))
         {
-            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+            <button id="lkfee" class="big-button" onclick="window.location.href='/Fee/PayFees'">
                 <span class="icon-credit"></span>
                 <span class="txt">Fees</span>
             </button>
         }
         if (item.rightsPermissionString.Contains("U006"))
         {
-        <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+        <button id="lkrep" class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
             <span class="icon-stack"></span>
             <span class="txt">Reports</span>
         </button>
         }
         if (item.rightsPermissionString.Contains("U008"))
         {
-            <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+            <button id="lkdeluni" class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
                 <span class="icon-automobile"></span>
                 <span class="txt">Delete Unit</span>
             </button>
@@ -129,7 +129,7 @@ else if (ViewBag.Role == 4)
     <span class="icon-automobile"></span>
     <span class="txt">Add Unit</span>
 </button>
-<button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+<button id="lkrep" class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
     <span class="icon-stack"></span>
     <span class="txt">Reports</span>
 </button>
