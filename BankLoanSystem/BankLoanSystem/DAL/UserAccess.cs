@@ -544,5 +544,145 @@ namespace BankLoanSystem.DAL
                 return false;
             }
         }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/22/2016
+        /// Get all types of users for company
+        /// </summary>
+        /// <param name="company_Id"></param>
+        /// <returns></returns>
+        public List<User> GetAllUsersByBranchId(int role_id,int branch_Id)
+        {
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@role_id", role_id });
+            paramertList.Add(new object[] { "@branch_id", branch_Id });
+            DataSet dataSet = dataHandler.GetDataSet("spGetAllUsersByBranchId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    User user = new User();
+                    user.UserId = Convert.ToInt32(dataRow["user_id"].ToString());
+                    user.UserName = dataRow["user_name"].ToString();
+                    user.Password = dataRow["password"].ToString();
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.Email = dataRow["email"].ToString();
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.Status = bool.Parse(dataRow["status"].ToString());
+                    user.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    user.RoleId = Convert.ToInt32(dataRow["role_id"].ToString());
+
+                    users.Add(user);
+                }
+
+                return users;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/22/2016
+        /// Get super admins
+        /// </summary>
+        /// <param name="company_Id"></param>
+        /// <returns></returns>
+        public List<User> GetSuperAdminsByCompanyId(int company_Id)
+        {
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", company_Id });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetSuperAdminsByCompanyId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    User user = new User();
+                    user.UserId = Convert.ToInt32(dataRow["user_id"].ToString());
+                    user.UserName = dataRow["user_name"].ToString();
+                    user.Password = dataRow["password"].ToString();
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.Email = dataRow["email"].ToString();
+                    user.Status = bool.Parse(dataRow["status"].ToString());
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    user.RoleId = Convert.ToInt32(dataRow["role_id"].ToString());
+
+                    users.Add(user);
+                }
+
+                return users;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/23/2016
+        /// edit user at dashboard
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+       public int UpdateUser(User user,int userId)
+        {
+            if(user!=null) 
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+
+
+                paramertList.Add(new object[] { "@user_id", user.UserId });
+                paramertList.Add(new object[] { "@current_password", user.CurrentPassword });
+                paramertList.Add(new object[] { "@password", user.Password });
+                paramertList.Add(new object[] { "@first_name", user.FirstName });
+                paramertList.Add(new object[] { "@last_name", user.LastName });
+                paramertList.Add(new object[] { "@email", user.Email });
+                if (user.RoleId == 1)
+                {
+                    paramertList.Add(new object[] { "@phone_no", user.PhoneNumber });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@phone_no", user.PhoneNumber2 });
+                }
+                
+                if(user.Status) 
+                {
+                    paramertList.Add(new object[] { "@status", 1 });
+                }
+                else {
+                    paramertList.Add(new object[] { "@status", 0 });
+                }
+                
+                paramertList.Add(new object[] { "@modified_date", DateTime.Now });
+                paramertList.Add(new object[] { "@modified_by", userId });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLReturn("spUpdateUser", paramertList);
+                }
+                catch
+                {
+                    return 0;
+                }
+               // return 1;
+            }
+            else 
+            {
+                return 0;
+            }
+        }
     }
 }

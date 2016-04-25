@@ -999,9 +999,9 @@ namespace BankLoanSystem.DAL
                         if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
                             loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_lot_inspection_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_lot_inspection_fee"].ToString()))
                             {
                                 loan.LotInspectionFee = 1;
                             }
@@ -1015,9 +1015,9 @@ namespace BankLoanSystem.DAL
                         {
                             loan.LotInspectionFee = 0;
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_monthly_loan_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_monthly_loan_fee"].ToString()))
                             {
                                 loan.MonthlyLoanFee = 1;
                             }
@@ -1031,9 +1031,9 @@ namespace BankLoanSystem.DAL
                         {
                             loan.MonthlyLoanFee = 0;
                         }
-                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        if (!string.IsNullOrEmpty(dataRow["has_advance_fee"].ToString()))
                         {
-                            if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                            if (bool.Parse(dataRow["has_advance_fee"].ToString()))
                             {
                                 loan.AdvanceFee = 1;
                             }
@@ -1041,9 +1041,9 @@ namespace BankLoanSystem.DAL
                             {
                                 loan.AdvanceFee = 0;
                             }
-                            if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                            if (!string.IsNullOrEmpty(dataRow["payment_due_method"].ToString()))
                             {
-                                if (dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                                if (dataRow["payment_due_method"].ToString().Contains("Vehicle Payoff"))
                                 {
                                     loan.AdvanceFeePayAtPayoff = true;
                                 }
@@ -1095,6 +1095,113 @@ namespace BankLoanSystem.DAL
                             LoanList.Add(loan);
                         }
                         
+                    }
+                    detailList.RegBranches = RegBranches;
+                    detailList.NonRegBranchList = NonRegBranchList;
+                    detailList.LoanList = LoanList;
+
+                    return detailList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/20/2016
+        /// Get InActive Loans 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="company_Id"></param>
+        /// <param name="branchId"></param>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public LoanSelection GetInActiveLoans(int userId, int companyId, int branchId, int roleId)
+        {
+            LoanSelection detailList = new LoanSelection();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@userId", userId });
+            paramertList.Add(new object[] { "@companyId", companyId });
+            paramertList.Add(new object[] { "@branchId", branchId });
+            paramertList.Add(new object[] { "@roleId", roleId });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetInActiveLoans", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    List<Branch> RegBranches = new List<Branch>();
+                    List<NonRegBranch> NonRegBranchList = new List<NonRegBranch>();
+                    List<LoanSetupStep1> LoanList = new List<LoanSetupStep1>();
+
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Branch branch = new Branch();
+                        NonRegBranch nonRegBranch = new NonRegBranch();
+                        LoanSetupStep1 loan = new LoanSetupStep1();
+
+                        branch.BranchId = int.Parse(dataRow["branch_id"].ToString());
+                        branch.BranchName = dataRow["regBranchName"].ToString();
+
+                        nonRegBranch.NonRegBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
+                        nonRegBranch.BranchId = branch.BranchId;
+                        nonRegBranch.CompanyNameBranchName = dataRow["nonRegBranchName"].ToString();
+
+                        loan.loanId = int.Parse(dataRow["loan_id"].ToString());
+                        loan.loanNumber = dataRow["loan_number"].ToString();
+                        loan.loanCode = dataRow["loan_code"].ToString();
+                        loan.loanAmount = decimal.Parse(dataRow["loan_amount"].ToString());
+                        loan.CreatedDate = DateTime.Parse(dataRow["created_date"].ToString());
+                        loan.CurrentLoanStatus = bool.Parse(dataRow["loan_status"].ToString());
+                        
+                        loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
+                        bool checkBranch = false;
+                        bool checkNonRegBranch = false;
+                        bool checkLoan = false;
+                        foreach (var br in RegBranches)
+                        {
+                            if (br.BranchId == branch.BranchId)
+                            {
+                                checkBranch = true;
+                            }
+                        }
+                        if (checkBranch == false)
+                        {
+                            RegBranches.Add(branch);
+                        }
+                        foreach (var nrbr in NonRegBranchList)
+                        {
+                            if (nrbr.NonRegBranchId == nonRegBranch.NonRegBranchId)
+                            {
+                                checkNonRegBranch = true;
+                            }
+                        }
+                        if (checkNonRegBranch == false)
+                        {
+                            NonRegBranchList.Add(nonRegBranch);
+                        }
+
+                        foreach (var l in LoanList)
+                        {
+                            if (l.loanId == loan.loanId)
+                            {
+                                checkLoan = true;
+                            }
+                        }
+                        if (checkLoan == false)
+                        {
+                            LoanList.Add(loan);
+                        }
+
                     }
                     detailList.RegBranches = RegBranches;
                     detailList.NonRegBranchList = NonRegBranchList;
