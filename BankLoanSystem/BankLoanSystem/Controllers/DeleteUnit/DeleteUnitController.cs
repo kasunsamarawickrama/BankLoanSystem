@@ -69,6 +69,33 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             //_companyType = ba.getCompanyTypeByUserId(userData.UserId);
             //ViewBag.ComType = _companyType;
 
+            if (TempData["message"] != null)
+            {
+                int res = Convert.ToInt32(TempData["message"]);
+                if (res == 0)
+                {
+                    ViewBag.Msg = "DeleteError";
+                    TempData["out"] = "DeleteError";
+                }
+                else {
+                    ViewBag.Msg = "DeleteSuccess";
+                    TempData["out"] = "DeleteSuccess";
+                }
+            }
+            else if (TempData["out"] != null)
+            {
+                string str = TempData["out"].ToString();
+                if (str == "DeleteError")
+                {
+                    ViewBag.Msg = "DeleteError";
+                    return View(unitDeleteViewModel);
+                }
+                else {
+                    ViewBag.Msg = "DeleteSuccess";
+                    return View(unitDeleteViewModel);
+                }
+            }
+
             return View(unitDeleteViewModel);
         }
 
@@ -207,6 +234,9 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             UnitAccess ua = new UnitAccess();
 
             int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+
+            TempData["message"] = res;
+
             return RedirectToAction("Delete");
         }
     }
