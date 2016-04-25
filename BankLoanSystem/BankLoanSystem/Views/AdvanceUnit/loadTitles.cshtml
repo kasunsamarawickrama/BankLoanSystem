@@ -1,0 +1,115 @@
+﻿@model List<BankLoanSystem.Models.TitleUpload >
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popup9" style="width:auto;text-align:center;margin-left: 105px;">
+
+
+    <h3>Titles</h3>
+    <fieldset>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var person in Model)
+            {
+                if (Path.GetExtension(person.OriginalFileName) == ".doc")
+                {
+                    var FilePath = "~/Images/doc.png";
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+                else if (Path.GetExtension(person.OriginalFileName) == ".ppt")
+                {
+                    var FilePath = "~/Images/ppt.png";
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+                else if (Path.GetExtension(person.OriginalFileName) == ".xls")
+                {
+                    var FilePath = "~/Images/xls.png";
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+                else if (Path.GetExtension(person.OriginalFileName) == ".pdf")
+                {
+                    var FilePath = "~/Images/pdf.png";
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+                else if (Path.GetExtension(person.OriginalFileName) == ".sql")
+                {
+                    var FilePath = "~/Images/sql.png";
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+                else {
+                    <div style="padding:10px;">
+                        <img src="@Url.Content(person.FilePath)" onclick="window.open(this.src)" alt="Image" style="max-width: 500px;max-height: 500px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                    </div>
+                }
+            }
+        }
+        else {
+            <div style="padding:10px;">
+                No Titles Uploaded
+            </div>
+        }
+    </fieldset>
+    <br />
+    <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+
+</div>
+
+
+<script>
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
+
+
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn, .overlay-bg').click(function () {
+        closePopup();
+    });
+
+    // hide the popup when user presses the esc key
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // if user presses esc key
+            closePopup();
+        }
+    });
+
+
+
+</script>
+
+
+
