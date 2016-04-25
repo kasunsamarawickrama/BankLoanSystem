@@ -33,20 +33,14 @@
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
     <div>
+        
         @if (Model.Type == "advanceFee")
         {
-                @grid.GetHtml(
+            <h4 id="gridHeader" style="font-weight: bold;">
+                Advance Fee
+            </h4>
 
-                                              tableStyle: "gridtable",
-                                              headerStyle: "webgrid-header",
-                                              alternatingRowStyle: "webgrid-alternating-row",
-                                              rowStyle: "webgrid-row-style",
-                                              htmlAttributes: new { id = "checkableGrid" },
-
-
-                                              columns: grid.Columns(
-                                                      grid.Column(style: "gridColumnSelect",
-                                                           format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
+                 @grid.GetHtml(  tableStyle: "gridtable", headerStyle: "webgrid-header", alternatingRowStyle: "webgrid-alternating-row", rowStyle: "webgrid-row-style", htmlAttributes: new { id = "checkableGrid" },   columns: grid.Columns( grid.Column(style: "gridColumnSelect", format: @<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                               , header: "{checkall}"
                                                       ),
 
@@ -68,6 +62,20 @@
         }
         else
         {
+            if (Model.Type == "monthlyLoanFee")
+            {
+                <h4 id="gridHeader" style="font-weight: bold;">
+                    Monthly Loan Fee
+                </h4>
+            }
+            else {
+
+                <h4 id="gridHeader" style="font-weight: bold;">
+                    Lot Inspection Fee
+                </h4>
+            }
+
+            <div id="monthlyLotFeeHeader" class="" hidden></div>
             @grid.GetHtml(
 
                                                  tableStyle: "gridtable",
@@ -82,7 +90,7 @@
                                                               format:@<text><input type="checkbox" value="@item.FeeId" name="ids" class="checkboxAll" id="all" /></text>
                                                                  , header: "{checkall}"
                                                          ),
-                                                              grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),
+                                                              @*grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),*@
                                                          grid.Column(
                                                               "BillDueDate",
                                                               "Due Date", style: "gridColumnlarge",
@@ -945,13 +953,9 @@
     }
 
     function ClearSearchGrid() {
-         $("#searchResultGrid").find('.advanceAmount').each(function () {
-            var tr = $(this).parents('tr:first');
-            if (tr.find("#curtailmentStatus").val() != '2') {
-                tr.css('background', 'transparent');
-            }else{
-                tr.css('background', '#fffae6');
-            }
+        $("#searchResultGrid").find('.curtAmount').each(function () {
+            var tr = $(this).parents('tr:first');           
+            tr.css('background', 'transparent');       
         });
 
     }

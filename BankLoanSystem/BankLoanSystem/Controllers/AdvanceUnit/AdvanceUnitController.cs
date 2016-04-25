@@ -283,7 +283,15 @@ namespace BankLoanSystem.Controllers
                 if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                 {
                     Loan loanObj = new Loan();
-                    loanObj = (Loan)Session["loanDashboard"];
+                    if (Session["loanDashboard"] != null)
+                    {
+                        loanObj = (Loan)Session["loanDashboard"];
+                    }
+                    else
+                    {
+                        loanObj = (Loan)Session["oneLoanDashboard"];
+                    }
+                        //loanObj = (Loan)Session["loanDashboard"];
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
@@ -335,6 +343,11 @@ namespace BankLoanSystem.Controllers
         public FileResult Downloadx(string image, string path)
         {
             return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
+        public ActionResult Downloaderx(string ImageName)
+        {
+            return File(ImageName, "application/pdf");
+
         }
     }
 }
