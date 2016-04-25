@@ -1174,11 +1174,11 @@
                         success: function (data) {
                             //alert(data);
                             if(data == 0){
-                                $('.centered span').text('Error');
+                               // $('.centered span').text('Error');
                                 $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
 
                             }else if(data == 1){
-                                $('.centered span').text('Error');
+                              //  $('.centered span').text('Error');
                                 $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
                             }
                             else if(data == 2){
@@ -1814,7 +1814,9 @@
 
                     }
                 });
-
+                $('#heavyequipmentSerial').change(function () {
+                    $("#heavyequipmentSerial").val(($("#heavyequipmentSerial").val()).toUpperCase());
+                });
                 //hide the panels
                 //show one panel at a time
 
