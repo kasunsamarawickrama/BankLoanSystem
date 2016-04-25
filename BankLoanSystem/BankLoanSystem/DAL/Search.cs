@@ -380,12 +380,12 @@ namespace BankLoanSystem.DAL
             return resultList;
         }
 
-        public List<Fees> GetSearchFeeList(FeesModel curtailmentList, string identificationNumber, string year, string make, string vehicleModel)
+        public List<Fees> GetSearchFeeList(List<Fees> curtailmentList, string identificationNumber, string year, string make, string vehicleModel)
         {
 
             List<Fees> searchList = new List<Fees>();
 
-            foreach (Fees curtailmentShedule in curtailmentList.FeeModelList)
+            foreach (Fees curtailmentShedule in curtailmentList)
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
