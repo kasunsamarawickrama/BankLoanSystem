@@ -2251,7 +2251,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
                             ViewBag.DefaultEmail = titleObj.RemindEmail;
                         }
-                        
+                        else if(titleObj == null)
+                        {
+                            return RedirectToAction("UserLogin", "Login");
+                        }
 
                         if (HttpContext.Request.IsAjaxRequest())
                         {
