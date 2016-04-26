@@ -160,7 +160,7 @@
                                                     @Html.HiddenFor(model => model.UserId, htmlAttributes: new { id = "hdnUserId3" })
                                                     @Html.DropDownListFor(model => model.UserId, null, "--Select Username--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
                                                 </div>
-                                               
+                                               @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "hdnUserName3" })
                                             
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
@@ -827,7 +827,7 @@
 <script>
 
     function GetUserByUserId(_userId) {
-        alert(_userId);
+        //alert(_userId);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
         if (_userId > 0) {
@@ -840,7 +840,8 @@
                 type: "POST",
                 success: function (data) {
                     $("#hdnUserId3").val(data.UserId);
-                    alert( $("#hdnUserId3").val());
+                    $("#hdnUserName3").val(data.UserName);
+                    //alert( $("#hdnUserName3").val());
                     $("#txtFname").val(data.FirstName);
                     $("#txtLname").val(data.LastName);
                     $("#txtEmail").val(data.Email);
@@ -852,7 +853,7 @@
                     else{
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
-                        $("#txtPhone").val(data.PhoneNumber);
+                        $("#txtPhone2").val(data.PhoneNumber2);
                     }
                     
                     //alert(data.Status);

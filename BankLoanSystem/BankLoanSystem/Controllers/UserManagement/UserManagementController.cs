@@ -2156,6 +2156,10 @@ namespace BankLoanSystem.Controllers
                 User userObj = new User();
                 UserAccess uas = new UserAccess();
                 userObj = uas.retreiveUserByUserId(userId);
+                if (userObj.UserId > 1)
+                {
+                    userObj.PhoneNumber2 = userObj.PhoneNumber;
+                }
                 //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
                 return Json(userObj);
             }
