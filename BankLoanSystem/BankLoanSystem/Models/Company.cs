@@ -47,7 +47,7 @@ namespace BankLoanSystem.Models
         public string ZipPre { get; set; }
 
         [Display(Name = "Extension")]
-        [RegularExpression("^[0-9]{4}", ErrorMessage = "Extension needs 4 digits.")]
+        [RegularExpression("^[0-9]{4}", ErrorMessage = "Please enter a valid 4 digit Extension")]
         public string Extension { get; set; }
 
         [Required(ErrorMessage = "Please enter a Phone Number")]
@@ -102,7 +102,7 @@ namespace BankLoanSystem.Models
     {
         public Company Company { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the State")]
         [Display(Name = "State")]
         public int StateId { get; set; }
         public List<Company> Companies { get; set; }
