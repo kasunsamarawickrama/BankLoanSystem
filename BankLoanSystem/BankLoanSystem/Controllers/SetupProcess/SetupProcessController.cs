@@ -61,9 +61,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch(Exception e)
@@ -218,12 +224,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if(type== "INSERT")
                 {
                     bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Inserted company : " + _comCode, DateTime.Now);
+
+                   (new LogAccess()).InsertLog(log);
+                }else if (type == "UPDATE")
+                {
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Updated company : " + company.CompanyCode, DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
                 }
                 
                 Session["companyStep"] = 2;
 
                 //user object pass to session
                 userData.Company_Id = companyId;
+                userData.CompanyName = company.CompanyName;
                 Session["AuthenticatedUser"] = userData;
 
                 //sa.updateStepNumberByUserId(company.FirstSuperAdminId, 2);
@@ -2245,7 +2263,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
                             ViewBag.DefaultEmail = titleObj.RemindEmail;
                         }
-                        
+                        else if(titleObj == null)
+                        {
+                            return RedirectToAction("UserLogin", "Login");
+                        }
 
                         if (HttpContext.Request.IsAjaxRequest())
                         {

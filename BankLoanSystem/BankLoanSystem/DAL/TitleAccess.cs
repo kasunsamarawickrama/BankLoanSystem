@@ -27,9 +27,10 @@ namespace BankLoanSystem.DAL
             try
             {
                 DataSet dataSet = dataHandler.GetDataSet("spGetTitleDetailsByLoanId", paramertList);
+                Title obj1 = new Title();
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    Title obj1 = new Title();
+                   
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
                         
@@ -70,7 +71,7 @@ namespace BankLoanSystem.DAL
                 }
                 else
                 {
-                  return null;
+                  return obj1;
                 }
              }
             catch (Exception ex)
