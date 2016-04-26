@@ -224,12 +224,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if(type== "INSERT")
                 {
                     bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Inserted company : " + _comCode, DateTime.Now);
+
+                   (new LogAccess()).InsertLog(log);
+                }else if (type == "UPDATE")
+                {
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Updated company : " + company.CompanyCode, DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
                 }
                 
                 Session["companyStep"] = 2;
 
                 //user object pass to session
                 userData.Company_Id = companyId;
+                userData.CompanyName = company.CompanyName;
                 Session["AuthenticatedUser"] = userData;
 
                 //sa.updateStepNumberByUserId(company.FirstSuperAdminId, 2);
