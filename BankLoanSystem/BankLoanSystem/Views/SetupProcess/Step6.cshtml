@@ -437,7 +437,7 @@
        
         if (valid >= 11) {
             if ($("input:checked").length == 0) {
-                $("#unitTypeError").text('Select Atleast One unit type');
+                $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
                 e.preventDefault();
             }
             else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
@@ -447,7 +447,7 @@
             }
         } else {
             if ($("input:checked").length == 0) {
-                $("#unitTypeError").text('Select Atleast One unit type');
+                $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
 
             }
         }
@@ -457,7 +457,7 @@
     });
 
     $('#advancePercentage').keypress(function (evt) {
-        // preventing to type 'e' or 'E'
+        // preventing to type 'e' or 'E'mmitted - piyumi
         if (evt.keyCode == 101 || evt.keyCode == 69 || $(this).val() > 100) {
             evt.preventDefault();
         }

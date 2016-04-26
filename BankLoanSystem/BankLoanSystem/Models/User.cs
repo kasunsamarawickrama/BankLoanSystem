@@ -110,7 +110,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Branch ")]
         public int LoanIdUser { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a role for the User")]
         [Display(Name = "Role")]
         public int RoleId { get; set; }
 
