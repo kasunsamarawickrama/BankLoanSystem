@@ -90,26 +90,30 @@ namespace BankLoanSystem.DAL
                     fee.BillDueDate = Convert.ToDateTime(dataRow["bill_due_date"].ToString());
                     fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
 
-                    string[] info = fee.Description.Split(',');
-                    if (info !=null && info.Length >0)
+                    if (type == "advanceFee")
                     {
-                        if (info[1] !="")
+                        string[] info = fee.Description.Split(',');
+                        if (info != null && info.Length > 0)
                         {
-                            fee.IdentificationNumber = info[1];
+                            if (info[1] != "")
+                            {
+                                fee.IdentificationNumber = info[1];
+                            }
+                            if (info.Length > 1 && info[2] != "")
+                            {
+                                fee.Year = Convert.ToInt32(info[2]);
+                            }
+                            if (info.Length > 2 && info[3] != "")
+                            {
+                                fee.Make = info[3];
+                            }
+                            if (info.Length > 3 && info[4] != "")
+                            {
+                                fee.Model = info[4];
+                            }
                         }
-                        if (info.Length > 1 && info[2] != "")
-                        {
-                            fee.Year = Convert.ToInt32(info[2]);
-                        }
-                        if (info.Length > 2 && info[3] != "")
-                        {
-                            fee.Make = info[3];
-                        }
-                        if (info.Length > 3 && info[4] != "")
-                        {
-                            fee.Model = info[4];
-                        }                       
                     }
+
 
                     lstFee.Add(fee);
                 }

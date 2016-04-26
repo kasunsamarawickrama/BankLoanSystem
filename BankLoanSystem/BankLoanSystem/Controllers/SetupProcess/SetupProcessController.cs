@@ -732,7 +732,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
+                //insert to log 
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,0, "Create User in Company setup", "created "+(user.RoleId == 1 ? "Super Admin" : "Admin") + ", Username : " + user.UserName, DateTime.Now);
 
+                (new LogAccess()).InsertLog(log);
 
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +

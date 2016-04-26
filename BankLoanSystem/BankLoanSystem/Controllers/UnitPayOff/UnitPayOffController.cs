@@ -174,6 +174,33 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 if(result == 1)
                 {
+                    //if mention advance fee, then insert in to fee table - asanka
+                    UnitAccess unitAccess = new UnitAccess();
+                   
+
+                    if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
+                    {
+                        
+                        Loan loanObj = new Loan();
+                        if (Session["loanDashboard"] != null)
+                        {
+                            loanObj = (Loan)Session["loanDashboard"];
+                        }
+                        else
+                        {
+                            loanObj = (Loan)Session["oneLoanDashboard"];
+                        }
+                        //loanObj = (Loan)Session["loanDashboard"]; 
+                        if (loanObj.AdvanceFee == 1)
+                        {
+                            //check advance amount and other details      
+                            foreach (var payoff in payOffModelList)
+                            {
+                                unitAccess.insertFreeDetailsForPayOff(payoff, payDate);
+                            }
+                         }
+                    }
+
 
                     List<string> IDNumbers = new List<string>();
 
