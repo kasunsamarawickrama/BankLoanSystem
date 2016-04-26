@@ -2190,6 +2190,9 @@ namespace BankLoanSystem.Controllers
                 int reslt = usrAcc.UpdateUser(user,userData.UserId);
                 if(reslt==1) 
                 {
+                    Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, 0, "Edit User", "Edit User:" + user.UserName, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
                     TempData["UpdteReslt"] = 1;
                 }
                 else 
