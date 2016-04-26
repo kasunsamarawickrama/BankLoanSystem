@@ -1475,7 +1475,8 @@ namespace BankLoanSystem.DAL
 
                 string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model;
 
-                
+                if(fee_due_method== "Vehicle Payoff")
+                {
                     List<object[]> paramertList = new List<object[]>();
                     paramertList.Add(new object[] { "@loan_id", unit.LoanId });
                     paramertList.Add(new object[] { "@unit_id", unit.UnitId });
@@ -1486,7 +1487,7 @@ namespace BankLoanSystem.DAL
                     paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
 
                     dataHandler.ExecuteSQL("spInsertAdvanceFee", paramertList);
-                
+                }
                 return 0;
             }
             catch
