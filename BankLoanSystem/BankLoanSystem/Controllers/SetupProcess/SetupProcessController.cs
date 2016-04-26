@@ -2579,7 +2579,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //bool loanActive = curtaiulmentModel.LoanStatus == "Yes";
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.UpdateLoanCurtailmentd(curtaiulmentModel, loanData.loanId);
+            loanAccess.UpdateLoanCurtailment(curtaiulmentModel, loanData.loanId);
 
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
