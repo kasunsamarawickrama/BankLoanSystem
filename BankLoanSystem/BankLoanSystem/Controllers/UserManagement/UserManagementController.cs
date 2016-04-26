@@ -1961,6 +1961,9 @@ namespace BankLoanSystem.Controllers
                 int reslt = ls.UpdateLoanStatus(slctdLoanId, slctdLoanCode);
                 if(reslt==1) 
                 {
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "Edit Loan", "Loan Id : " + slctdLoanId+" ,Edited Status : Active", DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
                     TempData["EditReslt"] = "success";
                     //Session["loanDashboardEditLoan"] = "";
                 }
