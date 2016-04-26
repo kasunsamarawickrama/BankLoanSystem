@@ -32,9 +32,21 @@ namespace BankLoanSystem.Controllers.Fee
                 }
                 else
                 {
+
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                   
                 }
             }
             catch
