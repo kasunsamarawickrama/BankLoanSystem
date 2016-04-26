@@ -73,7 +73,7 @@
 
                                 else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed to update user"))
                                 {
-                                    <div id="errorSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+                                    <div id="errorSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
 
                                 }
 
@@ -157,6 +157,7 @@
                                             </div>
                                                
                                                 <div class="col-xs-8 text_field short_text_field" id="divUserId">
+                                                    @Html.HiddenFor(model => model.UserId, htmlAttributes: new { id = "hdnUserId3" })
                                                     @Html.DropDownListFor(model => model.UserId, null, "--Select Username--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
                                                 </div>
                                                
@@ -826,6 +827,7 @@
 <script>
 
     function GetUserByUserId(_userId) {
+        alert(_userId);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
         if (_userId > 0) {
@@ -837,6 +839,8 @@
                 cache: false,
                 type: "POST",
                 success: function (data) {
+                    $("#hdnUserId3").val(data.UserId);
+                    alert( $("#hdnUserId3").val());
                     $("#txtFname").val(data.FirstName);
                     $("#txtLname").val(data.LastName);
                     $("#txtEmail").val(data.Email);
