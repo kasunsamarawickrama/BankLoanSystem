@@ -69,6 +69,33 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             //_companyType = ba.getCompanyTypeByUserId(userData.UserId);
             //ViewBag.ComType = _companyType;
 
+            if (TempData["message"] != null)
+            {
+                int res = Convert.ToInt32(TempData["message"]);
+                if (res == 0)
+                {
+                    ViewBag.Msg = "DeleteError";
+                    TempData["out"] = "DeleteError";
+                }
+                else {
+                    ViewBag.Msg = "DeleteSuccess";
+                    TempData["out"] = "DeleteSuccess";
+                }
+            }
+            else if (TempData["out"] != null)
+            {
+                string str = TempData["out"].ToString();
+                if (str == "DeleteError")
+                {
+                    ViewBag.Msg = "DeleteError";
+                    return View(unitDeleteViewModel);
+                }
+                else {
+                    ViewBag.Msg = "DeleteSuccess";
+                    return View(unitDeleteViewModel);
+                }
+            }
+
             return View(unitDeleteViewModel);
         }
 
@@ -202,11 +229,21 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return PartialView(feeDetailsModelNew);
         }
 
-        public ActionResult DeleteUnitPost(string unitId)
+        public ActionResult DeleteUnitPost(string unitId,string identificationNo)
         {
             UnitAccess ua = new UnitAccess();
 
             int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+            if (res == 1)
+            {
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loan.loanId, "Delete Unit", "Delete Unit:" + identificationNo, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
+            }
+
+
+            TempData["message"] = res;
+
             return RedirectToAction("Delete");
         }
     }

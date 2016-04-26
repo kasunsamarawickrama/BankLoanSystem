@@ -390,7 +390,7 @@
 
 
             $("#advanceGrid").show().siblings('.gridsdiv').hide();
-            $("#hdnSelectedButton").val('advanceFee'); alert('aaa');
+            $("#hdnSelectedButton").val('advanceFee'); 
           
             FilterFees();
         }
@@ -452,6 +452,10 @@
                     //} else {
                     //    $('#checkableGridDiv').show();
                     //}
+                },
+                error: function (reponse) {
+
+                    window.location.href = '/Login/UserLogin';
                 }
             });
         }

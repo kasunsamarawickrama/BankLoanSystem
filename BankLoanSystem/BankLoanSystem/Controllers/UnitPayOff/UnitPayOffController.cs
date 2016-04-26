@@ -172,6 +172,24 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 result = (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
 
+                if(result == 1)
+                {
+
+                    List<string> IDNumbers = new List<string>();
+
+                    foreach (var payoff in payOffModelList)
+                    {
+                        IDNumbers.Add(payoff.IdentificationNumber);
+                       
+
+                    }
+
+                    //insert to log 
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, payOffModelList[0].LoanId, "Pay Off", "Pay Off unit(s) : " + string.Join(",", IDNumbers) + ", Pay Date : " + payDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                }
+
                 TempData["message"] = result;
 
                 return RedirectToAction("PayOff");

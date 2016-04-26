@@ -32,9 +32,21 @@ namespace BankLoanSystem.Controllers.Fee
                 }
                 else
                 {
+
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                   
                 }
             }
             catch
@@ -97,15 +109,10 @@ namespace BankLoanSystem.Controllers.Fee
 
         public ActionResult PayFeesForSelectedDueDate(DateTime dueDate, string type)
         {
-            return PartialView(this.GetFees(dueDate, type));
-        }
-
-        public FeesModel GetFees(DateTime dueDate, string type)
-        {
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
-                       
+
             FeeAccess feeAccess = new FeeAccess();
             List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
             FeesModel feeModel = new FeesModel();
@@ -119,19 +126,119 @@ namespace BankLoanSystem.Controllers.Fee
                 Session["feeList"] = feeModel.FeeModelList;
                 //feeModel.DueDate = lstFee[0].DueDate;
             }
-           
 
-            return feeModel;
+            if (feeModel != null)
+            {
+                return PartialView(feeModel);
+            }
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(feeModel);
+            }
+            else
+            {
+
+                return View(feeModel);
+            }
         }
 
+        //public FeesModel GetFees(DateTime dueDate, string type)
+        //{
+        //    LoanSetupStep1 loanDetails = new LoanSetupStep1();
+        //    loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+        //    ViewBag.loanDetails = loanDetails;
+                       
+        //    FeeAccess feeAccess = new FeeAccess();
+        //    List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
+        //    FeesModel feeModel = new FeesModel();
+        //    feeModel.FeeModelList = new List<Fees>();
+        //    feeModel.Type = type;
+
+
+        //    if (lstFee != null && lstFee.Count > 0)
+        //    {
+        //        feeModel.FeeModelList.AddRange(lstFee);
+        //        Session["feeList"] = feeModel.FeeModelList;
+        //        //feeModel.DueDate = lstFee[0].DueDate;
+        //    }
+           
+
+        //    return feeModel;
+        //}
+
         [HttpPost]
-        public int PayFees(List<Fees> lstFee)
+        public int PayFees(List<Fees> lstFee, string type)
         {
             int userId = userData.UserId;
             FeeAccess feeAccess = new FeeAccess();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+
+            //insert to log 
+            if (returnValue == 1)
+            {
+                
+                
+                Log log;
+
+                if(type == "advanceFee")
+                {
+
+
+                    List<string> IDNumbers = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        IDNumbers.Add(fee.IdentificationNumber);
+
+
+                    }
+
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees","Advance Fee Paid for the unit(s) : " + string.Join(",", IDNumbers) + " , Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "monthlyLoanFee")
+                {
+
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", " Monthly Loan Fee Paid for the due date(s) : { "+ string.Join(",", DueDates) + "}" + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "lotInspectionFee")
+                {
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", "Lot Inspection Fee Paid for the due date(s) : { " + string.Join(",", DueDates) + " } " + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+
+
+                
+            }
 
             return returnValue;
         }

@@ -357,6 +357,8 @@
         var viewType = $('.viewType').filter(':checked').val();
         ClearTextBoxText();
 
+        $('#feeDetails').hide();
+
         $("#identificationNumberSearch").val('');
         $("#identificationNumberSearch").attr('placeholder', 'Last 6 of VIN/HIN/SN');
         $('#cmbYear').val('');
@@ -444,9 +446,6 @@
     }
 
     $("#btnDelete").click(function () {
-        //showPopup('delete');
-
-        alert($('#unitId').val());
 
         if ($('#unitId').val() !== "") {
             doConfirm("Do you wish to delete this unit?", function yes() {
@@ -455,7 +454,7 @@
                     url: '/DeleteUnit/DeleteUnitPost',
                     type: 'POST',
                     contentType: 'application/json;',
-                    data: JSON.stringify({ unitId: $('#unitId').val()}),
+                    data: JSON.stringify({ unitId: $('#unitId').val(), identificationNo: $('#identificationNumber').val() }),
                     success: function (View) {
                         location.reload();
 
@@ -485,4 +484,5 @@
         $('#unitId').val('');
     }
 
+    $("#lkdeluni").hide();
 </script>

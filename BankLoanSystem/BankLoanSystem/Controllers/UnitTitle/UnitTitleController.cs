@@ -148,6 +148,29 @@ namespace BankLoanSystem.Controllers.UnitTitle
             bool reslt = titleObj.UpdateTitle(unitTitle, loanCode,userData.UserId);
             if (reslt)
             {
+                LoanSetupStep1 loanDetails = new LoanSetupStep1();
+                loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+                string status = "";
+
+                if (unitTitle.TitleStatus == 0)
+                {
+                    status = "Not Received";
+                }
+                else if (unitTitle.TitleStatus == 1)
+                {
+                    status = "Received";
+                }
+                else if (unitTitle.TitleStatus == 2)
+                {
+                    status = "Returned to Dealer";
+                }
+                else if (unitTitle.TitleStatus == 3)
+                {
+                    status = "Sent to Bank";
+                }
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,loanDetails.loanId, "Title Status Update", "Update title status of unit:" + unitTitle.IdentificationNumber +" ,Updated status:"+status+",Updated date:"+ DateTime.Now, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
                 TempData["reslt"] = 1;
                 return 1;
             }
