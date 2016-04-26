@@ -717,11 +717,17 @@
                         var unitId = $(this).find("#all").val();
                         var balance = $(this).find("#balance").text().replace(',', '');
                         var idNum = $(this).find("#vin").text();
+                        var year = $(this).find("#year").text(); //document.getElementById('iYear').value;
+                        var make = $(this).find("#make").text(); //document.getElementById('iMake').value;
+                        var model = $(this).find("#model").text(); //document.getElementById('iModel').value;
                         var payOffModel = {
                             LoanId: loanId,
                             UnitId: unitId,
                             Balance: balance,
-                            IdentificationNumber: idNum
+                            IdentificationNumber: idNum,
+                            Year: year,
+                            Make: make,
+                            Model: model
                         };
                         data.payOffModelList.push(payOffModel);
                     }
@@ -774,13 +780,19 @@
                 var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
+                var year = document.getElementById('iYear').value;
+                var make = document.getElementById('iMake').value;
+                var model = document.getElementById('iModel').value;
 
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
                         LoanId: loanId,
                         UnitId: hiddenId,
-                        Balance: balance
+                        Balance: balance,
+                        Year: year,
+                        Make: make,
+                        Model: model
                     };
                     data.payOffModelList.push(payOffModel);
 

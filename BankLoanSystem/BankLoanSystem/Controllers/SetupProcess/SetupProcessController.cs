@@ -61,9 +61,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch(Exception e)
@@ -2579,7 +2585,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //bool loanActive = curtaiulmentModel.LoanStatus == "Yes";
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
-            loanAccess.UpdateLoanCurtailmentd(curtaiulmentModel, loanData.loanId);
+            loanAccess.UpdateLoanCurtailment(curtaiulmentModel, loanData.loanId);
 
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
