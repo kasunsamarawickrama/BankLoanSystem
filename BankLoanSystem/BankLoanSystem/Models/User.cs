@@ -10,61 +10,61 @@ namespace BankLoanSystem.Models
     public class User
     {
 
-        [Required]
+        [Required(ErrorMessage = "Please indicate a User Name")]
         [Display(Name = "User Name")]
         public int UserId { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Please indicate a User Name")]
         [Display(Name = "User Name")]
         [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
-        [StringLength(30, ErrorMessage = "User name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "Your User Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
         [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Please use only letters (a-z) and numbers.")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please indicate a User Name")]
         [Display(Name = "User Name")]
         public string UneditUserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your First Name")]
         [Display(Name = "First Name")]
-        [StringLength(30, ErrorMessage = "First name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "Your First Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your Last Name")]
         [Display(Name = "Last Name")]
-        [StringLength(30, ErrorMessage = "Last name can't be longer than 30 characters and less than 3 charactors.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "Your Last Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Please enter your Email Address")]
+        [EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
         [Display(Name = "Email")]
         [Remote("IsEmailExists", "CreateUser", ErrorMessage = "Email already in use")]
         public string NewEmail { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Please enter your Email Address")]
+        [EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Phone number is not valid.")]
+        [Required(ErrorMessage = "Please enter your Phone Number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Phone Number including area code")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
        
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Phone number is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Phone Number including area code")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber2 { get; set; }
 
         [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Current Password")]
         public string CurrentPassword { get; set; }
 
-        [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Please create a Password")]
+        [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -72,10 +72,10 @@ namespace BankLoanSystem.Models
         [Required]
         public bool ChangePassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please confirm your Password")]
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
-        [System.ComponentModel.DataAnnotations.Compare("Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Your Passwords do not match, please check your inputs")]
         public string ConfirmPassword { get; set; }
 
         [Required]
@@ -110,7 +110,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Branch ")]
         public int LoanIdUser { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a role for the User")]
         [Display(Name = "Role")]
         public int RoleId { get; set; }
 

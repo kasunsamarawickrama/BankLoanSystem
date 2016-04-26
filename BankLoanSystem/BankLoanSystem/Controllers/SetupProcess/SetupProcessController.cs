@@ -224,12 +224,24 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if(type== "INSERT")
                 {
                     bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
+
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Inserted company : " + _comCode, DateTime.Now);
+
+                   (new LogAccess()).InsertLog(log);
+                }else if (type == "UPDATE")
+                {
+                    //insert to log 
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Updated company : " + company.CompanyCode, DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
                 }
                 
                 Session["companyStep"] = 2;
 
                 //user object pass to session
                 userData.Company_Id = companyId;
+                userData.CompanyName = company.CompanyName;
                 Session["AuthenticatedUser"] = userData;
 
                 //sa.updateStepNumberByUserId(company.FirstSuperAdminId, 2);
@@ -720,7 +732,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             res = ua.InsertUserActivation(userId, activationCode);
             if (res == 1)
             {
+                //insert to log 
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,0, "Create User in Company setup", "created "+(user.RoleId == 1 ? "Super Admin" : "Admin") + ", Username : " + user.UserName, DateTime.Now);
 
+                (new LogAccess()).InsertLog(log);
 
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
@@ -1524,6 +1539,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (loanId > 0)
             {
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
+                if (loanId > 0)
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, loanSetupStep1.RegisteredBranchId, loanId, "Loan Details", "Edited Loan : " + loanId, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                }
+              
             }
             else
             {
@@ -1531,8 +1553,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
                 loanId = loanSetupAccess.insertLoanStepOne(loanSetupStep1, loanId);
+                if (loanId > 0)
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, loanSetupStep1.RegisteredBranchId, loanId, "Loan Details", "Inserted Loan : " + loanId, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                }
                 //need to update loanSetup object
-             
+
 
 
             }
@@ -1827,7 +1855,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData.stepId = 3;
                     }
-                   
+                    //insert log record
+                    if (reslt == 0)
+                    {
+
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Edited interest details of loan : " + loanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
+                    }
+                    else if(reslt > 0)
+                    {
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Inserted interest details of loan : " + loanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
+                    }
                     //loanData.stepId = 3;
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step8");
@@ -2090,6 +2131,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     
                     if (loanData.stepId < 4) {
                         loanData.stepId = 4;
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, fees.LoanId, "Fees", "Inserted fees details of loan : " + fees.LoanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
+                    }
+                    else
+                    {
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, fees.LoanId, "Fees", "Edited fees details of loan : " + fees.LoanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
                     }
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step9");
@@ -2345,7 +2395,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         loanData.stepId = 5;
                     }
-                    
+                    if (reslt == 0)
+                    {
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, title.LoanId, "Title", "Edited title details of loan : " + title.LoanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
+                    }
+                    if (reslt > 0)
+                    {
+                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, title.LoanId, "Title", "Inserted title details of loan : " + title.LoanId, DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
+                    }
                     Session["loanStep"] = loanData;
                     return RedirectToAction("Step10");
                 }
@@ -2576,12 +2637,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
                 sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
+               
+                    Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Inserted curtailment details of loan : " + loanData.loanId, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+
                 ViewBag.Redirect = 1;
             }
             else
             {
                 sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId,
                     loanData.loanId, 6);
+                
+                    Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Edited curtailment details of loan : " + loanData.loanId, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+               
                 ViewBag.SuccessMsg = "Curtailment Details updated successfully";
             }
 

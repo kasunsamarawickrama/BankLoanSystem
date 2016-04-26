@@ -84,7 +84,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertInterestDetails", paramertList) ? 1 : 0;
+                return dataHandler.ExecuteSQLReturn("spInsertInterestDetails", paramertList);
             }
             catch
             {

@@ -12,70 +12,70 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
 
         [Display(Name = "Branch Name")]
-        [Required(ErrorMessage = "Branch Name Required!")]
+        [Required(ErrorMessage = "Please enter the Branch Name")]
         public string BranchName { get; set; }
 
         [Display(Name = "Code")]
         public string BranchCode { get; set; }
 
         [Display(Name = "Street Address 1")]
-        [Required(ErrorMessage = "Branch Address Required!")]
+        [Required(ErrorMessage = "Please enter the Street Address")]
         public string BranchAddress1 { get; set; }
 
         [Display(Name = "Street Address 2")]
         public string BranchAddress2 { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Please select the State")]
         [Display(Name = "State")]
         public int StateId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the State")]
         [Display(Name = "State")]
         public int StateId2 { get; set; }
 
         [Display(Name = "City")]
-        [Required(ErrorMessage = "Branch City Required!")]
+        [Required(ErrorMessage = "Please enter the City")]
         public string BranchCity { get; set; }
 
         [Display(Name = "Zip Code")]
-        [Required(ErrorMessage = "Branch Zip Code Required!")]
+        [Required(ErrorMessage = "Please enter the Zip Code")]
         public string BranchZip { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the Zip Code")]
         [Display(Name = "Zip")]
-        [RegularExpression("^[0-9]{5}", ErrorMessage = "Zip code must have 5 digits.")]
+        [RegularExpression("^[0-9]{5}", ErrorMessage = "Please enter a valid 5 digit Zip Code")]
         public string ZipPre { get; set; }
 
         [Display(Name = "Extention")]
-        [RegularExpression("^[0-9]{4}", ErrorMessage = "Extension needs 4 digits.")]
+        [RegularExpression("^[0-9]{4}", ErrorMessage = "Please enter a valid 4 digit Extension")]
         public string Extention { get; set; }
 
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Please enter a valid Email Address")]
         [Display(Name = "Email")]
         public string BranchEmail { get; set; }
 
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number 1")]
-        [Required(ErrorMessage = "Phone Number Required!")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [Required(ErrorMessage = "Please enter a Phone Number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Phone Number including area code")]
         public string BranchPhoneNum1 { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number 2")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Phone Number including area code")]
         public string BranchPhoneNum2 { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number 3")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Phone Number including area code")]
         public string BranchPhoneNum3 { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Fax")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered Fax format is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Fax Number including area code")]
         public string BranchFax { get; set; }
 
         public int BranchCreatedBy { get; set; }
