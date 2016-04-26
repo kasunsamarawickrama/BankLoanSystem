@@ -677,7 +677,7 @@ namespace BankLoanSystem.DAL
 
         //}
 
-        internal int UpdateLoanCurtailmentd(CurtailmentModel curtailmentModel, int loanId)
+        internal int UpdateLoanCurtailment(CurtailmentModel curtailmentModel, int loanId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();

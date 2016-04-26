@@ -291,7 +291,7 @@ namespace BankLoanSystem.Controllers
                     {
                         loanObj = (Loan)Session["oneLoanDashboard"];
                     }
-                        //loanObj = (Loan)Session["loanDashboard"];
+                        //loanObj = (Loan)Session["loanDashboard"]; 
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
