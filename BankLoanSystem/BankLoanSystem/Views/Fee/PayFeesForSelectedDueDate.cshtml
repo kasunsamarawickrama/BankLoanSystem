@@ -1036,9 +1036,9 @@
 
                 if (checked) {
                     if('@Model.Type' == 'advanceFee'){
-                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").val()});
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),IdentificationNumber:tr.find("#vin").text()});
                     }else{
-                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),DueDate:$('#DueDate').text()});
+                        data.Fees.push({ FeeId: tr.find("#all").val(), Type: $('#hdnSelectedButton').val(), PaidDate:$('#payDate').val(),DueDate:tr.find('#DueDate').text()});
                     }
                 }
             });

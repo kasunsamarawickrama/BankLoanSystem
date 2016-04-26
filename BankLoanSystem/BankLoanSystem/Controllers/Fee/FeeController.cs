@@ -32,9 +32,21 @@ namespace BankLoanSystem.Controllers.Fee
                 }
                 else
                 {
+
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                   
                 }
             }
             catch
@@ -164,6 +176,69 @@ namespace BankLoanSystem.Controllers.Fee
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             int returnValue = feeAccess.updateFees(lstFee, lstFee[0].PaidDate, loanDetails.loanId, userId);
+
+            //insert to log 
+            if (returnValue == 1)
+            {
+                
+                
+                Log log;
+
+                if(type == "advanceFee")
+                {
+
+
+                    List<string> IDNumbers = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        IDNumbers.Add(fee.IdentificationNumber);
+
+
+                    }
+
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees","Advance Fee Paid for the unit(s) : " + string.Join(",", IDNumbers) + " , Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "monthlyLoanFee")
+                {
+
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", " Monthly Loan Fee Paid for the due date(s) : { "+ string.Join(",", DueDates) + "}" + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+                else if (type == "lotInspectionFee")
+                {
+                    List<string> DueDates = new List<string>();
+
+                    foreach (var fee in lstFee)
+                    {
+                        DueDates.Add(fee.DueDate);
+
+
+                    }
+
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", "Lot Inspection Fee Paid for the due date(s) : { " + string.Join(",", DueDates) + " } " + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+
+                    (new LogAccess()).InsertLog(log);
+
+                }
+
+
+                
+            }
 
             return returnValue;
         }

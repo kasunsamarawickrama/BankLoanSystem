@@ -173,6 +173,13 @@
             }</text>
             }
 
+            else if (ViewBag.Title == "Pay Fees")
+            {
+                <text>if ($('#iVin').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
+                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                }</text>
+            }
+
         });
 
 
