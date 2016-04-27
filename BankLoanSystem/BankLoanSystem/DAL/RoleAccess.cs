@@ -51,6 +51,46 @@ namespace BankLoanSystem.DAL
             }
 
           
-        } 
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:4/27/2016
+        /// </summary>
+        /// <param name="company_Id"></param>
+        /// <returns></returns>
+        public List<UserRole> GetAllUserRoles(int company_Id)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", company_Id });
+
+            List<UserRole> userRoleList = new List<UserRole>();
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetAllUserRolsByCompany", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UserRole role = new UserRole
+                        {
+                            RoleId = Convert.ToInt32(dataRow["role_id"]),
+                            RoleName = dataRow["role_name"].ToString()
+                        };
+                        userRoleList.Add(role);
+                    }
+                    return userRoleList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
