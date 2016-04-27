@@ -9,20 +9,20 @@ namespace BankLoanSystem.Models
     public class Fees
     {
         public int LoanId { get; set; }
-        [Required(ErrorMessage = "Required.")]
-        [Display(Name = "Advance")]
+        [Required(ErrorMessage = "Please select if there is an Advance Fee for each unit advanced")]
+        [Display(Name = "Per Item Advance Fee")]
         public string AdvanceId { get; set; }
 
-        [Required(ErrorMessage = "Advance Amount is required.")]
-        [Display(Name = "Amount")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
+        [Required(ErrorMessage = "Please enter the Advance fee for each unit")]
+        [Display(Name = "Per Unit Advanced Fee Amount")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter an Advance Amount greater than $1")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
         public decimal AdvanceAmount { get; set; }
         [Required(ErrorMessage = "Advance reciept need required.")]
         [Display(Name = "Recipt for Advance Paid")]
         public bool AdvanceNeedReceipt { get; set; }
 
-        [Required(ErrorMessage = "Advance Fee calculate Type is required.")]
+        [Required(ErrorMessage = "Please chose when the advance fee is due")]
         [Display(Name = "Advance Fee calculate")]
         public string AdvanceFeeCalculateType { get; set; }
         [Required(ErrorMessage = "Advance fee complete Remind email is required.")]
@@ -63,8 +63,8 @@ namespace BankLoanSystem.Models
 
 
 
-        [Display(Name = "Monthly Loan")]
-        [Required(ErrorMessage = "Required.")]
+        [Display(Name = "Monthly Load Administration Fee")]
+        [Required(ErrorMessage = "Please select if there is a separate Monthly Loan Fee")]
         public string MonthlyLoanId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
@@ -113,8 +113,8 @@ namespace BankLoanSystem.Models
 
 
 
-        [Display(Name = "Lot Inspection")]
-        [Required(ErrorMessage = "Required.")]
+        [Display(Name = "Lot Inventory Inspection Fee")]
+        [Required(ErrorMessage = "Please select if there is a Lot / Inventory Inspection Fee")]
         public string LotInspectionId { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
