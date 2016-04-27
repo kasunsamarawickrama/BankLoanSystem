@@ -64,6 +64,42 @@ namespace BankLoanSystem.Controllers.UnitTitle
                 ViewBag.CompanyType = compType;
             }
             int flag = -1;
+
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U002")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
+
+                }
+            }
             if ((TempData["reslt"] !=null)&& (TempData["reslt"].ToString() != ""))
             {
                 flag = int.Parse(TempData["reslt"].ToString());
