@@ -15,11 +15,11 @@
             rowStyle: "webgrid-row-style",
             htmlAttributes: new {id = "deleteGrid"},
             columns: grid.Columns(
-                grid.Column(null, null, format: @<input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/>),
                 grid.Column("Date Advanced", "Date Advanced", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)),
                 grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{
                                                                                                                                        <label id="vin" class="vin">@item.IdentificationNumber</label>
-                                                                                                                                   }</text>),
+                                                                                                                                    <input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />
+                }</text>),
                 grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format: @<text>@{
                                                                                                          <label id="year" class="vin">@item.Year</label>
                                                                                                      }</text>),
