@@ -193,8 +193,12 @@
 
 
                         }
-                       
+
                     </ul>
+                    @if (Model.RegBranches == null)
+                    {
+                        <span class="text-danger" style="float:left;margin-left:-100%;font-size:medium"> No Active loans could be found</span>
+                    }
 
                 </div>
             </div>
