@@ -97,6 +97,41 @@ namespace BankLoanSystem.Controllers.Fee
             }
             ViewBag.loanSelected = loanSelected;
 
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U007")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
+
+                }
+            }
             string advDuedate;
             string monDueDate;
             string lotDuedate;

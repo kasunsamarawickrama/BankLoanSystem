@@ -131,6 +131,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             if (newUserId != 0)
             {
 
+
                                                         
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
@@ -144,6 +145,9 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 Session["abcBrnc"] = user.BranchId;
                 email.SendMail(body, "Account details");
 
+                Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, user.LoanId, "Create Dealer Account", "Inserted Dealer : " + user.UserName, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
 
                 TempData["msg"] = 1;
                 return RedirectToAction("LinkDealer");               

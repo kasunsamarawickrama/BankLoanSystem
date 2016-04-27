@@ -84,9 +84,58 @@ namespace BankLoanSystem.Controllers
             {
                 return RedirectToAction("UserLogin", "Login");
             }
+            BranchAccess branch = new BranchAccess();
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            //int companyType = userData.CompanyType;
+            if (companyType == 1)
+            {
+                ViewBag.isLender = true;
+            }
+            else
+            {
+                ViewBag.isLender = false;
+            }
+
             ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U001")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
+
+                }
+            }
+
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
@@ -171,7 +220,7 @@ namespace BankLoanSystem.Controllers
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
         public int UpdateAdvance(BankLoanSystem.Models.Unit unit)
-        {
+        {            
             string loanCode;
             try
             {
@@ -181,7 +230,7 @@ namespace BankLoanSystem.Controllers
             {
                 throw;
             }
-            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);           
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
 
@@ -210,18 +259,18 @@ namespace BankLoanSystem.Controllers
                 int islog = (new LogAccess()).InsertLog(log);
                 // saving for reporting purpose
                 if (Session["AdvItems"] == null)
-                {
-                    List<Models.Unit> unitlist = new List<Models.Unit>();
-                    unitlist.Add(unit);
-                    Session["AdvItems"] = unitlist;
-                }
-                else
-                {
-                    List<Models.Unit> unitlist = new List<Models.Unit>();
-                    unitlist = (List<Models.Unit>)Session["AdvItems"];
-                    unitlist.Add(unit);
-                    Session["AdvItems"] = unitlist;
-                }
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist.Add(unit);
+                Session["AdvItems"] = unitlist;
+            }
+            else
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist = (List<Models.Unit>)Session["AdvItems"];
+                unitlist.Add(unit);
+                Session["AdvItems"] = unitlist;
+            }
             }
 
             return reslt;
@@ -237,7 +286,7 @@ namespace BankLoanSystem.Controllers
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
         public int UpdateAdvanceAll(ListViewModel list)
-        {
+        {           
             string loanCode;
             try
             {
@@ -267,7 +316,7 @@ namespace BankLoanSystem.Controllers
                         i++;
                     }
                 }
-
+                
                 //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 ////user.UserRights = arrList.ToString();
                 string units = string.Join(",", arrList);
@@ -286,7 +335,7 @@ namespace BankLoanSystem.Controllers
                     {
                         loanObj = (Loan)Session["oneLoanDashboard"];
                     }
-                    //loanObj = (Loan)Session["loanDashboard"]; 
+                        //loanObj = (Loan)Session["loanDashboard"]; 
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
@@ -300,17 +349,17 @@ namespace BankLoanSystem.Controllers
                 // saving for reporting purpose
                 if (Session["AdvItems"] == null)
                 {
-                    Session["AdvItems"] = list.ItemList;
-                }
-                else
-                {
-                    List<Models.Unit> unitlist = new List<Models.Unit>();
-                    unitlist = (List<Models.Unit>)Session["AdvItems"];
-                    unitlist.AddRange(list.ItemList);
-                    Session["AdvItems"] = unitlist;
-                }
+            Session["AdvItems"] = list.ItemList;
             }
-            return reslt;
+            else
+            {
+                List<Models.Unit> unitlist = new List<Models.Unit>();
+                unitlist = (List<Models.Unit>)Session["AdvItems"];
+                unitlist.AddRange(list.ItemList);
+                Session["AdvItems"] = unitlist;
+            }
+            }
+            return reslt;        
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)

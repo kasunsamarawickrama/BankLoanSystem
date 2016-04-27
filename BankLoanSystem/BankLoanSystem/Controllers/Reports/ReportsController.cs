@@ -62,7 +62,41 @@ namespace BankLoanSystem.Controllers.Reports
                         userLoanNumbers.Add(loans);
                 }
             }
+            if (_userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U006")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
 
+                }
+            }
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
             return View();
