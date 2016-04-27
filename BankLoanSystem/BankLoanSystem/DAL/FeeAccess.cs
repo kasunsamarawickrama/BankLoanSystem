@@ -23,8 +23,10 @@ namespace BankLoanSystem.DAL
         /// <param name="dueDate">due date</param>
         /// <param name="loanId">loan id</param>
         /// <returns></returns>
-        public bool GetFeesDueDates(int loanId, out string advPayDueDate  , out string monPayDueDate , out string lotPayDueDate)
+        public bool GetFeesDueDates(int loanId, out string advPayDueDate, out string monPayDueDate, out string lotPayDueDate)
         {
+            try
+            {
             advPayDueDate = "";
             monPayDueDate = "";
             lotPayDueDate = "";
@@ -54,6 +56,11 @@ namespace BankLoanSystem.DAL
                 return false;
             }
         }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         ///CreatedBy : Nadeeka
@@ -67,6 +74,8 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public List<Fees> GetFeesByDueDate(int loanId, DateTime dueDate, string type)
         {
+            try
+            {
             List<Fees> lstFee = new List<Fees>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -92,26 +101,26 @@ namespace BankLoanSystem.DAL
 
                     if (type == "advanceFee")
                     {
-                        string[] info = fee.Description.Split(',');
+                    string[] info = fee.Description.Split(',');
                         if (info != null && info.Length > 0)
-                        {
+                    {
                             if (info[1] != "")
-                            {
-                                fee.IdentificationNumber = info[1];
-                            }
-                            if (info.Length > 1 && info[2] != "")
-                            {
-                                fee.Year = Convert.ToInt32(info[2]);
-                            }
-                            if (info.Length > 2 && info[3] != "")
-                            {
-                                fee.Make = info[3];
-                            }
-                            if (info.Length > 3 && info[4] != "")
-                            {
-                                fee.Model = info[4];
-                            }
+                        {
+                            fee.IdentificationNumber = info[1];
                         }
+                        if (info.Length > 1 && info[2] != "")
+                        {
+                            fee.Year = Convert.ToInt32(info[2]);
+                        }
+                        if (info.Length > 2 && info[3] != "")
+                        {
+                            fee.Make = info[3];
+                        }
+                        if (info.Length > 3 && info[4] != "")
+                        {
+                            fee.Model = info[4];
+                        }                       
+                    }
                     }
 
 
@@ -122,6 +131,11 @@ namespace BankLoanSystem.DAL
             else
             {
                 return null;
+            }
+        }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -162,9 +176,8 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
-
 
         }
 
