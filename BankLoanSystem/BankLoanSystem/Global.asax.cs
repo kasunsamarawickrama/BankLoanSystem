@@ -30,10 +30,10 @@ namespace BankLoanSystem
             Exception exception = Server.GetLastError();
             Response.Clear();
 
-            HttpException httpException = exception as HttpException;
+            //HttpException httpException = exception as HttpException;
 
             ErrorPageController errorController = new ErrorPageController();
-            errorController.InsertRecordToLogFile("26-04-2016", exception.StackTrace, exception.Message);            
+            errorController.InsertRecordToLogFile(DateTime.Now.ToString("MM-dd-yyyy"), exception.StackTrace, exception.Message);            
         }
 
             //protected void Application_BeginRequest(object sender, EventArgs e)
