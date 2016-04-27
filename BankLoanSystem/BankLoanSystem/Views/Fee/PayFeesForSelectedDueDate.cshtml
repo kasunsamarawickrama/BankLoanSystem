@@ -1025,6 +1025,7 @@
     var data = { Fees: [] };
 
     $('#payAll').click(function () {
+        
         data = { Fees: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
@@ -1060,6 +1061,9 @@
     });
 
     $('#btnPay').click(function (e) {
+        alert('came');
+        alert($('#iFeeId').val());
+        alert($('#hdnSelectedButton').val());
         data = { Fees: [] };
 
             var a = 1;
