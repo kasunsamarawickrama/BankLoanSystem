@@ -284,7 +284,7 @@
 
                                     <div class="col-md-2">
                                         <label for="">Advance Amount</label>
-                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", @disabled = "disabled" } })
+                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", @disabled = "disabled", @style= "text-align: right;" } })
 
                                     </div>
 
@@ -352,6 +352,42 @@
 </div>
 
 <script>
+    $('#btnClear').prop('disabled', true);
+    $('#btnClear').click(function () {
+        //location.reload();
+     
+        $('#btnClear').prop('disabled', true);
+        $('#feeDetails').hide();
+
+        $("#identificationNumberSearch").val('');
+        $("#identificationNumberSearch").attr('placeholder', 'Last 6 of VIN/HIN/SN');
+        $('#cmbYear').val('');
+        $("#cmbMake").val('');
+        $("#cmbModel").val('');
+
+        document.getElementById('allUnit').checked = true;
+        document.getElementById('activeUit').checked = false;
+        document.getElementById('pendingUnit').checked = false;
+
+        $.ajax({
+            url: '/DeleteUnit/GridView',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ viewType: 0, id: "", year: "", make: "", model: "" }),
+            success: function (View) {
+                $('#checkableGridDiv').html(View);
+                $('#checkableGridDiv').show();
+
+                //.highlight { background-color: lightblue; }
+            },
+            error: function (reponse) {
+                $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
+        });
+
+    });
+
     $('#btnCancel').click(function() {
         //location.reload();
         ClearTextBoxText();
@@ -361,9 +397,21 @@
         });
 
         $('#feeDetails').hide();
+
+        $("#identificationNumberSearch").val('');
+        $("#identificationNumberSearch").attr('placeholder', 'Last 6 of VIN/HIN/SN');
+        $('#cmbYear').val('');
+        $("#cmbMake").val('');
+        $("#cmbModel").val('');
+
+        $('#checkableGridDiv').hide();
+        document.getElementById('allUnit').checked = false;
+        document.getElementById('activeUit').checked = false;
+        document.getElementById('pendingUnit').checked = false;
     });
 
     $('.viewType').change(function () {
+        
         var viewType = $('.viewType').filter(':checked').val();
         ClearTextBoxText();
 
@@ -395,7 +443,7 @@
 
     $('#btnSearch').click(function () {
         var viewType = 5;
-
+        $('#btnClear').prop('disabled', false);
         var id = $("#identificationNumberSearch").val();
         var year = $('#cmbYear').val();
         var make = $("#cmbMake").val();

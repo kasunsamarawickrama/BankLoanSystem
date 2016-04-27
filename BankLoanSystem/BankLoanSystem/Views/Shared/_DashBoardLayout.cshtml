@@ -16,7 +16,114 @@
     <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="~/Content/commonActions.css">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
+    <link href="~/Content/pikaday.css" rel="stylesheet" />
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />
+ 
+    <link href="~/Content/combo.css" rel="stylesheet" />
+
+    <style>
+        #squares div {
+    /* these styles will let the divs line up next to each other
+       while accepting dimensions */
+    display: block;
+    float: left;
+
+    width: 120px;
+    height: 120px;
+    background: green;
+
+    /* a small margin to separate the blocks */
+    margin-right: 5px;
+}
+
+         #messageContainer {
+        background-color: #fff;
+        border: 1px solid rgba(100, 100, 100, .4);
+        -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+        overflow: visible;
+        position: absolute;
+        top: 30px;
+        margin-left: -170px;
+        width: 400px;
+        z-index: 10;
+        display: none;
+        text-align: left;
+    }
+
+        #messageContainer:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0;
+            height: 0;
+            color: transparent;
+            border: 10px solid black;
+            border-color: transparent transparent white;
+            margin-top: -20px;
+            margin-left: 188px;
+        }
+
+    #messageTitle {
+        z-index: 1000;
+        font-weight: bold;
+        padding: 8px;
+        font-size: 15px;
+        background-color: #ffffff;
+        width: 384px;
+        border-bottom: 1px solid #dddddd;
+        color:#000000;
+    }
+
+    #messageBody {
+        padding: 5px 0px 0px 0px !important;
+        min-height: 50px;
+        color:#000000;
+    }
+
+    #message_count {
+        padding: 3px 7px 3px 7px;
+        background: #cc0000;
+        color: #ffffff;
+        font-weight: bold;
+        margin-left: 10px;
+        border-radius: 9px;
+        position: absolute;
+        margin-top: -35px;
+        font-size: 11px;
+    }
+
+    .messagediv {
+        width: 100%;
+        min-height: 5px;
+        max-height: 100px;
+        padding: 8px;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+        line-height:1.4;
+    }
+
+    
+    .loandetails {
+    border-collapse: collapse;
+}
+
+.loandetails td {
+   
+       padding-bottom: 0.5em;
+}
+    </style>
+
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -25,6 +132,7 @@
     <script src="~/scripts/CommonFunctions.js"></script>
     <script src="~/scripts/menu.js"></script>
    
+    
 </head>
 
 
