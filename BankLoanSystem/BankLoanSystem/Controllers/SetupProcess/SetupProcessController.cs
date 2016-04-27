@@ -1494,10 +1494,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //int branchId = int.Parse(Session["branchId"].ToString());
 
 
-            if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.payOffPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, loanSetupStep1.payOffPeriodType))
-            {
-                return new HttpStatusCodeResult(404, "Pay off period is out of range");
-            }
+            //if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.payOffPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, loanSetupStep1.payOffPeriodType))
+            //{
+            //    return new HttpStatusCodeResult(404, "Pay off period is out of range");
+            //}
             if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.autoReminderPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, 0))
             {
 

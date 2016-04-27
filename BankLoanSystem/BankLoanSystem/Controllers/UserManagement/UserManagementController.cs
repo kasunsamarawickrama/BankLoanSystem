@@ -1926,10 +1926,10 @@ namespace BankLoanSystem.Controllers
                         loan.CurrentLoanStatus = true;
                     }
 
-                        //Session["loanDashboardEditLoan"] = null;
-                        //loan = new Loan();
-                        //return View(loan);
-                    }
+                    Session["loanDashboardEditLoan"] = loan;
+                    //loan = new Loan();
+                    //return View(loan);
+                }
                 else if ((string)TempData["EditReslt"] == "failed")
                 {
                     ViewBag.ErrorMsg = "Failed To Update Loan Status";
