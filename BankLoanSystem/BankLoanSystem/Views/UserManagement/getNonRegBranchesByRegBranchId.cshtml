@@ -86,13 +86,13 @@ else if (ViewBag.type == "assignRights")
             <li><h5>Loan Number</h5></li>
             @if (Model.LoanList != null)
             {
-                if (Model.NonRegBranchList.Count()== 1 && Model.LoanList.Count() == 0)
+                @*if (Model.NonRegBranchList.Count()== 1 && Model.LoanList.Count() == 0)
                 {
                     <span class="text-danger"> No Loans Found</span>
                 }
-                else {
-                foreach (var item in Model.LoanList)
-                {
+                else {*@
+                    foreach (var item in Model.LoanList)
+                    {
 
                    
              //       if (item.LoanStatus)
@@ -108,13 +108,7 @@ else if (ViewBag.type == "assignRights")
 
                     }
 
-                    if (c == 0 && Model.LoanList.Count() != 0)
-                    {
-                        <span class="text-danger"> No Active Loans Found</span>
-                    }
-
-
-                }
+                //}
             }
         </ul>
 
