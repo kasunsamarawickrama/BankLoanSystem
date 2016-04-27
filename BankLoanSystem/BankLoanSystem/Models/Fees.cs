@@ -69,7 +69,7 @@ namespace BankLoanSystem.Models
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]+.[0-9]{0,2}|^.[0-9]{0,2}$", ErrorMessage = "Should be numeric values and Maximum 2 decimal points.")]
-        [Required(ErrorMessage = "Loan Amount is required.")]
+        [Required(ErrorMessage = "Please enter the Monthly Loan fee")]
         [Display(Name = "Amount")]
         public decimal MonthlyLoanAmount { get; set; }
         [Required(ErrorMessage = "loan reciept need required.")]

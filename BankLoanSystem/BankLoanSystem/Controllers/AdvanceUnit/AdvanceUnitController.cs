@@ -79,10 +79,57 @@ namespace BankLoanSystem.Controllers
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login");
             }
+            BranchAccess branch = new BranchAccess();
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            //int companyType = userData.CompanyType;
+            if (companyType == 1)
+            {
+                ViewBag.isLender = true;
+            }
+            else
+            {
+                ViewBag.isLender = false;
+            }
+
             ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U001")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
+
+                }
+            }
 
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
