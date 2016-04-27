@@ -798,9 +798,7 @@ namespace BankLoanSystem.Controllers
             if (Session["AuthenticatedUser"] == null)
             {
                 if (HttpContext.Request.IsAjaxRequest())
-                {
-
-                    
+                {                   
                     return new HttpStatusCodeResult(404, "Failed to Setup company.");
                 }
 
