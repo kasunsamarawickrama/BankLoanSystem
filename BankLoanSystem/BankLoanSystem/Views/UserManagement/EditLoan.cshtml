@@ -71,13 +71,15 @@
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Loan Status Successfully Updated"))
                                 {
                                 <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
-                                
+                                <div class="button_box algn_left" style="float: left;margin-top: 15px;margin-left: -195px;">
+                                    <input id="btnDashbrd" value="Go to Dashboard" class="btn btn-primary m-b next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                </div>
 
-                                }
-                                
-                               else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update Loan Status"))
-                                {
-                                <div id="successSpn" class="text-success"><span>@ViewBag.SuccessMsg</span></div>
+                                        }
+                                else { 
+                                if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update Loan Status"))
+                                        {
+                                <div id="errorSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
 
                                 }
 
@@ -179,7 +181,7 @@
                                     </div>
 
 
-                                
+                                }
                                 <div>
                                 </div>
 
