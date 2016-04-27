@@ -79,6 +79,18 @@ namespace BankLoanSystem.Controllers
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login");
             }
+            BranchAccess branch = new BranchAccess();
+            int companyType = branch.getCompanyTypeByUserId(userId);
+            //int companyType = userData.CompanyType;
+            if (companyType == 1)
+            {
+                ViewBag.isLender = true;
+            }
+            else
+            {
+                ViewBag.isLender = false;
+            }
+
             ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
