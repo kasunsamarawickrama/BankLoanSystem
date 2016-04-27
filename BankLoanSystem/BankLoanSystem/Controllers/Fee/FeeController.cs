@@ -101,7 +101,7 @@ namespace BankLoanSystem.Controllers.Fee
             
             ViewBag.advDuedate = advDuedate;
             ViewBag.monDueDate = monDueDate;
-            ViewBag.lotDuedate = lotDuedate;
+            ViewBag.lotDuedate = lotDuedate;            
 
             //Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
                 return View();
@@ -109,64 +109,40 @@ namespace BankLoanSystem.Controllers.Fee
 
         public ActionResult PayFeesForSelectedDueDate(DateTime dueDate, string type)
         {
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            ViewBag.loanDetails = loanDetails;
+                LoanSetupStep1 loanDetails = new LoanSetupStep1();
+                loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+                ViewBag.loanDetails = loanDetails;
 
-            FeeAccess feeAccess = new FeeAccess();
-            List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
-            FeesModel feeModel = new FeesModel();
-            feeModel.FeeModelList = new List<Fees>();
-            feeModel.Type = type;
+                FeeAccess feeAccess = new FeeAccess();
+                List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
+                FeesModel feeModel = new FeesModel();
+                feeModel.FeeModelList = new List<Fees>();
+                feeModel.Type = type;
 
 
-            if (lstFee != null && lstFee.Count > 0)
-            {
-                feeModel.FeeModelList.AddRange(lstFee);
-                Session["feeList"] = feeModel.FeeModelList;
-                //feeModel.DueDate = lstFee[0].DueDate;
-            }
+                if (lstFee != null && lstFee.Count > 0)
+                {
+                    feeModel.FeeModelList.AddRange(lstFee);
+                    Session["feeList"] = feeModel.FeeModelList;
+                    //feeModel.DueDate = lstFee[0].DueDate;
+                }
 
-            if (feeModel != null)
-            {
-                return PartialView(feeModel);
-            }
+                if (feeModel != null)
+                {
+                    return PartialView(feeModel);
+                }
 
-            if (HttpContext.Request.IsAjaxRequest())
-            {
-                ViewBag.AjaxRequest = 1;
-                return PartialView(feeModel);
-            }
-            else
-            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView(feeModel);
+                }
+                else
+                {
 
-                return View(feeModel);
-            }
+                    return View(feeModel);
+                }           
         }
-
-        //public FeesModel GetFees(DateTime dueDate, string type)
-        //{
-        //    LoanSetupStep1 loanDetails = new LoanSetupStep1();
-        //    loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-        //    ViewBag.loanDetails = loanDetails;
-                       
-        //    FeeAccess feeAccess = new FeeAccess();
-        //    List<Fees> lstFee = feeAccess.GetFeesByDueDate(loanDetails.loanId, dueDate, type);
-        //    FeesModel feeModel = new FeesModel();
-        //    feeModel.FeeModelList = new List<Fees>();
-        //    feeModel.Type = type;
-
-
-        //    if (lstFee != null && lstFee.Count > 0)
-        //    {
-        //        feeModel.FeeModelList.AddRange(lstFee);
-        //        Session["feeList"] = feeModel.FeeModelList;
-        //        //feeModel.DueDate = lstFee[0].DueDate;
-        //    }
-           
-
-        //    return feeModel;
-        //}
 
         [HttpPost]
         public int PayFees(List<Fees> lstFee, string type)
