@@ -131,7 +131,7 @@
 
                             if (Model.RegBranches.Count() == 1 && Model.NonRegBranchList.Count() == 0)
                             {
-                                <span class="text-danger"> No Patners Found</span>
+                                @*<span class="text-danger"> No Patners Found</span>*@
                             }
 
                             if (Model.NonRegBranchList.Count() == 1)
@@ -164,7 +164,7 @@
                         {
                             if (Model.LoanList.Count() == 0)
                             {
-                                <span class="text-danger" style="float:left;margin-left:-100%;font-size:medium"> No loans to edit could be found</span>
+                                @*<span class="text-danger" style="float:left;margin-left:-100%;font-size:medium"> No loans to edit could be found</span>*@
                             }
                             else {
                                 foreach (var item in Model.LoanList)
