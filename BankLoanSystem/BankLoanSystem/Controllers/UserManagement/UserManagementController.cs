@@ -2026,6 +2026,10 @@ namespace BankLoanSystem.Controllers
                     {
                         ViewBag.ErrorMsg = "Failed to update user";
                     }
+                    else if (int.Parse(TempData["UpdteReslt"].ToString()) == -1)
+                    {
+                        ViewBag.ErrorMsg = "Failed to update user";
+                    }
                 }
 
                 RoleAccess ra = new RoleAccess();
@@ -2035,6 +2039,10 @@ namespace BankLoanSystem.Controllers
                 for (int i = 0; i < roleList.Count; i++)
                 {
                     if ((userData.RoleId == 2) && (roleList[i].RoleId == 1))
+                    {
+                        continue;
+                    }
+                    if (roleList[i].RoleId == 4)
                     {
                         continue;
                     }
@@ -2211,14 +2219,43 @@ namespace BankLoanSystem.Controllers
         {
         if((!string.IsNullOrEmpty(user.CurrentPassword)) && (!string.IsNullOrEmpty(user.Password))&& (!string.IsNullOrEmpty(user.ConfirmPassword))) 
         {
-                    string newSalt = PasswordEncryption.RandomString();
-                    user.CurrentPassword = PasswordEncryption.encryptPassword(user.CurrentPassword, newSalt);
-                    user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
-        }
+                    User userObj = new User();
+                    userObj = (new UserAccess()).retreiveUserByUserId(user.UserId);
+                    string passwordFromDB = userObj.Password;
+                    //user.Password = userObj.Password;
+                    char[] delimiter = { ':' };
+
+                    string[] split = passwordFromDB.Split(delimiter);
+
+                    var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
+
+                    if (passwordFromDB == null || (checkCharHave == false))
+                    {
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                    }
+
+                    string passwordEncripted = PasswordEncryption.encryptPassword(user.CurrentPassword, split[1]);
+
+                         if (string.Compare(passwordEncripted, passwordFromDB) == 0)
+                        {
+                            string passwordEncripted1 = PasswordEncryption.encryptPassword(user.Password, split[1]);
+                        user.Password = passwordEncripted1;
+                        user.CurrentPassword = passwordFromDB;
+
+                        }
+                            else
+                       {
+                        TempData["UpdteReslt"] = -1;
+                        return RedirectToAction("EditUserAtDashboard");
+                    }
+                    //string newSalt = PasswordEncryption.RandomString();
+                    //user.CurrentPassword = PasswordEncryption.encryptPassword(user.CurrentPassword, newSalt);
+                    //user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+                }
 
                 UserAccess usrAcc = new UserAccess();
                 int reslt = usrAcc.UpdateUser(user,userData.UserId);
-                if(reslt==1) 
+                if((reslt==1)||(reslt == 2)) 
                 {
                     Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, 0, "Edit User", "Edit User : " + user.UserName, DateTime.Now);
 
