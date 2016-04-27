@@ -455,12 +455,12 @@
                     type: 'POST',
                     contentType: 'application/json;',
                     data: JSON.stringify({ unitId: $('#unitId').val(), identificationNo: $('#identificationNumber').val() }),
-                    success: function (View) {
+                    success: function(View) {
                         location.reload();
 
                         //.highlight { background-color: lightblue; }
                     },
-                    error: function (reponse) {
+                    error: function(reponse) {
                         $('#loadingSpan').hide();
                         alert("error : " + reponse);
                     }
@@ -469,8 +469,9 @@
                 // do nothing
                 $('.overlay-bg, .overlay-content').hide();
             });
+        } else {
+            $('.centered span').text('Please select unit that want to delete');
         }
-        
     });
 
     function ClearTextBoxText() {
