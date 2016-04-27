@@ -13,9 +13,10 @@ namespace BankLoanSystem.Controllers.Curtailments
     public class CurtailmentsController : Controller
     {
         string lCode=string.Empty;
-        private static LoanSetupStep1 loan;
+        // private static LoanSetupStep1 loan;
         User userData = new User();
-        // Check session in page initia stage
+
+        // Check session in page initial stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try
@@ -26,27 +27,27 @@ namespace BankLoanSystem.Controllers.Curtailments
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
                     filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 }
             }
             catch
             {
-                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 filterContext.Result = new RedirectResult("~/Login/UserLogin");
             }
         }
-
-
-        // GET: Curtailments
+        
         public ActionResult Index()
         {
             return View();
         }
 
-
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/3/21
+        /// set loan code to session
+        /// </summary>
+        /// <param name="loanCode"></param>
+        /// <returns></returns>
         public ActionResult setLoanCode(string loanCode)
         {
             Session["loanCode"] = loanCode;
@@ -54,7 +55,12 @@ namespace BankLoanSystem.Controllers.Curtailments
             return RedirectToAction("PayCurtailments");
         }
 
-        // GET: Curtailments
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/3/21
+        /// GET: Curtailments by today date
+        /// </summary>
+        /// <returns></returns>
         public ActionResult PayCurtailments()
         {
             try
@@ -74,37 +80,41 @@ namespace BankLoanSystem.Controllers.Curtailments
             return View();
         }
 
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/3/21
+        /// GET: Curtailments by selected due date
+        /// </summary>
+        /// <param name="dueDate"></param>
+        /// <returns></returns>
         public ActionResult PayCurtailmentForSelectedDueDate(DateTime dueDate)
         {
-            return PartialView(this.GetCurtailmentSchedule(dueDate));
-        }
-
-        private CurtailmentScheduleModel GetCurtailmentSchedule(DateTime dueDate)
-        {
+            CurtailmentScheduleModel curtailmentScheduleModel = new CurtailmentScheduleModel();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
 
-            string f= dueDate.ToShortDateString(); 
-            DateTime dd = Convert.ToDateTime(f); 
+            string f = dueDate.ToShortDateString();
+            DateTime dd = Convert.ToDateTime(f);
 
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dd);
-            CurtailmentScheduleModel curtailmentScheduleModel = new CurtailmentScheduleModel();
+
             curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
             curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
             curtailmentScheduleModel.DueDate = dueDate;
-
-            return curtailmentScheduleModel;
+            return PartialView(curtailmentScheduleModel);
         }
-
-
-
-
-
-
-
+        
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/3/21
+        /// POST: Pay selected curtailment/s
+        /// 
+        /// </summary>
+        /// <param name="selectedCurtailmentList"></param>
+        /// <returns></returns>
         [HttpPost]
         public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
         {

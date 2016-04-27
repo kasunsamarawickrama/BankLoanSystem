@@ -9,14 +9,15 @@ namespace BankLoanSystem.Controllers
 {
     /// <summary>
     /// Get not advanced unit list and display in table
-    /// can select one or more units and do the advance
+    /// can select one or more units and can do the advance
     /// can search unit by vin/year/make or model
     /// </summary>
     public class AdvanceUnitController : Controller
     {
         private static LoanSetupStep1 loan;
         User userData = new User();
-        // Check session in page initia stage
+        
+        // Check session in page initial stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try
@@ -40,6 +41,13 @@ namespace BankLoanSystem.Controllers
             }
         }
 
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/2/24
+        /// set loan code to session
+        /// </summary>
+        /// <param name="loanCode"></param>
+        /// <returns></returns>
         public ActionResult setLoanCode(string loanCode)
         {
             Session["loanCode"] = loanCode;
@@ -58,7 +66,7 @@ namespace BankLoanSystem.Controllers
         /// CreatedBy : Nadeeka
         /// CreatedDate: 02/24/2016
         /// 
-        /// Get loan details and not advanced unit details from database and return not advance unit list to view
+        /// Get loan details and not advanced unit details from database and return to view
         /// 
         /// </summary>
         /// <param name="model"></param>
@@ -68,22 +76,17 @@ namespace BankLoanSystem.Controllers
             int flag = -1;
             int userId = userData.UserId;
             string loanCode;
-            //Session["userId"] = 62;
-            //Session["loanCode"] = "COM06_01-00001";
             try
             {
                 loanCode = Session["loanCode"].ToString();
             }
             catch (Exception)
             {
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login");
             }
             ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-
-
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
@@ -106,16 +109,13 @@ namespace BankLoanSystem.Controllers
             return View(advanceUnit);
         }
 
-
         public ActionResult loadTitles(string unitId) {
 
             List<TitleUpload> tl = (new UnitAccess()).GetUploadTitlesByLoanId(unitId);
-            //if (tl != null && tl.Count > 0)
-            //{
-            //    ViewBag.Titles = tl;
-            //}
+            
             return PartialView(tl);
         }
+       
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/27
@@ -137,16 +137,13 @@ namespace BankLoanSystem.Controllers
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
-            //int userId = 57;
 
             LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             
 
             ViewBag.loanDetails = loanDetails;
             List<Models.Unit> unitList = (List<Models.Unit>)Session["notAdvancedList"];
-
             Models.AdvanceUnit unitListMain = new Models.AdvanceUnit();
-            //unitListMain.NotAdvanced = unitList;
             unitListMain.NotAdvanced = new List<Models.Unit>();
             if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
             {
@@ -168,13 +165,13 @@ namespace BankLoanSystem.Controllers
         /// CreatedBy : Nadeeka
         /// CreatedDate: 02/24/2016
         /// 
-        /// Get selected advance units to update advance amount of the unit table, 
+        /// Get selected advance units to update advance amount in the unit table, 
         /// 
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
         public int UpdateAdvance(BankLoanSystem.Models.Unit unit)
-        {            
+        {
             string loanCode;
             try
             {
@@ -182,17 +179,18 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                throw ;
+                throw;
             }
-            //int userId = 57;
-            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);           
+            LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
+
             int reslt = unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1 ) {
+            if (reslt == 1)
+            {
                 //if mention advance fee, then insert in to fee table - asanka
                 if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                 {
@@ -205,31 +203,28 @@ namespace BankLoanSystem.Controllers
                     }
                 }
 
-
                 //insert to log 
                 //Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit", unit.UnitId + " unit " + (unit.AddAndAdvance ? "added and advanced" : "added") + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Advance amount edited to " + unit.AdvanceAmount : ""), DateTime.Now);
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advanced Unit:"+unit.IdentificationNumber+ (unit.Cost * loanSetupStep1.advancePercentage / 100 != unit.AdvanceAmount ? ",Advance amount edited to: " + unit.AdvanceAmount : ",Advance amount: "+ unit.AdvanceAmount)+" ,Advance date:"+unit.AdvanceDate, DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", "Advanced Unit:" + unit.IdentificationNumber + (unit.Cost * loanSetupStep1.advancePercentage / 100 != unit.AdvanceAmount ? ",Advance amount edited to: " + unit.AdvanceAmount : ",Advance amount: " + unit.AdvanceAmount) + " ,Advance date:" + unit.AdvanceDate, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 // saving for reporting purpose
                 if (Session["AdvItems"] == null)
-            {
-                List<Models.Unit> unitlist = new List<Models.Unit>();
-                unitlist.Add(unit);
-                Session["AdvItems"] = unitlist;
-            }
-            else
-            {
-                List<Models.Unit> unitlist = new List<Models.Unit>();
-                unitlist = (List<Models.Unit>)Session["AdvItems"];
-                unitlist.Add(unit);
-                Session["AdvItems"] = unitlist;
-            }
+                {
+                    List<Models.Unit> unitlist = new List<Models.Unit>();
+                    unitlist.Add(unit);
+                    Session["AdvItems"] = unitlist;
+                }
+                else
+                {
+                    List<Models.Unit> unitlist = new List<Models.Unit>();
+                    unitlist = (List<Models.Unit>)Session["AdvItems"];
+                    unitlist.Add(unit);
+                    Session["AdvItems"] = unitlist;
+                }
             }
 
             return reslt;
-
-
         }
 
         /// <summary>
@@ -242,7 +237,7 @@ namespace BankLoanSystem.Controllers
         /// <param name="model"></param>
         /// <returns>Return partial view</returns>
         public int UpdateAdvanceAll(ListViewModel list)
-        {           
+        {
             string loanCode;
             try
             {
@@ -252,7 +247,6 @@ namespace BankLoanSystem.Controllers
             {
                 throw;
             }
-            //int userId = 57;
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             ViewBag.ErrorMsg = "";
@@ -261,22 +255,23 @@ namespace BankLoanSystem.Controllers
             TempData["updateReslt"] = reslt;
 
             // after success save**
-            if(reslt == 1) {
+            if (reslt == 1)
+            {
                 string[] arrList = new string[list.ItemList.Count];
                 int i = 0;
                 foreach (var x in list.ItemList)
                 {
                     if (!string.IsNullOrEmpty(x.UnitId))
                     {
-                        arrList[i] = "Advanced Unit: "+x.IdentificationNumber+" ,Advance amount:" + x.AdvanceAmount+" ,Advance date: " + x.AdvanceDate;
+                        arrList[i] = "Advanced Unit: " + x.IdentificationNumber + " ,Advance amount:" + x.AdvanceAmount + " ,Advance date: " + x.AdvanceDate;
                         i++;
                     }
                 }
-                
+
                 //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 ////user.UserRights = arrList.ToString();
                 string units = string.Join(",", arrList);
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit",units, DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanSetupStep1.loanId, "Advance Unit", units, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 //if mention advance fee, then insert in to fee table - asanka
@@ -291,7 +286,7 @@ namespace BankLoanSystem.Controllers
                     {
                         loanObj = (Loan)Session["oneLoanDashboard"];
                     }
-                        //loanObj = (Loan)Session["loanDashboard"]; 
+                    //loanObj = (Loan)Session["loanDashboard"]; 
                     if (loanObj.AdvanceFee == 1)
                     {
                         //check advance amount and other details
@@ -303,18 +298,19 @@ namespace BankLoanSystem.Controllers
                 }
 
                 // saving for reporting purpose
-                if (Session["AdvItems"] == null) { 
-            Session["AdvItems"] = list.ItemList;
+                if (Session["AdvItems"] == null)
+                {
+                    Session["AdvItems"] = list.ItemList;
+                }
+                else
+                {
+                    List<Models.Unit> unitlist = new List<Models.Unit>();
+                    unitlist = (List<Models.Unit>)Session["AdvItems"];
+                    unitlist.AddRange(list.ItemList);
+                    Session["AdvItems"] = unitlist;
+                }
             }
-            else
-            {
-                List<Models.Unit> unitlist = new List<Models.Unit>();
-                unitlist = (List<Models.Unit>)Session["AdvItems"];
-                unitlist.AddRange(list.ItemList);
-                Session["AdvItems"] = unitlist;
-            }
-            }
-            return reslt;        
+            return reslt;
         }
 
         private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
