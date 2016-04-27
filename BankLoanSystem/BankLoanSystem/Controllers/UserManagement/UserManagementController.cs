@@ -257,17 +257,16 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if ((loanSelected.Rights.Length > 0) && (loan.Rights != null))
+                            if ((loanSelected.Rights != ""))
                             {
-                                
+                                string[] charactors = loanSelected.Rights.Split(',');
 
-                                    ViewBag.RightList = loan.Rights;
-
-                                
+                                List<string> rightList = new List<string>(charactors);
+                                ViewBag.RightList = rightList;
+                                Session["CurrentLoanRights"] = loanSelected.Rights;
                             }
 
                         }
-
                         else
                         {
                             ViewBag.AdvanceUnits = 1;
@@ -339,7 +338,10 @@ namespace BankLoanSystem.Controllers
                     }
                     if (loan != null)
                     {
-                       
+                        if (userData.RoleId == 3)
+                        {
+                            Session["CurrentLoanRights"] = loan.Rights;
+                        }
                         ViewBag.PartnerName = loan.PartnerName;
                         ViewBag.PartnerType = loan.PartnerType;
                         ViewBag.Branch = loan.BranchName;
@@ -833,8 +835,7 @@ namespace BankLoanSystem.Controllers
             }
             
 
-           
-
+          
             int userId = userData.UserId; 
             // if Session is expired throw an error
 
@@ -869,14 +870,9 @@ namespace BankLoanSystem.Controllers
                     {
                         if (branch.BranchId == loanSelection.RegBranches[0].BranchId)
                         {
-
                             loanSelection.NonRegBranchList.Add(branch);
-
-
                         }
-                    }
-
-                    
+                    }                   
 
                     if (loanSelection.NonRegBranchList.Count() == 1)
                     {
@@ -919,6 +915,30 @@ namespace BankLoanSystem.Controllers
                    
                     }
             }
+            else if (userData.RoleId == 3)
+            {
+
+                //loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
+
+                loanSelection.RegBranches.Add(detail.RegBranches[0]);
+
+
+                // the get non registered branches details for perticular branch  from the non registeres branches list
+                foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                {
+                    if (branch.BranchId == userData.BranchId)
+                    {
+                        loanSelection.NonRegBranchList.Add(branch);
+                    }
+                }
+                if (loanSelection.NonRegBranchList.Count() == 1)
+                {
+                    loanSelection.LoanList = detail.LoanList; //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
+
+                }
+            }
+
+
             Session["popUpSelectionType"] = type;
             if (type == "asderruy") // for add unit page
             {
@@ -1037,6 +1057,7 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult setLoanCode(string loanCode)//, string action
         {
+
             Session["loanCode"] = loanCode;
             if (loanCode == null || Session["detail"] == null)
             {
@@ -1048,7 +1069,10 @@ namespace BankLoanSystem.Controllers
             {
                 if (l.loanCode == loanCode)
                 {
-
+                    if (userData.RoleId == 3)
+                    {
+                        Session["CurrentLoanRights"] = PermissionList(userData.UserId,l.loanId);
+                    }
                     finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
                     finalSelectedLoan.LoanId = l.loanId;
                     finalSelectedLoan.LoanNumber = l.loanNumber;
@@ -1123,19 +1147,18 @@ namespace BankLoanSystem.Controllers
             //return RedirectToAction(action);
         }
 
-        public List<Right> PermissionList(int userId)
+        public List<Right> PermissionList(int userId,int loanId)
         {
             var access = new UserRightsAccess();
 
             //retrive all rights
             List<Right> rights = access.getRights();
-
             int userRole = (new UserManageAccess()).getUserRole(userId);
 
             if (userRole == 3)
             {
                 //get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId,0);
+                List<Right> permissionString = access.getRightsString(userId, loanId);
                 if (permissionString.Count == 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
@@ -1903,10 +1926,10 @@ namespace BankLoanSystem.Controllers
                         loan.CurrentLoanStatus = true;
                     }
 
-                        //Session["loanDashboardEditLoan"] = null;
-                        //loan = new Loan();
-                        //return View(loan);
-                    }
+                    Session["loanDashboardEditLoan"] = loan;
+                    //loan = new Loan();
+                    //return View(loan);
+                }
                 else if ((string)TempData["EditReslt"] == "failed")
                 {
                     ViewBag.ErrorMsg = "Failed To Update Loan Status";
@@ -1961,6 +1984,9 @@ namespace BankLoanSystem.Controllers
                 int reslt = ls.UpdateLoanStatus(slctdLoanId, slctdLoanCode);
                 if(reslt==1) 
                 {
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "Edit Loan", "Loan Id : " + slctdLoanId+" ,Edited Status : Active", DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
                     TempData["EditReslt"] = "success";
                     //Session["loanDashboardEditLoan"] = "";
                 }
@@ -2156,6 +2182,10 @@ namespace BankLoanSystem.Controllers
                 User userObj = new User();
                 UserAccess uas = new UserAccess();
                 userObj = uas.retreiveUserByUserId(userId);
+                if (userObj.UserId > 1)
+                {
+                    userObj.PhoneNumber2 = userObj.PhoneNumber;
+                }
                 //SelectList UserList1 = new SelectList(eum.UserList, "UserId", "UserName");
                 return Json(userObj);
             }
@@ -2190,7 +2220,7 @@ namespace BankLoanSystem.Controllers
                 int reslt = usrAcc.UpdateUser(user,userData.UserId);
                 if(reslt==1) 
                 {
-                    Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, 0, "Edit User", "Edit User:" + user.UserName, DateTime.Now);
+                    Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, 0, "Edit User", "Edit User : " + user.UserName, DateTime.Now);
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["UpdteReslt"] = 1;

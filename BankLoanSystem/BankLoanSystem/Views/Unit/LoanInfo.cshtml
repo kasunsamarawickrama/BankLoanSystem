@@ -112,7 +112,7 @@
         }
             else if (ViewBag.Msg == "DeleteError")
             {
-                <text> $('.centered span').text('Faild deleted the unit');</text>
+                <text> $('.centered span').text('Failed delete the unit');</text>
             }
             else if (ViewBag.Msg == "DeleteSuccess")
             {
@@ -168,8 +168,11 @@
 
             else if (ViewBag.Title == "Pay Off")
             {
-                <text>if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
+                <text>
+            if ($('#payDate2').val() != undefined){
+            if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
                 event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+            }
             }</text>
             }
 
@@ -215,7 +218,7 @@
         });
 
         // hide popup when user clicks on close button or if user clicks anywhere outside the container
-        $('.close-btn, .overlay-bg').click(function () {
+        $('.close-btn').click(function () {
             closePopup();
         });
 

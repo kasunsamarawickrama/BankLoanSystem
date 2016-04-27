@@ -49,6 +49,20 @@
                                     {
                                         <p class="err_msg">@ViewBag.ErrorMsg</p>
                                     }
+
+                                    <div class="form-group new_form_group">
+                                        <div class="control-label col-sm-2 lable_style">
+                                            <label for="TypeId">Company Type</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field" style="width:41%">
+                                            @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { @class = "form-control text_field_input", id = "TypeId" })
+
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label for="CompanyName">Company Name</label>
@@ -204,18 +218,7 @@
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>
-                                    <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 lable_style">
-                                            <label for="TypeId">Company Type</label>
-                                        </div>
-                                        <div class="col-xs-8 text_field short_text_field" style="width:41%">
-                                            @Html.DropDownListFor(model => model.TypeId, null, "--Select Company Type--", htmlAttributes: new { @class = "form-control text_field_input", id = "TypeId" })
-
-                                        </div>
-                                        <div class="err_msg_box">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })</p>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="form-group new_form_group clear_next clear_next_bordr">
                                         <div>
                                             <nav>

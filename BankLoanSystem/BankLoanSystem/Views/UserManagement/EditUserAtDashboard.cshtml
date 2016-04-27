@@ -160,7 +160,7 @@
                                                     @Html.HiddenFor(model => model.UserId, htmlAttributes: new { id = "hdnUserId3" })
                                                     @Html.DropDownListFor(model => model.UserId, null, "--Select Username--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
                                                 </div>
-                                               
+                                               @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "hdnUserName3" })
                                             
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
@@ -181,56 +181,7 @@
                                             </div>
                                         </div>
                                     }*@
-                                    <div class="form-group new_form_group" id="lnkCreateNewBranch">
-                                        @*<div style="font-size:14px;float:left">
-                                            <a onclick=ChangePwd()>Change Password</a>
-                                        </div>*@
-                                        <div class="control-label col-sm-2 lable_style">
-                                            <label>Do you need to change current password?</label>
-                                        </div>
-                                        <div class="col-xs-8 text_field short_text_field" style="font-weight: normal;color: #545454;font-size: 14px;">
-                                            @Html.RadioButtonFor(model => model.ChangePassword, "true", new { @id = "rbYes" }) Yes
-                                            @Html.RadioButtonFor(model => model.ChangePassword, "false", new { @id = "rbNo", @style = "margin-left:20px" }) No
-                                        </div>
-                                        <div class="err_msg_box">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ChangePassword, "", new { @class = "text-danger" })</p>
-                                        </div>
-                                    </div>
-                                    <div id="divChangePwd" hidden>
-                                        <div class="form-group new_form_group">
-                                            <div class="control-label col-sm-2 lable_style">
-                                                <label>Current Password</label>
-                                            </div>
-                                            <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.CurrentPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtCurrentPassword", @placeholder = "Type current password" } })
-                                            </div>
-                                            <div class="err_msg_box">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CurrentPassword, "", new { @class = "text-danger" })</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group new_form_group">
-                                            <div class="control-label col-sm-2 lable_style">
-                                                <label>New Password</label>
-                                            </div>
-                                            <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtNewPassword", @placeholder = "Type new password" } })
-                                            </div>
-                                            <div class="err_msg_box">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group new_form_group">
-                                            <div class="control-label col-sm-2 lable_style">
-                                                <label>Confirm New Password</label>
-                                            </div>
-                                            <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtConfirmPassword", @placeholder = "Confirm new password" } })
-                                            </div>
-                                            <div class="err_msg_box">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>First Name</label>
@@ -316,6 +267,56 @@
 
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group new_form_group" id="lnkCreateNewBranch">
+                                        @*<div style="font-size:14px;float:left">
+                <a onclick=ChangePwd()>Change Password</a>
+            </div>*@
+                                        <div class="control-label col-sm-2" style="font-weight:normal;color:#545454;font-size:14px;margin-left:-60px;margin-top:-10px;">
+                                            <label>Do you need to change current password?</label>
+                                        </div>
+                                        <div class="col-xs-8 text_field short_text_field" style="font-weight:normal;color:#545454;font-size:14px;margin-left:-30px;margin-top:-7px;">
+                                            @Html.RadioButtonFor(model => model.ChangePassword, "true", new { @id = "rbYes" }) Yes
+                                            @Html.RadioButtonFor(model => model.ChangePassword, "false", new { @id = "rbNo", @style = "margin-left:20px" }) No
+                                        </div>
+                                        <div class="err_msg_box">
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ChangePassword, "", new { @class = "text-danger" })</p>
+                                        </div>
+                                    </div>
+                                    <div id="divChangePwd" hidden>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Current Password</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CurrentPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtCurrentPassword", @placeholder = "Type current password" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CurrentPassword, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>New Password</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtNewPassword", @placeholder = "Type new password" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Confirm New Password</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtConfirmPassword", @placeholder = "Confirm new password" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group new_form_group clear_next clear_next_bordr">
@@ -827,7 +828,7 @@
 <script>
 
     function GetUserByUserId(_userId) {
-        alert(_userId);
+        //alert(_userId);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
         if (_userId > 0) {
@@ -840,7 +841,8 @@
                 type: "POST",
                 success: function (data) {
                     $("#hdnUserId3").val(data.UserId);
-                    alert( $("#hdnUserId3").val());
+                    $("#hdnUserName3").val(data.UserName);
+                    //alert( $("#hdnUserName3").val());
                     $("#txtFname").val(data.FirstName);
                     $("#txtLname").val(data.LastName);
                     $("#txtEmail").val(data.Email);
@@ -852,7 +854,7 @@
                     else{
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
-                        $("#txtPhone").val(data.PhoneNumber);
+                        $("#txtPhone2").val(data.PhoneNumber2);
                     }
                     
                     //alert(data.Status);

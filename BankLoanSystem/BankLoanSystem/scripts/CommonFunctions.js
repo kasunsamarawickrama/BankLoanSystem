@@ -27,6 +27,8 @@
         // for dropdown field
         $('select').next('span').children('span').text('');
         $('select').removeClass('valid');
+
+        $('.new_err_msg').children("span").text("");
     });
 
 

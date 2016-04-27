@@ -775,7 +775,8 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@loan_id", slctdLoanId });
                 paramertList.Add(new object[] { "@loan_code", slctdLoanCode });
                 paramertList.Add(new object[] { "@loan_status", 1 });
-
+                paramertList.Add(new object[] { "@active_date", DateTime.Now });
+                paramertList.Add(new object[] { "@modified_date", DateTime.Now });
                 try
                 {
                     return dataHandler.ExecuteSQLReturn("spUpdateLoanStatus", paramertList);

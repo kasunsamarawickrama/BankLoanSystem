@@ -15,20 +15,20 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "NonRegistered Branch")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int nonRegisteredBranchId { get; set; }
 
         [Required]
         [Display(Name = "Registered Branch")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int RegisteredBranchId { get; set; }
 
         public string RegisteredBranchCode { get; set; }
         public string RegisteredCompanyCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter a Loan Number")]
         [RegularExpression(@"^[^<>@#$'{}!*?~;`%""]*$", ErrorMessage = "Invalid Character")]
-        [StringLength(30, MinimumLength = 5, ErrorMessage = "Minimum 5 and Maximum 30 characters required")]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "The Loan Number should be between 5 and 30 characters")]
         //[Remote("IsLoanNumberExists", "SetupProcess", ErrorMessage = "Loan Number already in use")]
         [Display(Name = "Loan Number")]
         [Remote("IsLoanNumberExists", "SetupProcess",
@@ -38,10 +38,10 @@ namespace BankLoanSystem.Models
         public string loanNumber { get; set; }
 
 
-        [Required(ErrorMessage = "The Loan Number field is required.")]
+        [Required(ErrorMessage = "Please enter a Loan Number")]
         public string loanNumberForDisplay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the Start Date of the Loan")]
         [Display(Name = "Start Date")]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -52,47 +52,47 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the Maturity Date of the Loan")]
         [Display(Name = "Maturity Date")]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}",  ApplyFormatInEditMode = true)]
         public DateTime maturityDate { get; set; }
 
-        [Required(ErrorMessage = "The Start Date is required")]
+        [Required(ErrorMessage = "Please select the Start Date of the Loan")]
         public string DisplayStartDate { get; set; }
 
-        [Required(ErrorMessage = "The Maturity Date is required")]
+        [Required(ErrorMessage = "Please select the Maturity Date of the Loan")]
         public string DisplayMaturityDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the PayOff Period")]
         [Display(Name = "Pay Off Period")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Invalid Data")]
-        [Range(1, int.MaxValue, ErrorMessage = "Pay Off Period must be greater than zero")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter Pay Off Period greater than 0")]
         //[Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
         //AdditionalFields = "startDate,maturityDate,payOffPeriodType",
         //HttpMethod = "POST",
         //ErrorMessage = "Invalid")]
         public int payOffPeriod { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the type of PayOff")]
         [Display(Name = "Pay Off Period Type")]
-        [Range(0, 1, ErrorMessage = "Pay Off Period Type is Required")]
+        [Range(0, 1, ErrorMessage = "Please select the type of PayOff")]
         public int payOffPeriodType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the Loan Amount")]
         [Display(Name = "Loan Amount")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C}")]
         //[DataType()]
-        [Range(0.009, double.MaxValue, ErrorMessage = "The value must be greater than 0")]
+        [Range(0.009, double.MaxValue, ErrorMessage = "Please enter a Loan Amount greater than $1")]
         public decimal loanAmount { get; set; }
 
-        [Required(ErrorMessage = "Required/Invalid")]
+        [Required(ErrorMessage = "Please enter the initial percentage to be advanced")]
         [Display(Name = "Advance Percentage")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Advance Percentage must be a natural number")]
         [Range(1, 100, ErrorMessage = "Percentage must be between 1 and 100")]
         public int advancePercentage { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select Payment Method for the loan")]
         [Display(Name = "Payment Method")]
         public string paymentMethod { get; set; }
 
@@ -104,11 +104,11 @@ namespace BankLoanSystem.Models
         [Display(Name = "Unit Types")]
         public IList<UnitType> selectedUnitTypes { get; set; }
 
-        [Required(ErrorMessage = "Default Unit type is required")]
+        [Required(ErrorMessage = "Please select which type of unit will be the most common for the loan")]
         [Display(Name = "Make Default")]
         public int defaultUnitType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select at least one unit type to be advanced on this loan")]
         [Display(Name = "Select Unit Types")]
         public IList<UnitType> allUnitTypes
         {
@@ -116,7 +116,7 @@ namespace BankLoanSystem.Models
 
         }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the Email Address to send the loan renewal reminder to")]
         [EmailAddress]
         [Display(Name = "Auto Reminder Email")]
         public string autoReminderEmail
@@ -125,13 +125,13 @@ namespace BankLoanSystem.Models
 
         }
 
-        [Required(ErrorMessage = "Required/Invalid")]
+        [Required(ErrorMessage = "Please choose when to email the reminder for loan renewal")]
         [Display(Name = "How many days prior to the maturity date the renewal reminder should be sent")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Invalid")]
         [Range(1, int.MaxValue, ErrorMessage = "Auto Reminder Period must be greater than zero")]
         public int autoReminderPeriod { get; set; }
 
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Please select")]
         [Display(Name = "Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage")]
         public bool isEditAllowable
         {
@@ -147,7 +147,7 @@ namespace BankLoanSystem.Models
 
         }
 
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Please select")]
         public bool autoReminder
         {
             get; set;

@@ -8,7 +8,7 @@ namespace BankLoanSystem.Models
         public Company Company { get; set; }
         public Branch MainBranch { get; set; }
         public IList<Branch> SubBranches { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select the State")]
         [Display(Name ="State")]
         public int StateId { get; set; }
 
@@ -18,17 +18,17 @@ namespace BankLoanSystem.Models
     {
         public CompanyBranchModel CompanyBranch { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the State")]
         [Display(Name = "State")]
         public int StateId { get; set; }
 
         public List<NonRegBranch> NonRegBranches { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the Branch")]
         [Display(Name = "Branch Name")]
         public int RegBranchId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the Company")]
         [Display(Name = "Company Name")]
         public int NonRegCompanyId { get; set; }
 

@@ -295,7 +295,7 @@
                                     <!-- this is for grid-->
 
                                 </div>
-
+                                
                                 <button type="button" class="btn btn-primary m-b next_clear_button next_back" id="btnDelete" style="width:100px">Delete Unit</button>
                                 <button type="button" class="btn btn-primary m-b next_clear_button clear_back" id="btnCancel" tabindex="-1" style="float:right;margin-right: 39px;">Cancel</button>
                             </fieldset>
@@ -322,8 +322,7 @@
 
 </div>
 
-<div class="overlay-bg">
-</div>
+
 @*<div class="overlay-content popupdelete" style="margin-left: 248px;">
     <h3>Delete Unit</h3>
 
@@ -336,7 +335,8 @@
 
 <div class="overlay-content popupdelete" id="confirmBox">
     <h3>Delete Unit</h3>
-    <div class="text-warning message"></div>
+    <span class="text-warning message"></span>
+    <div style="margin-top:10px"></div>
     <span class="btn btn-info yes" style = "width: 70px; margin-right: 20px;">Yes</span>
     <span class="btn btn-info no" style = "width: 70px;">No</span>
 </div>
@@ -455,12 +455,12 @@
                     type: 'POST',
                     contentType: 'application/json;',
                     data: JSON.stringify({ unitId: $('#unitId').val(), identificationNo: $('#identificationNumber').val() }),
-                    success: function (View) {
+                    success: function(View) {
                         location.reload();
 
                         //.highlight { background-color: lightblue; }
                     },
-                    error: function (reponse) {
+                    error: function(reponse) {
                         $('#loadingSpan').hide();
                         alert("error : " + reponse);
                     }
@@ -469,8 +469,9 @@
                 // do nothing
                 $('.overlay-bg, .overlay-content').hide();
             });
+        } else {
+            $('.centered span').text('Please select unit that want to delete');
         }
-        
     });
 
     function ClearTextBoxText() {

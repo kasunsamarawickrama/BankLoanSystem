@@ -477,6 +477,19 @@
 
 <script type="text/javascript">
     function EditCompany(index) {
+
+        // reset the form
+        document.getElementsByTagName("form")[0].reset();
+        // for all input field
+        $('input').next('span').children('span').text('');
+        $('input').removeClass('valid');
+        // for dropdown field
+        $('select').next('span').children('span').text('');
+        $('select').removeClass('valid');
+
+        $('.new_err_msg').children("span").text("");
+
+
         $('#nonRegCompanyDiv').show();
         $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
