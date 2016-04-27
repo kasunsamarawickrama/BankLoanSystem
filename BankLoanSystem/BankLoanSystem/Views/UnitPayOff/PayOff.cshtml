@@ -10,16 +10,18 @@
 
 
 
-    <link href="~/Content/pikaday.css" rel="stylesheet" />
+    @*<link href="~/Content/pikaday.css" rel="stylesheet" />
     <link href="~/Content/theme.css" rel="stylesheet" />
-    <link href="~/Content/triangle.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />*@
     <script src="~/scripts/moment.js"></script>
     <script src="~/scripts/pikaday.js"></script>
 
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
-    <link href="~/Content/commonActions.css" rel="stylesheet" />
+    @*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
+
+@section AddToHead{
     <style>
         #payOffGridDIv table tbody,
         #payOffGridDIv table thead {
@@ -49,7 +51,7 @@
     padding: unset;
     padding-left: 13px;
  }
-    </style>
+    </style>}
 
 @{
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });

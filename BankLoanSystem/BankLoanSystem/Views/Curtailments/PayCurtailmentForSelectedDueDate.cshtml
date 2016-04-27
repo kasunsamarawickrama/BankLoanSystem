@@ -10,7 +10,7 @@
 @using System.Globalization;
 
 
-
+@section AddToHead{
 <style>
 
 #checkableGridDiv table tbody,
@@ -25,7 +25,7 @@
 .col-md-2{
     text-align:left;
 }
-</style>
+</style>}
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
     <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
