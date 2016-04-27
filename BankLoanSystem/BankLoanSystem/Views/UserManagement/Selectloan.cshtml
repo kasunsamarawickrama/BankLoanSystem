@@ -95,7 +95,7 @@
     {
         if (Model.RegBranches.Count() == 0)
         {
-            <span class="text-danger" style="float:left;font-size:medium"> No Active loans could be found</span>
+            <span class="text-danger" style="float:left;font-size:medium">No loans could be found</span>
         }
         else
         {
@@ -176,8 +176,6 @@
                             else {
                                 foreach (var item in Model.LoanList)
                                 {
-
-
                                     //if (item.LoanStatus)
                                     //{
                                     //@Html.ActionLink(modelItem => item.loanNumber)
@@ -186,9 +184,6 @@
                                     <li>@Html.ActionLink(item.loanNumber, "setLoanCode", controllerName, new { loanCode = item.loanCode }, new { @class = "" }) </li>
 
                                     //}
-
-
-
                                 }
                             }
 

@@ -50,7 +50,7 @@
                                    //),
                                    grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
                                    grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
-                                   grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                   grid.Column("Year", "Year", style: "gridColumnOthers", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    @*grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),*@
                                    grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                                    grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
@@ -68,7 +68,7 @@
                         <div>
                            
                             <span id="partialPaymentColor" style="margin-left:10%" hidden><label style="position :relative;width:20px;height:15px;background-color:#fffae6;"></label> Part Payment Records</span>
-                            <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+                            <span id="subtotal" style="margin-right:42px;float:right;text-align:right;font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
                         </div>
                         
                         <div id="unitid" class="hidden"></div>

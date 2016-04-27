@@ -65,7 +65,41 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U003")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
 
+                }
+            }
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
