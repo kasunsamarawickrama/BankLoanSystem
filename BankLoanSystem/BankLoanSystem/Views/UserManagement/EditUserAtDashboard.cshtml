@@ -76,7 +76,7 @@
                                     <div id="errorSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
 
                                 }
-
+                                
 @using (Html.BeginForm("EditUserAtDashboard", "UserManagement", FormMethod.Post, new { @id = "form" }))
 {
 
@@ -684,6 +684,7 @@
                     //$('#loadingSpan').hide();
                     if(data.UserList.length==0){
                         //alert("1");
+                        $("#hdnUserId3").val('');
                         $("#txtUserId2").show();
                         $("#divSingleUser").show();
                         $("#UserIdSA").hide();
@@ -762,6 +763,7 @@
                     //alert(data.UserList.length);
                     if(data.UserList.length==0){
                         //alert("1");
+                        $("#hdnUserId3").val('');
                         $("#txtUserId2").show();
                         $("#divSingleUser").show();
                         $("#UserIdSA").hide();

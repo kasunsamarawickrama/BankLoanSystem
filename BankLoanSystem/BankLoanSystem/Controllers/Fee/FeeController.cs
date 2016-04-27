@@ -8,12 +8,15 @@ using System.Web.Mvc;
 
 namespace BankLoanSystem.Controllers.Fee
 {
+    /// <summary>
+    /// CreatedBy:Nadeeka
+    /// CreatedDate:2016/4/20
+    /// 
+    /// </summary>
     public class FeeController : Controller
     {
         User userData = new User();
         string lCode = string.Empty;
-        
-       
 
         // GET: Fee
         public ActionResult Index()
@@ -21,6 +24,7 @@ namespace BankLoanSystem.Controllers.Fee
             return View();
         }
 
+        // Check session in page initial stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try
@@ -57,7 +61,12 @@ namespace BankLoanSystem.Controllers.Fee
             }
         }
 
-        // GET: Curtailments
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/20
+        /// GET: get fees
+        /// </summary>
+        /// <returns></returns>
         public ActionResult PayFees()
         {
             try
@@ -66,47 +75,84 @@ namespace BankLoanSystem.Controllers.Fee
             }
             catch (Exception)
             {
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
 
-           
-            LoanSetupStep1 _loanDetails = new LoanSetupStep1();
-            _loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            ViewBag.loanDetails = _loanDetails;
-
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            ViewBag.loanDetails = loanDetails;
 
             Loan loanSelected = new Loan();
             if (Session["loanDashboard"] != null)
             {
-                
-                 loanSelected = (Loan)Session["loanDashboard"];
+                loanSelected = (Loan)Session["loanDashboard"];
             }
             else if (Session["oneLoanDashboard"] != null)
             {
-                
                 loanSelected = (Loan)Session["oneLoanDashboard"];
             }
             else
             {
-                return RedirectToAction("Login","UserLogin");
+                return RedirectToAction("Login", "UserLogin");
             }
             ViewBag.loanSelected = loanSelected;
 
+            if (userData.RoleId == 3)
+            {
+                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                {
+                    return RedirectToAction("UserDetails", "UserManagement");
+                }
+                else {
+                    var checkPermission = false;
+                    string rgts = "";
+                    rgts = (string)Session["CurrentLoanRights"];
+                    string[] rgtList = null;
+                    if (rgts != "")
+                    {
+                        rgtList = rgts.Split(',');
+                    }
+                    if (rgtList != null)
+                    {
+                        foreach (var x in rgtList)
+                        {
+                            if (x == "U007")
+                            {
+                                checkPermission = true;
+                            }
+                        }
+                        if (checkPermission == false)
+                        {
+                            return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                    }
+                    else {
+                        return RedirectToAction("UserDetails", "UserManagement");
+                    }
+
+                }
+            }
             string advDuedate;
             string monDueDate;
             string lotDuedate;
-            bool returnValue = (new FeeAccess()).GetFeesDueDates(_loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
+            bool returnValue = (new FeeAccess()).GetFeesDueDates(loanDetails.loanId, out advDuedate, out monDueDate, out lotDuedate);
 
-            
+
             ViewBag.advDuedate = advDuedate;
             ViewBag.monDueDate = monDueDate;
-            ViewBag.lotDuedate = lotDuedate;            
+            ViewBag.lotDuedate = lotDuedate;
 
-            //Console.WriteLine(advDuedate + "" + monDueDate + "" + lotDuedate);
-                return View();
+            return View();
         }
 
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/21
+        /// get fees by selected date
+        /// </summary>
+        /// <param name="dueDate"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public ActionResult PayFeesForSelectedDueDate(DateTime dueDate, string type)
         {
                 LoanSetupStep1 loanDetails = new LoanSetupStep1();
@@ -144,6 +190,14 @@ namespace BankLoanSystem.Controllers.Fee
                 }           
         }
 
+        /// <summary>
+        /// CreatedBy:Nadeeka
+        /// CreatedDate:2016/4/22
+        /// POST: pay fees for selected items
+        /// </summary>
+        /// <param name="lstFee"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         [HttpPost]
         public int PayFees(List<Fees> lstFee, string type)
         {
@@ -156,44 +210,28 @@ namespace BankLoanSystem.Controllers.Fee
             //insert to log 
             if (returnValue == 1)
             {
-                
-                
                 Log log;
-
-                if(type == "advanceFee")
+                if (type == "advanceFee")
                 {
-
-
                     List<string> IDNumbers = new List<string>();
-
                     foreach (var fee in lstFee)
                     {
                         IDNumbers.Add(fee.IdentificationNumber);
-
-
                     }
-
-
-                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees","Advance Fee Paid for the unit(s) : " + string.Join(",", IDNumbers) + " , Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", "Advance Fee Paid for the unit(s) : " + string.Join(",", IDNumbers) + " , Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
                     (new LogAccess()).InsertLog(log);
 
                 }
                 else if (type == "monthlyLoanFee")
                 {
-
                     List<string> DueDates = new List<string>();
-
                     foreach (var fee in lstFee)
                     {
                         DueDates.Add(fee.DueDate);
-
-
                     }
 
-                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", " Monthly Loan Fee Paid for the due date(s) : { "+ string.Join(",", DueDates) + "}" + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
-
+                    log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", " Monthly Loan Fee Paid for the due date(s) : { " + string.Join(",", DueDates) + "}" + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
                     (new LogAccess()).InsertLog(log);
-
                 }
                 else if (type == "lotInspectionFee")
                 {
@@ -202,20 +240,13 @@ namespace BankLoanSystem.Controllers.Fee
                     foreach (var fee in lstFee)
                     {
                         DueDates.Add(fee.DueDate);
-
-
                     }
 
                     log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Fees", "Lot Inspection Fee Paid for the due date(s) : { " + string.Join(",", DueDates) + " } " + ", Pay Date : " + lstFee[0].PaidDate.ToString("dd/MM/yyyy"), DateTime.Now);
-
                     (new LogAccess()).InsertLog(log);
 
                 }
-
-
-                
             }
-
             return returnValue;
         }
 
