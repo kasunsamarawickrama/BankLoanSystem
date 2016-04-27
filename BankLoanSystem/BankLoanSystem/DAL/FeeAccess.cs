@@ -27,35 +27,31 @@ namespace BankLoanSystem.DAL
         {
             try
             {
-            advPayDueDate = "";
-            monPayDueDate = "";
-            lotPayDueDate = "";
+                advPayDueDate = "";
+                monPayDueDate = "";
+                lotPayDueDate = "";
 
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
-          
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetFeesDueDates", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+
+                DataSet dataSet = dataHandler.GetDataSet("spGetFeesDueDates", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-
-
-                    advPayDueDate = dataRow["adv_payment_due_date"].ToString();
-                    monPayDueDate = dataRow["mon_payment_due_date"].ToString();
-                    lotPayDueDate = dataRow["lot_payment_due_date"].ToString();
-
-                    
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        advPayDueDate = dataRow["adv_payment_due_date"].ToString();
+                        monPayDueDate = dataRow["mon_payment_due_date"].ToString();
+                        lotPayDueDate = dataRow["lot_payment_due_date"].ToString();
+                    }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
-        }
             catch (Exception ex)
             {
                 throw ex;
@@ -63,7 +59,7 @@ namespace BankLoanSystem.DAL
         }
 
         /// <summary>
-        ///CreatedBy : Nadeeka
+        /// CreatedBy : Nadeeka
         /// CreatedDate: 04/21/2016
         /// 
         /// Getting Fees by due date
@@ -76,70 +72,67 @@ namespace BankLoanSystem.DAL
         {
             try
             {
-            List<Fees> lstFee = new List<Fees>();
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
-            //paramertList.Add(new object[] { "@unit_id", loanId });
-            paramertList.Add(new object[] { "@bill_due_date", dueDate });
-            paramertList.Add(new object[] { "@type", type });
+                List<Fees> lstFee = new List<Fees>();
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                //paramertList.Add(new object[] { "@unit_id", loanId });
+                paramertList.Add(new object[] { "@bill_due_date", dueDate });
+                paramertList.Add(new object[] { "@type", type });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetFeesByDueDate", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spGetFeesByDueDate", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    Fees fee = new Fees();
-                    fee.FeeId = int.Parse(dataRow["fee_id"].ToString());
-                    fee.UnitId = dataRow["unit_id"].ToString();
-                    fee.LoanId = int.Parse(dataRow["loan_id"].ToString());
-                    fee.Type = dataRow["type"].ToString();
-                    fee.Amount = Convert.ToDecimal(dataRow["amount"].ToString());
-                    fee.Description = dataRow["description"].ToString();
-                    fee.BillDueDate = Convert.ToDateTime(dataRow["bill_due_date"].ToString());
-                    fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
-
-                    if (type == "advanceFee")
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                    string[] info = fee.Description.Split(',');
-                        if (info != null && info.Length > 0)
-                    {
-                            if (info[1] != "")
-                        {
-                            fee.IdentificationNumber = info[1];
-                        }
-                        if (info.Length > 1 && info[2] != "")
-                        {
-                            fee.Year = Convert.ToInt32(info[2]);
-                        }
-                        if (info.Length > 2 && info[3] != "")
-                        {
-                            fee.Make = info[3];
-                        }
-                        if (info.Length > 3 && info[4] != "")
-                        {
-                            fee.Model = info[4];
-                        }                       
-                    }
-                    }
+                        Fees fee = new Fees();
+                        fee.FeeId = int.Parse(dataRow["fee_id"].ToString());
+                        fee.UnitId = dataRow["unit_id"].ToString();
+                        fee.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        fee.Type = dataRow["type"].ToString();
+                        fee.Amount = Convert.ToDecimal(dataRow["amount"].ToString());
+                        fee.Description = dataRow["description"].ToString();
+                        fee.BillDueDate = Convert.ToDateTime(dataRow["bill_due_date"].ToString());
+                        fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
 
-
-                    lstFee.Add(fee);
+                        if (type == "advanceFee")
+                        {
+                            string[] info = fee.Description.Split(',');
+                            if (info != null && info.Length > 0)
+                            {
+                                if (info[1] != "")
+                                {
+                                    fee.IdentificationNumber = info[1];
+                                }
+                                if (info.Length > 1 && info[2] != "")
+                                {
+                                    fee.Year = Convert.ToInt32(info[2]);
+                                }
+                                if (info.Length > 2 && info[3] != "")
+                                {
+                                    fee.Make = info[3];
+                                }
+                                if (info.Length > 3 && info[4] != "")
+                                {
+                                    fee.Model = info[4];
+                                }
+                            }
+                        }
+                        lstFee.Add(fee);
+                    }
+                    return lstFee;
                 }
-                return lstFee;
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
-        }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-
+        
         internal int updateFees(List<Fees> lstFee,DateTime paidDate, int loanId , int userId)
         {
             try
