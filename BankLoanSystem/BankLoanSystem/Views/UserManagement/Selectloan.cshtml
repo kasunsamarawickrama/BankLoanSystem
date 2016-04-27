@@ -90,9 +90,15 @@
 
         </script>
     }
-    else*@ @if (Model.RegBranches != null)
+    else*@ 
+    @if (Model.RegBranches != null)
     {
-
+        if (Model.RegBranches.Count() == 0)
+        {
+            <span class="text-danger" style="float:left;font-size:medium"> No Active loans could be found</span>
+        }
+        else
+        {
         <div>
             <h4>Select the Loan</h4>
             <hr />
@@ -100,6 +106,7 @@
             <div class="h-panel">
                 <ul>
                     <li><h5>Branch Name</h5></li>
+                   
                     @if (Model.RegBranches.Count() == 1)
                     {
                         <li class="active">
@@ -195,21 +202,16 @@
                         }
 
                     </ul>
-                    @if (Model.RegBranches == null)
-                    {
-                        <span class="text-danger" style="float:left;margin-left:-100%;font-size:medium"> No Active loans could be found</span>
-                    }
+                    
 
                 </div>
             </div>
 
         </div>
-        <p>
-
-            @*@Html.ActionLink("Back to DashBoard", "Index")*@
-        </p>
-        <button class="close-btn btn btn-info" style="clear: both;float: right;padding:6px 12px">Close</button>
                     }
+        <button class="close-btn btn btn-info" style="clear: both;float: right;padding:6px 12px">Close</button>
+        }
+        
     <style>
         .h-panel {
             margin-left: 20px;
