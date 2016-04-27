@@ -31,28 +31,35 @@ namespace BankLoanSystem.DAL
         /// <returns>curtailment list</returns>
         public List<Curtailment> retreiveCurtailmentByLoanId(int loanId)
         {
-            List<Curtailment> lstCurtailment = new List<Curtailment>();
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
+            try
+            {
+                List<Curtailment> lstCurtailment = new List<Curtailment>();
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
 
-            DataSet dataSet = dataHandler.GetDataSet("spRetrieveCurtailmentByLoanId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spRetrieveCurtailmentByLoanId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    Curtailment curtailment = new Curtailment();
-                    curtailment.CurtailmentId = int.Parse(dataRow["curtailment_id"].ToString());
-                    curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
-                    curtailment.TimePeriod = Convert.ToInt32(dataRow["time_period"]);
-                    curtailment.Percentage = Convert.ToInt32(dataRow["percentage"].ToString());
-                    lstCurtailment.Add(curtailment);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Curtailment curtailment = new Curtailment();
+                        curtailment.CurtailmentId = int.Parse(dataRow["curtailment_id"].ToString());
+                        curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        curtailment.TimePeriod = Convert.ToInt32(dataRow["time_period"]);
+                        curtailment.Percentage = Convert.ToInt32(dataRow["percentage"].ToString());
+                        lstCurtailment.Add(curtailment);
+                    }
+                    return lstCurtailment;
                 }
-                return lstCurtailment;
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -90,10 +97,9 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
 
-            
         }
 
         /// <summary>
@@ -108,43 +114,50 @@ namespace BankLoanSystem.DAL
         /// <returns>1</returns>
         public LoanSetupStep1 GetLoanDetailsByLoanId(int loanId)
         {
-            LoanSetupStep1 loan = new LoanSetupStep1();
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
-
-            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanId", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+            try
             {
-                DataRow dataRow = dataSet.Tables[0].Rows[0];
-                loan.loanNumber = dataRow["loan_number"].ToString();
-                loan.startDate = Convert.ToDateTime(dataRow["start_date"]);
-                loan.maturityDate = Convert.ToDateTime(dataRow["maturity_date"]);
-                loan.loanAmount = Convert.ToDecimal(dataRow["loan_amount"]);
-                loan.advancePercentage = Convert.ToInt32(dataRow["advance"]);
-                //0 - day, 1 - month
-                loan.payOffPeriodType = 1;
-                if (dataRow["pay_off_type"].ToString() == "d")
-                    loan.payOffPeriodType = 0;
+                LoanSetupStep1 loan = new LoanSetupStep1();
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
 
-                loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
-                loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
-                loan.isInterestCalculate = Convert.ToBoolean(dataRow["is_interest_calculate"]);
-                loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
-                loan.CurtailmentDueDate = dataRow["curtailment_due_date"].ToString();
-                loan.CurtailmentAutoRemindEmail = dataRow["curtailment_auto_remind_email"].ToString();
-                if (!string.IsNullOrEmpty(dataRow["curtailment_remind_period"].ToString()))
+                DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanId", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
                 {
-                    loan.CurtailmentEmailRemindPeriod = Convert.ToInt32(dataRow["curtailment_remind_period"].ToString());
-                }
-                
-                loan.CurtailmentCalculationBase = dataRow["curtailment_calculation_type"].ToString();
+                    DataRow dataRow = dataSet.Tables[0].Rows[0];
+                    loan.loanNumber = dataRow["loan_number"].ToString();
+                    loan.startDate = Convert.ToDateTime(dataRow["start_date"]);
+                    loan.maturityDate = Convert.ToDateTime(dataRow["maturity_date"]);
+                    loan.loanAmount = Convert.ToDecimal(dataRow["loan_amount"]);
+                    loan.advancePercentage = Convert.ToInt32(dataRow["advance"]);
+                    //0 - day, 1 - month
+                    loan.payOffPeriodType = 1;
+                    if (dataRow["pay_off_type"].ToString() == "d")
+                        loan.payOffPeriodType = 0;
 
-                return loan;
+                    loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
+                    loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
+                    loan.isInterestCalculate = Convert.ToBoolean(dataRow["is_interest_calculate"]);
+                    loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
+                    loan.CurtailmentDueDate = dataRow["curtailment_due_date"].ToString();
+                    loan.CurtailmentAutoRemindEmail = dataRow["curtailment_auto_remind_email"].ToString();
+                    if (!string.IsNullOrEmpty(dataRow["curtailment_remind_period"].ToString()))
+                    {
+                        loan.CurtailmentEmailRemindPeriod = Convert.ToInt32(dataRow["curtailment_remind_period"].ToString());
+                    }
+
+                    loan.CurtailmentCalculationBase = dataRow["curtailment_calculation_type"].ToString();
+
+                    return loan;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -162,32 +175,38 @@ namespace BankLoanSystem.DAL
         {
             //int flag = 0;
             //int delFlag = 0;
-
-            int executeCount = 0;
-            DataHandler dataHandler = new DataHandler();
-
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
-            if (dataHandler.ExecuteSQL("spDeleteCurtailment", paramertList))
+            try
             {
-                foreach (Curtailment curtailment in lstCurtailment)
+                int executeCount = 0;
+                DataHandler dataHandler = new DataHandler();
+
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                if (dataHandler.ExecuteSQL("spDeleteCurtailment", paramertList))
                 {
-                    List<object[]> paramertList2 = new List<object[]>();
-                    paramertList2.Add(new object[] { "@loan_id", loanId });
-                    paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
-                    paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
-                    paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
-                    try
+                    foreach (Curtailment curtailment in lstCurtailment)
                     {
-                        executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
-                    }
-                    catch (Exception ex)
-                    {
-                        return 0;
+                        List<object[]> paramertList2 = new List<object[]>();
+                        paramertList2.Add(new object[] { "@loan_id", loanId });
+                        paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
+                        paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
+                        paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
+                        try
+                        {
+                            executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
+                        }
+                        catch (Exception ex)
+                        {
+                            return 0;
+                        }
                     }
                 }
+                return executeCount;
             }
-            return executeCount;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             //if (delFlag == 2) flag = delFlag;
             //return flag; 
         }
@@ -206,19 +225,20 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public bool InsertCurtailmentScheduleInfo(string xmlDoc, string unitId, int loanId)
         {
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList2 = new List<object[]>();
-            paramertList2.Add(new object[] { "@loan_id", loanId });
-            paramertList2.Add(new object[] { "@unit_id", unitId });
-            paramertList2.Add(new object[] { "@Input", xmlDoc });           
-
             try
             {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList2 = new List<object[]>();
+                paramertList2.Add(new object[] { "@loan_id", loanId });
+                paramertList2.Add(new object[] { "@unit_id", unitId });
+                paramertList2.Add(new object[] { "@Input", xmlDoc });
+
+
                 return dataHandler.ExecuteSQL("spInsertCurtailmentSchedule", paramertList2);
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -236,38 +256,44 @@ namespace BankLoanSystem.DAL
         /// <returns></returns>
         public List<CurtailmentShedule> GetCurtailmentScheduleByDueDate( int loanId , DateTime dueDate)
         {
-            List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
-            paramertList.Add(new object[] { "@due_date", dueDate });
+            try {
+                List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                paramertList.Add(new object[] { "@due_date", dueDate });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentSheduleByDueDate", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentSheduleByDueDate", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    CurtailmentShedule curtailment = new CurtailmentShedule();
-                    curtailment.UnitId = dataRow["unit_id"].ToString();
-                    curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
-                    curtailment.Year = int.Parse(dataRow["year"].ToString());
-                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
-                    curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString()).ToString("MM/dd/yyyy");
-                    curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
-                    curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
-                    curtailment.IDNumber = dataRow["identification_number"].ToString();
-                    curtailment.CurtNumber = int.Parse(dataRow["curt_number"].ToString());
-                    curtailment.Make = dataRow["make"].ToString();
-                    curtailment.Model = dataRow["model"].ToString();
-                    curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        CurtailmentShedule curtailment = new CurtailmentShedule();
+                        curtailment.UnitId = dataRow["unit_id"].ToString();
+                        curtailment.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        curtailment.Year = int.Parse(dataRow["year"].ToString());
+                        curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
+                        curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString()).ToString("MM/dd/yyyy");
+                        curtailment.Status = Convert.ToInt32(dataRow["curt_status"].ToString());
+                        curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"].ToString());
+                        curtailment.IDNumber = dataRow["identification_number"].ToString();
+                        curtailment.CurtNumber = int.Parse(dataRow["curt_number"].ToString());
+                        curtailment.Make = dataRow["make"].ToString();
+                        curtailment.Model = dataRow["model"].ToString();
+                        curtailment.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
 
-                    lstCurtailmentShedule.Add(curtailment);
+                        lstCurtailmentShedule.Add(curtailment);
+                    }
+                    return lstCurtailmentShedule;
                 }
-                return lstCurtailmentShedule;
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -281,6 +307,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         public List<UnitPayOffModel> GetUnitPayOffList(int loanId)
         {
+            try { 
             List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
             
             DataHandler dataHandler = new DataHandler();
@@ -310,23 +337,28 @@ namespace BankLoanSystem.DAL
             {
                 return payOffList;
             }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public int PayOffUnits(string unitIdList, DateTime payOffDate, int titleStatus)
         {
+            try { 
             DataHandler dataHandler = new DataHandler();
 
             List<object[]> paramertList1 = new List<object[]>();
             paramertList1.Add(new object[] { "@Input", unitIdList });
             paramertList1.Add(new object[] { "@pay_date", payOffDate });
             paramertList1.Add(new object[] { "@title_status", titleStatus });
-            try
-            {
+           
                 return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList1);
             }
             catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
     }

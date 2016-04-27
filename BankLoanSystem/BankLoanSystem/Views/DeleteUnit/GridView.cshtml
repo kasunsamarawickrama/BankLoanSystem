@@ -43,7 +43,7 @@
         $('#deleteGrid').children('tbody').children('tr').click(function(e) {
             var tr = $(this);
 
-            $(this).css('background', '#9F6000');
+            $(this).css('background', 'rgb(204, 102, 91)');
             $(this).siblings().css('background', 'aliceblue');
 
             SetTextBoxValues(tr);
@@ -68,7 +68,7 @@
         });
 
         function SetTextBoxValues(tr) {
-            $('#dateAdvanced').val(tr.find('td:eq(1)').text());
+            $('#dateAdvanced').val(tr.find('td:eq(0)').text());
             $('#identificationNumber').val(tr.find("#vin").text());
             $('#unitYear').val(tr.find("#year").text());
             $('#unitMake').val(tr.find("#make").text());

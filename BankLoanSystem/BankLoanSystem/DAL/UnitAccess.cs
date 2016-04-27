@@ -55,9 +55,9 @@ namespace BankLoanSystem.DAL
                     return unitList;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -926,7 +926,9 @@ namespace BankLoanSystem.DAL
         /// <param name="loanId"></param>
         public bool GetLoanCurtailmentDetails(int loanId, string unitId, DateTime advaceDate, decimal advanceAmount, decimal cost)
         {
-            StepAccess stepAccess = new StepAccess();
+            try
+            {
+                StepAccess stepAccess = new StepAccess();
             LoanSetupStep1 loan = stepAccess.GetLoanCurtailmentBreakdown(loanId);
             Int32 curtailmentNo = 1;
             //bool isEditAdvanceAmount = false;
@@ -961,8 +963,7 @@ namespace BankLoanSystem.DAL
                 curtailmentNo++;
             }
 
-            try
-            {
+           
                 XElement xEle = new XElement("Curtailments",
                     from curtailment in loan.curtailmetList
                     select new XElement("Curtailment",
@@ -979,7 +980,7 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
