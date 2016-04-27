@@ -15,12 +15,12 @@ namespace BankLoanSystem.Models
 
         [Required]
         [Display(Name = "NonRegistered Branch")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int nonRegisteredBranchId { get; set; }
 
         [Required]
         [Display(Name = "Registered Branch")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int RegisteredBranchId { get; set; }
 
         public string RegisteredBranchCode { get; set; }
@@ -38,7 +38,7 @@ namespace BankLoanSystem.Models
         public string loanNumber { get; set; }
 
 
-        [Required(ErrorMessage = "The Loan Number field is required.")]
+        [Required(ErrorMessage = "Please enter a Loan Number")]
         public string loanNumberForDisplay { get; set; }
 
         [Required(ErrorMessage = "Please select the Start Date of the Loan")]
@@ -64,19 +64,19 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please select the Maturity Date of the Loan")]
         public string DisplayMaturityDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the PayOff Period")]
         [Display(Name = "Pay Off Period")]
         [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Invalid Data")]
-        [Range(1, int.MaxValue, ErrorMessage = "Pay Off Period must be greater than zero")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter Pay Off Period greater than 0")]
         //[Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
         //AdditionalFields = "startDate,maturityDate,payOffPeriodType",
         //HttpMethod = "POST",
         //ErrorMessage = "Invalid")]
         public int payOffPeriod { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the type of PayOff")]
         [Display(Name = "Pay Off Period Type")]
-        [Range(0, 1, ErrorMessage = "Pay Off Period Type is Required")]
+        [Range(0, 1, ErrorMessage = "Please select the type of PayOff")]
         public int payOffPeriodType { get; set; }
 
         [Required(ErrorMessage = "Please enter the Loan Amount")]
@@ -92,7 +92,7 @@ namespace BankLoanSystem.Models
         [Range(1, 100, ErrorMessage = "Percentage must be between 1 and 100")]
         public int advancePercentage { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select Payment Method for the loan")]
         [Display(Name = "Payment Method")]
         public string paymentMethod { get; set; }
 
@@ -108,7 +108,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Make Default")]
         public int defaultUnitType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select at least one unit type to be advanced on this loan")]
         [Display(Name = "Select Unit Types")]
         public IList<UnitType> allUnitTypes
         {
