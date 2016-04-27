@@ -352,7 +352,17 @@
 </div>
 
 <script>
-    
+    $('#btnCancel').click(function() {
+        //location.reload();
+        ClearTextBoxText();
+
+        $('#deleteGrid').children('tbody').children('tr').each(function () {
+            $(this).css('background', 'aliceblue');
+        });
+
+        $('#feeDetails').hide();
+    });
+
     $('.viewType').change(function () {
         var viewType = $('.viewType').filter(':checked').val();
         ClearTextBoxText();
@@ -391,7 +401,7 @@
         var make = $("#cmbMake").val();
         var model = $("#cmbModel").val();
 
-        document.getElementById('allUnit').checked = false;
+        document.getElementById('allUnit').checked = true;
         document.getElementById('activeUit').checked = false;
         document.getElementById('pendingUnit').checked = false;
 
