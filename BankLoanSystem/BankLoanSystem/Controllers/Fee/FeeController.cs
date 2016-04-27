@@ -85,7 +85,7 @@ namespace BankLoanSystem.Controllers.Fee
             else if (Session["oneLoanDashboard"] != null)
             {
                 
-                loanSelected = (Loan)Session["loanDashboard"];
+                loanSelected = (Loan)Session["oneLoanDashboard"];
             }
             else
             {

@@ -65,41 +65,7 @@
     <div class="form-horizontal">
 
 
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new {})<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.UserName, new {htmlAttributes = new {@class = "form-control", @id = "txtUserName"}})
-                @Html.ValidationMessageFor(model => model.UserName, "", new {@class = "text-danger"})
-                <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                <div id="customError"><span id="spnPassword" class="text-danger"></span></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="control-label col-sm-4">
-                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color: red">*</span>
-            </div>
-
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
-                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                <div id="customError"><span id="spnConfirmPassword" class="text-danger"></span></div>
-            </div>
-        </div>
+       
 
         <div class="form-group">
             <div class="control-label col-sm-3">
@@ -148,7 +114,41 @@
                 <div id="customError"><span id="spnPhoneNumber" class="text-danger"></span></div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
 
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "txtUserName" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnUserName" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-3">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "txtPassword" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnPassword" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-sm-4">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { })<span style="color: red">*</span>
+            </div>
+
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "txtConfirmPassword" } })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                <div id="customError"><span id="spnConfirmPassword" class="text-danger"></span></div>
+            </div>
+        </div>
         <div class="form-group">
             
                        

@@ -177,7 +177,7 @@
 
                                         </div>
                                         <div class="err_msg_box">
-                                            <p class="err_msg new_err_msg" id="outOffRangeError" ></p>
+                                            <p class="err_msg new_err_msg" id="outOffRangeError" style="color:darkorange" ></p>
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" }) &nbsp;&nbsp;&nbsp; @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })</p>
                                             
                                         </div>
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Advance %</label>
+                                            <label>Initial Advance %</label>
                                         </div>
                                         <div class="col-xs-4 text_field short_text_field new_zip">
                                             @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", max = 100, maxlength = 3, min = 1, @id = "advancePercentage" } })
@@ -206,8 +206,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 lable_style">
-                                            <label>Payment Method</label>
+                                        <div class="control-label col-sm-2" style="font-weight:normal;color:#545454;font-size:14px;text-align:left;float:left;width:40%;margin-left:-15px;margin-top:-5px">
+                                            <label>Select a Payment Method<span class="optional"> (for reference purposes only)</span></label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:45%">
                                             @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Payment Method--", htmlAttributes: new { @class = "form-control text_field_input" })
@@ -217,14 +217,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 lable_style">
-                                            <label>Select Unit Types</label>
+                                        <div class="control-label col-sm-2 " style="font-weight:normal;color:#545454;font-size:14px;text-align:left;float:left;margin-left:-15px;margin-top:-5px">
+                                            <label>Select types of units to be advanced in this loan</label>
                                         </div>
                                         <div class="col-xs-8 new_unit_type">
                                             @for (int i = 0; i < Model.allUnitTypes.Count; i++)
                                             {
 
-                                                <div class="col-xs-7 new_unit_cate">
+                                                <div class="col-xs-7 new_unit_cate" style="font-weight:normal;color:#545454;font-size:14px">
                                                     @Html.HiddenFor(m => m.allUnitTypes[i].unitTypeId)
                                                     @Html.CheckBoxFor(m => m.allUnitTypes[i].isSelected, htmlAttributes: new { @id = "checkedBox_" + i, @onchange = "javascript:showDefaultUnitOption(this.checked," + i + ")" })
                                                     @Html.LabelFor(m => m.allUnitTypes[i].unitTypeName, Model.allUnitTypes[i].unitTypeName, htmlAttributes: new { @style = "height:25px;" })
@@ -283,11 +283,11 @@
 
                                     <div class="form-group new_form_group">
                                         <div class="col-xs-9 new_label_style">
-                                            <label class="new_label_style">
-                                                Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage
+                                            <label class="new_label_style" style="font-weight:normal;color:#545454;font-size:14px;">
+                                                Is the User authorized to change the initial advance amount?
                                             </label>
                                         </div>
-                                        <div class="control-label col-sm-2 new_text_field">
+                                        <div class="control-label col-sm-2 new_text_field" style="margin-top:-5px">
                                             @Html.DropDownListFor(model => model.isEditAllowable, yesOrNoList, htmlAttributes: new { @class = "form-control text_field_input", @id = "isEditAllowable" })
 
                                         </div>
@@ -295,7 +295,7 @@
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.isEditAllowable, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>
-                                    <div class="form-group new_form_group">
+                                    <div class="form-group new_form_group" hidden>
                                         <div class="col-xs-9 new_label_style">
                                             <label class="new_label_style">
                                                 Do you want to track the interest
@@ -312,12 +312,12 @@
 
                                     <div class="form-group new_form_group">
                                         <div class="col-xs-9 new_label_style">
-                                            <label class="new_label_style">
-                                                Do you want auto reminder for renewal
+                                            <label class="new_label_style" style="font-weight:normal;color:#545454;font-size:14px;">
+                                                Would you like a reminder emailed for the loan renewal?
 
                                             </label>
                                         </div>
-                                        <div class="control-label col-sm-2 new_text_field">
+                                        <div class="control-label col-sm-2 new_text_field" style="margin-top:-10px">
                                             @Html.DropDownListFor(model => model.autoReminder, yesOrNoList3, htmlAttributes: new { @class = "form-control text_field_input", @id = "autoRem", @onchange = "javascript:showAutoReminderEmail(this.value)" })
 
                                         </div>
@@ -328,7 +328,7 @@
                                     <div id="AutoReminderEmail" style="display:none">
                                         <div class="form-group new_form_group">
                                             <div class="col-xs-9 new_label_style">
-                                                <label class="new_label_style">How many days prior to the maturity date the renewal reminder should be sent</label>
+                                                <label class="new_label_style">How many days prior to the Maturity Date should the renewal reminder be sent?</label>
                                             </div>
                                             <div class="col-xs-4 new_text_field">
                                                 @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" } })
@@ -342,7 +342,7 @@
 
                                         <div class="form-group new_form_group">
                                             <div class="col-xs-9 new_label_style" style="width:150px">
-                                                <label>Auto Reminder Email</label>
+                                                <label>Email for renewal reminder to be sent to</label>
                                             </div>
                                             <div class="col-xs-8 text_field" style="width:350px">
                                                 @Html.EditorFor(model => model.autoReminderEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "AutoEmail" } })
@@ -437,17 +437,17 @@
        
         if (valid >= 11) {
             if ($("input:checked").length == 0) {
-                $("#unitTypeError").text('Select Atleast One unit type');
+                $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
                 e.preventDefault();
             }
-            else if ($("#outOffRangeError").text().length > 0 || $("#emailReminderError").text().length > 0) {
-                alert(valid);
+            else if ($("#emailReminderError").text().length > 0) {
+                //alert(valid);
                 e.preventDefault();
 
             }
         } else {
             if ($("input:checked").length == 0) {
-                $("#unitTypeError").text('Select Atleast One unit type');
+                $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
 
             }
         }
@@ -457,7 +457,7 @@
     });
 
     $('#advancePercentage').keypress(function (evt) {
-        // preventing to type 'e' or 'E'
+        // preventing to type 'e' or 'E'mmitted - piyumi
         if (evt.keyCode == 101 || evt.keyCode == 69 || $(this).val() > 100) {
             evt.preventDefault();
         }
@@ -772,8 +772,8 @@
         if (type == 0) {
             var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
             if (value > diffDays) {
-                $("#outOffRangeError").text('The pay off period is out of Range.');
-                $("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
+                $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
+                //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
 
             } else {
                 $("#outOffRangeError").text('');
@@ -784,8 +784,8 @@
             var diffMonths = (secondDate.getMonth() - firstDate.getMonth()
    + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
             if (value > diffMonths) {
-                $("#outOffRangeError").text('The pay off period is out of Range.');
-                $("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
+                $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
+                //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
 
             } else {
                 $("#outOffRangeError").text('');
