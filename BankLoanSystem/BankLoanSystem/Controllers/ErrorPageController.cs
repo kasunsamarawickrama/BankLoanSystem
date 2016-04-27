@@ -16,16 +16,16 @@ namespace BankLoanSystem.Controllers
             return View();
         }
 
+        /// <summary>
+        ///CreatedBy : Nadeeka
+        /// CreatedDate: 04/27/2016
+        /// 
+        /// Create error log file 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public bool CreateLogFile(string fileName)
         {
-            //Check directory is already exists, if not create new
-            //string mapPath = "~/LogFiles/"+fileName+".txt";
-            // string mapPath = @"C:\Projects\BankLoanSystem\BankLoanSystem\BankLoanSystem\ErrorLog\"+ fileName+".txt"; 
-
-            // Create the file.
-            // string path = System.IO.Path.Combine(Server.MapPath("~/Content/Uploads/"), System.IO.Path.GetFileName(file.FileName));
-            //if (System.IO.File.Exists(mapPath))
-            //{
             try
             {
                 if (!System.IO.File.Exists(fileName))
@@ -46,6 +46,15 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 04/27/2016
+        /// 
+        /// Insert record to error log file 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="page"></param>
+        /// <param name="message"></param>
         public void InsertRecordToLogFile(string fileName, string page, string message)
         {
             try
@@ -56,10 +65,8 @@ namespace BankLoanSystem.Controllers
                 {
                     Directory.CreateDirectory(System.Web.HttpContext.Current.Server.MapPath(folder));
                 }
-                //string mapPath = @"C:\Projects\BankLoanSystem\BankLoanSystem\BankLoanSystem\ErrorLog\" + fileName + ".txt";
                 if (CreateLogFile(System.Web.HttpContext.Current.Server.MapPath(mapPath)))
-                {
-                    // Open the stream and read it back.                
+                {                                  
                     using (TextWriter tw = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath(mapPath), true))
                     {
                         tw.WriteLine("\r\n" + DateTime.Now.ToString() + " - " + message  + " - " + page);
