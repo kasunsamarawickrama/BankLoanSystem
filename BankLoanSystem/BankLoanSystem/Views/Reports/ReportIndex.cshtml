@@ -5,22 +5,23 @@
     ViewBag.Title = "Reports";
 }
 
-<link rel="stylesheet" href="~/Content/commonActions.css">
+
 @*Date picker*@
-<link href="~/Content/pikaday.css" rel="stylesheet" />
+@*<link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />*@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
+@*<link rel="stylesheet" href="~/Content/commonActions.css">
+    <link href="~/Content/commonActions.css" rel="stylesheet" />*@
 <script src="~/scripts/bootstrap.min.js"></script>
 
-<link href="~/Content/overlaypopup.css" rel="stylesheet" />
-
+@*<link href="~/Content/overlaypopup.css" rel="stylesheet" />*@
+@section AddToHead{
 <style>
     .btns-clm > button {
         width: 180px;
@@ -28,7 +29,7 @@
         margin-left: 5px;
         margin-right: 5px;
     }
-</style>
+</style>}
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
