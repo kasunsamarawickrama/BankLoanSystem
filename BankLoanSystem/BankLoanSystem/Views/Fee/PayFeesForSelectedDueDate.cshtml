@@ -11,22 +11,6 @@
 
 
 
-<style>
-    #checkableGridDiv table tbody,
-    #checkableGridDiv table thead {
-        display: block;
-    }
-
-    #checkableGridDiv table tbody {
-        max-height: 300px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .col-md-2 {
-        text-align: left;
-    }
-</style>
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     <label style="float:unset;margin-top:2%;margin-bottom:2%">No Fees matching the due date could be found.</label>
 </div>
@@ -49,7 +33,7 @@
                                                       grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                                       grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                                       grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                  grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.FeeDueDate.ToShortDateString()</label>}</text>),
                                                       //grid.Column(
                                                       //     "BillDueDate",
                                                       //     "Due Date", style: "gridColumnOthers",
@@ -91,7 +75,7 @@
                                                                  , header: "{checkall}"
                                                          ),
                                                               @*grid.Column("Type", "Fee Type", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="Type" class="AdvanceDate">@item.Type</label>}</text>),*@
-                                                        grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="DueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                                                        grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnlarge", format:@<text>@{<label id="DueDate" class="AdvanceDate">@item.FeeDueDate.ToShortDateString()</label>}</text>),
             //grid.Column(
             //                                                  "BillDueDate",
             //                                                  "Due Date", style: "gridColumnlarge",

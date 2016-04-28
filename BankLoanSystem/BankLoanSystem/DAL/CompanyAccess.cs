@@ -175,7 +175,6 @@ namespace BankLoanSystem.DAL
             }
         }
 
-
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 2016/02/08
@@ -841,9 +840,9 @@ namespace BankLoanSystem.DAL
             if (!string.IsNullOrEmpty(company.CompanyAddress2))
             {
                 company.CompanyAddress2.Trim();
-                
+                paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
             }
-            paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
+           
             paramertList.Add(new object[] { "@stateId", company.StateId });
             paramertList.Add(new object[] { "@city", company.City.Trim() });
             paramertList.Add(new object[] { "@zip", company.Zip.Trim() });
