@@ -687,12 +687,17 @@
                             $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                             $("#iAdvance").attr("disabled", "disabled");
 
+
                         } else {
                             var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
                             $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
                             $("#btnAdvanceAll").attr("disabled", "disabled");
                             $("#startDate").attr("disabled", "disabled");
                             $("#iAdvance").attr("disabled", "disabled");
+                            //$('#iAdvance').removeClass('input-validation-error');
+                            //$('#startDate').val('');
+                            $('#errorStartDate').text('');
+                            $('#startDate').removeClass('input-validation-error');
                             totalRecCount = 0;
 
                         }
