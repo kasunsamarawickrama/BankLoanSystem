@@ -86,10 +86,10 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spInsertInterestDetails", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
-            }            
+                throw ex;
+            }
         }
 
         /// <summary>

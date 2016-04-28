@@ -43,9 +43,9 @@ namespace BankLoanSystem.DAL
                     connection.Open();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -68,7 +68,6 @@ namespace BankLoanSystem.DAL
             catch (Exception exp)
             {
                 throw exp;
-
             }
         }
 
@@ -128,9 +127,9 @@ namespace BankLoanSystem.DAL
                 else
                     return false;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
             finally
             {
@@ -179,10 +178,9 @@ namespace BankLoanSystem.DAL
                 else
                     return 0;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                throw exp;
-                return 0;
+                throw ex;
             }
             finally
             {
@@ -235,7 +233,7 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
             finally
             {
@@ -273,9 +271,9 @@ namespace BankLoanSystem.DAL
                 else
                     return null;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
             finally
             {
@@ -313,9 +311,9 @@ namespace BankLoanSystem.DAL
                 else
                     return null;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
             finally
             {
@@ -364,9 +362,9 @@ namespace BankLoanSystem.DAL
                 else
                     return false;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
             finally
             {
@@ -415,9 +413,9 @@ namespace BankLoanSystem.DAL
                 else
                     return 0;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
             finally
             {
@@ -455,9 +453,9 @@ namespace BankLoanSystem.DAL
                 else
                     return null;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
             finally
             {
@@ -494,9 +492,9 @@ namespace BankLoanSystem.DAL
                 else
                     return 0;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
             finally
             {
