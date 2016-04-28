@@ -1628,7 +1628,8 @@ namespace BankLoanSystem.Controllers
         /// Update View answer in user request table
         /// </summary>
         /// <returns></returns>
-        public ActionResult editViewRequestAns()
+        [HttpPost]
+        public ActionResult UserRequestAns(User user)
         {
             int currentUserId;
 
