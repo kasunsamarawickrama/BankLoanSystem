@@ -13,7 +13,7 @@ namespace BankLoanSystem.Controllers.MessageReply
             List<Models.UserRequest> result = new List<Models.UserRequest>();
             UserRequest ob = new UserRequest();
             UserRequestAccess userreques = new UserRequestAccess();
-            result = userreques.SelectDatalistForAnswer(154);
+            result = userreques.SelectDatalistForAnswer();
             ob.RequestList = result;
             return View(ob);
         }
@@ -47,7 +47,7 @@ namespace BankLoanSystem.Controllers.MessageReply
             List<Models.UserRequest> result = new List<Models.UserRequest>();
             UserRequest ob = new UserRequest();
             UserRequestAccess userreques = new UserRequestAccess();
-            result = userreques.SelectDatalistForAnswer(154);
+            result = userreques.SelectDatalistForAnswer();
             ob.RequestList = result;
             return View(ob);
         }
