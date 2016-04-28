@@ -117,7 +117,7 @@
                                                         <div class="control-label col-sm-2 mLable">
                                                             @Html.LabelFor(model => model.AdvanceFeeDealerEmailRemindPeriod, htmlAttributes: new { })
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;"> 
+                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
                                                             @Html.EditorFor(model => model.AdvanceFeeDealerEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "advanceDealerEmailRemindPeriod", placeholder = "days" } })
 
                                                         </div>
@@ -316,33 +316,33 @@
                                             }
 
                                             @*<div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 mLable">
-                                                    @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @{
-                                                        List<SelectListItem> listItems5 = new List<SelectListItem>();
-                                                        listItems5.Add(new SelectListItem
-                                                        {
-                                                            Text = "Time of Advance",
-                                                            Value = "Time of Advance"
-                                                        });
-                                                        listItems5.Add(new SelectListItem
-                                                        {
-                                                            Text = "Once a Month",
-                                                            Value = "Once a Month"
-                                                        });
-                                                        listItems5.Add(new SelectListItem
-                                                        {
-                                                            Text = "Vehicle Payoff",
-                                                            Value = "Vehicle Payoff"
-                                                        });
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        @Html.LabelFor(model => model.MonthlyLoanDue, htmlAttributes: new { })
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @{
+                                                            List<SelectListItem> listItems5 = new List<SelectListItem>();
+                                                            listItems5.Add(new SelectListItem
+                                                            {
+                                                                Text = "Time of Advance",
+                                                                Value = "Time of Advance"
+                                                            });
+                                                            listItems5.Add(new SelectListItem
+                                                            {
+                                                                Text = "Once a Month",
+                                                                Value = "Once a Month"
+                                                            });
+                                                            listItems5.Add(new SelectListItem
+                                                            {
+                                                                Text = "Vehicle Payoff",
+                                                                Value = "Vehicle Payoff"
+                                                            });
 
-                                                    }
-                                                    @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control text_field_input short_text_field", onChange = "changeDropDownValueDueLoan();" })
-                                                    @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>*@
+                                                        }
+                                                        @Html.DropDownListFor(model => model.MonthlyLoanDue, listItems5, "-- select due type --", new { @id = "loanDue", @class = "form-control text_field_input short_text_field", onChange = "changeDropDownValueDueLoan();" })
+                                                        @Html.ValidationMessageFor(model => model.MonthlyLoanDue, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>*@
                                             <div id="monthLoan">
                                                 <div class="form-group new_form_group">
 
@@ -480,38 +480,38 @@
                                             }
 
                                             @*<div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 mLable">
-                                                    <label>Due Type</label>
-                                                </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @{
-                                                        List<SelectListItem> listItems3 = new List<SelectListItem>();
-                                                        listItems3.Add(new SelectListItem
-                                                        {
-                                                            Text = "Monthly",
-                                                            Value = "Monthly"
+                                                    <div class="control-label col-sm-2 mLable">
+                                                        <label>Due Type</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @{
+                                                            List<SelectListItem> listItems3 = new List<SelectListItem>();
+                                                            listItems3.Add(new SelectListItem
+                                                            {
+                                                                Text = "Monthly",
+                                                                Value = "Monthly"
 
-                                                        });
-                                                        listItems3.Add(new SelectListItem
-                                                        {
-                                                            Text = "Quaterly",
-                                                            Value = "Quaterly"
-                                                        });
-                                                        listItems3.Add(new SelectListItem
-                                                        {
-                                                            Text = "Annually",
-                                                            Value = "Annually"
-                                                        });
-                                                        listItems3.Add(new SelectListItem
-                                                        {
-                                                            Text = "Random",
-                                                            Value = "Random"
-                                                        });
-                                                    }
-                                                    @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control text_field_input short_text_field" })
-                                                </div>
-                                                <div class="err_msg_box  mErrMsgBox"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })</p></div>
-                                            </div>*@
+                                                            });
+                                                            listItems3.Add(new SelectListItem
+                                                            {
+                                                                Text = "Quaterly",
+                                                                Value = "Quaterly"
+                                                            });
+                                                            listItems3.Add(new SelectListItem
+                                                            {
+                                                                Text = "Annually",
+                                                                Value = "Annually"
+                                                            });
+                                                            listItems3.Add(new SelectListItem
+                                                            {
+                                                                Text = "Random",
+                                                                Value = "Random"
+                                                            });
+                                                        }
+                                                        @Html.DropDownListFor(model => model.LotInspectionDue, listItems3, new { @id = "lotDue", onChange = "changeDropDownValueDueLot();", @class = "form-control text_field_input short_text_field" })
+                                                    </div>
+                                                    <div class="err_msg_box  mErrMsgBox"><p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDue, "", new { @class = "text-danger" })</p></div>
+                                                </div>*@
 
                                             <div id="monthLot">
                                                 <div class="form-group new_form_group">
@@ -598,7 +598,7 @@
                                         </div>
                                     </div>
                                 </div>
-                              }
+                                                            }
 
 
                         </div>
@@ -972,7 +972,7 @@
             // for dropdown field
             //$('select').next('span').children('span').text('');
             document.getElementById('lotAmount').value = "";
-            $('#lotAmount').val("");           
+            $('#lotAmount').val("");
             $("#monthLot").show();
             $('#lot').show("slow");
         }
@@ -991,9 +991,11 @@
                 $('#advance').show("slow");
                 if(model.AdvanceDue == "Once a Month"){
                     $("#monthAdvance").show();
+                    $("#advanceFeeCalculateType").show();
                 }
                 else{
                     $("#monthAdvance").hide();
+                    $('#advanceFeeCalculateType').hide();
                     document.getElementById("advanceDueDate").value = "";
                 }
                 if(model.IsAdvanceFeeCompleteEmailReminder == true ){
@@ -1085,7 +1087,6 @@
                 document.getElementById("dropDownLoan").value = "2";
                 $('#loan').hide();
                 $("#monthLoan").hide();
-                $('#advanceFeeCalculateType').hide();
                 $('#remindEmailLoanComplete').hide();
                 $('#remindEmailLoanDue').hide();
                 document.getElementById("loanDueDate").value = "";
@@ -1533,17 +1534,17 @@
     // this is for helpers
 
     //$("#dropDownAdvance").click(function(){
-    
+
     //    $("#simplediv p").html('Advance fee was clicked');
     //});
 
     //$("#dropDownLoan").click(function(){
-    
+
     //    $("#simplediv p").html('Monthly Loan fee was clicked');
     //});
 
     //$("#LotInspectionId").click(function(){
-    
+
     //    $("#simplediv p").html('Lot Inspection fee was clicked');
     //});
 
