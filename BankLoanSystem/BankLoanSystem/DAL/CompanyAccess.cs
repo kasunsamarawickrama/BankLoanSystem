@@ -52,9 +52,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -95,9 +95,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -127,9 +127,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
             }
 
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -169,9 +169,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
         }
 
@@ -211,9 +211,9 @@ namespace BankLoanSystem.DAL
                     return "";
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
 
         }
@@ -269,9 +269,9 @@ namespace BankLoanSystem.DAL
 
                 return company;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -318,9 +318,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLWithReturnVal("spInsertCompany", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -484,11 +484,9 @@ namespace BankLoanSystem.DAL
                     }
                     return true;
                 }
-                catch (SqlException)
+                catch (Exception ex)
                 {
-
-                    return false;
-
+                    throw ex;
                 }
             }
         }
@@ -656,9 +654,9 @@ namespace BankLoanSystem.DAL
                         return false;
                     }
                 }
-                catch (SqlException)
+                catch (Exception ex)
                 {
-                    return false;
+                    throw ex;
                 }
             }
         }
@@ -815,11 +813,11 @@ namespace BankLoanSystem.DAL
                     tran.Commit();
                     return true;
                 }
-                catch (SqlException)
+                catch (SqlException ex)
                 {
                     tran.Rollback();
 
-                    return false;
+                    throw ex;
                 }
             }
         }
@@ -843,9 +841,9 @@ namespace BankLoanSystem.DAL
             if (!string.IsNullOrEmpty(company.CompanyAddress2))
             {
                 company.CompanyAddress2.Trim();
-                paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
+                
             }
-            
+            paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
             paramertList.Add(new object[] { "@stateId", company.StateId });
             paramertList.Add(new object[] { "@city", company.City.Trim() });
             paramertList.Add(new object[] { "@zip", company.Zip.Trim() });
@@ -877,9 +875,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spInsertNonRegisteredCompany", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
 
         }
@@ -927,9 +925,9 @@ namespace BankLoanSystem.DAL
 
                 return company;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -978,9 +976,9 @@ namespace BankLoanSystem.DAL
                     return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -1025,11 +1023,11 @@ namespace BankLoanSystem.DAL
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
             return nonRegCompanies;
         }
@@ -1078,9 +1076,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
 
         }

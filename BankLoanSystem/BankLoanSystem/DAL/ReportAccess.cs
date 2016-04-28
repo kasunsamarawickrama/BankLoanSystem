@@ -429,7 +429,7 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                
+                throw ex;
             }
 
             return AdvanceUnits;

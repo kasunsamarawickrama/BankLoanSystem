@@ -63,6 +63,7 @@ namespace BankLoanSystem.Controllers.Curtailments
         /// <returns></returns>
         public ActionResult PayCurtailments()
         {
+
             try
             {
                 lCode = Session["loanCode"].ToString();

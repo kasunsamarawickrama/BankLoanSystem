@@ -218,11 +218,11 @@ namespace BankLoanSystem.DAL
                     }
 
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return null;
+                    throw ex;
                 }
-                
+
             }
             return null;
         }
@@ -254,9 +254,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateTitleStatus", paramertList) ? true : false;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
     }

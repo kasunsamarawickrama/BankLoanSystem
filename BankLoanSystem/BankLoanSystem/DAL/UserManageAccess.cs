@@ -72,9 +72,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -95,9 +95,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spDeleteUser", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -126,9 +126,9 @@ namespace BankLoanSystem.DAL
                     return "";
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
         }
 
@@ -253,10 +253,10 @@ namespace BankLoanSystem.DAL
                     return 0;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
-            }            
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -284,10 +284,10 @@ namespace BankLoanSystem.DAL
                     return "";
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return "";
-            }            
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -331,9 +331,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }
