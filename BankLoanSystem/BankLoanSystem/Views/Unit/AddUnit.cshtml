@@ -5,17 +5,15 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
+@section AddToHead{
+    <link href="~/Content/addunit.css" rel="stylesheet" />
+}
+
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 
-<link rel="stylesheet" href="~/Content/commonActions.css">
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 
-<link href="~/Content/pikaday.css" rel="stylesheet" />
-<link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
@@ -31,87 +29,10 @@
 @*<script src="~/scripts/jquery-1.10.2.js"></script>*@
 @*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
 <script src="~/scripts/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
 
-<link href="~/Content/combo.css" rel="stylesheet" />
 <script src="~/scripts/combo.js"></script>
 
 
-<style type="text/css">
-    .validation-summary {
-        display: none;
-    }
-        .validation-summary.validation-summary-errors {
-            display: block;
-        }
-
-    .ui-state-default {
-        background: none;
-        background-color: white;
-    }
-
-   
-    .field-validation-error{
-        left: 7%;
-    }
-    .validation-error {
-        z-index: 10001;
-        font-weight: bold;
-        position: absolute;
-        font-size: 12px;
-    }
-
-    .form-horizontal .control-label {
-        text-align: left;
-        padding-left: 48px;
-        font-size: 14px;
-    }
-
-    .ui-state-hover{
-        font-size:12px;
-    }
-    .ui-autocomplete {
-        font-size:12px;
-        text-align:left;
-        max-height: 500px;
-        overflow-y: auto; /* prevent horizontal scrollbar */
-        overflow-x: hidden; /* add padding to account for vertical scrollbar */
-        z-index: 10005 !important;
-    }
-    .ui-tooltip
-{
-    font-size:12px;
-    font-family:Calibri;
-}
-
-    .custom-combobox-input {
-        text-transform: capitalize;
-        width: 129px;
-        height: 29px;
-    }
-    .trim {
-        text-transform: capitalize;
-    }
-    .cap {
-        text-transform: uppercase;
-    }
-
-    input[type='file'] {
-  color: transparent;
-}
-    .rad-style{
-       padding-top:8px;
-       font-size:14px;
-    }
-  
-    .col-sm-4{
-        text-align:left;
-    }
-    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
-        padding-left:2px;
-    }
-
-</style>
 
     
         @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });

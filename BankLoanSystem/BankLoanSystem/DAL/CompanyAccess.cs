@@ -247,24 +247,24 @@ namespace BankLoanSystem.DAL
 
                 company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
                 company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-                company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
+                company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
+                company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
                 company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-                company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-                company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
+                company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
 
                 string[] zipWithExtention = company.Zip.Split('-');
 
                 if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
                 if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
-                company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
+                company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
+                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
+                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
+                company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
                 company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
 
                 return company;
@@ -1001,24 +1001,24 @@ namespace BankLoanSystem.DAL
                            
                             Company company = new Company();
                             company.CompanyId = Convert.ToInt32(dsCompany.Tables[0].Rows[0]["company_id"]);
-                            company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                            company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-                            company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-                            company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
+                            company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString().Trim();
+                            company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
+                            company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
+                            company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
                             company.StateId = Convert.ToInt32(dsCompany.Tables[0].Rows[0]["stateId"]);
-                            company.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-                            company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
+                            company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
+                            company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
 
                             string[] zipWithExtention = company.Zip.Split('-');
 
                             if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
                             if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                            company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-                            company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-                            company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-                            company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-                            company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                            company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
+                            company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
+                            company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                            company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                            company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
 
                             nonRegCompanies.Add(company);
                         }

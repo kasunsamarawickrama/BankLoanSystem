@@ -3,10 +3,77 @@
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
 
-<link rel="stylesheet" href="~/Content/commonActions.css">
+@*<link rel="stylesheet" href="~/Content/commonActions.css">
 <link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />*@
+
+@section AddToHead{
+   <style>
+    img {
+        border: none;
+    }
+
+    #thumbnail img {
+        cursor: pointer;
+    }
+
+    #large {
+        display: none;
+        position: absolute;
+        background: #FFFFFF;
+        padding: 5px;
+        z-index: 10;
+        min-height: 200px;
+        min-width: 200px;
+        color: #336699;
+    }
+
+    #background {
+        display: none;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: #000000;
+        z-index: 1;
+    }
+
+      #checkableGridDiv table tbody,
+#checkableGridDiv table thead { display: block; }
+
+#checkableGridDiv table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.right-panel>.side-panel{
+    margin-top: 10px;
+}
+.col-md-2{
+    text-align:left;
+}
+ .gridtable {
+
+        width: 97.5%;
+        
+    }
+ input[type="button"]:disabled { background-color: #d9d9d9; cursor: default; } 
+
+ #searchDiv .col-md-2{
+     width: 17%;
+    padding: unset;
+    padding-left: 13px;
+ }
+ /*.popup9 > fieldset > div{
+     display: inline-block;
+
+ }*/
+</style>
+
+}
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -60,72 +127,10 @@
 
 	});
     </script>
-    <style>
-        img {
-            border: none;
-        }
-
-        #thumbnail img {
-            cursor: pointer;
-        }
-
-        #large {
-            display: none;
-            position: absolute;
-            background: #FFFFFF;
-            padding: 5px;
-            z-index: 10;
-            min-height: 200px;
-            min-width: 200px;
-            color: #336699;
-        }
-
-        #background {
-            display: none;
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            background: #000000;
-            z-index: 1;
-        }
-    </style>
+    
 </head>
 
-<style type="text/css">
-    #checkableGridDiv table tbody,
-#checkableGridDiv table thead { display: block; }
 
-#checkableGridDiv table tbody {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.right-panel>.side-panel{
-    margin-top: 10px;
-}
-.col-md-2{
-    text-align:left;
-}
- .gridtable {
-
-        width: 97.5%;
-        
-    }
- input[type="button"]:disabled { background-color: #d9d9d9; cursor: default; } 
-
- #searchDiv .col-md-2{
-     width: 17%;
-    padding: unset;
-    padding-left: 13px;
- }
- /*.popup9 > fieldset > div{
-     display: inline-block;
-
- }*/
-</style>
 
 
 

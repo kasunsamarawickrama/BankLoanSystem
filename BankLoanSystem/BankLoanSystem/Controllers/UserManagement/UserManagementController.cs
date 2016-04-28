@@ -2031,7 +2031,7 @@ namespace BankLoanSystem.Controllers
                 }
 
                 RoleAccess ra = new RoleAccess();
-                List<UserRole> roleList = ra.GetAllUserRoles();
+                List<UserRole> roleList = ra.GetAllUserRoles(userData.Company_Id);
                 List<UserRole> tempRoleList = new List<UserRole>();
 
                 for (int i = 0; i < roleList.Count; i++)
@@ -2040,10 +2040,10 @@ namespace BankLoanSystem.Controllers
                     {
                         continue;
                     }
-                    if (roleList[i].RoleId == 4)
-                    {
-                        continue;
-                    }
+                    //if (roleList[i].RoleId == 4)
+                    //{
+                    //    continue;
+                    //}
                     UserRole tempRole = new UserRole()
                     {
                         RoleId = roleList[i].RoleId,

@@ -22,21 +22,7 @@
     </div>
 
 </div>
-<style>
-    #squares div {
-    /* these styles will let the divs line up next to each other
-       while accepting dimensions */
-    display: block;
-    float: left;
 
-    width: 120px;
-    height: 120px;
-    background: green;
-
-    /* a small margin to separate the blocks */
-    margin-right: 5px;
-}
-</style>
 
     @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
@@ -302,7 +288,8 @@
                  </button>
                 }*@
 
-                if (ViewBag.LoanCount > 0)
+            if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 1)
+                        
                 {
                     using (Ajax.BeginForm(
                           "Selectloan",

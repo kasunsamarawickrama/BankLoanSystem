@@ -1928,11 +1928,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loan = new LoanSetupAccess();
             //fee.LoanId = loan.getLoanIdByUserId(userId);
             fee.LoanId = loanData.loanId;
-            
-            if (loanData.stepId > 3) {
+
+            if (loanData.stepId > 3)
+            {
                 ViewBag.isEdit = "editable";
                 var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
-                if (hasLoan.LotInspectionAmount == 0)
+                if (hasLoan.AdvanceAmount == 0)
                 {
                     hasLoan.AdvanceId = "2";
                 }
@@ -2013,7 +2014,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     feeNew.isEdit = false;
                     var email = loan.getAutoRemindEmailByLoanId(feeNew.LoanId);
-                    if (email != null) { 
+                    if (email != null)
+                    {
                         feeNew.AdvanceDueEmail = email;
                         feeNew.MonthlyLoanDueEmail = email;
                         feeNew.LotInspectionDueEmail = email;
@@ -2126,10 +2128,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return RedirectToAction("Step9");
                 }
-                else if (step.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
+                else if (step.UpdateLoanSetupStep(userData.UserId, loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
-                    
-                    if (loanData.stepId < 4) {
+
+                    if (loanData.stepId < 4)
+                    {
                         loanData.stepId = 4;
                         Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, fees.LoanId, "Fees", "Inserted fees details of loan : " + fees.LoanId, DateTime.Now);
 

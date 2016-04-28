@@ -7,9 +7,11 @@
 
     <!-- Bootstrap core CSS -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
+  
 
     <style>
         .input-validation-error {
@@ -27,6 +29,25 @@
         .input-validation-error {
             border: 1px solid #ff0000;
         }
+
+
+        .overlay-content {
+        top: 14%;
+        width: 600px;
+        text-align: center;
+    }
+
+    .validation-summary {
+        display: none;
+    }
+
+        .validation-summary.validation-summary-errors {
+            display: block;
+        }
+
+            .validation-summary.validation-summary-errors > ul {
+                display: none;
+            }
     </style>
 </head>
 
