@@ -93,7 +93,7 @@ namespace BankLoanSystem.DAL
                         fee.Amount = Convert.ToDecimal(dataRow["amount"].ToString());
                         fee.Description = dataRow["description"].ToString();
                         fee.BillDueDate = Convert.ToDateTime(dataRow["bill_due_date"].ToString());
-                        fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
+                        fee.FeeDueDate = Convert.ToDateTime(dataRow["due_date"].ToString());
 
                         if (type == "advanceFee")
                         {
@@ -117,6 +117,8 @@ namespace BankLoanSystem.DAL
                                     fee.Model = info[4];
                                 }
                             }
+                            //fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                            fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
                         }
                         lstFee.Add(fee);
                     }

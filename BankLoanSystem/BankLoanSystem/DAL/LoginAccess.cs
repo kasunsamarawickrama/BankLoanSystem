@@ -39,9 +39,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.GetDataSet("spUserLogin", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -126,9 +126,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.GetDataSet("spGetDealerUserCompanyBranch", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

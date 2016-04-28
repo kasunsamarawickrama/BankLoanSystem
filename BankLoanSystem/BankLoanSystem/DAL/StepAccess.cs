@@ -191,9 +191,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.GetDataSet("spCheckUserLoginWhileCompanySetup1", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -213,9 +213,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.GetDataSet("spCheckUserLoginWhileCompanySetup2", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -236,9 +236,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.GetDataSet("spCheckUserLoginWhileLoanSetup", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         
@@ -295,7 +295,6 @@ namespace BankLoanSystem.DAL
                 catch (Exception ex)
                 {
                     throw ex;
-
                 }
             }
         }
@@ -407,9 +406,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateCompanySetupStep", paramertList) ? true : false;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -440,9 +439,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateLoanSetupStep_kas", paramertList) ? true : false;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 

@@ -358,6 +358,40 @@
 </div>
 
 <script>
+    $('#txtCurrentPassword').change(function(){
+        var uid = $("#hdnUserId3").val();
+        var pwd = $("#txtCurrentPassword").val();
+
+        $.ajax({
+            url: '/UserManagement/CheckPasswd/',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({userId:uid,Cpwd:pwd }),
+            success: function (data) {
+                //alert(data);
+                if(data==0){
+                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("Current password does not match with the selected user");
+                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                    $('#txtCurrentPassword').addClass('input-validation-error');
+                }
+                if(data==1){
+                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("");
+                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                    $('#txtCurrentPassword').removeClass('input-validation-error');
+                }
+            },
+            error: function (reponse) {
+                //alert(data);
+            }
+        });
+    });
+
+    $('#btnUpdateUser').click(function(e){
+        if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
+            e.preventDefault();
+        }
+    
+    });
    
     $('#txtCurrentPassword').focusout(function () {
         $(this).attr('placeholder', 'Type Current Password');

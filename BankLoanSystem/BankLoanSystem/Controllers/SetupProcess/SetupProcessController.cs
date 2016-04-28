@@ -57,6 +57,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             
                             Session["isInterest"] = _loan.isInterestCalculate;
                         }
+                        else if (loanData.loanId == 0)
+                        {
+                            loanstep = 1;
+                            //CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+
+
+                            // _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+
+                            // Session["isInterest"] = _loan.isInterestCalculate;
+                        }
                     }
                 }
                 else

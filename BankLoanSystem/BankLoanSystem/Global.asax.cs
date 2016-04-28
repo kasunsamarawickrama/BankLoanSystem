@@ -25,15 +25,31 @@ namespace BankLoanSystem
 
         }
 
+        /// <summary>
+        /// CreatedBy : Nadeeka
+        /// CreatedDate: 04/28/2016
+        /// 
+        /// Insert error details to log file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
             Response.Clear();
 
-            //HttpException httpException = exception as HttpException;
-
             ErrorPageController errorController = new ErrorPageController();
-            errorController.InsertRecordToLogFile(DateTime.Now.ToString("MM-dd-yyyy"), exception.StackTrace, exception.Message);            
+            // Log the exception in text file
+            errorController.InsertRecordToLogFile(DateTime.Now.ToString("MM-dd-yyyy"), exception.StackTrace, exception.Message);
+
+            Response.Write("Page Error\n");
+            Response.Write(exception.Message + "\n");
+            //Response.Write("Return to the <a href='/UserManagement/UserDetails'>" + "Dashboard</a>\n");
+            Response.Write(exception.StackTrace + "\n");
+           
+            // Clear the error from the server
+            Server.ClearError();
+           
         }
 
             //protected void Application_BeginRequest(object sender, EventArgs e)

@@ -28,10 +28,10 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spGetUserLevelByUserId", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
-            }         
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spGetLoanCount", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
 
 
@@ -178,9 +178,9 @@ namespace BankLoanSystem.DAL
                 return null;
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -222,11 +222,10 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQLReturn("spInsertDashboardUserDetails", paramertList);
 
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
-           // return 1;
         }
     }
 }
