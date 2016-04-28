@@ -331,7 +331,7 @@
                                                 <label class="new_label_style">How many days prior to the Maturity Date should the renewal reminder be sent?</label>
                                             </div>
                                             <div class="col-xs-4 new_text_field">
-                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" } })
+                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" , min = 1 } })
 
                                             </div>
                                             <div class="err_msg_box">
