@@ -27,7 +27,7 @@
                          grid1.Column("Year", "Year", canSort: false, style: "gridColumnSearch", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                          grid1.Column("Make", "Make", canSort: false, style: "gridColumnSearch", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                          grid1.Column("Model", "Model", canSort: false, style: "gridColumnSearch", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                         grid1.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnSearch", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
+                         grid1.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnSearch", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.FeeDueDate.ToShortDateString()</label>}</text>),
                         grid1.Column("Amount", "Fee-Amount ($)", canSort: false, style: "gridColumnSearchAlign", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.Amount).ToString("#,##0.00")</label>}</text>)
                      
                  )
