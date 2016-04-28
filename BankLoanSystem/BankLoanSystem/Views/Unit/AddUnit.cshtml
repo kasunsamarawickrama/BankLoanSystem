@@ -146,7 +146,7 @@
 
                                         @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox1-1" })
                                         @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger"></span></div>
+                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -159,9 +159,8 @@
 
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         </div>
-                                        <div id="vehiclemake" class="validation-error"><span class="text-danger"></span></div>
-                                    </div>
-
+                                        <div id="vehiclemake" class="validation-error"><span class="text-danger ma"></span></div>
+                                  </div>
                                 </div>
 
                                 <div class="form-group">
@@ -173,7 +172,7 @@
                                                 @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger"})
-                                            <div id="vehiclemodel" class="validation-error"><span class="text-danger"></span></div>
+                                            <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
                                         </div>
 
                                     <label class="control-label col-md-2">
@@ -284,7 +283,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox2-1" })
                                         @Html.ValidationMessageFor(model => model.rv.Year, "", new { @class = "text-danger" })
-                                        <div id="rvyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="rvyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -366,7 +365,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox3-1" })
                                         @Html.ValidationMessageFor(model => model.camper.Year, "", new { @class = "text-danger" })
-                                        <div id="camperyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="camperyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -474,7 +473,7 @@
 
                                         @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox4-1" })
                                         @Html.ValidationMessageFor(model => model.atv.Year, "", new { @class = "text-danger" })
-                                        <div id="atvyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="atvyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -545,7 +544,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox5-1" })
                                         @Html.ValidationMessageFor(model => model.boat.Year, "", new { @class = "text-danger" })
-                                        <div id="boatyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="boatyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.boat.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -612,7 +611,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox6-1" })
                                         @Html.ValidationMessageFor(model => model.motorcycle.Year, "", new { @class = "text-danger" })
-                                        <div id="motorcycleyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="motorcycleyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -695,7 +694,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox7-1" })
                                         @Html.ValidationMessageFor(model => model.snowmobile.Year, "", new { @class = "text-danger" })
-                                        <div id="snowmobileyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="snowmobileyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -756,7 +755,7 @@
 
                                         @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
                                         @Html.ValidationMessageFor(model => model.heavyequipment.Year, "", new { @class = "text-danger" })
-                                        <div id="heavyequipmentyear" class="validation-error"><span class="text-danger"></span></div>
+                                        <div id="heavyequipmentyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -781,7 +780,7 @@
                                 <div class="col-md-3">
                                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style= "left: 1%;" })
-                                    <div id="tagscloud" class="validation-error"><span class="text-danger"></span></div>
+                                    <div id="tagscloud" class="validation-error"><span class="text-danger co"></span></div>
                                 </div>
 
                                 @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })
@@ -795,7 +794,7 @@
                                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
-                                                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger"></span></div>
+                                                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
                                 </div>
                             </div>
 
@@ -1097,10 +1096,41 @@
                             if(data == 0){
                                // $('.centered span').text('Error');
                                 $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
-
+                                middleSpanCheck();
                             }else if(data == 1){
                               //  $('.centered span').text('Error');
                                 $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
+                                middleSpanCheck();
+                            }
+                            else if(data == 2){
+                                showPopup(8);
+                            }
+                            else{
+                                $('.vinCheck').text("");
+                                middleSpanCheck();
+                            }
+                        },
+                        error: function (reponse) {
+                        }
+                    });
+
+                });
+                $('.vinUnique').focusout(function(){
+                    $.ajax({
+                        url: '/Unit/IsVinExists',
+                        type: 'POST',
+                        contentType: 'application/json;',
+                        data: JSON.stringify({identificationNumber :$(this).val()}),
+                        success: function (data) {
+                            //alert(data);
+                            if(data == 0){
+                                // $('.centered span').text('Error');
+                                $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
+                                middleSpanCheck();
+                            }else if(data == 1){
+                                //  $('.centered span').text('Error');
+                                $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
+                                middleSpanCheck();
                             }
                             else if(data == 2){
                                 showPopup(8);
@@ -1263,7 +1293,7 @@
                     }
                     else{
                         $(span).text("");
-                        $('.centered span').text('');
+                        //$('.centered span').text('');
                         middleSpanCheck();
                         }
                     }
@@ -1279,7 +1309,7 @@
                     else if(len == 0){
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
-                        $('.centered span').text('');
+                        //$('.centered span').text('');
                         middleSpanCheck();
 
                     }
@@ -1352,9 +1382,9 @@
                 }
 
 
-                $('#vehicleVin').keypress(function(e){
-
-
+                $('.vinUnique').focus(function(){
+                    $('.vinCheck').text("");
+                    middleSpanCheck();
                 });
 
                 // mouseleave for check vin number and bind year to year text box
@@ -1382,6 +1412,7 @@
                                     document.getElementById('editor1-1').value = year;
                                     //GetMakes($('#combobox1-1'),'#combobox1-2',1);
                                     yearx = year;
+                                    $('.y').text("");
 
                                     $.ajax({
                                         url: '/Unit/GetMakeByVin',
@@ -1396,6 +1427,7 @@
                                                 //GetMakes($('#combobox1-1'),'#combobox1-2',1);
                                                 makex = make;
                                                 //alert(makex);
+                                                $('.ma').text("");
                                             }else{
                                                 $('#combobox1-2').next().children('input').val("");
                                                 document.getElementById('editor1-2').value = "";
@@ -1415,6 +1447,7 @@
                                                             $('#combobox1-3').next().children('input').val(model);
                                                             document.getElementById('editor1-3').value = model;
                                                             //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                                            $('.mo').text("");
                                                         }else{
                                                             $('#combobox1-3').next().children('input').val("");
                                                             document.getElementById('editor1-3').value = "";
@@ -1478,6 +1511,7 @@
                                     $('#combobox2-1').next().children('input').val(year);
                                     document.getElementById('editor2-1').value = year;
                                     //GetMakes($('#combobox2-1'),'#combobox2-2',2);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1525,6 +1559,7 @@
                                     $('#combobox3-1').next().children('input').val(year);
                                     document.getElementById('editor3-1').value = year;
                                     //GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1571,6 +1606,7 @@
                                     $('#combobox4-1').next().children('input').val(year);
                                     document.getElementById('editor4-1').value = year;
                                     //GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1617,6 +1653,7 @@
                                     $('#combobox5-1').next().children('input').val(year);
                                     document.getElementById('editor5-1').value = year;
                                     //GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1664,6 +1701,7 @@
                                     $('#combobox6-1').next().children('input').val(year);
                                     document.getElementById('editor6-1').value = year;
                                     //GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1710,6 +1748,7 @@
                                     $('#combobox7-1').next().children('input').val(year);
                                     document.getElementById('editor7-1').value = year;
                                     //GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                                    $('.y').text("");
                                 }
 
                             },
@@ -1898,6 +1937,16 @@
                     $('.centered span').text('');
 
                     $('.vinCheck').text('');
+
+                    // reset the form
+        // for all input field
+        $('input').next('span').children('span').text('');
+        $('input').removeClass('valid');
+        // for dropdown field
+        $('select').next('span').children('span').text('');
+        $('select').removeClass('valid');
+
+        $('.new_err_msg').children("span").text("");
 
                 };
                 // vin key press key block validation with 17 charactors and Miles 10 charactors
@@ -2204,7 +2253,9 @@
                         //$("#tagscloudAdvance span").fadeOut();
                         $('#txtAdvanceAmount').removeClass('input-validation-error');
                         $("#tagscloudAdvance span").text("");
-                        $(this).val(num);
+                        if(num != 0){
+                            $(this).val(num);
+                        }                       
 
                         var advanceAmount = (advancePt * num) / 100;
 
@@ -2340,12 +2391,18 @@
                         $(this).attr('placeholder', 'MM/DD/YYYY');
                 });
 
+                
                 $('#btnSubmit').click(function(e) {
 
                     var unitType = document.getElementById("unitType").value;
                     var cost = document.getElementById("txtCost").value;
                     var advance = document.getElementById("txtAdvanceAmount").value;
-
+                    if( $('.vinCheck').text().length > 0){
+                        if (cost =="" || advance == "") {
+                        } else {
+                            e.preventDefault();
+                        }                      
+                    }
                     if (unitType == "1") {
                         var vin = document.getElementById("vehicleVin").value;
                         var trim = document.getElementById("vehicletrim").value;
@@ -2358,6 +2415,7 @@
                             $('.centered span').text('Error');
                             if (vin == "" || cost =="" || advance == "" ) {
                             } else {
+                                
                                 e.preventDefault();
                             }
                         }
@@ -2368,6 +2426,7 @@
                             $('.centered span').text('Error');
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
+                                
                                 e.preventDefault();
                             }
                         }
@@ -2643,9 +2702,7 @@
                     } else {
                        
                     }
-                    if( $('.vinCheck').text().length > 0){
-                        e.preventDefault();
-                    }
+                    
                 });
 
 
@@ -2767,7 +2824,8 @@
                 });
 
                 function middleSpanCheck(){
-                    if ($('input').next('span').children('span').text().length > 1) {
+                    if ($('input').next('span').children('span').text().length > 1 || $('.vinCheck').text()) {
+                        
                         $('.centered span').text('Error');
                     }
                     //else if ($('.vinCheck').text().length > 0) {

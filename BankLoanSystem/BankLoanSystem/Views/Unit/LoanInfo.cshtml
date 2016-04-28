@@ -235,25 +235,23 @@
         //});
         $(document).on("blur", "input", function () {
             var isError = false;
-            //$('.centered span').text('');
-            if ($('input').next('span').children('span').text().length > 0) {
+
+            if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
+                
                 $('.centered span').text('Error');
                 isError = true;
             }
-            //else if ($(this).siblings().next('span').children('span').length === 0) {
+ 
 
+
+            //$.each($('input').next('span'), function (i, obj) {
+            //    if ($(obj).children('span').length > 0) {
+            //        isError = true;
+            //    }
+            //});
+            //if ($('input').next('span').children('span').text().length <= 0) {
             //    $('.centered span').text('');
             //}
-
-
-            $.each($('input').next('span'), function (i, obj) {
-                if ($(obj).children('span').length > 0) {
-                    isError = true;
-                }
-            });
-            if ($('input').next('span').children('span').text().length <= 0) {
-                $('.centered span').text('');
-            }
 
             @if(ViewBag.Title == "Advance Unit") {
                 <text>
@@ -273,8 +271,9 @@
                 //    $('.centered span').text('Error');
                 //    isError = true;
                 //}
-                if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text()) {
+                if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text() || $('.vinCheck').text() || $('.co').text() || $('.ad').text()) {
                     $('.centered span').text('Error');
+                    
                     isError = true;
                 } else {
                     isError = false;
@@ -328,11 +327,14 @@
 
 
 
+            //alert("ok");
 
-
-            $('.centered span').text('Error');
+            //$('.centered span').text('Error');
             if (isError === false)
                 $('.centered span').text('');
+            else
+                $('.centered span').text('Error');
+
         });
     });
 
