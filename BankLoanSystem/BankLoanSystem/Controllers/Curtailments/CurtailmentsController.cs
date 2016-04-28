@@ -63,16 +63,11 @@ namespace BankLoanSystem.Controllers.Curtailments
         /// <returns></returns>
         public ActionResult PayCurtailments()
         {
+            if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
 
-            try
-            {
-                lCode = Session["loanCode"].ToString();
-            }
-            catch (Exception)
-            {
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-            }
+            lCode = Session["loanCode"].ToString();
+
             if (userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
@@ -153,24 +148,13 @@ namespace BankLoanSystem.Controllers.Curtailments
         [HttpPost]
         public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
         {
+            if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
+                return null;
 
-
-            //dynamic stuff = JsonConvert.DeserializeObject(Request["SelectedCurtailmentScheduleInfoModel"]);
-
-            //dynamic obj = serializer.Deserialize(, typeof(object));
             int userId = userData.UserId;
             string loanCode;
             
-            try
-            {
-                loanCode = Session["loanCode"].ToString();
-            }
-            catch (Exception)
-            {
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return null;
-            }
-
+            loanCode = Session["loanCode"].ToString();            
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
@@ -215,9 +199,6 @@ namespace BankLoanSystem.Controllers.Curtailments
         /// <returns></returns>
         public ActionResult SearchCurtailment(string identificationNumber, string year, string make, string vehicleModel , CurtailmentScheduleModel CurtailmentList)
         {
-
-
-
             List<CurtailmentShedule> SearchList = new List<CurtailmentShedule>();
             
             

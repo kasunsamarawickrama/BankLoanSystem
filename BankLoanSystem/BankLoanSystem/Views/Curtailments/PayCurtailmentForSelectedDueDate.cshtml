@@ -609,6 +609,7 @@
 
             $(document).on('click', 'tbody', (function (e) {
                 var target = $(e.target);
+               
                 if (target.parents('#checkableGrid').length) {
 
                     var $td = $(e.target).closest("td");
@@ -618,7 +619,7 @@
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
                     ClearLabelMessages();
-
+                    
                     if (ColIndex != 0) {
 
                         var checked = row.find("#all").prop('checked');
@@ -636,10 +637,10 @@
                             if (checkCount == 1) {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
                             }
-                            else {
-                                SetRadioBtnHeaderChecked();
+                            else {                               
                                 ClearTextBoxValues();
                             }
+                            SetRadioBtnHeaderChecked();
                             document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
