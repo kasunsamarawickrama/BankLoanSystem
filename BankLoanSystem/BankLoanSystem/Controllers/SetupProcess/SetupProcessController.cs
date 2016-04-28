@@ -1959,25 +1959,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     hasLoan.LoanId = fee.LoanId;
                     hasLoan.isEdit = true;
-                    hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
-                    hasLoan.IsLoanFeeCompleteEmailReminder = false;
-                    hasLoan.IsLotFeeCompleteEmailReminder = false;
+                    //hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
+                    //hasLoan.IsLoanFeeCompleteEmailReminder = false;
+                    //hasLoan.IsLotFeeCompleteEmailReminder = false;
                     hasLoan.IsAdvanceFeeDueEmailReminder = false;
                     hasLoan.IsLoanFeeDueEmailReminder = false;
                     hasLoan.IsLotFeeDueEmailReminder = false;
 
-                    if (hasLoan.AdvanceFeeDealerEmail != "")
-                    {
-                        hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
-                    }
-                    if (hasLoan.MonthlyLoanFeeDealerEmail != "")
-                    {
-                        hasLoan.IsLoanFeeCompleteEmailReminder = true;
-                    }
-                    if (hasLoan.LotInspectionFeeDealerEmail != "")
-                    {
-                        hasLoan.IsLotFeeCompleteEmailReminder = true;
-                    }
+                    //if (hasLoan.AdvanceFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
+                    //}
+                    //if (hasLoan.MonthlyLoanFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsLoanFeeCompleteEmailReminder = true;
+                    //}
+                    //if (hasLoan.LotInspectionFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsLotFeeCompleteEmailReminder = true;
+                    //}
                     if (hasLoan.AdvanceDueEmail != "")
                     {
                         hasLoan.IsAdvanceFeeDueEmailReminder = true;
@@ -2020,9 +2020,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         feeNew.MonthlyLoanDueEmail = email;
                         feeNew.LotInspectionDueEmail = email;
                     }
-                    feeNew.IsAdvanceFeeCompleteEmailReminder = false;
-                    feeNew.IsLotFeeCompleteEmailReminder = false;
-                    feeNew.IsLoanFeeCompleteEmailReminder = false;
+                    //feeNew.IsAdvanceFeeCompleteEmailReminder = false;
+                    //feeNew.IsLotFeeCompleteEmailReminder = false;
+                    //feeNew.IsLoanFeeCompleteEmailReminder = false;
                     feeNew.IsAdvanceFeeDueEmailReminder = false;
                     feeNew.IsLotFeeDueEmailReminder = false;
                     feeNew.IsLoanFeeDueEmailReminder = false;
@@ -2082,21 +2082,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.MonthlyLoanDueDate = "ToA";
             }
-            if (fees.IsAdvanceFeeCompleteEmailReminder == false)
-            {
-                fees.AdvanceFeeDealerEmail = "";
-                fees.AdvanceFeeDealerEmailRemindPeriod = 0;
-            }
-            if (fees.IsLoanFeeCompleteEmailReminder == false)
-            {
-                fees.MonthlyLoanFeeDealerEmail = "";
-                fees.MonthlyLoanFeeDealerEmailRemindPeriod = 0;
-            }
-            if (fees.IsLotFeeCompleteEmailReminder == false)
-            {
-                fees.LotInspectionFeeDealerEmail = "";
-                fees.LotInspectionFeeDealerEmailRemindPeriod = 0;
-            }
+            //if (fees.IsAdvanceFeeCompleteEmailReminder == false)
+            //{
+            //    fees.AdvanceFeeDealerEmail = "";
+            //    fees.AdvanceFeeDealerEmailRemindPeriod = 0;
+            //}
+            //if (fees.IsLoanFeeCompleteEmailReminder == false)
+            //{
+            //    fees.MonthlyLoanFeeDealerEmail = "";
+            //    fees.MonthlyLoanFeeDealerEmailRemindPeriod = 0;
+            //}
+            //if (fees.IsLotFeeCompleteEmailReminder == false)
+            //{
+            //    fees.LotInspectionFeeDealerEmail = "";
+            //    fees.LotInspectionFeeDealerEmailRemindPeriod = 0;
+            //}
             if (fees.IsAdvanceFeeDueEmailReminder == false)
             {
                 fees.AdvanceDueEmail = "";
