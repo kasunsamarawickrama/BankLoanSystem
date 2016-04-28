@@ -177,12 +177,13 @@ namespace BankLoanSystem.Models
         public string Make { get; set; }
         public string Model { get; set; }
         public string DueDate { get; set; }
+        public DateTime FeeDueDate { get; set; }
 
     }
 
     public class FeesModel
     {
-        public string DueDate { get; set; }
+        //public string DueDate { get; set; }
         public DateTime FeePayDate { get; set; }
         public List<Fees> FeeModelList { get; set; }
 
@@ -194,6 +195,7 @@ namespace BankLoanSystem.Models
         public decimal Amount { get; set; }
         public string Type { get; set; }
         public DateTime AdvanceDate { get; set; }
+        public DateTime FeeDueDate { get; set; }
         public string Description { get; set; }
     }
 
