@@ -98,9 +98,9 @@ namespace BankLoanSystem.DAL
                     return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -140,9 +140,9 @@ namespace BankLoanSystem.DAL
                 }
                 return countVal;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -181,9 +181,9 @@ namespace BankLoanSystem.DAL
 
                 return countVal;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -415,10 +415,10 @@ namespace BankLoanSystem.DAL
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
-            } 
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -473,9 +473,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spInsertTitleDocumentDetails", parameterList) ? true : false;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -895,8 +895,9 @@ namespace BankLoanSystem.DAL
                 dataHandler.ExecuteSQL("spDeleteJustAddedUnit", parameterList);
 
             }
-            catch
+            catch (Exception ex)
             {
+                throw ex;
             }
         }
 
@@ -1151,9 +1152,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -1337,11 +1338,11 @@ namespace BankLoanSystem.DAL
 
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
-                
+
         }
 
         public int insertFreeDetailsForAdvance(Unit unit,int loanID)
@@ -1437,9 +1438,9 @@ namespace BankLoanSystem.DAL
 
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
 
         }
@@ -1491,9 +1492,9 @@ namespace BankLoanSystem.DAL
                 }
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
 
         }
@@ -1592,7 +1593,7 @@ namespace BankLoanSystem.DAL
             }
             catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
         /// <summary>
@@ -1696,9 +1697,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

@@ -47,9 +47,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -90,9 +90,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -118,9 +118,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spUpdateRightsStringByUserId", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -153,12 +153,10 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
-
-            //return resltList;
         }
     }
 }
