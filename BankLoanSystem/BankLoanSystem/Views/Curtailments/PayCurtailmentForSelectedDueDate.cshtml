@@ -959,7 +959,7 @@
     });
 
     payPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-    payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+   // payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
     $("#payDate").val("");
     payPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
 
@@ -981,7 +981,7 @@
     });
 
     payCurtPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-    payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    //payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
     $("#payCurtDate").val("");
     payCurtPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
 
@@ -1074,8 +1074,8 @@
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-            if (selectedDate < minDate || selectedDate > maxDate) {
+           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate) {
                 // out off range error
                 $('#errorPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
@@ -1122,8 +1122,8 @@
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-            if (selectedDate < minDate || selectedDate > maxDate) {
+           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate) {
                 // out off range error
                 $('#errorCurtPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');

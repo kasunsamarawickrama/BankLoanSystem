@@ -135,7 +135,7 @@
             }
         });
         startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-        startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+        //startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
         $("#dueDate").val('@dateTime.ToString("d")');
 
 
@@ -160,7 +160,7 @@
                 var selectedDate = new Date($(this).val());
                 var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
                 var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-                if (selectedDate < minDate || selectedDate > maxDate) {
+                if (selectedDate < minDate) {
                     // out off range error
                     $('#errorDueDate').text('Out of Range');
                     $(this).addClass('input-validation-error');
