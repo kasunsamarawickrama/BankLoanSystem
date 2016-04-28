@@ -3,16 +3,16 @@
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
-<link href="~/Content/pikaday.css" rel="stylesheet" />
+@*<link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />*@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
-
+@*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
+@section AddToHead{
 <style>
     .col-md-2 {
     text-align: left;
@@ -62,9 +62,9 @@
     }
     .next_back:hover{ background:#AD2121;}
     .dsh-name > h3{
-        color:#B50C0C;
+        color:#BB2D2D;
     }
-</style>
+</style>}
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Delete Unit";
