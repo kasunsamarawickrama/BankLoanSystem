@@ -100,17 +100,17 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        public List<UserRequest> SelectDatalistForAnswer(int userid)
+        public List<UserRequest> SelectDatalistForAnswer()
         {
             try
             {
                 DataHandler dataHandler = new DataHandler();
-                List<object[]> paramertList = new List<object[]>();
-                paramertList.Add(new object[] { "@user_id", userid });
+               // List<object[]> paramertList = new List<object[]>();
+                //paramertList.Add(new object[] { "@user_id", userid });
 
                 List<UserRequest> resultList = new List<UserRequest>();
 
-                DataSet dataSet = dataHandler.GetDataSet("spGetUnreadMessages", paramertList);
+                DataSet dataSet = dataHandler.GetDataSet("spGetUnreadMessages", null);
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
