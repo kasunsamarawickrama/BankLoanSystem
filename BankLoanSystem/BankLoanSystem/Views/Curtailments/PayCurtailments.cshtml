@@ -11,6 +11,37 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+@section AddToHead{
+    <style>
+        #checkableGridDiv table tbody,
+        #checkableGridDiv table thead {
+            display: block;
+        }
+
+        #checkableGridDiv table tbody {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .col-md-2 {
+            text-align: left;
+        }
+
+         #searchGrid table tbody,
+    #searchGrid table thead {
+        display: block;
+    }
+
+
+
+    #searchGrid table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    </style>}
+
 @*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
 
 @{
