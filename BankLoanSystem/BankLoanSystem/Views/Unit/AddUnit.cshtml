@@ -2468,6 +2468,11 @@
                     var unitType = document.getElementById("unitType").value;
                     var cost = document.getElementById("txtCost").value;
                     var advance = document.getElementById("txtAdvanceAmount").value;
+
+                    if (vin == ""  || cost =="" || advance == "") {
+                        $('#btnSubmit').prop('disabled', false);
+                    } 
+
                     if( $('.vinCheck').text().length > 0){
                         $('#btnSubmit').prop('disabled', false);
                         if (cost =="" || advance == "") {
