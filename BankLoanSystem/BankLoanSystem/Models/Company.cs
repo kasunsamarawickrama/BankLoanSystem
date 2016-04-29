@@ -13,7 +13,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please enter the Company Name")]
         [Display(Name = "Company Name")]
         //[Remote("IsCompanyNameExists", "SetupCompany", ErrorMessage = "Company Name already in use")] //Check company name is alredy in database
-        [StringLength(30, ErrorMessage = "Company Name should be between 3 and 30 characters", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Company Name should be between 3 and 50 characters", MinimumLength = 3)]
         //[RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Company name can't be start with !*@#$%^&*()_+-= and any number.")]
         public string CompanyName { get; set; }
 

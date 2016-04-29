@@ -186,8 +186,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            
-            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            return new HttpStatusCodeResult(404, "Your Session Expired.");
+            //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
         /// <summary>
