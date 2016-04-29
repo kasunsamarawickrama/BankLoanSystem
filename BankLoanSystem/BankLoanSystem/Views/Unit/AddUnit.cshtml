@@ -886,12 +886,11 @@
 
 
                                 <div class="col-xs-3" id="advanceDateDiv">
-                                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
+                                    @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
                                     @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger", @style= "text-align: left; left: 0%; width: 208px; " })
-                                    </div>
-                            
-
-
+                                    <span class="text-danger field-validation-error" id="errorAdvanceDate" style=""></span>
+                                </div>
+                           
                                 </div>
                             
                             </div>
@@ -2970,6 +2969,52 @@
                     $('.vinUnique').val("");
                 
                 }
+                $('.dateKeyPressValidate').keypress(function (e) {
+                    var ch = e.which;
+                    if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
+                        return 1;
+                    }
+                    else {
+
+                        e.preventDefault();
+                    }
+                });
+
+                $('#advanceDate').blur(function () {
+
+                    if ($(this).val() == "") {
+                        $('#errorAdvanceDate').text('Please select the Advance Date');
+                        $(this).addClass('input-validation-error');
+                        $(this).attr('placeholder', 'MM/DD/YYYY');
+                        $('.centered span').text('Error');
+                        return;
+                    }
+                    var valid = isValidDate($(this).val());
+                    if (valid) {
+                        var selectedDate = new Date($(this).val());
+                        var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                        var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                        if (selectedDate < minDate || selectedDate > maxDate) {
+                            // out off range error
+                            $('#errorAdvanceDate').text('Out of Range');
+                            $(this).addClass('input-validation-error');
+                            $('.centered span').text('Error');
+                        } else {
+                            // delete error mssage
+                            $('#errorAdvanceDate').text('');
+                            $(this).removeClass('input-validation-error');
+                        }
+
+
+
+                    } else {
+
+                        // not valid data error
+                        $('#errorAdvanceDate').text('Not valid date');
+                        $(this).addClass('input-validation-error');
+                        $('.centered span').text('Error');
+                    }
+                });
             </script>
 
 

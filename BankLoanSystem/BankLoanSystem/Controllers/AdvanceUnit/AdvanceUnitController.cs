@@ -164,7 +164,9 @@ namespace BankLoanSystem.Controllers
             
             return PartialView(tl);
         }
-       
+
+
+        
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/27
