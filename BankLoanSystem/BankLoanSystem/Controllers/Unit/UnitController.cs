@@ -183,20 +183,20 @@ namespace BankLoanSystem.Controllers.Unit
 
         [HttpPost]
         [ActionName("AddUnit")]
-        public ActionResult AddUnitPost(Models.Unit unit, string btnAdd, List<HttpPostedFileBase> fileUpload)
+        public ActionResult AddUnitPost(Models.Unit unit, List<HttpPostedFileBase> fileUpload)
         {
             int flag = 0;
            
 
            int userId = userData.UserId;
 
-            switch (btnAdd)
+            switch (unit.AdvanceNow)
             {
-                case "Add":
+                case "No":
                     unit.IsAdvanced = false;
                     unit.AddAndAdvance = false;
                     break;
-                case "Add and Advance":
+                case "Yes":
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;

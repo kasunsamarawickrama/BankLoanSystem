@@ -1589,7 +1589,27 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQLReturn("spManageUnitDelete", paramertList);
+                DataSet dataSet = dataHandler.GetDataSet("spManageUnitDelete", paramertList);
+
+                //if (dataSet != null && dataSet.Tables.Count != 0)
+                //{
+                //    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                //    {
+                //        string r = dataRow["fullPathTokenStr"].ToString();
+                //        string[] path = r.Split(',');
+                        
+                //        //for (int i = 0; i < path.Count() && path[i] != ""; i++)
+                //        //{
+                //            string fullPath = HttpContext.Current.Server.MapPath("~/Uploads/SAM01/SAM01_01/SAM01_01-indra0003-000002_01.png"); //Request.MapPath(path[i]); ;
+                //        if (System.IO.File.Exists(fullPath))
+                //        {
+                //            System.IO.File.Delete(fullPath);
+                //        }
+                //        //}
+                //    }
+                //}
+                return 1;
+                //return dataHandler.ExecuteSQLReturn("spManageUnitDelete", paramertList);
             }
             catch (Exception ex)
             {

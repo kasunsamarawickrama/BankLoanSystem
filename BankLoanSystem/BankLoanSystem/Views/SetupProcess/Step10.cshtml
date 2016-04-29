@@ -245,7 +245,8 @@
                                             @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
                                         </div>
                                         <div class="err_msg_box  mErrMsgBox">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })</p>
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new {@class = "text-danger"})</p>
+                                            <div id="customErrorDueDate"><span class="text-danger"></span></div>
                                         </div>
                                     </div>
                                     <div class="form-group new_form_group">
@@ -868,9 +869,9 @@
 
 
         var dueDate = document.getElementById('CurtailmentDueDate').value;
-        //alert(dueDate);
+        
         if (dueDate === '') {
-            $('#customErrorDueDate').children('span').text("Please select.");
+            $('#customErrorDueDate').children('span').text("Please select due date.");
         } else {
             $('#customErrorDueDate').children('span').text("");
         }
