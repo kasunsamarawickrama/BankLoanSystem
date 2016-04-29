@@ -471,7 +471,10 @@
         //var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
 
         //alert(tblLength);
-
+        if (this.value === '0') {
+            $('#spnremainTimeError').children('span').text("Time must be greater than 0");
+            return;
+        }
         var index = 0;
 
         $('table#tblGrid > tbody > tr').not(':first').each(function() {
@@ -480,7 +483,7 @@
             var timePeriod = $(this).find("#timePeriod").val();
             var percentage = $(this).find("#percentage").val();
             var previousTime = 0;
-
+            
             if (parseInt(curid) > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
             }
