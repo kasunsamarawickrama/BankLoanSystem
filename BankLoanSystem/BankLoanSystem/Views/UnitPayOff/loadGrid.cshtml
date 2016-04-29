@@ -713,24 +713,28 @@
                     async: true,
                     contentType: 'application/json; charset=utf-8',
                     success: function (partialView) {
-                        
+                        if (partialView = '1') {
+                            $.ajax({
+                                url: '/UnitPayOff/loadGrid/',
+                                data: JSON.stringify({}),
+                                type: 'POST',
+                                contentType: 'application/json; charset=utf-8',
+
+                                success: function (partialView) {
+                                    $('.centered1 span').text('Successfully Paid Off');
+                                    $('#changeContainer').html(partialView);
+                                    $('#changeContainer').show();
+                                    $('.centered span').text('');
+
+                                    //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                }
+                            });
+                        } else {
+
+                        }
                         //location.reload();
                         //alert("Success");
-                        $.ajax({
-                            url: '/UnitPayOff/loadGrid/',
-                            data: JSON.stringify({ }),
-                            type: 'POST',
-                            contentType: 'application/json; charset=utf-8',
-
-                            success: function (partialView) {
-                                $('.centered1 span').text('Successfully PaidOff');
-                                $('#changeContainer').html(partialView);
-                                $('#changeContainer').show();
-                                $('.centered span').text('');
-
-                                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            }
-                        });
+                        
                     }
                 });
             }
@@ -799,21 +803,27 @@
                         //$('#container').show();
                         //if (partialView == "")
                         //location.reload();
-                        $.ajax({
-                            url: '/UnitPayOff/loadGrid/',
-                            data: JSON.stringify({ }),
-                            type: 'POST',
-                            contentType: 'application/json; charset=utf-8',
 
-                            success: function (partialView) {
-                                $('.centered1 span').text('Successfully PaidOff');
-                                $('#changeContainer').html(partialView);
-                                $('#changeContainer').show();
-                                $('.centered span').text('');
+                        if (partialView = '1') {
+                            $.ajax({
+                                url: '/UnitPayOff/loadGrid/',
+                                data: JSON.stringify({}),
+                                type: 'POST',
+                                contentType: 'application/json; charset=utf-8',
 
-                                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                            }
-                        });
+                                success: function (partialView) {
+                                    $('.centered1 span').text('Successfully Paid Off');
+                                    $('#changeContainer').html(partialView);
+                                    $('#changeContainer').show();
+                                    $('.centered span').text('');
+
+                                    //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                }
+                            });
+                        } else {
+
+                        }
+                       
                     }
                 });
             }
