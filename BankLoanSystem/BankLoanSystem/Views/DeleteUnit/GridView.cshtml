@@ -47,7 +47,8 @@
             $(this).siblings().css('background', 'aliceblue');
 
             SetTextBoxValues(tr);
-
+            $('.centered span').text('');
+            $('.centered1 span').text('');
             $.ajax({
                 url: '/DeleteUnit/FeeDetails',
                 type: 'POST',
