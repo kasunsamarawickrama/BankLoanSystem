@@ -711,26 +711,47 @@
                     data: JSON.stringify(data),
                     type: 'POST',
                     async: true,
-                    contentType: 'application/json; charset=utf-8',
+                    contentType: 'application/json;',
                     success: function (partialView) {
-                        
-                        //location.reload();
-                        //alert("Success");
+                        if (partialView = '1') {
                         $.ajax({
                             url: '/UnitPayOff/loadGrid/',
-                            data: JSON.stringify({ }),
+                                data: JSON.stringify({}),
                             type: 'POST',
                             contentType: 'application/json; charset=utf-8',
 
                             success: function (partialView) {
-                                $('.centered1 span').text('Successfully PaidOff');
+                                    $('.centered1 span').text('Successfully Paid Off');
                                 $('#changeContainer').html(partialView);
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
 
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                // Your handler here...
+
+                                // if session expires
+                                if (jqXHR.status == "404") {
+                                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                            }
                             }
                         });
+                        } else {
+
+                        }
+                        //location.reload();
+                        //alert("Success");
+                        
+                    }
+                    ,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
             }
@@ -799,21 +820,44 @@
                         //$('#container').show();
                         //if (partialView == "")
                         //location.reload();
+
+                        if (partialView = '1') {
                         $.ajax({
                             url: '/UnitPayOff/loadGrid/',
-                            data: JSON.stringify({ }),
+                                data: JSON.stringify({}),
                             type: 'POST',
-                            contentType: 'application/json; charset=utf-8',
+                            contentType: 'application/json;',
 
                             success: function (partialView) {
-                                $('.centered1 span').text('Successfully PaidOff');
+                                    $('.centered1 span').text('Successfully Paid Off');
                                 $('#changeContainer').html(partialView);
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
 
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                // Your handler here...
+
+                                // if session expires
+                                if (jqXHR.status == "404") {
+                                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
+                        } else {
+
+                        }
+                       
+                    }
+                    ,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
             }
@@ -1044,9 +1088,14 @@
 
                     //.highlight { background-color: lightblue; }
                 },
-                error: function (reponse) {
-                    $('#loadingSpan').hide();
-                    alert("error : " + reponse);
+
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }
