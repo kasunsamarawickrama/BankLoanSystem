@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.UI;
 using System.Xml.Linq;
@@ -31,7 +32,6 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceUnit.Reset();
             rptViewerAdvanceUnit.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceUnit.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceUnit.rdlc");
-            List<RptAddUnit> advanceUnits = new List<RptAddUnit>();
             List<Unit> units = (List<Unit>)Session["AdvItems"];
 
             ReportAccess ra = new ReportAccess();
@@ -55,10 +55,26 @@ namespace BankLoanSystem.Reports
                         ));
                     string xmlDoc = xEle.ToString();
                     
-                    advanceUnits = ra.AdvanceUnitsDuringSession(xmlDoc);
+                    var advanceUnits = ra.AdvanceUnitsDuringSession(xmlDoc);
                     
                     rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceUnits));
 
+                    //Warning[] warnings;
+                    //string[] streamids;
+                    //string mimeType;
+                    //string encoding;
+                    //string filenameExtension;
+
+                    //byte[] bytes = rptViewerAdvanceUnit.LocalReport.Render(
+                    //    "PDF", null, out mimeType, out encoding, out filenameExtension,
+                    //    out streamids, out warnings);
+
+                    //using (FileStream fs = new FileStream(Server.MapPath("AdvanceUnit.pdf"), FileMode.Create))
+                    //{
+                    //    fs.Write(bytes, 0, bytes.Length);
+                    //}
+
+                    
                 }
                 catch (Exception e)
                 {

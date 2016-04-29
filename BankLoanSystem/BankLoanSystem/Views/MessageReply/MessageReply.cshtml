@@ -95,72 +95,75 @@ width:800px;
 <br />
 <br />
     <div id="">
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                <label>User Name</label>
+        <form>
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <label>User Name</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.user_name, new {htmlAttributes = new {@class = "form-control", @id = "txtusername", @disabled = "disabled"}})
+                    @Html.Hidden("req_id")
+                </div>
             </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.user_name, new {htmlAttributes = new {@class = "form-control", @id = "txtusername", @disabled = "disabled"}})
-                @Html.Hidden("req_id")
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <label>Company Name</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @id = "txtcompany", @disabled = "disabled" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                <label>Company Name</label>
+            <div class="form-group">
+                <div class="control-label col-sm-4">
+                    <label>Branch Name</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", @id = "txtbranch", @disabled = "disabled" } })
+                </div>
             </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @id = "txtcompany", @disabled = "disabled" } })
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <label>Loan Code</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.loan_code, new { htmlAttributes = new { @class = "form-control", @id = "txtloan", @disabled = "disabled" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-4">
-                <label>Branch Name</label>
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <label>Subject</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.topic, new { htmlAttributes = new { @class = "form-control", @id = "txttopic", @disabled = "disabled" } })
+                </div>
             </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", @id = "txtbranch", @disabled = "disabled" } })
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <label>Message</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage", @disabled = "disabled" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                <label>Loan Code</label>
+            <div class="form-group">
+                <div class="control-label col-sm-4">
+                    <label>Answer</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextAreaFor(model => model.answer, 5, 85, new { htmlAttributes = new { @class = "form-control", @id = "txtanswer" } })
+                    @*@Html.EditorFor(model => model.answer, new { htmlAttributes = new { @class = "form-control", @id = "txtanswer",style="height:200px;" } })*@
+                </div>
             </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.loan_code, new { htmlAttributes = new { @class = "form-control", @id = "txtloan", @disabled = "disabled" } })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                <label>Subject</label>
-            </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.topic, new { htmlAttributes = new { @class = "form-control", @id = "txttopic", @disabled = "disabled" } })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-3">
-                <label>Message</label>
-            </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(model => model.message, new { htmlAttributes = new { @class = "form-control", @id = "txtmessage", @disabled = "disabled" } })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="control-label col-sm-4">
-                <label>Answer</label>
-            </div>
-            <div class="col-xs-8">
-                @Html.TextAreaFor(model => model.answer, 5, 85, new { htmlAttributes = new { @class = "form-control", @id = "txtanswer" } })
-            </div>
-        </div>
-        <div class="form-group">
+            <div class="form-group">
 
 
 
-            <input type="submit" value="Submit" class="btn btn-primary btn-next" />
-            <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+                <input type="submit" value="Submit" class="btn btn-primary btn-next" />
+                <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
 
 
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 }
@@ -221,7 +224,7 @@ width:800px;
             $('#searchGrid1').hide();
         });
         function ClearValues() {
-
+            document.getElementsByTagName("form")[0].reset();
            $('#searchGrid1').show();
            $('#txtusername').val('');
            $('#txtcompany').val('');
@@ -229,10 +232,11 @@ width:800px;
            $('#txtloan').val('');
            $('#txttopic').val('');
            $('#txtmessage').val('');
-           document.getElementById("txtanswer").value = "";
+           $("#txtanswer").text('');
         };
         //cancel button click event
-        $('#btnCancel').click(function () {
+        $('#clear').click(function () {
+            document.getElementsByTagName("form")[0].reset();
             $('#searchGrid1').show();
             $('#txtusername').val('');
             $('#txtcompany').val('');
@@ -240,7 +244,8 @@ width:800px;
             $('#txtloan').val('');
             $('#txttopic').val('');
             $('#txtmessage').val('');
-            document.getElementById("txtanswer").value = "";
+            //document.getElementById["txtanswer"].value = '.';
+            $("#txtanswer").text('');
         });
         
 
@@ -260,9 +265,9 @@ width:800px;
             $('#txtloan').val(tr.find('#loan_code').text());
             $('#txttopic').val(tr.find('#topic').text());
             $('#txtmessage').val(tr.find('#message').val());
+            $("#txtanswer").text('');
             document.getElementById("req_id").innerHTML = tr.find("#request_id").val();
-            //$('#txtanswer').val('');
-            document.getElementById("txtanswer").value = '';
+            
             
             //document.getElementById("unitid").innerHTML = tr.find("#uId").val();
 

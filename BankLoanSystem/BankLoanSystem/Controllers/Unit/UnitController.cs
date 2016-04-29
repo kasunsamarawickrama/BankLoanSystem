@@ -26,9 +26,17 @@ namespace BankLoanSystem.Controllers.Unit
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch
@@ -55,7 +63,7 @@ namespace BankLoanSystem.Controllers.Unit
                 {
                     ViewBag.Msg = "Success";
                 }
-                else if (Flag == 0)
+                else if (Flag == 2)
                 {
                     ViewBag.Msg = "Error";
                 }
@@ -175,20 +183,20 @@ namespace BankLoanSystem.Controllers.Unit
 
         [HttpPost]
         [ActionName("AddUnit")]
-        public ActionResult AddUnitPost(Models.Unit unit, string btnAdd, List<HttpPostedFileBase> fileUpload)
+        public ActionResult AddUnitPost(Models.Unit unit, List<HttpPostedFileBase> fileUpload)
         {
             int flag = 0;
            
 
            int userId = userData.UserId;
 
-            switch (btnAdd)
+            switch (unit.AdvanceNow)
             {
-                case "Add":
+                case "No":
                     unit.IsAdvanced = false;
                     unit.AddAndAdvance = false;
                     break;
-                case "Add and Advance":
+                case "Yes":
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;
@@ -201,7 +209,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             string loanCode = Session["loanCode"].ToString();
             unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
-
+            //unit.UnitId = "LEN11_01-56454-78-676-000003";
             //if()
             string IDNumber;
             UnitAccess ua = new UnitAccess();
@@ -309,7 +317,7 @@ namespace BankLoanSystem.Controllers.Unit
                 
                 return RedirectToAction("AddUnit");
             }
-            TempData["Msg"] = 1;
+            TempData["Msg"] = 2;
             return RedirectToAction("AddUnit", unit);
 
             //return Json(new { flag = 0 }, JsonRequestBehavior.AllowGet);
