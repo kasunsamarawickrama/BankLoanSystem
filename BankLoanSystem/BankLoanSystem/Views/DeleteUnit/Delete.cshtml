@@ -380,9 +380,14 @@
 
                 //.highlight { background-color: lightblue; }
             },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
+            
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
 
@@ -437,9 +442,13 @@
 
                 //.highlight { background-color: lightblue; }
             },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
     });
@@ -470,9 +479,13 @@
 
                 //.highlight { background-color: lightblue; }
             },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
     });
@@ -529,13 +542,17 @@
                         $('#checkableGridDiv').show();
                         //.highlight { background-color: lightblue; }
                     },
-                    error: function (reponse) {
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
                         $('.overlay-bg, .overlay-content').hide();
                         window.scrollTo(0, 0);
 
                         //ClearTextBoxText();
                         $('.centered span').text('Failed to delete unit, try again!');
-                        //$('#feeDetails').hide();
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
             }, function no() {
