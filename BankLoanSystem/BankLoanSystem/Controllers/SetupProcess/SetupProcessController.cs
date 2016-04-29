@@ -57,6 +57,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             
                             Session["isInterest"] = _loan.isInterestCalculate;
                         }
+                        else if (loanData.loanId == 0)
+                        {
+                            loanstep = 1;
+                            //CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+
+
+                            // _loan = curtailmentAccess.GetLoanDetailsByLoanId(loanData.loanId);
+
+                            // Session["isInterest"] = _loan.isInterestCalculate;
+                        }
                     }
                 }
                 else
@@ -254,8 +264,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("Step2");
             }
 
-            return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to Setup company." });
-            //return new HttpStatusCodeResult(404, "Failed to Setup company.");
+            //return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to Setup company." });
+            return new HttpStatusCodeResult(404, "Failed to Setup company.");
         }
 
         /// <summary>
@@ -1928,11 +1938,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             LoanSetupAccess loan = new LoanSetupAccess();
             //fee.LoanId = loan.getLoanIdByUserId(userId);
             fee.LoanId = loanData.loanId;
-            
-            if (loanData.stepId > 3) {
+
+            if (loanData.stepId > 3)
+            {
                 ViewBag.isEdit = "editable";
                 var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
-                if (hasLoan.LotInspectionAmount == 0)
+                if (hasLoan.AdvanceAmount == 0)
                 {
                     hasLoan.AdvanceId = "2";
                 }
@@ -1958,25 +1969,25 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     hasLoan.LoanId = fee.LoanId;
                     hasLoan.isEdit = true;
-                    hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
-                    hasLoan.IsLoanFeeCompleteEmailReminder = false;
-                    hasLoan.IsLotFeeCompleteEmailReminder = false;
+                    //hasLoan.IsAdvanceFeeCompleteEmailReminder = false;
+                    //hasLoan.IsLoanFeeCompleteEmailReminder = false;
+                    //hasLoan.IsLotFeeCompleteEmailReminder = false;
                     hasLoan.IsAdvanceFeeDueEmailReminder = false;
                     hasLoan.IsLoanFeeDueEmailReminder = false;
                     hasLoan.IsLotFeeDueEmailReminder = false;
 
-                    if (hasLoan.AdvanceFeeDealerEmail != "")
-                    {
-                        hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
-                    }
-                    if (hasLoan.MonthlyLoanFeeDealerEmail != "")
-                    {
-                        hasLoan.IsLoanFeeCompleteEmailReminder = true;
-                    }
-                    if (hasLoan.LotInspectionFeeDealerEmail != "")
-                    {
-                        hasLoan.IsLotFeeCompleteEmailReminder = true;
-                    }
+                    //if (hasLoan.AdvanceFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsAdvanceFeeCompleteEmailReminder = true;
+                    //}
+                    //if (hasLoan.MonthlyLoanFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsLoanFeeCompleteEmailReminder = true;
+                    //}
+                    //if (hasLoan.LotInspectionFeeDealerEmail != "")
+                    //{
+                    //    hasLoan.IsLotFeeCompleteEmailReminder = true;
+                    //}
                     if (hasLoan.AdvanceDueEmail != "")
                     {
                         hasLoan.IsAdvanceFeeDueEmailReminder = true;
@@ -2013,14 +2024,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     feeNew.isEdit = false;
                     var email = loan.getAutoRemindEmailByLoanId(feeNew.LoanId);
-                    if (email != null) { 
+                    if (email != null)
+                    {
                         feeNew.AdvanceDueEmail = email;
                         feeNew.MonthlyLoanDueEmail = email;
                         feeNew.LotInspectionDueEmail = email;
                     }
-                    feeNew.IsAdvanceFeeCompleteEmailReminder = false;
-                    feeNew.IsLotFeeCompleteEmailReminder = false;
-                    feeNew.IsLoanFeeCompleteEmailReminder = false;
+                    //feeNew.IsAdvanceFeeCompleteEmailReminder = false;
+                    //feeNew.IsLotFeeCompleteEmailReminder = false;
+                    //feeNew.IsLoanFeeCompleteEmailReminder = false;
                     feeNew.IsAdvanceFeeDueEmailReminder = false;
                     feeNew.IsLotFeeDueEmailReminder = false;
                     feeNew.IsLoanFeeDueEmailReminder = false;
@@ -2080,21 +2092,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 fees.MonthlyLoanDueDate = "ToA";
             }
-            if (fees.IsAdvanceFeeCompleteEmailReminder == false)
-            {
-                fees.AdvanceFeeDealerEmail = "";
-                fees.AdvanceFeeDealerEmailRemindPeriod = 0;
-            }
-            if (fees.IsLoanFeeCompleteEmailReminder == false)
-            {
-                fees.MonthlyLoanFeeDealerEmail = "";
-                fees.MonthlyLoanFeeDealerEmailRemindPeriod = 0;
-            }
-            if (fees.IsLotFeeCompleteEmailReminder == false)
-            {
-                fees.LotInspectionFeeDealerEmail = "";
-                fees.LotInspectionFeeDealerEmailRemindPeriod = 0;
-            }
+            //if (fees.IsAdvanceFeeCompleteEmailReminder == false)
+            //{
+            //    fees.AdvanceFeeDealerEmail = "";
+            //    fees.AdvanceFeeDealerEmailRemindPeriod = 0;
+            //}
+            //if (fees.IsLoanFeeCompleteEmailReminder == false)
+            //{
+            //    fees.MonthlyLoanFeeDealerEmail = "";
+            //    fees.MonthlyLoanFeeDealerEmailRemindPeriod = 0;
+            //}
+            //if (fees.IsLotFeeCompleteEmailReminder == false)
+            //{
+            //    fees.LotInspectionFeeDealerEmail = "";
+            //    fees.LotInspectionFeeDealerEmailRemindPeriod = 0;
+            //}
             if (fees.IsAdvanceFeeDueEmailReminder == false)
             {
                 fees.AdvanceDueEmail = "";
@@ -2126,10 +2138,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     return RedirectToAction("Step9");
                 }
-                else if (step.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
+                else if (step.UpdateLoanSetupStep(userData.UserId, loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 4))
                 {
-                    
-                    if (loanData.stepId < 4) {
+
+                    if (loanData.stepId < 4)
+                    {
                         loanData.stepId = 4;
                         Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, fees.LoanId, "Fees", "Inserted fees details of loan : " + fees.LoanId, DateTime.Now);
 

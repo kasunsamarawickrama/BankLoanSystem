@@ -16,6 +16,7 @@
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/scripts/CommonFunctions.js"></script>
 
+@section AddToHead{
 <style>
     .err_msg_box {
         text-align: left;
@@ -28,7 +29,7 @@
         /* position: relative !important; */
         margin: auto !important;
     }
-</style>
+</style>}
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
@@ -40,7 +41,7 @@
     <script src="~/scripts/moment.js"></script>
     <script src="~/scripts/pikaday.js"></script>*@
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
+@*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
 
 
 
@@ -142,7 +143,7 @@
                                     }
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style" id="lblUserName">
-                                                <label>User Name</label>
+                                                <label>Username</label>
                                             </div>
                                                
                                                     <div class="col-xs-8 text_field short_text_field" id="divSingleUser" style="text-align:left;font-weight: normal;color:#545454;font-size:14px;" hidden>
@@ -358,6 +359,40 @@
 </div>
 
 <script>
+    $('#txtCurrentPassword').change(function(){
+        var uid = $("#hdnUserId3").val();
+        var pwd = $("#txtCurrentPassword").val();
+
+        $.ajax({
+            url: '/UserManagement/CheckPasswd/',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({userId:uid,Cpwd:pwd }),
+            success: function (data) {
+                //alert(data);
+                if(data==0){
+                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("Current password does not match with the selected user");
+                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                    $('#txtCurrentPassword').addClass('input-validation-error');
+                }
+                if(data==1){
+                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("");
+                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                    $('#txtCurrentPassword').removeClass('input-validation-error');
+                }
+            },
+            error: function (reponse) {
+                //alert(data);
+            }
+        });
+    });
+
+    $('#btnUpdateUser').click(function(e){
+        if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
+            e.preventDefault();
+        }
+    
+    });
    
     $('#txtCurrentPassword').focusout(function () {
         $(this).attr('placeholder', 'Type Current Password');
@@ -524,9 +559,10 @@
         $('#BranchId2Lbl').text('');
         $('#txtBranchId2').val('');
         $('#BranchDiv1').show();
-        $('#UserIdSA').val('');
+        $('#UserIdSA option:selected').attr('selected',null);
+       // $('#UserIdSA option').text("--Select Username--");
         $('#UserIdSA').show();
-        
+        $("#hdnUserId3").val('');
         $('#txtUserId2').text('');
         $('#txtUserId3').text('');
         $('#divSingleUser').hide();
@@ -833,6 +869,7 @@
         //alert(_userId);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
+        $('#divChangePwd').hide();
         if (_userId > 0) {
             var url = "/UserManagement/GetUserByUserId/";
 
@@ -881,7 +918,24 @@
                     alert("error : " + reponse);
                 }
             });
-            }
+        }
+        else{
+            $("#hdnUserId3").val('');
+            $("#hdnUserName3").val('');
+            //alert( $("#hdnUserName3").val());
+            $("#txtFname").val('');
+            $("#txtLname").val('');
+            $("#txtEmail").val('');
+            $('#divSAPhone').hide();
+            $('#divPhone').show();
+            $("#txtPhone2").val('');
+            $("#txtPhone").val('');
+            $('#rbStatusA').prop('checked',false);
+            $('#rbStatusN').prop('checked',false);
+            $('#rbYes').prop('checked',false);
+            $('#rbNo').prop('checked',false);
+            $('#divChangePwd').hide();
+        }
             //$('#loadingSpan').show();
 
 

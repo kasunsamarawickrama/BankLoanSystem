@@ -13,6 +13,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+@section AddToHead{
 <style>
     .err_msg_box {
         text-align: left;
@@ -38,10 +39,10 @@
         font-weight: normal;
         color: #545454;
     }
-</style>
-<script src="~/scripts/jquery-1.10.2.min.js"></script>
+</style>}
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
+
+
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }

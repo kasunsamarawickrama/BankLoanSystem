@@ -1,4 +1,5 @@
 ﻿using BankLoanSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -38,9 +39,9 @@ namespace BankLoanSystem.DAL
 
                 return dataHandler.ExecuteSQL("spInsertUserRequest", paramertList) ? 1 : 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -63,9 +64,9 @@ namespace BankLoanSystem.DAL
 
                 return dataHandler.ExecuteSQL("spUpdateUserRequestAnswer", paramertList) ? 1 : 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -78,9 +79,9 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@user_id", user.UserId });
                 return dataHandler.GetDataSet("spGetUserReque", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -93,23 +94,23 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@user_id", userid });
                 return dataHandler.ExecuteSQL("spUpdateUserViewAnswer", paramertList) ? 1 : 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
-        public List<UserRequest> SelectDatalistForAnswer(int userid)
+        public List<UserRequest> SelectDatalistForAnswer()
         {
             try
             {
                 DataHandler dataHandler = new DataHandler();
-                List<object[]> paramertList = new List<object[]>();
-                paramertList.Add(new object[] { "@user_id", userid });
+               // List<object[]> paramertList = new List<object[]>();
+                //paramertList.Add(new object[] { "@user_id", userid });
 
                 List<UserRequest> resultList = new List<UserRequest>();
 
-                DataSet dataSet = dataHandler.GetDataSet("spGetUnreadMessages", paramertList);
+                DataSet dataSet = dataHandler.GetDataSet("spGetUnreadMessages", null);
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
@@ -137,9 +138,9 @@ namespace BankLoanSystem.DAL
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

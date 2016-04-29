@@ -11,21 +11,6 @@
 
 
 
-<style>
-
-#checkableGridDiv table tbody,
-#checkableGridDiv table thead { display: block; }
-
-#checkableGridDiv table tbody {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.col-md-2{
-    text-align:left;
-}
-</style>
 <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
     @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
     <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
@@ -609,6 +594,7 @@
 
             $(document).on('click', 'tbody', (function (e) {
                 var target = $(e.target);
+               
                 if (target.parents('#checkableGrid').length) {
 
                     var $td = $(e.target).closest("td");
@@ -618,7 +604,7 @@
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
                     ClearLabelMessages();
-
+                    
                     if (ColIndex != 0) {
 
                         var checked = row.find("#all").prop('checked');
@@ -636,10 +622,10 @@
                             if (checkCount == 1) {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
                             }
-                            else {
-                                SetRadioBtnHeaderChecked();
+                            else {                               
                                 ClearTextBoxValues();
                             }
+                            SetRadioBtnHeaderChecked();
                             document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
@@ -958,7 +944,7 @@
     });
 
     payPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-    payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+   // payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
     $("#payDate").val("");
     payPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
 
@@ -980,7 +966,7 @@
     });
 
     payCurtPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-    payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    //payCurtPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
     $("#payCurtDate").val("");
     payCurtPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
 
@@ -1073,8 +1059,8 @@
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-            if (selectedDate < minDate || selectedDate > maxDate) {
+           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate) {
                 // out off range error
                 $('#errorPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');
@@ -1121,8 +1107,8 @@
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-            var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-            if (selectedDate < minDate || selectedDate > maxDate) {
+           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            if (selectedDate < minDate) {
                 // out off range error
                 $('#errorCurtPayDate').text('Out of Range');
                 $(this).addClass('input-validation-error');

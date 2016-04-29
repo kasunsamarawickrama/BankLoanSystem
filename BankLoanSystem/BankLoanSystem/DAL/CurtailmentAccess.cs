@@ -63,7 +63,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        internal string updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel , int loanId)
+        internal string updateCurtailmets(SelectedCurtailmentList curtailmentScheduleModel, int loanId)
         {
             try
             {
@@ -78,21 +78,16 @@ namespace BankLoanSystem.DAL
                         new XElement("id", i++)
                         ));
                 string xmlDoc = xEle.ToString();
-                
+
 
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList2 = new List<object[]>();
                 paramertList2.Add(new object[] { "@loan_id", loanId });
                 paramertList2.Add(new object[] { "@Input", xmlDoc });
 
-                try
-                {
-                    return dataHandler.ExecuteSQLWithStringReturnVal("spUpdateCurtailmentSchedule", paramertList2);
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
+
+                return dataHandler.ExecuteSQLWithStringReturnVal("spUpdateCurtailmentSchedule", paramertList2);
+
 
             }
             catch (Exception ex)
@@ -191,14 +186,9 @@ namespace BankLoanSystem.DAL
                         paramertList2.Add(new object[] { "@curtailment_id", curtailment.CurtailmentId });
                         paramertList2.Add(new object[] { "@time_period", curtailment.TimePeriod });
                         paramertList2.Add(new object[] { "@percentage", curtailment.Percentage });
-                        try
-                        {
-                            executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
-                        }
-                        catch (Exception ex)
-                        {
-                            return 0;
-                        }
+
+                        executeCount = dataHandler.ExecuteSQL("spInsertCurtailment", paramertList2) ? executeCount + 1 : executeCount;
+
                     }
                 }
                 return executeCount;

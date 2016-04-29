@@ -2,20 +2,7 @@
 @{
     WebGrid grid = new WebGrid(Model.TitleList, defaultSort: "AdvanceDate", canPage: false, ajaxUpdateContainerId: "searchGrid1", ajaxUpdateCallback: "GridUpdate");
 }
-<style>
-    #searchGrid table tbody,
-    #searchGrid table thead {
-        display: block;
-    }
 
-
-
-    #searchGrid table tbody {
-        max-height: 300px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-</style>
 @if ((Model.TitleList.Count() != 0)&&(Model.TitleList!=null))
 {
     <div id="searchGrid">

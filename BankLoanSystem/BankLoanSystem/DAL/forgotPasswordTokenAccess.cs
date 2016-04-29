@@ -36,9 +36,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQLWithReturnVal("spUpdateOrInsertToken", paramertList)>0 ? true : false;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -64,9 +64,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLWithReturnVal("spverifyAccountBytoken", paramertList) > 0 ? true : false;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -95,10 +95,10 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLWithReturnVal("spUpdatePassword", paramertList) > 0 ? true : false;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
-            } 
+                throw ex;
+            }
         }
     }
 }

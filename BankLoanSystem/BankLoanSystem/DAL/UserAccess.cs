@@ -58,9 +58,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spInsertUser", paramertList) ? 1 : 0;               
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -164,9 +164,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateUserDetails", paramertList) ? true : false;
                 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -202,9 +202,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spUpdateProfileDetails", paramertList);                
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -316,9 +316,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateUserStatus", paramertList) ? 1 : 0;
                
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -350,9 +350,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spInsertUserActivation", paramertList) ? 1 : 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
         
@@ -479,15 +479,10 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLWithIntOutPutParam("spInsertDealerUser", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
-            //}
-            //else
-            //{
-            //    return 0;
-            //}
         }
 
         public int GetStepStatusByUserBranchId(int branchId)
@@ -511,9 +506,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return -1;
+                throw ex;
             }
         }
 
@@ -539,9 +534,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spUpdateUserRightDetails", paramertList) ? true : false;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -673,11 +668,10 @@ namespace BankLoanSystem.DAL
                 {
                     return dataHandler.ExecuteSQLReturn("spUpdateUser", paramertList);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return 0;
+                    throw ex;
                 }
-               // return 1;
             }
             else 
             {

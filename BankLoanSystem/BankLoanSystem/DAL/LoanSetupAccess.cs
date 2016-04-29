@@ -35,9 +35,9 @@ namespace BankLoanSystem.DAL
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return true;
+                throw ex;
             }
 
         }
@@ -696,9 +696,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spUpdateLoanCurtailmentd", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -781,9 +781,9 @@ namespace BankLoanSystem.DAL
                 {
                     return dataHandler.ExecuteSQLReturn("spUpdateLoanStatus", paramertList);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return 0;
+                    throw ex;
                 }
             }
             else 

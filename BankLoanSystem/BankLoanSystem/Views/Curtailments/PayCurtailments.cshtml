@@ -3,15 +3,46 @@
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
-<link href="~/Content/pikaday.css" rel="stylesheet" />
+@*<link href="~/Content/pikaday.css" rel="stylesheet" />
 <link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />
+<link href="~/Content/triangle.css" rel="stylesheet" />*@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
+@section AddToHead{
+    <style>
+        #checkableGridDiv table tbody,
+        #checkableGridDiv table thead {
+            display: block;
+        }
+
+        #checkableGridDiv table tbody {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .col-md-2 {
+            text-align: left;
+        }
+
+         #searchGrid table tbody,
+    #searchGrid table thead {
+        display: block;
+    }
+
+
+
+    #searchGrid table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    </style>}
+
+@*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
 
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -135,7 +166,7 @@
             }
         });
         startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-        startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+        //startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
         $("#dueDate").val('@dateTime.ToString("d")');
 
 
@@ -160,7 +191,7 @@
                 var selectedDate = new Date($(this).val());
                 var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
                 var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-                if (selectedDate < minDate || selectedDate > maxDate) {
+                if (selectedDate < minDate) {
                     // out off range error
                     $('#errorDueDate').text('Out of Range');
                     $(this).addClass('input-validation-error');

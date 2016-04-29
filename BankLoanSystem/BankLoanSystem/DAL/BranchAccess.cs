@@ -46,9 +46,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -98,9 +98,9 @@ namespace BankLoanSystem.DAL
             }
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -136,9 +136,9 @@ namespace BankLoanSystem.DAL
             return 0;
         }
 
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -172,9 +172,9 @@ namespace BankLoanSystem.DAL
             return 0;
         }
 
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -209,10 +209,10 @@ namespace BankLoanSystem.DAL
                 return 0;
             }
 
-            catch
+            catch (Exception ex)
             {
-            return 0;
-        }
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -241,9 +241,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.ExecuteSQL("spUpdateBranchId", paramertList) ? true : false;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -276,10 +276,10 @@ namespace BankLoanSystem.DAL
             }
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
-            return 0;
-        }
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -341,9 +341,9 @@ namespace BankLoanSystem.DAL
             }
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -411,9 +411,9 @@ namespace BankLoanSystem.DAL
             }
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -473,9 +473,9 @@ namespace BankLoanSystem.DAL
             }
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -518,9 +518,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -567,9 +567,9 @@ namespace BankLoanSystem.DAL
                 }
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -636,9 +636,9 @@ namespace BankLoanSystem.DAL
             return "";
         }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -663,9 +663,9 @@ namespace BankLoanSystem.DAL
             }
             return "";
         }
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
         }
 
@@ -756,9 +756,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spInsertBranch", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -840,9 +840,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLReturn("spInsertNonRegisteredBranch", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -868,11 +868,11 @@ namespace BankLoanSystem.DAL
                 return "";
             }
 
-            catch
+            catch (Exception ex)
             {
-            return "";
+                throw ex;
+            }
         }
-    }
 
         public  List<Branch> GetLoansByBranches(int branchIdL)
         {
@@ -903,9 +903,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -959,9 +959,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

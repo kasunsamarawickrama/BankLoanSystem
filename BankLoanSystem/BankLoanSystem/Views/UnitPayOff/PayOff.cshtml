@@ -10,16 +10,18 @@
 
 
 
-    <link href="~/Content/pikaday.css" rel="stylesheet" />
+    @*<link href="~/Content/pikaday.css" rel="stylesheet" />
     <link href="~/Content/theme.css" rel="stylesheet" />
-    <link href="~/Content/triangle.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />*@
     <script src="~/scripts/moment.js"></script>
     <script src="~/scripts/pikaday.js"></script>
 
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
-    <link href="~/Content/commonActions.css" rel="stylesheet" />
+    @*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
+
+@section AddToHead{
     <style>
         #payOffGridDIv table tbody,
         #payOffGridDIv table thead {
@@ -49,7 +51,7 @@
     padding: unset;
     padding-left: 13px;
  }
-    </style>
+    </style>}
 
 @{
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
@@ -423,7 +425,7 @@
         });
 
         payDate.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-        payDate.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+        //payDate.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
         var payDate2 = new Pikaday({
             field: document.getElementById('payDate2'),
@@ -431,7 +433,7 @@
         });
 
         payDate2.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-        payDate2.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+        //payDate2.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
 
         var totalSelect = $('table#checkableGrid > tbody > tr').length;
         var countSelect = 0;
@@ -858,8 +860,8 @@
             if (valid) {
                 var selectedDate = new Date($(this).val());
                 var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-                if (selectedDate < minDate || selectedDate > maxDate) {
+                //var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                if (selectedDate < minDate) {
                     // out off range error
                     $('#customErrorPayDate').children('span').text('Out of Range');
                     $(this).addClass('input-validation-error');
@@ -897,8 +899,8 @@
             if (valid) {
                 var selectedDate = new Date($(this).val());
                 var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-                var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
-                if (selectedDate < minDate || selectedDate > maxDate) {
+                //var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                if (selectedDate < minDate) {
                     // out off range error
                     $('#customErrorPayDate2').children('span').text('Out of Range');
                     $(this).addClass('input-validation-error');
@@ -1198,6 +1200,12 @@
         });
         $('#identificationNumberSearch').focusout(function () {
             $(this).attr('placeholder', 'Last 6 of VIN/HIN/SN');
+        });
+        $('#payDate').focusout(function () {
+            $(this).attr('placeholder', 'MM/DD/YYYY');
+        });
+        $('#payDate2').focusout(function () {
+            $(this).attr('placeholder', 'MM/DD/YYYY');
         });
         //block invalid characters
         $("#identificationNumberSearch").keypress(function (e) {

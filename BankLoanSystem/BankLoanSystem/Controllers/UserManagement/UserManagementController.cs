@@ -1628,7 +1628,8 @@ namespace BankLoanSystem.Controllers
         /// Update View answer in user request table
         /// </summary>
         /// <returns></returns>
-        public ActionResult editViewRequestAns()
+        [HttpPost]
+        public ActionResult UserRequestAns(User user)
         {
             int currentUserId;
 
@@ -2031,7 +2032,7 @@ namespace BankLoanSystem.Controllers
                 }
 
                 RoleAccess ra = new RoleAccess();
-                List<UserRole> roleList = ra.GetAllUserRoles();
+                List<UserRole> roleList = ra.GetAllUserRoles(userData.Company_Id);
                 List<UserRole> tempRoleList = new List<UserRole>();
 
                 for (int i = 0; i < roleList.Count; i++)
@@ -2040,10 +2041,10 @@ namespace BankLoanSystem.Controllers
                     {
                         continue;
                     }
-                    if (roleList[i].RoleId == 4)
-                    {
-                        continue;
-                    }
+                    //if (roleList[i].RoleId == 4)
+                    //{
+                    //    continue;
+                    //}
                     UserRole tempRole = new UserRole()
                     {
                         RoleId = roleList[i].RoleId,
@@ -2057,7 +2058,7 @@ namespace BankLoanSystem.Controllers
                 {
                     User eum = new User();
                     List<User> usrList = new List<User>();
-
+                    List<Branch> brList = new List<Branch>();
                     UserAccess uas = new UserAccess();
                     //usrList = uas.GetAllUsersByCompanyId(userData.Company_Id);
 
@@ -2065,7 +2066,7 @@ namespace BankLoanSystem.Controllers
                     {
                         //get all branches for the company
                         BranchAccess ba = new BranchAccess();
-                        
+
                         eum.BranchList = ba.GetBranchesByCompanyId(userData.Company_Id);
 
                         if (eum.BranchList == null)
@@ -2200,7 +2201,46 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("UserLogin", "Login");
             }
         }
+        
+        public int CheckPasswd(int userId,string Cpwd)
+        {
+            if (userId > 0)
+            {
+                User userObj = new User();
+                UserAccess uas = new UserAccess();
+                userObj = uas.retreiveUserByUserId(userId);
+                string passwordFromDB = userObj.Password;
+                //user.Password = userObj.Password;
+                char[] delimiter = { ':' };
 
+                string[] split = passwordFromDB.Split(delimiter);
+
+                var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
+
+                if (passwordFromDB == null || (checkCharHave == false))
+                {
+                   // return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                }
+
+                string passwordEncripted = PasswordEncryption.encryptPassword(Cpwd, split[1]);
+                int reslt = 0;
+                if (string.Compare(passwordEncripted, passwordFromDB) == 0)
+                {
+                    reslt = 1;
+
+                }
+                else
+                {
+                    reslt = 0;
+                    
+                }
+                return reslt;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         /// <summary>
         /// CreatedBy : Piyumi
         /// CreatedDate: 2016/04/22
@@ -2215,8 +2255,8 @@ namespace BankLoanSystem.Controllers
         {
         if(user!=null) 
         {
-        if((!string.IsNullOrEmpty(user.CurrentPassword)) && (!string.IsNullOrEmpty(user.Password))&& (!string.IsNullOrEmpty(user.ConfirmPassword))) 
-        {
+                if ((!string.IsNullOrEmpty(user.CurrentPassword)) && (!string.IsNullOrEmpty(user.Password)) && (!string.IsNullOrEmpty(user.ConfirmPassword)))
+                {
                     User userObj = new User();
                     userObj = (new UserAccess()).retreiveUserByUserId(user.UserId);
                     string passwordFromDB = userObj.Password;
@@ -2234,17 +2274,19 @@ namespace BankLoanSystem.Controllers
 
                     string passwordEncripted = PasswordEncryption.encryptPassword(user.CurrentPassword, split[1]);
 
-                         if (string.Compare(passwordEncripted, passwordFromDB) == 0)
-                        {
-                            string passwordEncripted1 = PasswordEncryption.encryptPassword(user.Password, split[1]);
+                    if (string.Compare(passwordEncripted, passwordFromDB) == 0)
+                    {
+                        string passwordEncripted1 = PasswordEncryption.encryptPassword(user.Password, split[1]);
                         user.Password = passwordEncripted1;
                         user.CurrentPassword = passwordFromDB;
 
-                        }
-                            else
-                       {
+                    }
+                    else
+                    {
+
                         TempData["UpdteReslt"] = -1;
                         return RedirectToAction("EditUserAtDashboard");
+                        //return View();
                     }
                     //string newSalt = PasswordEncryption.RandomString();
                     //user.CurrentPassword = PasswordEncryption.encryptPassword(user.CurrentPassword, newSalt);

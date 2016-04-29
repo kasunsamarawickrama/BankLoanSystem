@@ -52,9 +52,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -95,9 +95,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -127,9 +127,9 @@ namespace BankLoanSystem.DAL
                 return dataHandler.GetDataExistance("spIsUniqueCompanyName", paramertList);
             }
 
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -169,12 +169,11 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
         }
-
 
         /// <summary>
         /// CreatedBy : Kanishka SHM
@@ -211,9 +210,9 @@ namespace BankLoanSystem.DAL
                     return "";
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
 
         }
@@ -244,34 +243,40 @@ namespace BankLoanSystem.DAL
             {
                 Company company = new Company();
                 DataSet dsCompany = dataHandler.GetDataSet("spGetCompanyDetailsCompanyId", paramertList);
+                if (dsCompany != null && dsCompany.Tables.Count != 0)
+                {
+                    company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
+                    company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
+                    company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
+                    company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
+                    company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
+                    company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
+                    company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
+                    company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
 
-                company.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
-                company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-                company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
-                company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
-                company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
-                company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-                company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
-                company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
+                    string[] zipWithExtention = company.Zip.Split('-');
 
-                string[] zipWithExtention = company.Zip.Split('-');
+                    if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
-                if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                    company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
+                    company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
+                    company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                    company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                    company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
+                    company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
+                    company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
 
-                company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
-                company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
-                company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
-                company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
-                company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
-                company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
-                company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
-
-                return company;
+                    return company;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -318,9 +323,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQLWithReturnVal("spInsertCompany", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                throw ex;
             }
         }
 
@@ -484,11 +489,9 @@ namespace BankLoanSystem.DAL
                     }
                     return true;
                 }
-                catch (SqlException)
+                catch (Exception ex)
                 {
-
-                    return false;
-
+                    throw ex;
                 }
             }
         }
@@ -656,9 +659,9 @@ namespace BankLoanSystem.DAL
                         return false;
                     }
                 }
-                catch (SqlException)
+                catch (Exception ex)
                 {
-                    return false;
+                    throw ex;
                 }
             }
         }
@@ -815,11 +818,11 @@ namespace BankLoanSystem.DAL
                     tran.Commit();
                     return true;
                 }
-                catch (SqlException)
+                catch (SqlException ex)
                 {
                     tran.Rollback();
 
-                    return false;
+                    throw ex;
                 }
             }
         }
@@ -843,8 +846,9 @@ namespace BankLoanSystem.DAL
             if (!string.IsNullOrEmpty(company.CompanyAddress2))
             {
                 company.CompanyAddress2.Trim();
+                paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
             }
-            paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
+           
             paramertList.Add(new object[] { "@stateId", company.StateId });
             paramertList.Add(new object[] { "@city", company.City.Trim() });
             paramertList.Add(new object[] { "@zip", company.Zip.Trim() });
@@ -876,9 +880,9 @@ namespace BankLoanSystem.DAL
             {
                 return dataHandler.ExecuteSQL("spInsertNonRegisteredCompany", paramertList);
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
 
         }
@@ -926,9 +930,9 @@ namespace BankLoanSystem.DAL
 
                 return company;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -977,9 +981,9 @@ namespace BankLoanSystem.DAL
                     return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -1024,11 +1028,11 @@ namespace BankLoanSystem.DAL
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
             return nonRegCompanies;
         }
@@ -1077,9 +1081,9 @@ namespace BankLoanSystem.DAL
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
 
         }

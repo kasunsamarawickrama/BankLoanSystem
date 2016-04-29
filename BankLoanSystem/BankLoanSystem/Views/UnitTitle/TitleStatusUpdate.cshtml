@@ -11,14 +11,29 @@
   
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
-    <link href="~/Content/commonActions.css" rel="stylesheet" />
-    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
+    @*<link href="~/Content/commonActions.css" rel="stylesheet" />
+    <link href="~/Content/overlaypopup.css" rel="stylesheet" />*@
 
+@section AddToHead{
 <style>
      .col-md-2{
     text-align:left;
 }
+
+      #searchGrid table tbody,
+    #searchGrid table thead {
+        display: block;
+    }
+
+
+
+    #searchGrid table tbody {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 </style>
+}
 
 @{
             Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });

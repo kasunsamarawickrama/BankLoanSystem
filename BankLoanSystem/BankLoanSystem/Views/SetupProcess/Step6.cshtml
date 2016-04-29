@@ -331,7 +331,7 @@
                                                 <label class="new_label_style">How many days prior to the Maturity Date should the renewal reminder be sent?</label>
                                             </div>
                                             <div class="col-xs-4 new_text_field">
-                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" } })
+                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" , min = 1 } })
 
                                             </div>
                                             <div class="err_msg_box">
@@ -435,16 +435,16 @@
         });
 
        
-        if (valid >= 11) {
+        if (valid >= 10) {
             if ($("input:checked").length == 0) {
                 $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
                 e.preventDefault();
             }
-            else if ($("#emailReminderError").text().length > 0) {
-                //alert(valid);
-                e.preventDefault();
+            //else if ($("#emailReminderError").text().length > 0) {
+            //    //alert(valid);
+            //    e.preventDefault();
 
-            }
+            //}
         } else {
             if ($("input:checked").length == 0) {
                 $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
@@ -741,6 +741,7 @@
         if (value == "true") {
             $("#AutoReminderEmail").show();
             //$("#emailPeriod").val("");
+           
 
 
 
@@ -750,6 +751,12 @@
             $("#AutoReminderEmail").hide();
             $("#emailPeriod").val("");
             $("#errorAutoEmail").text("");
+
+            $('span[data-valmsg-for="autoReminderPeriod"').children('span').remove();
+            $('#emailPeriod').removeClass('input-validation-error');
+
+            $('span[data-valmsg-for="autoReminderEmail"').children('span').remove();
+            $('#AutoEmail').removeClass('input-validation-error');
         }
 
     }
@@ -806,17 +813,17 @@
 
 
         var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
-        if (value > diffDays) {
-            $("#emailReminderError").text("Out of Range");
-            $("#emailPeriod").addClass("input-validation-error").removeClass('valid');
+        //if (value > diffDays) {
+        //    $("#emailReminderError").text("Out of Range");
+        //    $("#emailPeriod").addClass("input-validation-error").removeClass('valid');
 
-        } else {
-            $("#emailReminderError").text("");
-            $("#emailPeriod").removeClass("input-validation-error");
+        //} else {
+        //    $("#emailReminderError").text("");
+        //    $("#emailPeriod").removeClass("input-validation-error");
 
 
 
-        }
+        //}
 
 
 

@@ -11,20 +11,22 @@ namespace BankLoanSystem.Models
     {
 
         [Required(ErrorMessage = "Please indicate a User Name")]
-        [Display(Name = "User Name")]
+        [Display(Name = "Username")]
         public int UserId { get; set; }
 
 
         [Required(ErrorMessage = "Please indicate a User Name")]
-        [Display(Name = "User Name")]
-        [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "User Name already in use")]
-        [StringLength(30, ErrorMessage = "Your User Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
+        [Display(Name = "Username")]
+        [Remote("IsUserNameExists", "CreateUser", ErrorMessage = "Username already in use")]
+        [StringLength(30, ErrorMessage = "Your Username needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
         [RegularExpression(@"^([a-zA-Z])[a-zA-Z_-]*[\w_-]*[\S]$|^([a-zA-Z])[0-9_-]*[\S]$|^[a-zA-Z]*[\S]$", ErrorMessage = "Please use only letters (a-z) and numbers.")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Please indicate a User Name")]
-        [Display(Name = "User Name")]
+        [Display(Name = "Username")]
         public string UneditUserName { get; set; }
+
+       
 
         [Required(ErrorMessage = "Please enter your First Name")]
         [Display(Name = "First Name")]
@@ -150,7 +152,7 @@ namespace BankLoanSystem.Models
         public User User { get; set; }
 
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Username")]
         public string EditableUserName { get; set; }
 
         [Required]
