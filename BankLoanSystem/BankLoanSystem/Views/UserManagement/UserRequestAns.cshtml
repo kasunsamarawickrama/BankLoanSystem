@@ -12,18 +12,22 @@
     {
         <span id="message_count">@ViewBag.Anscount</span>
     }
-    <div id="messageContainer">
-        <div id="messageTitle">Notifications</div>
-        <div id="messageBody">
-            @{
-                foreach (var item in Model)
-                {
-                    <div class="messagediv">@item.answer</div>
+    @if (Model != null)
+    {
+        <div id="messageContainer">
+            <div id="messageTitle">Notifications</div>
+            <div id="messageBody">
+                @{
+                    foreach (var item in Model)
+                    {
+                        <div class="messagediv">@item.answer</div>
+                    }
                 }
-            }
 
+            </div>
         </div>
-    </div>
+                    }
+  
 
 </span>
 
