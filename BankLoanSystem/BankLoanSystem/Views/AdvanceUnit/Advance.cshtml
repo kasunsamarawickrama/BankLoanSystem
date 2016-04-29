@@ -349,7 +349,7 @@
                     }
                     <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float:right;width:130px;margin-right: 185px;margin-left: -190px;margin-top: 40px;" />
 
-                    <input type="submit" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;margin-top: 40px;margin-left: 40px;"disabled />
+                    <input type="button" name="Advance" value="Advance" id="btnAdvance" class="btn btn-primary m-b next_clear_button next_back" style="width:130px;margin-top: 40px;margin-left: 40px;"disabled />
                     </fieldset>
                 
                 </form>
@@ -623,10 +623,15 @@
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
             },
-            error: function (reponse) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 $('#loadingSpan').hide();
-                alert("error : " + reponse);
+                //alert("error : " + reponse);
                 $('#searchGrid1').hide();
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
     }
@@ -991,6 +996,15 @@
                     } else {
                         $(location).attr('href', '/AdvanceUnit/Advance');
                     }
+                },
+
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }
@@ -1044,6 +1058,14 @@
                 success: function (View) {
 
                     $(location).attr('href', '/AdvanceUnit/Advance');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }
