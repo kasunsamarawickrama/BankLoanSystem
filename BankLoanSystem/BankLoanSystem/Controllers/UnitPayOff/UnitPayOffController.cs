@@ -51,6 +51,64 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             return RedirectToAction("PayOff");
         }
 
+        public ActionResult PayOffGridReload()
+        {
+            if (true) {
+                return RedirectToAction("PayOff");
+            }
+            return View();
+        }
+
+        public ActionResult loadGrid()
+        {
+            int userId = userData.UserId;
+            string loanCode;
+
+            try
+            {
+                loanCode = Session["loanCode"].ToString();
+            }
+            catch (Exception)
+            {
+                //filterContext.Controller.TempData.Add("UserLogin", "Login");
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            }          
+
+            LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+
+
+            BranchAccess ba = new BranchAccess();
+            _companyType = ba.getCompanyTypeByUserId(userData.UserId);
+            ViewBag.ComType = _companyType;
+            ViewBag.loanId = loanDetails.loanId;
+            ViewBag.loanDetails = loanDetails;
+
+            UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
+            CurtailmentAccess payoff = new CurtailmentAccess();
+            unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
+            unitPayOffViewModel.PayDate = DateTime.Now;
+
+            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
+            var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
+            Session["payoffList"] = unitPayOffList;
+            ViewBag.payOffList = unitPayOffList;
+
+            TitleAccess ta = new TitleAccess();
+            Title title = ta.getTitleDetails(loanDetails.loanId);
+
+            if (title != null)
+            {
+                bool isTitleTrack = title.IsTitleTrack;
+                if (isTitleTrack)
+                    ViewBag.IsTitleTrack = "Yes";
+
+            }
+
+            return PartialView(unitPayOffViewModel);
+        }
+
         public ActionResult PayOff()
         {
             int userId = userData.UserId;
@@ -101,80 +159,83 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 }
             }
 
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            //LoanSetupStep1 loanDetails = new LoanSetupStep1();
+            //loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             
 
-            BranchAccess ba = new BranchAccess();
-            _companyType = ba.getCompanyTypeByUserId(userData.UserId);
-            ViewBag.ComType = _companyType;
+            //BranchAccess ba = new BranchAccess();
+            //_companyType = ba.getCompanyTypeByUserId(userData.UserId);
+            //ViewBag.ComType = _companyType;
+            //ViewBag.loanId = loanDetails.loanId;
 
-            UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
 
-            CurtailmentAccess payoff = new CurtailmentAccess();
+
+
+            //UnitPayOffViewModel unitPayOffViewModel = new UnitPayOffViewModel();
+
+            //CurtailmentAccess payoff = new CurtailmentAccess();
             //unitPayOffViewModel.UnitPayOffList = new List<UnitPayOffModel>();
-            unitPayOffViewModel.PayDate = DateTime.Now;
+            //unitPayOffViewModel.PayDate = DateTime.Now;
 
-            unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
-            var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
-            Session["payoffList"] = unitPayOffList;
-            ViewBag.payOffList = unitPayOffList;
+            //unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
+            //var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
+            //Session["payoffList"] = unitPayOffList;
+            //ViewBag.payOffList = unitPayOffList;
             //return View(unitPayOffViewModel);
 
             //Check title 
-            TitleAccess ta = new TitleAccess();
-            Title title = ta.getTitleDetails(loanDetails.loanId);
+            //TitleAccess ta = new TitleAccess();
+            //Title title = ta.getTitleDetails(loanDetails.loanId);
 
-            if (title != null)
-            {
-                bool isTitleTrack = title.IsTitleTrack;
-                if (isTitleTrack)
-                    ViewBag.IsTitleTrack = "Yes";
+            //if (title != null)
+            //{
+            //    bool isTitleTrack = title.IsTitleTrack;
+            //    if (isTitleTrack)
+            //        ViewBag.IsTitleTrack = "Yes";
 
-            }
+            //}
 
             //loanDetails
-            ViewBag.loanDetails = loanDetails;
+            //ViewBag.loanDetails = loanDetails;
 
-            //Set min
 
-            if (TempData["message"] != null)
-            {
-                int res = Convert.ToInt32(TempData["message"]);
-                if (res == 0)
-                {
-                    ViewBag.Msg = "PayOffError";
-                    TempData["out"] = "PayOffError";
-                }
-                else {
-                    ViewBag.Msg = "PayOffSuccess";
-                    TempData["out"] = "PayOffSuccess";
-                }
-            }
-            else if (TempData["out"] != null)
-            {
-                string str = TempData["out"].ToString();
-                if (str == "PayOffError")
-                {
-                    ViewBag.Msg = "PayOffError";
-                    return View(unitPayOffViewModel);
-                }
-                else {
-                    ViewBag.Msg = "PayOffSuccess";
-                    return View(unitPayOffViewModel);
-                }
-            }
-            if (HttpContext.Request.IsAjaxRequest())
-            {
-                ViewBag.AjaxRequest = 1;
-                return PartialView(unitPayOffViewModel);
-            }
-            else
-            {
+            //if (TempData["message"] != null)
+            //{
+            //    int res = Convert.ToInt32(TempData["message"]);
+            //    if (res == 0)
+            //    {
+            //        ViewBag.Msg = "PayOffError";
+            //        TempData["out"] = "PayOffError";
+            //    }
+            //    else {
+            //        ViewBag.Msg = "PayOffSuccess";
+            //        TempData["out"] = "PayOffSuccess";
+            //    }
+            //}
+            //else if (TempData["out"] != null)
+            //{
+            //    string str = TempData["out"].ToString();
+            //    if (str == "PayOffError")
+            //    {
+            //        ViewBag.Msg = "PayOffError";
+            //        return View(unitPayOffViewModel);
+            //    }
+            //    else {
+            //        ViewBag.Msg = "PayOffSuccess";
+            //        return View(unitPayOffViewModel);
+            //    }
+            //}
+            //if (HttpContext.Request.IsAjaxRequest())
+            //{
+            //    ViewBag.AjaxRequest = 1;
+            //    return PartialView();
+            //}
+            //else
+            //{
 
-                return View(unitPayOffViewModel);
-            }
+                return View();
+            //}
         }
 
         //[HttpPost]
@@ -182,8 +243,8 @@ namespace BankLoanSystem.Controllers.UnitPayOff
         //{
         //    return View();
         //}
-
-        public ActionResult UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
+        [HttpPost]
+        public int UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
         {
             int result = 0;
             try
@@ -252,8 +313,8 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 }
 
                 TempData["message"] = result;
-
-                return RedirectToAction("PayOff");
+                
+                return result;
             }
             catch (Exception ex)
             {
