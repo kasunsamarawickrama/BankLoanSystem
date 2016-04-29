@@ -55,7 +55,7 @@ namespace BankLoanSystem.Controllers.Unit
                 {
                     ViewBag.Msg = "Success";
                 }
-                else if (Flag == 0)
+                else if (Flag == 2)
                 {
                     ViewBag.Msg = "Error";
                 }
@@ -182,13 +182,13 @@ namespace BankLoanSystem.Controllers.Unit
 
            int userId = userData.UserId;
 
-            switch (btnAdd)
+            switch (unit.AdvanceNow)
             {
-                case "Add":
+                case "No":
                     unit.IsAdvanced = false;
                     unit.AddAndAdvance = false;
                     break;
-                case "Add and Advance":
+                case "Yes":
                     unit.IsAdvanced = true;
                     unit.AddAndAdvance = true;
                     break;
@@ -201,7 +201,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             string loanCode = Session["loanCode"].ToString();
             unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
-
+            //unit.UnitId = "LEN11_01-56454-78-676-000003";
             //if()
             string IDNumber;
             UnitAccess ua = new UnitAccess();
@@ -309,7 +309,7 @@ namespace BankLoanSystem.Controllers.Unit
                 
                 return RedirectToAction("AddUnit");
             }
-            TempData["Msg"] = 1;
+            TempData["Msg"] = 2;
             return RedirectToAction("AddUnit", unit);
 
             //return Json(new { flag = 0 }, JsonRequestBehavior.AllowGet);
