@@ -26,9 +26,17 @@ namespace BankLoanSystem.Controllers.Unit
                 }
                 else
                 {
-                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch
@@ -175,7 +183,7 @@ namespace BankLoanSystem.Controllers.Unit
 
         [HttpPost]
         [ActionName("AddUnit")]
-        public ActionResult AddUnitPost(Models.Unit unit, string btnAdd, List<HttpPostedFileBase> fileUpload)
+        public ActionResult AddUnitPost(Models.Unit unit, List<HttpPostedFileBase> fileUpload)
         {
             int flag = 0;
            

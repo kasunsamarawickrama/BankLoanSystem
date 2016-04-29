@@ -1038,7 +1038,13 @@
                                         _previousMakeYear = checkYear;
                                         _previousMake     = checkMake;
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                                 });
                         }
@@ -1073,8 +1079,14 @@
                                     _previousMakeYear = checkYear;
                                     _previousMake= "";
                                 },
-                                error: function (reponse) {
-                                }
+                                        error: function (jqXHR, textStatus, errorThrown){
+                                            // Your handler here...
+                                
+                                            // if session expires
+                                            if(jqXHR.status == "404"){
+                                                window.location.href='/Login/UserLogin?lbl=Session expired';
+                                            }
+                                        }
                             });
                         }
                     }
@@ -1140,7 +1152,13 @@
                                 middleSpanCheck();
                             }
                         },
-                        error: function (reponse) {
+                        error: function (jqXHR, textStatus, errorThrown){
+                            // Your handler here...
+                                
+                            // if session expires
+                            if(jqXHR.status == "404"){
+                                window.location.href='/Login/UserLogin?lbl=Session expired';
+                            }
                         }
                     });
 
@@ -1453,17 +1471,35 @@
                                                             document.getElementById('editor1-3').value = "";
                                                         }
                                                     },
-                                                    error: function (reponse) {
+                                                    error: function (jqXHR, textStatus, errorThrown){
+                                                        // Your handler here...
+                                
+                                                        // if session expires
+                                                        if(jqXHR.status == "404"){
+                                                            window.location.href='/Login/UserLogin?lbl="Session expired"';
+                                                        }
                                                     }
                                                 });
                                             
                                         },
-                                        error: function (reponse) {
+                                        error: function (jqXHR, textStatus, errorThrown){
+                                            // Your handler here...
+                                
+                                            // if session expires
+                                            if(jqXHR.status == "404"){
+                                                window.location.href='/Login/UserLogin?lbl=Session expired';
+                                            }
                                         }
                                     });
                                 }
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
 
@@ -1515,7 +1551,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }
@@ -1563,7 +1605,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }else if($('#camperVin').val().length == 0){
@@ -1610,7 +1658,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }else if($('#atvVin').val().length == 0){
@@ -1657,7 +1711,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }else if($('#boatVin').val().length == 0){
@@ -1705,7 +1765,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }else if($('#motorcycleVin').val().length == 0){
@@ -1752,7 +1818,13 @@
                                 }
 
                             },
-                            error: function (reponse) {
+                            error: function (jqXHR, textStatus, errorThrown){
+                                // Your handler here...
+                                
+                                // if session expires
+                                if(jqXHR.status == "404"){
+                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                }
                             }
                         });
                     }else if($('#snowmobileVin').val().length == 0){
