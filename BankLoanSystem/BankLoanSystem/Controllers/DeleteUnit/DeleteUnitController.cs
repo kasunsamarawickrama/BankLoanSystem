@@ -103,48 +103,47 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             //_companyType = ba.getCompanyTypeByUserId(userData.UserId);
             //ViewBag.ComType = _companyType;
 
-            if (TempData["message"] != null)
-            {
-                int res = Convert.ToInt32(TempData["message"]);
-                if (res == 0)
-                {
-                    ViewBag.Msg = "DeleteError";
-                    TempData["out"] = "DeleteError";
-                }
-                else {
-                    ViewBag.Msg = "DeleteSuccess";
-                    TempData["out"] = "DeleteSuccess";
-                }
-            }
-            else if (TempData["out"] != null)
-            {
-                string str = TempData["out"].ToString();
-                if (str == "DeleteError")
-                {
-                    ViewBag.Msg = "DeleteError";
-                    return View(unitDeleteViewModel);
-                }
-                else {
-                    ViewBag.Msg = "DeleteSuccess";
-                    return View(unitDeleteViewModel);
-                }
-            }
+            //if (TempData["message"] != null)
+            //{
+            //    int res = Convert.ToInt32(TempData["message"]);
+            //    if (res == 0)
+            //    {
+            //        ViewBag.Msg = "DeleteError";
+            //        TempData["out"] = "DeleteError";
+            //    }
+            //    else {
+            //        ViewBag.Msg = "DeleteSuccess";
+            //        TempData["out"] = "DeleteSuccess";
+            //    }
+            //}
+            //else if (TempData["out"] != null)
+            //{
+            //    string str = TempData["out"].ToString();
+            //    if (str == "DeleteError")
+            //    {
+            //        ViewBag.Msg = "DeleteError";
+            //        return View(unitDeleteViewModel);
+            //    }
+            //    else {
+            //        ViewBag.Msg = "DeleteSuccess";
+            //        return View(unitDeleteViewModel);
+            //    }
+            //}
 
             return View(unitDeleteViewModel);
         }
-
-        public ActionResult GridView(int? viewType, string id, string year, string make, string model)
+        
+        public UnitDeleteViewModel GetGridViewDetails(int? viewType, string id, string year, string make, string model)
         {
             UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
-            int? a = viewType;
 
             if (Session["UnitDeleteList"] != null)
             {
-                unitModel.DeleteUnits = (List<UnitDeleteModel>) Session["UnitDeleteList"];
+                unitModel.DeleteUnits = (List<UnitDeleteModel>)Session["UnitDeleteList"];
 
                 if (viewType == 1)
-                    unitModel.DeleteUnits =  unitModel.DeleteUnits.Where(x => x.UnitStaus == 1).ToList();
-                else if(viewType == 2)
+                    unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.UnitStaus == 1).ToList();
+                else if (viewType == 2)
                     unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.UnitStaus == 0).ToList();
                 else if (viewType == 5)
                 {
@@ -215,6 +214,103 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     }
                 }
             }
+            return unitModel;
+        }
+
+        static int? _viewType;
+        static string _id;
+        static string _year;
+        static string _make;
+        static string _model;
+
+        public ActionResult GridView(int? viewType, string id, string year, string make, string model)
+        {
+            _viewType = viewType;
+            _id = id;
+            _year = year;
+            _make = make;
+            _model = model;
+
+            UnitDeleteViewModel unitModel = GetGridViewDetails(viewType, id, year, make, model);
+            //int? a = viewType;
+
+            //if (Session["UnitDeleteList"] != null)
+            //{
+            //    unitModel.DeleteUnits = (List<UnitDeleteModel>) Session["UnitDeleteList"];
+
+            //    if (viewType == 1)
+            //        unitModel.DeleteUnits =  unitModel.DeleteUnits.Where(x => x.UnitStaus == 1).ToList();
+            //    else if(viewType == 2)
+            //        unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.UnitStaus == 0).ToList();
+            //    else if (viewType == 5)
+            //    {
+            //        //unitModel.DeleteUnits = unitModel.DeleteUnits.Where( x => ( year != "" && x.Year == year) && (make != "" && x.Make == make)).ToList();
+            //        if (id != "" && year != "" && make != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year && x.Make == make && x.Model == model).ToList();
+            //        }
+            //        else if (id != "" && year != "" && make != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year && x.Make == make).ToList();
+            //        }
+            //        else if (id != "" && year != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year && x.Model == model).ToList();
+            //        }
+            //        else if (id != "" && make != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Make == make && x.Model == model).ToList();
+            //        }
+            //        else if (id != "" && year != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year).ToList();
+            //        }
+            //        else if (id != "" && make != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Make == make).ToList();
+            //        }
+            //        else if (id != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Model == model).ToList();
+            //        }
+            //        else if (year != "" && make != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Year == year && x.Make == make && x.Model == model).ToList();
+            //        }
+            //        else if (year != "" && make != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Year == year && x.Make == make).ToList();
+            //        }
+            //        else if (year != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Year == year && x.Model == model).ToList();
+            //        }
+            //        else if (make != "" && model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Make == make && x.Model == model).ToList();
+            //        }
+            //        else if (id != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id).ToList();
+            //        }
+            //        else if (year != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Year == year).ToList();
+            //        }
+            //        else if (make != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Make == make).ToList();
+            //        }
+            //        else if (model != "")
+            //        {
+            //            unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.Model == model).ToList();
+            //        }
+            //        else
+            //        {
+            //            unitModel.DeleteUnits = new List<UnitDeleteModel>();
+            //        }
+            //    }
+            //}
 
             return PartialView(unitModel);
         }
@@ -266,19 +362,32 @@ namespace BankLoanSystem.Controllers.DeleteUnit
         public ActionResult DeleteUnitPost(string unitId,string identificationNo)
         {
             UnitAccess ua = new UnitAccess();
-
+            UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
             int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+            
             if (res == 1)
             {
+                if (Session["UnitDeleteList"] != null)
+                {
+                    unitModel.DeleteUnits = (List<UnitDeleteModel>) Session["UnitDeleteList"];
+                    var itemToRemove = unitModel.DeleteUnits.Single(r => r.UnitId == unitId);
+                    unitModel.DeleteUnits.Remove(itemToRemove);
+                    Session["UnitDeleteList"] = unitModel.DeleteUnits;
+                }
+
                 Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loan.loanId, "Delete Unit", "Delete Unit:" + identificationNo, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
             }
+            else
+            {
+                return new HttpStatusCodeResult(400, "Failed to delete unit, try again!");
+            }
 
-
-            TempData["message"] = res;
-
-            return RedirectToAction("Delete");
+            //TempData["message"] = res;
+            unitModel = GetGridViewDetails(_viewType, _id, _year, _make, _model);
+            //return RedirectToAction("Delete");
+            return PartialView("GridView", unitModel);
         }
     }
 }
