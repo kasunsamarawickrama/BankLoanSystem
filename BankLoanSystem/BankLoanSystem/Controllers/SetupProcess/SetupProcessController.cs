@@ -264,8 +264,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("Step2");
             }
 
-            return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to Setup company." });
-            //return new HttpStatusCodeResult(404, "Failed to Setup company.");
+            //return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to Setup company." });
+            return new HttpStatusCodeResult(404, "Failed to Setup company.");
         }
 
         /// <summary>
