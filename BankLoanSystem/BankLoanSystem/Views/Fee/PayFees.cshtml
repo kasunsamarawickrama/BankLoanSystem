@@ -488,9 +488,13 @@
                     //    $('#checkableGridDiv').show();
                     //}
                 },
-                error: function (reponse) {
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
 
-                    window.location.href = '/Login/UserLogin';
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }

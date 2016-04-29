@@ -239,6 +239,7 @@
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\pikaday.js" />
     <Content Include="scripts\popup.js" />
+    <Content Include="Uploads\DEA09\DEA09_01\DEA09_01-19901025-2334-000003_01.PNG" />
     <Content Include="Uploads\LEN01\LEN01_01\script.sql" />
     <Content Include="Uploads\LEN01\LEN01_02\ffffffffffff.jpg" />
     <Content Include="Uploads\LEN01\LEN01_02\imagesee.jpg" />
@@ -505,7 +506,7 @@
     <Content Include="Views\UserManagement\EditUserAtDashboard.cshtml" />
     <Content Include="Views\Fee\SearchFee.cshtml" />
     <Content Include="Views\AdvanceUnit\loadTitles.cshtml" />
-    <None Include="Properties\PublishProfiles\NewUp.pubxml" />
+    <Content Include="Views\UnitPayOff\loadGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -515,6 +516,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\SAM01\" />
     <Folder Include="Views\Dealer\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
@@ -539,7 +541,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57318</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
