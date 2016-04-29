@@ -104,21 +104,25 @@ namespace BankLoanSystem.DAL
                                 {
                                     fee.IdentificationNumber = info[1];
                                 }
-                                if (info.Length > 1 && info[2] != "")
+                                if (info.Length > 2 && info[2] != "")
                                 {
                                     fee.Year = Convert.ToInt32(info[2]);
                                 }
-                                if (info.Length > 2 && info[3] != "")
+                                if (info.Length > 3 && info[3] != "")
                                 {
                                     fee.Make = info[3];
                                 }
-                                if (info.Length > 3 && info[4] != "")
+                                if (info.Length > 4 && info[4] != "")
                                 {
                                     fee.Model = info[4];
                                 }
+                                if (info.Length > 5 && info[5] != "")
+                                {
+                                    fee.AdvanceDate = Convert.ToDateTime(info[5]);
+                                }
                             }
                             //fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                            fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
+                            //fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
                         }
                         lstFee.Add(fee);
                     }

@@ -297,36 +297,38 @@ namespace BankLoanSystem.DAL
         /// </summary>
         public List<UnitPayOffModel> GetUnitPayOffList(int loanId)
         {
-            try { 
-            List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
-            
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
+            try
+            {
+                List<UnitPayOffModel> payOffList = new List<UnitPayOffModel>();
 
-            DataSet dataSet = dataHandler.GetDataSet("spRetriveUnitPayoff", paramertList);
-            if (dataSet != null && dataSet.Tables.Count != 0)
-            {
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
+
+                DataSet dataSet = dataHandler.GetDataSet("spRetriveUnitPayoff", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
                 {
-                    UnitPayOffModel payoff = new UnitPayOffModel();
-                    payoff.LoanId = loanId;
-                    payoff.UnitId = dataRow["UnitId"].ToString();
-                    payoff.DateEntered = DateTime.Parse(dataRow["created_date"].ToString());
-                    payoff.IdentificationNumber = dataRow["identification_number"].ToString();
-                    payoff.Year = Convert.ToInt32(dataRow["year"]);
-                    payoff.Make = dataRow["make"].ToString();
-                    payoff.Model = dataRow["model"].ToString();
-                    payoff.PurchasePrice = Convert.ToDecimal(dataRow["cost"].ToString());
-                    payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
-                    payOffList.Add(payoff);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        UnitPayOffModel payoff = new UnitPayOffModel();
+                        payoff.LoanId = loanId;
+                        payoff.UnitId = dataRow["UnitId"].ToString();
+                        payoff.DateEntered = DateTime.Parse(dataRow["created_date"].ToString());
+                        payoff.IdentificationNumber = dataRow["identification_number"].ToString();
+                        payoff.Year = Convert.ToInt32(dataRow["year"]);
+                        payoff.Make = dataRow["make"].ToString();
+                        payoff.Model = dataRow["model"].ToString();
+                        payoff.PurchasePrice = Convert.ToDecimal(dataRow["cost"].ToString());
+                        payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
+                        payoff.DateAdvanced = Convert.ToDateTime(dataRow["advance_date"].ToString());
+                        payOffList.Add(payoff);
+                    }
+                    return payOffList;
                 }
-                return payOffList;
-            }
-            else
-            {
-                return payOffList;
-            }
+                else
+                {
+                    return payOffList;
+                }
             }
             catch (Exception ex)
             {
