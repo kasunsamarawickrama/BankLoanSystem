@@ -19,11 +19,12 @@
                     htmlAttributes: new { id = "checkableGrid" },
                     columns: grid.Columns(
                     grid.Column(style: "gridColumnSelect",
-                        format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" /></text>
+                        format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />
+                                      <input type="hidden" id="advanceDate" name="advanceDate" value="@item.DateAdvanced" /></text>
                             , header: "{checkall}"
 
                     ),
-                        grid.Column("Date Entered", "Date Entered", canSort: false,  style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
+                        grid.Column("Date Entered", "Date Entered", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
                         grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                         grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
                         grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
@@ -184,6 +185,7 @@
                 <fieldset>
                     <div class="form-group row">
                         <input type="hidden" value="" id="iUnitId" />
+                        <input type="hidden" value="" id="iAdvanceDate" />
                         <div class="col-md-2" style="width: 26%;">
                             <label for="">Vin/HIN/Serial </label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
@@ -613,6 +615,7 @@
             $('#iCost').val(tr.find("#cost").text());
             $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
             $('#iUnitId').val(tr.find("#all").val());
+            $('#iAdvanceDate').val(tr.find("#advanceDate").val());
             $("#payDate2").removeAttr("disabled");
             $("#singleUnitDiv").show();
             $("#btnPay").removeAttr("disabled");
@@ -683,6 +686,8 @@
                         var year = $(this).find("#year").text(); //document.getElementById('iYear').value;
                         var make = $(this).find("#make").text(); //document.getElementById('iMake').value;
                         var model = $(this).find("#model").text(); //document.getElementById('iModel').value;
+                        var advanceDate = $(this).find("#advanceDate").val();
+
                         var payOffModel = {
                             LoanId: loanId,
                             UnitId: unitId,
@@ -690,7 +695,8 @@
                             IdentificationNumber: idNum,
                             Year: year,
                             Make: make,
-                            Model: model
+                            Model: model,
+                            DateAdvanced: advanceDate
                         };
                         data.payOffModelList.push(payOffModel);
                     }
@@ -761,6 +767,7 @@
                 var year = document.getElementById('iYear').value;
                 var make = document.getElementById('iMake').value;
                 var model = document.getElementById('iModel').value;
+                var advanceDate = document.getElementById('iAdvanceDate').value;
 
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
@@ -770,7 +777,8 @@
                         Balance: balance,
                         Year: year,
                         Make: make,
-                        Model: model
+                        Model: model,
+                        DateAdvanced: advanceDate
                     };
                     data.payOffModelList.push(payOffModel);
 
