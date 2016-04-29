@@ -554,6 +554,7 @@
 
         $('.centered span').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
+       
     });
     function ClearMainGrid() {
         var count = 0;
@@ -606,7 +607,8 @@
         $('#noDataLabelDiv').text("");
         $('.label-success').text("");
         $('#errorStartDate').text("");
-                            
+        $('#errorStartDate').text('');
+        $('#startDate').removeClass('input-validation-error');
     }
                         
 
@@ -735,7 +737,8 @@
                             $("#startDate").attr("disabled", "disabled");
                             ClearTextBoxValues();
                         }
-
+                        $('#errorStartDate').text('');
+                        $('#startDate').removeClass('input-validation-error');
                     }
                 })
 
@@ -817,6 +820,8 @@
                     $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                 }
             }
+            $('#errorStartDate').text('');
+            $('#startDate').removeClass('input-validation-error');
 
         });
 
@@ -901,6 +906,8 @@
             } else {
                 SetRadioBtnHeaderChecked();
             }
+            $('#errorStartDate').text('');
+            $('#startDate').removeClass('input-validation-error');
         }
     }));
 
