@@ -161,6 +161,14 @@
                         $('#changeContainer').show();
                         $('.centered span').text('');
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
             }

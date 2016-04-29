@@ -228,7 +228,7 @@
 
             </div>
 
-            <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
+            <div class="info-bar" id="checkableGridDiv" hidden style="margin-top:10px;padding:1px 0px 30px 0px">
 
               <!-- this is for grid-->
 
@@ -390,6 +390,7 @@
 
     $('#btnCancel').click(function() {
         //location.reload();
+        $('.centered span').text('');
         ClearTextBoxText();
 
         $('#deleteGrid').children('tbody').children('tr').each(function () {
@@ -414,6 +415,8 @@
         
         var viewType = $('.viewType').filter(':checked').val();
         ClearTextBoxText();
+
+        $('.centered span').text('');
 
         $('#feeDetails').hide();
 
@@ -442,6 +445,7 @@
     });
 
     $('#btnSearch').click(function () {
+        $('.centered span').text('');
         var viewType = 5;
         $('#btnClear').prop('disabled', false);
         var id = $("#identificationNumberSearch").val();
@@ -514,13 +518,25 @@
                     contentType: 'application/json;',
                     data: JSON.stringify({ unitId: $('#unitId').val(), identificationNo: $('#identificationNumber').val() }),
                     success: function(View) {
-                        location.reload();
+                        //location.reload();
+                        $('.overlay-bg, .overlay-content').hide();
+                        window.scrollTo(0, 0);
 
+                        ClearTextBoxText();
+                        $('.centered1 span').text('The unit was deleted.');
+                        $('#feeDetails').hide();
+
+                        $('#checkableGridDiv').html(View);
+                        $('#checkableGridDiv').show();
                         //.highlight { background-color: lightblue; }
                     },
-                    error: function(reponse) {
-                        $('#loadingSpan').hide();
-                        alert("error : " + reponse);
+                    error: function (reponse) {
+                        $('.overlay-bg, .overlay-content').hide();
+                        window.scrollTo(0, 0);
+
+                        //ClearTextBoxText();
+                        $('.centered span').text('Failed to delete unit, try again!');
+                        //$('#feeDetails').hide();
                     }
                 });
             }, function no() {
