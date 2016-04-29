@@ -349,6 +349,14 @@
                 $('.centered span').text('');
 
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
 
@@ -853,10 +861,14 @@
                         });
 
                     },
-                    error: function (reponse) {
-
-                        alert("error : " + reponse);
+                    
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
                         $('#searchGrid1').hide();
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
             }
@@ -1032,6 +1044,14 @@
 
                     }
 
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
 
                 
@@ -1193,6 +1213,14 @@
 
                         }
 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
                     }
                 });
 
