@@ -1085,36 +1085,36 @@
                 }
 
 
-                $('.vinUnique').change(function(){
-                    $.ajax({
-                        url: '/Unit/IsVinExists',
-                        type: 'POST',
-                        contentType: 'application/json;',
-                        data: JSON.stringify({identificationNumber :$(this).val()}),
-                        success: function (data) {
-                            //alert(data);
-                            if(data == 0){
-                               // $('.centered span').text('Error');
-                                $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
-                                middleSpanCheck();
-                            }else if(data == 1){
-                              //  $('.centered span').text('Error');
-                                $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
-                                middleSpanCheck();
-                            }
-                            else if(data == 2){
-                                showPopup(8);
-                            }
-                            else{
-                                $('.vinCheck').text("");
-                                middleSpanCheck();
-                            }
-                        },
-                        error: function (reponse) {
-                        }
-                    });
+                //$('.vinUnique').change(function(){
+                //    $.ajax({
+                //        url: '/Unit/IsVinExists',
+                //        type: 'POST',
+                //        contentType: 'application/json;',
+                //        data: JSON.stringify({identificationNumber :$(this).val()}),
+                //        success: function (data) {
+                //            //alert(data);
+                //            if(data == 0){
+                //               // $('.centered span').text('Error');
+                //                $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
+                //                middleSpanCheck();
+                //            }else if(data == 1){
+                //              //  $('.centered span').text('Error');
+                //                $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
+                //                middleSpanCheck();
+                //            }
+                //            else if(data == 2){
+                //                showPopup(8);
+                //            }
+                //            else{
+                //                $('.vinCheck').text("");
+                //                middleSpanCheck();
+                //            }
+                //        },
+                //        error: function (reponse) {
+                //        }
+                //    });
 
-                });
+                //});
                 $('.vinUnique').focusout(function(){
                     $.ajax({
                         url: '/Unit/IsVinExists',
