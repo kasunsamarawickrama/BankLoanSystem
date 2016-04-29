@@ -162,7 +162,11 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.Msg = "Error";
             }
-           
+            else if (flag == 3)
+            {
+                ViewBag.Msg = "Advance amount error";
+            }
+
             return View(advanceUnit);
         }
 
@@ -172,7 +176,9 @@ namespace BankLoanSystem.Controllers
             
             return PartialView(tl);
         }
-       
+
+
+        
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:2016/2/27
@@ -241,6 +247,18 @@ namespace BankLoanSystem.Controllers
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);           
             ViewBag.ErrorMsg = "";
             UnitAccess unitAccess = new UnitAccess();
+            
+            if (Session["notAdvancedList"] != null)
+            {
+                List<Models.Unit> lstUnit = (List<Models.Unit>)Session["notAdvancedList"];
+                if(!loanSetupStep1.isEditAllowable && lstUnit.Find(a => a.UnitId == unit.UnitId).AdvanceAmount != unit.AdvanceAmount)
+                {
+                    TempData["updateReslt"] = 3;
+                    return 3;
+                    
+                }
+                
+            }
 
             int reslt = unitAccess.AdvanceItem(unit, loanSetupStep1.loanId, userData.UserId, unit.AdvanceDate);
             TempData["updateReslt"] = reslt;
@@ -307,6 +325,21 @@ namespace BankLoanSystem.Controllers
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             ViewBag.ErrorMsg = "";
+
+            if (Session["notAdvancedList"] != null)
+            {
+                List<Models.Unit> lstUnit = (List<Models.Unit>)Session["notAdvancedList"];
+                foreach (Models.Unit modifiedUnit in list.ItemList)
+                {
+                    if (!loanSetupStep1.isEditAllowable && lstUnit.Find(a => a.UnitId == modifiedUnit.UnitId).AdvanceAmount != modifiedUnit.AdvanceAmount)
+                    {
+                        TempData["updateReslt"] = 3;
+                        return 0;
+                    }
+                }
+
+            }
+
             UnitAccess unitAccess = new UnitAccess();
             int reslt = unitAccess.AdvanceItemList(list.ItemList, loanSetupStep1.loanId, userData.UserId, list.ItemList[0].AdvanceDate);
             TempData["updateReslt"] = reslt;

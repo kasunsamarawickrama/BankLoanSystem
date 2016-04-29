@@ -392,7 +392,7 @@ namespace BankLoanSystem.DAL
             }
             else {
                 unit.UnitStatus = 0;
-                paramertList.Add(new object[] { "@advance_date", DateTime.Now });
+                paramertList.Add(new object[] { "@advance_date", null });
             }
             paramertList.Add(new object[] { "@unit_status", unit.UnitStatus });
             paramertList.Add(new object[] { "@is_approved", unit.IsApproved });
@@ -400,15 +400,15 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                bool val = dataHandler.ExecuteSQL("spInsertUnitDetails", paramertList) ? true : false ;
+                int val = dataHandler.ExecuteSQLReturn("spInsertUnitDetails", paramertList);
 
 
-                if (val == true && unit.AddAndAdvance)
+                if (val == 1 && unit.AddAndAdvance)
                 {
 
                     return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
                 }
-                else if (val == true) {
+                else if (val ==1) {
                     return true;
                 }
                 else {
@@ -1453,7 +1453,7 @@ namespace BankLoanSystem.DAL
                 string fee_due_method = "";
                 decimal fee_amount = 0;
                 DateTime fee_billdate = payday;
-                string v_vin = "", v_year = "", v_model = "", v_make = "";
+                string v_vin = "", v_year = "", v_model = "", v_make = "", v_advance_date = "";
 
                 DataHandler dataHandler = new DataHandler();
 
@@ -1474,8 +1474,9 @@ namespace BankLoanSystem.DAL
                 v_make = unit.Make;
                 v_model = unit.Model;
                 v_year = unit.Year.ToString();
+                v_advance_date = unit.DateAdvanced.ToString("MM/dd/yyyy");
 
-                string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model;
+                string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model + "," + v_advance_date;
 
                 if(fee_due_method== "Vehicle Payoff")
                 {
