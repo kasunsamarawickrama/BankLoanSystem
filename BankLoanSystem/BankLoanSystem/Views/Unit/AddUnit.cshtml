@@ -174,7 +174,6 @@
                                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger"})
                                             <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
                                         </div>
-
                                     <label class="control-label col-md-2">
                                         Trim
                                         <span class="optional">(Optional)</span>
@@ -254,8 +253,8 @@
                                     @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style" >
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -441,8 +440,8 @@
                                     @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-2 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
                                         </div>
 
@@ -516,8 +515,8 @@
                                     @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -583,8 +582,8 @@
                                     @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -666,8 +665,8 @@
                                     @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -727,8 +726,8 @@
                                     @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new {  @class = "yes" }) New
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;" ,@class="no"}) Used
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) Used
                                             @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -794,7 +793,7 @@
                                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
-                                                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
+                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
                                 </div>
                             </div>
 
@@ -826,7 +825,7 @@
                                 
                                 </div>
                             }
-                                                @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
+                            @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
                             {
                                 <div class="form-group" id="fileUploader">
                                     @Html.HiddenFor(i => i.FileName)
@@ -852,7 +851,7 @@
                         @*PAYMENT DETAILS END*@
 
                         @if (ViewBag.RoleId != 4)
-                {
+                        {
                             <div style="padding:20px 20px 10px 20px">
                                 <div class="form-group" >
                                     @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
@@ -2806,6 +2805,11 @@
                         $('#btnSubmit').prop('disabled', false);
                     }
 
+                    if($('.conditionRadio:checked').length > 0){
+                    
+                    }else{
+                        $('#btnSubmit').prop('disabled', false);
+                    }
 
                     if($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
                         if($('#rdAdvanceYes').is(':checked')){
