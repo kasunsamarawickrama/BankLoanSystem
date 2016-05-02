@@ -32,7 +32,17 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                 }
                 else
                 {
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch (Exception ex)

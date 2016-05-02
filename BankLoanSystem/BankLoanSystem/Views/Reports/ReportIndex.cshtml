@@ -532,10 +532,15 @@
             success: function (view) {
                 //alert(view);
             },
-            error: function (reponse) {
-                //alert(reponse);
-                ('#errPage span').text('No printers are installed.');
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
 
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                } else {
+                    $('#errPage span').text('No printers are installed.');
+                }
             }
         });
 
