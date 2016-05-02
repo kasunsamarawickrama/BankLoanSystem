@@ -30,9 +30,9 @@
 
                                                        grid.Column("AdvanceDate", "Date Advanced", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="AdvanceDate">@item.AdvanceDate.ToShortDateString()</label>}</text>),
                                                       grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                                                      grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                                      grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                                                      grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+                                                      grid.Column("Year", "Year", style: "gridColumnSmall", canSort: false, format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+                                                      grid.Column("Make", "Make", style: "gridColumnOthers", canSort: false, format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+                                                      grid.Column("Model", "Model", style: "gridColumnOthers", canSort: false, format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                                                   grid.Column("BillDueDate", "Due Date", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="BillDueDate" class="AdvanceDate">@item.FeeDueDate.ToShortDateString()</label>}</text>),
                                                       //grid.Column(
                                                       //     "BillDueDate",
