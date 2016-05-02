@@ -38,11 +38,15 @@ namespace BankLoanSystem.Controllers
                     if (HttpContext.Request.IsAjaxRequest())
                     {
 
-                         //new HttpStatusCodeResult(404, "Failed to Setup company.");
-                        return;
-                    }
-                        //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+
+                    }else
+                    {
                         filterContext.Result = new RedirectResult("~/Login/UserLogin");
+
+                    }
+                    //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    
                 }
             }
             catch
@@ -795,14 +799,7 @@ namespace BankLoanSystem.Controllers
         {
 
 
-            if (Session["AuthenticatedUser"] == null)
-            {
-                if (HttpContext.Request.IsAjaxRequest())
-                {                   
-                    return new HttpStatusCodeResult(404, "Failed to Setup company.");
-                }
-
-            }
+            
             LoanSelection detail = new LoanSelection();
             //if edit loan
            if (!string.IsNullOrEmpty(type) && type.Contains("tidenaol")) 
