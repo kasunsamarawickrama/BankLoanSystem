@@ -1523,7 +1523,8 @@ namespace BankLoanSystem.DAL
 
                         unit.LoanId = loanId;
                         unit.UnitId = dataRow["unit_id"].ToString();
-                        unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        //unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy") : "";
                         unit.IdentificationNumber = dataRow["identification_number"].ToString();
                         unit.Year = dataRow["year"].ToString();
                         unit.Make = dataRow["make"].ToString();
