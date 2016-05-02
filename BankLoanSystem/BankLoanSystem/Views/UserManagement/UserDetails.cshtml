@@ -422,10 +422,13 @@
     });
 
 
-    function handleError(ajaxContext) {
+    function handleError(jqXHR, textStatus, errorThrown) {
 
 
-        //alert("Some thing went wrong... You have to Login again");
-        window.location.href = "/Login/UserLogin";
+        // if session expires
+        if (jqXHR.status == "404") {
+            window.location.href = '/Login/UserLogin?lbl=Session expired';
+        }
+        
     }
 </script>

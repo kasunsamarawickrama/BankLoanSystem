@@ -30,12 +30,12 @@ namespace BankLoanSystem.Models
 
         [Required(ErrorMessage = "Please enter your First Name")]
         [Display(Name = "First Name")]
-        [StringLength(30, ErrorMessage = "Your First Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "First Name cannot be more than 30 characters in length. Please use an abbreviation.", MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please enter your Last Name")]
         [Display(Name = "Last Name")]
-        [StringLength(30, ErrorMessage = "Your Last Name needs to be between 3 and 30 characters in length.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "Last Name cannot be more than 30 characters in length. Please use an abbreviation.", MinimumLength = 3)]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter your Email Address")]

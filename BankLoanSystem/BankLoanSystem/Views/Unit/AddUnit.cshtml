@@ -174,7 +174,6 @@
                                             @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger"})
                                             <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
                                         </div>
-
                                     <label class="control-label col-md-2">
                                         Trim
                                         <span class="optional">(Optional)</span>
@@ -253,9 +252,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style" >
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -336,7 +335,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
-                                        <div>
+                                        <div class="radio">
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
@@ -440,9 +439,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-2 rad-style">
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
                                         </div>
 
@@ -515,9 +514,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -582,9 +581,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -665,9 +664,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
                                             @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -726,9 +725,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4 rad-style">
-                                        <div>
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                        <div class="radio">
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) Used
                                             @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -794,7 +793,7 @@
                                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
-                                                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
+                                    <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
                                 </div>
                             </div>
 
@@ -826,7 +825,7 @@
                                 
                                 </div>
                             }
-                                                @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
+                            @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
                             {
                                 <div class="form-group" id="fileUploader">
                                     @Html.HiddenFor(i => i.FileName)
@@ -852,7 +851,7 @@
                         @*PAYMENT DETAILS END*@
 
                         @if (ViewBag.RoleId != 4)
-                {
+                        {
                             <div style="padding:20px 20px 10px 20px">
                                 <div class="form-group" >
                                     @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
@@ -2469,6 +2468,9 @@
                     var cost = document.getElementById("txtCost").value;
                     var advance = document.getElementById("txtAdvanceAmount").value;
 
+
+
+
                     if (vin == ""  || cost =="" || advance == "") {
                         $('#btnSubmit').prop('disabled', false);
                     } 
@@ -2797,7 +2799,33 @@
                     } else {
 
                     }
+                    if($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
+                        
+                    }else{
+                        $('#btnSubmit').prop('disabled', false);
+                    }
 
+                    if($('.conditionRadio:checked').length > 0){
+                    
+                    }else{
+                        $('#btnSubmit').prop('disabled', false);
+                    }
+
+                    if($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
+                        if($('#rdAdvanceYes').is(':checked')){
+                            //alert(checkDate());
+                            if(checkDate()){
+
+                            }
+                            else{
+                                $('#btnSubmit').prop('disabled', false);
+                                e.preventDefault();
+                            }
+                        }
+
+                    }else{
+                        $('#btnSubmit').prop('disabled', false);
+                    }
                     var cost = parseFloat(document.getElementById('txtCost').value);
                     var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
                     if (advance > cost) {
@@ -2953,7 +2981,7 @@
 
                 function middleSpanCheck(){
                     if ($('input').next('span').children('span').text().length > 1 || $('.vinCheck').text()) {
-                        
+
                         $('.centered span').text('Error');
                     }
                     //else if ($('.vinCheck').text().length > 0) {
@@ -3045,7 +3073,7 @@
                 function ClearVin(){
                     $('.vinUnique').val("");
                     $('.custom-combobox-input').val("");
-                
+
                 }
                 $('.dateKeyPressValidate').keypress(function (e) {
                     var ch = e.which;
@@ -3093,6 +3121,44 @@
                         $('.centered span').text('Error');
                     }
                 });
+
+                function checkDate(){
+                    if ($('#advanceDate').val() == "") {
+                        $('#errorAdvanceDate').text('Please select the Advance Date');
+                        $('#advanceDate').addClass('input-validation-error');
+                        $('#advanceDate').attr('placeholder', 'MM/DD/YYYY');
+                        $('.centered span').text('Error');
+                        return false;
+                    }
+                    var valid = isValidDate($('#advanceDate').val());
+                    if (valid) {
+                        var selectedDate = new Date($('#advanceDate').val());
+                        var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
+                        var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+                        if (selectedDate < minDate || selectedDate > maxDate) {
+                            // out off range error
+                            $('#errorAdvanceDate').text('Out of Range');
+                            $('#advanceDate').addClass('input-validation-error');
+                            $('.centered span').text('Error');
+                            return false;
+                        } else {
+                            // delete error mssage
+                            $('#errorAdvanceDate').text('');
+                            $('#advanceDate').removeClass('input-validation-error');
+                            return true;
+                        }
+
+
+
+                    } else {
+
+                        // not valid data error
+                        $('#errorAdvanceDate').text('Not valid date');
+                        $('#advanceDate').addClass('input-validation-error');
+                        $('.centered span').text('Error');
+                        return false;
+                    }
+                }
             </script>
 
 
