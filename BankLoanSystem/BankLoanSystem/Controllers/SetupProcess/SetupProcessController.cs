@@ -2076,22 +2076,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             StepAccess step = new StepAccess();
 
-            if (fees.AdvanceDue == "Vehicle Payoff")
+            if (fees.AdvanceDue == "At time of unit payoff")
             {
                 fees.AdvanceDueDate = "VP";
             }
-            if (fees.MonthlyLoanDue == "Vehicle Payoff")
-            {
-                fees.MonthlyLoanDueDate = "VP";
-            }
-            if (fees.AdvanceDue == "Time of Advance")
+            if (fees.AdvanceDue == "At time of advance")
             {
                 fees.AdvanceDueDate = "ToA";
             }
-            if (fees.MonthlyLoanDue == "Time of Advance")
-            {
-                fees.MonthlyLoanDueDate = "ToA";
-            }
+
             //if (fees.IsAdvanceFeeCompleteEmailReminder == false)
             //{
             //    fees.AdvanceFeeDealerEmail = "";
@@ -2126,7 +2119,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // after hide the due methods
 
-            fees.MonthlyLoanDue = "Once a Month";
+            fees.MonthlyLoanDue = "Once a month";
             fees.LotInspectionDue = "Monthly";
 
             if (step.InsertFeesDetails(fees))
@@ -2216,34 +2209,34 @@ namespace BankLoanSystem.Controllers.SetupProcess
             });
             ViewBag.IsReceipRequired = new SelectList(isReceiptList, "Value", "Text");
             //Accept Methods
-            List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
+            //List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
 
-            acceptMethodsList.Add(new SelectListItem
-            {
-                Text = "Title Present To Advance",
-                Value = "Title Present To Advance"
-            });
+            //acceptMethodsList.Add(new SelectListItem
+            //{
+            //    Text = "Title Present To Advance",
+            //    Value = "Title Present To Advance"
+            //});
 
 
-            acceptMethodsList.Add(new SelectListItem
-            {
-                Text = "Scanned Title Adequate",
-                Value = "Scanned Title Adequate"
-            });
+            //acceptMethodsList.Add(new SelectListItem
+            //{
+            //    Text = "Scanned Title Adequate",
+            //    Value = "Scanned Title Adequate"
+            //});
 
-            acceptMethodsList.Add(new SelectListItem
-            {
-                Text = "Title Can Arrive At Any Time",
-                Value = "Title Can Arrive At Any Time"
-            });
+            //acceptMethodsList.Add(new SelectListItem
+            //{
+            //    Text = "Title Can Arrive At Any Time",
+            //    Value = "Title Can Arrive At Any Time"
+            //});
 
-            acceptMethodsList.Add(new SelectListItem
-            {
-                Text = "Title Can Arrive Within A Set Time",
-                Value = "Title Can Arrive Within A Set Time"
-            });
+            //acceptMethodsList.Add(new SelectListItem
+            //{
+            //    Text = "Title Can Arrive Within A Set Time",
+            //    Value = "Title Can Arrive Within A Set Time"
+            //});
 
-            ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
+            //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
             
             
             //Time Limit Options
@@ -2251,21 +2244,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "At Advance Date",
-                Value = "At Advance Date"
+                Text = "Title required to advance",
+                Value = "1"
             });
 
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "With In 7 Days",
-                Value = "With In 7 Days"
+                Text = "Title can arrive at any time",
+                Value = "2"
             });
 
             timeLimitList.Add(new SelectListItem
             {
-                Text = "At Any Time",
-                Value = "At Any Time"
+                Text = "Title must arrive within a specified time",
+                Value = "3"
             });
             ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
             //Receipt required methods
@@ -2273,21 +2266,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "Physically",
-                Value = "Physically"
+                Text = "Must be physically present",
+                Value = "1"
             });
 
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "Scan Copy",
-                Value = "Scan Copy"
+                Text = "Scanned copy only",
+                Value = "2"
             });
 
             receiptRequiredMethodList.Add(new SelectListItem
             {
-                Text = "Physically And Scan Copy",
-                Value = "Physically And Scan Copy"
+                Text = "Physically present or scanned copy",
+                Value = "3"
             });
             ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
             if (uId > 0)
@@ -2307,7 +2300,31 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         ViewBag.Edit = 1;
                         if (titleObj != null)
                         {
-                            
+                            if (titleObj.ReceivedTimeLimit == "Title required to advance")
+                            {
+                                titleObj.ReceivedTimeLimit = "1";
+                            }
+                            else if (titleObj.ReceivedTimeLimit == "Title can arrive at any time")
+                            {
+                                titleObj.ReceivedTimeLimit = "2";
+                            }
+                            else if (titleObj.ReceivedTimeLimit == "Title must arrive within a specified time")
+                            {
+                                titleObj.ReceivedTimeLimit = "3";
+                            }
+
+                            if (titleObj.ReceiptRequiredMethod == "Must be physically present")
+                            {
+                                titleObj.ReceiptRequiredMethod = "1";
+                            }
+                            else if (titleObj.ReceiptRequiredMethod == "Scanned copy only")
+                            {
+                                titleObj.ReceiptRequiredMethod = "2";
+                            }
+                            else if (titleObj.ReceiptRequiredMethod == "Physically present or scanned copy")
+                            {
+                                titleObj.ReceiptRequiredMethod = "3";
+                            }
                             //title = ta.getTitleDetails(loanId);
                             //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
                             //ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
@@ -2398,6 +2415,31 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             //if (title.IsReceipRequired || title.IsTitleTrack)
             //{
+            if (title.ReceivedTimeLimit == "1")
+            {
+                title.ReceivedTimeLimit = "Title required to advance";
+            }
+            else if (title.ReceivedTimeLimit == "2")
+            {
+                title.ReceivedTimeLimit = "Title can arrive at any time";
+            }
+            else if (title.ReceivedTimeLimit == "3")
+            {
+                title.ReceivedTimeLimit = "Title must arrive within a specified time";
+            }
+
+            if (title.ReceiptRequiredMethod == "1")
+            {
+                title.ReceiptRequiredMethod = "Must be physically present";
+            }
+            else if (title.ReceiptRequiredMethod == "2")
+            {
+                title.ReceiptRequiredMethod = "Scanned copy only";
+            }
+            else if (title.ReceiptRequiredMethod == "3")
+            {
+                title.ReceiptRequiredMethod = "Physically present or scanned copy";
+            }
             int reslt = ta.insertTitleDetails(title);
             if (reslt >= 0)
             {

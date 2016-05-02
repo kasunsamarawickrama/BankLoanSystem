@@ -51,7 +51,7 @@
                                             {
                                                 <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
                                                     <div class="col-xs-8 text_field">
-                                                        <a onclick="CreateNewBranch()">create new branch</a>
+                                                        <a onclick=CreateNewBranch()>create new branch</a>
                                                     </div>
                                                 </div>
                                             }
@@ -122,14 +122,14 @@
                                         </div>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style">
-                                                <label>Zip</label>
+                                                <label>Zip Code</label>
                                             </div>
                                             <div class="col-xs-4 text_field new_zip">
-                                                @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code" } })
+                                                @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", style = "width: 80px;" } })
                                             </div>
-                                            <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+                                            <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:-5px;margin-right:5px;"></span>
                                             <div class="col-xs-4 text_field new_zip">
-                                                @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension" } })
+                                                @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", style = "width: 83px;" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" }) </p>

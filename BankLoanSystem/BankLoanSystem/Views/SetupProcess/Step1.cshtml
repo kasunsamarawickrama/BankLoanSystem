@@ -124,14 +124,14 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label for="ZipPre">Zip</label>
+                                            <label for="ZipPre">Zip Code</label>
                                         </div>
                                         <div class="col-xs-4 text_field new_zip">
-                                            @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Zip Code", @id = "txtZipPre" } })
+                                            @Html.EditorFor(model => model.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Zip Code", @id = "txtZipPre", style = "width: 80px;" } })
                                         </div>
-                                        <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
+                                        <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:-5px;margin-right:5px;"></span>
                                         <div class="col-xs-4 text_field new_zip">
-                                            @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Extension", @id = "txtExtension" } })
+                                            @Html.EditorFor(model => model.Extension, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "Extension", @id = "txtExtension", style = "width: 83px;" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.Extension, "", new { @class = "text-danger" })</p>
@@ -179,7 +179,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label for="Fax">
-                                                Fax <br>
+                                                Fax Number <br>
                                                 <span class="optional">(Optional)</span>
                                             </label>
                                         </div>
@@ -207,7 +207,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label for="WebsiteUrl">
-                                                Website Url<br>
+                                                Website<br>
                                                 <span class="optional">(Optional)</span>
                                             </label>
                                         </div>

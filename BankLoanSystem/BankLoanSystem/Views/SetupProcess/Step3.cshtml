@@ -46,7 +46,8 @@
                                         <span class="text-success">@ViewBag.SuccessMsg</span>
                                         <div class="form-group">
                                             <div class="button-panel">
-                                                <input type="button" id="createNewUser" value="Create a New User" class="btn btn-info left-button" />
+                                                <input type="button" id="createNewUser" value="Create another User" class="btn btn-info left-button" />
+                                                <span style="color: grey; margin-left: 5px; margin-right: 5px;">or</span>
                                                 <input type="button" id="step4" value="Next" class="btn btn-primary btn-next" style="left:30%" />
 
                                             </div>
@@ -129,7 +130,7 @@
                                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Role</label>
+                                                    <label>User Role</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
