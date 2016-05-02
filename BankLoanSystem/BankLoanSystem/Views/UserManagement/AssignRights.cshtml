@@ -208,11 +208,22 @@
                 }
             });
         });
-        $('#SelectUser').change(function () {
+        forOneUser();
+        function forOneUser(){
+            if(@ViewBag.userSelectList.Count ==1){
+                $('#SelectUser').val(@ViewBag.userSelectList[0].UserId);
+                getRights();
+            }
+        }
 
+        $('#SelectUser').change(function () {
+            getRights();
+        });
+        function getRights(){
             var selectedUser = $('#SelectUser').val();
             var loanId = $('#LoanId').val();
             var model = @Html.Raw(Json.Encode(Model));
+            $('.All').prop('checked', false);
             $('.All').attr('disabled', true);
             $.ajax({
                 url: '/UserManagement/ExistingUserRights',
@@ -252,7 +263,8 @@
 
             $('#success').text("");
             $('#fail').text("");
-        });
+        }
+
         $(function () {
             $('.All').on('change', function () {
                 $('#checkBoxMessage span').text("");
