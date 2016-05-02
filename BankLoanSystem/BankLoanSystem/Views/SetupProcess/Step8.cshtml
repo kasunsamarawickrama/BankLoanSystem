@@ -13,7 +13,14 @@
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/scripts/CommonFunctions.js"></script>
-
+<style>
+    .text_field {
+    float: right;
+    }
+    .mLable {
+    width: 275px !important;
+    }
+</style>
 
 <div class="form-horizontal">
 
@@ -129,25 +136,25 @@
 
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
-                                                    <label>Due Type</label>
+                                                    <label>Advance Fee Due</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @{
                                                         List<SelectListItem> listItems2 = new List<SelectListItem>();
                                                         listItems2.Add(new SelectListItem
                                                         {
-                                                            Text = "Time of Advance",
-                                                            Value = "Time of Advance"
+                                                            Text = "At time of advance",
+                                                            Value = "At time of advance"
                                                         });
                                                         listItems2.Add(new SelectListItem
                                                         {
-                                                            Text = "Once a Month",
-                                                            Value = "Once a Month"
+                                                            Text = "Once a month",
+                                                            Value = "Once a month"
                                                         });
                                                         listItems2.Add(new SelectListItem
                                                         {
-                                                            Text = "Vehicle Payoff",
-                                                            Value = "Vehicle Payoff"
+                                                            Text = "At time of unit payoff",
+                                                            Value = "At time of unit payoff"
                                                         });
 
                                                     }
@@ -162,7 +169,7 @@
                                             <div id="monthAdvance">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Due Date</label>
+                                                        <label>Date advance fee is due each month</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -184,19 +191,19 @@
                                             <div id="advanceFeeCalculateType">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Advance Fee calculate</label>
+                                                        <label>Advance fee calculation period</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
                                                             List<SelectListItem> listItems8 = new List<SelectListItem>();
                                                             listItems8.Add(new SelectListItem
                                                             {
-                                                                Text = "Per Month",
+                                                                Text = "Per month",
                                                                 Value = "Month"
                                                             });
                                                             listItems8.Add(new SelectListItem
                                                             {
-                                                                Text = "Per Pay Period",
+                                                                Text = "Per pay period",
                                                                 Value = "PayPeriod"
                                                             });
                                                         }
@@ -208,9 +215,9 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="control-label col-sm-2">
-                                                        @Html.Label("Due Date auto reminder?", htmlAttributes: new { })
+                                                        @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
                                                     </div>
-                                                    <div class="col-xs-8">
+                                                    <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                         @*@Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })*@
                                                         @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, true, new { @id = "needReminderAdvanceDueT" }) Yes
                                                         @Html.RadioButtonFor(model => model.IsAdvanceFeeDueEmailReminder, false, new { @id = "needReminderAdvanceDueF" }) No
@@ -218,23 +225,23 @@
                                                     </div>
                                                 </div>
                                                 <div id="remindEmailAdvanceDue">
-                                                    <div class="form-group new_form_group">
-                                                        <div class="control-label col-sm-2 mLable">
-                                                            <label>Remind Email</label>
+                                                    <div class="form-group">
+                                                        <div class="control-label col-sm-2">
+                                                            <label>Email to send the reminder to</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                        <div class="col-xs-8 " style="width: 333px;">
                                                             @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "advanceDueEmail", placeholder = "example@example.com" } })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AdvanceDueEmail, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group new_form_group">
+                                                    <div class="form-group">
 
-                                                        <div class="control-label col-sm-2 mLable">
-                                                            <label>Email Remind Period</label>
+                                                        <div class="control-label col-sm-2">
+                                                            <label>How many days before the due date should the reminder be sent?</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                        <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                             @Html.EditorFor(model => model.AdvanceDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "advanceDueEmailRemindPeriod", placeholder = "days" , min=1} })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -349,7 +356,7 @@
                                                 <div class="form-group new_form_group">
 
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Monthly Due Date</label>
+                                                        <label>Date monthly loan fee is due</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -369,11 +376,11 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 mLable">
-                                                    <label>Due Date auto reminder?</label>
-                                                </div>
+                                            <div class="form-group">
                                                 <div class="control-label col-sm-2">
+                                                    @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
+                                                </div>
+                                                <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                     @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, true, new { @id = "needReminderLoanDueT", @class = "needReminderLoanDueTF" }) Yes
                                                     @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, false, new { @id = "needReminderLoanDueF", @class = "needReminderLoanDueTF" }) No
                                                 </div>
@@ -383,11 +390,11 @@
                                             </div>
 
                                             <div id="remindEmailLoanDue">
-                                                <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-2 mLable">
-                                                        <label>Remind Email</label>
+                                                <div class="form-group">
+                                                    <div class="control-label col-sm-2">
+                                                        <label>Email to send the reminder to</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                    <div class="col-xs-8" style="width: 333px;">
                                                         @Html.EditorFor(model => model.MonthlyLoanDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "loanDueEmail", placeholder = "example@example.com" } })
 
                                                     </div>
@@ -396,11 +403,11 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-2 mLable">
-                                                        <label>Email Remind Period</label>
+                                                <div class="form-group">
+                                                    <div class="control-label col-sm-2">
+                                                        <label>How many days before the due date should the reminder be sent?</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                    <div  class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                         @Html.EditorFor(model => model.MonthlyLoanDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "loanDueEmailRemindPeriod", placeholder = "days", min = 1 } })
 
                                                     </div>
@@ -538,11 +545,11 @@
                                             </div>
                                             <div id="lotRemEmail">
 
-                                                <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-2 mLable">
-                                                        <label>Due Date auto reminder?</label>
-                                                    </div>
+                                                <div class="form-group">
                                                     <div class="control-label col-sm-2">
+                                                        @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
+                                                    </div>
+                                                    <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                         @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, true, new { @id = "needReminderLotDueT" }) Yes
                                                         @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, false, new { @id = "needReminderLotDueF" }) No
                                                     </div>
@@ -552,11 +559,11 @@
                                                 </div>
 
                                                 <div id="remindEmailLotDue">
-                                                    <div class="form-group new_form_group">
-                                                        <div class="control-label col-sm-2 mLable">
-                                                            <label>Remind email</label>
+                                                    <div class="form-group">
+                                                        <div class="control-label col-sm-2">
+                                                            <label>Email to send the reminder to</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field" style="width: 325px;">
+                                                        <div class="col-xs-8" style="width: 333px;">
                                                             @Html.EditorFor(model => model.LotInspectionDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "lotDueEmail", placeholder = "example@example.com" } })
 
                                                         </div>
@@ -564,11 +571,11 @@
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.LotInspectionDueEmail, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group new_form_group">
-                                                        <div class="control-label col-sm-2 mLable">
-                                                            <label>email Remind Period</label>
+                                                    <div class="form-group">
+                                                        <div class="control-label col-sm-2">
+                                                            <label>How many days before the due date should the reminder be sent?</label>
                                                         </div>
-                                                        <div class="col-xs-8 text_field short_text_field" style="width: 110px;">
+                                                        <div  class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                             @Html.EditorFor(model => model.LotInspectionDueEmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input x remindPeriod", @id = "lotDueEmailRemindPeriod", placeholder = "days", min = 1 } })
                                                         </div>
                                                         <div class="err_msg_box  mErrMsgBox">
@@ -647,7 +654,7 @@
 
     function changeDropDownValueDueAdvance() {
 
-        if (document.getElementById("advanceDue").value == "Once a Month") {
+        if (document.getElementById("advanceDue").value == "Once a month") {
             $("#monthAdvance").show("slow");
             $('#advanceFeeCalculateType').show("slow");
         }
@@ -995,7 +1002,9 @@
             if (model.AdvanceAmount > 0) {
                 document.getElementById("dropDownAdvance").value = "1";
                 $('#advance').show("slow");
-                if(model.AdvanceDue == "Once a Month"){
+
+                if(model.AdvanceDue == "Once a month"){
+
                     $("#monthAdvance").show();
                     $("#advanceFeeCalculateType").show();
                 }
@@ -1057,7 +1066,7 @@
             if (model.MonthlyLoanAmount > 0) {
                 document.getElementById("dropDownLoan").value = "1";
                 $('#loan').show("slow");
-                if(model.MonthlyLoanDue == "Once a Month"){
+                if(model.MonthlyLoanDue == "Once a month"){
                     $("#monthLoan").show();
                 }
                 else{

@@ -389,8 +389,13 @@
                     $('#txtCurrentPassword').removeClass('input-validation-error');
                 }
             },
-            error: function (reponse) {
-                //alert(data);
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
     });
@@ -691,9 +696,13 @@
                         $('#divPhone').show();
                     }
                 },
-                error: function (reponse) {
-                    // $('#loadingSpan').hide();
-                    alert("error : " + reponse);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }
@@ -779,9 +788,13 @@
                     }
 
                 },
-                error: function (reponse) {
-                    // $('#loadingSpan').hide();
-                    alert("error : " + reponse);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }
@@ -858,9 +871,13 @@
                         $('#divPhone').show();
                     }
                 },
-                error: function (reponse) {
-                    // $('#loadingSpan').hide();
-                    alert("error : " + reponse);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
             }
@@ -921,9 +938,13 @@
                     //$('#loadingSpan').hide();
 
                 },
-                error: function (reponse) {
-                    // $('#loadingSpan').hide();
-                    alert("error : " + reponse);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    }
                 }
             });
         }

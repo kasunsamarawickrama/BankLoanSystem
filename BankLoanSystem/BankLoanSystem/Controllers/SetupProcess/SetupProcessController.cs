@@ -2076,22 +2076,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             StepAccess step = new StepAccess();
 
-            if (fees.AdvanceDue == "Vehicle Payoff")
+            if (fees.AdvanceDue == "At time of unit payoff")
             {
                 fees.AdvanceDueDate = "VP";
             }
-            if (fees.MonthlyLoanDue == "Vehicle Payoff")
-            {
-                fees.MonthlyLoanDueDate = "VP";
-            }
-            if (fees.AdvanceDue == "Time of Advance")
+            if (fees.AdvanceDue == "At time of advance")
             {
                 fees.AdvanceDueDate = "ToA";
             }
-            if (fees.MonthlyLoanDue == "Time of Advance")
-            {
-                fees.MonthlyLoanDueDate = "ToA";
-            }
+
             //if (fees.IsAdvanceFeeCompleteEmailReminder == false)
             //{
             //    fees.AdvanceFeeDealerEmail = "";
@@ -2126,7 +2119,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // after hide the due methods
 
-            fees.MonthlyLoanDue = "Once a Month";
+            fees.MonthlyLoanDue = "Once a month";
             fees.LotInspectionDue = "Monthly";
 
             if (step.InsertFeesDetails(fees))
