@@ -89,7 +89,7 @@
                                             {
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-5" style="text-align: left;width: 38%;margin-left: -3%;float: left;font-size: 14px;">
-                                                        @Html.Label("Same details as company", htmlAttributes: new { })
+                                                        @Html.Label("Same details as dealer company created", htmlAttributes: new { })
                                                     </div>
                                                     <div class="control-label col-sm-1" style="text-align: left;text-align: left;margin-left:-3%;margin-top: 5px;">
                                                         @Html.CheckBox("Previous", new { @id = "Previous" })
@@ -202,7 +202,7 @@
                                             </div>
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Zip</label>
+                                                    <label>Zip Code</label>
                                                 </div>
                                                 <div class="col-xs-4 text_field new_zip">
                                                     @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5 } })
@@ -223,7 +223,7 @@
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
                                                     <label>
-                                                        Email<br>
+                                                        email<br>
                                                         <span class="optional">(Optional)</span>
                                                     </label>
                                                 </div>
