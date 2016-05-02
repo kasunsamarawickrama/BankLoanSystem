@@ -41,7 +41,15 @@ namespace BankLoanSystem.DAL
 
                             obj1.TitleAcceptMethod = dataRow["title_accept_method"].ToString();
                             obj1.ReceivedTimeLimit = dataRow["title_received_time_period"].ToString();
-
+                            
+                            if (!string.IsNullOrEmpty(dataRow["auto_remind_period"].ToString()))
+                            {
+                                obj1.RemindPeriod = int.Parse(dataRow["auto_remind_period"].ToString());
+                            }
+                            //else
+                            //{
+                            //    obj1.RemindPeriod = 0;
+                            //}
                             if (!string.IsNullOrEmpty(dataRow["auto_remind_email"].ToString()))
                             {
                                 obj1.RemindEmail = dataRow["auto_remind_email"].ToString();
@@ -65,7 +73,7 @@ namespace BankLoanSystem.DAL
 
                             obj1.ReceiptRequiredMethod = dataRow["receipt_required_method"].ToString();
                         }
-
+                        obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
                     }
                     return obj1;
                 }
@@ -96,17 +104,27 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@is_title_tracked", title.IsTitleTrack });
             if (title.IsTitleTrack)
             {
-                paramertList.Add(new object[] { "@title_accept_method", title.TitleAcceptMethod });
+                //paramertList.Add(new object[] { "@title_accept_method", title.TitleAcceptMethod });
                 paramertList.Add(new object[] { "@title_received_time_period", title.ReceivedTimeLimit });
-
+                paramertList.Add(new object[] { "@auto_remind_period", title.RemindPeriod });
                 paramertList.Add(new object[] { "@auto_remind_email", title.RemindEmail });
+                if (title.NeedScanCopy)
+                {
+                    paramertList.Add(new object[] { "@need_scan_copy", 1 });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@need_scan_copy", 0 });
+                }
+               
             }
             else
             {
-                paramertList.Add(new object[] { "@title_accept_method", null });
+               // paramertList.Add(new object[] { "@title_accept_method", null });
                 paramertList.Add(new object[] { "@title_received_time_period", null });
-
+                paramertList.Add(new object[] { "@auto_remind_period", null });
                 paramertList.Add(new object[] { "@auto_remind_email", null});
+                paramertList.Add(new object[] { "@need_scan_copy", 0 });
             }
 
             paramertList.Add(new object[] { "@is_receipt_required", title.IsReceipRequired });
