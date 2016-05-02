@@ -120,10 +120,15 @@ namespace BankLoanSystem.DAL
                                 {
                                     fee.AdvanceDate = Convert.ToDateTime(info[5]);
                                 }
+                                else
+                                {
+                                    fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
+                                }
                             }
                             //fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
                             //fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
                         }
+                     
                         lstFee.Add(fee);
                     }
                     return lstFee;
