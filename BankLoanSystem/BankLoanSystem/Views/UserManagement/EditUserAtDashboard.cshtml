@@ -96,7 +96,7 @@
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Role</label>
+                                            <label>Select Role</label>
                                         </div>
                                         @if (ViewBag.RoleId.Items.Count == 1)
                                         {
@@ -121,7 +121,7 @@
                                     {
                                         <div class="form-group new_form_group" id="BranchDiv1">
                                             <div class="control-label col-sm-2 lable_style">
-                                                <label>Branch Name</label>
+                                                <label>Select Branch</label>
                                                                                             </div>
                                                 @if (ViewBag.BranchId.Items.Count == 1)
                                                 {
@@ -151,7 +151,7 @@
                                     }
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style" id="lblUserName">
-                                                <label>Username</label>
+                                                <label>Select User</label>
                                             </div>
                                                
                                                     <div class="col-xs-8 text_field short_text_field" id="divSingleUser" style="text-align:left;font-weight: normal;color:#545454;font-size:14px;" hidden>
@@ -167,7 +167,7 @@
                                                
                                                 <div class="col-xs-8 text_field short_text_field" id="divUserId">
                                                     @Html.HiddenFor(model => model.UserId, htmlAttributes: new { id = "hdnUserId3" })
-                                                    @Html.DropDownListFor(model => model.UserId, null, "--Select Username--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
+                                                    @Html.DropDownListFor(model => model.UserId, null, "--Select User--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
                                                 </div>
                                                @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "hdnUserName3" })
                                             
@@ -271,7 +271,7 @@
 
                                         <div class="col-xs-8 text_field short_text_field" style="font-weight: normal;color: #545454;font-size: 14px;">
                                             @Html.RadioButtonFor(model => model.Status, "true", new { @id = "rbStatusA" })Active
-                                            @Html.RadioButtonFor(model => model.Status, "false", new { @id = "rbStatusN", @style = "margin-left:20px" })Not Active
+                                            @Html.RadioButtonFor(model => model.Status, "false", new { @id = "rbStatusN", @style = "margin-left:20px" }) Inactive
                                         </div>
 
                                         <div class="err_msg_box">
@@ -684,7 +684,7 @@
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
-                        var markup = "<option value='0'>--Select Username--</option>";
+                        var markup = "<option value='0'>--Select User--</option>";
                         for (var x = 0; x < data.UserList.length; x++) {
                             markup += "<option value=" + data.UserList[x].UserId + ">" + data.UserList[x].UserName + "</option>";
                         }
@@ -775,7 +775,7 @@
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
-                        var markup = "<option value='0'>--Select Username--</option>";
+                        var markup = "<option value='0'>--Select User--</option>";
                         for (var x = 0; x < data.UserList.length; x++) {
                             markup += "<option value=" + data.UserList[x].UserId + ">" + data.UserList[x].UserName + "</option>";
                         }
@@ -859,7 +859,7 @@
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
-                        var markup = "<option value='0'>--Select Username--</option>";
+                        var markup = "<option value='0'>--Select User--</option>";
                         for (var x = 0; x < data.UserList.length; x++) {
                             markup += "<option value=" + data.UserList[x].UserId + ">" + data.UserList[x].UserName + "</option>";
                         }

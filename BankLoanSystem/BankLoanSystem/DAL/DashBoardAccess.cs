@@ -214,6 +214,7 @@ namespace BankLoanSystem.DAL
                     paramertList.Add(new object[] { "@loan_id", 0 });
                 }
                 paramertList.Add(new object[] { "@step_status", user.step_status });
+                paramertList.Add(new object[] { "@status", user.Status });
             }
            
 
