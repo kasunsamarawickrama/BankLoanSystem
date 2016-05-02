@@ -38,7 +38,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "City")]
         public string City { get; set; }
 
-        [Display(Name = "Zip")]
+        [Display(Name = "Zip Code")]
         public string Zip { get; set; }
 
         [Required(ErrorMessage = "Please enter the Zip Code")]
@@ -65,13 +65,13 @@ namespace BankLoanSystem.Models
 
         [Phone]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid Fax Number including area code")]
-        [Display(Name = "Fax")]
+        [Display(Name = "Fax Number")]
         public string Fax { get; set; }
 
         [EmailAddress(ErrorMessage = "Please enter a valid Email Address")]
         public string Email { get; set; }
 
-        [Display(Name = "Website Url")]
+        [Display(Name = "Website")]
         [Url(ErrorMessage = "Please enter a valid URL inlcuding the suffix")]
         public string WebsiteUrl { get; set; }
 
