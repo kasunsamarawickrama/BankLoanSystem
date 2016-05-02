@@ -360,7 +360,8 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     }
                     else
                     {
-                        _paidCurtAmount += d.PaidAmount;
+                        if(d.TblName != "F")
+                            _paidCurtAmount += d.PaidAmount;
                         feeDetailsModelNew.UnitFeeTypes.Add(new UnitFeeType { LoanId = d.LoanId, UnitId = d.UnitId, CurtNumber = d.CurtNumber, TblName = d.TblName, FeeType = d.FeeType, PaidAmount = d.PaidAmount, PaidDate = d.PaidDate });
                     }
                 }
