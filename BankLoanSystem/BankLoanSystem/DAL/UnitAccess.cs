@@ -1474,7 +1474,7 @@ namespace BankLoanSystem.DAL
                 v_make = unit.Make;
                 v_model = unit.Model;
                 v_year = unit.Year.ToString();
-                v_advance_date = unit.DateAdvanced.ToString("MM/dd/yyyy");
+                v_advance_date = unit.DateAdvanced.ToString();// ("MM/dd/yyyy");
 
                 string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model + "," + v_advance_date;
 
@@ -1523,7 +1523,8 @@ namespace BankLoanSystem.DAL
 
                         unit.LoanId = loanId;
                         unit.UnitId = dataRow["unit_id"].ToString();
-                        unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        //unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                        unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy") : "";
                         unit.IdentificationNumber = dataRow["identification_number"].ToString();
                         unit.Year = dataRow["year"].ToString();
                         unit.Make = dataRow["make"].ToString();

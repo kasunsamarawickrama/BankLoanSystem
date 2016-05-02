@@ -615,7 +615,7 @@
             $('#iCost').val(tr.find("#cost").text());
             $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
             $('#iUnitId').val(tr.find("#all").val());
-            $('#iAdvanceDate').val(tr.find("#advanceDate").val());
+            $('#iAdvanceDate').val(tr.find("#advanceDate").val()); 
             $("#payDate2").removeAttr("disabled");
             $("#singleUnitDiv").show();
             $("#btnPay").removeAttr("disabled");
@@ -785,17 +785,19 @@
                 var loanId = document.getElementById('loanId').value;
                 var hiddenId = document.getElementById('iUnitId').value;
                 var balance = document.getElementById('iBalance').value;
+                var vin = document.getElementById('iVin').value;
                 var year = document.getElementById('iYear').value;
                 var make = document.getElementById('iMake').value;
                 var model = document.getElementById('iModel').value;
                 var advanceDate = document.getElementById('iAdvanceDate').value;
-
+                //alert($('#iAdvanceDate').val());
                 var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
                 if (hiddenId !== '') {
                     var payOffModel = {
                         LoanId: loanId,
                         UnitId: hiddenId,
                         Balance: balance,
+                        IdentificationNumber: vin,
                         Year: year,
                         Make: make,
                         Model: model,

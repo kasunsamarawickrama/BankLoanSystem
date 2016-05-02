@@ -32,7 +32,17 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                 }
                 else
                 {
-                    filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+
+                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                    }
+                    else
+                    {
+
+                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                    }
                 }
             }
             catch (Exception ex)
@@ -350,7 +360,8 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     }
                     else
                     {
-                        _paidCurtAmount += d.PaidAmount;
+                        if(d.TblName != "F")
+                            _paidCurtAmount += d.PaidAmount;
                         feeDetailsModelNew.UnitFeeTypes.Add(new UnitFeeType { LoanId = d.LoanId, UnitId = d.UnitId, CurtNumber = d.CurtNumber, TblName = d.TblName, FeeType = d.FeeType, PaidAmount = d.PaidAmount, PaidDate = d.PaidDate });
                     }
                 }
