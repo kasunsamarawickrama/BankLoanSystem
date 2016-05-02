@@ -495,9 +495,13 @@
                 //$('#rightsSection').show();
                 //$('#rightDiv').show();
             },
-            error: function (reponse) {
-                $('#loadingSpan').hide();
-                alert("error : " + reponse);
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
         });
     }
