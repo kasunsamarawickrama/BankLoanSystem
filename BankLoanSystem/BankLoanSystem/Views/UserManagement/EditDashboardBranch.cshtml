@@ -55,7 +55,7 @@
                         <span id="errSpn" class="text-danger">@ViewBag.ErrorMsg</span>
                         }
 
-                        @using (Html.BeginForm("CreateDashboardBranch", "UserManagement", FormMethod.Post, new { @id = "form" }))
+                        @using (Html.BeginForm("EditDashboardBranch", "UserManagement", FormMethod.Post, new { @id = "form" }))
                         {
                         @Html.AntiForgeryToken()
 
