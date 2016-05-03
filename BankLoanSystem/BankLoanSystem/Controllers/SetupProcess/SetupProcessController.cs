@@ -2556,21 +2556,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 int branchId = loanData.BranchId;
 
                 LoanSetupAccess la = new LoanSetupAccess();
-                //int loanId = la.getLoanIdByBranchId(branchId);
                 int loanId = loanData.loanId;
                 CurtailmentAccess curAccess = new CurtailmentAccess();
                 _loan = curAccess.GetLoanDetailsByLoanId(loanId);
                 _loan.loanId = loanId;
 
-                //_gCurtailment = new CurtailmentModel();
                 _gCurtailment = new CurtailmentModel();
                 _gCurtailment.AdvancePt = _loan.advancePercentage;
                 _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt;
-
-                _gCurtailment.RemainingTime = _loan.payOffPeriod;
-
-                _gCurtailment.TimeBase = "Months";
-                if (_loan.payOffPeriodType == 0) _gCurtailment.TimeBase = "Days";
 
                 _gCurtailment.InfoModel = new List<Curtailment>();
 
