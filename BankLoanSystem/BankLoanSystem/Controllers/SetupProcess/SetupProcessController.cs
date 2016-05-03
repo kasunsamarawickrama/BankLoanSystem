@@ -712,7 +712,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             user.CreatedBy = currentUser;
             user.IsDelete = false;
-            user.Status = false;
+           // user.Status = false;
 
             string passwordTemp = user.Password;
 

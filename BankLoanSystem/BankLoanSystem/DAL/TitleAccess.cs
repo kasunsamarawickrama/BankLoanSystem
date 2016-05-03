@@ -73,7 +73,11 @@ namespace BankLoanSystem.DAL
 
                             obj1.ReceiptRequiredMethod = dataRow["receipt_required_method"].ToString();
                         }
-                        obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["need_scan_copy"].ToString()))
+                        {
+                            obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
+                        }
+                            
                     }
                     return obj1;
                 }
