@@ -130,6 +130,8 @@ namespace BankLoanSystem.Models
 
         public string BranchName { get; set; }
 
+        public string BranchNameAddress { get; set; }
+
         public string RoleName { get; set; }
 
         public string UserRights { get; set; }
