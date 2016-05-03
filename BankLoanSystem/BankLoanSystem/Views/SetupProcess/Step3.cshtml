@@ -57,7 +57,13 @@
                                     }
 
                                     <script>
-                                    $(function () {
+                                        $(function () {
+                                            // help functionality after success
+
+                                            $('.right_panel_box p').html('You can create additional users now or continue on to the next step of the setup process. You will be able to create additional users from your dashboard at any time.');
+                                            $('.right_panel_box h4').html('Company users');
+
+
                                         $('#createNewUser').click(function () {
 
                                             $('#loadingDiv').show();
