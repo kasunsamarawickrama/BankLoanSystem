@@ -251,11 +251,11 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style" >
+                                    <div class="col-md-2 rad-style" >
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) Used
-                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -334,10 +334,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -438,10 +438,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-2 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.camper.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
                                         </div>
 
@@ -513,10 +513,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.atv.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -580,10 +580,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.boat.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -663,10 +663,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) Used
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -724,10 +724,10 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-sm-4 rad-style">
+                                    <div class="col-md-2 rad-style">
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) Used
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -1948,6 +1948,7 @@
                     $('#selectedFiles').children().remove();
                     $(".miles").val("");
                     $(".lengths").val("");
+                    $('.radio').children('p').next('span').text('');
                 });
 
                 function clearform() {

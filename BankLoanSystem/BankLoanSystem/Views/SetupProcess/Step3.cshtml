@@ -259,7 +259,19 @@
                                                 </div>
                                             </div>
                                             
-                                            
+                                            <div class="form-group new_form_group" id="divActiveUser">
+
+                                                <div class="control-label col-sm-2" style="font-weight:normal;color:#545454;font-size:14px;margin-left:-16px;">
+                                                    <label>Do you need to activate the user now?</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field" style="font-weight:normal;color:#545454;font-size:14px;margin-top:5px;">
+                                                    @Html.RadioButtonFor(model => model.Status, "true", new { @id = "rbYes" }) Yes
+                                                    @Html.RadioButtonFor(model => model.Status, "false", new { @id = "rbNo", @style = "margin-left:20px" }) No
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
 
                                            
 

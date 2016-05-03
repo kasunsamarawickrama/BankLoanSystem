@@ -39,7 +39,7 @@ namespace BankLoanSystem.DAL
                         if (obj1.IsTitleTrack)
                         {
 
-                            obj1.TitleAcceptMethod = dataRow["title_accept_method"].ToString();
+                            //obj1.TitleAcceptMethod = dataRow["title_accept_method"].ToString();
                             obj1.ReceivedTimeLimit = dataRow["title_received_time_period"].ToString();
                             
                             if (!string.IsNullOrEmpty(dataRow["auto_remind_period"].ToString()))
@@ -76,6 +76,10 @@ namespace BankLoanSystem.DAL
                         if (!string.IsNullOrEmpty(dataRow["need_scan_copy"].ToString()))
                         {
                             obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
+                            if (obj1.NeedScanCopy)
+                            {
+                                obj1.TitleAcceptMethod = "Scanned Title Adequate";
+                            }
                         }
                     }
                     return obj1;
