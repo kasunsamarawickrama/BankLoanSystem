@@ -22,6 +22,7 @@ namespace BankLoanSystem.Controllers
         /// 
 
         User userData = new User();
+        public static string CompanyType = "Lender";
 
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -2311,7 +2312,114 @@ namespace BankLoanSystem.Controllers
         }
             
         }
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreateDashboardBranch(string edit1)
+        {
+            CompanyBranchModel userCompany;
+
+            //edit = 3;
+            int userId = userData.UserId;
+            int roleId = userData.RoleId;
+            // check he is a super admin or admin
+
+
+            if (roleId != 1)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            if (TempData["createBranchResult"] != null)
+            {
+                if (int.Parse(TempData["createBranchResult"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Branch Successfully Created";
+                }
+
+                else if (int.Parse(TempData["createBranchResult"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed To Create Branch";
+                }
+            }
+
+
+            userCompany = new CompanyBranchModel();
+                if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
+                {
+                    userCompany = (CompanyBranchModel)TempData["Company"];
+
+                    CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
+
+                    if (userCompany.Company.Extension == null)
+                        userCompany.Company.Extension = "";
+                }
+
+
+
+                userCompany.MainBranch = new Branch();
+                ViewBag.BranchIndex = 0;
+
+                //Get company details by company id
+                CompanyAccess ca = new CompanyAccess();
+                Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+
+
+
+
+                userCompany.Company = preCompany;
+
+                BranchAccess ba = new BranchAccess();
+                IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
+                userCompany.SubBranches = branches;
+
+                //Get states to list
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
         }
 
-    
+
+        [HttpPost]
+        public ActionResult CreateDashboardBranch(CompanyBranchModel userCompany2, string branchCode)
+        {
+            CompanyAccess userCompany = new CompanyAccess();
+            
+            int userId = userData.UserId;
+
+            userCompany2.Company = userCompany.GetCompanyDetailsCompanyId(userData.Company_Id);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = branchCode;
+
+            BranchAccess ba = new BranchAccess();
+            if (string.IsNullOrEmpty(branchCode))
+            {
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            }
+
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            if(reslt==1)
+            {
+                TempData["createBranchResult"] = 1;
+            }
+            else
+            {
+                TempData["createBranchResult"] = 0;
+            }
+
+            return RedirectToAction("CreateDashboardBranch");
+            
+
+        }
+
+    }
 }
