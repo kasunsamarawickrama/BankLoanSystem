@@ -752,27 +752,31 @@ namespace BankLoanSystem.Controllers.SetupProcess
             int res = ua.InsertUser(user);
 
             //Insert new user to user activation table
-            string activationCode = Guid.NewGuid().ToString();
-            int userId = (new UserAccess()).getUserId(user.Email);
-            res = ua.InsertUserActivation(userId, activationCode);
-            if (res == 1)
+            //string activationCode = Guid.NewGuid().ToString();
+            //int userId = (new UserAccess()).getUserId(user.Email);
+            //res = ua.InsertUserActivation(userId, activationCode);
+            if (res > 0)
             {
                 //insert to log 
                 Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,0, "Create User in Company setup", "created "+(user.RoleId == 1 ? "Super Admin" : "Admin") + ", Username : " + user.UserName, DateTime.Now);
 
                 (new LogAccess()).InsertLog(log);
 
-                string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
-                              "<br /><br /> User name: " + user.UserName +
-                                    "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
-                              "<br /><br/> Thanks,<br /> Admin.";
+                if (user.Status)
+                {
+                    string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                             "<br /><br /> User name: " + user.UserName +
+                                   "<br /> Password : <b>" + passwordTemp +
+                             //"<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                             "<br /><br/> Thanks,<br /> Admin.";
 
-                Email email = new Email(user.Email);
-                
+                    Email email = new Email(user.Email);
+                    email.SendMail(body, "Account details");
+                }
+
                 Session["abcRol"] = user.RoleId;
                 Session["abcBrnc"] = user.BranchId;
-                email.SendMail(body, "Account details");
+                
 
 
 
@@ -798,9 +802,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
-                User curUser = ua.retreiveUserByUserId(userId);
+               // User curUser = ua.retreiveUserByUserId(userId);
                 // get all branches
-                List<Branch> branchesLists = (new BranchAccess()).getBranches(curUser.Company_Id);
+                List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
 
