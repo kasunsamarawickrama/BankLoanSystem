@@ -85,7 +85,7 @@
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.HiddenFor(model=>model.CompanyId)
-                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtFname" } })
+                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyName" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
@@ -207,7 +207,7 @@
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style">
                                                 <label for="Email">
-                                                    Email <br>
+                                                    email <br>
                                                     <span class="optional">(Optional)</span>
                                                 </label>
                                             </div>
@@ -244,7 +244,7 @@
                                                             <input value="Update" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnUpdateUser">
                                                         </div>
                                                         <div class="button_box algn_right">
-                                                            <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                            <input id="btnClear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
                                                         </div>
                                                         <div style="clear:both"></div>
                                                     </div>
@@ -284,8 +284,61 @@
         $('#errorSpn').text("");
     });
 
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
+    $('#btnClear').click(function () {
+        //alert($('#txtCompanyName').val());
+        //document.getElementsByTagName("form")[0].reset();
+        $('#successSpn').text("");
+        $('#errorSpn').text("");
+        $('#txtCompanyName').val('');
+        $('#txtCompanyAddress1').val('');
+        $('#txtCompanyAddress2').val('');
+        $('#txtCity').val('');
+        $('#txtZipPre').val('');
+        $('#txtExtension').val('');
+        $('#txtEmail').val('');
+        $('#txtPhoneNum1').val('');
+        $('#txtPhoneNum2').val('');
+        $('#txtPhoneNum3').val('');
+        $('#txtFax').val('');
+        $('#txtWebsiteUrl').val('');
+        $('#StateId').val('');
+
+        $('#txtCompanyName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtCompanyName').next("div").children("p").children("span").text("");
+        $('#txtCompanyName').removeClass('input-validation-error');
+        $('#txtCompanyAddress1').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtCompanyAddress1').next("div").children("p").children("span").text("");
+        $('#txtCompanyAddress1').removeClass('input-validation-error');
+        $('#txtCompanyAddress2').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtCompanyAddress2').next("div").children("p").children("span").text("");
+        $('#txtCompanyAddress2').removeClass('input-validation-error');
+        $('#txtCity').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtCity').next("div").children("p").children("span").text("");
+        $('#txtCity').removeClass('input-validation-error');
+        $('#txtZipPre').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtZipPre').next("div").children("p").children("span").text("");
+        $('#txtZipPre').removeClass('input-validation-error');
+        $('#txtEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtEmail').next("div").children("p").children("span").text("");
+        $('#txtEmail').removeClass('input-validation-error');
+        $('#txtPhoneNum1').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNum1').next("div").children("p").children("span").text("");
+        $('#txtPhoneNum1').removeClass('input-validation-error');
+        $('#txtPhoneNum2').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNum2').next("div").children("p").children("span").text("");
+        $('#txtPhoneNum2').removeClass('input-validation-error');
+        $('#txtPhoneNum3').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNum3').next("div").children("p").children("span").text("");
+        $('#txtPhoneNum3').removeClass('input-validation-error');
+        $('#txtFax').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFax').next("div").children("p").children("span").text("");
+        $('#txtFax').removeClass('input-validation-error');
+        $('#txtWebsiteUrl').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtWebsiteUrl').next("div").children("p").children("span").text("");
+        $('#txtWebsiteUrl').removeClass('input-validation-error');
+        $('#StateId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#StateId').next("div").children("p").children("span").text("");
+        $('#StateId').removeClass('input-validation-error');
     });
 
     //$(".tab.1").parent("li").addClass("active").siblings().removeClass('active');
