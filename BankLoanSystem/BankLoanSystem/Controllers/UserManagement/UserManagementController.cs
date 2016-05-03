@@ -1446,23 +1446,27 @@ namespace BankLoanSystem.Controllers
             int res = da.InsertUserInDashboard(userObj);
 
             //Insert new user to user activation table
-            string activationCode = Guid.NewGuid().ToString();
-            int userId = (new UserAccess()).getUserId(userObj.Email);
-            res = ua.InsertUserActivation(userId, activationCode);
-            if (res == 1)
+            //string activationCode = Guid.NewGuid().ToString();
+            //int userId = (new UserAccess()).getUserId(userObj.Email);
+            //res = ua.InsertUserActivation(userId, activationCode);
+            if (res > 0)
             {
+                if (userObj.Status)
+                {
+
+                    string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                                  "<br /><br /> User name: " + userObj.UserName +
+                                        "<br /> Password : <b>" + passwordTemp +
+                                  //"<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                                  "<br /><br/> Thanks,<br /> Admin.";
+
+                    Email email = new Email(userObj.Email);
 
 
-                string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
-                              "<br /><br /> User name: " + userObj.UserName +
-                                    "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
-                              "<br /><br/> Thanks,<br /> Admin.";
+                    email.SendMail(body, "Account details");
 
-                Email email = new Email(userObj.Email);
+                }
 
-              
-                email.SendMail(body, "Account details");
 
 
 
@@ -2299,6 +2303,8 @@ namespace BankLoanSystem.Controllers
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["UpdteReslt"] = 1;
+
+
                 }
                 else 
                 {
@@ -2312,6 +2318,94 @@ namespace BankLoanSystem.Controllers
         }
             
         }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        
+        public ActionResult EditCompany()
+        {
+            if (userData.RoleId == 1)
+            {
+                //Get states to list
+                Company cmp = new Company();
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                if (TempData["updateComReslt"]!=null && int.Parse(TempData["updateComReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Company is updated successfully";
+                    //cmp = new Company();
+                    //return View(cmp);
+                }
+                else if (TempData["updateComReslt"] != null && int.Parse(TempData["updateComReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to update company";
+                }
+               
+               
+                cmp = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                if (cmp != null)
+                {
+                    return View(cmp);
+                }
+                else
+                {
+                    cmp = new Company();
+                    return View(cmp);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company - post
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult EditCompany(Company company)
+        {
+            if (userData.RoleId == 1)
+            {
+                company.Zip = company.ZipPre;
+                if (company.Extension != null)
+                    company.Zip += "-" + company.Extension;
+                int reslt = (new CompanyAccess().UpdateCompany(company,userData.UserId));
+                if(reslt == 1)
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, 0, 0, "Edit Company", "Edit Company : " + userData.Company_Id, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                    TempData["updateComReslt"] = reslt;
+                }
+                else
+                {
+                    TempData["updateComReslt"] = 0;
+                }
+                return RedirectToAction("EditCompany");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+        }
+   
+            
+     
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreateDashboardBranch()
