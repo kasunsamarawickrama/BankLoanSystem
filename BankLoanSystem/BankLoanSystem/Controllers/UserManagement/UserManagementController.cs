@@ -2311,7 +2311,89 @@ namespace BankLoanSystem.Controllers
         }
             
         }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        
+        public ActionResult EditCompany()
+        {
+            if (userData.RoleId == 1)
+            {
+                //Get states to list
+                Company cmp = new Company();
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                if (TempData["updateComReslt"]!=null && int.Parse(TempData["updateComReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Company is updated successfully";
+                    //cmp = new Company();
+                    //return View(cmp);
+                }
+                else if (TempData["updateComReslt"] != null && int.Parse(TempData["updateComReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to update company";
+                }
+               
+               
+                cmp = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                if (cmp != null)
+                {
+                    return View(cmp);
+                }
+                else
+                {
+                    cmp = new Company();
+                    return View(cmp);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
         }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company - post
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult EditCompany(Company company)
+        {
+            if (userData.RoleId == 1)
+            {
+                company.Zip = company.ZipPre;
+                if (company.Extension != null)
+                    company.Zip += "-" + company.Extension;
+                int reslt = (new CompanyAccess().UpdateCompany(company,userData.UserId));
+                if(reslt == 1)
+                {
+                    TempData["updateComReslt"] = reslt;
+                }
+                else
+                {
+                    TempData["updateComReslt"] = 0;
+                }
+                return RedirectToAction("EditCompany");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+        }
+    }
 
     
 }

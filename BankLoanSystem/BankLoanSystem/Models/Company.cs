@@ -72,7 +72,7 @@ namespace BankLoanSystem.Models
         public string Email { get; set; }
 
         [Display(Name = "Website")]
-        [Url(ErrorMessage = "Please enter a valid URL inlcuding the suffix")]
+        //[Url(ErrorMessage = "Please enter a valid URL inlcuding the suffix")]
         public string WebsiteUrl { get; set; }
 
         public Nullable<int> CreatedBy { get; set; }
