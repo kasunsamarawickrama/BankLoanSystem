@@ -2403,5 +2403,93 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditDashboardBranch()
+        {
+            CompanyBranchModel userCompany;
+
+            //edit = 3;
+            int userId = userData.UserId;
+            int roleId = userData.RoleId;
+            // check he is a super admin or admin
+
+
+            if (roleId != 1)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            if (TempData["editBranchResult"] != null)
+            {
+                if (int.Parse(TempData["editBranchResult"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Branch Successfully Edited";
+                }
+
+                else if (int.Parse(TempData["editBranchResult"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed To Edit Branch";
+                }
+            }
+
+            userCompany = new CompanyBranchModel();
+
+            ViewBag.BranchIndex = 0;
+
+            //Get company details by company id
+            CompanyAccess ca = new CompanyAccess();
+            Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+
+            BranchAccess ba = new BranchAccess();
+            IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
+            userCompany.SubBranches = branches;
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(userCompany);
+            }
+            else
+            {
+
+                return View(userCompany);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDashboardBranch(CompanyBranchModel userCompany2, string branchCode)
+        {
+            CompanyAccess userCompany = new CompanyAccess();
+
+            int userId = userData.UserId;
+
+            userCompany2.Company = userCompany.GetCompanyDetailsCompanyId(userData.Company_Id);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = branchCode;
+
+            BranchAccess ba = new BranchAccess();
+            if (string.IsNullOrEmpty(branchCode))
+            {
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            }
+
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            if (reslt > 0)
+            {
+                TempData["editBranchResult"] = 1;
+            }
+            else
+            {
+                TempData["editBranchResult"] = 0;
+            }
+
+            return RedirectToAction("EditDashboardBranch");
+
+        }
+
     }
 }
