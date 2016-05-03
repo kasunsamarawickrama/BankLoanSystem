@@ -1,14 +1,11 @@
 ﻿@model BankLoanSystem.Models.NonRegCompanyBranchModel
 @{
-    ViewBag.Title = "Step5";
-
+    ViewBag.Title = "Edit Partner Branch";
     if (ViewBag.AjaxRequest == null)
     {
-        Layout = "~/Views/Shared/_SetupProcess.cshtml";
+        Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     }
-
 }
-
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -89,7 +86,7 @@
                                             {
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-5" style="text-align: left;width: 38%;margin-left: -3%;float: left;font-size: 14px;">
-                                                        @Html.Label("Same details as dealer company created", htmlAttributes: new { })
+                                                        @Html.Label("Same details as company", htmlAttributes: new { })
                                                     </div>
                                                     <div class="control-label col-sm-1" style="text-align: left;text-align: left;margin-left:-3%;margin-top: 5px;">
                                                         @Html.CheckBox("Previous", new { @id = "Previous" })
@@ -202,22 +199,23 @@
                                             </div>
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Zip Code</label>
+                                                    <label>Zip</label>
                                                 </div>
                                                 <div class="col-xs-4 text_field new_zip">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5 , style = "width: 80px;"} })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5 } })
                                                 </div>
-                                                <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:-5px;margin-right:5px;"></span>
+                                                <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:13px;margin-right:13px;"></span>
                                                 <div class="col-xs-4 text_field new_zip">
-                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", @maxlength = 4, style = "width: 83px;" } })
+                                                    @Html.EditorFor(model => model.CompanyBranch.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", @maxlength = 4 } })
+                                                    @*@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })*@
                                                 </div>
                                                 <div class="err_msg_box">
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.ZipPre, "", new { @class = "text-danger" })</p>
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })</p>
                                                 </div>
                                                 @*<div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })</p>
-                                                </div>*@
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })</p>
+                                                    </div>*@
                                             </div>
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
@@ -317,7 +315,7 @@
                                                         @for (var i = 0; i < Model.NonRegBranches.Count; i++)
                                                         {
                                                             <tr class="bordr_btm" style="height:30px;">
-                                                                <td style="width:31px;" class="back_colr">@(i+1)</td>
+                                                                <td style="width:31px;" class="back_colr">@(i + 1)</td>
                                                                 <td style="width:144px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchName)</td>
                                                                 <td style="width:210px;" class="back_colr">@Html.DisplayFor(x => x.NonRegBranches[i].BranchAddress1)</td>
                                                                 <td style="width:107px;" class="back_colr"><a onclick="EditBranch(@i)" id="CompanyIndex">Edit</a></td>
