@@ -1446,23 +1446,27 @@ namespace BankLoanSystem.Controllers
             int res = da.InsertUserInDashboard(userObj);
 
             //Insert new user to user activation table
-            string activationCode = Guid.NewGuid().ToString();
-            int userId = (new UserAccess()).getUserId(userObj.Email);
-            res = ua.InsertUserActivation(userId, activationCode);
-            if (res == 1)
+            //string activationCode = Guid.NewGuid().ToString();
+            //int userId = (new UserAccess()).getUserId(userObj.Email);
+            //res = ua.InsertUserActivation(userId, activationCode);
+            if (res > 0)
             {
+                if (userObj.Status)
+                {
+
+                    string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
+                                  "<br /><br /> User name: " + userObj.UserName +
+                                        "<br /> Password : <b>" + passwordTemp +
+                                  //"<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                                  "<br /><br/> Thanks,<br /> Admin.";
+
+                    Email email = new Email(userObj.Email);
 
 
-                string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
-                              "<br /><br /> User name: " + userObj.UserName +
-                                    "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
-                              "<br /><br/> Thanks,<br /> Admin.";
+                    email.SendMail(body, "Account details");
 
-                Email email = new Email(userObj.Email);
+                }
 
-              
-                email.SendMail(body, "Account details");
 
 
 
@@ -2299,6 +2303,8 @@ namespace BankLoanSystem.Controllers
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["UpdteReslt"] = 1;
+
+
                 }
                 else 
                 {
