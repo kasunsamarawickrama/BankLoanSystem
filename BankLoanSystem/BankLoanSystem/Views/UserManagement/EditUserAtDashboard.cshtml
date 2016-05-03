@@ -119,7 +119,7 @@
 
                                     @if (ViewBag.UserRole == 1)
                                     {
-                                        <div class="form-group new_form_group" id="BranchDiv1">
+                                        <div class="form-group new_form_group" id="BranchDiv1" hidden>
                                             <div class="control-label col-sm-2 lable_style">
                                                 <label>Select Branch</label>
                                                                                             </div>
@@ -127,7 +127,7 @@
                                                 {
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @Html.HiddenFor(model => model.BranchId, new { Value = (int)ViewBag.BranchId.Items[0].BranchId, id = "BranchId2" })
-                                                        @Html.LabelFor(model => model.BranchId, (string)ViewBag.BranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", id = "BranchId2Lbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        @Html.LabelFor(model => model.BranchNameAddress, (string)ViewBag.BranchId.Items[0].BranchNameAddress, htmlAttributes: new { @class = "form-control text_field_input", id = "BranchId2Lbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                                     </div>
                                                 }
                                                 else if (ViewBag.BranchId.Items.Count > 1)
@@ -569,7 +569,7 @@
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
         $('#BranchId').val('');
-        $('#BranchId2Lbl').text('');
+        //$('#BranchId2Lbl').text('');
         $('#txtBranchId2').val('');
         $('#BranchDiv1').show();
         $('#UserIdSA option:selected').attr('selected',null);
@@ -605,6 +605,12 @@
         }
         else if(@ViewBag.UserRole==1){
             $('#BranchDiv1').show();
+            if (@ViewBag.BranchId.Items.Count == 1)
+            {
+                var _roleid = $('#RoleIdSlct').val();
+                var _branchId = $('#BranchId2').val();
+                GetUsersByBranchId(_roleid,_branchId);
+            }
         }
         else if(@ViewBag.UserRole==2){
 
@@ -612,7 +618,7 @@
             $('#divSAPhone').hide();
             $('#divPhone').show();
             GetUsersForAdmin(_rId);
-        }
+            }
     }
     function GetUsersForAdmin(_rId){
         
