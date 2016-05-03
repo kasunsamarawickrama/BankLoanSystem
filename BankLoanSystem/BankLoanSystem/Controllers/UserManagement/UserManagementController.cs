@@ -2381,6 +2381,9 @@ namespace BankLoanSystem.Controllers
                 int reslt = (new CompanyAccess().UpdateCompany(company,userData.UserId));
                 if(reslt == 1)
                 {
+                    Log log = new Log(userData.UserId, userData.Company_Id, 0, 0, "Edit Company", "Edit Company : " + userData.Company_Id, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
                     TempData["updateComReslt"] = reslt;
                 }
                 else
