@@ -6150,13 +6150,15 @@ small a{ font-size:16px !important;}
 
 .right_panel_box{
 	border: 1px solid #22b04d;
-    height: 350px;
+    min-height: 350px;
     margin: 2px;
     padding: 5px 5px 40px 5px ;
     /*width: 99%;
 	position:relative;*/
     width: 224px;
     position: fixed;
+    background-color: #E6E4E4;
+    z-index: 4;
 }
 
 .right_panel_box > p {
