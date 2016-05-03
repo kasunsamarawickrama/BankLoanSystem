@@ -2314,7 +2314,7 @@ namespace BankLoanSystem.Controllers
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult CreateDashboardBranch(string edit1)
+        public ActionResult CreateDashboardBranch()
         {
             CompanyBranchModel userCompany;
 
@@ -2342,35 +2342,17 @@ namespace BankLoanSystem.Controllers
                 }
             }
 
-
             userCompany = new CompanyBranchModel();
-                if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
-                {
-                    userCompany = (CompanyBranchModel)TempData["Company"];
-
-                    CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
-
-                    if (userCompany.Company.Extension == null)
-                        userCompany.Company.Extension = "";
-                }
-
-
-
-                userCompany.MainBranch = new Branch();
+                
                 ViewBag.BranchIndex = 0;
 
                 //Get company details by company id
                 CompanyAccess ca = new CompanyAccess();
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-
-
-
-                userCompany.Company = preCompany;
-
                 BranchAccess ba = new BranchAccess();
                 IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
-                userCompany.SubBranches = branches;
+                //userCompany.SubBranches = branches;
 
                 //Get states to list
                 List<State> stateList = ca.GetAllStates();
@@ -2407,7 +2389,7 @@ namespace BankLoanSystem.Controllers
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if(reslt==1)
+            if(reslt > 0)
             {
                 TempData["createBranchResult"] = 1;
             }
