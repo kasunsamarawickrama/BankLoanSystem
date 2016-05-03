@@ -162,7 +162,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
 
-            if ((Convert.ToInt32(Session["companyStep"]) >= 1)||((Convert.ToInt32(Session["companyStep"])==0)&&(edit== "bshdrd")))
+            if (Convert.ToInt32(Session["companyStep"]) >= 1)
             {
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                
@@ -303,10 +303,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
                 //StepAccess cs = new StepAccess();
                 int reslt = Convert.ToInt32(Session["companyStep"]);
-            if ((reslt==0)&&(edit1 == "bshdrdhbrn"))
-            {
-                reslt = 2;
-            }
+            //if ((reslt==0)&&(edit1 == "bshdrdhbrn"))
+            //{
+            //    reslt = 2;
+            //}
 
             //int reslt = 2;
             if (reslt >= 2)
@@ -1155,10 +1155,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
-            else if ((stepNo == 0) && (dashbrd == "bshdrdhomcrpt"))
-            {
-                stepNo = 4;
-            }
+            //else if ((stepNo == 0) && (dashbrd == "bshdrdhomcrpt"))
+            //{
+            //    stepNo = 4;
+            //}
             if (stepNo >= 3)
             {
                 BranchAccess ba = new BranchAccess();
