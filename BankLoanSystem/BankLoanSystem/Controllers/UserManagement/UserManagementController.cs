@@ -2421,5 +2421,125 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        static int _compType;
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditPartnerBranchAtDashboard(string lbls)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            if (lbls != null &&
+                (lbls.Equals("Dealer branch is successfully updated") ||
+                 lbls.Equals("Lender branch is successfully updated")))
+            {
+                ViewBag.SuccessMsg = lbls;
+            }
+            else if (lbls != null &&
+                (lbls.Equals("Failed to udate")))
+            {
+                ViewBag.ErrorMsg = lbls;
+            }
+
+            BranchAccess ba = new BranchAccess();
+            _compType = ba.getCompanyTypeByUserId(userData.UserId);
+
+            //int compType = userData.CompanyType;
+            if (_compType == 1)
+            {
+                ViewBag.ThisCompanyType = "Dealer";
+            }
+            else if (_compType == 2)
+            {
+                ViewBag.ThisCompanyType = "Lender";
+            }
+            else
+            {
+                ViewBag.compType = "";
+            } 
+            //Get all non registered branches by company id
+            EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
+            
+            List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
+            nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            //Get all non reg companies
+            CompanyAccess ca = new CompanyAccess();
+            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
+            ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            return View(nonRegCompanyBranch);
+        }
+
+        [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditPartnerBranchAtDashboard(EditPartnerBranceModel model, string branchCode)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            CompanyBranchModel nonRegBranch = model.CompanyBranch;
+
+            nonRegBranch.MainBranch.StateId = model.StateId;
+            nonRegBranch.MainBranch.BranchCode = branchCode;
+
+            nonRegBranch.MainBranch.BranchCreatedBy = model.RegBranchId;
+            nonRegBranch.MainBranch.BranchCompany = model.NonRegCompanyId;
+
+            BranchAccess ba = new BranchAccess();
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+
+            if (reslt > 0)
+            {
+                if (_compType == 1)
+                {
+                    ViewBag.SuccessMsg = "Dealer branch is successfully updated";
+                }
+                else if (_compType == 2)
+                {
+                    ViewBag.SuccessMsg = "Lender branch is successfully updated";
+                }
+
+                return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.SuccessMsg });
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to udate";
+                return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
+            }
+
+            ////Get all non registered branches by company id
+            //EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
+            ////BranchAccess ba = new BranchAccess();
+            //List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
+            //nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+            //// get all branches
+            //List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            //ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            ////Get all non reg companies
+            //CompanyAccess ca = new CompanyAccess();
+            //List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
+            //ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+
+            ////Get states to list
+            //List<State> stateList = ca.GetAllStates();
+            //ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            //return View(nonRegCompanyBranch);
+        }
     }
 }
