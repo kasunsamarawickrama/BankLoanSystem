@@ -255,7 +255,7 @@
                                         <div class="radio">
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
                                             @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
                                 </div>
@@ -1948,6 +1948,7 @@
                     $('#selectedFiles').children().remove();
                     $(".miles").val("");
                     $(".lengths").val("");
+                    $('.radio').children('p').next('span').text('');
                 });
 
                 function clearform() {
