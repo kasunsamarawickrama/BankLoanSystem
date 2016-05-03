@@ -77,7 +77,6 @@ namespace BankLoanSystem.DAL
                         {
                             obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
                         }
-                            
                     }
                     return obj1;
                 }
