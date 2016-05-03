@@ -1384,7 +1384,7 @@ namespace BankLoanSystem.Controllers
 
             userObj.CreatedBy = currentUser;
             userObj.IsDelete = false;
-            userObj.Status = false;
+            //userObj.Status = false;
 
             string passwordTemp = userObj.Password;
 
