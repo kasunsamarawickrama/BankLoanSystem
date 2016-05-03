@@ -105,7 +105,7 @@
 
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Loan Number</label>
+                                            <label>Loan Number   <span class='icon-help_outline 1'></span></label>
                                         </div>
                                         <div class="col-xs-8 text_field" id="loanNumber" style="display:none">
                                             @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanNumber", maxlength = 30 } })
@@ -121,7 +121,7 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Start Date</label>
+                                            <label>Start Date   <span class='icon-help_outline 2'></span></label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" id="startDateDiv" style="">
                                             @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", placeholder = "MM/DD/YYYY", @id = "startDate", autocomplete = "off" } })
@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Maturity Date</label>
+                                            <label>Maturity Date   <span class='icon-help_outline 3'></span></label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" id="maturityDateDiv" style="">
                                             @Html.EditorFor(model => model.maturityDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "maturityDate", placeholder = "MM/DD/YYYY", autocomplete = "off" } })
@@ -185,7 +185,7 @@
 
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style" >
-                                            <label>Loan Amount <span style="float:right;margin-top: -3px;font-size: 18px;">$</span></label>
+                                            <label>Loan Amount<sup><span class='icon-help_outline 4' style="padding-left:0px"></span></sup><span style="float:right;margin-top: -3px;font-size: 18px;">$</span></label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field">
                                             @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanAmount", maxlength = 15, style = "text-align:right" } })
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
-                                            <label>Initial Advance %</label>
+                                            <label>Initial Advance %<span class='icon-help_outline 5'></span></label>
                                         </div>
                                         <div class="col-xs-4 text_field short_text_field new_zip">
                                             @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", max = 100, maxlength = 3, min = 1, @id = "advancePercentage" } })
@@ -218,7 +218,7 @@
                                     </div>
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 " style="font-weight:normal;color:#545454;font-size:14px;text-align:left;float:left;margin-left:-15px;margin-top:-5px">
-                                            <label>Select types of units to be advanced in this loan</label>
+                                            <label>Select types of units to be advanced in this loan   <span class='icon-help_outline 6'></span></label>
                                         </div>
                                         <div class="col-xs-8 new_unit_type">
                                             @for (int i = 0; i < Model.allUnitTypes.Count; i++)
@@ -284,7 +284,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="col-xs-9 new_label_style">
                                             <label class="new_label_style" style="font-weight:normal;color:#545454;font-size:14px;">
-                                                Is the User authorized to change the initial advance amount?
+                                                Is the User authorized to change the initial advance amount?   <span class='icon-help_outline 7'></span>
                                             </label>
                                         </div>
                                         <div class="control-label col-sm-2 new_text_field" style="margin-top:-5px">
@@ -313,7 +313,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="col-xs-9 new_label_style">
                                             <label class="new_label_style" style="font-weight:normal;color:#545454;font-size:14px;">
-                                                Would you like a reminder emailed for the loan renewal?
+                                                Would you like a reminder emailed for the loan renewal?<span class='icon-help_outline 8' style="padding-left:5px;"></span>
 
                                             </label>
                                         </div>
@@ -398,6 +398,83 @@
   $('.nav li').removeClass('active');
   $('.nav li.loan').addClass('active');
   $('.nav li.active ul').addClass('in');
+
+
+      // helper Funtionality
+  var HelpString = $('.right_panel_box p').html();
+  var HelpTitle = $('.right_panel_box h4').html();
+
+  $('#loanNumber , .icon-help_outline.1').click(function () {
+
+      $('.right_panel_box p').html('This number will be used throughout the program to identify the loan. You can use the actual loan number or create a unique ID for the loan between 5 and 30 characters.');
+      $('.right_panel_box h4').html('Loan number');
+
+
+  });
+
+  $('#startDate , .icon-help_outline.2').click(function () {
+
+      $('.right_panel_box p').html('The date the loan started.');
+      $('.right_panel_box h4').html('Start date');
+
+
+  });
+
+  $('#maturityDate , .icon-help_outline.3').click(function () {
+
+      $('.right_panel_box p').html('The date the loan matures. The program limits the functions allowed in a loan after the maturity date (until the loan is renewed). If there is no maturity date for the loan, please select a date far into the future (1 year or more).');
+      $('.right_panel_box h4').html('Maturity date');
+
+
+  });
+
+  $('#loanAmount , .icon-help_outline.4').click(function () {
+
+      $('.right_panel_box p').html('This is the total revolving amount available for this loan.');
+      $('.right_panel_box h4').html('Loan amount');
+
+
+  });
+
+  $('#advancePercentage , .icon-help_outline.5').click(function () {
+
+      $('.right_panel_box p').html('This is the percentage of the unit purchase price which is advanced from the loan. <br></br><i>(example: a unit is purchased by the dealer for $10,000 - if your advance % is 80 then $8,000 will be advanced for that unit.)</i>');
+      $('.right_panel_box h4').html('Initial advance percentage');
+
+
+  });
+
+  $('.new_unit_type input , .icon-help_outline.6').click(function () {
+
+      $('.right_panel_box p').html("Select each unit type which is allowed to be advanced on this loan. If more than one unit type is selected then the type of unit which will be the most commonly advanced should be selected as 'Make Default'. For faster operation the default unit type will be preselected on the advance page.");
+      $('.right_panel_box h4').html('Select unit types');
+
+
+  });
+
+  $('#isEditAllowable , .icon-help_outline.7').click(function () {
+
+      $('.right_panel_box p').html("By selecting 'Yes' here, at the time of advance the user will be allowed to change the advance amount on a specific unit to an amount which is different than the precalculated percentage.<br></br>By selecting 'No' the user will not be allowed to change the precalculated advance amount.");
+      $('.right_panel_box h4').html('Allow user to change advance amount');
+
+
+  });
+
+  $('#autoRem , .icon-help_outline.8').click(function () {
+
+      $('.right_panel_box p').html("By selecting 'Yes' you will be asked to provide an email address where you will receive an email reminder prior to the loan maturity date.");
+      $('.right_panel_box h4').html('Send loan renewal reminder');
+
+
+  });
+
+  $('select:not(#isEditAllowable , #autoRem), span:not(.icon-help_outline.1 , .icon-help_outline.2 , .icon-help_outline.3, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6, .icon-help_outline.7, .icon-help_outline.8), input:not(#loanNumber , #startDate, #maturityDate , #loanAmount, #advancePercentage, [name^="allUnitTypes"] ,[id^="radio"]  )').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
   })
 </script>
 
