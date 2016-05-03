@@ -288,8 +288,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("UserLogin", "Login");
             }
 
-            //StepAccess cs = new StepAccess();
-            int reslt = Convert.ToInt32(Session["companyStep"]);
+            if (TempData["Step2Reslt"] != null && int.Parse(TempData["Step2Reslt"].ToString())>0)
+            {
+                ViewBag.SuccessMsg = "Branch Successfully Created";
+            }
+
+            else if (TempData["Step2Reslt"] != null && int.Parse(TempData["Step2Reslt"].ToString()) == 0)
+            {
+                ViewBag.SuccessMsg = "Branch Successfully Updated";
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to Create Branch";
+            }
+                //StepAccess cs = new StepAccess();
+                int reslt = Convert.ToInt32(Session["companyStep"]);
             if ((reslt==0)&&(edit1 == "bshdrdhbrn"))
             {
                 reslt = 2;
@@ -407,8 +420,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             //userData.BranchId = reslt;
-            if (reslt > 0)
+            if (reslt >= 0)
             {
+                TempData["Step2Reslt"] = reslt;
                 Session["companyStep"] = 3;
 
                 //user object pass to session
@@ -425,12 +439,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     // bool reslt2 = ba.updateUserBranchId(userCompany2, userId);
 
-                    return RedirectToAction("Step3");
+                    return RedirectToAction("Step2");
 
                 }
             }
             else
             {
+                TempData["Step2Reslt"] = 0;
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Failed to set up branch" });
                 //return new HttpStatusCodeResult(404, "Failed to set up branch");
             }
