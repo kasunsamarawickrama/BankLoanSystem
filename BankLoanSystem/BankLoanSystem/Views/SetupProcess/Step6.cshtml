@@ -215,7 +215,7 @@
                                             <label>Initial Advance %<span class='icon-help_outline 5'></span></label>
                                         </div>
                                         <div class="col-xs-4 text_field short_text_field new_zip">
-                                            @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", max = 100, maxlength = 3, min = 1, @id = "advancePercentage" } })
+                                            @Html.EditorFor(model => model.advancePercentage, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", max = 100, maxlength = 3, min = 1, @id = "advancePercentage", @type="text", @style= "text-align: right;" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.advancePercentage, "", new { @class = "text-danger" })</p>
@@ -347,7 +347,7 @@
                                                 <label class="new_label_style">How many days prior to the Maturity Date should the renewal reminder be sent?</label>
                                             </div>
                                             <div class="col-xs-4 new_text_field">
-                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" , min = 1 } })
+                                                @Html.EditorFor(model => model.autoReminderPeriod, new { htmlAttributes = new { @id = "emailPeriod", @class = "form-control text-box single-line text_field_input", @onblur = "checkTheEmailRange(this.value)" , min = 1, @type="text", @style="text-align: right" } })
 
                                             </div>
                                             <div class="err_msg_box">
@@ -361,7 +361,7 @@
                                                 <label>Email for renewal reminder to be sent to</label>
                                             </div>
                                             <div class="col-xs-8 text_field" style="width:350px">
-                                                @Html.EditorFor(model => model.autoReminderEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "AutoEmail" } })
+                                                @Html.EditorFor(model => model.autoReminderEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "AutoEmail", placeholder = "example.example.com" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.autoReminderEmail, "", new { @class = "text-danger", @id = "errorAutoEmail" })</p>
@@ -586,6 +586,10 @@
 
 
     $('#emailPeriod').keypress(function (evt) {
+        //only allowed numbers
+        if (!(48 <= evt.which && evt.which <= 58))
+            evt.preventDefault();
+
         // preventing to type 'e' or 'E'
         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
             evt.preventDefault();
@@ -593,6 +597,10 @@
     });
 
     $('#advancePercentage').keypress(function (evt) {
+        //only allowed numbers
+        if (!(48 <= evt.which && evt.which <= 58))
+            evt.preventDefault();
+
         // preventing to type 'e' or 'E'
         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
             evt.preventDefault();
@@ -603,6 +611,13 @@
         // preventing to type 'e' or 'E'
         if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
             evt.preventDefault();
+        }
+    });
+
+    //add place holder
+    $('#AutoEmail').blur(function (e) {
+        if (this.value === '') {
+            $("#AutoEmail").attr('placeholder', 'example.example.com');
         }
     });
 
@@ -834,7 +849,7 @@
         if (value == "true") {
             $("#AutoReminderEmail").show();
             //$("#emailPeriod").val("");
-           
+            $("#AutoEmail").attr('placeholder', 'example.example.com');
 
 
 
