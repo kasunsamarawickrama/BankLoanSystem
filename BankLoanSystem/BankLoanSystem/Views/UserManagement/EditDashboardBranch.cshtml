@@ -43,13 +43,13 @@
                     <div class="container body-content new_container">
 
                         <div style="clear:both;"></div>
-                        @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Created"))
+                        @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Updated"))
                         {
 
                         <span id="successSpn" class="text-success">@ViewBag.SuccessMsg</span>
                         }
 
-                        else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Create Branch"))
+                        else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update Branch"))
                         {
 
                         <span id="errSpn" class="text-danger">@ViewBag.ErrorMsg</span>
@@ -87,7 +87,7 @@
                             </div>
                             }
                             <div id="branchDiv" class="form-horizontal">
-
+                                <input id="branchCode" name="branchCode" type="hidden" value="" />
                                 <div class="form-group new_form_group">
                                     <div class="control-label col-sm-2 lable_style">
                                         <label>Name</label>
