@@ -2517,12 +2517,12 @@ namespace BankLoanSystem.Controllers
             {
                 if (int.Parse(TempData["editBranchResult"].ToString()) == 1)
                 {
-                    ViewBag.SuccessMsg = "Branch Successfully Edited";
+                    ViewBag.SuccessMsg = "Branch is successfully updated";
                 }
 
                 else if (int.Parse(TempData["editBranchResult"].ToString()) == 0)
                 {
-                    ViewBag.ErrorMsg = "Failed To Edit Branch";
+                    ViewBag.ErrorMsg = "Failed To Update Branch";
                 }
             }
 
@@ -2572,7 +2572,7 @@ namespace BankLoanSystem.Controllers
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if (reslt > 0)
+            if (reslt == 0)
             {
                 TempData["editBranchResult"] = 1;
             }
