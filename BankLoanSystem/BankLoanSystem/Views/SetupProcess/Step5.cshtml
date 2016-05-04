@@ -88,8 +88,8 @@
                                             else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                             {
                                                 <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-5" style="text-align: left;width: 38%;margin-left: -3%;float: left;font-size: 14px;">
-                                                        @Html.Label("Same details as dealer company created", htmlAttributes: new { })
+                                                    <div class="control-label col-sm-5" style="text-align: left;width: 42%;margin-left: -3%;float: left;font-size: 14px;">
+                                                        <label>Same details as dealer company created    <span class='icon-help_outline 2'></span></label>
                                                     </div>
                                                     <div class="control-label col-sm-1" style="text-align: left;text-align: left;margin-left:-3%;margin-top: 5px;">
                                                         @Html.CheckBox("Previous", new { @id = "Previous" })
@@ -103,7 +103,8 @@
                                             {
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 lable_style">
-                                                        <label>Branch Name</label>
+                                                        <label>Branch Name @if (Enumerable.Count(ViewBag.RegBranchId) > 1)
+                                                        {<span class="icon-help_outline 1"></span>}</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
@@ -222,7 +223,7 @@
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
                                                     <label>
-                                                        email<br>
+                                                        Email<br>
                                                         <span class="optional">(Optional)</span>
                                                     </label>
                                                 </div>
@@ -367,6 +368,35 @@
 
 <script>
     $(function () {
+
+        // helper Funtionality
+        var HelpString = $('.right_panel_box p').html();
+        var HelpTitle = $('.right_panel_box h4').html();
+
+        $('#RegBranchId , .icon-help_outline.1').click(function () {
+
+            $('.right_panel_box p').html('Select the @(ViewBag.ThisCompanyType == "Dealer" ? "Lender" : "Dealer") branch this @ViewBag.ThisCompanyType is financed through.');
+            $('.right_panel_box h4').html('Assign a partner branch');
+
+
+        });
+
+        $('#Previous , .icon-help_outline.2').click(function () {
+
+            $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details. A branch is required to setup a loan; if you are working with the company location for the loan select 'Same details as @(ViewBag.ThisCompanyType == "Dealer" ? "Lender" : "Dealer") company created'.");
+            $('.right_panel_box h4').html('Branch details the same as company details');
+
+
+        });
+
+        $('select:not(#RegBranchId), span:not(.icon-help_outline.1 , .icon-help_outline.2), input:not(#Previous) ').click(function () {
+
+            $('.right_panel_box p').html(HelpString);
+            $('.right_panel_box h4').html(HelpTitle);
+
+
+        });
+
 
         $('#createNewNonRegBranch').click(function () {
 

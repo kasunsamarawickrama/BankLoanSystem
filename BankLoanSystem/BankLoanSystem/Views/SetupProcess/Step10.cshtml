@@ -31,11 +31,11 @@
                         @if (ViewBag.SuccessMsg == "Loan setup is completed")
                         {
                             @*@section JavaScript
-                            {
-                                <script type="text/javascript">
-                                    Progress(0);
-                                </script>
-                            }*@
+                                {
+                                    <script type="text/javascript">
+                                        Progress(0);
+                                    </script>
+                                }*@
                             <span class="text-success">@ViewBag.SuccessMsg</span>
                             <div class="form-group">
                                 <div class="button-panel">
@@ -79,34 +79,34 @@
                                     <input type="hidden" id="cal" name="cal" />
 
                                     <div class="form-group new_form_group">
-                                        <table width="100%">
+                                        <table width="">
                                             <tr>
-                                                <td width="25%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
-                                                <td width="60%">
-                                                    :@*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
+                                                <td width="60%"><label>Is the curtailment calculated from the original purchase price or the advanced amount?   <span class='icon-help_outline 1'></span></label></td>
+                                                <td width="40%">
+                                                    @*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                                                         Full payment
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
                                                         Advance*@
                                                     @if (Model.CalculationBase == "Full payment")
                                                     {
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
-                                                        <text>Full payment</text>
+                                                        <text>Original Price</text>
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                                        <text>Advance</text>
+                                                        <text>Advance Amount</text>
                                                     }
                                                     else if (Model.CalculationBase == "Advance")
                                                     {
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                                        <text>Full payment</text>
+                                                        <text>Original Price</text>
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment", @checked = true })
-                                                        <text>Advance</text>
+                                                        <text>Advance Amount</text>
                                                     }
                                                     else
                                                     {
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                                        <text>Full payment</text>
+                                                        <text>Original Price</text>
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                                        <text>Advance</text>
+                                                        <text>Advance Amount</text>
                                                     }
                                                 </td>
                                             </tr>
@@ -123,11 +123,32 @@
                                     </div>
 
                                     <div class="form-group new_form_group">
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="60%"><label>Do the curtailments become due over the course of Months or Days?   <span class="icon-help_outline 3"></span></label></td> 
+                                                <td width="40%">
+                                                    @Html.RadioButtonFor(m => m.TimeBase, "Months", new { @id = "rdMonths", @class = "timeBase" })Months
+                                                    @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "rdDays", @class = "timeBase" })Days
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <div id="customErrorTimeBase"><span class="text-danger"></span></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div>
+                                            @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group new_form_group">
                                         @if (Model.RemainingPercentage >= 0)
                                         {
                                             <span id="spnremainPt">
                                             </span>
-                                            <span style="color: green"  id="spnremainPtComplete"></span>
+                                            <span style="color: green" id="spnremainPtComplete"></span>
                                             <span style="color: red" id="spnremainPtError"></span>
                                             <br />
                                             <span>
@@ -138,21 +159,23 @@
 
                                         }
                                         <br />
-                                        <span>
-                                            Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-                                        </span>
+                                        @*<span>
+                                                Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
+                                            </span>*@
                                     </div>
                                     <br />
+                                   
+                                    <span class="icon-help_outline 4"></span>
                                     <div id="CurtailmentGrid">
                                         <div class="form-group new_form_group">
-                                            <div style="text-align: center;">
+                                            <div style="text-align: center;" id="divTbl">
                                                 <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">
                                                     <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
                                                         <th style="width: 10%; text-align: center" height="30px">
                                                             <p id="cuId"> Curt#</p>
                                                         </th>
                                                         <th style="width: 35%; text-align: center" height="30px">
-                                                            <p id="time">@Model.TimeBase</p>
+                                                            <p id="time"></p>
                                                         </th>
                                                         <th style="width: 35%; text-align: center" height="30px">
                                                             <p id="pecentage">Percentage(%)</p>
@@ -183,6 +206,8 @@
                                                         </tr>
                                                     }
                                                 </table>
+
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -192,12 +217,12 @@
                                         <div id="spnremainTimeError"><span class="text-danger"></span></div>
                                     </div>
                                     <br />
+                                    
                                     <div class="form-group new_form_group">
                                         <table width="100%">
                                             <tr>
-                                                <td width="25%">@Html.LabelFor(model => model.LoanStatus, htmlAttributes: new { })</td>
-                                                <td width="60%">
-                                                    :
+                                                <td width="60%">@Html.LabelFor(model => model.LoanStatus, htmlAttributes: new { })</td>
+                                                <td width="40%">
                                                     @if (Model.LoanStatus == "Yes")
                                                     {
                                                         @Html.RadioButtonFor(m => m.LoanStatus, "Yes", new { @id = "rdYes", @class = "Active", @checked = true })
@@ -228,55 +253,126 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                    </div>
 
+                                        
+                                    </div>
+                                           
                                     <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 mLable">
-                                            <label>Due Date</label>
-                                        </div>
-                                        <div class="col-xs-8 text_field short_text_field">
-                                            @{
-                                                for (var i = 1; i < 29; i++)
-                                                {
-                                                    listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="60%">What day of the month are the curtailments due?   <span class="icon-help_outline 5"></span></td>
+                                                <td width="40%">
+                                                    
+                                                    @{
+                                                        for (var i = 1; i < 29; i++)
+                                                        {
+                                                            listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                        }
+                                                        listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })</p>
+                                                    <div id="customErrorDueDate"><span class="text-danger"></span></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        @*<div class="control-label col-sm-3 mLable">
+                                                <label>What day of the month are the curtailments due?</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field" style="padding-left: 140px;">
+                                                @{
+                                                    for (var i = 1; i < 29; i++)
+                                                    {
+                                                        listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                                                    }
+                                                    listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
                                                 }
-                                                listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                                            }
-                                            @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
-                                        </div>
-                                        <div class="err_msg_box  mErrMsgBox">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new {@class = "text-danger"})</p>
-                                            <div id="customErrorDueDate"><span class="text-danger"></span></div>
-                                        </div>
+                                                @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
+                                            </div>
+                                            <div class="err_msg_box  mErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })</p>
+                                                <div id="customErrorDueDate"><span class="text-danger"></span></div>
+                                            </div>*@
                                     </div>
                                     <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 mLable">
+
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="60%">
+                                                    <label>
+                                                        Would you like a reminder email sent when curtailments are due?   <span class="icon-help_outline 6"></span><br>
+                                                        <span class="optional">(Optional)</span>
+                                                    </label>
+                                                </td>
+                                                <td width="40%">
+                                                    
+                                                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        @*<div class="control-label col-sm-2 mLable">
+                                                <label>
+                                                    Would you like a reminder email sent when curtailments are due?<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field" style="width:335px;">
+                                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
+                                            </div>
+                                            <div class="err_msg_box  mErrMsgBox">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })</p>
+                                            </div>*@
+                                    </div>
+                                <div class="form-group new_form_group">
+
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="60%">
+                                                <label>
+                                                    How many days prior to the curtailment due date would you like a reminder emailed?<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </td>
+                                            <td width="40%">
+                                                @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1 } })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })</p>
+                                                <div id="customErrorPeriod"><span class="text-danger"></span></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    @*<div class="control-label col-sm-2 mLable">
                                             <label>
-                                                Remind email<br>
+                                                How many days prior to the curtailment due date would you like a reminder emailed?<br>
                                                 <span class="optional">(Optional)</span>
                                             </label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field" style="width:335px;">
-                                            @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
-                                        </div>
-                                        <div class="err_msg_box  mErrMsgBox">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group new_form_group">
-                                        <div class="control-label col-sm-2 mLable">
-                                            <label>
-                                                Email Remind Period<br>
-                                                <span class="optional">(Optional)</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-8 text_field short_text_field" style="width:335px;">
-                                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days",min=1 } })
+                                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1 } })
                                         </div>
                                         <div class="err_msg_box  mErrMsgBox">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })</p>
-                                        </div>
-                                    </div>
+                                            <div id="customErrorPeriod"><span class="text-danger"></span></div>
+                                        </div>*@
+                                </div>
                                     <div class="form-group new_form_group clear_next clear_next_bordr">
                                         <div>
                                             <nav>
@@ -298,8 +394,8 @@
 
 
                                 </div>
-                                                    }
-                                                }
+                                                            }
+                                                        }
 
 
                     </div>
@@ -316,7 +412,7 @@
 
 <div class="rightPanel">
     @{
-        @Html.Partial("Step8help")
+        @Html.Partial("Step10help")
     }
 </div>
 
@@ -324,13 +420,71 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script language="javascript">
-
+    
     $(document).ready(function(){
-
         $('.nav li.active ul').removeClass('in');
         $('.nav li').removeClass('active');
         $('.nav li.loan').addClass('active');
         $('.nav li.active ul').addClass('in');
+
+        // helper Funtionality
+        var HelpString = $('.right_panel_box p').html();
+        var HelpTitle = $('.right_panel_box h4').html();
+
+        $('input[name="CalculationBase"] , .icon-help_outline.1').click(function () {
+
+            $('.right_panel_box p').html("Select if the curtailments will be calculated from the original price/cost of the unit or if they will be calculated from the advanced amount. <br></br><i>(example: If the advance percent is 80% and the original price was $10,000 then the advanced amount is $8,000. The first curtailment is 25%. If you chose 'Original price' then the curtailment amount would be $2,500. If you chose 'Advance amount' then the curtailment amount would be $2,000.)</i>");
+            $('.right_panel_box h4').html('Curtailment calculation base');
+
+
+        });
+
+        $('input[name="TimeBase"] , .icon-help_outline.3').click(function () {
+
+            $('.right_panel_box p').html("Specify if the curtailment schedule will follow months or days. <br></br><i>(example: If you have a curtailment which is due in 45 days you will need to select 'days' and then convert all curtailments to days. You will not be able to select months and then use 1.5 months. If you chose months then you will only be able to specify whole months.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule setup');
+
+
+        });
+
+        $(document).on('click', '.icon-help_outline.2', function(){
+            $('.right_panel_box p').html("This shows the percentage remaining to pay off. It is supplied for informational purposes to help create an accurate curtailment schedule below.");
+            $('.right_panel_box h4').html('Percentage to payoff');
+        
+        }); 
+
+        $(document).on('click', '.icon-help_outline.4', function(){
+            $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule');
+        
+        }); 
+
+        $('#CurtailmentDueDate , .icon-help_outline.5').click(function () {
+
+            $('.right_panel_box p').html("Specify which day of each month the curtailments are paid. The system will calculate all units which had a curtailment come due since the last curtailment was paid.");
+            $('.right_panel_box h4').html('Curtailment due date');
+
+
+        });
+
+        $('#curtailmentDueEmail , .icon-help_outline.6').click(function () {
+
+            $('.right_panel_box p').html("Specify an email address if you would like a reminder to be sent out prior to the curtailment becoming due.");
+            $('.right_panel_box h4').html('Curtailment due reminder email');
+
+
+        });
+        
+
+        $('select:not(#CurtailmentDueDate), span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail) ').click(function () {
+
+            $('.right_panel_box p').html(HelpString);
+            $('.right_panel_box h4').html(HelpTitle);
+
+
+        });
+
+
     })
 </script>
 
@@ -339,6 +493,36 @@
     $(document).ready(function() {
         document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
     });
+
+    var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">' +
+        '<tbody><tr style="font-weight: bold; background-color: darkgray; height: 15px;">' +
+        '<th style="width: 10%; text-align: center" height="30px">' +
+        '<p id="cuId"> Curt#</p>' +
+        '</th>' +
+        '<th style="width: 35%; text-align: center" height="30px">' +
+        '<p id="time"></p>' +
+        '</th>' +
+        '<th style="width: 35%; text-align: center" height="30px">' +
+        '<p id="pecentage">Percentage(%)</p>' +
+        '</th>' +
+        '<th style="width: 20%;" height="30px">' +
+        '</th>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 10%;"><label id="lblCur">1</label></td>' +
+        '<td style="width: 35%;">' +
+        '<input class="clstimePeriod" data-val="true" data-val-number="The field Time period must be a number." data-val-regex="Invalid" data-val-regex-pattern="^[1-9][0-9]*$" disabled="disabled" id="timePeriod" name="InfoModel[0].TimePeriod" style="text-align: right" tabindex="-1" type="text" value="">' +
+        '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
+        '</td>' +
+        '<td style="width: 35%;">' +
+        '<input class="clsaddCuirtailment" data-val="true" data-val-number="The field Percentage must be a number." data-val-range="Invalid" data-val-range-max="100" data-val-range-min="1" disabled="disabled" id="percentage" name="InfoModel[0].Percentage" style="text-align: right" type="text" value="">' +
+        '<span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>' +
+        '</td>' +
+        '<td style="width: 20%;">' +
+        '<input type="button" class="btnDeleteRow" name="" value="Delete" title="Delete Row" style="width: 60px; height: 25px" tabindex="-1">' +
+        '</td>' +
+        '</tr>' +
+        '</tbody></table>';
 
     $('#curtailmentDueEmail').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 100);
@@ -359,6 +543,10 @@
             e.preventDefault();
             return;
         }
+    });
+
+    $('#curtailmentDueEmail, #curtailmentDueEmailRemindPeriod').click(function (e) {
+        $('#customErrorPeriod').children('span').text("");
     });
 
     $('curtailmentDueEmailRemindPeriod').keypress(function() {
@@ -382,7 +570,31 @@
     });
 
     function clearFunction() {
-        window.location.replace('@Url.Action("Step10", "SetupProcess")');
+        //unchecked all selected radio button
+        $(this).find("input:radio:checked").prop('checked',false);
+
+        //remove all custom messages
+        $('#customErrorCalBase').children('span').text("");
+        $('#customErrorTimeBase').children('span').text("");
+        $('#customErrorTable').children('span').text("");
+        $('#customErrorLoanStatus').children('span').text("");
+        $('#customErrorDueDate').children('span').text("");
+        $('#customErrorPeriod').children('span').text("");
+        $('#spnremainPtComplete').text("");
+        $('#spnremainPtError').text("");
+        $('#spnremainTimeError').children('span').text("");
+        $('.text-danger field-validation-error').children('span').text("");
+        $('#spnremainPt').html("");
+        
+        
+        //set curtailment shedule grid as initial
+        $('#tblGrid').remove();
+        $('#divTbl').append(initialTbl);
+        initializeData();
+        window.scrollTo(0, 0);
+
+        $("#curtailmentDueEmailRemindPeriod").attr('placeholder', 'Number of Days');
+        
     }
 
     //Assign model details to global variable
@@ -390,13 +602,24 @@
 
     //
     var remainingPt = parseInt(model.RemainingPercentage);
-    var remainingTime = model.RemainingTime;
     var difPercentage = parseInt(100) - parseInt(model.AdvancePt);
     var id = $('#tblGrid tr:last').find("#lblCur").html();
     var payPercentage = 0;
     var isFirst = true;
+    var advancePt = parseInt(model.AdvancePt);
 
     var list = { currentList: [] };
+
+    function initializeData() {
+        remainingPt = parseInt(model.RemainingPercentage);
+        difPercentage = parseInt(100) - parseInt(model.AdvancePt);
+        id = $('#tblGrid tr:last').find("#lblCur").html();
+        payPercentage = 0;
+        isFirst = true;
+        advancePt = parseInt(model.AdvancePt);
+
+        list = { currentList: [] };
+    }
 
     function createTableRow(id) {
         return '<tr>' +
@@ -483,7 +706,7 @@
             var timePeriod = $(this).find("#timePeriod").val();
             var percentage = $(this).find("#percentage").val();
             var previousTime = 0;
-            
+
             if (parseInt(curid) > 1) {
                 previousTime = list.currentList[curid - 2].TimePeriod;
             }
@@ -498,11 +721,12 @@
             index = parseInt(index) + parseInt(1);
             //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
 
-            if (parseInt(timePeriod) > parseInt(remainingTime)) {
-                $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-                isErrorTime = true;
-                return;
-            }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
+            //if (parseInt(timePeriod) > parseInt(remainingTime)) {
+            //    $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
+            //    isErrorTime = true;
+            //    return;
+            //}else
+            if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
 
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
@@ -554,16 +778,16 @@
             remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
 
             if (parseInt(remainingPt) > 0) {
-                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+                $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('');
             } else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
                 document.getElementById("tblGrid").style.borderColor = "green";
             } else {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
@@ -579,7 +803,7 @@
 
             isFirst = false;
 
-            $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+            $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
             if (parseInt(remainingPt) > 0) {
 
                 if (isErrorTime === false) {
@@ -597,7 +821,7 @@
             else if (parseInt(remainingPt) === 0) {
 
                 if (isErrorTime === false) {
-                    $('#spnremainPt').text('');
+                    $('#spnremainPt').html('');
                     $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                     $('#spnremainPtError').text('');
                 } else {
@@ -607,7 +831,7 @@
                 }
 
             } else {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
@@ -632,16 +856,21 @@
     //    }
     //});
 
+    var isSelectCalcType = false;
+    var isSelectTime = false;
     var isRowAdded = false;
     var isFullFirst = true;
-    //update remaining percentage
+    //update Percentage remaining to pay off
     $('.payment').change(function() {
         $('#customErrorCalBase').children('span').text("");
-        $('#customErrorTable').children('span').text("");
+        //$('#customErrorTable').children('span').text("");
+        isSelectCalcType = true;
 
         //enable textboxes
-        $('.clstimePeriod').prop("disabled", false);
-        $('.clsaddCuirtailment').prop("disabled", false);
+        if (isSelectCalcType === true && isSelectTime === true) {
+            $('.clstimePeriod').prop("disabled", false);
+            $('.clsaddCuirtailment').prop("disabled", false);
+        }
 
         var calcMode = $(this).filter(':checked').val();
 
@@ -683,7 +912,7 @@
         {
             var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-            $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+            $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('');
 
@@ -698,14 +927,27 @@
             }
         }
         else if (parseInt(remainingPt) === 0) {
-            $('#spnremainPt').text('');
+            $('#spnremainPt').html('');
             $('#spnremainPtComplete').text('Curtailment schedule Completed.');
             $('#spnremainPtError').text('');
         } else {
-            $('#spnremainPt').text('');
+            $('#spnremainPt').html('');
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('Error percentage found');
         }
+    });
+
+    $('.timeBase').change(function() {
+        var time = $(this).filter(':checked').val();
+        $('#time').text(time);
+
+        isSelectTime = true;
+        //enable textboxes
+        if (isSelectCalcType === true && isSelectTime === true) {
+            $('.clstimePeriod').prop("disabled", false);
+            $('.clsaddCuirtailment').prop("disabled", false);
+        }
+
     });
 
     ////delete row
@@ -754,7 +996,7 @@
     //            {
     //                var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-    //                $('#spnremainPt').text('Remaining Percentage:' + remainingPt);
+    //                $('#spnremainPt').text('Percentage remaining to pay off:' + remainingPt);
     //                $('#spnremainPtComplete').text('');
     //                $('#spnremainPtError').text('');
     //            }
@@ -857,7 +1099,15 @@
         if (calBase === 'Full payment' || calBase === 'Advance') {
             $('#customErrorCalBase').children('span').text("");
         } else {
-            $('#customErrorCalBase').children('span').text("Please select Base of calculation.");
+            $('#customErrorCalBase').children('span').text("Please select how the curtailments will be calculated.");
+        }
+
+        var timeBase = $('.timeBase').filter(':checked').val();
+
+        if (timeBase === 'Months' || timeBase === 'Days') {
+            $('#customErrorTimeBase').children('span').text("");
+        } else {
+            $('#customErrorTimeBase').children('span').text("Please select how the curtailments become due over the course.");
         }
 
 
@@ -865,33 +1115,39 @@
         if (loanStatus === 'Yes' || loanStatus === 'No') {
             $('#customErrorLoanStatus').children('span').text("");
         } else {
-            $('#customErrorLoanStatus').children('span').text("Select loan status.");
+            $('#customErrorLoanStatus').children('span').text("Please select if the loan should be activated at this time.");
         }
 
         //var dueDate = $('#CurtailmentDueDate').val();
-
+        if (remainingPt === advancePt) {
+            $('#customErrorTable').children('span').text("Please complete the curtailment schedule.");
+        } else {
+            $('#customErrorTable').children('span').text("");
+        }
 
         var dueDate = document.getElementById('CurtailmentDueDate').value;
-        
+
         if (dueDate === '') {
-            $('#customErrorDueDate').children('span').text("Please select due date.");
+            $('#customErrorDueDate').children('span').text("Please select what day of the month curtailments are due.");
         } else {
             $('#customErrorDueDate').children('span').text("");
         }
         //alert(dueDate);
 
+        var isErrorReminder = false;
         var email = document.getElementById('curtailmentDueEmail').value;
-        //if (email === '') {
-        //    $('#customErrorAutoRemindEmail').children('span').text("email address required.");
-        //} else {
-        //    $('#customErrorAutoRemindEmail').children('span').text("");
-        //}
 
         var emailRemindPeriod = document.getElementById('curtailmentDueEmailRemindPeriod').value;
 
+        if (email !== '' && emailRemindPeriod === '') {
+            isErrorReminder = true;
+            $('#customErrorPeriod').children('span').text("email remind period is required.");
+        } else {
+            isErrorReminder = false;
+            $('#customErrorPeriod').children('span').text("");
+        }
 
-
-        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
+        if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (timeBase === 'Months' || timeBase === 'Days') && isErrorReminder === false && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
         {
             var curtaiulmentModel = {
                 LoanStatus: loanStatus,
@@ -989,11 +1245,11 @@
     {
         <text>
     $(".right_arrw.7").children("img").remove();
-        $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
-        $(".right_arrw.7").css('background-image', 'none');
-        $(".right_arrw.7").prepend('<img id="theImg" src="/Images/lockIco.png" />');
+    $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
+    $(".right_arrw.7").css('background-image', 'none');
+    $(".right_arrw.7").prepend('<img id="theImg" src="/Images/lockIco.png" />');
 
-        </text>
+    </text>
 
     }
 </script>

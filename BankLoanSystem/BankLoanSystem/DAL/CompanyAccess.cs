@@ -1088,5 +1088,92 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/3/2016
+        /// Update Company details
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public int UpdateCompany(Company company,int userId)
+        {
+            if (company != null)
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+
+
+                paramertList.Add(new object[] { "@company_id", company.CompanyId });
+                paramertList.Add(new object[] { "@company_name", company.CompanyName });
+                paramertList.Add(new object[] { "@address1", company.CompanyAddress1 });
+                if (!string.IsNullOrEmpty(company.CompanyAddress2)){
+                    paramertList.Add(new object[] { "@address2", company.CompanyAddress2 });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@address2", null });
+                }
+                paramertList.Add(new object[] { "@city",company.City });
+                paramertList.Add(new object[] { "@state", company.StateId });
+                paramertList.Add(new object[] { "@zip", company.Zip });
+                paramertList.Add(new object[] { "@phone_no", company.PhoneNum1 });
+                if (!string.IsNullOrEmpty(company.PhoneNum2))
+                {
+                    paramertList.Add(new object[] { "@phone_no2", company.PhoneNum2 });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@phone_no2", null });
+                }
+                if (!string.IsNullOrEmpty(company.PhoneNum3))
+                {
+                    paramertList.Add(new object[] { "@phone_no3", company.PhoneNum3 });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@phone_no3", null });
+                }
+
+                if (!string.IsNullOrEmpty(company.Fax))
+                {
+                    paramertList.Add(new object[] { "@fax", company.Fax });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@fax", null });
+                }
+                if (!string.IsNullOrEmpty(company.Email))
+                {
+                    paramertList.Add(new object[] { "@email", company.Email });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@email", null });
+                }
+                if (!string.IsNullOrEmpty(company.WebsiteUrl))
+                {
+                    paramertList.Add(new object[] { "@web", company.WebsiteUrl });
+                }
+                else
+                {
+                    paramertList.Add(new object[] { "@web", null });
+                }
+                paramertList.Add(new object[] { "@modified_date", DateTime.Now });
+                paramertList.Add(new object[] { "@modified_by", userId });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLReturn("spUpdateCompany", paramertList);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

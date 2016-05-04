@@ -89,8 +89,11 @@
                                                         }
                                                         else
                                                         {
-                                                            <div class="col-xs-8 text_field" style="text-align:left;width:38%;margin-left:0%;float:left;font-size:14px;">
-                                                                @Html.Label("Same details as company", htmlAttributes: new { }) &nbsp; &nbsp;@Html.CheckBox("Previous", new { @id = "Previous" })
+                                                            <div class="form-group new_form_group" id="lnkCreateNewBranch">
+                                                                <div class="col-xs-8 text_field" style="text-align:left;width:45%;margin-left:0%;float:left;font-size:14px;">
+                                                                    @Html.Label("Same details as company   ", htmlAttributes: new { })<span class='icon-help_outline'></span> &nbsp; &nbsp;@Html.CheckBox("Previous", new { @id = "Previous" })
+                                                                    
+                                                                </div>
                                                             </div>
                                                         }
                                                     @*</div>*@
@@ -277,7 +280,7 @@
                                                         </div>
                                                     }
                                                 </div>
-                                            
+
 
                                         }
                                     }
@@ -311,6 +314,27 @@
   $('.nav li').removeClass('active');
   $('.nav li.company').addClass('active');
   $('.nav li.active ul').addClass('in');
+
+
+      // helper Funtionality
+  var HelpString = $('.right_panel_box p').html();
+  var HelpTitle = $('.right_panel_box h4').html();
+
+  $('#Previous , .icon-help_outline').click(function () {
+
+      $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details you previously entered. If your company has no branches or you will be using the program at the company location please select 'Same details as company'.");
+      $('.right_panel_box h4').html('Branch details the same as company details');
+
+
+  });
+
+  $('select, span:not(.icon-help_outline), input:not(#Previous) ').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
   })
 </script>
 

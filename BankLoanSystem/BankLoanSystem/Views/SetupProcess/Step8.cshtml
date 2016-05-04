@@ -18,7 +18,7 @@
     float: right;
     }
     .mLable {
-    width: 275px !important;
+    width: 284px !important;
     }
 </style>
 
@@ -52,7 +52,7 @@
                                         <hr>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn" style="font-size: 16px;"><label>Per Item Advance Fee</label></h3>
+                                                <h3 class="text_algn" style="font-size: 16px;"><label>Per Item Advance Fee   <span class='icon-help_outline 1'></span></label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @{
@@ -82,7 +82,7 @@
                                             <div class="form-group new_form_group">
 
                                                 <div class="control-label col-sm-2 mLable">
-                                                    <label>Per Unit Advanced Fee Amount</label>
+                                                    <label>Per Unit Advanced Fee Amount   <span class='icon-help_outline 2'></span></label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "advanceAmount", style = "text-align:right" } })
@@ -136,7 +136,7 @@
 
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
-                                                    <label>Advance Fee Due</label>
+                                                    <label>Advance Fee Due   <span class='icon-help_outline 3'></span></label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @{
@@ -169,7 +169,7 @@
                                             <div id="monthAdvance">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Date advance fee is due each month</label>
+                                                        <label>Date advance fee is due each month   <span class='icon-help_outline 4'></span></label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -191,7 +191,7 @@
                                             <div id="advanceFeeCalculateType">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Advance fee calculation period</label>
+                                                        <label>Advance fee calculation period   <span class='icon-help_outline 5'></span></label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -215,7 +215,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="control-label col-sm-2">
-                                                        @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
+                                                        <label>Would you like an email reminder sent before the due date?   <span class='icon-help_outline 6'></span></label>
                                                     </div>
                                                     <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                         @*@Html.CheckBoxFor(model => model.IsAdvanceFeeDueEmailReminder, new { @id = "needReminderAdvanceDue", htmlAttributes = new { Value = false } })*@
@@ -227,7 +227,7 @@
                                                 <div id="remindEmailAdvanceDue">
                                                     <div class="form-group">
                                                         <div class="control-label col-sm-2">
-                                                            <label>Email to send the reminder to</label>
+                                                            <label>Email to send the reminder to   <span class='icon-help_outline 7'></span></label>
                                                         </div>
                                                         <div class="col-xs-8 " style="width: 333px;">
                                                             @Html.EditorFor(model => model.AdvanceDueEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input e dueEmail", @id = "advanceDueEmail", placeholder = "example@example.com" } })
@@ -255,7 +255,7 @@
 
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn" style="font-size: 16px;"><label>Monthly Loan Administration Fee</label></h3>
+                                                <h3 class="text_algn" style="font-size: 16px;"><label>Monthly Loan Administration Fee   <span class='icon-help_outline 8'></span></label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.DropDownListFor(model => model.MonthlyLoanId, listItemsoption, "-- select --", new { @id = "dropDownLoan", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLoan();" })
@@ -268,7 +268,7 @@
                                         <div id="loan">
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
-                                                    <label>Amount</label>
+                                                    <label>Amount   <span class='icon-help_outline 9'></span></label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @Html.EditorFor(model => model.MonthlyLoanAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "loanAmount", style = "text-align:right" } })
@@ -355,7 +355,7 @@
                                                 <div class="form-group new_form_group">
 
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Date monthly loan fee is due</label>
+                                                        <label>Date monthly loan fee is due   <span class='icon-help_outline 10'></span></label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -377,7 +377,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="control-label col-sm-2">
-                                                    @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
+                                                    <label>Would you like an email reminder sent before the due date?   <span class='icon-help_outline 11'></span></label>
                                                 </div>
                                                 <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                     @Html.RadioButtonFor(model => model.IsLoanFeeDueEmailReminder, true, new { @id = "needReminderLoanDueT", @class = "needReminderLoanDueTF" }) Yes
@@ -419,7 +419,7 @@
                                         <hr>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 mLable">
-                                                <h3 class="text_algn" style="font-size: 16px;"><label>Lot Inventory Inspection Fee</label></h3>
+                                                <h3 class="text_algn" style="font-size: 16px;"><label>Lot Inventory Inspection Fee   <span class='icon-help_outline 12'></span></label></h3>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.DropDownListFor(model => model.LotInspectionId, listItemsoption, "-- select --", new { @id = "dropDownLot", @class = "form-control col-sm-2 text_field_input", onChange = "changeDropDownValueLot();" })
@@ -432,7 +432,7 @@
                                         <div id="lot">
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 mLable">
-                                                    <label>Amount</label>
+                                                    <label>Amount   <span class='icon-help_outline 13'></span></label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @Html.EditorFor(model => model.LotInspectionAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field a", @id = "lotAmount", style = "text-align:right" } })
@@ -524,7 +524,7 @@
                                             <div id="monthLot">
                                                 <div class="form-group new_form_group">
                                                     <div class="control-label col-sm-2 mLable">
-                                                        <label>Monthly Due Date</label>
+                                                        <label>Monthly Due Date   <span class='icon-help_outline 14'></span></label>
                                                     </div>
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @{
@@ -546,7 +546,7 @@
 
                                                 <div class="form-group">
                                                     <div class="control-label col-sm-2">
-                                                        @Html.Label("Would you like an email reminder sent before the due date?", htmlAttributes: new { })
+                                                        <label>Would you like an email reminder sent before the due date?   <span class='icon-help_outline 15'></span></label>
                                                     </div>
                                                     <div class="col-xs-8" style="padding-top: 9px; width: 136.666px!important ">
                                                         @Html.RadioButtonFor(model => model.IsLotFeeDueEmailReminder, true, new { @id = "needReminderLotDueT" }) Yes
@@ -638,6 +638,137 @@
   $('.nav li').removeClass('active');
   $('.nav li.loan').addClass('active');
   $('.nav li.active ul').addClass('in');
+
+      // helper Funtionality
+  var HelpString = $('.right_panel_box p').html();
+  var HelpTitle = $('.right_panel_box h4').html();
+
+  $('#dropDownAdvance , .icon-help_outline.1').click(function () {
+     
+      $('.right_panel_box p').html("By selecting 'Yes' you will be allowed to specify a fee amount which the lender charges the borrower for each unit advanced on the loan.");
+      $('.right_panel_box h4').html('Per item advance fee');
+   
+
+  });
+  $('#advanceAmount , .icon-help_outline.2').click(function () {
+     
+      $('.right_panel_box p').html("This is the amount the lender charges the borrower for each unit advanced on the loan.");
+      $('.right_panel_box h4').html('Per unit advanced fee amount');
+   
+
+  });
+
+  $('#advanceDue , .icon-help_outline.3').click(function () {
+     
+      $('.right_panel_box p').html("Select when the advance fee is due for a unit.<br></br>At time of advance - the advance fee is due the day the unit is advanced.<br></br>Once a month - the advance fees accumulate over the course of the month for all units advanced during that time and become due one day the following month. Once you select this option additional fields will allow you to specify the details.<br></br>At time of unit payoff - the advance fee is due when the unit is being paid off from the loan.");
+      $('.right_panel_box h4').html('Advance fee due');
+   
+
+  });
+
+  $('#advanceDueDate , .icon-help_outline.4').click(function () {
+     
+      $('.right_panel_box p').html("Select what day of the month the advance fee will be paid. <br></br><i>(example: advance fees are due the 7th of each month)</i>");
+      $('.right_panel_box h4').html('Advance fee due date');
+   
+
+  });
+
+  $('#advanceCalculateType , .icon-help_outline.5').click(function () {
+     
+      $('.right_panel_box p').html("Select how the advance fees are calculated.<br></br>Per month - this will calculate the advance fees of all units advanced during the previous month. <i>(example: all units advanced from the 1st through 30th of April will be calculated as due on the 7th of May)</i><br></br>Per pay period - this will calculate the advance fees of all units which were advanced after the previous pay period. <i>(example: all units advanced from the 7th of April to the 6th of May become due on the 7th of May)</i>");
+      $('.right_panel_box h4').html('Advance fee calculation period');
+   
+
+  });
+
+  $('input[name="IsAdvanceFeeDueEmailReminder"] , .icon-help_outline.6').click(function () {
+     
+      $('.right_panel_box p').html("Select if you would like a reminder sent out before the advance fee becomes due. If you select 'Yes' you will be able to specify an email address and timeframe for the reminder below.");
+      $('.right_panel_box h4').html('Send reminder email');
+   
+
+  });
+
+  $('#advanceDueEmail , .icon-help_outline.7').click(function () {
+     
+      $('.right_panel_box p').html("The email address you provided for the previous reminder has been prefilled but you can specify any email address you would like to have the reminder sent to.");
+      $('.right_panel_box h4').html('Email to send reminder');
+   
+
+  });
+
+  $('#dropDownLoan , .icon-help_outline.8').click(function () {
+     
+      $('.right_panel_box p').html("By selecting 'Yes' you will be allowed to specify a fee amount which is charged by the lender to the borrower for each month for the loan.");
+      $('.right_panel_box h4').html('Monthly loan administration fee');
+   
+
+  });
+  $('#loanAmount , .icon-help_outline.9').click(function () {
+     
+      $('.right_panel_box p').html("This is the amount the lender charges the borrower each month for administration of the loan.");
+      $('.right_panel_box h4').html('Monthly loan fee amount');
+   
+
+  });
+
+  $('#loanDueDate , .icon-help_outline.10').click(function () {
+     
+      $('.right_panel_box p').html("Select what day of the month the monthly loan fee will be paid.");
+      $('.right_panel_box h4').html('Monthly fee due date');
+   
+
+  });
+
+  $('input[name="IsLoanFeeDueEmailReminder"] , .icon-help_outline.11').click(function () {
+     
+      $('.right_panel_box p').html("Select if you would like a reminder sent out before the monthly loan fee becomes due. If you select 'Yes' you will be able to specify an email address and timeframe for the reminder below.");
+      $('.right_panel_box h4').html('Send reminder email');
+   
+
+  });
+
+  $('#dropDownLot , .icon-help_outline.12').click(function () {
+     
+      $('.right_panel_box p').html("By selecting 'Yes' you will be allowed to specify a fee amount which the lender charges the borrower for each lot inspection completed.");
+      $('.right_panel_box h4').html('Lot inventory inspection fee');
+   
+
+  });
+
+  $('#lotAmount , .icon-help_outline.13').click(function () {
+     
+      $('.right_panel_box p').html("This is the amount the lender charges the borrower for each completed lot inspection.");
+      $('.right_panel_box h4').html('Lot inspection fee amount');
+   
+
+  });
+
+  $('#lotDueDate , .icon-help_outline.14').click(function () {
+     
+      $('.right_panel_box p').html("Select what day of the month the lot inspection fee will be paid.");
+      $('.right_panel_box h4').html('Lot inspection due date');
+   
+
+  });
+
+  $('input[name="IsLotFeeDueEmailReminder"] , .icon-help_outline.15').click(function () {
+     
+      $('.right_panel_box p').html("Select if you would like a reminder sent out before the lot inspection fee becomes due. If you select 'Yes' you will be able to specify an email address and timeframe for the reminder below.");
+      $('.right_panel_box h4').html('Send reminder email');
+   
+
+  });
+
+  $('select:not(#dropDownAdvance ,  #advanceDue , #advanceDueDate , #advanceCalculateType, #dropDownLoan , #loanDueDate, #dropDownLot, #lotDueDate), span:not(.icon-help_outline.1 , .icon-help_outline.2 , .icon-help_outline.3 , .icon-help_outline.4 , .icon-help_outline.5 , .icon-help_outline.6 , .icon-help_outline.7, .icon-help_outline.8, .icon-help_outline.9, .icon-help_outline.10, .icon-help_outline.11, .icon-help_outline.12, .icon-help_outline.13, .icon-help_outline.14, .icon-help_outline.15), input:not(#advanceAmount , [name="IsAdvanceFeeDueEmailReminder"], #advanceDueEmail , #loanAmount, [name="IsLoanFeeDueEmailReminder"], #lotAmount,  [name="IsLotFeeDueEmailReminder"]) ').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
+
   })
 </script>
 

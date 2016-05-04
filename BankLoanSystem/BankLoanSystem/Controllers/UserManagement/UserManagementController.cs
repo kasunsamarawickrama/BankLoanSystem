@@ -22,6 +22,7 @@ namespace BankLoanSystem.Controllers
         /// 
 
         User userData = new User();
+        public static string CompanyType = "Lender";
 
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -1473,23 +1474,27 @@ namespace BankLoanSystem.Controllers
             int res = da.InsertUserInDashboard(userObj);
 
             //Insert new user to user activation table
-            string activationCode = Guid.NewGuid().ToString();
-            int userId = (new UserAccess()).getUserId(userObj.Email);
-            res = ua.InsertUserActivation(userId, activationCode);
-            if (res == 1)
+            //string activationCode = Guid.NewGuid().ToString();
+            //int userId = (new UserAccess()).getUserId(userObj.Email);
+            //res = ua.InsertUserActivation(userId, activationCode);
+            if (res > 0)
             {
-
+                if (userObj.Status)
+                {
 
                 string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + userObj.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                                  //"<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(userObj.Email);
 
               
                 email.SendMail(body, "Account details");
+
+                }
+
 
 
 
@@ -2326,6 +2331,8 @@ namespace BankLoanSystem.Controllers
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["UpdteReslt"] = 1;
+
+
                 }
                 else 
                 {
@@ -2339,7 +2346,392 @@ namespace BankLoanSystem.Controllers
         }
             
         }
+
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        
+        public ActionResult EditCompany()
+        {
+            if (userData.RoleId == 1)
+            {
+                //Get states to list
+                Company cmp = new Company();
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                if (TempData["updateComReslt"]!=null && int.Parse(TempData["updateComReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Company is updated successfully";
+                    //cmp = new Company();
+                    //return View(cmp);
+                }
+                else if (TempData["updateComReslt"] != null && int.Parse(TempData["updateComReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to update company";
+                }
+               
+               
+                cmp = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                if (cmp != null)
+                {
+                    return View(cmp);
+                }
+                else
+                {
+                    cmp = new Company();
+                    return View(cmp);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
         }
 
-    
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 2016/05/03
+        /// 
+        /// edit company - post
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult EditCompany(Company company)
+        {
+            if (userData.RoleId == 1)
+            {
+                company.Zip = company.ZipPre;
+                if (company.Extension != null)
+                    company.Zip += "-" + company.Extension;
+                int reslt = (new CompanyAccess().UpdateCompany(company,userData.UserId));
+                if(reslt == 1)
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, 0, 0, "Edit Company", "Edit Company : " + userData.Company_Id, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                    TempData["updateComReslt"] = reslt;
+                }
+                else
+                {
+                    TempData["updateComReslt"] = 0;
+                }
+                return RedirectToAction("EditCompany");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+        }
+   
+            
+     
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreateDashboardBranch()
+        {
+            CompanyBranchModel userCompany;
+
+            //edit = 3;
+            int userId = userData.UserId;
+            int roleId = userData.RoleId;
+            // check he is a super admin or admin
+
+
+            if (roleId != 1)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            if (TempData["createBranchResult"] != null)
+            {
+                if (int.Parse(TempData["createBranchResult"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Branch Successfully Created";
+                }
+
+                else if (int.Parse(TempData["createBranchResult"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed To Create Branch";
+                }
+            }
+
+            userCompany = new CompanyBranchModel();
+
+                ViewBag.BranchIndex = 0;
+
+                //Get company details by company id
+                CompanyAccess ca = new CompanyAccess();
+                Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+
+                BranchAccess ba = new BranchAccess();
+                IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
+                //userCompany.SubBranches = branches;
+
+                //Get states to list
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateDashboardBranch(CompanyBranchModel userCompany2, string branchCode)
+        {
+            CompanyAccess userCompany = new CompanyAccess();
+            
+            int userId = userData.UserId;
+
+            userCompany2.Company = userCompany.GetCompanyDetailsCompanyId(userData.Company_Id);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = branchCode;
+
+            BranchAccess ba = new BranchAccess();
+            if (string.IsNullOrEmpty(branchCode))
+            {
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            }
+
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            if(reslt > 0)
+            {
+                TempData["createBranchResult"] = 1;
+            }
+            else
+            {
+                TempData["createBranchResult"] = 0;
+            }
+
+            return RedirectToAction("CreateDashboardBranch");
+            
+
+        }
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditDashboardBranch()
+        {
+            CompanyBranchModel userCompany;
+
+            //edit = 3;
+            int userId = userData.UserId;
+            int roleId = userData.RoleId;
+            // check he is a super admin or admin
+
+
+            if (roleId != 1)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+
+            if (TempData["editBranchResult"] != null)
+            {
+                if (int.Parse(TempData["editBranchResult"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Branch is successfully updated";
+                }
+
+                else if (int.Parse(TempData["editBranchResult"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed To Update Branch";
+                }
+            }
+
+            userCompany = new CompanyBranchModel();
+
+            ViewBag.BranchIndex = 0;
+
+            //Get company details by company id
+            CompanyAccess ca = new CompanyAccess();
+            Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+
+            BranchAccess ba = new BranchAccess();
+            IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
+            userCompany.SubBranches = branches;
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                ViewBag.AjaxRequest = 1;
+                return PartialView(userCompany);
+            }
+            else
+            {
+
+                return View(userCompany);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDashboardBranch(CompanyBranchModel userCompany2, string branchCode)
+        {
+            CompanyAccess userCompany = new CompanyAccess();
+
+            int userId = userData.UserId;
+
+            userCompany2.Company = userCompany.GetCompanyDetailsCompanyId(userData.Company_Id);
+            userCompany2.MainBranch.StateId = userCompany2.StateId;
+            userCompany2.MainBranch.BranchCode = branchCode;
+
+            BranchAccess ba = new BranchAccess();
+            if (string.IsNullOrEmpty(branchCode))
+            {
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            }
+
+            int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+            if (reslt == 0)
+            {
+                TempData["editBranchResult"] = 1;
+            }
+            else
+            {
+                TempData["editBranchResult"] = 0;
+            }
+
+            return RedirectToAction("EditDashboardBranch");
+
+        }
+
+        static int _compType;
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditPartnerBranchAtDashboard(string lbls)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            if (lbls != null &&
+                (lbls.Equals("Dealer branch is successfully updated") ||
+                 lbls.Equals("Lender branch is successfully updated")))
+            {
+                ViewBag.SuccessMsg = lbls;
+            }
+            else if (lbls != null &&
+                (lbls.Equals("Failed to udate")))
+            {
+                ViewBag.ErrorMsg = lbls;
+            }
+
+            BranchAccess ba = new BranchAccess();
+            _compType = ba.getCompanyTypeByUserId(userData.UserId);
+
+            //int compType = userData.CompanyType;
+            if (_compType == 1)
+            {
+                ViewBag.ThisCompanyType = "Dealer";
+            }
+            else if (_compType == 2)
+            {
+                ViewBag.ThisCompanyType = "Lender";
+            }
+            else
+            {
+                ViewBag.compType = "";
+            } 
+            //Get all non registered branches by company id
+            EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
+            
+            List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
+            nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            //Get all non reg companies
+            CompanyAccess ca = new CompanyAccess();
+            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
+            ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            return View(nonRegCompanyBranch);
+        }
+
+        [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult EditPartnerBranchAtDashboard(EditPartnerBranceModel model, string branchCode)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            CompanyBranchModel nonRegBranch = model.CompanyBranch;
+
+            nonRegBranch.MainBranch.StateId = model.StateId;
+            nonRegBranch.MainBranch.BranchCode = branchCode;
+
+            nonRegBranch.MainBranch.BranchCreatedBy = model.RegBranchId;
+            nonRegBranch.MainBranch.BranchCompany = model.NonRegCompanyId;
+
+            BranchAccess ba = new BranchAccess();
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+
+            if (reslt > 0)
+            {
+                if (_compType == 1)
+                {
+                    ViewBag.SuccessMsg = "Dealer branch is successfully updated";
+                }
+                else if (_compType == 2)
+                {
+                    ViewBag.SuccessMsg = "Lender branch is successfully updated";
+                }
+
+                return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.SuccessMsg });
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to udate";
+                return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
+            }
+
+            ////Get all non registered branches by company id
+            //EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
+            ////BranchAccess ba = new BranchAccess();
+            //List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
+            //nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+
+            //// get all branches
+            //List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            //ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            ////Get all non reg companies
+            //CompanyAccess ca = new CompanyAccess();
+            //List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
+            //ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+
+            ////Get states to list
+            //List<State> stateList = ca.GetAllStates();
+            //ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            //return View(nonRegCompanyBranch);
+        }
+    }
 }

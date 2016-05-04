@@ -45,7 +45,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 longLable">
                                             <label>
-                                                Do you need title to be tracked?
+                                                Do you need title to be tracked?   <span class='icon-help_outline 1'></span>
                                             </label>
                                         </div>
                                         <div class="col-xs-4 text_field new_zip">
@@ -136,7 +136,7 @@
                                     <div style="display: block;" id="needReceipt">
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 longLable" style="margin-top:15px">
-                                                <label>How will you accept the receipt or invoice?</label>
+                                                <label>How will you accept the receipt or invoice?<sup><span class='icon-help_outline 2' style="padding-left:0px"></span></sup></label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field" style="width:44%">
                                                 @Html.DropDownListFor(model => model.ReceiptRequiredMethod, null, "-- Select --", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", id = "receipttMethod" })
@@ -208,6 +208,35 @@
   $('.nav li').removeClass('active');
   $('.nav li.loan').addClass('active');
   $('.nav li.active ul').addClass('in');
+
+
+      // helper Funtionality
+  var HelpString = $('.right_panel_box p').html();
+  var HelpTitle = $('.right_panel_box h4').html();
+
+  $('#isTitleTrack , .icon-help_outline.1').click(function () {
+
+      $('.right_panel_box p').html("By selecting 'Yes' you will be able to specify how and when the title will be accepted.");
+      $('.right_panel_box h4').html('Tracking the title');
+
+
+  });
+
+  $('#receipttMethod , .icon-help_outline.2').click(function () {
+
+      $('.right_panel_box p').html("");
+      $('.right_panel_box h4').html('Accpeted method for title receipt');
+
+
+  });
+
+  $('select:not(#isTitleTrack, #receipttMethod), span:not(.icon-help_outline.1, .icon-help_outline.2), input ').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
   })
 </script>
 
