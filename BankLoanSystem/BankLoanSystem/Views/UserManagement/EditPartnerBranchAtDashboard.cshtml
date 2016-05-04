@@ -41,10 +41,10 @@
                 <div class="container body-content">
                     <div class="row">
                         <div class="container body-content new_container">
-                            <div class="setupImage"><img src="~/Images/partnerSetupImage.png" width="100" alt=""></div>
-                            <div class="setupTitle">
+                            
+                            @*<div class="setupTitle">
                                 <h2>Edit @ViewBag.ThisCompanyType Branch</h2>
-                            </div>
+                            </div>*@
                             <div style="clear:both;"></div>
 
                             @using (Html.BeginForm("EditPartnerBranchAtDashboard", "UserManagement", FormMethod.Post, new { @id = "form" }))
@@ -64,7 +64,7 @@
 
                                 <div class="form-horizontal new_form_horizontal">
 
-                                    <div class="form-group new_form_group gridArea">
+                                    <div class="form-group new_form_group gridArea" id="branchGrid">
                                         @if (Model.NonRegBranches != null && Model.NonRegBranches.Count != 0)
                                         {
                                             <table style="width: 100%;" class="table_style">
@@ -566,6 +566,17 @@
 </script>
 
 <script type="text/javascript">
+
+    var model = @Html.Raw(Json.Encode(Model));
+    $(document).ready(function() {
+        var count = @ViewBag.Count;
+        //alert(count);
+        if (count === 1) {
+            $("#branchGrid").hide();
+            EditBranch(0);
+        }
+    });
+
     function EditBranch(index) {
 
         $('#erMsg').text('');
@@ -573,8 +584,6 @@
         $('input').parent('div').siblings('div').children('p').children("span").text("");
         $('select').parent('div').siblings('div').children('p').children("span").text("");
         $('.input-validation-error').removeClass('input-validation-error');
-
-        var model = @Html.Raw(Json.Encode(Model));
 
         document.getElementById("branchName").value = model.NonRegBranches[index].BranchName;
         document.getElementById("branchAddress1").value = model.NonRegBranches[index].BranchAddress1;

@@ -2775,9 +2775,7 @@ namespace BankLoanSystem.Controllers
             nonRegCompanyBranch.NonRegBranches = nonRegBranches;
             ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
 
-            
-
-            
+            ViewBag.Count = nonRegBranches.Count;
 
             //Get all non reg companies
             CompanyAccess ca = new CompanyAccess();
