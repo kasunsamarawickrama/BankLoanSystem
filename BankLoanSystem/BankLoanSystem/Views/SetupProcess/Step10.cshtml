@@ -81,7 +81,7 @@
                                     <div class="form-group new_form_group">
                                         <table width="">
                                             <tr>
-                                                <td width="60%">@Html.LabelFor(model => model.CalculationBase, htmlAttributes: new { })</td>
+                                                <td width="60%"><label>Is the curtailment calculated from the original purchase price or the advanced amount?   <span class='icon-help_outline 1'></span></label></td>
                                                 <td width="40%">
                                                     @*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                                                         Full payment
@@ -125,7 +125,7 @@
                                     <div class="form-group new_form_group">
                                         <table width="100%">
                                             <tr>
-                                                <td width="60%">@Html.LabelFor(model => model.TimeBase, htmlAttributes: new { })</td>
+                                                <td width="60%"><label>Do the curtailments become due over the course of Months or Days?   <span class="icon-help_outline 3"></span></label></td> 
                                                 <td width="40%">
                                                     @Html.RadioButtonFor(m => m.TimeBase, "Months", new { @id = "rdMonths", @class = "timeBase" })Months
                                                     @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "rdDays", @class = "timeBase" })Days
@@ -164,6 +164,8 @@
                                             </span>*@
                                     </div>
                                     <br />
+                                   
+                                    <span class="icon-help_outline 4"></span>
                                     <div id="CurtailmentGrid">
                                         <div class="form-group new_form_group">
                                             <div style="text-align: center;" id="divTbl">
@@ -204,6 +206,8 @@
                                                         </tr>
                                                     }
                                                 </table>
+
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -213,6 +217,7 @@
                                         <div id="spnremainTimeError"><span class="text-danger"></span></div>
                                     </div>
                                     <br />
+                                    
                                     <div class="form-group new_form_group">
                                         <table width="100%">
                                             <tr>
@@ -248,12 +253,14 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                    </div>
 
+                                        
+                                    </div>
+                                           
                                     <div class="form-group new_form_group">
                                         <table width="100%">
                                             <tr>
-                                                <td width="60%">What day of the month are the curtailments due?</td>
+                                                <td width="60%">What day of the month are the curtailments due?   <span class="icon-help_outline 5"></span></td>
                                                 <td width="40%">
                                                     
                                                     @{
@@ -299,7 +306,7 @@
                                             <tr>
                                                 <td width="60%">
                                                     <label>
-                                                        Would you like a reminder email sent when curtailments are due?<br>
+                                                        Would you like a reminder email sent when curtailments are due?   <span class="icon-help_outline 6"></span><br>
                                                         <span class="optional">(Optional)</span>
                                                     </label>
                                                 </td>
@@ -405,7 +412,7 @@
 
 <div class="rightPanel">
     @{
-        @Html.Partial("Step8help")
+        @Html.Partial("Step10help")
     }
 </div>
 
@@ -419,6 +426,65 @@
         $('.nav li').removeClass('active');
         $('.nav li.loan').addClass('active');
         $('.nav li.active ul').addClass('in');
+
+        // helper Funtionality
+        var HelpString = $('.right_panel_box p').html();
+        var HelpTitle = $('.right_panel_box h4').html();
+
+        $('input[name="CalculationBase"] , .icon-help_outline.1').click(function () {
+
+            $('.right_panel_box p').html("Select if the curtailments will be calculated from the original price/cost of the unit or if they will be calculated from the advanced amount. <br></br><i>(example: If the advance percent is 80% and the original price was $10,000 then the advanced amount is $8,000. The first curtailment is 25%. If you chose 'Original price' then the curtailment amount would be $2,500. If you chose 'Advance amount' then the curtailment amount would be $2,000.)</i>");
+            $('.right_panel_box h4').html('Curtailment calculation base');
+
+
+        });
+
+        $('input[name="TimeBase"] , .icon-help_outline.3').click(function () {
+
+            $('.right_panel_box p').html("Specify if the curtailment schedule will follow months or days. <br></br><i>(example: If you have a curtailment which is due in 45 days you will need to select 'days' and then convert all curtailments to days. You will not be able to select months and then use 1.5 months. If you chose months then you will only be able to specify whole months.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule setup');
+
+
+        });
+
+        $(document).on('click', '.icon-help_outline.2', function(){
+            $('.right_panel_box p').html("This shows the percentage remaining to pay off. It is supplied for informational purposes to help create an accurate curtailment schedule below.");
+            $('.right_panel_box h4').html('Percentage to payoff');
+        
+        }); 
+
+        $(document).on('click', '.icon-help_outline.4', function(){
+            $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule');
+        
+        }); 
+
+        $('#CurtailmentDueDate , .icon-help_outline.5').click(function () {
+
+            $('.right_panel_box p').html("Specify which day of each month the curtailments are paid. The system will calculate all units which had a curtailment come due since the last curtailment was paid.");
+            $('.right_panel_box h4').html('Curtailment due date');
+
+
+        });
+
+        $('#curtailmentDueEmail , .icon-help_outline.6').click(function () {
+
+            $('.right_panel_box p').html("Specify an email address if you would like a reminder to be sent out prior to the curtailment becoming due.");
+            $('.right_panel_box h4').html('Curtailment due reminder email');
+
+
+        });
+        
+
+        $('select:not(#CurtailmentDueDate), span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail) ').click(function () {
+
+            $('.right_panel_box p').html(HelpString);
+            $('.right_panel_box h4').html(HelpTitle);
+
+
+        });
+
+
     })
 </script>
 
@@ -518,7 +584,7 @@
         $('#spnremainPtError').text("");
         $('#spnremainTimeError').children('span').text("");
         $('.text-danger field-validation-error').children('span').text("");
-        $('#spnremainPt').text("");
+        $('#spnremainPt').html("");
         
         
         //set curtailment shedule grid as initial
@@ -712,16 +778,16 @@
             remainingPt = parseInt(remainingPt) + parseInt(prePercen) - parseInt(percentage);
 
             if (parseInt(remainingPt) > 0) {
-                $('#spnremainPt').text('Percentage remaining to pay off:' + remainingPt);
+                $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('');
             } else if (parseInt(remainingPt) === 0) {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                 $('#spnremainPtError').text('');
                 document.getElementById("tblGrid").style.borderColor = "green";
             } else {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
@@ -737,7 +803,7 @@
 
             isFirst = false;
 
-            $('#spnremainPt').text('Percentage remaining to pay off:' + remainingPt);
+            $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
             if (parseInt(remainingPt) > 0) {
 
                 if (isErrorTime === false) {
@@ -755,7 +821,7 @@
             else if (parseInt(remainingPt) === 0) {
 
                 if (isErrorTime === false) {
-                    $('#spnremainPt').text('');
+                    $('#spnremainPt').html('');
                     $('#spnremainPtComplete').text('Curtailment schedule Completed.');
                     $('#spnremainPtError').text('');
                 } else {
@@ -765,7 +831,7 @@
                 }
 
             } else {
-                $('#spnremainPt').text('');
+                $('#spnremainPt').html('');
                 $('#spnremainPtComplete').text('');
                 $('#spnremainPtError').text('Error percentage found');
             }
@@ -846,7 +912,7 @@
         {
             var val = document.getElementById('spnremainPtComplete').innerHTML;
 
-            $('#spnremainPt').text('Percentage remaining to pay off:' + remainingPt);
+            $('#spnremainPt').html('Percentage remaining to pay off :  <span class="icon-help_outline 2"></span> ' + remainingPt);
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('');
 
@@ -861,11 +927,11 @@
             }
         }
         else if (parseInt(remainingPt) === 0) {
-            $('#spnremainPt').text('');
+            $('#spnremainPt').html('');
             $('#spnremainPtComplete').text('Curtailment schedule Completed.');
             $('#spnremainPtError').text('');
         } else {
-            $('#spnremainPt').text('');
+            $('#spnremainPt').html('');
             $('#spnremainPtComplete').text('');
             $('#spnremainPtError').text('Error percentage found');
         }
