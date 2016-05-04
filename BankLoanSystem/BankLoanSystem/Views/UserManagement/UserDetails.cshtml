@@ -212,7 +212,7 @@
             </button>
             @if (ViewBag.roleId == 1)
             {
-            <button class="big-button" onclick="window.location.href='/SetupProcess/Step2?edit1=bshdrdhbrn'" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/EditDashboardBranch'" type="button">
                 <span class="icon-home2"></span>
                 <span class="txt">Edit Branch</span>
             </button>
@@ -234,7 +234,24 @@
                 <span class="txt">Activate Loan</span>
             </button>
             }
+            @*@using (Ajax.BeginForm(
+            "Selectloan",
+            "UserManagement", new { type = "aticno" },
+            new AjaxOptions
+            {
+                OnFailure = "handleError",
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "selcet-panel",
+                LoadingElementId = "loadingSpan"
+            }, new { style = "display:inline-block" }))
+            {
             <button class="big-button show-popup" type="submit" data-showpopup="1">
+                <span class="icon-clipboard"></span>
+                <span class="txt">Renew Loan</span>
+            </button>
+            }*@
+            <button class="big-button" onclick="" type="button">
                 <span class="icon-clipboard"></span>
                 <span class="txt">Renew Loan</span>
             </button>
@@ -242,7 +259,7 @@
                 <span class="icon-user-tie"></span>
                 <span class="txt">Edit Partner Company</span>
             </button>
-            <button class="big-button" onclick="" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'" type="button">
                 <span class="icon-user-tie"></span>
                 <span class="txt">Edit Partner Branch</span>
             </button>
@@ -396,7 +413,7 @@
                 <span class="txt">Create Partner Company</span>
             </button>
 
-            <button class="big-button" onclick="" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerBranchAtDashboard'" type="button">
                 <span class="icon-users"></span>
                 <span class="txt">Create Partner Branch</span>
             </button>

@@ -815,7 +815,19 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
-           else if(!string.IsNullOrEmpty(type)) 
+           else if (!string.IsNullOrEmpty(type) && type.Contains("aticno"))
+            {
+                detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
+                if (detail != null)
+                {
+                    Session["detail"] = detail;
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+            else if(!string.IsNullOrEmpty(type)) 
            {
                 detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
                 if (detail == null)
@@ -986,6 +998,11 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "EditLoan";
                 return PartialView(loanSelection);
             }
+            else if (type == "aticno") 
+            {
+                ViewBag.type = "RenewLoan";
+                return PartialView(loanSelection);
+            }
             return PartialView(loanSelection);
         }
 
@@ -1088,6 +1105,8 @@ namespace BankLoanSystem.Controllers
                     //for edit loan
                     finalSelectedLoan.CurrentLoanStatus = l.CurrentLoanStatus;
                     finalSelectedLoan.CreatedDate = l.CreatedDate;
+                    finalSelectedLoan.StartDate = l.startDate;
+                    finalSelectedLoan.MaturityDate = l.maturityDate;
                     finalSelectedLoan.LoanAmount = l.loanAmount;
                     foreach (var nrbr in list3.NonRegBranchList)
                     {
@@ -1118,6 +1137,11 @@ namespace BankLoanSystem.Controllers
                         Session["loanDashboardEditLoan"] = finalSelectedLoan;
 
                     }
+                    else if ((string)Session["popUpSelectionType"] == "aticno")
+                    {
+                        Session["loanDashboardRenewLoan"] = finalSelectedLoan;
+
+                    }
                     else {
                         Session["loanDashboard"] = finalSelectedLoan;
                     }
@@ -1135,6 +1159,10 @@ namespace BankLoanSystem.Controllers
             else if ((string)Session["popUpSelectionType"] == "tidenaol")
             {
                 return RedirectToAction("EditLoan");
+            }
+            else if ((string)Session["popUpSelectionType"] == "aticno")
+            {
+                return RedirectToAction("RenewLoan","LoanManagement");
             }
             else
             {
@@ -2517,12 +2545,12 @@ namespace BankLoanSystem.Controllers
             {
                 if (int.Parse(TempData["editBranchResult"].ToString()) == 1)
                 {
-                    ViewBag.SuccessMsg = "Branch Successfully Edited";
+                    ViewBag.SuccessMsg = "Branch is successfully updated";
                 }
 
                 else if (int.Parse(TempData["editBranchResult"].ToString()) == 0)
                 {
-                    ViewBag.ErrorMsg = "Failed To Edit Branch";
+                    ViewBag.ErrorMsg = "Failed To Update Branch";
                 }
             }
 
@@ -2572,7 +2600,7 @@ namespace BankLoanSystem.Controllers
             }
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if (reslt > 0)
+            if (reslt == 0)
             {
                 TempData["editBranchResult"] = 1;
             }
@@ -2586,6 +2614,111 @@ namespace BankLoanSystem.Controllers
         }
 
         static int _compType;
+
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreatePartnerBranchAtDashboard(string lbls)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            if (lbls != null &&
+                (lbls.Equals("Dealer branch is successfully inserted") ||
+                 lbls.Equals("Lender branch is successfully inserted")))
+            {
+                ViewBag.SuccessMsg = lbls;
+            }
+            else if (lbls != null &&
+                (lbls.Equals("Failed to udate")))
+            {
+                ViewBag.ErrorMsg = lbls;
+            }
+
+            BranchAccess ba = new BranchAccess();
+            _compType = ba.getCompanyTypeByUserId(userData.UserId);
+
+            //int compType = userData.CompanyType;
+            if (_compType == 1)
+            {
+                ViewBag.ThisCompanyType = "Dealer";
+            }
+            else if (_compType == 2)
+            {
+                ViewBag.ThisCompanyType = "Lender";
+            }
+            else
+            {
+                ViewBag.compType = "";
+            }
+
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+
+            //filter admin's branch
+            if (userData.RoleId == 2)
+            {
+                branchesLists = branchesLists.Where(x => x.BranchId == userData.BranchId).ToList();
+            }
+
+            ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            //Get all non reg companies
+            CompanyAccess ca = new CompanyAccess();
+            List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
+            ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
+
+            //Get states to list
+            List<State> stateList = ca.GetAllStates();
+            ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+            return View();
+        }
+
+        [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult CreatePartnerBranchAtDashboard(EditPartnerBranceModel model)
+        {
+            if (userData.RoleId != 1 && userData.RoleId != 2)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+
+            CompanyBranchModel nonRegBranch = model.CompanyBranch;
+
+            nonRegBranch.MainBranch.StateId = model.StateId;
+
+            nonRegBranch.MainBranch.BranchCreatedBy = model.RegBranchId;
+            nonRegBranch.MainBranch.BranchCompany = model.NonRegCompanyId;
+
+            CompanyAccess ca = new CompanyAccess();
+            BranchAccess ba = new BranchAccess();
+            Company company = ca.GetNonRegCompanyByCompanyId(model.NonRegCompanyId);
+            nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+
+            
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+
+            if (reslt > 0)
+            {
+                if (_compType == 1)
+                {
+                    ViewBag.SuccessMsg = "Dealer branch is successfully inserted";
+                }
+                else if (_compType == 2)
+                {
+                    ViewBag.SuccessMsg = "Lender branch is successfully inserted";
+                }
+
+                return RedirectToAction("CreatePartnerBranchAtDashboard", new { lbls = ViewBag.SuccessMsg });
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Failed to udate";
+                return RedirectToAction("CreatePartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
+            }
+        }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult EditPartnerBranchAtDashboard(string lbls)
@@ -2623,15 +2756,26 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.compType = "";
             } 
+            
+            // get all branches
+            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+
             //Get all non registered branches by company id
             EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
             
             List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
-            nonRegCompanyBranch.NonRegBranches = nonRegBranches;
+            
 
-            // get all branches
-            List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
+            //filter admin's branch
+            if (userData.RoleId == 2)
+            {
+                branchesLists = branchesLists.Where(x => x.BranchId == userData.BranchId).ToList();
+                nonRegBranches = nonRegBranches.Where(x => x.BranchId == userData.BranchId).ToList();
+            }
+            nonRegCompanyBranch.NonRegBranches = nonRegBranches;
             ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
+
+            ViewBag.Count = nonRegBranches.Count;
 
             //Get all non reg companies
             CompanyAccess ca = new CompanyAccess();
@@ -2683,27 +2827,6 @@ namespace BankLoanSystem.Controllers
                 ViewBag.ErrorMsg = "Failed to udate";
                 return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
             }
-
-            ////Get all non registered branches by company id
-            //EditPartnerBranceModel nonRegCompanyBranch = new EditPartnerBranceModel();
-            ////BranchAccess ba = new BranchAccess();
-            //List<NonRegBranch> nonRegBranches = ba.getNonRegBranches(userData.Company_Id);
-            //nonRegCompanyBranch.NonRegBranches = nonRegBranches;
-
-            //// get all branches
-            //List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
-            //ViewBag.RegBranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-
-            ////Get all non reg companies
-            //CompanyAccess ca = new CompanyAccess();
-            //List<Company> nonRegCompanyList = ca.GetCompanyByCreayedCompany(userData.Company_Id);
-            //ViewBag.NonRegCompanyId = new SelectList(nonRegCompanyList, "CompanyId", "CompanyName", 1);
-
-            ////Get states to list
-            //List<State> stateList = ca.GetAllStates();
-            //ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-            //return View(nonRegCompanyBranch);
         }
 
         /// <summary>

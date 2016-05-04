@@ -55,6 +55,11 @@
         actoinName = "EditLoan";
         controllerName = "UserManagement";
     }
+    else if (ViewBag.type == "RenewLoan")
+    {
+        actoinName = "RenewLoan";
+        controllerName = "UserManagement";
+    }
     else
     {
         <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
