@@ -225,8 +225,8 @@
                                         <div class="control-label col-sm-2" style="font-weight:normal;color:#545454;font-size:14px;text-align:left;float:left;width:40%;margin-left:-15px;margin-top:-5px">
                                             <label>Select a Payment Method<span class="optional"> (for reference purposes only)</span></label>
                                         </div>
-                                        <div class="col-xs-8 text_field short_text_field" style="width:45%">
-                                            @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Payment Method--", htmlAttributes: new { @class = "form-control text_field_input" })
+                                        <div class="col-xs-8 text_field short_text_field" style="width:43.5%">
+                                            @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Method--", htmlAttributes: new { @class = "form-control text_field_input" })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })</p>
@@ -373,7 +373,7 @@
                                         <div>
                                             <nav>
                                                 <div class="pager new_pager">
-                                                    <div class="button_box algn_left">
+                                                    <div class="button_box algn_left" style="height:30px;">
                                                     </div>
                                                     <div class="button_box algn_center">
                                                         <input value="Next" id="Next" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
@@ -409,7 +409,7 @@
 <script language="javascript">
 
   $(document).ready(function(){
-
+      window.scrollTo(0, 0);
   $('.nav li.active ul').removeClass('in');
   $('.nav li').removeClass('active');
   $('.nav li.loan').addClass('active');

@@ -23,7 +23,7 @@ namespace BankLoanSystem.Controllers
 
         User userData = new User();
         public static string CompanyType = "Lender";
-
+        public static int PartnerCompanyType = 0;
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -2827,6 +2827,94 @@ namespace BankLoanSystem.Controllers
                 ViewBag.ErrorMsg = "Failed to udate";
                 return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
             }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/4/2016
+        /// Create Partner Company
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CreatePartnerCompanyAtDashboard()
+        {
+            if ((userData.RoleId == 1) ||(userData.RoleId == 2))
+            {
+                int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                //int comType = userData.CompanyType;
+                ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
+                PartnerCompanyType = (comType == 1) ? 2 : 1;
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+
+                //string type = (PartnerCompanyType == 1) ? "Lender" : "Dealer";
+                if(TempData["partnerReslt"]!=null && int.Parse(TempData["partnerReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Partner Company Created Successfully";
+                }
+                else if (TempData["partnerReslt"] != null && int.Parse(TempData["partnerReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to create partner company";
+                }
+                return View();
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+           
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/4/2016
+        /// Create Partner Company
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public ActionResult CreatePartnerCompanyAtDashboard(PartnerCompany  partnerCompany)
+        {
+            if ((userData.RoleId == 1) || (userData.RoleId == 2))
+            {
+                if (partnerCompany != null)
+                {
+                    partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
+                    partnerCompany.Zip = partnerCompany.ZipPre;
+                    if (partnerCompany.Extension != null)
+                        partnerCompany.Zip += "-" + partnerCompany.Extension;
+                    partnerCompany.CreatedBy = userData.UserId;
+                    partnerCompany.TypeId = PartnerCompanyType;
+                   
+                    CompanyAccess ca = new CompanyAccess();
+                    //Company regCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
+
+                    partnerCompany.RegCompanyId = userData.Company_Id; //regCompany.CompanyId;  asanka
+
+                    //Company nonRegCom = partnerCompany.Company;
+                    
+                    if (ca.InsertNonRegisteredCompanyAtDashboard(partnerCompany) == 1)
+                    {
+
+                        TempData["partnerReslt"] = 1;
+                    }
+                    else
+                    {
+                        TempData["partnerReslt"] = 0;
+                    }
+                        return RedirectToAction("CreatePartnerCompanyAtDashboard");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            
         }
     }
 }
