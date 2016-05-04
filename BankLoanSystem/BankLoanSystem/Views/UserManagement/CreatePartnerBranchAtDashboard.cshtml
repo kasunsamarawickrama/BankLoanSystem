@@ -1,0 +1,526 @@
+﻿@model BankLoanSystem.Models.EditPartnerBranceModel
+@{
+    ViewBag.Title = "Create Partner Branch";
+    if (ViewBag.AjaxRequest == null)
+    {
+        Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    }
+}
+
+@section AddToHead{
+    <style>
+        .body-content {
+            float: unset;
+            width: unset;
+            margin: unset;
+        }
+
+        .err_msg_box {
+            text-align: left;
+        }
+
+        #page-wrapper {
+            min-height: 568px;
+            padding: 0 36px;
+            float: unset !important;
+            /* position: relative !important; */
+            margin: auto !important;
+        }
+    </style>}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="form-horizontal">
+
+    <div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper partnersetup_border" style="min-height: 629px;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+
+                <div class="container body-content">
+                    <div class="row">
+                        <div class="container body-content new_container">
+                            <div class="setupImage"><img src="~/Images/partnerSetupImage.png" width="100" alt=""></div>
+                            <div class="setupTitle">
+                                <h2>Create @ViewBag.ThisCompanyType Branch</h2>
+                            </div>
+                            <div style="clear:both;"></div>
+
+                            @using (Html.BeginForm("CreatePartnerBranchAtDashboard", "UserManagement", FormMethod.Post, new { @id = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                if (ViewBag.SuccessMsg != null)
+                                {
+                                    <span class="text-success" id="sucMsg">@ViewBag.SuccessMsg</span>
+                                }
+                                else if (ViewBag.ErrorMsg != null)
+                                {
+                                    <span class="text-success" id="erMsg">@ViewBag.ErrorMsg</span>
+                                }
+
+                                <div class="form-horizontal new_form_horizontal">
+
+                                    <div id="fields">
+                                        @if (ViewBag.CurrUserRoleType != 2)
+                                        {
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Branch Name</label>
+                                                </div>
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
+                                                    {
+                                                        @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
+                                                        @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegBranchId" })
+                                                    }
+
+                                                </div>
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RegBranchId, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Partner Company Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field" style="width:44%">
+                                                @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
+                                                {
+
+                                                    @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
+                                                    @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new { @class = "form-control text_field_input", @id = "NonRegCompanyId" })
+                                                }
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Partner Branch Name</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName", @maxlength = 50 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Street Address 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress1", @maxlength = 50 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress1, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Street Address 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchAddress2", @maxlength = 50 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchAddress2, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>City</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchCity, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchCity", @maxlength = 50 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchCity, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.DropDownListFor(model => model.StateId, null, "--Select State--", htmlAttributes: new { @class = "form-control text_field_input", id = "StateId" })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Zip Code</label>
+                                            </div>
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", @maxlength = 5, style = "width: 80px;" } })
+                                            </div>
+                                            <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:-5px;margin-right:5px;"></span>
+                                            <div class="col-xs-4 text_field new_zip">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", @maxlength = 4, style = "width: 83px;" } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.ZipPre, "", new { @class = "text-danger" })</p>
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                            @*<div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.Extention, "", new { @class = "text-danger" })</p>
+                                                </div>*@
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Email<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchEmail", @maxlength = 100 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchEmail, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Phone Number 1</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum1", @maxlength = 15 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum1, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 2<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum2", @maxlength = 15 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum2, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Phone Number 3<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchPhoneNum3", @maxlength = 15 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchPhoneNum3, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>
+                                                    Fax Number<br>
+                                                    <span class="optional">(Optional)</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchFax, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchFax", @maxlength = 15 } })
+                                            </div>
+                                            <div class="err_msg_box">
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchFax, "", new { @class = "text-danger" })</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group clear_next">
+                                            <div>
+                                                <nav>
+                                                    <div class="pager new_pager">
+                                                        <div class="button_box algn_left">
+                                                            <input value="Dashboard" name="subBack" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                                        </div>
+                                                        <div class="button_box algn_center">
+                                                            <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnNext">
+                                                        </div>
+                                                        <div class="button_box algn_right">
+                                                            <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="rightPanel">
+
+</div>
+
+<script language="javascript">
+
+    $(document).ready(function () {
+
+        $('.nav li.active ul').removeClass('in');
+        $('.nav li').removeClass('active');
+        $('.nav li.partner').addClass('active');
+        $('.nav li.active ul').addClass('in');
+    })
+</script>
+
+
+<script src="~/scripts/CommonFunctions.js"></script>
+
+<script>
+    $(function () {
+
+        $('#dashBoard').click(function () {
+            window.location.replace('@Url.Action("UserDetails", "UserManagement")');
+        });
+
+        $(function () {
+            $('#step6').click(function () {
+
+                $('#loadingDiv').show();
+                window.location.href = "Step6";
+                @*$.ajax({
+                    url: '@Url.Action("Step6")',
+                    type: 'GET',
+
+
+                    success: function (partialView) {
+                        $('#loadingDiv').hide();
+                        $('#changeContainer').html(partialView);
+                        $('#changeContainer').show();
+                        Progress(6);
+                    },
+                    error: function (request, status, error) {
+                        //handleErrorMsg(request.responseText);
+
+                    }
+                });*@
+            });
+        });
+
+        $('#btnNo').click(function () {
+
+            @*$('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("UserDashBoard","DashBoard")',
+                type: 'GET',
+
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+                },
+
+                error: function (request, status, error) {
+                    //handleErrorMsg(request.responseText);
+
+                }
+            });*@
+
+
+        });
+
+
+    });
+
+</script>
+<script type="text/javascript">
+
+
+    $('#branchName, #branchAddress1, #branchAddress2, #branchCity').blur(function (e) {
+
+        ToTitleCase(this.id, this.value);
+    });
+
+
+
+    $('#branchAddress1, #branchAddress2').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum length
+    $('#branchName, #branchCity').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 50);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum Email
+    $('#branchEmail').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 100);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+        res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+        else if (e.which === 92 || e.which === 39) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum PhoneNumbers
+    $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+        res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    //Check maximum ZipExtension
+    $('#branchZipExten').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+    //Check maximum ZipCode
+    $('#branchZipPre').keypress(function (e) {
+        var res = CheckMaxLenth(this, this.value, 4);
+        if (res === 0) {
+            $("#branchZipExten").focus();
+        }
+        res = AllowNumbers(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+    $(function () {
+
+        $(document).ready(function () {
+            var c = $('#nonRegBranchTable').children('tbody').children('tr').length;
+            if (c > 0) {
+                $('#nonRegBranchDiv').hide();
+            }
+            else {
+                $('#nonRegBranchDiv').show();
+            }
+            // $('#branchDiv').hide();
+        });
+        $('#btnPreStep5').click(function () {
+
+            $('#loadingDiv').show();
+            $.ajax({
+                url: '@Url.Action("step4", "SetupProcess")',
+                type: 'GET',
+                data: { edit: 1 },
+
+                success: function (partialView) {
+                    $('#loadingDiv').hide();
+                    $('#changeContainer').html(partialView);
+                    $('#changeContainer').show();
+
+                },
+                error: function (request, status, error) {
+                    handleErrorMsg(request.responseText);
+
+                }
+            });
+        });
+    });
+    $('#branchZipPre').focusout(function () {
+        $(this).attr('placeholder', 'Zip Code');
+    });
+    $('#branchZipExten').focusout(function () {
+        $(this).attr('placeholder', 'Extension');
+    });
+</script>
+<script type="text/javascript">
+
+
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+    });
+</script>
+
+<script type="text/javascript">
+
+</script>

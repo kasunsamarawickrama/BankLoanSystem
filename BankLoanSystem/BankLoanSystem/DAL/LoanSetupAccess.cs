@@ -684,6 +684,7 @@ namespace BankLoanSystem.DAL
 
             bool loanStatus = curtailmentModel.LoanStatus == "Yes" ? true : false;
             char calMode = curtailmentModel.CalculationBase == "Full payment" ? 'f' : 'a';
+            char timeBase = curtailmentModel.TimeBase == "Months" ? 'm' : 'd';
 
             paramertList.Add(new object[] { "@loan_id", loanId });
             paramertList.Add(new object[] { "@loan_status", loanStatus });
@@ -691,6 +692,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@curtailment_auto_remind_email", curtailmentModel.AutoRemindEmail});
             paramertList.Add(new object[] { "@curtailment_remind_period", curtailmentModel.EmailRemindPeriod });
             paramertList.Add(new object[] { "@curtailment_calculation_type", calMode });
+            paramertList.Add(new object[] { "@pay_off_type", timeBase });
 
             try
             {

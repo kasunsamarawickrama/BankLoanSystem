@@ -269,7 +269,7 @@
     <Compile Include="Controllers\DeleteUnit\DeleteUnitController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\Fee\FeeController.cs" />
-    <Compile Include="Controllers\LoanManagementController.cs" />
+    <Compile Include="Controllers\LoanManagement\LoanManagementController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
@@ -291,6 +291,7 @@
     <Compile Include="DAL\FeeAccess.cs" />
     <Compile Include="DAL\forgotPasswordTokenAccess.cs" />
     <Compile Include="DAL\InterestAccess.cs" />
+    <Compile Include="DAL\LoanManagementAccess.cs" />
     <Compile Include="DAL\LoanSetupAccess.cs" />
     <Compile Include="DAL\LogAccess.cs" />
     <Compile Include="DAL\LoginAccess.cs" />
@@ -514,6 +515,7 @@
     <Content Include="Views\UserManagement\EditDashboardBranch.cshtml" />
     <Content Include="Views\SetupProcess\Step10help.cshtml" />
     <Content Include="Views\LoanManagement\RenewLoan.cshtml" />
+    <Content Include="Views\UserManagement\CreatePartnerBranchAtDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
