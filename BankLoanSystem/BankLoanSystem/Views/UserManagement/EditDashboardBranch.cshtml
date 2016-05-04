@@ -64,7 +64,7 @@
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                                 <div class="text-danger">@ViewBag.Error</div>
                             </div>
-                            @if (Model.SubBranches.Count > 0)
+                            @if (Model.SubBranches.Count > 1)
                             {
                             <div class="form-group new_form_group gridArea">
                                 <table style="width:100%;" class="table_style" id="branchTable">
@@ -382,11 +382,29 @@
     $(function () {
         $(document).ready(function () {
             var c = $('#branchTable').children('tbody').children('tr').length;
-            if(c>0){
+            if(c>1){
                 $('#branchDiv').hide();
             }
             else{
                 $('#branchDiv').show();
+                //---------------------
+                var model = @Html.Raw(Json.Encode(Model));
+                var index=0;
+                console.log(model);
+                console.log(index);
+                document.getElementById("branchName").value = model.SubBranches[index].BranchName;
+                document.getElementById("branchAddress1").value = model.SubBranches[index].BranchAddress1;
+                document.getElementById("branchAddress2").value = model.SubBranches[index].BranchAddress2;
+                document.getElementById("StateId").value = model.SubBranches[index].StateId;
+                document.getElementById("branchCity").value = model.SubBranches[index].BranchCity;
+                document.getElementById("branchZipPre").value = model.SubBranches[index].ZipPre;
+                document.getElementById("branchZipExten").value = model.SubBranches[index].Extention;
+                document.getElementById("branchEmail").value = model.SubBranches[index].BranchEmail;
+                document.getElementById("branchPhoneNum1").value = model.SubBranches[index].BranchPhoneNum1;
+                document.getElementById("branchPhoneNum2").value = model.SubBranches[index].BranchPhoneNum2;
+                document.getElementById("branchPhoneNum3").value = model.SubBranches[index].BranchPhoneNum3;
+                document.getElementById("branchFax").value = model.SubBranches[index].BranchFax;
+                document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
             }
            // $('#branchDiv').hide();
         });

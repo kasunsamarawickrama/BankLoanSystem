@@ -32,6 +32,19 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
 
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "Maturity Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime MaturityDate { get; set; }
+
+        [Required]
+        [Display(Name = "Renewal Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime RenewalDate { get; set; }
+
         [Display(Name = "Current Loan Status")]
         public bool CurrentLoanStatus { get; set; }
 

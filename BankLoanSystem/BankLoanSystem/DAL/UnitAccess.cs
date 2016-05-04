@@ -1040,6 +1040,11 @@ namespace BankLoanSystem.DAL
                         loan.loanNumber = dataRow["loan_number"].ToString();
                         loan.loanCode = dataRow["loan_code"].ToString();
                         loan.rightId = dataRow["right_id"].ToString();
+                        loan.loanAmount = decimal.Parse(dataRow["loan_amount"].ToString());
+                        loan.startDate = DateTime.Parse(dataRow["start_date"].ToString());
+                        loan.maturityDate = DateTime.Parse(dataRow["maturity_date"].ToString()) ;
+                        loan.CreatedDate = DateTime.Parse(dataRow["created_date"].ToString()) ;
+
                         if (dataRow["is_title_tracked"].ToString() != null && dataRow["is_title_tracked"].ToString() != "") {
                             loan.titleTracked = bool.Parse(dataRow["is_title_tracked"].ToString());
                         }

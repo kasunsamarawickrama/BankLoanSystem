@@ -234,6 +234,23 @@
                 <span class="txt">Activate Loan</span>
             </button>
             }
+            @*@using (Ajax.BeginForm(
+            "Selectloan",
+            "UserManagement", new { type = "aticno" },
+            new AjaxOptions
+            {
+                OnFailure = "handleError",
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "selcet-panel",
+                LoadingElementId = "loadingSpan"
+            }, new { style = "display:inline-block" }))
+            {
+            <button class="big-button show-popup" type="submit" data-showpopup="1">
+                <span class="icon-clipboard"></span>
+                <span class="txt">Renew Loan</span>
+            </button>
+            }*@
             <button class="big-button show-popup" type="submit" data-showpopup="1">
                 <span class="icon-clipboard"></span>
                 <span class="txt">Renew Loan</span>

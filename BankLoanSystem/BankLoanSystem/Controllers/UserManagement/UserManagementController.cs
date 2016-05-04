@@ -815,7 +815,19 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
-           else if(!string.IsNullOrEmpty(type)) 
+           else if (!string.IsNullOrEmpty(type) && type.Contains("aticno"))
+            {
+                detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
+                if (detail != null)
+                {
+                    Session["detail"] = detail;
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+            else if(!string.IsNullOrEmpty(type)) 
            {
                 detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
                 if (detail == null)
@@ -986,6 +998,11 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "EditLoan";
                 return PartialView(loanSelection);
             }
+            else if (type == "aticno") 
+            {
+                ViewBag.type = "RenewLoan";
+                return PartialView(loanSelection);
+            }
             return PartialView(loanSelection);
         }
 
@@ -1088,6 +1105,8 @@ namespace BankLoanSystem.Controllers
                     //for edit loan
                     finalSelectedLoan.CurrentLoanStatus = l.CurrentLoanStatus;
                     finalSelectedLoan.CreatedDate = l.CreatedDate;
+                    finalSelectedLoan.StartDate = l.startDate;
+                    finalSelectedLoan.MaturityDate = l.maturityDate;
                     finalSelectedLoan.LoanAmount = l.loanAmount;
                     foreach (var nrbr in list3.NonRegBranchList)
                     {
@@ -1118,6 +1137,11 @@ namespace BankLoanSystem.Controllers
                         Session["loanDashboardEditLoan"] = finalSelectedLoan;
 
                     }
+                    else if ((string)Session["popUpSelectionType"] == "aticno")
+                    {
+                        Session["loanDashboardRenewLoan"] = finalSelectedLoan;
+
+                    }
                     else {
                         Session["loanDashboard"] = finalSelectedLoan;
                     }
@@ -1135,6 +1159,10 @@ namespace BankLoanSystem.Controllers
             else if ((string)Session["popUpSelectionType"] == "tidenaol")
             {
                 return RedirectToAction("EditLoan");
+            }
+            else if ((string)Session["popUpSelectionType"] == "aticno")
+            {
+                return RedirectToAction("RenewLoan","LoanManagement");
             }
             else
             {
