@@ -1145,7 +1145,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step4(string dashbrd)
+        public ActionResult Step4()
         {
             //dashbrd = 4;
             StepAccess sa = new StepAccess();
