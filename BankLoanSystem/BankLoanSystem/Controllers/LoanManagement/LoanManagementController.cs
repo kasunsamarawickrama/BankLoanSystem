@@ -67,18 +67,50 @@ namespace BankLoanSystem.Controllers
             {
 
                 loan = (Loan)Session["loanDashboardRenewLoan"];
-                
 
-                if (HttpContext.Request.IsAjaxRequest())
+                if (TempData["message"] != null && (string)TempData["message"] != "")
                 {
-                    ViewBag.AjaxRequest = 1;
-                    return PartialView(loan);
-                }
-                else
-                {
+                    string str = (string)TempData["message"];
+                    if (str == "success")
+                    {
+                        ViewBag.SuccessMsg = "success";
+                    }
+                    else {
+                        ViewBag.ErrorMsg = "fail";
+                    }
+                    Loan loanUpdated = new Loan();
+                    loanUpdated = (new LoanManagementAccess()).GetLoanByLoanCode(loan.LoanId,loan.LoanCode);
 
-                    return View(loan);
+                    loanUpdated.PartnerName = loan.PartnerName;
+                    loanUpdated.BranchName = loan.BranchName;
+
+                    loan.MaturityDate = loanUpdated.MaturityDate;
+                    Session["loanDashboardRenewLoan"] = loan;
+
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
+                        return PartialView(loanUpdated);
+                    }
+                    else
+                    {
+
+                        return View(loanUpdated);
+                    }
                 }
+                else {
+                    if (HttpContext.Request.IsAjaxRequest())
+                    {
+                        ViewBag.AjaxRequest = 1;
+                        return PartialView(loan);
+                    }
+                    else
+                    {
+
+                        return View(loan);
+                    }
+                }
+               
                 //return View();
             }
             else {
@@ -98,7 +130,19 @@ namespace BankLoanSystem.Controllers
         [HttpPost]
         public ActionResult RenewLoan(Loan l) {
 
+            Loan loanPost = new Loan();
+            if ((Session["loanDashboardRenewLoan"] != null) && (Session["loanDashboardRenewLoan"].ToString() != ""))
+            {
+                loanPost = (Loan)Session["loanDashboardRenewLoan"];
+                loanPost.RenewalDate = l.RenewalDate;
+            }
 
+            if ((new LoanManagementAccess()).LoanRenew(loanPost, userData.UserId)) {
+                TempData["message"] = "success";
+            }
+            else {
+                TempData["message"] = "fail";
+            }
 
             return RedirectToAction("RenewLoan");
         }
