@@ -269,6 +269,7 @@
     <Compile Include="Controllers\DeleteUnit\DeleteUnitController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\Fee\FeeController.cs" />
+    <Compile Include="Controllers\LoanManagementController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\ManageUser\EditRightsController.cs" />
@@ -507,6 +508,7 @@
     <Content Include="Views\Fee\SearchFee.cshtml" />
     <Content Include="Views\AdvanceUnit\loadTitles.cshtml" />
     <Content Include="Views\UnitPayOff\loadGrid.cshtml" />
+    <Content Include="Views\LoanManagement\RenewLoan.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
