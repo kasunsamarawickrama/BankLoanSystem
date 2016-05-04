@@ -428,6 +428,13 @@
         document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
     });
 
+    $('#curtailmentDueEmailRemindPeriod').keypress(function (e) {
+
+        if (!(48 <= e.which && e.which <= 58))
+            e.preventDefault();
+
+    });
+
     var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">' +
         '<tbody><tr style="font-weight: bold; background-color: darkgray; height: 15px;">' +
         '<th style="width: 10%; text-align: center" height="30px">' +
@@ -1086,6 +1093,7 @@
             var curtaiulmentModel = {
                 LoanStatus: loanStatus,
                 CalculationBase: calBase,
+                TimeBase: timeBase,
                 DueDate: dueDate,
                 AutoRemindEmail: email,
                 EmailRemindPeriod: emailRemindPeriod
@@ -1164,11 +1172,9 @@
                 $('#loadingDiv').hide();
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
-
             },
             error: function (request, status, error) {
                 handleErrorMsg(request.responseText);
-
             }
         });
     });
