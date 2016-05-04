@@ -110,7 +110,7 @@
                                     </button>
 
                                     <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
-                                        <span class="icon-automobile"></span>
+                                        <span class="icon-bin2"></span>
                                         <span class="txt">Delete Unit</span>
                                     </button>
                     }
@@ -178,7 +178,7 @@
                         if (ViewBag.RightList.Contains("U008"))
                         {
                             <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
-                                <span class="icon-automobile"></span>
+                                <span class="icon-bin2"></span>
                                 <span class="txt">Delete Unit</span>
                             </button>
                         }
@@ -229,7 +229,7 @@
             LoadingElementId = "loadingSpan"
             }, new { style = "display:inline-block" }))
             {
-            <button class="big-button show-popup" type="submit" data-showpopup="1">
+            <button class="big-button show-popup" data-showpopup="1">
                 <span class="icon-clipboard"></span>
                 <span class="txt">Activate Loan</span>
             </button>
@@ -251,15 +251,15 @@
                 <span class="txt">Renew Loan</span>
             </button>
             }*@
-            <button class="big-button" onclick="" type="button">
-                <span class="icon-clipboard"></span>
+            <button class="big-button" onclick="" >
+                <span class="icon-loop2"></span>
                 <span class="txt">Renew Loan</span>
             </button>
-            <button class="big-button"  onclick="" type="button">
+            <button class="big-button"  onclick=""  style="padding-top: 15px;">
                 <span class="icon-user-tie"></span>
                 <span class="txt">Edit Partner Company</span>
             </button>
-            <button class="big-button" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'" type="button" style="padding-top: 15px;">
                 <span class="icon-user-tie"></span>
                 <span class="txt">Edit Partner Branch</span>
             </button>
@@ -390,30 +390,30 @@
                 </div>
 
             </div>
-            <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardUser'" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardUser'" >
                 <span class="icon-user-plus"></span>
                 <span class="txt">Create User</span>
             </button>
 
             @if (ViewBag.roleId == 1)
                 {
-                <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" type="button">
+                <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" >
                     <span class="icon-home"></span>
                     <span class="txt">Create Branch</span>
                 </button>
             }
             
 
-            <button class="big-button" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" type="button">
+            <button class="big-button" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" >
                 <span class="icon-folder-plus"></span>
                 <span class="txt">Create Loan</span>
             </button>
-            <button class="big-button" onclick="window.location.href='/SetupProcess/Step4?dashbrd=bshdrdhomcrpt'" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerCompanyAtDashboard'" style="padding-top: 15px;">
                 <span class="icon-users"></span>
                 <span class="txt">Create Partner Company</span>
             </button>
 
-            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerBranchAtDashboard'" type="button">
+            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerBranchAtDashboard'" style="padding-top: 15px;">
                 <span class="icon-users"></span>
                 <span class="txt">Create Partner Branch</span>
             </button>

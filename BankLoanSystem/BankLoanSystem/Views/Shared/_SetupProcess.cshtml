@@ -868,10 +868,10 @@
 
             $(window).scroll(function(){
                 var scroll_top = $(this).scrollTop(); // get scroll position top
-                var height_element_parent =  $('.container.body-content').height(); //get high parent element
+                var height_element_parent =  $('#page-wrapper').height(); //get high parent element
                 var height_element = $(".right_panel_box").height(); //get high of elemeneto
                 var position_fixed_max = height_element_parent - height_element; // get the maximum position of the elemen
-                var position_fixed = position_fixed_max < scroll_top ? 71 -(scroll_top - position_fixed_max) -32 : 71  ;
+                var position_fixed = position_fixed_max < scroll_top ? 71 -(scroll_top - position_fixed_max) -40 : 71  ;
                 $(".right_panel_box").css("top",position_fixed);
             });
         });

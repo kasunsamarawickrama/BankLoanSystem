@@ -6,6 +6,13 @@
         Layout = "~/Views/Shared/_SetupProcess.cshtml";
     }
 }
+
+<style>
+
+    .new_form_group{
+        width: 548px;
+    }
+</style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -81,7 +88,7 @@
                                     <div class="form-group new_form_group">
                                         <table width="">
                                             <tr>
-                                                <td width="60%"><label>Is the curtailment calculated from the original purchase price or the advanced amount?   <span class='icon-help_outline 1'></span></label></td>
+                                                <td width="55%"><label>Is the curtailment calculated from the original purchase price or the advanced amount?   <span class='icon-help_outline 1'></span></label></td>
                                                 <td width="40%">
                                                     @*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
                                                         Full payment
@@ -125,7 +132,7 @@
                                     <div class="form-group new_form_group">
                                         <table width="100%">
                                             <tr>
-                                                <td width="60%"><label>Do the curtailments become due over the course of Months or Days?   <span class="icon-help_outline 3"></span></label></td> 
+                                                <td width="55%"><label>Do the curtailments become due over the course of Months or Days?   <span class="icon-help_outline 3"></span></label></td> 
                                                 <td width="40%">
                                                     @Html.RadioButtonFor(m => m.TimeBase, "Months", new { @id = "rdMonths", @class = "timeBase" })Months
                                                     @Html.RadioButtonFor(m => m.TimeBase, "Days", new { @id = "rdDays", @class = "timeBase" })Days
@@ -165,11 +172,11 @@
                                     </div>
                                     <br />
                                    
-                                    <span class="icon-help_outline 4"></span>
+                                    
                                     <div id="CurtailmentGrid">
                                         <div class="form-group new_form_group">
                                             <div style="text-align: center;" id="divTbl">
-                                                <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">
+                                                <table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;float:left">
                                                     <tr style="font-weight: bold; background-color: darkgray; height: 15px;">
                                                         <th style="width: 10%; text-align: center" height="30px">
                                                             <p id="cuId"> Curt#</p>
@@ -206,7 +213,7 @@
                                                         </tr>
                                                     }
                                                 </table>
-
+                                                <span class="icon-help_outline 4" style="float:left"></span>
                                                 
                                             </div>
                                         </div>
@@ -312,7 +319,7 @@
                                                 </td>
                                                 <td width="40%">
                                                     
-                                                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
+                                                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail", placeholder = "example.example.com" } })
                                                 </td>
                                             </tr>
                                             <tr>
@@ -347,7 +354,7 @@
                                                 </label>
                                             </td>
                                             <td width="40%">
-                                                @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1 } })
+                                                @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1, max=3, @style="text-align: right" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -422,6 +429,8 @@
 <script language="javascript">
     
     $(document).ready(function(){
+        window.scrollTo(0, 0);
+
         $('.nav li.active ul').removeClass('in');
         $('.nav li').removeClass('active');
         $('.nav li.loan').addClass('active');
@@ -484,6 +493,12 @@
 
         });
 
+        $(document).on('click', 'input[class="clstimePeriod"]', function(){
+            $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule');
+        
+        }); 
+
 
     })
 </script>
@@ -494,11 +509,16 @@
         document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
     });
 
-    $('#curtailmentDueEmailRemindPeriod').keypress(function (e) {
+    $('#curtailmentDueEmail').blur(function (e) {
+        if (this.value === '') {
+            $("#curtailmentDueEmail").attr('placeholder', 'example.example.com');
+        }
+    });
 
-        if (!(48 <= e.which && e.which <= 58))
-            e.preventDefault();
-
+    $('#curtailmentDueEmailRemindPeriod').blur(function (e) {
+        if (this.value === '') {
+            $("#curtailmentDueEmailRemindPeriod").attr('placeholder', 'Number of Days');
+        }
     });
 
     var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">' +
@@ -556,20 +576,14 @@
         $('#customErrorPeriod').children('span').text("");
     });
 
-    $('curtailmentDueEmailRemindPeriod').keypress(function() {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
+    $('curtailmentDueEmailRemindPeriod').keypress(function(e) {
+        if (!(48 <= e.which && e.which <= 58))
             e.preventDefault();
-            return;
-        }
     });
 
-    $('curtailmentDueEmailRemindPeriod').click(function() {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
+    $('curtailmentDueEmailRemindPeriod').click(function(e) {
+        if (!(48 <= e.which && e.which <= 58))
             e.preventDefault();
-            return;
-        }
     });
 
     $('#dashBoard').click(function () {
@@ -601,6 +615,7 @@
         window.scrollTo(0, 0);
 
         $("#curtailmentDueEmailRemindPeriod").attr('placeholder', 'Number of Days');
+        $("#curtailmentDueEmail").attr('placeholder', 'example.example.com');
         
     }
 

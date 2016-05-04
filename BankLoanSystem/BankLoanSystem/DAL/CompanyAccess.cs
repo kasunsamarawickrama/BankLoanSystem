@@ -887,7 +887,64 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /// <summary>
+        /// CreatedBy : Piyumi
+        /// CreatedDate: 05/04/2016
+        /// 
+        /// Insert company in setup process 
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public int InsertNonRegisteredCompanyAtDashboard(PartnerCompany company)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_name", company.CompanyName.Trim() });
+            paramertList.Add(new object[] { "@company_code", company.CompanyCode.Trim() });
+            paramertList.Add(new object[] { "@company_address_1", company.CompanyAddress1.Trim() });
+            if (!string.IsNullOrEmpty(company.CompanyAddress2))
+            {
+                company.CompanyAddress2.Trim();
+                paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
+            }
 
+            paramertList.Add(new object[] { "@stateId", company.StateId });
+            paramertList.Add(new object[] { "@city", company.City.Trim() });
+            paramertList.Add(new object[] { "@zip", company.Zip.Trim() });
+            if (!string.IsNullOrEmpty(company.Email))
+            {
+                company.Email.Trim();
+            }
+            if (!string.IsNullOrEmpty(company.PhoneNum2))
+            {
+                company.PhoneNum2.Trim();
+            }
+            if (!string.IsNullOrEmpty(company.PhoneNum3))
+            {
+                company.PhoneNum3.Trim();
+            }
+            paramertList.Add(new object[] { "@email", company.Email });
+            paramertList.Add(new object[] { "@phone_num_1", company.PhoneNum1 });
+            paramertList.Add(new object[] { "@phone_num_2", company.PhoneNum2 });
+            paramertList.Add(new object[] { "@phone_num_3", company.PhoneNum3 });
+            paramertList.Add(new object[] { "@fax", company.Fax });
+            paramertList.Add(new object[] { "@website_url", company.WebsiteUrl });
+            paramertList.Add(new object[] { "@created_by", company.CreatedBy });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@company_type", company.TypeId });
+            paramertList.Add(new object[] { "@reg_company_id", company.RegCompanyId });
+
+
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spInsertNonRegisteredCompanyAtDashboard", paramertList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         /// <summary>
         /// CreatedBy : Kanishka SHM
         /// CreatedDate: 01/27/2016

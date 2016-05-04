@@ -85,7 +85,7 @@
                                                </div>
                                               
                                                    <div class="col-xs-8 text_field short_text_field">
-                                                       @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindPeriod",min=1, @style = "margin-left:110px" } })
+                                                       @Html.EditorFor(model => model.RemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindPeriod",min=1, @type = "text", @style = "margin-left:110px;text-align: right" } })
                                                    </div>
                                                
                                                <div class="err_msg_box shortErrMsgBox" style="width:390px">
@@ -99,14 +99,14 @@
                                                @if (ViewBag.Edit == 1)
                                                {
                                                    <div class="col-xs-8 text_field short_text_field">
-                                                       @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @style = "margin-left:110px" } })
+                                                       @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @style = "margin-left:110px", placeholder = "example.example.com" } })
                                                        @*@Html.ValidationMessageFor(model => model.RemindEmail, "", new { @class = "text-danger", @style = "left:37%" })*@
                                                    </div>
                                                }
                                                else
                                                {
                                                    <div class="col-xs-8 text_field short_text_field">
-                                                       @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @Value = ViewBag.Email, @style = "margin-left:110px" } })
+                                                       @Html.EditorFor(model => model.RemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input valid", @id = "autoRemindEmail", @Value = ViewBag.Email, @style = "margin-left:110px", placeholder = "example.example.com" } })
                                                    </div>
                                                }
                                                <div class="err_msg_box shortErrMsgBox" style="width:390px">
@@ -203,7 +203,7 @@
 <script language="javascript">
 
   $(document).ready(function(){
-
+      window.scrollTo(0, 0);
   $('.nav li.active ul').removeClass('in');
   $('.nav li').removeClass('active');
   $('.nav li.loan').addClass('active');
@@ -316,6 +316,13 @@
             e.preventDefault();
         }
     });
+
+    $('#autoRemindEmail').blur(function (e) {
+        if (this.value === '') {
+            $(this).attr('placeholder', 'example.example.com');
+        }
+    });
+
     function passvalueTitle(e1){
         
         if (e1=="true") {
@@ -396,7 +403,7 @@
         if ($('#timeLimit').val() == "3") {
             //alert('hjfj');
             $('#RemindEmailDiv').show();
-
+            $("#autoRemindEmail").attr('placeholder', 'example.example.com');
         }
 
         else {
@@ -529,6 +536,18 @@
             }
 
         });
+
+        $('#autoRemindPeriod').keypress(function (evt) {
+            //only allowed numbers
+            if (!(48 <= evt.which && evt.which <= 58))
+                evt.preventDefault();
+
+            // preventing to type 'e' or 'E'
+            if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+                evt.preventDefault();
+            }
+        });
+
     //Back Button
     $(function () {
         $('#btnPreStep9').click(function () {

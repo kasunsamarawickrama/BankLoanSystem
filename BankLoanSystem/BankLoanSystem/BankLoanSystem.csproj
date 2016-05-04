@@ -327,6 +327,7 @@
     <Compile Include="Models\LoanSetupStep.cs" />
     <Compile Include="Models\LoanSetupStep1.cs" />
     <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\PartnerCompany.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Right.cs" />
     <Compile Include="Models\State.cs" />
@@ -516,6 +517,7 @@
     <Content Include="Views\SetupProcess\Step10help.cshtml" />
     <Content Include="Views\LoanManagement\RenewLoan.cshtml" />
     <Content Include="Views\UserManagement\CreatePartnerBranchAtDashboard.cshtml" />
+    <Content Include="Views\UserManagement\CreatePartnerCompanyAtDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
