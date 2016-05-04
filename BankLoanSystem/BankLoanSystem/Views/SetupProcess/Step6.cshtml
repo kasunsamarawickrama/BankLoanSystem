@@ -5,6 +5,22 @@
     Layout = "~/Views/Shared/_SetupProcess.cshtml";
 }
 @model BankLoanSystem.Models.LoanSetupStep1
+
+<style>
+    .form-horizontal .control-label{
+        text-align:left;
+    }
+    .lable_style{
+        width:132px !important;
+    }
+    .control-label.col-sm-2.lable_style > label{
+        width:100% !important;
+    }
+    .col-xs-8 {
+    width: 66.66666667%;
+}
+
+</style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -107,11 +123,11 @@
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>Loan Number   <span class='icon-help_outline 1'></span></label>
                                         </div>
-                                        <div class="col-xs-8 text_field" id="loanNumber" style="display:none">
+                                        <div class="col-xs-8 text_field" id="loanNumber" style="display:none;width:290px;">
                                             @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanNumber", maxlength = 30 } })
 
                                         </div>
-                                        <div class="col-xs-8 text_field" id="loanNumberDisplay">
+                                        <div class="col-xs-8 text_field" id="loanNumberDisplay" style="width:290px;">
                                             @Html.HiddenFor(model => model.loanNumber)
                                             @Html.EditorFor(model => model.loanNumberForDisplay, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanNumber", onclick = "$('#loanNumberDisplay').hide();$('#loanNumberForDisplayError').hide();$('#loanNumber').show();$('#loanNumber').children('input').focus();$('#loanNumber').children('input').val($('#loanNumber').children('input').val());" } })
                                         </div>
@@ -185,7 +201,7 @@
 
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style" >
-                                            <label>Loan Amount<sup><span class='icon-help_outline 4' style="padding-left:0px"></span></sup><span style="float:right;margin-top: -3px;font-size: 18px;">$</span></label>
+                                            <label>Loan Amount   <span class='icon-help_outline 4'></span><span style="float:right;margin-top: -3px;font-size: 18px;">$</span></label>
                                         </div>
                                         <div class="col-xs-8 text_field short_text_field">
                                             @Html.EditorFor(model => model.loanAmount, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanAmount", maxlength = 15, style = "text-align:right" } })
