@@ -482,3 +482,15 @@
         document.getElementById("branchCode").value = model.SubBranches[index].BranchCode;
     };
 </script>
+
+<script type="text/javascript">
+    $('#clear').click(function () {
+        document.getElementsByTagName("form")[0].reset();
+        $(".text-danger").html("");
+        var c = $('#branchTable').children('tbody').children('tr').length;
+        if(c>1){
+            $('#branchDiv').hide();
+            $("#dashBoard").show();
+        }
+    });
+</script>
