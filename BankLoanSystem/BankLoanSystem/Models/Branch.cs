@@ -98,4 +98,25 @@ namespace BankLoanSystem.Models
         public string CompanyNameBranchName { get; set; }
         public int NonRegCompanyId { get; set; }
     }
+
+    public class EditPartnerBranceModel
+    {
+        public CompanyBranchModel CompanyBranch { get; set; }
+
+        [Required(ErrorMessage = "Please select the State")]
+        [Display(Name = "State")]
+        public int StateId { get; set; }
+
+        public List<NonRegBranch> NonRegBranches { get; set; }
+
+        [Required(ErrorMessage = "Please select the Branch")]
+        [Display(Name = "Branch Name")]
+        public int RegBranchId { get; set; }
+
+        [Required(ErrorMessage = "Please select the Company")]
+        [Display(Name = "Company Name")]
+        public int NonRegCompanyId { get; set; }
+
+        public Company NonRegCompany { get; set; }
+    }
 }
