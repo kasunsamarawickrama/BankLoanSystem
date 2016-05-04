@@ -319,7 +319,7 @@
                                                 </td>
                                                 <td width="40%">
                                                     
-                                                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
+                                                    @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail", placeholder = "example.example.com" } })
                                                 </td>
                                             </tr>
                                             <tr>
@@ -354,7 +354,7 @@
                                                 </label>
                                             </td>
                                             <td width="40%">
-                                                @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1 } })
+                                                @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1, max=3, @style="text-align: right" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -509,11 +509,16 @@
         document.getElementById("curtailmentDueEmailRemindPeriod").value = "";
     });
 
-    $('#curtailmentDueEmailRemindPeriod').keypress(function (e) {
+    $('#curtailmentDueEmail').blur(function (e) {
+        if (this.value === '') {
+            $("#curtailmentDueEmail").attr('placeholder', 'example.example.com');
+        }
+    });
 
-        if (!(48 <= e.which && e.which <= 58))
-            e.preventDefault();
-
+    $('#curtailmentDueEmailRemindPeriod').blur(function (e) {
+        if (this.value === '') {
+            $("#curtailmentDueEmailRemindPeriod").attr('placeholder', 'Number of Days');
+        }
     });
 
     var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">' +
@@ -571,20 +576,14 @@
         $('#customErrorPeriod').children('span').text("");
     });
 
-    $('curtailmentDueEmailRemindPeriod').keypress(function() {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
+    $('curtailmentDueEmailRemindPeriod').keypress(function(e) {
+        if (!(48 <= e.which && e.which <= 58))
             e.preventDefault();
-            return;
-        }
     });
 
-    $('curtailmentDueEmailRemindPeriod').click(function() {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
+    $('curtailmentDueEmailRemindPeriod').click(function(e) {
+        if (!(48 <= e.which && e.which <= 58))
             e.preventDefault();
-            return;
-        }
     });
 
     $('#dashBoard').click(function () {
@@ -616,6 +615,7 @@
         window.scrollTo(0, 0);
 
         $("#curtailmentDueEmailRemindPeriod").attr('placeholder', 'Number of Days');
+        $("#curtailmentDueEmail").attr('placeholder', 'example.example.com');
         
     }
 
