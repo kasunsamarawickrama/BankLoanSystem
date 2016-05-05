@@ -200,6 +200,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step1(Company company)
         {
             string type;
+
+            if (Session["companyStep"] == null)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+
+                    return new HttpStatusCodeResult(404, "Session Expired");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+
+
             if (_isEdit != 1)
             {
                 GeneratesCode gc = new GeneratesCode();
@@ -246,8 +262,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     (new LogAccess()).InsertLog(log);
                 }
+
+
                 
-                Session["companyStep"] = 2;
+
+                if (Convert.ToInt32(Session["companyStep"].ToString()) < 2)
+                {
+                    Session["companyStep"] = 2;
+                }
+               
 
                 //user object pass to session
                 userData.Company_Id = companyId;
@@ -407,6 +430,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
 
+            if (Session["companyStep"] == null)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+
+                    return new HttpStatusCodeResult(404, "Session Expired");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+
             userCompany2.Company = userCompany.Company;
             userCompany2.MainBranch.StateId = userCompany2.StateId;
             userCompany2.MainBranch.BranchCode = branchCode;
@@ -423,10 +460,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (reslt >= 0)
             {
                 TempData["Step2Reslt"] = reslt;
+
+                
+
+                if(Convert.ToInt32(Session["companyStep"].ToString()) < 3){ 
                 Session["companyStep"] = 3;
+                }
 
                 //user object pass to session
-                if(userData.BranchId == 0)
+                if (userData.BranchId == 0)
                 {
                     userData.BranchId = reslt;
                 }
@@ -528,6 +570,21 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step3(string lbls)
         {
 
+
+            if (Session["companyStep"] == null)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+
+                    return new HttpStatusCodeResult(404, "Session Expired");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+
             // take firstsuperadmin userid....
             int userId = userData.UserId;
             StepAccess sa = new StepAccess();
@@ -564,7 +621,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 Session["abcRol"] = "";
                 Session["abcBrnc"] = "";
-                Session["companyStep"] = 4;
+
+                if (Convert.ToInt32(Session["companyStep"].ToString()) < 4)
+                {
+                    Session["companyStep"] = 4;
+                }
+
+                
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -716,13 +779,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (roleId > 2)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404,"You are not allowed");
             }
 
             // check if   step is 3...
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "You are not allowed");
             }
 
             user.CreatedBy = currentUser;
@@ -1155,7 +1218,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 if (sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 4))
                 {
-                    Session["companyStep"] = 4;
+                    if (Convert.ToInt32(Session["companyStep"].ToString()) < 4)
+                    {
+                        Session["companyStep"] = 4;
+                    }
+
+                    
                 }
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
@@ -1210,6 +1278,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             nonRegComModel.Company.CompanyCode = companyCode;
 
+            if (Session["companyStep"] == null)
+            {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+
+                    return new HttpStatusCodeResult(404, "Session Expired");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
+
             if (string.IsNullOrEmpty(companyCode))
             {
                 GeneratesCode gc = new GeneratesCode();
@@ -1240,7 +1322,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 StepAccess sa = new StepAccess();
                 //sa.updateStepNumberByUserId(userId, 5);
                 sa.UpdateCompanySetupStep(userData.Company_Id, userData.BranchId, 5);
-                Session["companyStep"] = 5;
+
+                
+
+                if (Convert.ToInt32(Session["companyStep"].ToString()) < 5)
+                {
+                    Session["companyStep"] = 5;
+                }
+
+                
 
                 //Send company detail to step 2
                 CompanyBranchModel comBranch = new CompanyBranchModel();
