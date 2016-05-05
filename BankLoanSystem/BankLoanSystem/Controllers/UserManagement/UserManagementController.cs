@@ -2916,5 +2916,90 @@ namespace BankLoanSystem.Controllers
 
             
         }
-    }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/4/2016
+        /// Edit Partner Company
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditPartnerCompanyAtDashboard()
+        {
+            if ((userData.RoleId == 1) || (userData.RoleId == 2))
+            {
+                CompanyAccess ca = new CompanyAccess();
+                List<State> stateList = ca.GetAllStates();
+                ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                PartnerCompany pc = new PartnerCompany();
+                pc.PartnerCompanyList = ca.GetNonRegCompanyDetailsByRegCompanyId2(userData.Company_Id);
+                if (pc.PartnerCompanyList == null)
+                {
+                    pc.PartnerCompanyList =  new List<PartnerCompany>();
+                }
+                
+                int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                //int comType = userData.CompanyType;
+                ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
+                PartnerCompanyType = (comType == 1) ? 2 : 1;
+               
+
+                //string type = (PartnerCompanyType == 1) ? "Lender" : "Dealer";
+                if (TempData["partnerEditReslt"] != null && int.Parse(TempData["partnerEditReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Partner Company Updated Successfully";
+                }
+                else if (TempData["partnerEditReslt"] != null && int.Parse(TempData["partnerEditReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to update partner company";
+                }
+                return View(pc);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/4/2016
+        /// Edit Partner Company
+        /// </summary>
+        /// <returns></returns>
+        ///
+        [HttpPost]
+        public ActionResult EditPartnerCompanyAtDashboard(PartnerCompany partnerCompany)
+        {
+            if ((userData.RoleId == 1) || (userData.RoleId == 2))
+            {
+                if (partnerCompany != null)
+                {
+                    partnerCompany.CreatedBy = userData.UserId;
+                    partnerCompany.RegCompanyId = userData.Company_Id;
+                    partnerCompany.Zip = partnerCompany.ZipPre;
+                    if (partnerCompany.Extension != null)
+                        partnerCompany.Zip += "-" + partnerCompany.Extension;
+                    if ( (new CompanyAccess()).UpdatePartnerCompany(partnerCompany) == 1)
+                    {
+                        TempData["partnerEditReslt"] = 1;
+                    }
+                    else
+                    {
+                        TempData["partnerEditReslt"] = 0;
+                    }
+                    return RedirectToAction("EditPartnerCompanyAtDashboard");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(404);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(404);
+            }
+            //return View();
+        }
+        }
 }
