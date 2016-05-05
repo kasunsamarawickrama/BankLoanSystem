@@ -249,7 +249,12 @@ namespace BankLoanSystem.DAL
                     company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
                     company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
                     company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
-                    company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
+
+                    if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["company_address_2"].ToString()))
+                    {
+                        company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
+                    }
+                    
                     company.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
                     company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
                     company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
@@ -261,10 +266,26 @@ namespace BankLoanSystem.DAL
 
                     company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
                     company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
-                    company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
-                    company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
-                    company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
-                    company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
+                    if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString()))
+                    {
+                        company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                    }
+                    if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString()))
+                    {
+                        company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                    }
+                    if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["fax"].ToString()))
+                    {
+                        company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
+                    }
+                    //company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
+                    //company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
+                    //company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
+                    if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["website_url"].ToString()))
+                    {
+                        company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
+                    }
+                    
                     company.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
 
                     return company;
@@ -1264,9 +1285,22 @@ namespace BankLoanSystem.DAL
 
                         company.Email = dataRow["email"].ToString();
                         company.PhoneNum1 = dataRow["phone_num_1"].ToString();
-                        company.PhoneNum2 = dataRow["phone_num_2"].ToString();
-                        company.PhoneNum3 = dataRow["phone_num_3"].ToString();
-                        company.Fax = dataRow["fax"].ToString();
+                        if (!string.IsNullOrEmpty(dataRow["phone_num_2"].ToString()))
+                        {
+                            company.PhoneNum2 = dataRow["phone_num_2"].ToString().Trim();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["phone_num_3"].ToString()))
+                        {
+                            company.PhoneNum3 = dataRow["phone_num_3"].ToString().Trim();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["fax"].ToString()))
+                        {
+                            company.Fax = dataRow["fax"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["website_url"].ToString()))
+                        {
+                            company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
+                        }
                         company.TypeId = int.Parse(dataRow["company_type"].ToString());
                         company.CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
                         companyList.Add(company);
