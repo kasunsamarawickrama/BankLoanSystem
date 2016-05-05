@@ -216,6 +216,9 @@
     });
 
     $('#txtRenewalDate').focusout(function () {
+        if ($('#txtRenewalDate').val() == "") {
+            $('#errortxtRenewalDate').text("");
+        }
         checkDate();
     });
 
@@ -244,7 +247,11 @@
 
 
 
-        } else {
+        } else if ($('#txtRenewalDate').val() == "") {
+            return false;
+        }
+
+        else {
 
             // not valid data error
             $('#errortxtRenewalDate').text('Not valid date');
@@ -269,9 +276,10 @@
                 $('#txtRenewalDate').removeClass('input-validation-error');
             }
 
+        } else if ($('#txtRenewalDate').val() == "") {
+        }
 
-
-        } else {
+        else {
 
             // not valid data error
             $('#errortxtRenewalDate').text('Not valid date');
