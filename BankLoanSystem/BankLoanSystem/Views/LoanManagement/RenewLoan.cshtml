@@ -142,7 +142,7 @@
                                                 <label class="lb">Renewal Date</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.RenewalDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtRenewalDate" } })
+                                                @Html.EditorFor(model => model.RenewalDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input dateKeyPressValidate", @id = "txtRenewalDate" } })
                                                 @Html.ValidationMessageFor(model => model.RenewalDate, "", new { @class = "text-danger", @style = "text-align: left; left: 0%; width: 208px; " })
                                                 <span class="text-danger field-validation-error" id="errortxtRenewalDate" style="margin-left: -89px;"></span>
                                             </div>
@@ -216,6 +216,9 @@
     });
 
     $('#txtRenewalDate').focusout(function () {
+        if ($('#txtRenewalDate').val() == "") {
+            $('#errortxtRenewalDate').text("");
+        }
         checkDate();
     });
 
@@ -244,7 +247,11 @@
 
 
 
-        } else {
+        } else if ($('#txtRenewalDate').val() == "") {
+            return false;
+        }
+
+        else {
 
             // not valid data error
             $('#errortxtRenewalDate').text('Not valid date');
@@ -269,13 +276,25 @@
                 $('#txtRenewalDate').removeClass('input-validation-error');
             }
 
+        } else if ($('#txtRenewalDate').val() == "") {
+        }
 
-
-        } else {
+        else {
 
             // not valid data error
             $('#errortxtRenewalDate').text('Not valid date');
             $('#txtRenewalDate').addClass('input-validation-error');
+            e.preventDefault();
+        }
+    });
+
+    $('.dateKeyPressValidate').keypress(function (e) {
+        var ch = e.which;
+        if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
+            return 1;
+        }
+        else {
+
             e.preventDefault();
         }
     });

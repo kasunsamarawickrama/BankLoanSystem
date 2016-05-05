@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -45,6 +46,24 @@ namespace BankLoanSystem.Reports
 
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            //Warning[] warnings;
+            //string[] streamids;
+            //string mimeType;
+            //string encoding;
+            //string filenameExtension;
+
+            //byte[] bytes = rptViewerFullInventory.LocalReport.Render(
+            //    "PDF", null, out mimeType, out encoding, out filenameExtension,
+            //    out streamids, out warnings);
+
+            //using (FileStream fs = new FileStream(Server.MapPath("FullInvontory.pdf"), FileMode.Create))
+            //{
+            //    fs.Write(bytes, 0, bytes.Length);
+            //}
+
+            //rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            //rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
         public int PrintPage(int loanId)
