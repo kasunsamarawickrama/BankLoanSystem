@@ -227,6 +227,7 @@
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\combo.js" />
     <Content Include="scripts\CommonFunctions.js" />
+    <Content Include="scripts\input-mask.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\jquery-ui.js" />
@@ -518,6 +519,8 @@
     <Content Include="Views\LoanManagement\RenewLoan.cshtml" />
     <Content Include="Views\UserManagement\CreatePartnerBranchAtDashboard.cshtml" />
     <Content Include="Views\UserManagement\CreatePartnerCompanyAtDashboard.cshtml" />
+    <Content Include="Views\UserManagement\EditProfile.cshtml" />
+    <Content Include="Views\UserManagement\EditPartnerCompanyAtDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -57,6 +57,7 @@
         }
 
 </style>
+<script src="~/scripts/input-mask.js"></script>
 <h2>Sign up</h2>
 @using (Html.BeginForm())
             {
@@ -170,6 +171,17 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script type="text/javascript">
+
+    // for input mask
+
+        new InputMask().Initialize(document.querySelectorAll("#txtPhoneNumber"),
+        {
+            mask: InputMaskDefaultMask.Phone,
+            placeHolder: "(999) 999-9999"
+        });
+    
+
+
     // User name validate
     $('#txtUserName').keypress(function (e) {
         var code = e.which;
@@ -197,20 +209,20 @@
   
 
     //// title case
-    //$('#txtFirstName, #txtLastName').keypress(function (e) {
-    //    ToTitleCase(this.id, this.value);
-    //});
+    $('#txtFirstName, #txtLastName').keypress(function (e) {
+        ToTitleCase(this.id, this.value);
+    });
 
     //Phone number validate
-    //$('#txtPhoneNumber').keypress(function (e) {
-    //    var res = PhoneNumber(e.which);
-    //    if (res === 0) {
-    //        $(this).siblings('div').children('span').fadeIn();
-    //        $(this).siblings('div').children('span').text("Invalid character.");
-    //        $(this).siblings('div').children('span').delay(100).fadeOut();
-    //        e.preventDefault();
-    //    }
-    //});
+    $('#txtPhoneNumber').keypress(function (e) {
+        var res = PhoneNumber('#txtPhoneNumber', e.which);
+        if (res === 0) {
+            //$(this).siblings('div').children('span').fadeIn();
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            //$(this).siblings('div').children('span').delay(100).fadeOut();
+            e.preventDefault();
+        }
+    });
 
     //Check maximum length
     $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
@@ -289,11 +301,18 @@
             return;
         }
 
-        res = CheckMaxLenth(this, this.value, 15);
+        res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
         }
+    });
+
+    $('#txtPhoneNumber').focusout(function (e) {
+
+        
+            $(this).attr("placeholder", "(999) 999-9999");
+       
     });
 
     $('input').prop('autocomplete', 'off');

@@ -11,7 +11,10 @@ namespace BankLoanSystem.Models
         private string _companyAddress1;
         public int CompanyId { get; set; }
         public int RegCompanyId { get; set; }
+
+
         public string CompanyType { get; set; }
+
         [Required(ErrorMessage = "Please enter the Company Name")]
         [Display(Name = "Company Name")]
         //[Remote("IsCompanyNameExists", "SetupCompany", ErrorMessage = "Company Name already in use")] //Check company name is alredy in database
@@ -89,5 +92,7 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Company Status Active?")]
         public bool CompanyStatus { get; set; }
+
+        public List<PartnerCompany> PartnerCompanyList { get; set; }
     }
 }

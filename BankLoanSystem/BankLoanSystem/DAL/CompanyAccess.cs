@@ -1061,28 +1061,29 @@ namespace BankLoanSystem.DAL
                         {
                            
                             Company company = new Company();
-                            company.CompanyId = Convert.ToInt32(dsCompany.Tables[0].Rows[0]["company_id"]);
-                            company.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString().Trim();
-                            company.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString().Trim();
-                            company.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString().Trim();
-                            company.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString().Trim();
-                            company.StateId = Convert.ToInt32(dsCompany.Tables[0].Rows[0]["stateId"]);
-                            company.City = dsCompany.Tables[0].Rows[0]["city"].ToString().Trim();
-                            company.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString().Trim();
+                            company.CompanyId = Convert.ToInt32(dataRow["company_id"]);
+                            company.CompanyName = dataRow["company_name"].ToString().Trim();
+                            company.CompanyCode = dataRow["company_code"].ToString().Trim();
+                            company.CompanyAddress1 = dataRow["company_address_1"].ToString().Trim();
+                            company.CompanyAddress2 = dataRow["company_address_2"].ToString().Trim();
+                            company.StateId = Convert.ToInt32(dataRow["stateId"]);
+                            company.City = dataRow["city"].ToString().Trim();
+                            company.Zip = dataRow["zip"].ToString().Trim();
 
                             string[] zipWithExtention = company.Zip.Split('-');
 
                             if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
                             if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
 
-                            company.Email = dsCompany.Tables[0].Rows[0]["email"].ToString().Trim();
-                            company.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString().Trim();
-                            company.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString().Trim();
-                            company.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString().Trim();
-                            company.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString().Trim();
+                            company.Email = dataRow["email"].ToString().Trim();
+                            company.PhoneNum1 = dataRow["phone_num_1"].ToString().Trim();
+                            company.PhoneNum2 = dataRow["phone_num_2"].ToString().Trim();
+                            company.PhoneNum3 = dataRow["phone_num_3"].ToString().Trim();
+                            company.Fax = dataRow["fax"].ToString().Trim();
 
                             nonRegCompanies.Add(company);
                         }
+
                     }
                 }
             catch (Exception ex)
@@ -1221,6 +1222,126 @@ namespace BankLoanSystem.DAL
                 try
                 {
                     return dataHandler.ExecuteSQLReturn("spUpdateCompany", paramertList);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public List<PartnerCompany> GetNonRegCompanyDetailsByRegCompanyId2(int company_Id)
+        {
+            List<PartnerCompany> companyList = new List<PartnerCompany>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@reg_company_id", company_Id });
+
+            try
+            {
+                DataSet dsCompany = dataHandler.GetDataSet("spGetNonRegCompanyDetailsByRegCompanyId", paramertList);
+                if (dsCompany != null && dsCompany.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dsCompany.Tables[0].Rows)
+                    {
+                        PartnerCompany company = new PartnerCompany();
+                        company.CompanyId = int.Parse(dataRow["company_Id"].ToString());
+                        company.CompanyName = dataRow["company_name"].ToString();
+                        company.CompanyCode = dataRow["company_code"].ToString();
+                        company.CompanyAddress1 = dataRow["company_address_1"].ToString();
+                        company.CompanyAddress2 = dataRow["company_address_2"].ToString();
+                        company.StateId = int.Parse(dataRow["stateId"].ToString());
+                        company.City = dataRow["city"].ToString();
+                        company.Zip = dataRow["zip"].ToString();
+                        string[] zipWithExtention = company.Zip.Split('-');
+
+                        if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
+                        if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+
+                        company.Email = dataRow["email"].ToString();
+                        company.PhoneNum1 = dataRow["phone_num_1"].ToString();
+                        company.PhoneNum2 = dataRow["phone_num_2"].ToString();
+                        company.PhoneNum3 = dataRow["phone_num_3"].ToString();
+                        company.Fax = dataRow["fax"].ToString();
+                        company.TypeId = int.Parse(dataRow["company_type"].ToString());
+                        company.CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
+                        companyList.Add(company);
+                    }
+                    return companyList;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/5/2016
+        /// Edit Partner Company
+        /// </summary>
+        /// <param name="partnerCompany"></param>
+        /// <returns></returns>
+        public int UpdatePartnerCompany(PartnerCompany company)
+        {
+            if (company != null)
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+
+
+                paramertList.Add(new object[] { "@company_name", company.CompanyName.Trim() });
+                if (!string.IsNullOrEmpty(company.CompanyCode))
+                {
+                    paramertList.Add(new object[] { "@company_code", company.CompanyCode.Trim() });
+                }
+                    
+                paramertList.Add(new object[] { "@company_id", company.CompanyId });
+                paramertList.Add(new object[] { "@company_address_1", company.CompanyAddress1.Trim() });
+                if (!string.IsNullOrEmpty(company.CompanyAddress2))
+                {
+                    company.CompanyAddress2.Trim();
+                    paramertList.Add(new object[] { "@company_address_2", company.CompanyAddress2.Trim() });
+                }
+
+                paramertList.Add(new object[] { "@stateId", company.StateId });
+                paramertList.Add(new object[] { "@city", company.City.Trim() });
+                paramertList.Add(new object[] { "@zip", company.Zip.Trim() });
+                if (!string.IsNullOrEmpty(company.Email))
+                {
+                    company.Email.Trim();
+                }
+                if (!string.IsNullOrEmpty(company.PhoneNum2))
+                {
+                    company.PhoneNum2.Trim();
+                }
+                if (!string.IsNullOrEmpty(company.PhoneNum3))
+                {
+                    company.PhoneNum3.Trim();
+                }
+                paramertList.Add(new object[] { "@email", company.Email });
+                paramertList.Add(new object[] { "@phone_num_1", company.PhoneNum1 });
+                paramertList.Add(new object[] { "@phone_num_2", company.PhoneNum2 });
+                paramertList.Add(new object[] { "@phone_num_3", company.PhoneNum3 });
+                paramertList.Add(new object[] { "@fax", company.Fax });
+                paramertList.Add(new object[] { "@website_url", company.WebsiteUrl });
+                paramertList.Add(new object[] { "@modified_by", company.CreatedBy });
+                paramertList.Add(new object[] { "@modified_date", DateTime.Now });
+                paramertList.Add(new object[] { "@company_type", company.TypeId });
+                paramertList.Add(new object[] { "@reg_company_id", company.RegCompanyId });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLReturn("spUpdatePartnerCompany", paramertList);
                 }
                 catch (Exception ex)
                 {
