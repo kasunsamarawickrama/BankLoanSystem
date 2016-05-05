@@ -2835,6 +2835,7 @@ namespace BankLoanSystem.Controllers
         /// Create Partner Company
         /// </summary>
         /// <returns></returns>
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreatePartnerCompanyAtDashboard()
         {
             if ((userData.RoleId == 1) ||(userData.RoleId == 2))
@@ -2873,6 +2874,7 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         /// 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreatePartnerCompanyAtDashboard(PartnerCompany  partnerCompany)
         {
             if ((userData.RoleId == 1) || (userData.RoleId == 2))
@@ -2916,6 +2918,110 @@ namespace BankLoanSystem.Controllers
 
             
         }
+
+        public ActionResult EditProfile()
+        {
+            User userObj = new User();
+            UserAccess uas = new UserAccess();
+            userObj = uas.retreiveUserByUserId(userData.UserId);
+
+            string roleName = "";
+
+            if (userData.RoleId == 1)
+                roleName = "Super Admin";
+            else if (userData.RoleId == 2)
+                roleName = "Admin";
+            else if (userData.RoleId == 3)
+                roleName = "User";
+            else if (userData.RoleId == 4)
+                roleName = "Dealer User";
+
+            ViewBag.RoleName = roleName;
+
+            if (TempData["UpdteReslt"] != null)
+            {
+                if (int.Parse(TempData["UpdteReslt"].ToString()) == 1)
+                {
+                    ViewBag.SuccessMsg = "Profile is successfully updated";
+                }
+                else if (int.Parse(TempData["UpdteReslt"].ToString()) == 0)
+                {
+                    ViewBag.ErrorMsg = "Failed to update Profile";
+                }
+                else if (int.Parse(TempData["UpdteReslt"].ToString()) == -1)
+                {
+                    ViewBag.ErrorMsg = "Failed to update Profile";
+                }
+            }
+            userObj.PhoneNumber2 = userObj.PhoneNumber;
+            return View(userObj);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User model)
+        {
+            if (model != null)
+            {
+                if ((!string.IsNullOrEmpty(model.CurrentPassword)) && (!string.IsNullOrEmpty(model.Password)) && (!string.IsNullOrEmpty(model.ConfirmPassword)))
+                {
+                    User userObj = new User();
+                    userObj = (new UserAccess()).retreiveUserByUserId(userData.UserId);
+                    string passwordFromDB = userObj.Password;
+                    //user.Password = userObj.Password;
+                    char[] delimiter = { ':' };
+
+                    string[] split = passwordFromDB.Split(delimiter);
+
+                    var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
+
+                    if (passwordFromDB == null || (checkCharHave == false))
+                    {
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                    }
+
+                    string passwordEncripted = PasswordEncryption.encryptPassword(model.CurrentPassword, split[1]);
+
+                    if (string.Compare(passwordEncripted, passwordFromDB) == 0)
+                    {
+                        string passwordEncripted1 = PasswordEncryption.encryptPassword(model.Password, split[1]);
+                        model.Password = passwordEncripted1;
+                        model.CurrentPassword = passwordFromDB;
+
+                    }
+                    else
+                    {
+
+                        TempData["UpdteReslt"] = -1;
+                        return RedirectToAction("EditProfile");
+                        //return View();
+                    }
+                    //string newSalt = PasswordEncryption.RandomString();
+                    //user.CurrentPassword = PasswordEncryption.encryptPassword(user.CurrentPassword, newSalt);
+                    //user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
+                }
+                model.UserId = userData.UserId;
+                model.Status = true;
+                UserAccess usrAcc = new UserAccess();
+                int reslt = usrAcc.UpdateUser(model, userData.UserId);
+                if ((reslt == 1) || (reslt == 2))
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, model.BranchId, 0, "Edit User", "Edit User : " + model.UserName, DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                    TempData["UpdteReslt"] = 1;
+                }
+                else
+                {
+                    TempData["UpdteReslt"] = 0;
+                }
+                return RedirectToAction("EditProfile");
+            }
+
+            return RedirectToAction("UserLogin", "Login");
+
+            
+        }
+    
 
         /// <summary>
         /// CreatedBy:Piyumi

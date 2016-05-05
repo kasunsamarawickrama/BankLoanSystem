@@ -56,6 +56,13 @@
                                                 </div>
 
                                             </div>
+                                            <script>
+                                                window.scrollTo(0, 0);
+                                                $(".right_panel_box").css("top",71);
+
+                                                $('.right_panel_box p').html("You can create additional branches now or continue on to the next step of the setup process. You will be able to create additional branches from your dashboard at any time.");
+                                                $('.right_panel_box h4').html("Company branches");
+                                            </script>
                                         }
 
 
@@ -309,7 +316,7 @@
 <script language="javascript">
 
   $(document).ready(function(){
-
+  window.scrollTo(0, 0);
   $('.nav li.active ul').removeClass('in');
   $('.nav li').removeClass('active');
   $('.nav li.company').addClass('active');
