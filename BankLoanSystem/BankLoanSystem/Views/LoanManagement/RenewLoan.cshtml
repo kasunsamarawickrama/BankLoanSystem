@@ -57,22 +57,19 @@
                         <div class="form-horizontal new_form_horizontal">
                             <div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
                             </div>
                             <div class="form-horizontal">
 
                                 <div style="clear:both"></div>
-                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Loan Status Successfully Updated"))
+                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("success"))
                                 {
-                                    <div id="successSpn" class="text-success"><span style="float:left">@ViewBag.SuccessMsg</span></div>
-                                    <div class="button_box algn_left" style="float: left;margin-top: 15px;margin-left: -195px;">
-                                        <input id="btnDashbrd" value="Go to Dashboard" class="btn btn-primary m-b next_clear_button back_back" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
-                                    </div>
+                                    <div id="successSpn" class="text-success"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan Maturity date successfully updated</span></div>
+                                   
                                 }
                                 else {
-                                    if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed To Update Loan Status"))
+                                    if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("fail"))
                                     {
-                                        <div id="errorSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
+                                        <div id="errorSpn" class="text-danger"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan Maturity date Update failed</span></div>
                                     }
                                 }
                                 @using (Html.BeginForm("RenewLoan", "LoanManagement", FormMethod.Post, new { id = "form1" }))
@@ -179,7 +176,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                    }
                                 <div>
                                 </div>
                             </div>
@@ -193,7 +190,7 @@
 
 <script>
     $('#txtRenewalDate').val("");
-
+    $('#txtRenewalDate').attr('placeholder', 'MM/DD/YYYY');
     startPicker = new Pikaday({
         field: document.getElementById('txtRenewalDate'),
         format: 'l',
