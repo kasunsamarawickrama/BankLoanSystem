@@ -288,7 +288,7 @@
                                                     <input value="Update" class="btn btn-primary m-b next_clear_button next_back" style="margin-left: 10px" type="submit" id="btnNext">
                                                 </div>
                                                 <div class="button_box algn_right">
-                                                    <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
+                                                    <input id="clear1" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
                                                 </div>
                                                 <div style="clear: both"></div>
                                             </div>
@@ -587,11 +587,21 @@
 <script type="text/javascript">
 
 
-    $('#clear').click(function () {
-        document.getElementsByTagName("form")[0].reset();
+    $('#clear1').click(function () {
+        
         $(".text-danger").html("");
-        $("#fields").hide();
-        $("#dashBoard").show();
+        
+        var count = @ViewBag.Count;
+        //alert(count);
+        if (count > 1) {
+            document.getElementsByTagName("form")[0].reset();
+            $("#fields").hide();
+            $("#dashBoard").show();
+        } else {
+            $("#fields").show();
+            $("#branchGrid").hide();
+            EditBranch(0);
+        }
     });
 </script>
 
