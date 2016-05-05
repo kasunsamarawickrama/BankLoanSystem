@@ -2495,7 +2495,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //}
             else
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return new HttpStatusCodeResult(404);
             }
             //}
             //else
