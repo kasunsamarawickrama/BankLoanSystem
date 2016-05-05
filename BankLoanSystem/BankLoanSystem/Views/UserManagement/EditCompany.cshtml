@@ -272,6 +272,24 @@
 </div>
 
 <script>
+
+    // for input mask
+
+    new InputMask().Initialize(document.querySelectorAll("#txtPhoneNum1,#txtPhoneNum2, #txtPhoneNum3"),
+    {
+        mask: InputMaskDefaultMask.Phone,
+        placeHolder: "(999) 999-9999"
+    });
+
+    $("#txtPhoneNum1,#txtPhoneNum2, #txtPhoneNum3").focusout(function (e) {
+
+
+        $(this).attr("placeholder", "(999) 999-9999");
+
+    });
+
+
+
     $("input[type=text]").click(function () {
 
         $('#successSpn').text("");
@@ -466,7 +484,21 @@
         }
     });
 
-    $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
+    $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 14);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtFax').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
         if (res === 0) {
             e.preventDefault();
@@ -505,7 +537,7 @@
 
     $('input').prop('autocomplete', 'off');
 
-    Progress(1);
+    
 
     $('#txtZipPre').focusout(function () {
         $(this).attr('placeholder', 'Zip Code');
