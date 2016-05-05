@@ -202,9 +202,12 @@
     });
     var Mdate = document.getElementById('txtMaturityDate').value ;
     //alert(Mdate);
-    startPicker.setMinDate(new Date(Mdate));
-    startPicker.gotoDate(new Date(Mdate));
+    var startDate = new Date(Date.parse(Mdate));
+    var expDate = startDate;
+    expDate.setDate(startDate.getDate() + 1);
 
+    startPicker.setMinDate(new Date(expDate));
+    startPicker.gotoDate(new Date(expDate));
 
     $('#txtRenewalDate').focusout(function () {
         $(this).attr('placeholder', 'MM/DD/YYYY');
