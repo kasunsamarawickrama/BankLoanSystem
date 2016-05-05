@@ -325,6 +325,23 @@
 
 
       window.scrollTo(0, 0);
+
+      // for input mask
+
+      new InputMask().Initialize(document.querySelectorAll("#txtPhoneNumber"),
+      {
+          mask: InputMaskDefaultMask.Phone,
+          placeHolder: "(999) 999-9999"
+      });
+
+      $("#txtPhoneNumber").focusout(function (e) {
+
+         
+              $(this).attr("placeholder", "(999) 999-9999");
+          
+      });
+
+
   $('.nav li.active ul').removeClass('in');
   $('.nav li').removeClass('active');
   $('.nav li.user').addClass('active');
@@ -545,7 +562,7 @@
             return;
         }
 
-        res = CheckMaxLenth(this, this.value, 15);
+        res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
