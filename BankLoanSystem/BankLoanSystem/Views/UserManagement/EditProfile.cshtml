@@ -262,6 +262,23 @@
 </div>
 
 <script>
+
+    // for input mask
+
+    new InputMask().Initialize(document.querySelectorAll("#txtPhone2,#txtPhone"),
+    {
+        mask: InputMaskDefaultMask.Phone,
+        placeHolder: "(999) 999-9999"
+    });
+
+    $("#txtPhone2,#txtPhone").focusout(function (e) {
+
+
+        $(this).attr("placeholder", "(999) 999-9999");
+
+    });
+
+
     $('#txtCurrentPassword').change(function(){
         var uid = $("#hdnUserId3").val();
         var pwd = $("#txtCurrentPassword").val();
@@ -594,14 +611,14 @@
         }
     });
 
-    $('#txtPhone').keypress(function (e) {
+    $('#txtPhone, #txtPhone2').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
         if (res === 0) {
             e.preventDefault();
             return;
         }
 
-        res = CheckMaxLenth(this, this.value, 15);
+        res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
