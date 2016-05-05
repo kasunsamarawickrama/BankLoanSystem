@@ -97,16 +97,16 @@
                                                 <label>Username</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @*@Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control text-box single-line text_field_input", @id = "txtFname"}})*@
-                                                @Html.LabelFor(model => model.UserName, Model.UserName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                <label class = "form-control text_field_input" style="border:none;display: block;box-shadow:none;text-align: left;">@Model.UserName</label>
+                                                @*@Html.LabelFor(model => model.UserName, Model.UserName, htmlAttributes: new {@class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;text-align: left;"})*@
                                             </div>
                                         </div>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style">
                                                 <label>User Role</label>
                                             </div>
-                                            <div class="col-xs-8 text_field short_text_field">
-                                                @ViewBag.RoleName
+                                            <div class="col-xs-8 text_field short_text_field" style="text-align: left;">
+                                                <label class="form-control text_field_input" style="border:none;display: block;box-shadow: none;text-align: left;">@ViewBag.RoleName</label>
                                             </div>
                                         </div>
                                         <div class="form-group new_form_group">

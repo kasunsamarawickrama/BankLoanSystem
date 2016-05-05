@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using BankLoanSystem.Reports;
@@ -55,6 +52,11 @@ namespace BankLoanSystem.Controllers.Reports
         /// <returns></returns>
         public ActionResult ReportIndex()
         {
+            //string fullPath = System.Web.HttpContext.Current.Server.MapPath("~/Reports/FullInvontory.pdf");
+
+            //Email email = new Email("kanishkashm@gmail.com");
+            //email.SendMailWithAttachment("Report", "Here is Full invontory report test mail", fullPath);
+
             ReportAccess ra = new ReportAccess();
             List<LoanIdNumber> loanNumbers = ra.GetLoanNumbersWithBranch(_userData.Company_Id);
 

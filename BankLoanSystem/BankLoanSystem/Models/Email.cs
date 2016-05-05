@@ -70,5 +70,31 @@ namespace BankLoanSystem.Models
 
             return success;
         }
+
+        public void SendMailWithAttachment(string subject, string body, string fullPath)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient();
+                mail.From = new MailAddress(((NetworkCredential)smtpServer.Credentials).UserName, "TFN");
+                mail.To.Add(email);
+                mail.Subject = subject;
+                mail.Body = body;
+
+                if (System.IO.File.Exists(fullPath))
+                {
+                    var attachment = new Attachment(fullPath);
+                    mail.Attachments.Add(attachment);
+                }
+
+                smtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
