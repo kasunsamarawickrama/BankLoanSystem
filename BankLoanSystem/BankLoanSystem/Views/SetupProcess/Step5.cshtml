@@ -356,11 +356,28 @@
 
     $(document).ready(function(){
         window.scrollTo(0, 0);
+
+        // for input mask
+
+        new InputMask().Initialize(document.querySelectorAll("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3"),
+        {
+            mask: InputMaskDefaultMask.Phone,
+            placeHolder: "(999) 999-9999"
+        });
+
+        $("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3").focusout(function (e) {
+
+          
+            $(this).attr("placeholder", "(999) 999-9999");
+          
+        });
+
+
         $('.nav li.active ul').removeClass('in');
         $('.nav li').removeClass('active');
         $('.nav li.partner').addClass('active');
         $('.nav li.active ul').addClass('in');
-    })
+    });
 </script>
 
 
@@ -571,7 +588,7 @@
     });
     //Check maximum PhoneNumbers
     $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3,#branchFax').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 15);
+        var res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
