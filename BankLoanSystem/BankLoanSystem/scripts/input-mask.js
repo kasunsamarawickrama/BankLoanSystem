@@ -289,7 +289,7 @@ var InputMask = (function() {
     var onLostFocus = function(element) {
         if (element.value.length > 0) {
             if (element.value.length !== mask.length) {
-                element.value = "";
+               // element.value = "";
 
                 return;
             }

@@ -294,19 +294,26 @@
         }
     });
 
-    //$('#txtPhoneNumber').keypress(function (e) {
-    //    var res = PhoneNumber(this, e.which);
-    //    if (res === 0) {
-    //        e.preventDefault();
-    //        return;
-    //    }
+    $('#txtPhoneNumber').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
 
-    //    res = CheckMaxLenth(this, this.value, 14);
-    //    if (res === 0) {
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //});
+        res = CheckMaxLenth(this, this.value, 14);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+    $('#txtPhoneNumber').focusout(function (e) {
+
+        
+            $(this).attr("placeholder", "(999) 999-9999");
+       
+    });
 
     $('input').prop('autocomplete', 'off');
 

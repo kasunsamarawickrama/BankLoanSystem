@@ -52,7 +52,7 @@
                                     {
                                         <div class="form-group new_form_group">
                                             <div class="col-xs-8 text_field">
-                                                <a onclick='CreateNewCompany()'>create new partner company</a>
+                                                <a onclick="CreateNewCompany()">create new partner company</a>
                                             </div>
                                         </div>
                                     }
@@ -270,7 +270,24 @@
 <script language="javascript">
 
   $(document).ready(function(){
-        window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
+
+      // for input mask
+
+      new InputMask().Initialize(document.querySelectorAll("#PhoneNum1, #PhoneNum2, #PhoneNum3"),
+      {
+          mask: InputMaskDefaultMask.Phone,
+          placeHolder: "(999) 999-9999"
+      });
+
+      $("#PhoneNum1, #PhoneNum2, #PhoneNum3").focusout(function (e) {
+
+          
+              $(this).attr("placeholder", "(999) 999-9999");
+          
+      });
+
+
 
   $('.nav li.active ul').removeClass('in');
   $('.nav li').removeClass('active');
@@ -395,7 +412,7 @@
             return;
         }
 
-        res = CheckMaxLenth(this, this.value, 15);
+        res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
