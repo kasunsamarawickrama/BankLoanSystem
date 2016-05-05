@@ -143,6 +143,8 @@
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
                                                 @Html.EditorFor(model => model.RenewalDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtRenewalDate" } })
+                                                @Html.ValidationMessageFor(model => model.RenewalDate, "", new { @class = "text-danger", @style = "text-align: left; left: 0%; width: 208px; " })
+                                                <span class="text-danger field-validation-error" id="errortxtRenewalDate" style="margin-left: -89px;"></span>
                                             </div>
                                         </div>
                                         <hr />
@@ -203,7 +205,7 @@
     var Mdate = document.getElementById('txtMaturityDate').value ;
     //alert(Mdate);
     var startDate = new Date(Date.parse(Mdate));
-    var expDate = startDate;
+    expDate = startDate;
     expDate.setDate(startDate.getDate() + 1);
 
     startPicker.setMinDate(new Date(expDate));
@@ -212,6 +214,72 @@
     $('#txtRenewalDate').focusout(function () {
         $(this).attr('placeholder', 'MM/DD/YYYY');
     });
+
+    $('#txtRenewalDate').focusout(function () {
+        checkDate();
+    });
+
+    $('#txtRenewalDate').focus(function () {
+        $('#successSpn').children('span').text("");
+        $('#errorSpn').children('span').text("");
+    });
+
+    function checkDate() {
+        
+        var valid = isValidDate($('#txtRenewalDate').val());
+        if (valid) {
+            var selectedDate = new Date($('#txtRenewalDate').val());
+
+            if (selectedDate < expDate) {
+                // out off range error
+                $('#errortxtRenewalDate').text('Out of Range');
+                $('#txtRenewalDate').addClass('input-validation-error');
+                return false;
+            } else {
+                // delete error mssage
+                $('#errortxtRenewalDate').text('');
+                $('#txtRenewalDate').removeClass('input-validation-error');
+                return true;
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errortxtRenewalDate').text('Not valid date');
+            $('#txtRenewalDate').addClass('input-validation-error');
+            return false;
+        }
+    }
+
+    $('#btnActiveLoan').click(function (e) {
+        var valid = isValidDate($('#txtRenewalDate').val());
+        if (valid) {
+            var selectedDate = new Date($('#txtRenewalDate').val());
+
+            if (selectedDate < expDate) {
+                // out off range error
+                $('#errortxtRenewalDate').text('Out of Range');
+                $('#txtRenewalDate').addClass('input-validation-error');
+                e.preventDefault();
+            } else {
+                // delete error mssage
+                $('#errortxtRenewalDate').text('');
+                $('#txtRenewalDate').removeClass('input-validation-error');
+            }
+
+
+
+        } else {
+
+            // not valid data error
+            $('#errortxtRenewalDate').text('Not valid date');
+            $('#txtRenewalDate').addClass('input-validation-error');
+            e.preventDefault();
+        }
+    });
+
 </script>
 
 
