@@ -327,6 +327,24 @@
 
     $(document).ready(function(){
         //alert("u");
+
+        // for input mask
+
+        new InputMask().Initialize(document.querySelectorAll("#txtPhoneNum1,#txtPhoneNum2, #txtPhoneNum3"),
+        {
+            mask: InputMaskDefaultMask.Phone,
+            placeHolder: "(999) 999-9999"
+        });
+
+        $("#txtPhoneNum1,#txtPhoneNum2, #txtPhoneNum3").focusout(function (e) {
+
+          
+            $(this).attr("placeholder", "(999) 999-9999");
+          
+        });
+
+
+
         var model = @Html.Raw(Json.Encode(Model));
         var x  = model.PartnerCompanyList.length;
 
@@ -538,7 +556,7 @@
         }
     });
 
-    $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3, #txtFax').keypress(function (e) {
+    $('#txtFax').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
         if (res === 0) {
             e.preventDefault();
@@ -546,6 +564,21 @@
         }
 
         res = CheckMaxLenth(this, this.value, 15);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+    });
+
+
+    $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3').keypress(function (e) {
+        var res = PhoneNumber(this, e.which);
+        if (res === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        res = CheckMaxLenth(this, this.value, 14);
         if (res === 0) {
             e.preventDefault();
             return;
