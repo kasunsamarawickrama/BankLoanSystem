@@ -364,6 +364,7 @@
 
             if (mainGridSelectedCount === 0)
                 ClearTextBoxValues();
+
         });
         $('#identificationNumberSearch').click(function () {
             $("#searchIdentificationNumber").text('');
@@ -1296,7 +1297,15 @@
             $('#payDate').removeClass('input-validation-error');
             //set total to pay 0.00
             $('#spnTotal').text("0.00");
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text("0.00");</text>
+            }
 
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text("0.00");</text>
+            }
             ClearSearchRelatedData();
 
         });
