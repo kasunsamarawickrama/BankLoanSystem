@@ -11,8 +11,8 @@
 
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 
 <div class="form-horizontal">
 
@@ -76,6 +76,7 @@
                                         </div>
                                         <div class="form-horizontal">
 
+                                           
                                             @if (Model.NonRegBranches != null)
                                             {
                                                 <div class="form-group new_form_group" id="lnkCreateNewBranch" hidden>
@@ -85,27 +86,29 @@
                                                     </div>
                                                 </div>
                                             }
-                                            else if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
-                                            {
-                                                <div class="form-group new_form_group">
-                                                    <div class="control-label col-sm-5" style="text-align: left;width: 42%;margin-left: -3%;float: left;font-size: 14px;">
-                                                        <label>Same details as dealer company created    <span class='icon-help_outline 2'></span></label>
-                                                    </div>
-                                                    <div class="control-label col-sm-1" style="text-align: left;text-align: left;margin-left:-3%;margin-top: 5px;">
-                                                        @Html.CheckBox("Previous", new { @id = "Previous" })
-                                                    </div>
-                                                </div>
-                                            }
-
 
                                             <input id="branchCode" name="branchCode" type="hidden" value="" />
                                             @if (ViewBag.CurrUserRoleType != 2)
                                             {
                                                 <div class="form-group new_form_group">
+                                                    @if (@ViewBag.ThisCompanyType == "Dealer")
+                                                    {
+                                                        <div class="control-label col-sm-2 lable_style">
+                                                            <label>
+                                                                Lender Branch @if (Enumerable.Count(ViewBag.RegBranchId) > 1)
+                                                                {<span class="icon-help_outline 1"></span>}
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                  else if (@ViewBag.ThisCompanyType == "Lender")
+                                                   {
                                                     <div class="control-label col-sm-2 lable_style">
-                                                        <label>Branch Name @if (Enumerable.Count(ViewBag.RegBranchId) > 1)
-                                                        {<span class="icon-help_outline 1"></span>}</label>
+                                                        <label>
+                                                            Dealer Branch @if (Enumerable.Count(ViewBag.RegBranchId) > 1)
+                                                            {<span class="icon-help_outline 1"></span>}
+                                                        </label>
                                                     </div>
+                                                   }
                                                     <div class="col-xs-8 text_field short_text_field">
                                                         @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
                                                         {
@@ -125,14 +128,15 @@
                                             }
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Partner Company Name</label>
+                                                    <label>Partner</label><br/><label> Company Name</label>
                                                 </div>
+                                               
                                                 <div class="col-xs-8 text_field short_text_field" style="width:44%">
                                                     @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                                     {
-
+                                                        
                                                         @Html.HiddenFor(model => model.NonRegCompanyId, new { @Value = (int)ViewBag.NonRegCompanyId.Items[0].CompanyId })
-                                                        @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        @Html.LabelFor(model => model.NonRegCompanyId, (string)ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top:24px !important;display: block;" })
                                                     }
                                                     else
                                                     {
@@ -143,6 +147,29 @@
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NonRegCompanyId, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
+                                           
+                                            @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1 && Model.NonRegBranches == null)
+                                            {
+                                                <div class="form-group new_form_group">
+                                                    @if (@ViewBag.ThisCompanyType == "Dealer")
+                                                    {
+                                                        <div class="control-label col-sm-5" style="text-align: left;width: 42%;margin-left: -3%;float: left;font-size: 14px;">
+                                                            <label>Same details as dealer company created    <span class='icon-help_outline 2'></span></label>
+                                                        </div>
+                                                    }
+                                                    else if (@ViewBag.ThisCompanyType == "Lender")
+                                                    {
+                                                        <div class="control-label col-sm-5" style="text-align: left;width: 42%;margin-left: -3%;float: left;font-size: 14px;">
+                                                            <label>Same details as lender company created    <span class='icon-help_outline 2'></span></label>
+                                                        </div>
+                                                    }
+                                                    <div class="control-label col-sm-1" style="text-align: left;text-align: left;margin-left:-3%;margin-top: 5px;">
+                                                        @Html.CheckBox("Previous", new { @id = "Previous" })
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
                                                     <label>Partner Branch Name</label>

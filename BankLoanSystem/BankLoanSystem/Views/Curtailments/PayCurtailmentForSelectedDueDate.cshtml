@@ -97,13 +97,19 @@
     <div class="info-bar" style="margin-top:15px" id="payDateDiv">
         <div class="form-inline">
             <div class="form-group">
-                
+
                 <label for="" style="margin-left: -359px;">Curtailmnet Payment Date : </label>
-                @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled" , maxlength = 10 } })
+                @Html.EditorFor(model => model.PayDate, new {htmlAttributes = new {@class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10}})
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
+                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%; margin-top: 35px;"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
+                <input type="checkbox" id="report" value="Report" />Report<br/>
+                <input type="checkbox" id="emailReceipt" value="email"/>email
+                <div id="receiptEmail" hidden>
+                    email address <input type="text" id="emailAdress"/>
+                </div>
             </div>
+            
             <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;margin-left: -72px;" value="Pay Curtailments on all selected" disabled/>
         </div>
     </div>
@@ -1362,5 +1368,5 @@
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
