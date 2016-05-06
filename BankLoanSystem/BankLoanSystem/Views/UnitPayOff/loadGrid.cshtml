@@ -33,7 +33,10 @@
                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                         )
                         )
-    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
+    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;"> Pay off Amount  : $ <span id="spnTotal">0.00</span></div>
+    <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
+    <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
+    
 </div>
 <div class="info-bar" style="margin-top:15px">
     @if (ViewBag.IsTitleTrack == "Yes")
@@ -304,10 +307,9 @@
         });
 
        
+        var advanceFee = @(ViewBag.AdvanceFee);
 
-
-
-        var totalToPay = 0;
+         var totalToPay = 0;
         var checkCount = 0;
         var totalRecCount = 0;
 
@@ -456,6 +458,7 @@
                     totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                     totalToPay = totalToPay.toFixed(2);
                 }
+               
             });
 
             $('table#searchResultGrid > tbody > tr').each(function () {
@@ -464,9 +467,15 @@
 
             //alert(totalToPay);
             $('#spnTotal').text(totalToPay);
-
             //alert(countSelect);
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+            $('#spnAdvanceFee').text(advance); 
 
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+            $('#spnTotalFinal').text(totalx); 
         });
 
         $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -481,7 +490,8 @@
 
             if (isChecked === false) {
                 $(this).find("#all").prop('checked', true);
-                countSelect++;
+                countSelect++;   
+
                 var balance = $(this).find("#balance").text().replace(',', '');
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
@@ -504,7 +514,7 @@
 
             if (countSelect > 1) {
                 ClearTextBoxValues();
-
+                
             }
 
             $('table#searchResultGrid > tbody > tr').each(function () {
@@ -513,9 +523,20 @@
 
             $('#spnTotal').text(totalToPay);
 
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+            $('#spnAdvanceFee').text(advance);  
+
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+            $('#spnTotalFinal').text(totalx); 
+
         });
 
         $(document).on('click', '.checkboxAll', function () {
+                   
+            
             var isChecked = $(this).is(':checked');
 
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
@@ -538,12 +559,17 @@
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
                 $('#someID').find("#cbSelectAll").prop('checked', false);
+ 
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
+
             }
 
             if (countSelect === 0) {
+
+                $('#spnAdvanceFee').text("0.00"); 
+
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -573,8 +599,7 @@
                     if (checked === true) {
                         tr = $(this);
                     }
-                });
-
+                }); 
 
                 SetTextBoxValues(tr);
                 $("#btnPayAll").removeAttr("disabled");
@@ -588,7 +613,6 @@
 
             } else if (parseInt(countSelect) > parseInt(1) && parseInt(countSelect) !== parseInt(totalSelect)) {
                 ClearTextBoxValues();
-
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
 
@@ -605,6 +629,15 @@
             });
 
             $('#spnTotal').text(totalToPay);
+
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+            $('#spnAdvanceFee').text(advance);  
+            
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+            $('#spnTotalFinal').text(totalx); 
         });
 
         function SetTextBoxValues(tr) {
