@@ -435,5 +435,54 @@ namespace BankLoanSystem.DAL
 
             return AdvanceUnits;
         }
+
+        public List<ReportFullInventoryUnit> GetAdvanceUnitByLoanId(int loanId, DateTime advanceDateStart, DateTime advanceDateEnd)
+        {
+            List<ReportFullInventoryUnit> units = new List<ReportFullInventoryUnit>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@advance_date_start", advanceDateStart });
+            paramertList.Add(new object[] { "@advance_date_end", advanceDateEnd });
+
+            DataSet dataSet = dataHandler.GetDataSet("spRptAdvanceUnitByDateRange", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    ReportFullInventoryUnit unit = new ReportFullInventoryUnit();
+
+                    unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.Year = Convert.ToInt32(dataRow["year"]);
+                    unit.Make = dataRow["make"].ToString();
+                    unit.Model = dataRow["model"].ToString();
+                    unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+
+                    int status = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (status == 0)
+                    {
+                        unit.TitleStatus = "Not Received";
+                    }
+                    else if (status == 1)
+                    {
+                        unit.TitleStatus = "Received";
+                    }
+                    else if (status == 2)
+                    {
+                        unit.TitleStatus = "Returned to Dealer";
+                    }
+                    units.Add(unit);
+
+                }
+            }
+
+            return units;
+        }
+
     }
 }
