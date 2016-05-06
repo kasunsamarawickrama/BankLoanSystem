@@ -2185,11 +2185,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             StepAccess step = new StepAccess();
 
-            if (fees.AdvanceDue == "At time of unit payoff")
+            if (fees.AdvanceDue == "Vehicle Payoff")
             {
                 fees.AdvanceDueDate = "VP";
             }
-            if (fees.AdvanceDue == "At time of advance")
+            if (fees.AdvanceDue == "Time of Advance")
             {
                 fees.AdvanceDueDate = "ToA";
             }
@@ -2228,7 +2228,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             // after hide the due methods
 
-            fees.MonthlyLoanDue = "Once a month";
+            fees.MonthlyLoanDue = "Once a Month";
             fees.LotInspectionDue = "Monthly";
 
             if (step.InsertFeesDetails(fees))
