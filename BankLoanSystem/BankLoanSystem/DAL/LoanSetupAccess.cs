@@ -282,8 +282,8 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@maturity_date", loanSetupStep1.maturityDate });
             paramertList.Add(new object[] { "@non_reg_branch_id", loanSetupStep1.nonRegisteredBranchId });
             paramertList.Add(new object[] { "@payment_method", loanSetupStep1.paymentMethod });
-            paramertList.Add(new object[] { "@pay_off_period", loanSetupStep1.payOffPeriod });
-            paramertList.Add(new object[] { "@pay_off_type", ((loanSetupStep1.payOffPeriodType == 0) ? 'd' : 'm') });
+            //paramertList.Add(new object[] { "@pay_off_period", loanSetupStep1.payOffPeriod });
+            //paramertList.Add(new object[] { "@pay_off_type", ((loanSetupStep1.payOffPeriodType == 0) ? 'd' : 'm') });
             paramertList.Add(new object[] { "@loan_code", (new BranchAccess()).getBranchByBranchId(loanSetupStep1.RegisteredBranchId).BranchCode + "-" + loanSetupStep1.loanNumber });
             paramertList.Add(new object[] { "@start_date", loanSetupStep1.startDate });
             paramertList.Add(new object[] { "@created_date", DateTime.Now });
@@ -359,8 +359,8 @@ namespace BankLoanSystem.DAL
                     loanSetupStep1.maturityDate = Convert.ToDateTime(dataRow["maturity_date"].ToString());
                     loanSetupStep1.nonRegisteredBranchId = int.Parse(dataRow["non_reg_branch_id"].ToString());
                     loanSetupStep1.paymentMethod = dataRow["payment_method"].ToString();
-                    loanSetupStep1.payOffPeriod = int.Parse(dataRow["pay_off_period"].ToString());
-                    loanSetupStep1.payOffPeriodType = (Convert.ToChar(dataRow["pay_off_type"].ToString()) == 'd') ? 0 : 1;
+                    //loanSetupStep1.payOffPeriod = int.Parse(dataRow["pay_off_period"].ToString());
+                    //loanSetupStep1.payOffPeriodType = (Convert.ToChar(dataRow["pay_off_type"].ToString()) == 'd') ? 0 : 1;
                     //loanSetupStep1.selectedUnitTypes
                     loanSetupStep1.startDate = Convert.ToDateTime(dataRow["start_date"].ToString());
                     loanSetupStep1.loanCode = dataRow["loan_code"].ToString();
@@ -501,8 +501,8 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.maturityDate = Convert.ToDateTime(reader["maturity_date"].ToString());
                             loanSetupStep1.nonRegisteredBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
                             loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
-                            loanSetupStep1.payOffPeriod = int.Parse(reader["pay_off_period"].ToString());
-                            loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
+                            //loanSetupStep1.payOffPeriod = int.Parse(reader["pay_off_period"].ToString());
+                            //loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
                             //loanSetupStep1.selectedUnitTypes
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
 
@@ -742,7 +742,7 @@ namespace BankLoanSystem.DAL
                         if (dataRow["pay_off_type"].ToString() == "d")
                             loan.payOffPeriodType = 0;
                         loan.payOffPeriodType = 1;
-                        loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
+                        //loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
                         loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
                         loan.loanCode = dataRow["loan_code"].ToString();
                         loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
