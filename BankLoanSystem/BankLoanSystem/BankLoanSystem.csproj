@@ -222,6 +222,7 @@
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
+    <Content Include="Reports\RptDivPayOff.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -389,6 +390,13 @@
     <Compile Include="Reports\RptDivLotInspection.aspx.designer.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivPayOff.aspx.cs">
+      <DependentUpon>RptDivPayOff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivPayOff.aspx.designer.cs">
+      <DependentUpon>RptDivPayOff.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivTitleStatus.aspx.cs">
       <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -542,6 +550,7 @@
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
+    <EmbeddedResource Include="Reports\RptPayOff.rdlc" />
     <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>
   <PropertyGroup>
