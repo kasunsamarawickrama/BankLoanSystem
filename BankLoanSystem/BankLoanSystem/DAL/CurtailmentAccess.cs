@@ -130,7 +130,7 @@ namespace BankLoanSystem.DAL
                     if (dataRow["pay_off_type"].ToString() == "d")
                         loan.payOffPeriodType = 0;
 
-                    loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
+                    //loan.payOffPeriod = Convert.ToInt32(dataRow["pay_off_period"]);
                     loan.LoanStatus = Convert.ToBoolean(dataRow["loan_status"]);
                     loan.isInterestCalculate = Convert.ToBoolean(dataRow["is_interest_calculate"]);
                     loan.isEditAllowable = Convert.ToBoolean(dataRow["is_edit_allowable"]);
@@ -347,6 +347,23 @@ namespace BankLoanSystem.DAL
             paramertList1.Add(new object[] { "@title_status", titleStatus });
            
                 return dataHandler.ExecuteSQLReturn("spCurtailmentsBackup", paramertList1);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public decimal AdvanceForPayOffUnits(int loanId)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+
+                List<object[]> paramertList1 = new List<object[]>();
+                paramertList1.Add(new object[] { "@loan_id", loanId });
+
+                return dataHandler.ExecuteSQLReturnDecimal("spAdvanceFeeForLoanId", paramertList1);
             }
             catch (Exception ex)
             {

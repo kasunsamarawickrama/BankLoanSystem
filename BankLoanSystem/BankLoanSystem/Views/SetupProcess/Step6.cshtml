@@ -19,6 +19,9 @@
     .col-xs-8 {
     width: 66.66666667%;
 }
+    .short_text_field {
+    width: 180px;
+}
 
 </style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -158,7 +161,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group new_form_group">
+                                    @*<div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>Pay Off Period</label>
                                         </div>
@@ -197,7 +200,7 @@
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.payOffPeriodType, "", new { @class = "text-danger" }) &nbsp;&nbsp;&nbsp; @Html.ValidationMessageFor(model => model.payOffPeriod, "", new { @class = "text-danger" })</p>
                                             
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style" >
@@ -528,7 +531,7 @@
         });
 
        
-        if (valid >= 10) {
+        if (valid >= 8) {
             if ($("input:checked").length == 0) {
                 $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
                 e.preventDefault();
@@ -607,12 +610,12 @@
         }
     });
 
-    $('#payOffPeriod').keypress(function (evt) {
-        // preventing to type 'e' or 'E'
-        if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
-            evt.preventDefault();
-        }
-    });
+    //$('#payOffPeriod').keypress(function (evt) {
+    //    // preventing to type 'e' or 'E'
+    //    if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+    //        evt.preventDefault();
+    //    }
+    //});
 
     //add place holder
     $('#AutoEmail').blur(function (e) {
@@ -672,8 +675,8 @@
             $('select').next("div").children("p").children("span").text("");
             $("#unitTypeError").text('');
             $('#loanNumberForDisplayError').hide();
-            $("#outOffRangeError").text('');
-            $("#payOffPeriod").removeClass('input-validation-error');
+            //$("#outOffRangeError").text('');
+            //$("#payOffPeriod").removeClass('input-validation-error');
 
             @if(Model.loanNumber == null){
                 <text>
@@ -681,8 +684,8 @@
             $('#advancePercentage').val('');
             $('#startDate').val('');
             $('#maturityDate').val('');
-            $('#payOffPeriod').val('');
-            $('#payOffPeriodType').val('-1');
+            //$('#payOffPeriod').val('');
+            //$('#payOffPeriodType').val('-1');
             $('#isEditAllowable').val('');
             $('#isInterestCalculate').val('');
             $('#autoRem').val('');
@@ -748,9 +751,9 @@
         text-align: right;
     }
 
-    #outOffRangeError {
+    /*#outOffRangeError {
         top: 50%;
-    }
+    }*/
 
     .pika-single {
         z-index: 10005 !important;
@@ -869,47 +872,47 @@
 
     }
 
-    function setPayOffPeriod() {
+    //function setPayOffPeriod() {
 
-        $("#payOffPeriod").val("");
-        $("#outOffRangeError").text('');
-        $("#payOffPeriod").removeClass('input-validation-error');
-    }
+    //    $("#payOffPeriod").val("");
+    //    $("#outOffRangeError").text('');
+    //    $("#payOffPeriod").removeClass('input-validation-error');
+    //}
 
-    function checkTheRange(value) {
-
-
-        var oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
-        var firstDate = new Date($("#startDate").val());
-        var secondDate = new Date($("#maturityDate").val());
-        var type = $("#payOffPeriodType").val();
-
-        if (type == 0) {
-            var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
-            if (value > diffDays) {
-                $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
-                //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
-
-            } else {
-                $("#outOffRangeError").text('');
-                $("#payOffPeriod").removeClass('input-validation-error');
-            }
-
-        } else {
-            var diffMonths = (secondDate.getMonth() - firstDate.getMonth()
-   + (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
-            if (value > diffMonths) {
-                $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
-                //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
-
-            } else {
-                $("#outOffRangeError").text('');
-                $("#payOffPeriod").removeClass('input-validation-error');
-            }
-        }
+   // function checkTheRange(value) {
 
 
-    }
+   //     var oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
+   //     var firstDate = new Date($("#startDate").val());
+   //     var secondDate = new Date($("#maturityDate").val());
+   //     var type = $("#payOffPeriodType").val();
+
+   //     if (type == 0) {
+   //         var diffDays = Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay));
+   //         if (value > diffDays) {
+   //             $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
+   //             //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
+
+   //         } else {
+   //             $("#outOffRangeError").text('');
+   //             $("#payOffPeriod").removeClass('input-validation-error');
+   //         }
+
+   //     } else {
+   //         var diffMonths = (secondDate.getMonth() - firstDate.getMonth()
+   //+ (12 * (secondDate.getFullYear() - firstDate.getFullYear())));
+   //         if (value > diffMonths) {
+   //             $("#outOffRangeError").text('pay off period is beyond the loan maturity date');
+   //             //$("#payOffPeriod").addClass('input-validation-error').removeClass('valid');
+
+   //         } else {
+   //             $("#outOffRangeError").text('');
+   //             $("#payOffPeriod").removeClass('input-validation-error');
+   //         }
+   //     }
+
+
+   // }
 
     function checkTheEmailRange(value) {
 
@@ -1030,8 +1033,8 @@
             $('#advancePercentage').val('');
             $('#startDate').val('');
             $('#maturityDate').val('');
-            $('#payOffPeriod').val('');
-            $('#payOffPeriodType').val('-1');
+            //$('#payOffPeriod').val('');
+            //$('#payOffPeriodType').val('-1');
             $('#isEditAllowable').val('');
             $('#isInterestCalculate').val('');
             $('#autoRem').val('');
@@ -1085,9 +1088,9 @@ startPicker = new Pikaday({
 
     onSelect: function () {
         startDate = this.getDate();
-        $("#payOffPeriod").val("");
-        $("#outOffRangeError").text('');
-        $("#payOffPeriod").removeClass('input-validation-error');
+        //$("#payOffPeriod").val("");
+        //$("#outOffRangeError").text('');
+        //$("#payOffPeriod").removeClass('input-validation-error');
         updateStartDate();
 
 
@@ -1099,9 +1102,9 @@ endPicker = new Pikaday({
 
     onSelect: function () {
         endDate = this.getDate();
-        $("#payOffPeriod").val("");
-        $("#outOffRangeError").text('');
-        $("#payOffPeriod").removeClass('input-validation-error');
+        //$("#payOffPeriod").val("");
+        //$("#outOffRangeError").text('');
+        //$("#payOffPeriod").removeClass('input-validation-error');
         updateEndDate();
     }
 }),

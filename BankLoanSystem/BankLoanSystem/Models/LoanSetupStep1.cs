@@ -64,15 +64,15 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please select the Maturity Date of the Loan")]
         public string DisplayMaturityDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter the PayOff Period")]
-        [Display(Name = "Pay Off Period")]
-        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Invalid Data")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter Pay Off Period greater than 0")]
+        //[Required(ErrorMessage = "Please enter the PayOff Period")]
+        //[Display(Name = "Pay Off Period")]
+        //[RegularExpression("([0-9][0-9]*)", ErrorMessage = "Invalid Data")]
+        //[Range(1, int.MaxValue, ErrorMessage = "Please enter Pay Off Period greater than 0")]
         //[Remote("CheckTheRangeOfPayOffPeriod", "SetupProcess",
         //AdditionalFields = "startDate,maturityDate,payOffPeriodType",
         //HttpMethod = "POST",
         //ErrorMessage = "Invalid")]
-        public int payOffPeriod { get; set; }
+        //public int payOffPeriod { get; set; }
 
         [Required(ErrorMessage = "Please select the type of PayOff")]
         [Display(Name = "Pay Off Period Type")]

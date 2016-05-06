@@ -188,6 +188,58 @@ namespace BankLoanSystem.DAL
             }
 
         }
+
+        /// <summary>
+        /// CreatedBy :Nadeeka
+        /// CreatedDate :2016/03/03
+        /// 
+        /// Open database connection
+        /// add object list to parameters collection in command object
+        /// execute given stored procedure
+        /// return boolean value
+        /// </summary>
+        /// <param name="SQL">stored procedure name</param>
+        /// <param name="mPara">parameter list</param>
+        /// <returns></returns>
+        public decimal ExecuteSQLReturnDecimal(string SQL, List<object[]> mPara)
+        {
+            try
+            {
+                connection.DisconnectDB();
+                connection.ConnectDB();
+                if (connection.ConnectDB() == true)
+                {
+                    command = new SqlCommand(SQL, connection.m_Connection);
+                    command.CommandText = SQL;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (mPara != null)
+                    {
+                        foreach (object[] Parameters in mPara)
+                        {
+                            command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
+                        }
+
+                    }
+                    SqlParameter returnParameter = command.Parameters.Add("@ReturnValue", SqlDbType.Decimal);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    command.ExecuteNonQuery();
+
+                    return decimal.Parse(returnParameter.Value.ToString());
+                }
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.DisconnectDB();
+            }
+
+        }
         /// <summary>
         /// <summary>
         /// CreatedBy :Nadeeka
