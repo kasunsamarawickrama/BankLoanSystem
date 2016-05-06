@@ -1505,6 +1505,60 @@ namespace BankLoanSystem.DAL
 
         }
 
+        public int insertFreeDetailsForPayOffPage(UnitPayOffModel unit, DateTime payday)
+        {
+            try
+            {
+                string fee_type = "";
+                string fee_due_method = "";
+                decimal fee_amount = 0;
+                DateTime fee_billdate = payday;
+                string v_vin = "", v_year = "", v_model = "", v_make = "", v_advance_date = "";
+
+                DataHandler dataHandler = new DataHandler();
+
+                List<object[]> paramertList1 = new List<object[]>();
+                paramertList1.Add(new object[] { "@loan_id", unit.LoanId });
+                DataSet dataSet = dataHandler.GetDataSet("spGetAdvanceFeeData", paramertList1);
+
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    foreach (DataRow row in dataSet.Tables[0].Rows)
+                    {
+                        fee_due_method = row["payment_due_method"].ToString();
+                        fee_type = row["advance_fee_calculate_type"].ToString();
+                        fee_amount = decimal.Parse(row["advance_fee_amount"].ToString());
+                    }
+                }
+                v_vin = unit.IdentificationNumber;
+                v_make = unit.Make;
+                v_model = unit.Model;
+                v_year = unit.Year.ToString();
+                v_advance_date = unit.DateAdvanced.ToString();// ("MM/dd/yyyy");
+
+                string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model + "," + v_advance_date;
+
+                if (fee_due_method == "Vehicle Payoff")
+                {
+                    List<object[]> paramertList = new List<object[]>();
+                    paramertList.Add(new object[] { "@loan_id", unit.LoanId });
+                    paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+                    paramertList.Add(new object[] { "@type", "advanceFee" });
+                    paramertList.Add(new object[] { "@description", discription });
+                    paramertList.Add(new object[] { "@amount", fee_amount });
+                    paramertList.Add(new object[] { "@due_date", fee_billdate });
+                    paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
+
+                    dataHandler.ExecuteSQL("spInsertAdvanceFeeForPayoff", paramertList);
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         public List<UnitDeleteModel> GetAllUnitsByLoanId(int loanId)
         {

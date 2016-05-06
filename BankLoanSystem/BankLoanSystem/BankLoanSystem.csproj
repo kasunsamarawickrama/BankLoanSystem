@@ -217,11 +217,14 @@
     <Content Include="Images\UserSetupImage.png" />
     <Content Include="Images\xls.png" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
+    <Content Include="Reports\RptDivAdvanceFeeInvoice.aspx" />
     <Content Include="Reports\RptDivAdvanceUnit.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
+    <Content Include="Reports\RptDivLotInspectionFeeInvoice.aspx" />
+    <Content Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx" />
     <Content Include="Reports\RptDivPayOff.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
@@ -355,6 +358,13 @@
     <Compile Include="Reports\RptDivAddUnit.aspx.designer.cs">
       <DependentUpon>RptDivAddUnit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivAdvanceFeeInvoice.aspx.cs">
+      <DependentUpon>RptDivAdvanceFeeInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivAdvanceFeeInvoice.aspx.designer.cs">
+      <DependentUpon>RptDivAdvanceFeeInvoice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivAdvanceUnit.aspx.cs">
       <DependentUpon>RptDivAdvanceUnit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -389,6 +399,20 @@
     </Compile>
     <Compile Include="Reports\RptDivLotInspection.aspx.designer.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeInvoice.aspx.cs">
+      <DependentUpon>RptDivLotInspectionFeeInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeInvoice.aspx.designer.cs">
+      <DependentUpon>RptDivLotInspectionFeeInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.cs">
+      <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.designer.cs">
+      <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivPayOff.aspx.cs">
       <DependentUpon>RptDivPayOff.aspx</DependentUpon>
@@ -545,11 +569,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\RptAddUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptAdvanceFeeInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
+    <EmbeddedResource Include="Reports\RptLotInspectionFeeInvoice.rdlc" />
+    <EmbeddedResource Include="Reports\RptMonthlyLoanFeeInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptPayOff.rdlc" />
     <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>

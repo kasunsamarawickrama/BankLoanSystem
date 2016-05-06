@@ -33,7 +33,13 @@
                         grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
                         )
                         )
-    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;"> Current Total to pay : $ <span id="spnTotal">0.00</span> </div>
+    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;">Total Pay off Amount  : $ <span id="spnTotal">0.00</span></div>
+    @if (ViewBag.AdvanceFee != 0)
+    {
+        <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
+
+        <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
+    }
 </div>
 <div class="info-bar" style="margin-top:15px">
     @if (ViewBag.IsTitleTrack == "Yes")
@@ -287,7 +293,7 @@
                 table.find('thead tr').children().each(function (i, v) {
                     $(v).width(colWidth[i]);
                 });
-            }).resize(); // Trigger resize handler  
+            }).resize(); // Trigger resize handler
 
             $(window).bind("load", function () {
 
@@ -303,11 +309,10 @@
             });
         });
 
-       
 
+        var advanceFee = @(ViewBag.AdvanceFee);
 
-
-        var totalToPay = 0;
+         var totalToPay = 0;
         var checkCount = 0;
         var totalRecCount = 0;
 
@@ -359,6 +364,7 @@
 
             if (mainGridSelectedCount === 0)
                 ClearTextBoxValues();
+
         });
         $('#identificationNumberSearch').click(function () {
             $("#searchIdentificationNumber").text('');
@@ -456,6 +462,7 @@
                     totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                     totalToPay = totalToPay.toFixed(2);
                 }
+
             });
 
             $('table#searchResultGrid > tbody > tr').each(function () {
@@ -464,9 +471,23 @@
 
             //alert(totalToPay);
             $('#spnTotal').text(totalToPay);
-
             //alert(countSelect);
 
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text(advance);</text>
+            }
+
+
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+           @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text(totalx);</text>
+            }
         });
 
         $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -482,6 +503,7 @@
             if (isChecked === false) {
                 $(this).find("#all").prop('checked', true);
                 countSelect++;
+
                 var balance = $(this).find("#balance").text().replace(',', '');
                 totalToPay = parseFloat(totalToPay) + parseFloat(balance);
                 totalToPay = totalToPay.toFixed(2);
@@ -513,9 +535,26 @@
 
             $('#spnTotal').text(totalToPay);
 
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text(advance);</text>
+            }
+
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text(totalx);</text>
+            }
+
         });
 
         $(document).on('click', '.checkboxAll', function () {
+
+
             var isChecked = $(this).is(':checked');
 
             var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
@@ -538,12 +577,17 @@
             if (countSelect === 0) {
                 $('#someID').children('span').text('Select');
                 $('#someID').find("#cbSelectAll").prop('checked', false);
+
             } else if (totalSelect === countSelect) {
                 $('#someID').children('span').text('Deselect');
                 $('#someID').find("#cbSelectAll").prop('checked', true);
+
             }
 
             if (countSelect === 0) {
+
+                $('#spnAdvanceFee').text("0.00");
+
                 ClearTextBoxValues();
                 $("#btnPayAll").attr("disabled", "disabled");
                 $("#payDate").attr("disabled", "disabled");
@@ -575,7 +619,6 @@
                     }
                 });
 
-
                 SetTextBoxValues(tr);
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
@@ -588,7 +631,6 @@
 
             } else if (parseInt(countSelect) > parseInt(1) && parseInt(countSelect) !== parseInt(totalSelect)) {
                 ClearTextBoxValues();
-
                 $("#btnPayAll").removeAttr("disabled");
                 $("#payDate").removeAttr("disabled");
 
@@ -605,6 +647,22 @@
             });
 
             $('#spnTotal').text(totalToPay);
+
+            var advance = (advanceFee * countSelect);
+            advance = advance.toFixed(2);
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text(advance);</text>
+            }
+
+            var totalx = parseFloat(totalToPay) + parseFloat(advance);
+            totalx = totalx.toFixed(2);
+            //alert(totalx);
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text(totalx);</text>
+            }
+
         });
 
         function SetTextBoxValues(tr) {
@@ -615,7 +673,7 @@
             $('#iCost').val(tr.find("#cost").text());
             $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
             $('#iUnitId').val(tr.find("#all").val());
-            $('#iAdvanceDate').val(tr.find("#advanceDate").val()); 
+            $('#iAdvanceDate').val(tr.find("#advanceDate").val());
             $("#payDate2").removeAttr("disabled");
             $("#singleUnitDiv").show();
             $("#btnPay").removeAttr("disabled");
@@ -742,7 +800,7 @@
                         }
                         //location.reload();
                         //alert("Success");
-                        
+
                     }
                     ,
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -850,7 +908,7 @@
                         } else {
 
                         }
-                       
+
                     }
                     ,
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -1038,6 +1096,16 @@
             totalToPay = 0;
             totalToPay = totalToPay.toFixed(2);
             $('#spnTotal').text(totalToPay);
+
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text("0.00");</text>
+            }
+
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text("0.00");</text>
+            }
 
             var count = 0;
             $("#checkableGrid").find("input:checkbox").each(function () {
@@ -1239,7 +1307,15 @@
             $('#payDate').removeClass('input-validation-error');
             //set total to pay 0.00
             $('#spnTotal').text("0.00");
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text("0.00");</text>
+            }
 
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text("0.00");</text>
+            }
             ClearSearchRelatedData();
 
         });
