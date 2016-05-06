@@ -1097,6 +1097,16 @@
             totalToPay = totalToPay.toFixed(2);
             $('#spnTotal').text(totalToPay);
 
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text("0.00");</text>
+            }
+
+             @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text("0.00");</text>
+            }
+
             var count = 0;
             $("#checkableGrid").find("input:checkbox").each(function () {
                 this.checked = false;
