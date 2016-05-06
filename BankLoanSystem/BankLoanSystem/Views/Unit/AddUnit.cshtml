@@ -2800,11 +2800,16 @@
                     } else {
 
                     }
-                    if($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
-                        
-                    }else{
+                    @if (ViewBag.IsTitleTrack == "Yes")
+                    {<text>
+                        if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
+
+                        }else{
                         $('#btnSubmit').prop('disabled', false);
+                        }
+                    </text>
                     }
+                   
 
                     if($('.conditionRadio:checked').length > 0){
                     
