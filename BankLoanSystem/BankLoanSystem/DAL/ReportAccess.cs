@@ -435,5 +435,44 @@ namespace BankLoanSystem.DAL
 
             return AdvanceUnits;
         }
+
+        public List<RptFee> GetFeeInvoiceByDateRange(int loanId, string type, DateTime dueDateStart, DateTime dueDateEnd)
+        {
+            List<RptFee> feeInvoiceData = new List<RptFee>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@type", type });
+            paramertList.Add(new object[] { "@due_date_start", dueDateStart });
+            paramertList.Add(new object[] { "@due_date_end", dueDateEnd });
+
+            decimal totalDue = 0.00M;
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetFeeInvoiceDetailsByDateRange", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptFee feeInvoice = new RptFee();
+                    feeInvoice.IdentificationNumber = dataRow["identification_number"].ToString();
+                    feeInvoice.Year = Convert.ToInt32(dataRow["year"]);
+                    feeInvoice.Make = dataRow["make"].ToString();
+                    feeInvoice.Model = dataRow["model"].ToString();
+                    feeInvoice.DueDate = Convert.ToDateTime(dataRow["due_date"].ToString()).ToString("MM/dd/yyyy");
+                    feeInvoice.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    feeInvoice.AdvanceAmount = Convert.ToDecimal(dataRow["amount"]);
+                    totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
+                    feeInvoiceData.Add(feeInvoice);
+                }
+                if (feeInvoiceData.Count > 0)
+                    feeInvoiceData[0].TotalAdvanceAmount = totalDue;
+
+                return feeInvoiceData; 
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
