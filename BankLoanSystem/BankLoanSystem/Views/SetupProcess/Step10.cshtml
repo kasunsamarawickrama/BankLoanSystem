@@ -14,8 +14,8 @@
     }
 </style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 
 @if (ViewBag.Redirect == 1)
 {
@@ -493,7 +493,7 @@
 
         });
 
-        $(document).on('click', 'input[class="clstimePeriod"]', function(){
+        $(document).on('click', 'input[class^="clstimePeriod"]', function(){
             $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule');
         
