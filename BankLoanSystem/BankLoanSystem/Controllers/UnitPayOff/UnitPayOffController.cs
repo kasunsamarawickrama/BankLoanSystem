@@ -93,7 +93,12 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             unitPayOffViewModel.PayDate = DateTime.Now;
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
+
+            decimal advanceFee = payoff.AdvanceForPayOffUnits(loanDetails.loanId);
+            ViewBag.AdvanceFee = advanceFee;
+
             var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
+
             Session["payoffList"] = unitPayOffList;
             ViewBag.payOffList = unitPayOffList;
 
