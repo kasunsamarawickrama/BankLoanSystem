@@ -407,7 +407,7 @@
         $('#txtFax').val('');
         $('#txtWebsiteUrl').val('');
         $('#StateId').val('');
-        $('#txtCompanyType').val('');
+        //$('#txtCompanyType').val('');
         $('#txtCompanyCode').val('');
         $('#txtCompanyId').val('');
         // $('#txtCompanyType').removeAttr("disabled","disabled");
@@ -416,11 +416,13 @@
 
         if(model.PartnerCompanyList.length==1)
         {
+
             $('#divFormCom').show();
             $('#divUpdate').show();
             $('#divClear').show();
         }
         else{
+            $('#txtCompanyType').val('');
             $('#divFormCom').hide();
             $('#divUpdate').hide();
             $('#divClear').hide();

@@ -353,5 +353,22 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
+
+        public decimal AdvanceForPayOffUnits(int loanId)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+
+                List<object[]> paramertList1 = new List<object[]>();
+                paramertList1.Add(new object[] { "@loan_id", loanId });
+
+                return dataHandler.ExecuteSQLReturnDecimal("spAdvanceFeeForLoanId", paramertList1);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
