@@ -29,6 +29,7 @@
         margin-bottom:10px;
         margin-left: 5px;
         margin-right: 5px;
+        font-size: 13px;
     }
 </style>}
 
@@ -47,7 +48,7 @@
         <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
 
         <button type="button" id="btnAdvFeeInv" class="btn btn-info">Advance Fee Invoice</button>
-        <button type="button" id="btnAdvFeeRec" class="btn btn-info">Advance Fee Receipt</button>
+        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt</button>
         <button type="button" id="btnLoanFeeInv" class="btn btn-info">Monthly Loan Fee Invoice</button>
         <button type="button" id="btnLoanFeeRec" class="btn btn-info">Monthly Loan Fee Receipt</button>
         <button type="button" id="btnLotInsFeeInv" class="btn btn-info">Lot Inspection Fee Invoice</button>
@@ -213,6 +214,20 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
+    $('#btnAdvanceFeeReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('AdvanceFeeReceipt');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
 
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
@@ -392,6 +407,9 @@
             else if (rptType === 'PayOff') {
                 urlPrefix = "../Reports/RptDivPayOff.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceFeeReceipt') {
+                urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
+            }
             else if (rptType === 'AdvanceFeeInvoice') {
                 urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
             }
@@ -421,7 +439,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'AdvanceFeeReceipt') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
@@ -489,7 +507,7 @@
                     $('.centered h5 span').text("Error in Page");
                     errorCount = errorCount + 1;
                 } else {
-                    
+
                     if (errorCount <= 0) {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
@@ -578,7 +596,7 @@
                 $('.centered h5 span').text("");
             }
 
-            
+
         } else {
 
             // not valid data error
@@ -705,7 +723,7 @@
         format: 'l'
     });
 
-    // hiding the report button on link bar     
+    // hiding the report button on link bar
     $("#lkrep").hide();
 
 </script>
