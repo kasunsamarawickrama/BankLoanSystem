@@ -1,4 +1,5 @@
-﻿using BankLoanSystem.DAL;
+﻿using BankLoanSystem.Code;
+using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
 using System;
@@ -58,6 +59,42 @@ namespace BankLoanSystem.Reports
 
             rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+        }
+
+        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerAdvanceFeeInvoicePrint = new ReportViewer();
+            rptViewerAdvanceFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAdvanceFeeInvoicePrint.Reset();
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.EnableExternalImages = true;
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
+
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceFeeInvoicePrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }
