@@ -39,7 +39,7 @@
         <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
         <button type="button" id="btnLotInspection" class="btn btn-info">Lot Inspection</button>
         <button type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment Invoice </button>
-
+        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt </button>
         <button type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment Receipt </button>
 
         <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
@@ -203,7 +203,21 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
+    $('#btnAdvanceFeeReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('AdvanceFeeReceipt');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
 
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
@@ -267,6 +281,9 @@
             else if (rptType === 'FullInventory') {
                 urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceFeeReceipt') {
+                urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
+            } 
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -287,7 +304,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'AdvanceFeeReceipt') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
