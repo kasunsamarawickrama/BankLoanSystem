@@ -50,9 +50,9 @@
         <button type="button" id="btnAdvFeeInv" class="btn btn-info">Advance Fee Invoice</button>
         <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt</button>
         <button type="button" id="btnLoanFeeInv" class="btn btn-info">Monthly Loan Fee Invoice</button>
-        <button type="button" id="btnLoanFeeRec" class="btn btn-info">Monthly Loan Fee Receipt</button>
+        <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info">Monthly Loan Fee Receipt</button>
         <button type="button" id="btnLotInsFeeInv" class="btn btn-info">Lot Inspection Fee Invoice</button>
-        <button type="button" id="btnLotInsFeeRec" class="btn btn-info">Lot Inspection Fee Receipt</button>
+        <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info">Lot Inspection Fee Receipt</button>
         <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
         <button type="button" id="btnLoanSumm" class="btn btn-info">Loan Summary</button>
         @*<div id="2" href="#">
@@ -227,7 +227,32 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
+    $('#btnMonthlyLoanFeeReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
 
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+    $('#btnLotInspectionFeeReceipt').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
 
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
@@ -410,6 +435,21 @@
             else if (rptType === 'AdvanceFeeReceipt') {
                 urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceFeeInvoice') {
+                urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LoanFeeInvoice') {
+                urlPrefix = "../Reports/RptDivMonthlyLoanFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LotInspectionFeeInvoice') {
+                urlPrefix = "../Reports/RptDivLotInspectionFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'MonthlyLoanFeeReceipt') {
+                urlPrefix = "../Reports/RptDivMonthlyLoanFeeReceipt.aspx?loanId=";
+            }
+            else if (rptType === 'LotInspectionFeeReceipt') {
+                urlPrefix = "../Reports/RptDivLotInspectionFeeReceipt.aspx?loanId=";
+            }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -430,7 +470,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff'|| rptType === 'AdvanceFeeReceipt') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {

@@ -17,7 +17,7 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                int loanId = 1422;
+                int loanId = 0;
                 //DateTime startDate = Convert.ToDateTime("5/5/2016");
                 //DateTime endDate = Convert.ToDateTime("5/5/2019");
 

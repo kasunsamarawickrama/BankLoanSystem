@@ -2,37 +2,6 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox4">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Monthly Loan Fee Invoice</Value>
-                <Style>
-                  <FontSize>20pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Height>0.38542in</Height>
-        <Width>9.10309in</Width>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Textbox Name="Textbox20">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -52,11 +21,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.57465in</Top>
-        <Left>0.35416in</Left>
+        <Top>0.64758in</Top>
+        <Left>0.67422in</Left>
         <Height>0.25in</Height>
         <Width>1.44792in</Width>
-        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -86,11 +54,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.57465in</Top>
-        <Left>1.94853in</Left>
+        <Top>0.64758in</Top>
+        <Left>2.26859in</Left>
         <Height>0.25in</Height>
         <Width>1.23958in</Width>
-        <ZIndex>2</ZIndex>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -120,11 +88,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.58507in</Top>
-        <Left>3.75061in</Left>
+        <Top>0.64758in</Top>
+        <Left>4.06516in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>3</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -154,11 +122,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.58507in</Top>
-        <Left>7.71937in</Left>
+        <Top>0.65799in</Top>
+        <Left>8.03943in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>4</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -188,11 +156,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.58507in</Top>
-        <Left>5.71937in</Left>
+        <Top>0.65799in</Top>
+        <Left>6.03943in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>5</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -220,11 +188,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.89409in</Top>
-        <Left>0.34865in</Left>
+        <Top>0.97744in</Top>
+        <Left>0.82496in</Left>
         <Height>0.25in</Height>
         <Width>1.1875in</Width>
-        <ZIndex>6</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -252,11 +220,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>1.94302in</Left>
+        <Top>0.97744in</Top>
+        <Left>2.26308in</Left>
         <Height>0.25in</Height>
         <Width>1.23958in</Width>
-        <ZIndex>7</ZIndex>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -284,11 +252,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>3.7451in</Left>
+        <Top>0.97744in</Top>
+        <Left>4.06516in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>8</ZIndex>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -316,11 +284,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>7.71386in</Left>
+        <Top>0.97744in</Top>
+        <Left>8.03392in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>9</ZIndex>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -348,11 +316,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>5.14094in</Left>
+        <Top>0.97744in</Top>
+        <Left>5.461in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>10</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -380,11 +348,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>6.29167in</Left>
+        <Top>0.97744in</Top>
+        <Left>6.61173in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
-        <ZIndex>11</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -410,10 +378,42 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox51</rd:DefaultName>
-        <Top>0.90451in</Top>
-        <Left>6.09375in</Left>
+        <Top>0.97744in</Top>
+        <Left>6.41381in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
+        <ZIndex>11</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Monthly Loan Fee Receipt</Value>
+                <Style>
+                  <FontSize>20pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Height>0.38542in</Height>
+        <Width>10.34988in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -425,14 +425,14 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="Tablix2">
+      <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.44158in</Width>
+              <Width>1.24479in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.64727in</Width>
+              <Width>1.55729in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -441,14 +441,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox43">
+                    <Textbox Name="Textbox30">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date Due</Value>
+                              <Value>Date Paid</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -459,7 +459,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox43</rd:DefaultName>
+                      <rd:DefaultName>Textbox30</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -475,7 +475,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox45">
+                    <Textbox Name="Textbox37">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -493,7 +493,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <rd:DefaultName>Textbox37</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -534,9 +534,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <LeftBorder>
                           <Style>None</Style>
                         </LeftBorder>
@@ -564,9 +561,7 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>AdvanceAmount</rd:DefaultName>
@@ -587,7 +582,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -611,10 +605,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet2</DataSetName>
-        <Top>1.50917in</Top>
-        <Left>2.72917in</Left>
+        <Top>1.49267in</Top>
+        <Left>3.56302in</Left>
         <Height>0.5in</Height>
-        <Width>3.08885in</Width>
+        <Width>2.80208in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -622,7 +616,39 @@
           </Border>
         </Style>
       </Tablix>
-      <Textbox Name="Textbox49">
+      <Textbox Name="Textbox39">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Total Amount Paid</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox39</rd:DefaultName>
+        <Top>2.14893in</Top>
+        <Left>3.56302in</Left>
+        <Height>0.25in</Height>
+        <Width>1.44792in</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="TotalAdvanceAmount">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -640,43 +666,11 @@
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox49</rd:DefaultName>
-        <Top>2.13021in</Top>
-        <Left>4.61345in</Left>
+        <rd:DefaultName>TotalAdvanceAmount</rd:DefaultName>
+        <Top>2.14893in</Top>
+        <Left>5.05261in</Left>
         <Height>0.25in</Height>
-        <Width>1.20458in</Width>
-        <ZIndex>14</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox50">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Total Amount Due</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox49</rd:DefaultName>
-        <Top>2.13021in</Top>
-        <Left>2.75522in</Left>
-        <Height>0.25in</Height>
-        <Width>1.25552in</Width>
+        <Width>1.3125in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -689,10 +683,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.69792in</Height>
+    <Height>2.66976in</Height>
     <Style />
   </Body>
-  <Width>9.10309in</Width>
+  <Width>10.34988in</Width>
   <Page>
     <PageFooter>
       <Height>1in</Height>
@@ -718,10 +712,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.375in</Top>
-          <Left>3.88488in</Left>
-          <Height>0.25in</Height>
-          <Width>1in</Width>
+          <Top>0.97cm</Top>
+          <Left>12.21185cm</Left>
+          <Height>0.6cm</Height>
+          <Width>2.5cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -752,14 +746,14 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>8116f5f7-d9e0-493f-b73f-64ebddce4d63</rd:DataSourceID>
+      <rd:DataSourceID>0e1af63e-8283-424d-90bf-644928aab36a</rd:DataSourceID>
     </DataSource>
     <DataSource Name="BankLoanSystemDAL1">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>3ef8118d-1a64-480c-a8ee-348e00509ba1</rd:DataSourceID>
+      <rd:DataSourceID>36ab613a-582f-42a6-87cb-cd31b2d162e5</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -852,12 +846,12 @@
       <rd:DataSetInfo>
         <rd:DataSetName>BankLoanSystem.DAL</rd:DataSetName>
         <rd:TableName>ReportAccess</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>GetFeeInvoiceByDateRange</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.RptFee] GetFeeInvoiceByDateRange(Int32, System.String, System.DateTime, System.DateTime)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceSelectMethod>GetFeeReceiptByDateRange</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.RptFee] GetFeeReceiptByDateRange(Int32, System.String, System.DateTime, System.DateTime)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>BankLoanSystem.DAL.ReportAccess, BankLoanSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>2e58ed2f-1575-441e-8620-08c02723ff34</rd:ReportID>
+  <rd:ReportID>a21d9934-b0aa-4c81-9810-8df2e19ef8dc</rd:ReportID>
 </Report>

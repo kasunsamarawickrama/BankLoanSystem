@@ -12,14 +12,13 @@ using System.Web.UI.WebControls;
 
 namespace BankLoanSystem.Reports
 {
-    public partial class RptDivAdvanceFeeInvoice : System.Web.UI.Page
+    public partial class RptDivLotInspectionFeeReceipt : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int loanId = 0;
-               string feeType = "advanceFee";
                 //DateTime startDate = Convert.ToDateTime("5/5/2016");
                 //DateTime endDate = Convert.ToDateTime("5/5/2019");
 
@@ -27,21 +26,23 @@ namespace BankLoanSystem.Reports
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
                 if (string.IsNullOrEmpty(Request.QueryString["startDate"])) return;
-                var startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                var startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
-                var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
-                RenderReport(loanId, startDate, endDate,feeType);
+                RenderReport(loanId, startDate, endDate);
             }
+
+
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         {
-            rptViewerAdvanceFeeInvoice.ProcessingMode = ProcessingMode.Local;
-            rptViewerAdvanceFeeInvoice.Reset();
-            rptViewerAdvanceFeeInvoice.LocalReport.EnableExternalImages = true;
-            rptViewerAdvanceFeeInvoice.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
+            rptViewerLotInspectionFeeReceipt.ProcessingMode = ProcessingMode.Local;
+            rptViewerLotInspectionFeeReceipt.Reset();
+            rptViewerLotInspectionFeeReceipt.LocalReport.EnableExternalImages = true;
+            rptViewerLotInspectionFeeReceipt.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspectionFeeReceipt.rdlc");
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -54,10 +55,10 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
+            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "lotInspectionFee", startDate, endDate);
 
-            rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
+            rptViewerLotInspectionFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerLotInspectionFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
         public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
@@ -79,7 +80,7 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, "advanceFee", startDate, endDate);
+            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, "lotInspectionFee", startDate, endDate);
 
             rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
