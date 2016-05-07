@@ -138,6 +138,30 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivCurtailmentInvoice ciInvoice = new RptDivCurtailmentInvoice();
                 return ciInvoice.PrintPage(loanId, startDate, endtDate);
             }
+            else if (rptType == "AdvanceFeeInvoice")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+               RptDivAdvanceFeeInvoice ciInvoice = new RptDivAdvanceFeeInvoice();
+                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "LoanFeeInvoice")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivMonthlyLoanFeeInvoice ciInvoice = new RptDivMonthlyLoanFeeInvoice();
+                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "LotInspectionFeeInvoice")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivLotInspectionFeeInvoice ciInvoice = new RptDivLotInspectionFeeInvoice();
+                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+            }
             else if (rptType == "CurtailmentReceipt")
             {
                 DateTime startDate = Convert.ToDateTime(range1);

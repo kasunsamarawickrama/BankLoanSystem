@@ -392,6 +392,15 @@
             else if (rptType === 'PayOff') {
                 urlPrefix = "../Reports/RptDivPayOff.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceFeeInvoice') {
+                urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LoanFeeInvoice') {
+                urlPrefix = "../Reports/RptDivMonthlyLoanFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LotInspectionFeeInvoice') {
+                urlPrefix = "../Reports/RptDivLotInspectionFeeInvoice.aspx?loanId=";
+            }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -412,7 +421,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
