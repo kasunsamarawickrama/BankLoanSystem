@@ -50,9 +50,7 @@
                     Html.RenderAction("GetJustAddedUnits", "Unit");
                 }
 
-            </div>
-
-           
+            </div>          
             <div class="body-content">
                 @Html.AntiForgeryToken()
 
@@ -101,23 +99,23 @@
                                         }
                                         }
                                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
-                                    {
-                                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
-                                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
-                                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+                                        {
+                                                @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                                                @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                                                @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
 
-                                    }
-                                    else
-                                    {
-                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
-                                    }
-                                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
-                                                    </div>
+                                        }
+                                        else
+                                        {
+                                                @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
+                                        }
+                                                @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                        </div>
                 
-                                                </div>
+                                    </div>
                 
 
-                                            </div>
+                                </div>
                 
                                             <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
@@ -336,8 +334,8 @@
                                     @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
