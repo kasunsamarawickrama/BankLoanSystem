@@ -4,7 +4,10 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
+<style>
 
+
+</style>
 <script src="~/scripts/popup.js"></script>
 
 <div class="overlay-bg">
@@ -67,52 +70,90 @@
                 {
                     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                     {
-                                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'" >
+
+                        <button class="a_demo_three addunit" onclick="window.location.href='/Unit/Addunit'">
+                           
+                            Add Unit
+                        </button>
+
+                        <button class="a_demo_three advance-unit" onclick="window.location.href='/AdvanceUnit/Advance'">
+                            
+                            Advance Unit
+                        </button>
+
+                        <button class="a_demo_three unit-curt" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                            
+                            Unit Curtailments
+                        </button>
+
+                                    @*<button class="big-button" onclick="window.location.href='/Unit/Addunit'" >
                                         <span class="icon-automobile"></span>
                                         <span class="txt">Add Unit</span>
-                                    </button>
+                                    </button>*@
 
-                                    <button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
+                                    @*<button class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
                                         <span class="icon-dollar"></span>
                                         <span class="txt">Advance Unit</span>
-                                    </button>
+                                    </button>*@
 
-                                    <button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                                    @*<button class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                         <span class="icon-coin-dollar"></span>
                                         <span class="txt">Unit Curtailments</span>
-                                    </button>
+                                    </button>*@
 
-                        if (ViewBag.IsTitleTrack == 1)
-                        {
-                                            <button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                if (ViewBag.IsTitleTrack == 1)
+                {
+
+                    <button class="a_demo_three ttl-icn" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                        
+                        Update Titles
+                    </button>
+                                            @*<button class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                                 <span class="icon-files-empty"></span>
                                                 <span class="txt">Update Titles</span>
-                                            </button>
-                        }
-                                    <button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
+                                            </button>*@
+                }
+
+                <button class="a_demo_three pay-off" onclick="window.location.href='/UnitPayOff/PayOff'">
+                    
+                    Pay Off Unit
+                </button>
+                                    @*<button class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
                                         <span class="icon-banknote"></span>
                                         <span class="txt">Pay Off Unit</span>
-                                    </button>
+                                    </button>*@
 
-                        if (ViewBag.Fee == 1)
-                        {
+                if (ViewBag.Fee == 1)
+                {
 
-                            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
+                    <button class="a_demo_three fees-icn" onclick="window.location.href='/Fee/PayFees'">
+                        
+                        Fees
+                    </button>
+                            @*<button class="big-button" onclick="window.location.href='/Fee/PayFees'">
                                 <span class="icon-credit"></span>
                                 <span class="txt">Fees</span>
-                            </button>
-                        }
+                            </button>*@
+                }
 
+                <button class="a_demo_three rpts-icn" onclick="window.location.href='/Reports/ReportIndex'">
+                    
+                   Reports
+                </button>
 
-                                    <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
+                                    @*<button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
                                         <span class="icon-stack"></span>
                                         <span class="txt">Reports</span>
-                                    </button>
+                                    </button>*@
 
-                                    <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
+                        <button class="a_demo_three del-uni-icn" onclick="window.location.href='/DeleteUnit/Delete'">
+                           
+                           Delete Unit
+                        </button>
+                                    @*<button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
                                         <span class="icon-bin2"></span>
                                         <span class="txt">Delete Unit</span>
-                                    </button>
+                                    </button>*@
                     }
                     else if ((ViewBag.roleId == 3) && (ViewBag.RightList.Length > 0) && (ViewBag.RightList != null))
                     {
@@ -120,78 +161,78 @@
 
                         if (ViewBag.RightList.Contains("U004"))
                         {
-                            <button id="lkuni" class="big-button" onclick="window.location.href='/Unit/Addunit'">
-                                <span class="icon-automobile"></span>
-                                <span class="txt">Add Unit</span>
+                            <button id="lkuni" class="a_demo_three addunit" onclick="window.location.href='/Unit/Addunit'">
+                                
+                                Add Unit
                             </button>
 
                             @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
                             }
                             if (ViewBag.RightList.Contains("U001"))
                             {
-                            <button id="lkadv" class="big-button" onclick="window.location.href='/AdvanceUnit/Advance'">
-                                <span class="icon-dollar"></span>
-                                <span class="txt">Advance Unit</span>
+                            <button id="lkadv" class="a_demo_three advance-unit" onclick="window.location.href='/AdvanceUnit/Advance'">
+                               
+                                Advance Unit
                             </button>
                             @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
                             }
                             if (ViewBag.RightList.Contains("U005"))
                             {
-                            <button id="lkcrtl" class="big-button" onclick="window.location.href='/Curtailments/PayCurtailments'">
-                                <span class="icon-coin-dollar"></span>
-                                <span class="txt">Unit Curtailments</span>
+                            <button id="lkcrtl" class="a_demo_three unit-curt" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                                
+                                Unit Curtailments
                             </button>
                             @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
                             }
                             if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                             {
-                            <button id="lkttl" class="big-button" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
-                                <span class="icon-files-empty"></span>
-                                <span class="txt">Update Titles</span>
+                            <button id="lkttl" class="a_demo_three ttl-icn" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                                
+                                Update Titles
                             </button>
 
                             @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
                             }
                             if (ViewBag.RightList.Contains("U003"))
                             {
-                            <button id="lkpoff" class="big-button" onclick="window.location.href='/UnitPayOff/PayOff'">
-                                <span class="icon-banknote"></span>
-                                <span class="txt">Pay Off Unit</span>
+                            <button id="lkpoff" class="a_demo_three pay-off" onclick="window.location.href='/UnitPayOff/PayOff'">
+                               
+                                Pay Off Unit
                             </button>
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
                         }
                         if (ViewBag.RightList.Contains("U007")&&(ViewBag.Fee == 1))
                         {
-                            <button class="big-button" onclick="window.location.href='/Fee/PayFees'">
-                                <span class="icon-credit"></span>
-                                <span class="txt">Fees</span>
+                            <button class="a_demo_three fees-icn" onclick="window.location.href='/Fee/PayFees'">
+                              
+                               Fees
                             </button>
                         }
                         if (ViewBag.RightList.Contains("U006"))
                         {
-                            <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
-                                <span class="icon-stack"></span>
-                                <span class="txt">Reports</span>
+                            <button class="a_demo_three rpts-icn" onclick="window.location.href='/Reports/ReportIndex'">
+                               
+                                Reports
                             </button>
                         }
                         if (ViewBag.RightList.Contains("U008"))
                         {
-                            <button class="big-button" onclick="window.location.href='/DeleteUnit/Delete'">
-                                <span class="icon-bin2"></span>
-                                <span class="txt">Delete Unit</span>
+                            <button class="a_demo_three del-uni-icn" onclick="window.location.href='/DeleteUnit/Delete'">
+                               
+                                Delete Unit
                             </button>
                         }
                     }
                     else if (ViewBag.roleId == 4)
                     {
-                    <button class="big-button" onclick="window.location.href='/Unit/Addunit'">
-                        <span class="icon-automobile"></span>
-                        <span class="txt">Add Unit</span>
+                    <button class="a_demo_three addunit" onclick="window.location.href='/Unit/Addunit'">
+                       
+                        Add Unit
                     </button>
-                    <button class="big-button" onclick="window.location.href='/Reports/ReportIndex'">
-                        <span class="icon-stack"></span>
-                        <span class="txt">Reports</span>
+                    <button class="a_demo_three rpts-icn" onclick="window.location.href='/Reports/ReportIndex'">
+                       
+                        Reports
                     </button>
                     }
                 }
@@ -206,15 +247,15 @@
     <div class="md">
         <h3>Manage Details</h3>
         <div>
-            <button class="big-button" onclick="window.location.href='/UserManagement/EditUserAtDashboard'" type="button">
-                <span class="icon-user"></span>
-                <span class="txt">Edit User</span>
+            <button class="a_demo_three icon-user" onclick="window.location.href='/UserManagement/EditUserAtDashboard'" >
+                
+                Edit User
             </button>
             @if (ViewBag.roleId == 1)
             {
-            <button class="big-button" onclick="window.location.href='/UserManagement/EditDashboardBranch'" type="button">
-                <span class="icon-home2"></span>
-                <span class="txt">Edit Branch</span>
+            <button class="a_demo_three icon-home2" onclick="window.location.href='/UserManagement/EditDashboardBranch'" >
+                
+                Edit Branch
             </button>
             }
             @using (Ajax.BeginForm(
@@ -229,9 +270,9 @@
             LoadingElementId = "loadingSpan"
             }, new { style = "display:inline-block" }))
             {
-            <button class="big-button show-popup" data-showpopup="1">
-                <span class="icon-clipboard"></span>
-                <span class="txt">Activate Loan</span>
+            <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
+                
+                Activate Loan
             </button>
             }
             @using (Ajax.BeginForm(
@@ -246,19 +287,19 @@
                 LoadingElementId = "loadingSpan"
             }, new { style = "display:inline-block" }))
             {
-            <button class="big-button show-popup" type="submit" data-showpopup="1">
-                <span class="icon-clipboard"></span>
-                <span class="txt">Renew Loan</span>
+            <button type="submit" class="a_demo_three icon-loop2 show-popup" data-showpopup="1">
+                
+                Renew Loan
             </button>
             }
 
-            <button class="big-button"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" style="padding-top:15px;">
-                <span class="icon-user-tie"></span>
-                <span class="txt">Edit Partner Company</span>
+            <button class="a_demo_three icon-user-tie"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" >
+                
+                Edit Partner Company
             </button>
-            <button class="big-button" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'" type="button" style="padding-top: 15px;">
-                <span class="icon-user-tie"></span>
-                <span class="txt">Edit Partner Branch</span>
+            <button class="a_demo_three icon-user-tie" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'"  >
+                
+                Edit Partner Branch
             </button>
            
 
@@ -285,15 +326,15 @@
                         LoadingElementId = "loadingSpan"
                     }, new { style = "display:inline-block" }))
                     {
-                        <button class="big-button show-popup" type="submit" data-showpopup="1">
-                            <span class="icon-user-check"></span>
-                            <span class="txt">Assign User</span>
+                        <button class="a_demo_three icon-user-check show-popup" type="submit" data-showpopup="1">
+                            
+                            Assign User
 
                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                         </button>
-                        <button class="big-button show-popup" type="submit" data-showpopup="1">
-                            <span class="icon-accessibility"></span>
-                            <span class="txt">Edit User Rights</span>
+                        <button class="a_demo_three icon-accessibility show-popup" type="submit" data-showpopup="1">
+                            
+                           Edit User Rights
 
                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                         </button>
@@ -322,9 +363,9 @@
                               LoadingElementId = "loadingSpan"
                           }, new { style = "display:inline-block" }))
                     {
-                                        <button class="big-button show-popup" type="submit" data-showpopup="1">
-                                            <span class="icon-link"></span>
-                                            <span class="txt">Join Dealer</span>
+                                        <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
+                                           
+                                            Join Dealer
 
                                             @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                                         </button>
@@ -339,9 +380,9 @@
                     }*@
                 if (ViewBag.roleId == 1)
                 {
-                <button class="big-button" type="submit" onclick="window.location.href='/UserManagement/EditCompany'">
-                <span class="icon-office"></span>
-                    <span class="txt">Edit Company</span>
+                <button class="a_demo_three icon-office" type="submit" onclick="window.location.href='/UserManagement/EditCompany'">
+                
+                   Edit Company
 
                 @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
@@ -387,32 +428,32 @@
                 </div>
 
             </div>
-            <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardUser'" >
-                <span class="icon-user-plus"></span>
-                <span class="txt">Create User</span>
+            <button class="a_demo_three icon-user-plus" onclick="window.location.href='/UserManagement/CreateDashboardUser'" >
+                
+                Create User
             </button>
 
             @if (ViewBag.roleId == 1)
                 {
-                <button class="big-button" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" >
-                    <span class="icon-home"></span>
-                    <span class="txt">Create Branch</span>
+                <button class="a_demo_three icon-home" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" >
+                    
+                    Create Branch
                 </button>
             }
             
 
-            <button class="big-button" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" >
-                <span class="icon-folder-plus"></span>
-                <span class="txt">Create Loan</span>
+            <button class="a_demo_three icon-folder-plus" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" >
+               
+               Create Loan
             </button>
-            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerCompanyAtDashboard'" style="padding-top: 15px;">
-                <span class="icon-users"></span>
-                <span class="txt">Create Partner Company</span>
+            <button class="a_demo_three icon-users" onclick="window.location.href='/UserManagement/CreatePartnerCompanyAtDashboard'" >
+                
+                Create Partner Company
             </button>
 
-            <button class="big-button" onclick="window.location.href='/UserManagement/CreatePartnerBranchAtDashboard'" style="padding-top: 15px;">
-                <span class="icon-users"></span>
-                <span class="txt">Create Partner Branch</span>
+            <button class="a_demo_three icon-users" onclick="window.location.href='/UserManagement/CreatePartnerBranchAtDashboard'" >
+                
+                Create Partner Branch
             </button>
 
         </div>
