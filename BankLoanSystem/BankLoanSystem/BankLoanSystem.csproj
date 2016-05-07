@@ -216,6 +216,7 @@
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
     <Content Include="Images\xls.png" />
+    <Content Include="Reports\RptAdvanceUnitReport.aspx" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
     <Content Include="Reports\RptDivAdvanceFeeInvoice.aspx" />
     <Content Include="Reports\RptDivAdvanceFeeReceipt.aspx" />
@@ -225,7 +226,9 @@
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivLotInspectionFeeInvoice.aspx" />
+    <Content Include="Reports\RptDivLotInspectionFeeReceipt.aspx" />
     <Content Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx" />
+    <Content Include="Reports\RptDivMonthlyLoanFeeReceipt.aspx" />
     <Content Include="Reports\RptDivPayOff.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
@@ -352,6 +355,13 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\RptAdvanceUnitReport.aspx.cs">
+      <DependentUpon>RptAdvanceUnitReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptAdvanceUnitReport.aspx.designer.cs">
+      <DependentUpon>RptAdvanceUnitReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivAddUnit.aspx.cs">
       <DependentUpon>RptDivAddUnit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -415,12 +425,26 @@
     <Compile Include="Reports\RptDivLotInspectionFeeInvoice.aspx.designer.cs">
       <DependentUpon>RptDivLotInspectionFeeInvoice.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeReceipt.aspx.cs">
+      <DependentUpon>RptDivLotInspectionFeeReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeReceipt.aspx.designer.cs">
+      <DependentUpon>RptDivLotInspectionFeeReceipt.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.cs">
       <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.designer.cs">
       <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivMonthlyLoanFeeReceipt.aspx.cs">
+      <DependentUpon>RptDivMonthlyLoanFeeReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivMonthlyLoanFeeReceipt.aspx.designer.cs">
+      <DependentUpon>RptDivMonthlyLoanFeeReceipt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivPayOff.aspx.cs">
       <DependentUpon>RptDivPayOff.aspx</DependentUpon>
@@ -579,13 +603,16 @@
     <EmbeddedResource Include="Reports\RptAddUnit.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceFeeInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceFeeReceipt.rdlc" />
+    <EmbeddedResource Include="Reports\RptAdvanceReport.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspectionFeeInvoice.rdlc" />
+    <EmbeddedResource Include="Reports\RptLotInspectionFeeReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptMonthlyLoanFeeInvoice.rdlc" />
+    <EmbeddedResource Include="Reports\RptMonthlyLoanFeeReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptPayOff.rdlc" />
     <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>
