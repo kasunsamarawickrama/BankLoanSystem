@@ -1,4 +1,5 @@
-﻿using BankLoanSystem.DAL;
+﻿using BankLoanSystem.Code;
+using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
 using System;
@@ -58,6 +59,42 @@ namespace BankLoanSystem.Reports
 
             rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+        }
+
+        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerPayOffPrint = new ReportViewer();
+            rptViewerPayOffPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerPayOffPrint.Reset();
+            rptViewerPayOffPrint.LocalReport.EnableExternalImages = true;
+            rptViewerPayOffPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptPayOff.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<ReportPayOff> curtailments = ra.GetPayOffDetailsByLoanId(loanId, startDate, endDate);
+
+            rptViewerPayOffPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerPayOffPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerPayOffPrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }
