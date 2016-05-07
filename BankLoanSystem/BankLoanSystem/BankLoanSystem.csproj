@@ -224,7 +224,9 @@
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
+    <Content Include="Reports\RptDivLotInspectionFeeInvoice.aspx" />
     <Content Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx" />
+    <Content Include="Reports\RptDivPayOff.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -406,12 +408,26 @@
     <Compile Include="Reports\RptDivLotInspection.aspx.designer.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeInvoice.aspx.cs">
+      <DependentUpon>RptDivLotInspectionFeeInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLotInspectionFeeInvoice.aspx.designer.cs">
+      <DependentUpon>RptDivLotInspectionFeeInvoice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.cs">
       <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\RptDivMonthlyLoanFeeInvoice.aspx.designer.cs">
       <DependentUpon>RptDivMonthlyLoanFeeInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivPayOff.aspx.cs">
+      <DependentUpon>RptDivPayOff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivPayOff.aspx.designer.cs">
+      <DependentUpon>RptDivPayOff.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivTitleStatus.aspx.cs">
       <DependentUpon>RptDivTitleStatus.aspx</DependentUpon>
@@ -568,7 +584,9 @@
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
+    <EmbeddedResource Include="Reports\RptLotInspectionFeeInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptMonthlyLoanFeeInvoice.rdlc" />
+    <EmbeddedResource Include="Reports\RptPayOff.rdlc" />
     <EmbeddedResource Include="Reports\RptTitleStatus.rdlc" />
   </ItemGroup>
   <PropertyGroup>

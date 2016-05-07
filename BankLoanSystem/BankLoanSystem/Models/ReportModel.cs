@@ -95,4 +95,20 @@ namespace BankLoanSystem.Models
         public decimal AdvanceAmount { get; set; }
         public decimal TotalAdvanceAmount { get; set; }
     }
+
+    public class ReportPayOff
+    {
+       
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public decimal PayOffAmount { get; set; }
+        public string AdvanceDate { get; set; }
+        public string PayOffDate { get; set; }
+        public string TitleStatus { get; set; }
+        
+    }
 }

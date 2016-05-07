@@ -26,6 +26,7 @@
     .btns-clm > button {
         width: 180px;
         height: 40px;
+        margin-bottom:10px;
         margin-left: 5px;
         margin-right: 5px;
     }
@@ -39,11 +40,20 @@
         <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
         <button type="button" id="btnLotInspection" class="btn btn-info">Lot Inspection</button>
         <button type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment Invoice </button>
-        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt </button>
+
         <button type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment Receipt </button>
 
         <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
         <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
+
+        <button type="button" id="btnAdvFeeInv" class="btn btn-info">Advance Fee Invoice</button>
+        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt</button>
+        <button type="button" id="btnLoanFeeInv" class="btn btn-info">Monthly Loan Fee Invoice</button>
+        <button type="button" id="btnLoanFeeRec" class="btn btn-info">Monthly Loan Fee Receipt</button>
+        <button type="button" id="btnLotInsFeeInv" class="btn btn-info">Lot Inspection Fee Invoice</button>
+        <button type="button" id="btnLotInsFeeRec" class="btn btn-info">Lot Inspection Fee Receipt</button>
+        <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
+        <button type="button" id="btnLoanSumm" class="btn btn-info">Loan Summary</button>
         @*<div id="2" href="#">
                 <p style="color: white">advance a unit</p>
             </div>
@@ -217,7 +227,7 @@
         $('#titleStatus').removeClass('input-validation-error');
     });
 
-    
+
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
@@ -233,6 +243,118 @@
         $('#hdnSelectedButton').val('FullInventory');
         $('#lnum').siblings('.hf').hide();
         $('#lnum').siblings('.hf').children('input').val('');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnAdvFeeInv').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('AdvanceFeeInvoice');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnAdvFeeRec').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('AdvanceFeeReciept');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLoanFeeInv').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LoanFeeInvoice');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLoanFeeRec').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LoanFeeReciept');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLotInsFeeInv').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLotInsFeeRec').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LotInspectionFeeReciept');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnPayOff').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('PayOff');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLoanSumm').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LoanSummary');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -281,9 +403,12 @@
             else if (rptType === 'FullInventory') {
                 urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
             }
+            else if (rptType === 'PayOff') {
+                urlPrefix = "../Reports/RptDivPayOff.aspx?loanId=";
+            }
             else if (rptType === 'AdvanceFeeReceipt') {
                 urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
-            } 
+            }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -304,7 +429,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'AdvanceFeeReceipt') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff'|| rptType === 'AdvanceFeeReceipt') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
@@ -372,7 +497,7 @@
                     $('.centered h5 span').text("Error in Page");
                     errorCount = errorCount + 1;
                 } else {
-                    
+
                     if (errorCount <= 0) {
                     $('#tagscloudTitleStatus').children('span').text("");
                     $("#titleStatus").removeClass('input-validation-error');
@@ -461,7 +586,7 @@
                 $('.centered h5 span').text("");
             }
 
-            
+
         } else {
 
             // not valid data error
@@ -588,7 +713,7 @@
         format: 'l'
     });
 
-    // hiding the report button on link bar     
+    // hiding the report button on link bar
     $("#lkrep").hide();
 
 </script>
