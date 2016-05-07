@@ -1,4 +1,5 @@
-﻿using BankLoanSystem.DAL;
+﻿using BankLoanSystem.Code;
+using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
 using System;
@@ -17,19 +18,19 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                int loanId = 1426;
+                int loanId = 0;
                string feeType = "advanceFee";
-                DateTime startDate = Convert.ToDateTime("5/5/2016");
-                DateTime endDate = Convert.ToDateTime("5/5/2019");
+                //DateTime startDate = Convert.ToDateTime("5/5/2016");
+                //DateTime endDate = Convert.ToDateTime("5/5/2019");
 
-                //if (Request.QueryString["loanId"] != "")
-                //    loanId = Convert.ToInt32(Request.QueryString["loanId"]);
+                if (Request.QueryString["loanId"] != "")
+                    loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-                //if (string.IsNullOrEmpty(Request.QueryString["startDate"])) return;
-                //var startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                if (string.IsNullOrEmpty(Request.QueryString["startDate"])) return;
+                var startDate = DateTime.ParseExact(Request.QueryString["startDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-                //if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
-                //var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
+                var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
                 RenderReport(loanId, startDate, endDate,feeType);
             }
@@ -57,6 +58,42 @@ namespace BankLoanSystem.Reports
 
             rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
+        }
+
+        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerAdvanceFeeInvoicePrint = new ReportViewer();
+            rptViewerAdvanceFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAdvanceFeeInvoicePrint.Reset();
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.EnableExternalImages = true;
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, "advanceFee", startDate, endDate);
+
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
+
+            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceFeeInvoicePrint.LocalReport);
+            try
+            {
+                rpd.Print();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }

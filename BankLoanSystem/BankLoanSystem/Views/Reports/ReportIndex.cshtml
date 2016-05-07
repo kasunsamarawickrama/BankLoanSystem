@@ -435,6 +435,15 @@
             else if (rptType === 'AdvanceFeeReceipt') {
                 urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceFeeInvoice') {
+                urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LoanFeeInvoice') {
+                urlPrefix = "../Reports/RptDivMonthlyLoanFeeInvoice.aspx?loanId=";
+            }
+            else if (rptType === 'LotInspectionFeeInvoice') {
+                urlPrefix = "../Reports/RptDivLotInspectionFeeInvoice.aspx?loanId=";
+            }
             else if (rptType === 'MonthlyLoanFeeReceipt') {
                 urlPrefix = "../Reports/RptDivMonthlyLoanFeeReceipt.aspx?loanId=";
             }
@@ -461,7 +470,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'AdvanceFeeReceipt'|| rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
