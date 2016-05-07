@@ -69,7 +69,15 @@
             $(this).css('background', 'lightblue');
             $(this).siblings().css('background', 'aliceblue');
             SetTextBoxValues(tr);
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text>$('#spnAdvanceFee').text("0.00");</text>
+            }
 
+            @if (ViewBag.AdvanceFee != 0)
+            {
+                <text> $('#spnTotalFinal').text("0.00");</text>
+            }
         });
     });
     </script>
