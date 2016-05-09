@@ -450,6 +450,9 @@
             else if (rptType === 'LotInspectionFeeReceipt') {
                 urlPrefix = "../Reports/RptDivLotInspectionFeeReceipt.aspx?loanId=";
             }
+            else if (rptType === 'LoanSummary') {
+                urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
+            }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -470,7 +473,7 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt') {
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'LoanSummary') {
 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {

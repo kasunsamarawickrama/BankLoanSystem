@@ -111,4 +111,18 @@ namespace BankLoanSystem.Models
         public string TitleStatus { get; set; }
         
     }
+
+    public class ReportLoanSummary
+    {
+
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string TransactionDate { get; set; }
+        public string TransactionType { get; set; }
+        public decimal TransactionAmount { get; set; }
+       
+
+    }
 }
