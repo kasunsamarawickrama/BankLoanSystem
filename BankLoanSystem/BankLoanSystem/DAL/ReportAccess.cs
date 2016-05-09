@@ -455,11 +455,11 @@ namespace BankLoanSystem.DAL
                 {
                     RptFee feeInvoice = new RptFee();
                     feeInvoice.IdentificationNumber = dataRow["identification_number"].ToString();
-                    feeInvoice.Year = Convert.ToInt32(dataRow["year"]);
+                    feeInvoice.Year = (dataRow["year"]) != DBNull.Value ? (Int32)dataRow["year"] : 0000;//Convert.ToInt32(dataRow["year"]);
                     feeInvoice.Make = dataRow["make"].ToString();
                     feeInvoice.Model = dataRow["model"].ToString();
                     feeInvoice.DueDate = Convert.ToDateTime(dataRow["due_date"].ToString()).ToString("MM/dd/yyyy");
-                    feeInvoice.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    feeInvoice.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
                     feeInvoice.AdvanceAmount = Convert.ToDecimal(dataRow["amount"]);
                     totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
                     feeInvoiceData.Add(feeInvoice);
@@ -521,6 +521,105 @@ namespace BankLoanSystem.DAL
             }
 
             return units;
+        }
+
+        /// <summary>
+        /// Created By: IRFAN MAM
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="advanceDateStart"></param>
+        /// <param name="advanceDateEnd"></param>
+        /// <returns></returns>
+        public List<ReportPayOff> GetPayOffDetailsByLoanId(int loanId, DateTime advanceDateStart, DateTime advanceDateEnd)
+        {
+            List<ReportPayOff> units = new List<ReportPayOff>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@date_start", advanceDateStart });
+            paramertList.Add(new object[] { "@date_end", advanceDateEnd });
+
+            DataSet dataSet = dataHandler.GetDataSet("spRptPayOffDetailsByDateRange", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    ReportPayOff unit = new ReportPayOff();
+
+                    unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.Year = Convert.ToInt32(dataRow["year"]);
+                    unit.Make = dataRow["make"].ToString();
+                    unit.Model = dataRow["model"].ToString();
+                    unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                    unit.PayOffAmount = Convert.ToDecimal(dataRow["payoff_amount"]);
+                    int status = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (status == 0)
+                    {
+                        unit.TitleStatus = "Not Received";
+                    }
+                    else if (status == 1)
+                    {
+                        unit.TitleStatus = "Received";
+                    }
+                    else if (status == 2)
+                    {
+                        unit.TitleStatus = "Returned to Dealer";
+                    }
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
+                    unit.PayOffDate = Convert.ToDateTime(dataRow["pay_date"]).ToString("MM/dd/yyyy");
+                    units.Add(unit);
+
+                }
+            }
+
+            return units;
+        }
+
+
+        public List<RptFee> GetFeeReceiptByDateRange(int loanId, string type, DateTime dueDateStart, DateTime dueDateEnd)
+        {
+            List<RptFee> feeInvoiceData = new List<RptFee>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@type", type });
+            paramertList.Add(new object[] { "@paid_date_start", dueDateStart });
+            paramertList.Add(new object[] { "@paid_date_end", dueDateEnd });
+
+            decimal totalDue = 0.00M;
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetFeeReceiptDetailsByDateRange", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptFee feeInvoice = new RptFee();
+                    feeInvoice.IdentificationNumber = dataRow["identification_number"].ToString();
+                    feeInvoice.Year = (dataRow["year"]) != DBNull.Value ? (Int32)dataRow["year"] : 0000;//Convert.ToInt32(dataRow["year"]);
+                    feeInvoice.Make = dataRow["make"].ToString();
+                    feeInvoice.Model = dataRow["model"].ToString();
+                    feeInvoice.DueDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
+                    feeInvoice.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
+                    feeInvoice.AdvanceAmount = Convert.ToDecimal(dataRow["amount"]);
+                    totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
+                    feeInvoiceData.Add(feeInvoice);
+                }
+                if (feeInvoiceData.Count > 0)
+                    feeInvoiceData[0].TotalAdvanceAmount = totalDue;
+
+                return feeInvoiceData;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

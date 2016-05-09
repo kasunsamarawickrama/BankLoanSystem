@@ -7,8 +7,8 @@
 <link href="~/Content/triangle.css" rel="stylesheet" />*@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 
 @*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
 
@@ -80,8 +80,11 @@
             var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
             val = DateTime.DaysInMonth(dateTime.Year, dateTime.Month).ToString();
         }
-
-        if(val.Substring(val.Length - 1) == "1")
+        if(int.Parse(val) == 11 || int.Parse(val) == 12 || int.Parse(val) == 13)
+        {
+            retString = val + "" + "th of the month";
+        }
+        else if(val.Substring(val.Length - 1) == "1")
         {
             retString = val + "" + "st of the month";
         }else if (val.Substring(val.Length - 1) == "2")
@@ -487,6 +490,20 @@
                     //} else {
                     //    $('#checkableGridDiv').show();
                     //}
+
+                    // Change the selector if needed
+                    var table = $('table'),
+                        bodyCells = table.find('tbody tr:first').children(),
+                        colWidth;
+
+                    colWidth = bodyCells.map(function () {
+                        return $(this).width()+ 12;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).width(colWidth[i]);
+                    });
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     // Your handler here...

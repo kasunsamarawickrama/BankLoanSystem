@@ -20,14 +20,14 @@
             <td>@Convert.ToDecimal(Model.Amount).ToString("#,##0.00")</td>
         </tr>
         <tr>
-            <td style="text-align: left;">Used</td>
+            <td style="text-align: left;">Balance</td>
             <td style="width: 60px;padding-right:25px;text-align: right;">-</td>
             <td>$&nbsp;</td>
             <td>@Convert.ToDecimal(Model.UsedAmount).ToString("#,##0.00")</td>
         </tr>
 
         <tr>
-            <td style="text-align: left;">Balance</td>
+            <td style="text-align: left;">Available</td>
             <td style="width: 60px;padding-right:25px;text-align: right;">-</td>
             @{
                 Model.BalanceAmount = Model.Amount - Model.UsedAmount;
@@ -45,7 +45,7 @@
  
 
             <tr colspan="1" style="width:100%;">
-                <td style="text-align: left;width: 39%;">Balance After Pending</td>
+                <td style="text-align: left;width: 39%;">Available After Pending</td>
 
                 <td style="width: 60px;padding-right:25px;text-align: right;">-</td>
                 <td>$&nbsp;</td>

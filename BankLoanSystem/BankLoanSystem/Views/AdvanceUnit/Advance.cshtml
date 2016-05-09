@@ -76,8 +76,8 @@
 }
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";

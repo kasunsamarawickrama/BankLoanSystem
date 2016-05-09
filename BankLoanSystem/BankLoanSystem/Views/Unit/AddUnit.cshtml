@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Add Unit Page";
+    ViewBag.Page = 2;
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -19,8 +20,8 @@
 
 <script src="~/scripts/jquery-1.10.2.js"></script>
 <script src="~/scripts/jquery-ui.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 
 <script src="~/scripts/CommonFunctions.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
@@ -50,9 +51,7 @@
                     Html.RenderAction("GetJustAddedUnits", "Unit");
                 }
 
-            </div>
-
-           
+            </div>          
             <div class="body-content">
                 @Html.AntiForgeryToken()
 
@@ -101,27 +100,29 @@
                                         }
                                         }
                                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
-                                    {
-                                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
-                                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
-                                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+                                        {
+                                                @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                                                @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                                                @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
 
-                                    }
-                                    else
-                                    {
-                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
-                                    }
-                                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
-                                                    </div>
+                                        }
+                                        else
+                                        {
+                                                @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
+                                        }
+                                                @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
+                                        </div>
                 
-                                                </div>
+                                    </div>
                 
 
-                                            </div>
+                                </div>
                 
                                             <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <label class="control-label col-md-2" for="vehicle_IdentificationNumber">VIN <span class="icon-help_outline help-veh-vin"></span></label>
+
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "vehicleVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger", @style= "width: 300px; left: 0%;" })
@@ -175,7 +176,7 @@
                                             <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
                                         </div>
                                     <label class="control-label col-md-2">
-                                        Trim
+                                        Trim <span class="icon-help_outline help-veh-trim"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-2" style="width: 175px;">
@@ -195,7 +196,7 @@
                                     </div>
 
                                     <label class="control-label col-md-2">
-                                        Color
+                                        Color <span class="icon-help_outline help-veh-col"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     @Html.EditorFor(model => model.vehicle.Color, new { htmlAttributes = new { @id = "editor1-4", @Style = "display: none;" } })
@@ -336,8 +337,8 @@
                                     @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2 rad-style">
                                         <div class="radio">
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, true) New
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
                                             @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                         </div>
                                     </div>
@@ -525,7 +526,9 @@
 
                             <div class="info-unit" id="boat" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                    <label class="control-label col-md-2" for="boat_IdentificationNumber">HIN <span class="icon-help_outline help-boat-hin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "boatVin" } })
                                         @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -560,7 +563,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2">
-                                        Trailer
+                                        Trailer ID  <span class="icon-help_outline help-boat-tra_id"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-4">
@@ -569,7 +572,7 @@
                                     </div>
 
                                     <label class="control-label col-md-2">
-                                        Engine Serial
+                                        Engine Serial <span class="icon-help_outline help-boat-eng_ser"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
@@ -592,7 +595,8 @@
 
                             <div class="info-unit" id="motorcycle" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@  
+                                    <label class="control-label col-md-2" for="motorcycle_IdentificationNumber">VIN  <span class="icon-help_outline help-mot-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "motorcycleVin" } })
                                         @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -651,7 +655,7 @@
 
                                 <div class="form-group" id="div-combobox6-4">
                                     <label class="control-label col-md-2">
-                                        Color
+                                        Color  <span class="icon-help_outline help-mot-col"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     @Html.EditorFor(model => model.motorcycle.Color, new { htmlAttributes = new { @id = "editor6-4", @Style = "display: none;" } })
@@ -675,7 +679,8 @@
 
                             <div class="info-unit" id="snowmobile" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@ 
+                                    <label class="control-label col-md-2" for="snowmobile_IdentificationNumber">VIN <span class="icon-help_outline help-snow-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "snowmobileVin" } })
                                         @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 305px; left: 0%;" })
@@ -775,14 +780,17 @@
                         @*PAYMENT DETAILS START*@
                         <div class="info-unit" style="margin-top:20px">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @*@Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })*@  
+
+                                <label class="control-label col-md-2" for="Cost">Cost  <span class="icon-help_outline help-cost"></span></label>
                                 <div class="col-md-3">
                                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style= "left: 1%;" })
                                     <div id="tagscloud" class="validation-error"><span class="text-danger co"></span></div>
                                 </div>
 
-                                @Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })
+                                @*@Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })*@
+                                <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 57px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
@@ -813,7 +821,10 @@
                             @if (ViewBag.IsTitleTrack == "Yes")
                                     {
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })
+                                    @*@Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })*@
+
+                                    <label class="control-label col-md-5" for="AdvanceNow" style="width:43%">Will you advance the unit today?  <span class="icon-help_outline help-date"></span></label>
+
                                     <div class="col-md-2">
                                         <div class="checkbox rad-style">
                                             @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
@@ -2800,11 +2811,16 @@
                     } else {
 
                     }
-                    if($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
-                        
-                    }else{
+                    @if (ViewBag.IsTitleTrack == "Yes")
+                    {<text>
+                        if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
+
+                        }else{
                         $('#btnSubmit').prop('disabled', false);
+                        }
+                    </text>
                     }
+                   
 
                     if($('.conditionRadio:checked').length > 0){
                     
@@ -3270,4 +3286,99 @@
             closePopup();
         }
     });
+
+
+
+    // help 
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the add unit page you can add the unit to the system. If there are multiple unit types for the loan you can select which type of unit you are adding (if it is not already selected for you). Some of the identifying fields will change based on the type of unit selected. Some fields are optional but have been included to make it easier to identify the unit when lot inspections are done.<br></br> &nbsp;&nbsp; Once you have entered the unit details you are able to enter the cost of the unit and the advance amount will be automatically calcuated for you based on the information entered into the loan set up. You are able to chose if the title has been delivered to the lender.<br></br> &nbsp;&nbsp; You will also be able to advance the unit on this page if you chose or you will be able to advance later from the advance unit page. Until the unit is advanced it will be considered pending. The loan balance will not change and no fees or curtailments will be calculated until the unit is active. If you have multiple loans please make sure you are adding the unit to the correct loan.");
+
+    });
+
+    $('.help-veh-vin').click(function () {
+
+        $('.help-text h4').html("Trim");
+        $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
+
+    });
+
+    $('.help-veh-trim').click(function () {
+
+        $('.help-text h4').html("VIN");
+        $('.help-text p').html(" &nbsp;&nbsp; The vehicle trim is sometimes referred to as submodel. It gives an indication of the features included in that vehicle package.<br></br><i> (example: Ford F150 comes with trim options - XL, XLT, Lariat...)</i>");
+
+    });
+
+    $('.help-veh-col').click(function () {
+
+        $('.help-text h4').html("Color");
+        $('.help-text p').html(" &nbsp;&nbsp; If you enter the color of the vehicle (often found on the title or purchase paperwork), it is typically easier for the inspector during lot inspection to identify the proper vehicle more quickly.");
+
+    });  
+
+    $('.help-mot-vin').click(function () {
+
+        $('.help-text h4').html("VIN");
+        $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
+
+    });
+
+    $('.help-mot-col').click(function () {
+
+        $('.help-text h4').html("Color");
+        $('.help-text p').html(" &nbsp;&nbsp; If you enter the color of the vehicle (often found on the title or purchase paperwork), it is typically easier for the inspector during lot inspection to identify the proper vehicle more quickly.");
+
+    }); 
+
+    $('.help-snow-vin').click(function () {
+
+        $('.help-text h4').html("VIN");
+        $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
+
+    }); 
+
+    $('.help-boat-hin').click(function () {
+
+        $('.help-text h4').html("HIN");
+        $('.help-text p').html(" &nbsp;&nbsp; The Hull Identification Number is a 12 character code which consists of numbers and letters. It is unique to each boat and the only way to uniquely identify the boat, therefore it is important to enter this number correctly. It can be found on the title.");
+
+    }); 
+
+    $('.help-boat-tra_id').click(function () {
+
+        $('.help-text h4').html("Trailer ID");
+        $('.help-text p').html(" &nbsp;&nbsp; If the boat comes with a trailer you can include the ID of that trailer here for reference purposes only.");
+
+    }); 
+
+    $('.help-boat-eng_ser').click(function () {
+
+        $('.help-text h4').html("Engine Serial");
+        $('.help-text p').html(" &nbsp;&nbsp; If the boat comes with an engine, you can enter the engine serial number here for reference purposes only.");
+
+    }); 
+
+    $('.help-cost').click(function () {
+
+        $('.help-text h4').html("Unit cost");
+        $('.help-text p').html(" &nbsp;&nbsp; Please enter the cost of the unit. This is the amount which will be used to calculate the advance amount and curtailments.");
+
+    }); 
+
+    $('.help-adv_amount').click(function () {
+
+        $('.help-text h4').html("Advance amount");
+        $('.help-text p').html(" &nbsp;&nbsp; This amount is automatically calculated based on the loan set up. If allowed by the loan terms this amount can be changed by certain users.");
+
+    }); 
+
+    $('.help-date').click(function () {
+
+        $('.help-text h4').html("Advance unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can choose to advance the unit at this time. You will be asked to chose what date the unit is being added. If you choose not to advance the unit now  it will be added as a pending unit. You will then be able to view and advance it at a later time on the advance unit page.");
+
+    }); 
+
 </script>

@@ -7,11 +7,11 @@
     <title>@ViewBag.Title</title>
 
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/general_foundicons.css" rel="stylesheet" />
+    <link href="~/Content/general_foundicons.css?version=1" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/style.min.css" rel="stylesheet" />
 
-    <link href="~/Content/dashboard_layout.css" rel="stylesheet" />
+    <link href="~/Content/dashboard_layout.css?version=2" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/Content/commonActions.css">
@@ -28,6 +28,21 @@
     <link href="~/Content/combo.css" rel="stylesheet" />
 
     <style>
+
+         .icon-help_outline{
+                color: #BDBBBB;
+                font-size: 16px;
+                padding-left: 6px;
+        }
+        .icon-help_outline:hover{
+            color: green;
+        }
+        .help-text > p{
+            color:white;
+            padding-left:10px;
+            padding-right:10px;
+            text-align:justify;
+        }
         #squares div {
     /* these styles will let the divs line up next to each other
        while accepting dimensions */
@@ -131,8 +146,8 @@
     <script src="~/scripts/input-mask.js"></script>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
     <script src="~/scripts/menu.js"></script>
@@ -193,9 +208,9 @@
                     </div>
 
 
-                    <div>
+                    @*<div>
                         <button id="c-button--slide-right" class="c-button">Slide Right</button>
-                    </div>
+                    </div>*@
                     <!---->
                     <!---->
 
@@ -262,7 +277,7 @@
 
 
 
-                        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title</h3></div>
+                        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title @if(ViewBag.Page == 2) {<span class="icon-help_outline title-help"></span>}</h3></div>
                         <div class="cmp-name-panel">
                             <div>
                                 <div>
@@ -331,11 +346,11 @@
                                     <span style="margin-left:30px;margin-top:10px;">Hours: 8am-6pm Central</span>
                                 </div>
 
-                                <div>
+                                @*<div>
                                     <span>Billing (800) ###-####</span>
                                     <div class="hor-sp"></div>
                                     <span style="margin-left:30px;margin-top:10px;">Hours: 9am-5pm Central</span>
-                                </div>
+                                </div>*@
                             </div>
 
                         </div>
@@ -359,7 +374,15 @@
         <button class="c-menu__close">Close Help &rarr;</button>
         <ul class="c-menu__items">
             <li class="c-menu__item"><h3 href="#" class="c-menu__link">Help</h3></li>
-            <li class="c-menu__item"><p href="#" class="c-menu__link">This is Helper</p></li>
+            <li class="c-menu__item help-text">
+                
+                <h4 href="#" class="c-menu__link">This is Helper</h4>
+                <p>This is Text</p>
+            
+            
+            
+            </li>
+            
            
         </ul>
     </nav><!-- /c-menu slide-right -->
@@ -374,18 +397,32 @@
     /**
    * Slide right instantiation and action.
    */
-    var slideRight = new Menu({
-        wrapper: '#o-wrapper',
-        type: 'slide-right',
-        menuOpenerClass: '.c-button',
-        maskId: '#c-mask'
-    });
+    $(document).ready(function () {
+        var slideRight = new Menu({
+            wrapper: '#o-wrapper',
+            type: 'slide-right',
+            menuOpenerClass: '.c-button',
+            maskId: '#c-mask'
+        });
 
-    var slideRightBtn = document.querySelector('#c-button--slide-right');
+        //var slideRightBtn = document.querySelectorAll('.icon-help_outline');
 
-    slideRightBtn.addEventListener('click', function (e) {
-        e.preventDefault;
-        slideRight.open();
+        //slideRightBtn.addEventListener('click', function (e) {
+        //    e.preventDefault;
+        //    slideRight.open();
+        //});
+        
+
+        $('.icon-help_outline').click(function (e) {
+            e.preventDefault;
+            slideRight.open();
+
+        });
     });
+    
+    
+
+
+  
 
 </script>
