@@ -2022,6 +2022,7 @@
 
                 $("#vehicleVin").keypress(function(e){
                     if($('#vehicleVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2032,6 +2033,7 @@
                 });
                 $("#rvVin").keypress(function(e){
                     if($('#rvVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2042,16 +2044,18 @@
                 });
                 $("#camperVin").keypress(function(e){
                     if($('#camperVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
-
+                        
                     }else{
                         e.preventDefault();
                     }
                 });
                 $("#atvVin").keypress(function(e){
                     if($('#atvVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2062,6 +2066,7 @@
                 });
                 $("#boatVin").keypress(function(e){
                     if($('#boatVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2072,6 +2077,7 @@
                 });
                 $("#motorcycleVin").keypress(function(e){
                     if($('#motorcycleVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2082,6 +2088,7 @@
                 });
                 $("#snowmobileVin").keypress(function(e){
                     if($('#snowmobileVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2092,6 +2099,7 @@
                 });
                 $("#vehiclemiles").keypress(function(e){
                     if($('#vehiclemiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2102,6 +2110,7 @@
                 });
                 $("#rvmiles").keypress(function(e){
                     if($('#rvmiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2112,6 +2121,7 @@
                 });
                 $("#atvmiles").keypress(function(e){
                     if($('#atvmiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2122,6 +2132,7 @@
                 });
                 $("#motorcyclemiles").keypress(function(e){
                     if($('#motorcyclemiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2133,6 +2144,7 @@
                 $("#rvlength").keypress(function(e){
                     var val = $("#rvlength").val();
                     if($('#rvlength').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllowDecimal(e,val)){
@@ -2144,6 +2156,7 @@
                 $("#camperlength").keypress(function(e){
                     var val = $("#camperlength").val();
                     if($('#camperlength').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllowDecimal(e,val)){
@@ -2155,7 +2168,7 @@
                 function numericAllowDecimal(e,val){
                     var ch = e.which;
                     if(val.indexOf('.')=== -1){
-                        if ((ch >= 48 && ch <= 57 )|| ch == 46) {
+                        if ((ch >= 48 && ch <= 57 )|| ch == 46|| ch == 8) {
                             return 1;
                         }
                     }else{
@@ -2167,14 +2180,15 @@
                 }
                 function alphaNumericAllow(e){
                     var ch = e.which;
-                    if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) ){
+
+                    if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) || ch == 8){
                         return 1;
                     }
                     return 0;
                 }
                 function numericAllow(e){
                     var ch = e.which;
-                    if (ch >= 48 && ch <= 57) {
+                    if ((ch >= 48 && ch <= 57)|| ch == 8) {
                         return 1;
                     }
                     return 0;
