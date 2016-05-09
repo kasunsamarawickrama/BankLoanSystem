@@ -202,6 +202,14 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
                 return crReceipt.PrintPage(loanId, startDate, endtDate);
             }
+            else if (rptType == "LoanSummary")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivLoanSummary loanSmmry = new RptDivLoanSummary();
+                return loanSmmry.PrintPage(loanId, startDate, endtDate);
+            }
             else if (rptType == "TitlesStatus")
             {
                 RptDivTitleStatus tsStatus = new RptDivTitleStatus();
