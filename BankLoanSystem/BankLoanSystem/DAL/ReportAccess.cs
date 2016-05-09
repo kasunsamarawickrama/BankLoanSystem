@@ -673,5 +673,53 @@ namespace BankLoanSystem.DAL
             return lstCurtailmentShedule;
         }
 
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:5/9/2016
+        /// Get all transaction details by date range
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="dueDateStart"></param>
+        /// <param name="dueDateEnd"></param>
+        /// <returns></returns>
+        public List<ReportLoanSummary> GetLoanSummaryByDateRange(int loanId,DateTime dueDateStart, DateTime dueDateEnd)
+        {
+            List<ReportLoanSummary> loanData = new List<ReportLoanSummary>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            //paramertList.Add(new object[] { "@type", type });
+            paramertList.Add(new object[] { "@due_date_start", dueDateStart });
+            paramertList.Add(new object[] { "@due_date_end", dueDateEnd });
+
+            //decimal totalDue = 0.00M;
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummary", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    ReportLoanSummary loanSummary = new ReportLoanSummary();
+                    loanSummary.IdentificationNumber = dataRow["identification_number"].ToString();
+                    loanSummary.Year = (dataRow["year"]) != DBNull.Value ? (Int32)dataRow["year"] : 0000;//Convert.ToInt32(dataRow["year"]);
+                    loanSummary.Make = dataRow["make"].ToString();
+                    loanSummary.Model = dataRow["model"].ToString();
+                    loanSummary.TransactionDate = Convert.ToDateTime(dataRow["transaction_date"].ToString()).ToString("MM/dd/yyyy");
+                    loanSummary.TransactionAmount = (dataRow["transaction_amount"]) != DBNull.Value ? (Decimal)dataRow["transaction_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
+                    loanSummary.TransactionType = dataRow["type"].ToString();
+                    //totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
+                    loanData.Add(loanSummary);
+                }
+                //if (loanData.Count > 0)
+                //    feeInvoiceData[0].TotalAdvanceAmount = totalDue;
+
+                return loanData;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
