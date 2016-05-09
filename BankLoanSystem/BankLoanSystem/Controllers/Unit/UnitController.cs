@@ -442,11 +442,15 @@ namespace BankLoanSystem.Controllers.Unit
 
             ViewBag.NonRegBranchName = nonRegBranch.BranchName;
 
+            //dealer email address, this will be used on curtailment page
+            Session["DealerEmail"] = nonRegBranch.BranchEmail;
+
             ViewBag.loanBranchAddress =  (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1 : "") + (nonRegBranch.BranchAddress2 != "" ? ", " + nonRegBranch.BranchAddress2 : "") + (nonRegBranch.BranchCity != "" ? ", " + nonRegBranch.BranchCity : "");
 
             ViewBag.CurtailmentDueDate = _loan.CurtailmentDueDate;
 
             ViewBag.LoanNumber = _loan.loanNumber;
+
             return View();
         }
 

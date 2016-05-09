@@ -80,14 +80,17 @@
                 <div class="text-danger"> <span></span> </div>
                 <div class="form-group login-form-group">
                     @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "Username", id = "userName" } })
+                    <label style="font: 0.75em/normal sans-serif; left: 5px; top: 3px; width: 147px; height: 15px; color: rgb(186, 186, 186); position: absolute; overflow-x: hidden; font-size-adjust: none; font-stretch: normal;" for="userName">Hi Mom</label>
                     <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })</p></div>
                 </div>
 
 
-                    <div class="form-group login-form-group">
-                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", id = "password" } })
-                        <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</p></div>
+                <div class="form-group login-form-group">
+                    @Html.EditorFor(model => model.password, new {htmlAttributes = new {@class = "form-control", placeholder = "Password", id = "password"} })
+                    <div class="loginerror">
+                        <p>@Html.ValidationMessageFor(model => model.password, "", new {@class = "text-danger"})</p>
                     </div>
+                </div>
 
                     <div class="errorMsg"><p id="error" style="height: 31px;">@Html.DisplayFor(item => item.lbl)</p></div>
                     <div class="login-button">

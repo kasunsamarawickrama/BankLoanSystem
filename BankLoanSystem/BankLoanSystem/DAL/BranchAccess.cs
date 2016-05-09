@@ -559,6 +559,7 @@ namespace BankLoanSystem.DAL
                     branch.BranchCity = dataRow["city"].ToString();
                     branch.CompanyNameBranchName = dataRow["company_name"].ToString();
                     branch.NonRegCompanyId = int.Parse(dataRow["company_id"].ToString());
+                    branch.BranchEmail = dataRow["email"].ToString();
                     return branch;
                 }
                 else

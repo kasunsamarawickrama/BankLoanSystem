@@ -216,10 +216,12 @@
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
     <Content Include="Images\xls.png" />
+    <Content Include="Reports\RptAdvanceUnitReport.aspx" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
     <Content Include="Reports\RptDivAdvanceUnit.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
+    <Content Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivTitleStatus.aspx" />
@@ -347,6 +349,13 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\RptAdvanceUnitReport.aspx.cs">
+      <DependentUpon>RptAdvanceUnitReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptAdvanceUnitReport.aspx.designer.cs">
+      <DependentUpon>RptAdvanceUnitReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivAddUnit.aspx.cs">
       <DependentUpon>RptDivAddUnit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -374,6 +383,13 @@
     </Compile>
     <Compile Include="Reports\RptDivCurtailmentReceipt.aspx.designer.cs">
       <DependentUpon>RptDivCurtailmentReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx.cs">
+      <DependentUpon>RptDivCUrtailmentReceiptDuringSession.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx.designer.cs">
+      <DependentUpon>RptDivCUrtailmentReceiptDuringSession.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivFullInventory.aspx.cs">
       <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
@@ -537,7 +553,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\RptAddUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptAdvanceReport.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptCurtailmentDuringSession.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
