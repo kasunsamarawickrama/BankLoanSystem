@@ -40,7 +40,7 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime MaturityDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Please enter the renewal date")]
         [Display(Name = "Renewal Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime RenewalDate { get; set; }

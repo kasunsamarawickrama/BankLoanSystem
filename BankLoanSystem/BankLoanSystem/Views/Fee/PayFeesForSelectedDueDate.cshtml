@@ -95,40 +95,7 @@
     <div id="FeeId" class="hidden"></div>
 </div>
 
-<script>
 
-
-    // Change the selector if needed
-    var table = $('table'),
-        bodyCells = table.find('tbody tr:first').children(),
-        colWidth;
-
-    // Adjust the width of thead cells when window resizes
-    $(window).resize(function() {
-        // Get the tbody columns width array
-        colWidth = bodyCells.map(function() {
-            return $(this).width();
-        }).get();
-
-        // Set the width of thead columns
-        table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
-        });
-    }).resize(); // Trigger resize handler
-
-    $(window).bind("load",function(){
-
-        // Get the tbody columns width array
-        colWidth = bodyCells.map(function() {
-            return $(this).width();
-        }).get();
-
-        // Set the width of thead columns
-        table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
-        });
-    });
-</script>
 
 <form method="post">
     <div class="info-bar" style="margin-top:15px" id="payDateDiv">
@@ -597,35 +564,35 @@
 
                 //
                 // Change the selector if needed
-                var table = $('table'),
-                    bodyCells = table.find('tbody tr:first').children(),
-                    colWidth;
+                //var table = $('table'),
+                //    bodyCells = table.find('tbody tr:first').children(),
+                //    colWidth;
 
-                // Adjust the width of thead cells when window resizes
-                $(window).resize(function() {
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function() {
-                        return $(this).width();
-                    }).get();
+                //// Adjust the width of thead cells when window resizes
+                //$(window).resize(function() {
+                //    // Get the tbody columns width array
+                //    colWidth = bodyCells.map(function() {
+                //        return $(this).width();
+                //    }).get();
 
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function(i, v) {
-                        $(v).width(colWidth[i]);
-                    });
-                }).resize(); // Trigger resize handler
+                //    // Set the width of thead columns
+                //    table.find('thead tr').children().each(function(i, v) {
+                //        $(v).width(colWidth[i]);
+                //    });
+                //}).resize(); // Trigger resize handler
 
-                $(window).bind("load",function(){
+                //$(window).bind("load",function(){
 
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function() {
-                        return $(this).width();
-                    }).get();
+                //    // Get the tbody columns width array
+                //    colWidth = bodyCells.map(function() {
+                //        return $(this).width();
+                //    }).get();
 
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function(i, v) {
-                        $(v).width(colWidth[i]);
-                    });
-                });
+                //    // Set the width of thead columns
+                //    table.find('thead tr').children().each(function(i, v) {
+                //        $(v).width(colWidth[i]);
+                //    });
+                //});
             }
 
             $(document).on('click', 'tbody', (function (e) {
@@ -1214,6 +1181,44 @@
 
 
 </div>*@
+
+
+<script>
+
+
+    // Change the selector if needed
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+
+    // Adjust the width of thead cells when window resizes
+    $(window).resize(function() {
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    }).resize(); // Trigger resize handler
+
+   
+    var table = $('table'),
+        bodyCells = table.find('tbody tr:first').children(),
+        colWidth;
+        // Get the tbody columns width array
+        colWidth = bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
+    
+</script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
