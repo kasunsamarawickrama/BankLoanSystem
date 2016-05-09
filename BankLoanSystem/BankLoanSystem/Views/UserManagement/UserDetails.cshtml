@@ -349,29 +349,6 @@
                  </button>
                 }*@
 
-            if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 2)
-                        
-                {
-                    using (Ajax.BeginForm(
-                          "Selectloan",
-                          "UserManagement", new { type = "linkDealer" },
-                          new AjaxOptions
-                          {
-                              OnFailure = "handleError",
-                              HttpMethod = "GET",
-                              InsertionMode = InsertionMode.Replace,
-                              UpdateTargetId = "selcet-panel",
-                              LoadingElementId = "loadingSpan"
-                          }, new { style = "display:inline-block" }))
-                    {
-                                        <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
-                                           
-                                            Join Dealer
-
-                                            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-                                        </button>
-                                    }
-                    }
                     @*else if (ViewBag.LoanCount == 1)
                     {
                         <button class="big-button" type="submit" onclick="window.location.href='/CreateDealer/LinkDealer'">
@@ -402,7 +379,7 @@
     <div class="setp">
         <h3>Set Up</h3>
         <div>
-            <div>
+            @*<div>
                 <div class="pkg">
                     <table>
                         <tr>
@@ -428,7 +405,7 @@
 
                 </div>
 
-            </div>
+            </div>*@
             <button class="a_demo_three icon-user-plus" onclick="window.location.href='/UserManagement/CreateDashboardUser'" >
                 
                 Create User
@@ -456,6 +433,29 @@
                 
                 Create Partner Branch
             </button>
+            @if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 2)
+
+            {
+            using (Ajax.BeginForm(
+            "Selectloan",
+            "UserManagement", new { type = "linkDealer" },
+            new AjaxOptions
+            {
+            OnFailure = "handleError",
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "selcet-panel",
+            LoadingElementId = "loadingSpan"
+            }, new { style = "display:inline-block" }))
+            {
+            <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
+
+                Join Dealer
+
+                @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+            </button>
+            }
+            }
 
         </div>
     </div>
