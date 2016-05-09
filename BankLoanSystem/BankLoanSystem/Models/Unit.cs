@@ -321,7 +321,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please enter the boat Make")]
         public string Make { get; set; }
 
-        [Display(Name = "Trailer")]
+        [Display(Name = "Trailer ID")]
         [StringLength(17, MinimumLength = 17, ErrorMessage = "Enter 17 charactors")]
         public string TrailerId { get; set; }
 
