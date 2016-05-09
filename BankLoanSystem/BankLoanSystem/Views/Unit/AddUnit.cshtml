@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Add Unit Page";
+    ViewBag.Page = 2;
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -3272,5 +3273,15 @@
         if (e.keyCode == 27) { // if user presses esc key
             closePopup();
         }
+    });
+
+
+
+    // help
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the add unit page you can add the unit to the system. If there are multiple unit types for the loan you can select which type of unit you are adding (if it is not already selected for you). Some of the identifying fields will change based on the type of unit selected. Some fields are optional but have been included to make it easier to identify the unit when lot inspections are done.<br></br> &nbsp;&nbsp; Once you have entered the unit details you are able to enter the cost of the unit and the advance amount will be automatically calcuated for you based on the information entered into the loan set up. You are able to chose if the title has been delivered to the lender.<br></br> &nbsp;&nbsp; You will also be able to advance the unit on this page if you chose or you will be able to advance later from the advance unit page. Until the unit is advanced it will be considered pending. The loan balance will not change and no fees or curtailments will be calculated until the unit is active. If you have multiple loans please make sure you are adding the unit to the correct loan.");
+
     });
 </script>
