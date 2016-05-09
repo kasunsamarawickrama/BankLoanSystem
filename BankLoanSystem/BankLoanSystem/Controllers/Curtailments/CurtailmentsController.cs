@@ -2,11 +2,14 @@
 using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Helpers;
+using BankLoanSystem.Reports;
+using Microsoft.Reporting.WebForms;
 
 namespace BankLoanSystem.Controllers.Curtailments
 {
@@ -116,6 +119,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             ViewBag.loanDetails = loanDetails;
+            ViewBag.LoanId = loanDetails.loanId;
 
             return View();
         }
@@ -140,13 +144,17 @@ namespace BankLoanSystem.Controllers.Curtailments
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dd);
+            ViewBag.DealerEmail = (string)Session["DealerEmail"];
+            ViewBag.LoanId = loanDetails.loanId;
 
             curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
             curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
             curtailmentScheduleModel.DueDate = dueDate;
             return PartialView(curtailmentScheduleModel);
         }
-        
+
+        static int _loanId;
+
         /// <summary>
         /// CreatedBy:Nadeeka
         /// CreatedDate:2016/3/21
@@ -156,24 +164,137 @@ namespace BankLoanSystem.Controllers.Curtailments
         /// <param name="selectedCurtailmentList"></param>
         /// <returns></returns>
         [HttpPost]
-        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
+        //public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
+        //{
+        //    if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
+        //        return null;
+
+        //    int userId = userData.UserId;
+        //    string loanCode;
+
+        //    loanCode = Session["loanCode"].ToString();            
+
+        //    LoanSetupStep1 loanDetails = new LoanSetupStep1();
+        //    loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+
+
+        //    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
+        //    string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
+
+        //    if (returnValue!=null)
+        //    {
+        //        //insert to log
+        //        string[] arrList = new string[selectedCurtailmentList.SelectedCurtailmentSchedules.Count];
+        //        int i = 0;
+        //        foreach (var x in selectedCurtailmentList.SelectedCurtailmentSchedules)
+        //        {
+        //            if (!string.IsNullOrEmpty(x.UnitId))
+        //            {
+        //                arrList[i] = "Pay Curtailment(s) for unit(s): " + x.IDNumber +" ,Curtailment No: " +x.CurtNumber+" ,Curtailment Amount:"+x.CurtAmount+" ,Paid Date:"+x.PayDate;
+        //                i++;
+        //            }
+        //        }
+
+        //        //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        //        ////user.UserRights = arrList.ToString();
+        //        string units = string.Join(",", arrList);
+        //        Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Curtailments", units, DateTime.Now);
+
+        //        int islog = (new LogAccess()).InsertLog(log);
+        //    }
+        //    return returnValue;
+        //}
+        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList, string needSend, string dealerEmail)
         {
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return null;
 
             int userId = userData.UserId;
             string loanCode;
-            
-            loanCode = Session["loanCode"].ToString();            
+
+            loanCode = Session["loanCode"].ToString();
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
+            //string returnValue = "FGFG";
+
+            // saving for reporting purpose
+            decimal totalpaid = 0.00M;
+            List<CurtailmentShedule> selectedCurtailmentSchedules = selectedCurtailmentList.SelectedCurtailmentSchedules;
+            foreach (var items in selectedCurtailmentSchedules)
+            {
+                items.PaidDate = items.PayDate.ToString("MM/dd/yyyy");
+                totalpaid += items.CurtAmount;
+            }
+
+            foreach (var items in selectedCurtailmentSchedules)
+            {
+                items.TotalAmountPaid = totalpaid;
+            }
+
+            _loanId = loanDetails.loanId;
+            Session["CurtUnitDuringSession"] = selectedCurtailmentSchedules;
+            if (needSend == "Yes")
+            {
+                ReportViewer rptViewerCurtailmentReceiptDuringSession = new ReportViewer();
+                rptViewerCurtailmentReceiptDuringSession.ProcessingMode = ProcessingMode.Local;
+                rptViewerCurtailmentReceiptDuringSession.Reset();
+                rptViewerCurtailmentReceiptDuringSession.LocalReport.EnableExternalImages = true;
+                rptViewerCurtailmentReceiptDuringSession.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
+
+                ReportAccess ra = new ReportAccess();
+                List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanDetails.loanId);
+
+                foreach (var dates in details)
+                {
+                    dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+                }
+
+                rptViewerCurtailmentReceiptDuringSession.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+                if (selectedCurtailmentSchedules != null && selectedCurtailmentSchedules.Count > 0)
+                {
+                    try
+                    {
+                        rptViewerCurtailmentReceiptDuringSession.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));
+
+                        Warning[] warnings;
+                        string[] streamids;
+                        string mimeType;
+                        string encoding;
+                        string filenameExtension;
+
+                        byte[] bytes = rptViewerCurtailmentReceiptDuringSession.LocalReport.Render(
+                            "PDF", null, out mimeType, out encoding, out filenameExtension,
+                            out streamids, out warnings);
+                        string fileName = userData.UserName + loanDetails.loanId + DateTime.Now;
+                        fileName = fileName.Replace('/', '-');
+                        fileName = fileName.Replace(':', '.');
+                        string filePath = "~/Reports/" + fileName + ".pdf";
+                        using (FileStream fs = new FileStream(Server.MapPath(filePath), FileMode.Create))
+                        {
+                            fs.Write(bytes, 0, bytes.Length);
+                        }
+                        string fullPath = System.Web.HttpContext.Current.Server.MapPath(filePath);
+                        if (dealerEmail != "")
+                        {
+                            Email email = new Email(dealerEmail);
+                            email.SendMailWithAttachment("Report", "Here is Full invontory report test mail", fullPath);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+            }
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
+            string returnValue = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId, dealerEmail);
 
-            if (returnValue!=null)
+            if (returnValue != null)
             {
                 //insert to log
                 string[] arrList = new string[selectedCurtailmentList.SelectedCurtailmentSchedules.Count];
@@ -182,7 +303,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                 {
                     if (!string.IsNullOrEmpty(x.UnitId))
                     {
-                        arrList[i] = "Pay Curtailment(s) for unit(s): " + x.IDNumber +" ,Curtailment No: " +x.CurtNumber+" ,Curtailment Amount:"+x.CurtAmount+" ,Paid Date:"+x.PayDate;
+                        arrList[i] = "Pay Curtailment(s) for unit(s): " + x.IDNumber + " ,Curtailment No: " + x.CurtNumber + " ,Curtailment Amount:" + x.CurtAmount + " ,Paid Date:" + x.PayDate;
                         i++;
                     }
                 }
@@ -194,6 +315,7 @@ namespace BankLoanSystem.Controllers.Curtailments
 
                 int islog = (new LogAccess()).InsertLog(log);
             }
+
             return returnValue;
         }
 
@@ -228,6 +350,13 @@ namespace BankLoanSystem.Controllers.Curtailments
             }
         }
 
-        
+
+        [HttpPost]
+        public int PrintPage()
+        {
+            RptDivCUrtailmentReceiptDuringSession curtThisSession = new RptDivCUrtailmentReceiptDuringSession();
+            return curtThisSession.PrintPage(_loanId);
+        }
+
     }
 }
