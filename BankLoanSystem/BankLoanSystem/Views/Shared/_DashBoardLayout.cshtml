@@ -397,19 +397,30 @@
     /**
    * Slide right instantiation and action.
    */
-    var slideRight = new Menu({
-        wrapper: '#o-wrapper',
-        type: 'slide-right',
-        menuOpenerClass: '.c-button',
-        maskId: '#c-mask'
-    });
+    $(document).ready(function () {
+        var slideRight = new Menu({
+            wrapper: '#o-wrapper',
+            type: 'slide-right',
+            menuOpenerClass: '.c-button',
+            maskId: '#c-mask'
+        });
 
-    var slideRightBtn = document.querySelector('.icon-help_outline');
+        //var slideRightBtn = document.querySelectorAll('.icon-help_outline');
 
-    slideRightBtn.addEventListener('click', function (e) {
-        e.preventDefault;
-        slideRight.open();
+        //slideRightBtn.addEventListener('click', function (e) {
+        //    e.preventDefault;
+        //    slideRight.open();
+        //});
+        
+
+        $('.icon-help_outline').click(function (e) {
+            e.preventDefault;
+            slideRight.open();
+
+        });
     });
+    
+    
 
 
   
