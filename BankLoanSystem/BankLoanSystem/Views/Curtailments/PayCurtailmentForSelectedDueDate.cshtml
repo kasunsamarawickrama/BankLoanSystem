@@ -38,7 +38,7 @@
                                    grid.Column("Year", "Year", style: "gridColumnOthers", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                                    grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                                    grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-Number", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
+                                   grid.Column("CurtNumber", "Curt-No", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
                                    grid.Column(
                                         "DueDate",
                                         "Due Date", style: "gridColumnOthers",
@@ -105,11 +105,11 @@
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%; margin-top: 35px;"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
-                <div style="display: inline-block;margin-left: 13px;"><input type="checkbox" id="report" value="Report" />Print a report of the transactions being submitted at this time<br />
-<input type="checkbox" id="emailReceipt" value="email" />Email a report of the transactions being submitted at this time
+                <div style="display: inline-table;margin-left: 13px;"><input type="checkbox" id="report" value="Report" style="margin-right:3px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
+<input type="checkbox" id="emailReceipt" value="email" style="margin-right:3px;width:16px;height:16px"/><label>Email a report of the transactions being submitted at this time</label>
                 <div id="receiptEmail" hidden>
-    email address <input type="text" id="emailAdress" />
-    <span class="text-danger field-validation-error" id="errorEmail" style="left: 36%; margin-top: 35px;"></span>
+    email address <input type="text" class="form-control" id="emailAdress" />
+    <span class="text-danger field-validation-error" id="errorEmail" style="margin-top: 35px;margin-left:2px;"></span>
 </div></div>
                 
                 </div>

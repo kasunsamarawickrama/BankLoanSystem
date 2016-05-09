@@ -528,7 +528,7 @@
                                 <div class="form-group">
                                     @*@Html.LabelFor(model => model.boat.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
 
-                                    <label class="control-label col-md-2" for="boat_IdentificationNumber">HIN <span class="icon-help_outline help-boat-hin"></span></label>
+                                    <label class="control-label col-md-2" style="width:18%" for="boat_IdentificationNumber">HIN <span class="icon-help_outline help-boat-hin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "boatVin" } })
                                         @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -540,7 +540,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.boat.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.boat.Year, htmlAttributes: new { @class = "control-label col-md-2", style = "width:18%" })
                                     @Html.EditorFor(model => model.boat.Year, new { htmlAttributes = new { @id = "editor5-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox5-1">
 
@@ -562,20 +562,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-2">
+                                    <label class="control-label col-md-2" , style = "width:18%;padding-right:0px">
                                         Trailer ID  <span class="icon-help_outline help-boat-tra_id"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17 } })
+                                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17  } })
                                         @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                                     </div>
 
-                                    <label class="control-label col-md-2">
+                                    <label class="control-label col-md-2" style="padding-left: 38px;">
                                         Engine Serial <span class="icon-help_outline help-boat-eng_ser"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
-                                    <div class="col-sm-2" style="width: 32.667%;">
+                                    <div class="col-sm-2" style="width: 31.667%;">
                                         @Html.EditorFor(model => model.boat.EngineSerial, new { htmlAttributes = new { @class = "form-control cap block_invalid_allow_dash", @id = "boatserial", @maxlength = 17 } })
                                         @Html.ValidationMessageFor(model => model.boat.EngineSerial, "", new { @class = "text-danger" })
                                     </div>
@@ -790,7 +790,7 @@
                                 </div>
 
                                 @*@Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })*@
-                                <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 57px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
+                                <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 35px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
@@ -2035,6 +2035,7 @@
 
                 $("#vehicleVin").keypress(function(e){
                     if($('#vehicleVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2045,6 +2046,7 @@
                 });
                 $("#rvVin").keypress(function(e){
                     if($('#rvVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2055,16 +2057,18 @@
                 });
                 $("#camperVin").keypress(function(e){
                     if($('#camperVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
-
+                        
                     }else{
                         e.preventDefault();
                     }
                 });
                 $("#atvVin").keypress(function(e){
                     if($('#atvVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2075,6 +2079,7 @@
                 });
                 $("#boatVin").keypress(function(e){
                     if($('#boatVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2085,6 +2090,7 @@
                 });
                 $("#motorcycleVin").keypress(function(e){
                     if($('#motorcycleVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2095,6 +2101,7 @@
                 });
                 $("#snowmobileVin").keypress(function(e){
                     if($('#snowmobileVin').val().length >= 17){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(alphaNumericAllow(e)){
@@ -2105,6 +2112,7 @@
                 });
                 $("#vehiclemiles").keypress(function(e){
                     if($('#vehiclemiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2115,6 +2123,7 @@
                 });
                 $("#rvmiles").keypress(function(e){
                     if($('#rvmiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2125,6 +2134,7 @@
                 });
                 $("#atvmiles").keypress(function(e){
                     if($('#atvmiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2135,6 +2145,7 @@
                 });
                 $("#motorcyclemiles").keypress(function(e){
                     if($('#motorcyclemiles').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllow(e)){
@@ -2146,6 +2157,7 @@
                 $("#rvlength").keypress(function(e){
                     var val = $("#rvlength").val();
                     if($('#rvlength').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllowDecimal(e,val)){
@@ -2157,6 +2169,7 @@
                 $("#camperlength").keypress(function(e){
                     var val = $("#camperlength").val();
                     if($('#camperlength').val().length >= 10){
+                        if(e.which != 8)
                         e.preventDefault();
                     }
                     else if(numericAllowDecimal(e,val)){
@@ -2168,7 +2181,7 @@
                 function numericAllowDecimal(e,val){
                     var ch = e.which;
                     if(val.indexOf('.')=== -1){
-                        if ((ch >= 48 && ch <= 57 )|| ch == 46) {
+                        if ((ch >= 48 && ch <= 57 )|| ch == 46|| ch == 8) {
                             return 1;
                         }
                     }else{
@@ -2180,14 +2193,15 @@
                 }
                 function alphaNumericAllow(e){
                     var ch = e.which;
-                    if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) ){
+
+                    if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) || ch == 8){
                         return 1;
                     }
                     return 0;
                 }
                 function numericAllow(e){
                     var ch = e.which;
-                    if (ch >= 48 && ch <= 57) {
+                    if ((ch >= 48 && ch <= 57)|| ch == 8) {
                         return 1;
                     }
                     return 0;
