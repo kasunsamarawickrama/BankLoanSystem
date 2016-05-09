@@ -622,5 +622,56 @@ namespace BankLoanSystem.DAL
             }
         }
 
+
+        public List<CurtailmentShedule> GetCurtailmentPaidDetailsDuringSession()
+        {
+            List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
+            //DataHandler dataHandler = new DataHandler();
+            //List<object[]> paramertList = new List<object[]>();
+            //paramertList.Add(new object[] { "@loan_id", loanId });
+            //paramertList.Add(new object[] { "@paid_date_start", paidDateStart });
+            //paramertList.Add(new object[] { "@paid_date_end", paidDateEnd });
+
+            decimal totalpaid = 0.00M;
+
+            //DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentPaidDetailsByDateRange", paramertList);
+            //if (dataSet != null && dataSet.Tables.Count != 0)
+            //{
+            //    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+            //    {
+            //        CurtailmentShedule curtailment = new CurtailmentShedule();
+            //        curtailment.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+            //        curtailment.UnitId = dataRow["UnitId"].ToString();
+            //        curtailment.IDNumber = dataRow["identification_number"].ToString();
+            //        curtailment.Year = Convert.ToInt32(dataRow["year"]);
+            //        curtailment.Make = dataRow["make"].ToString();
+            //        curtailment.Model = dataRow["model"].ToString();
+            //        curtailment.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+            //        curtailment.CurtNumber = Convert.ToInt32(dataRow["curt_number"]);
+
+            //        curtailment.PaidDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
+            //        //curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString()).ToString("MM/dd/yyyy");
+            //        //curtailment.Status = Convert.ToInt32(dataRow["curt_status"]);
+            //        curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"]);
+            //        curtailment.PaidCurtAmount = Convert.ToDecimal(dataRow["CurtPaidAmount"]);
+
+
+
+            //        curtailment.AdvanceDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
+
+            //        totalpaid = totalpaid + Convert.ToDecimal(dataRow["CurtPaidAmount"]);
+            //        lstCurtailmentShedule.Add(curtailment);
+            //    }
+                //if (lstCurtailmentShedule.Count > 0)
+                //    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
+
+                for (int i = 0; i < lstCurtailmentShedule.Count; i++)
+                    lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
+
+
+            //}
+            return lstCurtailmentShedule;
+        }
+
     }
 }
