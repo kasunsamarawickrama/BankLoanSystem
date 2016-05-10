@@ -233,7 +233,7 @@ namespace BankLoanSystem.DAL
                     justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
                     justAddedUnit.Make = dataRow["make"].ToString();
                     justAddedUnit.Model = dataRow["model"].ToString();
-                    justAddedUnit.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
+                    justAddedUnit.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["cost"] : (Decimal)0.00M;
                     justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
                     justAddedUnit.UnitStaus = Convert.ToBoolean(dataRow["is_advanced"]) ? "Advanced" : "Not Advanced";
                     int status = Convert.ToInt32(dataRow["title_status"]);
