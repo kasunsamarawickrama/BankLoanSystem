@@ -820,21 +820,18 @@
 
                             @if (ViewBag.IsTitleTrack == "Yes")
                                     {
-                                <div class="form-group">
-                                    @*@Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })*@
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new {@class = "control-label col-md-4", style = "width: 43%;"})
+                                            <div class="col-md-2">
+                                                <div class="checkbox rad-style">
+                                                    @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new {@id = "rdYes", @class = "titleReceived"}) Yes @*, @checked = "checked"*@
+                                                    @Html.RadioButtonFor(model => model.TitleReceived, "No", new {@id = "rdNo", @class = "titleReceived", @style = "margin-left: 21px;"}) No
+                                                    @Html.ValidationMessageFor(model => model.TitleReceived, "", new {@class = "text-danger", style = "left: 1%; text-align: left; width: 260px;"})
+                                                </div>
 
-                                    <label class="control-label col-md-5" for="AdvanceNow" style="width:43%">Will you advance the unit today?  <span class="icon-help_outline help-date"></span></label>
+                                            </div>
 
-                                    <div class="col-md-2">
-                                        <div class="checkbox rad-style">
-                                            @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new { @id = "rdYes", @class = "titleReceived" }) Yes @*, @checked = "checked"*@
-                                            @Html.RadioButtonFor(model => model.TitleReceived, "No", new { @id = "rdNo", @class = "titleReceived" , @style= "margin-left: 21px;" }) No
-                                            @Html.ValidationMessageFor(model => model.TitleReceived, "", new { @class = "text-danger", style = "left: 1%; text-align: left; width: 260px;" })
                                         </div>
-                                
-                                    </div>
-                                
-                                </div>
                             }
                             @if (ViewBag.CompabyType == 2 && ViewBag.Upload == "Yes")
                             {
@@ -865,7 +862,8 @@
                         {
                             <div style="padding:20px 20px 10px 20px">
                                 <div class="form-group" >
-                                    @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
+                                    @*@Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })*@
+                                    <label class="control-label col-md-5" for="AdvanceNow" style="width:43%">Will you advance the unit today?  <span class="icon-help_outline help-date"></span></label>
                                     <div class="col-md-2 rad-style">
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
                                         @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" , @style = "margin-left: 21px;" }) No
