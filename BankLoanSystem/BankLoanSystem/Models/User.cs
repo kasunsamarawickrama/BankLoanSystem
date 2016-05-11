@@ -128,6 +128,8 @@ namespace BankLoanSystem.Models
 
         public string CompanyName { get; set; }
 
+        public string CompanyCode { get; set; }
+
         public string BranchName { get; set; }
 
         public string BranchNameAddress { get; set; }
