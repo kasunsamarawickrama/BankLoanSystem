@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Data;
+using System.Web.UI;
 
 namespace BankLoanSystem.Controllers.SetupProcess
 {
@@ -1770,6 +1771,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
+        /// 
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
         public JsonResult IsLoanNumberExists(string loanNumber, int RegisteredBranchId)
         {
             //check user name is already exist.  
