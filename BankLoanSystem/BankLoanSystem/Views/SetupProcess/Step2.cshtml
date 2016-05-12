@@ -62,6 +62,60 @@
 
                                                 $('.right_panel_box p').html("You can create additional branches now or continue on to the next step of the setup process. You will be able to create additional branches from your dashboard at any time.");
                                                 $('.right_panel_box h4').html("Company branches");
+
+                                             
+
+                                                $(function () {
+                                                    $('#step3').click(function () {
+
+
+                                                        $.ajax({
+                                                            url: '@Url.Action("Step3")',
+                                                            type: 'GET',
+
+
+                                                            success: function (partialView) {
+                                                                $('#loadingDiv').hide();
+                                                                $('#changeContainer').html(partialView);
+                                                                $('#changeContainer').show();
+                                                                Progress(4);
+                                                            },
+                                                            error: function (request, status, error) {
+                                                                //handleErrorMsg(request.responseText);
+
+                                                            }
+                                                        });
+                                                    });
+                                                });
+
+                                    $(function () {
+                                        $('#createNewBranch').click(function () {
+
+
+                                            $.ajax({
+                                                url: '@Url.Action("Step2")',
+                                                type: 'GET',
+
+
+                                                success: function (partialView) {
+                                                    $('#loadingDiv').hide();
+                                                    $('#changeContainer').html(partialView);
+                                                    $('#changeContainer').show();
+                                                },
+
+                                                error: function (request, status, error) {
+                                                    //handleErrorMsg(request.responseText);
+
+                                                }
+                                            });
+
+
+                                        });
+
+
+                                    });
+
+                                          
                                             </script>
                                         }
 
@@ -363,56 +417,7 @@
 
 
 <script src="~/scripts/CommonFunctions.js"></script>
-<script>
-                                    $(function () {
-                                        $('#createNewBranch').click(function () {
 
-                                            $('#loadingDiv').show();
-                                            $.ajax({
-                                                url: '@Url.Action("Step2")',
-                                                type: 'GET',
-
-
-                                                success: function (partialView) {
-                                                    $('#loadingDiv').hide();
-                                                    $('#changeContainer').html(partialView);
-                                                    $('#changeContainer').show();
-                                                },
-
-                                                error: function (request, status, error) {
-                                                    //handleErrorMsg(request.responseText);
-
-                                                }
-                                            });
-
-
-                                        });
-
-                                        $(function () {
-                                            $('#step3').click(function () {
-
-                                                $('#loadingDiv').show();
-                                                $.ajax({
-                                                    url: '@Url.Action("Step3")',
-                                                    type: 'GET',
-
-
-                                                    success: function (partialView) {
-                                                        $('#loadingDiv').hide();
-                                                        $('#changeContainer').html(partialView);
-                                                        $('#changeContainer').show();
-                                                        Progress(4);
-                                                    },
-                                                    error: function (request, status, error) {
-                                                        //handleErrorMsg(request.responseText);
-
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    });
-
-</script>
 
 <script>
 
