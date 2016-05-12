@@ -1208,7 +1208,7 @@
                 totatlPercentage = parseInt(totatlPercentage) + parseInt(list.currentList[j].Percentage);
             }
 
-            $('#customErrorTable').children('span').text("Total curtailment % equals " + totatlPercentage + " but should be equal to " + payPercentage + ". Please adjust the curtailment schedule.");
+            $('#customErrorTable').children('span').text("Please complete the curtailment schedule so the percentage remaining to pay off is zero. It currently totals only " + totatlPercentage + "%.");
         }
     });
 
