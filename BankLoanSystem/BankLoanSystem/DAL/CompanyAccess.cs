@@ -1299,7 +1299,7 @@ namespace BankLoanSystem.DAL
                         }
                         if (!string.IsNullOrEmpty(dsCompany.Tables[0].Rows[0]["website_url"].ToString()))
                         {
-                            company.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString().Trim();
+                            company.WebsiteUrl = dataRow["website_url"].ToString().Trim();
                         }
                         company.TypeId = int.Parse(dataRow["company_type"].ToString());
                         company.CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
