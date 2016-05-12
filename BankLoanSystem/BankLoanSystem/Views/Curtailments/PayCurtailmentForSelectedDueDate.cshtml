@@ -329,6 +329,7 @@
          }
         var dueDate = '@dateTime';
         GetCurrentCurtailment(dueDate);
+        $('.centered1 span').text('');
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
@@ -341,7 +342,8 @@
         $('#searchIdentificationNumber').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
         $('#identificationNumberSearch').val('');
-
+        
+        
     });
     function GetCurrentCurtailment(dueDate){
 
@@ -356,7 +358,7 @@
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
-                $('.centered1 span').text('Successfully Updated');
+                //$('.centered1 span').text('Successfully Updated');
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1183,7 +1185,9 @@
                             });
 
                         } else {
+                            $('.centered1 span').text('Successfully Updated');
                             GetCurrentCurtailment($('#dueDate').val());
+                            
                         }
                     }
 
