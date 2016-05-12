@@ -1275,7 +1275,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int userId = userData.UserId;
             nonRegComModel.Company.CreatedBy = userId;
-            nonRegComModel.Company.TypeId = userData.CompanyType;
+            nonRegComModel.Company.TypeId = (userData.CompanyType == 1) ? 2:1;
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
 
             CompanyAccess ca = new CompanyAccess();
