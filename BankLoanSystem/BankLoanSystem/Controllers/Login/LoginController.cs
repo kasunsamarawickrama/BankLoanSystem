@@ -129,6 +129,8 @@ namespace BankLoanSystem.Controllers
                         if (dsUser.Tables[0].Rows[0]["company_id"].ToString() != "")
                         {
                             userData.Company_Id = int.Parse(dsUser.Tables[0].Rows[0]["company_id"].ToString());
+                            userData.CompanyType = int.Parse(dsUser.Tables[0].Rows[0]["company_type"].ToString());
+                            userData.CompanyCode = dsUser.Tables[0].Rows[0]["company_code"].ToString();
                         }
                         else
                         {
@@ -138,8 +140,7 @@ namespace BankLoanSystem.Controllers
                     }
                     
                     userData.step_status = int.Parse(dsUser.Tables[0].Rows[0]["step_status"].ToString());
-                    userData.CompanyType = int.Parse(dsUser.Tables[0].Rows[0]["company_type"].ToString());
-                    userData.CompanyCode = dsUser.Tables[0].Rows[0]["company_code"].ToString();
+                    
                     //To compair Database password and user enter password
                     string passwordFromDB = userData.Password;
                     char[] delimiter = { ':' };

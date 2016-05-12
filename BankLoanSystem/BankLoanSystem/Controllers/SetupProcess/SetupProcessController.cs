@@ -251,6 +251,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
+                userData.CompanyCode = company.CompanyCode;
+                userData.CompanyType = company.TypeId;
+
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
                 if (type == "INSERT")
@@ -2641,8 +2644,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
         //Gloable variables
-        private static LoanSetupStep1 _loan;
-        private static CurtailmentModel _gCurtailment;
+        private LoanSetupStep1 _loan;
 
         // GET: LoanSetUpStep5
         /// <summary>
@@ -2682,11 +2684,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _loan = curAccess.GetLoanDetailsByLoanId(loanId);
                 _loan.loanId = loanId;
 
-                _gCurtailment = new CurtailmentModel();
-                _gCurtailment.AdvancePt = _loan.advancePercentage;
-                _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt;
+                CurtailmentModel curtailment = new CurtailmentModel();
+                curtailment.AdvancePt = _loan.advancePercentage;
+                curtailment.RemainingPercentage = curtailment.AdvancePt;
 
-                _gCurtailment.InfoModel = new List<Curtailment>();
+                curtailment.InfoModel = new List<Curtailment>();
 
                 var curtailments = curAccess.retreiveCurtailmentByLoanId(loanId);
 
@@ -2700,32 +2702,32 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         curId++;
                         totalPercentage += curtailments[i].Percentage;
-                        _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
+                        curtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
-                    _gCurtailment.LoanStatus = _loan.LoanStatus ? "Yes" : "No";
+                    curtailment.LoanStatus = _loan.LoanStatus ? "Yes" : "No";
 
-                    _gCurtailment.CalculationBase = _loan.CurtailmentCalculationBase == "a" ? "Advance" : "Full payment";
-                    _gCurtailment.DueDate = _loan.CurtailmentDueDate;
-                    _gCurtailment.AutoRemindEmail = _loan.CurtailmentAutoRemindEmail;
-                    _gCurtailment.EmailRemindPeriod = _loan.CurtailmentEmailRemindPeriod;
+                    curtailment.CalculationBase = _loan.CurtailmentCalculationBase == "a" ? "Advance" : "Full payment";
+                    curtailment.DueDate = _loan.CurtailmentDueDate;
+                    curtailment.AutoRemindEmail = _loan.CurtailmentAutoRemindEmail;
+                    curtailment.EmailRemindPeriod = _loan.CurtailmentEmailRemindPeriod;
                 }
 
                 ViewBag.CalMode = "Full Payment";
-                _gCurtailment.RemainingPercentage = payPercentage - totalPercentage;
+                curtailment.RemainingPercentage = payPercentage - totalPercentage;
 
-                if (_gCurtailment.RemainingPercentage > 0)
-                    _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId + 1 });
-                ViewData["objmodel"] = _gCurtailment;
+                if (curtailment.RemainingPercentage > 0)
+                    curtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId + 1 });
+                ViewData["objmodel"] = curtailment;
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
-                    return PartialView(_gCurtailment);
+                    return PartialView(curtailment);
                 }
                 else
                 {
 
-                    return View(_gCurtailment);
+                    return View(curtailment);
                 }
             }
             return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
@@ -2750,11 +2752,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
             int index = 0;
-            foreach (Curtailment curtailment in curtailmentList)
-            {
-                curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
-                index++;
-            }
+            //foreach (Curtailment curtailment in curtailmentList)
+            //{
+            //    curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
+            //    index++;
+            //}
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
