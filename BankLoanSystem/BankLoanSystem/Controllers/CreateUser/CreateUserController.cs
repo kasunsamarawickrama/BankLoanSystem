@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using BankLoanSystem.Code;
+using System.Web.UI;
 
 namespace BankLoanSystem.Controllers.CreateUser
 {
@@ -240,6 +241,7 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
         public JsonResult IsUserNameExists(string userName)
         {
             //check user name is already exist.  
@@ -256,6 +258,7 @@ namespace BankLoanSystem.Controllers.CreateUser
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
         public JsonResult IsEmailExists(string newEmail)
         {
             //check user name is already exist.  

@@ -4,8 +4,8 @@
     width: auto;
 }
 .tooltip {
-    opacity:unset;
-    z-index: unset;
+    opacity:1;
+    z-index: auto;
     font-family: icomoon !important;
 }
 h3{
@@ -119,7 +119,7 @@ footer{
         }
         .box>div>span{
                 color: #E2DDDD;
-               font-family:"HelveticaNeue", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+               /*font-family:"HelveticaNeue", "Helvetica Neue", "Helvetica", Arial, sans-serif;*/
                 font-size:24px;
         }
 
@@ -795,44 +795,3 @@ font-family: 'icomoon' !important;
 	box-shadow:inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #032b3a, 1px 1px 0px 0px #044a64, 2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b, 0px 10px 5px #999 ;
 }
 
-/*
-Second button
-*/
-
-.addunit::before {
-	content: "\eaef";
-}
-
-.advance-unit::before {
-	content: "\e941";
-}
-
-.unit-curt::before {
-	content: "\e94f";
-}
-.ttl-icn::before{
-    content: "\e907";
-}
-
-.pay-off::before{
-    content: "\e942";
-}
-
-.fees-icn::before{
-   content: "\e943";
-}
-
-.rpts-icn::before{
-   content: "\e908";
-}
-
-.del-uni-icn::before{
-    content: "\e92e";
-}
-/*
-Third button
-*/
-
-.third_button::before {
-	content:"3";
-}

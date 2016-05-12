@@ -356,7 +356,7 @@
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
-
+                $('.centered1 span').text('Successfully Updated');
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1049,7 +1049,8 @@
 
     var loanId = '@ViewBag.LoanId';
     var data = { SelectedCurtailmentSchedules: [] };
-    $('#payAll').click(function () {
+    $('#payAll').click(function (e) {
+    //$(document).on('click', '#payAll', function(e) {
         //check want to view report
         var ckbReport = $('#report').is(':checked');
         var ckbEmailReceipt = $('#emailReceipt').is(':checked');
@@ -1125,48 +1126,128 @@
                    
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == "") {
-                        $('.centered1 span').text('Successfully Updated');
-                        GetCurrentCurtailment($('#dueDate').val());
+
+                        if (ckbReport) {
+                            doConfirm1();
+                            var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+                            $('#reportViewerDiv').show();
+                            var myFrame = document.getElementById('ifrmReportViewer');
+
+                            if (myFrame !== null) {
+
+                                if (myFrame.src) {
+                                    //alert(1);
+                                    myFrame.src = url;
+                                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                    //alert(2);
+                                    myFrame.contentWindow.location = url;
+                                } else {
+                                    //alert(3);
+                                    myFrame.setAttribute('src', url);
+                                }
+                            }
+                            $('.overlay-bg, .overlay-content.popupReport').show();
+                            e.preventDefault();
+                            $('#btnCancelPtrDiv').click(function() {
+                                
+                                GetCurrentCurtailment($('#dueDate').val());
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
+                                $('.centered1 span').text('Successfully Updated');
+                            });
+
+                            $('#btnPrint').click(function () {
+                                $.ajax({
+                                    url: '/Curtailments/PrintPage',
+                                    type: 'POST',
+                                    contentType: 'application/json;',
+                                    data: JSON.stringify(),
+                                    success: function (view) {
+                                        //alert(view);
+                                        $('.centered1 span').text('Successfully Updated');
+                                        GetCurrentCurtailment($('#dueDate').val());
+                                        $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        // Your handler here...
+       
+                                        // if session expires
+                                        if (jqXHR.status == "404") {
+                                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                        } else {
+                                            $('#errPage span').text('No printers are installed.');
+                                        }
+                                    }
+                                });
+                            });
+
+                        } else {
+                            GetCurrentCurtailment($('#dueDate').val());
+                        }
                     }
 
-                    $('.centered1 span').text('Successfully Updated');
-                    //load report div
-                    if (ckbReport) {
-                        doConfirm1();
-                        var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
-
-                        $('#reportViewerDiv').show();
-                        var myFrame = document.getElementById('ifrmReportViewer');
-
-                        if (myFrame !== null) {
-
-                            if (myFrame.src) {
-                                //alert(1);
-                                myFrame.src = url;
-                            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                                //alert(2);
-                                myFrame.contentWindow.location = url;
-                            } else {
-                                //alert(3);
-                                myFrame.setAttribute('src', url);
-                            }
-                        }
-                        $('.overlay-bg, .overlay-content.popupReport').show();
-                        $('#btnCancelPtrDiv').click(function() {
-                            $('.overlay-bg, .overlay-content.popupReport').hide();
                     if(View.length > 5){
-                                var array = View.split(',');
-                                showPopup5(5 , array);
+
+                        if (ckbReport) {
+                            doConfirm1();
+                            var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+                            $('#reportViewerDiv').show();
+                            var myFrame = document.getElementById('ifrmReportViewer');
+
+                            if (myFrame !== null) {
+
+                                if (myFrame.src) {
+                                    //alert(1);
+                                    myFrame.src = url;
+                                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                    //alert(2);
+                                    myFrame.contentWindow.location = url;
+                                } else {
+                                    //alert(3);
+                                    myFrame.setAttribute('src', url);
+                                }
                             }
-                        });
+                            $('.overlay-bg, .overlay-content.popupReport').show();
+                            e.preventDefault();
+                            $('#btnCancelPtrDiv').click(function() {
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
+                                if(View.length > 5){
+                                    var array = View.split(',');
+                                    showPopup5(5 , array);
+                                }
+                            });
                             
-                    } else {
-                        //title page
-                        if(View.length > 5){
-                        var array = View.split(',');
-                        showPopup5(5 , array);
-                        }
+                            $('#btnPrint').click(function () {
+                                $.ajax({
+                                    url: '/Curtailments/PrintPage',
+                                    type: 'POST',
+                                    contentType: 'application/json;',
+                                    data: JSON.stringify(),
+                                    success: function (view) {
+                                        //alert(view);
+
+                                        var array = View.split(',');
+                                        showPopup5(5 , array);
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        // Your handler here...
+       
+                                        // if session expires
+                                        if (jqXHR.status == "404") {
+                                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                        } else {
+                                            $('#errPage span').text('No printers are installed.');
+                                        }
+                                    }
+                                });
+                            });
+                        } 
                     }
+
+                    //$('.centered1 span').text('Successfully Updated');
+                    //load report div
+                  
 
 
                     //alert("Success");
@@ -1463,29 +1544,6 @@
         return;
 
     }
-
-    $('#btnPrint').click(function () {
-        $.ajax({
-            url: '/Curtailments/PrintPage',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify(),
-            success: function (view) {
-                //alert(view);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
-       
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Session expired';
-                } else {
-                    $('#errPage span').text('No printers are installed.');
-                }
-    }
-        });
-    });
-
     </script>
 
 

@@ -6,18 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Data;
+using System.Web.UI;
 
 namespace BankLoanSystem.Controllers.SetupProcess
 {
     public class SetupProcessController : Controller
     {
-        private static CompanyBranchModel userCompany = null;
-        private static CompanyBranchModel userNonRegCompany = null;
-        public static string CompanyType = "Lender";
-        private static string _comCode;
-        private static int _isEdit;
-
-        private static string _calMode;
         User userData = new User();
         LoanSetupStep loanData = new LoanSetupStep();
         int loanstep = 0;
@@ -142,7 +136,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step1(string edit)
+        public ActionResult Step1()
         {
             int userId = userData.UserId;
             int roleId = userData.RoleId;
@@ -167,12 +161,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
                
 
-                if (preCompany != null)
-                {
-                    _comCode = preCompany.CompanyCode;
-                    ViewBag.Edit = "Yes";
-                    _isEdit = 1;
-                }
+                //if (preCompany != null)
+                //{
+                //    _comCode = preCompany.CompanyCode;
+                //}
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -214,19 +206,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
-
-
-            if (_isEdit != 1)
+            type = "UPDATE";
+            if (string.IsNullOrEmpty(company.CompanyCode))
             {
                 GeneratesCode gc = new GeneratesCode();
-                _comCode = company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+                company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
                 type = "INSERT";
-            }
-            else
-            {
-                company.CompanyCode = _comCode;
-                type = "UPDATE";
-                _isEdit = 0;
             }
 
             company.Zip = company.ZipPre;
@@ -239,23 +224,48 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int companyId = ca.InsertCompany(company, type);
 
+            //if (_isEdit != 1)
+            //{
+            //    GeneratesCode gc = new GeneratesCode();
+            //    _comCode = company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+            //    type = "INSERT";
+            //}
+            //else
+            //{
+            //    company.CompanyCode = _comCode;
+            //    type = "UPDATE";
+            //    _isEdit = 0;
+            //}
+
+            //company.Zip = company.ZipPre;
+            //if (company.Extension != null)
+            //    company.Zip += "-" + company.Extension;
+
+            //company.CreatedBy = company.FirstSuperAdminId = userData.UserId;
+            //company.CompanyStatus = true;
+            //CompanyAccess ca = new CompanyAccess();
+
+            //int companyId = ca.InsertCompany(company, type);
+
             if (companyId > 0)
             {
                 ViewBag.SuccessMsg = "Company Successfully setup.";
 
-                CompanyType = (company.TypeId == 1) ? "Lender" : "Dealer";
+                userData.CompanyCode = company.CompanyCode;
+                userData.CompanyType = company.TypeId;
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                if(type== "INSERT")
+                if (type == "INSERT")
                 {
                     bool res = sa.UpdateCompanySetupStep(companyId, userData.BranchId, 2);
 
                     //insert to log 
-                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Inserted company : " + _comCode, DateTime.Now);
+                    Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Inserted company : " + company.CompanyCode, DateTime.Now);
 
-                   (new LogAccess()).InsertLog(log);
-                }else if (type == "UPDATE")
+                    (new LogAccess()).InsertLog(log);
+                }
+                else if (type == "UPDATE")
                 {
                     //insert to log 
                     Log log = new Log(userData.UserId, companyId, 0, 0, "Company Step", "Updated company : " + company.CompanyCode, DateTime.Now);
@@ -264,13 +274,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
 
-                
+
 
                 if (Convert.ToInt32(Session["companyStep"].ToString()) < 2)
                 {
                     Session["companyStep"] = 2;
                 }
-               
+
 
                 //user object pass to session
                 userData.Company_Id = companyId;
@@ -334,20 +344,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //int reslt = 2;
             if (reslt >= 2)
             {
-                userCompany = new CompanyBranchModel();
+                CompanyBranchModel userCompany = new CompanyBranchModel();
                 if ((TempData["Company"] != null) && (TempData["Company"].ToString() != ""))
                 {
                     userCompany = (CompanyBranchModel)TempData["Company"];
 
-                    CompanyType = (userCompany.Company.TypeId == 1) ? "Lender" : "Dealer";
-
                     if (userCompany.Company.Extension == null)
                         userCompany.Company.Extension = "";
-                }
-
-                if (edit == 1)
-                {
-                    _isEdit = 1;
                 }
 
                 userCompany.MainBranch = new Branch();
@@ -444,17 +447,19 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            userCompany2.Company = userCompany.Company;
+            //userCompany2.Company = _userCompany.Company;
             userCompany2.MainBranch.StateId = userCompany2.StateId;
-            userCompany2.MainBranch.BranchCode = branchCode;
+             
 
             BranchAccess ba = new BranchAccess();
             if (string.IsNullOrEmpty(branchCode))
             {
-                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany.Company.CompanyCode);
-                userCompany.MainBranch = userCompany2.MainBranch;
+                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userData.CompanyCode);
+                //_userCompany.MainBranch = userCompany2.MainBranch;
             }
 
+            userCompany2.Company = new Company();
+            userCompany2.Company.CompanyCode = userData.CompanyCode;
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             //userData.BranchId = reslt;
             if (reslt >= 0)
@@ -492,7 +497,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //return new HttpStatusCodeResult(404, "Failed to set up branch");
             }
 
-            userCompany.MainBranch = new Branch();
             ViewBag.BranchIndex = 0;
 
             //Get company details by user id
@@ -502,40 +506,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             CompanyAccess ca = new CompanyAccess();
             Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-            //CompanyAccess ca = new CompanyAccess();
-            //Company preCompany = new Company();
-            //DataSet dsCompany = new DataSet();
-            //dsCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-            //if (dsCompany.Tables[0].Rows.Count > 0)
-            //{
-            //    preCompany.CompanyId = int.Parse(dsCompany.Tables[0].Rows[0]["company_Id"].ToString());
-            //    preCompany.CompanyName = dsCompany.Tables[0].Rows[0]["company_name"].ToString();
-            //    preCompany.CompanyCode = dsCompany.Tables[0].Rows[0]["company_code"].ToString();
-            //    preCompany.CompanyAddress1 = dsCompany.Tables[0].Rows[0]["company_address_1"].ToString();
-            //    preCompany.CompanyAddress2 = dsCompany.Tables[0].Rows[0]["company_address_2"].ToString();
-            //    preCompany.StateId = int.Parse(dsCompany.Tables[0].Rows[0]["stateId"].ToString());
-            //    preCompany.City = dsCompany.Tables[0].Rows[0]["city"].ToString();
-            //    preCompany.Zip = dsCompany.Tables[0].Rows[0]["zip"].ToString();
-
-            //    string[] zipWithExtention = preCompany.Zip.Split('-');
-
-            //    if (zipWithExtention[0] != null) preCompany.ZipPre = zipWithExtention[0];
-            //    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) preCompany.Extension = zipWithExtention[1];
-
-            //    preCompany.Email = dsCompany.Tables[0].Rows[0]["email"].ToString();
-            //    preCompany.PhoneNum1 = dsCompany.Tables[0].Rows[0]["phone_num_1"].ToString();
-            //    preCompany.PhoneNum2 = dsCompany.Tables[0].Rows[0]["phone_num_2"].ToString();
-            //    preCompany.PhoneNum3 = dsCompany.Tables[0].Rows[0]["phone_num_3"].ToString();
-            //    preCompany.Fax = dsCompany.Tables[0].Rows[0]["fax"].ToString();
-            //    preCompany.WebsiteUrl = dsCompany.Tables[0].Rows[0]["website_url"].ToString();
-            //    preCompany.TypeId = int.Parse(dsCompany.Tables[0].Rows[0]["company_type"].ToString());
-            //}
-
-
-            userCompany.Company = preCompany;
 
             IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
-            userCompany.SubBranches = branches;
 
             //Get states to list
             List<State> stateList = ca.GetAllStates();
@@ -549,7 +521,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-
                 return View();
             }
 
@@ -1304,7 +1275,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             int userId = userData.UserId;
             nonRegComModel.Company.CreatedBy = userId;
-            nonRegComModel.Company.TypeId = (CompanyType == "Lender") ? 2 : 1;
+            nonRegComModel.Company.TypeId = userData.CompanyType;
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
 
             CompanyAccess ca = new CompanyAccess();
@@ -1316,7 +1287,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             if (ca.InsertNonRegisteredCompany(nonRegCom))
             {
-                ViewBag.SuccessMsg = ((CompanyType == "Lender") ? "Dealer" : "Lender") + " Successfully created.";
+                ViewBag.SuccessMsg = ((userData.CompanyType == 1) ? "Dealer" : "Lender") + " Successfully created.";
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
@@ -1339,7 +1310,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 TempData["NonRegCompany"] = comBranch;
                 return RedirectToAction("Step5");
             }
-            ViewBag.ErrorMsg = "Failed to create " + ((CompanyType == "Lender") ? "Dealer" : "Lender") + " company.";
+            ViewBag.ErrorMsg = "Failed to create " + ((userData.CompanyType == 1) ? "Dealer" : "Lender") + " company.";
 
             //return new HttpStatusCodeResult(404, ViewBag.ErrorMsg);
             return RedirectToAction("UserLogin", "Login", new { lbl = ViewBag.ErrorMsg });
@@ -1398,7 +1369,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            userNonRegCompany = new CompanyBranchModel();
+            CompanyBranchModel userNonRegCompany = new CompanyBranchModel();
             if ((TempData["NonRegCompany"] != null) && (TempData["NonRegCompany"].ToString() != ""))
             {
 
@@ -1803,6 +1774,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// 
         /// </summary>
         /// <returns>Return JsonResult</returns>
+        /// 
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
         public JsonResult IsLoanNumberExists(string loanNumber, int RegisteredBranchId)
         {
             //check user name is already exist.  
@@ -2671,8 +2644,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
         //Gloable variables
-        private static LoanSetupStep1 _loan;
-        private static CurtailmentModel _gCurtailment;
+        private LoanSetupStep1 _loan;
 
         // GET: LoanSetUpStep5
         /// <summary>
@@ -2712,11 +2684,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 _loan = curAccess.GetLoanDetailsByLoanId(loanId);
                 _loan.loanId = loanId;
 
-                _gCurtailment = new CurtailmentModel();
-                _gCurtailment.AdvancePt = _loan.advancePercentage;
-                _gCurtailment.RemainingPercentage = _gCurtailment.AdvancePt;
+                CurtailmentModel curtailment = new CurtailmentModel();
+                curtailment.AdvancePt = _loan.advancePercentage;
+                curtailment.RemainingPercentage = curtailment.AdvancePt;
 
-                _gCurtailment.InfoModel = new List<Curtailment>();
+                curtailment.InfoModel = new List<Curtailment>();
 
                 var curtailments = curAccess.retreiveCurtailmentByLoanId(loanId);
 
@@ -2730,33 +2702,32 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         curId++;
                         totalPercentage += curtailments[i].Percentage;
-                        _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
+                        curtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId, TimePeriod = curtailments[i].TimePeriod, Percentage = curtailments[i].Percentage });
                     }
-                    _gCurtailment.LoanStatus = _loan.LoanStatus ? "Yes" : "No";
+                    curtailment.LoanStatus = _loan.LoanStatus ? "Yes" : "No";
 
-                    _gCurtailment.CalculationBase = _loan.CurtailmentCalculationBase == "a" ? "Advance" : "Full payment";
-                    _gCurtailment.DueDate = _loan.CurtailmentDueDate;
-                    _gCurtailment.AutoRemindEmail = _loan.CurtailmentAutoRemindEmail;
-                    _gCurtailment.EmailRemindPeriod = _loan.CurtailmentEmailRemindPeriod;
+                    curtailment.CalculationBase = _loan.CurtailmentCalculationBase == "a" ? "Advance" : "Full payment";
+                    curtailment.DueDate = _loan.CurtailmentDueDate;
+                    curtailment.AutoRemindEmail = _loan.CurtailmentAutoRemindEmail;
+                    curtailment.EmailRemindPeriod = _loan.CurtailmentEmailRemindPeriod;
                 }
 
-                _calMode = "Full Payment";
-                ViewBag.CalMode = _calMode;
-                _gCurtailment.RemainingPercentage = payPercentage - totalPercentage;
+                ViewBag.CalMode = "Full Payment";
+                curtailment.RemainingPercentage = payPercentage - totalPercentage;
 
-                if (_gCurtailment.RemainingPercentage > 0)
-                    _gCurtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId + 1 });
-                ViewData["objmodel"] = _gCurtailment;
+                if (curtailment.RemainingPercentage > 0)
+                    curtailment.InfoModel.Add(new Curtailment { CurtailmentId = curId + 1 });
+                ViewData["objmodel"] = curtailment;
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
-                    return PartialView(_gCurtailment);
+                    return PartialView(curtailment);
                 }
                 else
                 {
 
-                    return View(_gCurtailment);
+                    return View(curtailment);
                 }
             }
             return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
@@ -2781,11 +2752,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
             int index = 0;
-            foreach (Curtailment curtailment in curtailmentList)
-            {
-                curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
-                index++;
-            }
+            //foreach (Curtailment curtailment in curtailmentList)
+            //{
+            //    curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
+            //    index++;
+            //}
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
