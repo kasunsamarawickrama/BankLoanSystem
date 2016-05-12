@@ -117,6 +117,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             }
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            Session["curtLaonId"] = loanDetails.loanId;
             ViewBag.loanDetails = loanDetails;
             ViewBag.LoanId = loanDetails.loanId;
 
@@ -348,8 +349,13 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
         [HttpPost]
-        public int PrintPage(int loanId)
+        public int PrintPage()
         {
+            if (Session["curtLaonId"] == null || Session["curtLaonId"].ToString() == "")
+            {
+                return 0;
+            }
+            int loanId = (int) Session["curtLaonId"];
             RptDivCUrtailmentReceiptDuringSession curtThisSession = new RptDivCUrtailmentReceiptDuringSession();
             return curtThisSession.PrintPage(loanId);
         }

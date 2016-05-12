@@ -1126,7 +1126,7 @@
                    
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == "") {
-
+                        window.scrollTo(0, 0);
                         if (ckbReport) {
                             doConfirm1();
                             var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
@@ -1157,11 +1157,12 @@
                             });
 
                             $('#btnPrint').click(function () {
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
                                 $.ajax({
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: {loanId: loanId},
+                                    data: {},
                                     success: function (view) {
                                         //alert(view);
                                         $('.centered1 span').text('Successfully Updated');
@@ -1219,11 +1220,12 @@
                             });
                             
                             $('#btnPrint').click(function () {
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
                                 $.ajax({
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: {loanId: loanId},
+                                    data: {},
                                     success: function (view) {
                                         //alert(view);
 
