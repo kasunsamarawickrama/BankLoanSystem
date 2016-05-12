@@ -13,7 +13,7 @@ namespace BankLoanSystem.Controllers.Unit
 {
     public class UnitController : Controller
     {
-        private static LoanSetupStep1 _loan;
+        //private static LoanSetupStep1 _loan;
         User userData = new Models.User();
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -111,15 +111,15 @@ namespace BankLoanSystem.Controllers.Unit
             }
             string loanCode = Session["loanCode"].ToString();
 
-            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-            int loanId = _loan.loanId;
+            int loanId = loan.loanId;
+            Session["addUnitloan"] = loan;
 
 
-
-            ViewBag.loanDetails = _loan;
-            if (_loan.selectedUnitTypes.Count == 1) {
-                ViewBag.UnitTypeId = _loan.selectedUnitTypes[0].unitTypeName;
+            ViewBag.loanDetails = loan;
+            if (loan.selectedUnitTypes.Count == 1) {
+                ViewBag.UnitTypeId = loan.selectedUnitTypes[0].unitTypeName;
             }
 
             Models.Unit unit = new Models.Unit();
@@ -134,14 +134,13 @@ namespace BankLoanSystem.Controllers.Unit
             //        string permissionString = permission[0].rightsPermissionString;
             //    }
             //}
-
-            _loan.loanId = loanId;
-            unit.AdvancePt = _loan.advancePercentage;
+            
+            unit.AdvancePt = loan.advancePercentage;
             unit.LoanId = loanId;
-            unit.LoanAmount = _loan.loanAmount;
+            unit.LoanAmount = loan.loanAmount;
             unit.AdvanceDate = DateTime.Now;
-            unit.StartDate = _loan.startDate;
-            unit.EndDate = _loan.maturityDate;
+            unit.StartDate = loan.startDate;
+            unit.EndDate = loan.maturityDate;
 
             //get company type
             //1 - Lender
@@ -153,7 +152,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             //Check title 
             TitleAccess ta = new TitleAccess();
-            Title title = ta.getTitleDetails(_loan.loanId);
+            Title title = ta.getTitleDetails(loan.loanId);
 
             if (title != null)
             {
@@ -172,7 +171,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             unit.Balance = loanPaymentDetails.BalanceAmount;
 
-            ViewBag.Editable = _loan.isEditAllowable ? "Yes" : "No";
+            ViewBag.Editable = loan.isEditAllowable ? "Yes" : "No";
 
             //set user role to restrict add & advance unit if this user is dealer user(role id = 4)
             ViewBag.RoleId = userData.RoleId; 
@@ -245,15 +244,19 @@ namespace BankLoanSystem.Controllers.Unit
             flag = 1;
             if (res)
             {
-
+                if (Session["addUnitloan"] == null)
+                {
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
+                }
+                LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
                 //insert to log 
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * _loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
                 //Handling file attachments
 
                 //Check directory is already exists, if not create new
-                string mapPath = "~/Uploads/" + _loan.RegisteredCompanyCode + "/" + _loan.RegisteredBranchCode + "/";
+                string mapPath = "~/Uploads/" + loan.RegisteredCompanyCode + "/" + loan.RegisteredBranchCode + "/";
                 if (!Directory.Exists(Server.MapPath(mapPath)))
                 {
                     Directory.CreateDirectory(Server.MapPath(mapPath));
@@ -435,10 +438,9 @@ namespace BankLoanSystem.Controllers.Unit
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
-            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-
-            _loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-            NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(_loan.nonRegisteredBranchId);
+            LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            Session["addUnitloan"] = loan;
+            NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loan.nonRegisteredBranchId);
 
             ViewBag.NonRegBranchName = nonRegBranch.BranchName;
 
@@ -447,9 +449,9 @@ namespace BankLoanSystem.Controllers.Unit
 
             ViewBag.loanBranchAddress =  (nonRegBranch.BranchAddress1 != "" ? nonRegBranch.BranchAddress1 : "") + (nonRegBranch.BranchAddress2 != "" ? ", " + nonRegBranch.BranchAddress2 : "") + (nonRegBranch.BranchCity != "" ? ", " + nonRegBranch.BranchCity : "");
 
-            ViewBag.CurtailmentDueDate = _loan.CurtailmentDueDate;
+            ViewBag.CurtailmentDueDate = loan.CurtailmentDueDate;
 
-            ViewBag.LoanNumber = _loan.loanNumber;
+            ViewBag.LoanNumber = loan.loanNumber;
 
             return View();
         }
@@ -552,9 +554,14 @@ namespace BankLoanSystem.Controllers.Unit
 
             //string loanCode = Session["loanCode"].ToString();
 
+            if (Session["addUnitloan"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
+            }
 
+            LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
 
-            Title ttl = (new TitleAccess()).getTitleDetails(_loan.loanId);
+            Title ttl = (new TitleAccess()).getTitleDetails(loan.loanId);
             if (ttl != null && ttl.IsTitleTrack)
             {
                 ViewBag.ttlAccess = 1;
@@ -627,7 +634,14 @@ namespace BankLoanSystem.Controllers.Unit
 
         public ActionResult AddUnitReport()
         {
-            ViewBag.LoanId = _loan.loanId;
+            if (Session["addUnitloan"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
+            }
+
+            LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
+
+            ViewBag.LoanId = loan.loanId;
             ViewBag.UserId = userData.UserId;
             return View();
         }
@@ -639,8 +653,10 @@ namespace BankLoanSystem.Controllers.Unit
         [HttpPost]
         public JsonResult IsVinExists(string identificationNumber)
         {
+            LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
+
             //check user name is already exist.  
-            int loanId = _loan.loanId;
+            int loanId = loan.loanId;
             int num = (new UnitAccess()).IsUniqueVinForaLoan(identificationNumber, loanId);
 
             return Json(num, JsonRequestBehavior.AllowGet);

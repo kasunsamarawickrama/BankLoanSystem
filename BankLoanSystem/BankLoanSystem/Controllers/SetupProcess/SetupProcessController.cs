@@ -449,7 +449,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             //userCompany2.Company = _userCompany.Company;
             userCompany2.MainBranch.StateId = userCompany2.StateId;
-             
+            userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
             if (string.IsNullOrEmpty(branchCode))
