@@ -29,6 +29,11 @@ else if (ViewBag.type == "assignRights")
     actoinName = "assignRights";
     controllerName = "CreateDealer";
 }
+else if (ViewBag.type == "RenewLoan")
+{
+    actoinName = "RenewLoan";
+    controllerName = "UserManagement";
+}
 else
 {
     <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>

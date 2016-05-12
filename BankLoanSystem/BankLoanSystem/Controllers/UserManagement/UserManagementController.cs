@@ -869,7 +869,7 @@ namespace BankLoanSystem.Controllers
 
                 loanSelection.RegBranches = detail.RegBranches; //(new BranchAccess()).getBranches(userData.Company_Id);
 
-                if (loanSelection.RegBranches.Count() == 1)
+                if (loanSelection.RegBranches != null && loanSelection.RegBranches.Count() == 1)
                 {
 
                    

@@ -99,11 +99,11 @@
                                                 <label>Select User</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @*@if (ViewBag.userSelectList != null && ViewBag.userSelectList.Count > 0)
-                                                {*@
+                                                @if (ViewBag.userSelectList != null && ViewBag.userSelectList.Count > 0)
+                                                {
                                                     @Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.userSelectList, "UserId", "UserName"), "--Select User--", htmlAttributes: new { @class = "form-control", @style= "height: 34px;", @id="SelectUser" })
 
-                                                    @*}*@
+                                                }
                                                 @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
                                                 {                                                    
                                                   <p class="err_msg new_err_msg"><span class="err_msg new_err_msg" style="margin-top: 33px;">No Active Users</span></p>
@@ -210,9 +210,14 @@
         });
         forOneUser();
         function forOneUser(){
-            if(@ViewBag.userSelectList.Count ==1){
-                $('#SelectUser').val(@ViewBag.userSelectList[0].UserId);
-                getRights();
+
+            @if(ViewBag.userSelectList.Count == 1){
+                if (ViewBag.userSelectList !=null)
+                {
+                    <text>$('#SelectUser').val(@ViewBag.userSelectList[0].UserId);</text>
+                }
+
+               <text> getRights();</text>
             }
         }
 
