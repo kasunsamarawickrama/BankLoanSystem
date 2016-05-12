@@ -399,6 +399,7 @@ namespace BankLoanSystem.Controllers
                 }
                 else
                 {
+                    ViewBag.PartnerType = (userData.CompanyType == 1) ? 2 : 1;
                     return View();
                 }
 
