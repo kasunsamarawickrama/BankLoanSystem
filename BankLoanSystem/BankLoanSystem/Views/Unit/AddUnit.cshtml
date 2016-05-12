@@ -1154,14 +1154,19 @@
                             else if(data == 2){
                                 showPopup(8);
                             }
+                            else if(data == 3){
+                                $('.vinCheck').text("");
+                                middleSpanCheck();
+                            }
                             else{
                                 $('.vinCheck').text("");
                                 middleSpanCheck();
+                                $('.vinUnique').val("");
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown){
                             // Your handler here...
-                                
+                            $('.vinUnique').val(""); 
                             // if session expires
                             if(jqXHR.status == "404"){
                                 window.location.href='/Login/UserLogin?lbl=Session expired';
