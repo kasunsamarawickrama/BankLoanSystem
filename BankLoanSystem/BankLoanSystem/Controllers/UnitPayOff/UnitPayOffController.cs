@@ -11,9 +11,9 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 {
     public class UnitPayOffController : Controller
     {
-        private static LoanSetupStep1 loan;
+        //private static LoanSetupStep1 loan;
         User userData = new User();
-        static int _companyType = 0;
+
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -82,8 +82,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
 
             BranchAccess ba = new BranchAccess();
-            _companyType = ba.getCompanyTypeByUserId(userData.UserId);
-            ViewBag.ComType = _companyType;
+            ViewBag.ComType = userData.CompanyType;
             ViewBag.loanId = loanDetails.loanId;
             ViewBag.loanDetails = loanDetails;
 
@@ -267,9 +266,9 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 int titleStatus = 0;
 
-                if (_companyType == 1)
+                if (userData.CompanyType == 1)
                     titleStatus = titleReturn == "Yes" ? 2 : 4;
-                else if (_companyType == 2)
+                else if (userData.CompanyType == 2)
                     titleStatus = titleReturn == "Yes" ? 3 : 4;
 
                 result = (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);

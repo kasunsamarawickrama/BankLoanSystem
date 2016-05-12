@@ -16,7 +16,6 @@ namespace BankLoanSystem.Controllers.Curtailments
     public class CurtailmentsController : Controller
     {
         string lCode=string.Empty;
-        // private static LoanSetupStep1 loan;
         User userData = new User();
 
         // Check session in page initial stage
@@ -153,8 +152,6 @@ namespace BankLoanSystem.Controllers.Curtailments
             return PartialView(curtailmentScheduleModel);
         }
 
-        static int _loanId;
-
         /// <summary>
         /// CreatedBy:Nadeeka
         /// CreatedDate:2016/3/21
@@ -233,7 +230,6 @@ namespace BankLoanSystem.Controllers.Curtailments
                 items.TotalAmountPaid = totalpaid;
             }
 
-            _loanId = loanDetails.loanId;
             Session["CurtUnitDuringSession"] = selectedCurtailmentSchedules;
             if (needSend == "Yes")
             {
@@ -352,10 +348,10 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
         [HttpPost]
-        public int PrintPage()
+        public int PrintPage(int loanId)
         {
             RptDivCUrtailmentReceiptDuringSession curtThisSession = new RptDivCUrtailmentReceiptDuringSession();
-            return curtThisSession.PrintPage(_loanId);
+            return curtThisSession.PrintPage(loanId);
         }
 
     }

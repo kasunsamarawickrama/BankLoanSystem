@@ -22,8 +22,8 @@ namespace BankLoanSystem.Controllers
         /// 
 
         User userData = new User();
-        public static string CompanyType = "Lender";
-        public static int PartnerCompanyType = 0;
+        //public static string CompanyType = "Lender";
+        //public static int PartnerCompanyType = 0;
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -2840,10 +2840,9 @@ namespace BankLoanSystem.Controllers
         {
             if ((userData.RoleId == 1) ||(userData.RoleId == 2))
             {
-                int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                //int comType = userData.CompanyType;
+                //int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                int comType = userData.CompanyType;
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
-                PartnerCompanyType = (comType == 1) ? 2 : 1;
                 CompanyAccess ca = new CompanyAccess();
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
@@ -2886,7 +2885,7 @@ namespace BankLoanSystem.Controllers
                     if (partnerCompany.Extension != null)
                         partnerCompany.Zip += "-" + partnerCompany.Extension;
                     partnerCompany.CreatedBy = userData.UserId;
-                    partnerCompany.TypeId = PartnerCompanyType;
+                    partnerCompany.TypeId = (userData.CompanyType == 1) ? 2 : 1; ;
                    
                     CompanyAccess ca = new CompanyAccess();
                     //Company regCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
@@ -3046,8 +3045,6 @@ namespace BankLoanSystem.Controllers
                 int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
                 //int comType = userData.CompanyType;
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
-                PartnerCompanyType = (comType == 1) ? 2 : 1;
-               
 
                 //string type = (PartnerCompanyType == 1) ? "Lender" : "Dealer";
                 if (TempData["partnerEditReslt"] != null && int.Parse(TempData["partnerEditReslt"].ToString()) == 1)

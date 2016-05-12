@@ -1161,7 +1161,7 @@
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: JSON.stringify(),
+                                    data: {loanId: loanId},
                                     success: function (view) {
                                         //alert(view);
                                         $('.centered1 span').text('Successfully Updated');
@@ -1223,7 +1223,7 @@
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: JSON.stringify(),
+                                    data: {loanId: loanId},
                                     success: function (view) {
                                         //alert(view);
 
