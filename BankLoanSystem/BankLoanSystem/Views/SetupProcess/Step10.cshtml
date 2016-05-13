@@ -755,6 +755,10 @@
         //for (var j = 0; j < currentListLenght; j++) {
         //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
         //}
+        
+        if (percentage <= 0) {
+            return;
+        }
 
         // Add curtailment schedule details to liast
         if (parseInt(currentListLenght) === (parseInt(curid) - parseInt(1)) && timePeriod !== '' && percentage !== '') {
