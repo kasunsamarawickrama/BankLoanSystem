@@ -1465,7 +1465,9 @@
         document.getElementById("lotAmount").value = "";
         //document.getElementById("lotDue").value = "";
 
-
+        $('input[type=radio]').each(function () {
+            ($(this).removeClass('input-validation-error'));
+        });
     });
 
 

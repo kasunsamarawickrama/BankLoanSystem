@@ -395,6 +395,10 @@
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
         $('#RoleId').closest("div").siblings('div').children("p").children("span").text("");
         $('#RoleId').next("div").children("p").children("span").text("");
+
+        $('input[type=radio]').each(function () {
+            ($(this).removeClass('input-validation-error'));
+        });
         
     });
 
