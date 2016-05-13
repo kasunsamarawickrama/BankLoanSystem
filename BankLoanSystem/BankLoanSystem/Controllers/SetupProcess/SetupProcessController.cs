@@ -1599,7 +1599,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             // check he is super admin or admin
             if (userData.RoleId > 2)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Not Allowed");
             }
 
             if ((Session["dashboard"] !=null))
@@ -1610,7 +1610,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             StepAccess sa = new StepAccess();
             if (loanData.stepId < 1)
             {
-                return RedirectToAction("UserLogin", "Login");
+                return new HttpStatusCodeResult(404, "Not Allowed");
             }
 
             LoanSetupAccess loanSetupAccess = new LoanSetupAccess();

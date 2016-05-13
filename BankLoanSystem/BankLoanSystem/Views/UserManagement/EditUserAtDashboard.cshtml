@@ -373,13 +373,13 @@
     new InputMask().Initialize(document.querySelectorAll('#txtPhone, #txtPhone2'),
     {
         mask: InputMaskDefaultMask.Phone,
-        placeHolder: "(999) 999-9999"
+        placeHolder: "(___) ___-____"
     });
 
     $('#txtPhone, #txtPhone2').focusout(function (e) {
 
           
-        $(this).attr("placeholder", "(999) 999-9999");
+        $(this).attr("placeholder", "(___) ___-____");
           
     });
 

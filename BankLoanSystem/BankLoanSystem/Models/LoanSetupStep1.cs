@@ -21,6 +21,10 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Registered Branch")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
+        //[Remote("IsLoanNumberExists", "SetupProcess",
+        //AdditionalFields = "loanNumber",
+        //HttpMethod = "POST",
+        //ErrorMessage = "Loan Number already in use")]
         public int RegisteredBranchId { get; set; }
 
         public string RegisteredBranchCode { get; set; }
@@ -31,15 +35,15 @@ namespace BankLoanSystem.Models
         [StringLength(30, MinimumLength = 5, ErrorMessage = "The Loan Number should be between 5 and 30 characters")]
         //[Remote("IsLoanNumberExists", "SetupProcess", ErrorMessage = "Loan Number already in use")]
         [Display(Name = "Loan Number")]
-        [Remote("IsLoanNumberExists", "SetupProcess",
-        AdditionalFields = "RegisteredBranchId",
-        HttpMethod = "POST",
-        ErrorMessage = "Loan Number already in use")]
+        //[Remote("IsLoanNumberExists", "SetupProcess",
+        //AdditionalFields = "RegisteredBranchId",
+        //HttpMethod = "POST",
+        //ErrorMessage = "Loan Number already in use")]
         public string loanNumber { get; set; }
 
 
-        [Required(ErrorMessage = "Please enter a Loan Number")]
-        public string loanNumberForDisplay { get; set; }
+        //[Required(ErrorMessage = "Please enter a Loan Number")]
+        //public string loanNumberForDisplay { get; set; }
 
         [Required(ErrorMessage = "Please select the Start Date of the Loan")]
         [Display(Name = "Start Date")]

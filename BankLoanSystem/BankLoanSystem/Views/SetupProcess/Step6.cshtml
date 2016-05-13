@@ -81,7 +81,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);" })
+                                                    @Html.DropDownListFor(model => model.RegisteredBranchId, null, "--Select branch--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegisteredBranchId", @onchange = "javascript:GetNonRegisteredBranches(this.value);isLoanNumberExists();" })
                                                 }
                                             }
                                         </div>
@@ -126,16 +126,20 @@
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>Loan Number   <span class='icon-help_outline 1'></span></label>
                                         </div>
-                                        <div class="col-xs-8 text_field" id="loanNumber" style="display:none;width:290px;">
+                                        <div class="col-xs-8 text_field" id="loanNumber" style="width:290px;">
                                             @Html.EditorFor(model => model.loanNumber, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanNumber", maxlength = 30 } })
 
                                         </div>
-                                        <div class="col-xs-8 text_field" id="loanNumberDisplay" style="width:290px;">
+                                        @*<div class="col-xs-8 text_field" id="loanNumberDisplay" style="width:290px;">
                                             @Html.HiddenFor(model => model.loanNumber)
                                             @Html.EditorFor(model => model.loanNumberForDisplay, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "loanNumber", onclick = "$('#loanNumberDisplay').hide();$('#loanNumberForDisplayError').hide();$('#loanNumber').show();$('#loanNumber').children('input').focus();$('#loanNumber').children('input').val($('#loanNumber').children('input').val());" } })
-                                        </div>
+                                        </div>*@
                                         <div class="err_msg_box">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" }) &nbsp;&nbsp; @Html.ValidationMessageFor(model => model.loanNumberForDisplay, "", new { @class = "text-danger", id = "loanNumberForDisplayError" })</p>
+                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.loanNumber, "", new { @class = "text-danger" })
+                                            
+                                            
+                                            
+                                                &nbsp;&nbsp; <span class="text-danger field-validation-error" data-valmsg-for="loanNumber2" data-valmsg-replace="true"></span> @* @Html.ValidationMessageFor(model => model.loanNumberForDisplay, "", new { @class = "text-danger", id = "loanNumberForDisplayError" })*@</p>
                                         </div>
                                     </div>
                                     <div class="form-group new_form_group">
@@ -536,6 +540,10 @@
                 $("#unitTypeError").text('Please select at least one unit type to be advanced on this loan');
                 e.preventDefault();
             }
+            if ($('span[data-valmsg-for="loanNumber2"]').html() != "") {
+
+                e.preventDefault();
+            }
             //else if ($("#emailReminderError").text().length > 0) {
             //    //alert(valid);
             //    e.preventDefault();
@@ -674,7 +682,7 @@
             $('select').closest("div").siblings('div').children("p").children("span").text("");
             $('select').next("div").children("p").children("span").text("");
             $("#unitTypeError").text('');
-            $('#loanNumberForDisplayError').hide();
+            //$('#loanNumberForDisplayError').hide();
             //$("#outOffRangeError").text('');
             //$("#payOffPeriod").removeClass('input-validation-error');
 
@@ -870,6 +878,58 @@
             $('#AutoEmail').removeClass('input-validation-error');
         }
 
+    }
+
+
+
+    $('[name="loanNumber"]').blur(function () {
+        isLoanNumberExists();
+
+    });
+
+    function isLoanNumberExists() {
+
+        var url = "/SetupProcess/IsLoanNumberExists/";
+        var loanNumber = $('[name="loanNumber"]').val();
+        
+        
+        var RegisteredBranchId = $('[name="RegisteredBranchId"]').val();
+
+        if (loanNumber == "" || RegisteredBranchId == "") {
+            return;
+        }else{
+
+        $.ajax({
+            url: url,
+            data: { loanNumber: loanNumber, RegisteredBranchId: RegisteredBranchId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                //var markup = "<option value='0'>--Select Branch--</option>";
+                //for (var x = 0; x < data.length; x++) {
+                //    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                //}
+                //$("#NonRegisteredBranchId").html(markup).show();
+                ////$('#loadingSpan').hide();
+                //$("#loanNumber").removeAttr("disabled");
+
+                if (data == false) {
+
+                    $('span[data-valmsg-for="loanNumber2"]').html('<span for="loanNumber2" class>This Loan Number Already in use</span>');
+                    $('[name="loanNumber"]').removeClass('valid').addClass('input-validation-error');
+                } else if (data == true) {
+
+                    $('span[for="loanNumber2"]').remove();
+                    $('[name="loanNumber"]').addClass('valid').removeClass('input-validation-error');
+                }
+            },
+            error: function (reponse) {
+                // $('#loadingSpan').hide();
+                alert("error : " + reponse);
+            }
+        });
+        
+        }
     }
 
     //function setPayOffPeriod() {

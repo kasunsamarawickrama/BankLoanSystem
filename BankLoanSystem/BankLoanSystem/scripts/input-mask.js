@@ -555,7 +555,7 @@ var InputMask = (function() {
                 }
             });
 
-            document.activeElement.blur();
+            //document.activeElement.blur();
 
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         }

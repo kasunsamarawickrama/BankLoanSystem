@@ -302,6 +302,22 @@
 
 <script type="text/javascript">
    
+    // for input mask
+
+    new InputMask().Initialize(document.querySelectorAll('#txtPhoneNumber'),
+    {
+        mask: InputMaskDefaultMask.Phone,
+        placeHolder: "(___) ___-____"
+    });
+
+    $('#txtPhoneNumber').focusout(function (e) {
+
+
+        $(this).attr("placeholder", "(___) ___-____");
+
+    });
+
+    
     //Validation
 
     // User name validate

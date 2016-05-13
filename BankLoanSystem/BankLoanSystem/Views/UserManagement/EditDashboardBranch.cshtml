@@ -151,11 +151,11 @@
                                         <label>Zip Code</label>
                                     </div>
                                     <div class="col-xs-4 text_field new_zip">
-                                        @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", style = "width: 80px;" } })
+                                        @Html.EditorFor(model => model.MainBranch.ZipPre, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipPre", placeholder = "Zip Code", style = "width: 80px;" , maxlength = 5 } })
                                     </div>
                                     <span class="glyphicons glyphicon-minus" style="float:left;margin-top:6px;margin-left:-5px;margin-right:5px;"></span>
                                     <div class="col-xs-4 text_field new_zip">
-                                        @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", style = "width: 83px;" } })
+                                        @Html.EditorFor(model => model.MainBranch.Extention, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "branchZipExten", placeholder = "Extension", style = "width: 83px;", maxlength = 4 } })
                                     </div>
                                     <div class="err_msg_box">
                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.MainBranch.ZipPre, "", new { @class = "text-danger" }) &nbsp;&nbsp;@Html.ValidationMessageFor(model => model.MainBranch.Extention, "", new { @class = "text-danger" }) </p>
@@ -273,13 +273,13 @@
     new InputMask().Initialize(document.querySelectorAll("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3"),
     {
         mask: InputMaskDefaultMask.Phone,
-        placeHolder: "(999) 999-9999"
+        placeHolder: "(___) ___-____"
     });
 
     $("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3").focusout(function (e) {
 
           
-        $(this).attr("placeholder", "(999) 999-9999");
+        $(this).attr("placeholder", "(___) ___-____");
           
     });
 
@@ -398,11 +398,11 @@
     });
     //Check maximum ZipCode
     $('#branchZipPre').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            $("#branchZipExten").focus();
-        }
-        res = AllowNumbers(this, e.which);
+        //var res = CheckMaxLenth(this, this.value, 4);
+        //if (res === 0) {
+        //    $("#branchZipExten").focus();
+        //}
+        var res = AllowNumbers(this, e.which);
         if (res === 0) {
             e.preventDefault();
             return;
