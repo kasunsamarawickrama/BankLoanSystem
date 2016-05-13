@@ -8,7 +8,7 @@ namespace BankLoanSystem.Controllers.SetupCompany
 {
     public class SetupCompanyController : Controller
     {
-        private static User _user = null;
+        private User _user = null;
 
         /// <summary>
         /// CreatedBy : Kanishka SHM

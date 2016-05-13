@@ -1048,7 +1048,7 @@
     function PayFees(lst,date){
         $.ajax({
             url: '/Fee/PayFees/',
-            data: JSON.stringify(lst),date,
+            //data: JSON.stringify(lst),date,
             data: JSON.stringify({ lstFee: lst, type: '@Model.Type' }),
             type: 'POST',
             contentType: 'application/json; charset=utf-8',

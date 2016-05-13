@@ -589,7 +589,13 @@
             $('#btnNext').val('Next');
         }
         document.getElementsByTagName("form")[0].reset();
-        $('#lnkCreateNewBranch').hide();
+
+        //Model.SubBranches.Count
+        var model = @Html.Raw(Json.Encode(Model));
+        if (model.SubBranches.length > 0) {
+            $('#lnkCreateNewBranch').hide();
+        }
+        
     });
 
 </script>

@@ -14,7 +14,7 @@ namespace BankLoanSystem.Controllers
     /// </summary>
     public class AdvanceUnitController : Controller
     {
-        private static LoanSetupStep1 loan;
+        //private static LoanSetupStep1 loan;
         User userData = new User();
         
         // Check session in page initial stage
@@ -106,7 +106,7 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.unitClickId = "";
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loan = loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             if (userData.RoleId == 3)
             {
@@ -147,6 +147,8 @@ namespace BankLoanSystem.Controllers
             ViewBag.loanDetails = loanDetails;
             Models.Unit unit = new Models.Unit();
             AdvanceUnit advanceUnit = this.GetAdvanceUnitList(loanDetails.loanId);
+
+            Session["advUnitloanId"] = loanDetails.loanId;
 
             Session["notAdvancedList"] = advanceUnit.NotAdvanced;
             ViewBag.advanceList = advanceUnit.NotAdvanced;
@@ -425,7 +427,8 @@ namespace BankLoanSystem.Controllers
 
         public ActionResult AdvanceUnitReport()
         {
-            ViewBag.LoanId = loan.loanId;
+            int loanId = (int) Session["advUnitloanId"];
+            ViewBag.LoanId = loanId;
             return View();
         }
         public FileResult Download(string ImageName)

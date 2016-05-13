@@ -10,9 +10,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
 {
     public class DeleteUnitController : Controller
     {
-        private static LoanSetupStep1 loan;
         User userData = new User();
-        static int _companyType = 0;
 
 
         // GET: DeleteUnit
@@ -99,7 +97,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
 
                 }
             }
-            loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             UnitDeleteViewModel unitDeleteViewModel = new UnitDeleteViewModel();
 
@@ -107,6 +105,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             UnitAccess ua = new UnitAccess();
             unitDeleteViewModel.DeleteUnits = ua.GetAllUnitsByLoanId(loan.loanId);
             Session["UnitDeleteList"] = unitDeleteViewModel.DeleteUnits;
+            Session["deleteUnitloanId"] = loan.loanId;
             ViewBag.DeleteList = unitDeleteViewModel.DeleteUnits;
 
             //BranchAccess ba = new BranchAccess();
@@ -372,9 +371,10 @@ namespace BankLoanSystem.Controllers.DeleteUnit
 
         public ActionResult DeleteUnitPost(string unitId,string identificationNo)
         {
+            int loanId = (int) Session["deleteUnitloanId"];
             UnitAccess ua = new UnitAccess();
             UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
-            int res = ua.DeleteUnit(loan.loanId, unitId, _paidCurtAmount);
+            int res = ua.DeleteUnit(loanId, unitId, _paidCurtAmount);
             
             if (res == 1)
             {
@@ -386,7 +386,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     Session["UnitDeleteList"] = unitModel.DeleteUnits;
                 }
 
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loan.loanId, "Delete Unit", "Delete Unit:" + identificationNo, DateTime.Now);
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanId, "Delete Unit", "Delete Unit:" + identificationNo, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
             }

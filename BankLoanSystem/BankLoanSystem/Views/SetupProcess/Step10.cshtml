@@ -425,8 +425,8 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script language="javascript">
-    
-    $(document).ready(function(){
+
+    $(document).ready(function() {
         window.scrollTo(0, 0);
 
         $('.nav li.active ul').removeClass('in');
@@ -438,7 +438,7 @@
         var HelpString = $('.right_panel_box p').html();
         var HelpTitle = $('.right_panel_box h4').html();
 
-        $('input[name="CalculationBase"] , .icon-help_outline.1').click(function () {
+        $('input[name="CalculationBase"] , .icon-help_outline.1').click(function() {
 
             $('.right_panel_box p').html("Select if the curtailments will be calculated from the original price/cost of the unit or if they will be calculated from the advanced amount. <br></br><i>(example: If the advance percent is 80% and the original price was $10,000 then the advanced amount is $8,000. The first curtailment is 25%. If you chose 'Original price' then the curtailment amount would be $2,500. If you chose 'Advance amount' then the curtailment amount would be $2,000.)</i>");
             $('.right_panel_box h4').html('Curtailment calculation base');
@@ -446,7 +446,7 @@
 
         });
 
-        $('input[name="TimeBase"] , .icon-help_outline.3').click(function () {
+        $('input[name="TimeBase"] , .icon-help_outline.3').click(function() {
 
             $('.right_panel_box p').html("Specify if the curtailment schedule will follow months or days. <br></br><i>(example: If you have a curtailment which is due in 45 days you will need to select 'days' and then convert all curtailments to days. You will not be able to select months and then use 1.5 months. If you chose months then you will only be able to specify whole months.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule setup');
@@ -454,19 +454,19 @@
 
         });
 
-        $(document).on('click', '.icon-help_outline.2', function(){
+        $(document).on('click', '.icon-help_outline.2', function() {
             $('.right_panel_box p').html("This shows the percentage remaining to pay off. It is supplied for informational purposes to help create an accurate curtailment schedule below.");
             $('.right_panel_box h4').html('Percentage to payoff');
-        
-        }); 
 
-        $(document).on('click', '.icon-help_outline.4', function(){
+        });
+
+        $(document).on('click', '.icon-help_outline.4', function() {
             $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule');
-        
-        }); 
 
-        $('#CurtailmentDueDate , .icon-help_outline.5').click(function () {
+        });
+
+        $('#CurtailmentDueDate , .icon-help_outline.5').click(function() {
 
             $('.right_panel_box p').html("Specify which day of each month the curtailments are paid. The system will calculate all units which had a curtailment come due since the last curtailment was paid.");
             $('.right_panel_box h4').html('Curtailment due date');
@@ -474,16 +474,16 @@
 
         });
 
-        $('#curtailmentDueEmail , .icon-help_outline.6').click(function () {
+        $('#curtailmentDueEmail , .icon-help_outline.6').click(function() {
 
             $('.right_panel_box p').html("Specify an email address if you would like a reminder to be sent out prior to the curtailment becoming due.");
             $('.right_panel_box h4').html('Curtailment due reminder email');
 
 
         });
-        
 
-        $('select:not(#CurtailmentDueDate), span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail) ').click(function () {
+
+        $('select:not(#CurtailmentDueDate), span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail) ').click(function() {
 
             $('.right_panel_box p').html(HelpString);
             $('.right_panel_box h4').html(HelpTitle);
@@ -491,14 +491,14 @@
 
         });
 
-        $(document).on('click', 'input[class^="clstimePeriod"]', function(){
+        $(document).on('click', 'input[class^="clstimePeriod"]', function() {
             $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule');
-        
-        }); 
+
+        });
 
 
-    })
+    });
 </script>
 
 <script type="text/javascript">
@@ -639,6 +639,11 @@
         advancePt = parseInt(model.AdvancePt);
 
         list = { currentList: [] };
+
+        isSelectCalcType = false;
+        isSelectTime = false;
+        isRowAdded = false;
+        isFullFirst = true;
     }
 
     function createTableRow(id) {
@@ -687,32 +692,6 @@
     var isErrorTime = false;
     $(document).on('blur', '.clstimePeriod', function (e) {
 
-        //var tr = $(this).parents('tr:first');
-
-        //var curid = tr.find("#lblCur").html();
-        //var timePeriod = tr.find("#timePeriod").val();
-        //var previousTime = 0;
-
-        //if(curid > 1)
-        //    previousTime = list.currentList[curid - 2].TimePeriod;
-
-        //if (timePeriod > remainingTime) {
-        //    $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-        //    isErrorTime = true;
-        //} else if (timePeriod <= previousTime && timePeriod > 0) {
-        //    $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-        //    isErrorTime = true;
-        //}
-        //    //else if(timePeriod < previousTime){
-        //    //    $('#spnremainTimeError').text('You entered time should be greater than previous time');
-        //    //}
-        //else {
-        //    isErrorTime = false;
-        //    $('#spnremainTimeError').children('span').text("");
-        //}
-
-        //var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
-
         //alert(tblLength);
         if (this.value === '0') {
             $('#spnremainTimeError').children('span').text("Time must be greater than 0");
@@ -735,17 +714,11 @@
             if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
                 // update list
                 list.currentList[index].TimePeriod = timePeriod;
-                //list.currentList[index].Percentage = percentage;
             }
 
             index = parseInt(index) + parseInt(1);
             //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
-
-            //if (parseInt(timePeriod) > parseInt(remainingTime)) {
-            //    $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-            //    isErrorTime = true;
-            //    return;
-            //}else
+            
             if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
 
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
@@ -757,7 +730,6 @@
                 $('#spnremainTimeError').children('span').text("");
             }
         });
-        //alert(isErrorTime);
 
         //currentListLenght = Object.keys(list.currentList).length;
         //for (var j = 0; j < currentListLenght; j++) {
@@ -856,11 +828,6 @@
                 $('#spnremainPtError').text('Error percentage found');
             }
         }
-        //}
-        //currentListLenght = Object.keys(list.currentList).length;
-        //for (var j = 0; j < currentListLenght; j++) {
-        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-        //}
     });
 
     //$('.clsaddCuirtailment').bind('enterKey', function(e) {
@@ -883,7 +850,6 @@
     //update Percentage remaining to pay off
     $('.payment').change(function() {
         $('#customErrorCalBase').children('span').text("");
-        //$('#customErrorTable').children('span').text("");
         isSelectCalcType = true;
 
         //enable textboxes
@@ -913,13 +879,6 @@
 
                 payPercentage = parseInt(model.AdvancePt);
                 remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
-
-                //if (isFullFirst === true) {
-                //    isFullFirst = false;
-                //} else {
-                //    alert('false');
-                //    remainingPt = parseInt(remainingPt) - parseInt(difPercentage);
-                //}
             }
             else if (calcMode === 'Advance') {
                 payPercentage = parseInt(100);
@@ -1178,7 +1137,7 @@
                 EmailRemindPeriod: emailRemindPeriod
             };
 
-            var data = { curtailmentList: [], curtaiulmentModel};
+            var data = { curtailmentList: [], curtaiulmentModel: curtaiulmentModel};
             $('table#tblGrid > tbody > tr').not(':first').each(function() {
                 var curid = $(this).find("#lblCur").html();
                 var timePeriod = $(this).find("#timePeriod").val();
@@ -1208,7 +1167,7 @@
                 totatlPercentage = parseInt(totatlPercentage) + parseInt(list.currentList[j].Percentage);
             }
 
-            $('#customErrorTable').children('span').text("Total curtailment % equals " + totatlPercentage + " but should be equal to " + payPercentage + ". Please adjust the curtailment schedule.");
+            $('#customErrorTable').children('span').text("Please complete the curtailment schedule so the percentage remaining to pay off is zero. It currently totals only " + totatlPercentage + "%.");
         }
     });
 
@@ -1259,16 +1218,4 @@
     });
 
     Progress(10);
-
-    @*@if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false)
-    {
-        <text>
-    $(".right_arrw.7").children("img").remove();
-    $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
-    $(".right_arrw.7").css('background-image', 'none');
-    $(".right_arrw.7").prepend('<img id="theImg" src="/Images/lockIco.png" />');
-
-    </text>
-
-    }*@
 </script>

@@ -329,6 +329,7 @@
          }
         var dueDate = '@dateTime';
         GetCurrentCurtailment(dueDate);
+        $('.centered1 span').text('');
         $("#dueDate").val('@dateTime.ToString("d")');
         //ClearTextBoxValues();
         $('#payDate').removeClass('input-validation-error');
@@ -341,7 +342,8 @@
         $('#searchIdentificationNumber').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
         $('#identificationNumberSearch').val('');
-
+        
+        
     });
     function GetCurrentCurtailment(dueDate){
 
@@ -356,7 +358,7 @@
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
-                $('.centered1 span').text('Successfully Updated');
+                //$('.centered1 span').text('Successfully Updated');
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1126,7 +1128,7 @@
                    
                     //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     if(View == "") {
-
+                        window.scrollTo(0, 0);
                         if (ckbReport) {
                             doConfirm1();
                             var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
@@ -1157,11 +1159,12 @@
                             });
 
                             $('#btnPrint').click(function () {
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
                                 $.ajax({
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: JSON.stringify(),
+                                    data: {},
                                     success: function (view) {
                                         //alert(view);
                                         $('.centered1 span').text('Successfully Updated');
@@ -1182,7 +1185,9 @@
                             });
 
                         } else {
+                            $('.centered1 span').text('Successfully Updated');
                             GetCurrentCurtailment($('#dueDate').val());
+                            
                         }
                     }
 
@@ -1219,11 +1224,12 @@
                             });
                             
                             $('#btnPrint').click(function () {
+                                $('.overlay-bg, .overlay-content.popupReport').hide();
                                 $.ajax({
                                     url: '/Curtailments/PrintPage',
                                     type: 'POST',
                                     contentType: 'application/json;',
-                                    data: JSON.stringify(),
+                                    data: {},
                                     success: function (view) {
                                         //alert(view);
 

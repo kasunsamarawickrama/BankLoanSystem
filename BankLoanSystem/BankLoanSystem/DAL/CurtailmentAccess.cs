@@ -83,7 +83,7 @@ namespace BankLoanSystem.DAL
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList2 = new List<object[]>();
                 paramertList2.Add(new object[] { "@loan_id", loanId });
-                paramertList2.Add(new object[] { "@dealer_email", dealerEmail });
+                paramertList2.Add(new object[] { "@dealer_email", dealerEmail ?? ""});
                 paramertList2.Add(new object[] { "@Input", xmlDoc });
 
 

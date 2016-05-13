@@ -377,7 +377,8 @@
         $('#successSpn').text("");
         $('#errSpn').text("");
     };
-    $(document).on('change','#RoleId',function () {
+    $(document).on('change', '#RoleId', function () {
+        //alert('4');
         //$('#BranchIdUser option:selected').val('');
         //$('#LoanIdUser2 option:selected').val('');
         //$('#BranchId option:selected').val('');
@@ -400,9 +401,10 @@
             clearValues_1();
         }
         else if (val == '3') {
-            
+            //alert('ggg');
             //$('#BranchIdUser option:selected').val('');
             //alert('3');
+            $('#branchDiv').hide();
             $('#LoanIdUser2').val('');
             //$('#BranchId').val('');
             $('#selectAll').prop('checked', false);
@@ -412,19 +414,25 @@
             $('#rightsSection').show();
             //$('#BranchIdUser').val('');
             //document.getElementById("branchid").innerHTML = "";
-
-            @if (ViewBag.BranchIdUser!= null){
-
-                if (ViewBag.BranchIdUser.Items.Count == 1){
-                    //alert($('#BranchIdUser2').val());
-                    <text>GetLoan($('#BranchIdUser2').val());</text>
+           // 
+            //if (@ViewBag.BranchIdUser!= null){
+                //alert('bb');
+                
+                if (@ViewBag.BranchIdUser.Items.Count == 1){
+                    $('#BranchIdUser2').val(@ViewBag.BranchIdUser.Items[0].BranchId);
+                    GetLoan($('#BranchIdUser2').val());
+                    $('#rightsSection').show();
+                    $('#branchDiv').hide();
                 }
+            //}
+            else{
+                
             }
             //$('#branchDivLoan').show();
-            $('#rightsSection').show();
-            $('#branchDiv').hide();
+           
         }
         else {
+            
             clearValues_1();
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
@@ -432,7 +440,8 @@
         }
     });
     $('#BranchId').change(function () {
-       // $('#BranchId2').val('');
+        // $('#BranchId2').val('');
+        //alert('3');
         $('#BranchIdUser').val('');
         $('#LoanIdUser2').val('');
        // $('#BranchId2').val('');
@@ -445,7 +454,7 @@
         $('#errSpn').text("");
     });
     $(document).on('change', '#BranchIdUser', function () {
-
+        
 
 
         $('#LoanIdUser2').val('');
@@ -457,7 +466,7 @@
         
     });
     $('#BranchIdUser').change(function () {
-        
+        //alert('rtr');
         $('#BranchId').val('');
         $('#LoanIdUser2').val('');
         //$('#BranchId2').val('');
@@ -473,7 +482,7 @@
         if (val == '3') {
 
               var  branchL = $('#BranchIdUser option:selected').val();
-
+              //alert(branchL);
             //alert(branchL);
               if (branchL > 0) {
                   GetLoan(branchL);
