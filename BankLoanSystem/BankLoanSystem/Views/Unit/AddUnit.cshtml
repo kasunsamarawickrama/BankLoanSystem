@@ -1963,6 +1963,11 @@
                     $(".miles").val("");
                     $(".lengths").val("");
                     $('.radio').children('p').next('span').text('');
+                    
+                    $('input[type=radio]').each(function(){
+                        ($(this).removeClass('input-validation-error'));
+                    });
+
                 });
 
                 function clearform() {

@@ -297,6 +297,10 @@
 
         $('#rbYes').removeAttr('checked');
         $('#rbNo').removeAttr('checked');
+
+        $('input[type=radio]').each(function () {
+            ($(this).removeClass('input-validation-error'));
+        });
     };
     $("#autoRemindEmail").keypress(function(e){
 
