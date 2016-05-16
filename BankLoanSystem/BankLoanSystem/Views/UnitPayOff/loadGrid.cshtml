@@ -397,7 +397,11 @@
         $('#searchIdentificationNumber').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
         // $('#identificationNumberSearch').val('');
+        var checked = $("#checkableGrid td :checkbox:checked").length;
 
+        if(checked == 0){
+            $('.centered span').text('');
+        }
     }
 
     var payDate = new Pikaday({
