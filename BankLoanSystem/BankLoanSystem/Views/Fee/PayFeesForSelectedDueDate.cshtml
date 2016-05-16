@@ -10,10 +10,13 @@
 @using System.Globalization;
 
 
-
-<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
+@if (Model.FeeModelList.Count == 0) {
+<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
     <label style="float:unset;margin-top:2%;margin-bottom:2%">No Fees matching the due date could be found.</label>
 </div>
+
+}
+else {
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
     <div>
@@ -111,7 +114,7 @@
     </div>
 </form>
 
-@if (Model.Type == "advanceFee") {
+if (Model.Type == "advanceFee") {
 <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
 
 
@@ -155,8 +158,7 @@
                                         makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
+                            }
 
                                     @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
                                     @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
@@ -172,10 +174,7 @@
                                         modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
                                     }
                                 }
-                            }<SelectListItem>
-                                <SelectListItem>
-                                    <SelectListItem>
-                                        <SelectListItem>
+                            }
 
                                             @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
                                             @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
@@ -200,7 +199,7 @@
 </div>
 
 
-@if (Model.Type == "advanceFee")
+if (Model.Type == "advanceFee")
 {
 <div class="info-bar reset" style="margin-top:15px" id="singleUnitDiv" hidden>
 
@@ -277,25 +276,26 @@
 
 </div>
 }
+                                }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
 
-    $(document).ready(function(){
-        if ($('#checkableGrid').children('tbody').children('tr').length == 0)
-        {  
-            $('#noCurtLabelDiv').show();
-            $('#checkableGridDiv').hide();
-            $('#searchDiv').hide();
-            $('#payDateDiv').hide();
+    //$(document).ready(function(){
+    //    if ($('#checkableGrid').children('tbody').children('tr').length == 0)
+    //    {  
+    //        $('#noCurtLabelDiv').show();
+    //        $('#checkableGridDiv').hide();
+    //        $('#searchDiv').hide();
+    //        $('#payDateDiv').hide();
 
-        }
-        else{
-            $('#noCurtLabelDiv').hide();
-            $('#checkableGridDiv').show();
-            $('#searchDiv').show();
-            $('#payDateDiv').show();
-        }
-    });
+    //    }
+    //    else{
+    //        $('#noCurtLabelDiv').hide();
+    //        $('#checkableGridDiv').show();
+    //        $('#searchDiv').show();
+    //        $('#payDateDiv').show();
+    //    }
+    //});
 
     //capitalize letters when typing
     $('#identificationNumberSearch').keyup(function () {
