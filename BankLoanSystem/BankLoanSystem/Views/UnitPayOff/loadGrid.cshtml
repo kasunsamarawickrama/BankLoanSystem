@@ -713,12 +713,12 @@
         {
 
             <text>
-            var pay = tr.find("#balance").text().replace(',', '')
-            $('#iAdvanceFee').val(advanceFee);
-            var tot = parseFloat(advanceFee) + parseFloat(pay);
-            tot = tot.toFixed(2); 
-            $('#iTotal').val(tot);
-            </text>
+        var pay = tr.find("#balance").text().replace(',', '')
+        $('#iAdvanceFee').val(advanceFee);
+        var tot = parseFloat(advanceFee) + parseFloat(pay);
+        tot = tot.toFixed(2);
+        $('#iTotal').val(tot);
+        </text>
         }
         //$("#btnPayAll").attr("disabled", "disabled");
         //$("#payDate").attr("disabled", "disabled");
@@ -1373,8 +1373,16 @@
             <text>$('#iAdvanceFee').val("");</text>
             <text> $('#iTotal').val("");</text>
         }
+        alert("ok1");
+        @if (ViewBag.IsTitleTrack == "Yes")
+        {
+            <text>
+                alert("ok2");
+                document.getElementById('rdTitleYes2').checked = false;
+                document.getElementById('rdTitleNo2').checked = false;
+            </text>
+        }
         ClearSearchRelatedData();
-
     });
 
     //capitalize letters when typing

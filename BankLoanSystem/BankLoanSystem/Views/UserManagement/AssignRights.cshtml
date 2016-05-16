@@ -222,6 +222,8 @@
         }
 
         $('#SelectUser').change(function () {
+            $('#success').text("");
+            $('#fail').text("");
             getRights();
         });
         function getRights(){
@@ -265,14 +267,14 @@
                     }
                 }
             });
-
-            $('#success').text("");
-            $('#fail').text("");
+            
         }
 
         $(function () {
             $('.All').on('change', function () {
                 $('#checkBoxMessage span').text("");
+                $('#success').text("");
+                $('#fail').text("");
                 checkAll();
             });
         });
@@ -292,8 +294,6 @@
             }else{
                 $('#CheckAll').prop('checked', false);
             }
-            $('#success').text("");
-            $('#fail').text("");
         };
 
         $('#clear').click(function(){
