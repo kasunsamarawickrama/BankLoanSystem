@@ -438,4 +438,13 @@ namespace BankLoanSystem.Models
     {
         public List<UnitFeeType> UnitFeeTypes { get; set; }
     }
+
+    public class DeleteSearchUnit
+    {
+        public int? ViewType;
+        public string Id;
+        public string Year;
+        public string Make;
+        public string Model;
+    }
 }
