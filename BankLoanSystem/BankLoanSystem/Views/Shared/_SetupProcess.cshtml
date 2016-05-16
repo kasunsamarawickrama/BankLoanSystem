@@ -817,6 +817,27 @@
         overflow: hidden;
         line-height:1.4;
     }
+
+    .show-logout-popup{
+    text-decoration:none !important;
+    color:#e2dddd;
+    font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-size: 22px;
+    font-weight:bold;
+}
+
+.show-logout-popup:hover{
+    
+    color:white;
+}
+
+.show-logout-popup:after {
+    font-family:icomoon !important;
+    content: "\e901";
+    margin-left: 4px;
+    font-size:23px;
+}
+
     </style>
 
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
@@ -1147,10 +1168,17 @@
 
             <div class="box">
 
-                <div class="signout">
+                @*<div >
                     <span>
                         @Html.ActionLink("Log Out", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "7" })
                         <span class="icon-exit"></span>
+                    </span>
+                </div>*@
+
+                <div>
+                    <span class="icon-500">
+                        <span>@Html.ActionLink("Log Out", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "7" })</span>
+                        @*<span class="icon-exit"></span>*@
                     </span>
                 </div>
 
