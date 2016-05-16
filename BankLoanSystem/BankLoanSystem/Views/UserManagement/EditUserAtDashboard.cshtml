@@ -82,10 +82,10 @@
 
                                 else if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed to update user"))
                                 {
-                                    <div id="errorSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
+                                    <div id="errorSpn" class="text-danger"><span id="errSpn">@ViewBag.ErrorMsg</span></div>
 
                                 }
-                                
+                                <div id="errorSpn2" class="text-danger"><span id="errSpn2"></span></div>
 @using (Html.BeginForm("EditUserAtDashboard", "UserManagement", FormMethod.Post, new { @id = "form" }))
 {
 
@@ -156,8 +156,8 @@
                                                
                                                     <div class="col-xs-8 text_field short_text_field" id="divSingleUser" style="text-align:left;font-weight: normal;color:#545454;font-size:14px;" hidden>
                                                         @*<input type="hidden" id="hdnUserId2" />*@
-                                                        
-                                                        @Html.Label("No users found", new { htmlAttributes = new { @class = "form-control text_field_input", @id = "txtUserId2"} })
+                                                        <label id = "txtUserId2">First Name</label>
+                                                        @*@Html.Label("No users found", new { htmlAttributes = new { @class = "form-control text_field_input", id = "txtUserId2"} })*@
                                                     </div>
                                             <div class="col-xs-8 text_field short_text_field" id="divSingleUser2" hidden>
                                                 @*<input type="hidden" id="hdnUserId2" />*@
@@ -419,10 +419,15 @@
     });
 
     $('#btnUpdateUser').click(function(e){
+        //$('#txtUserId2').text("for");
         if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
             e.preventDefault();
         }
-    
+        if($('#txtUserId2').text()==='No users found'){
+            $('#errSpn2').text('Failed to update');
+            e.preventDefault();
+        }
+       
     });
    
     $('#txtCurrentPassword').focusout(function () {
@@ -437,6 +442,7 @@
     function ClearErrorMsgs(){
         $('#successSpn span').text("");
         $('#errorSpn span').text("");
+        $('#errSpn2').text('');
         $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtCurrentPassword').next("div").children("p").children("span").text("");
         $('#txtCurrentPassword').removeClass('input-validation-error');
@@ -585,10 +591,22 @@
             var _branchId = $('#BranchId').val();
             GetUsersByBranchId(_roleid,_branchId);
         }
+        else{
+            //alert(_roleid);
+            var markup = "<option value='0'>--Select User--</option>";
+            //for (var x = 0; x < data.UserList.length; x++) {
+            //    markup += "<option value=" + data.UserList[x].UserId + ">" + data.UserList[x].UserName + "</option>";
+            //}
+            $("#UserIdSA").html(markup).show();
+        }
     });
     function RoleOnChange(_rId)
     {
-        
+        var markup = "<option value='0'>--Select User--</option>";
+        //for (var x = 0; x < data.UserList.length; x++) {
+        //    markup += "<option value=" + data.UserList[x].UserId + ">" + data.UserList[x].UserName + "</option>";
+        //}
+        $("#UserIdSA").html(markup).show();
         ClearErrorMsgs();
         $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
         $('#BranchId').next("div").children("p").children("span").text("");
@@ -680,6 +698,7 @@
                     //alert(data.UserList.length);
                     if(data.UserList.length==0){
                         //alert("1");
+                        $('#txtUserId2').text('No users found');
                         $("#txtUserId2").show();
                         $("#divSingleUser").show();
                         $("#UserIdSA").hide();
@@ -771,6 +790,7 @@
                     //$('#loadingSpan').hide();
                     if(data.UserList.length==0){
                         //alert("1");
+                        $('#txtUserId2').text('No users found');
                         $("#hdnUserId3").val('');
                         $("#txtUserId2").show();
                         $("#divSingleUser").show();
@@ -853,7 +873,7 @@
                 success: function (data) {
                     //alert(data.UserList.length);
                     if(data.UserList.length==0){
-                        //alert("1");
+                        $('#txtUserId2').text('No users found');
                         $("#hdnUserId3").val('');
                         $("#txtUserId2").show();
                         $("#divSingleUser").show();
@@ -914,7 +934,11 @@
                     }
                 }
             });
-            }
+        }
+        else{
+            //alert(_roleid);
+            $("#UserIdSA").text('--Select User--');
+        }
             //$('#loadingSpan').show();
             
            
@@ -1011,7 +1035,7 @@
 
         $('#successSpn span').text("");
         $('#errorSpn span').text("");
-
+        $('#errSpn2').text("");
     });
 
     $('#txtUserName').keypress(function (e) {
@@ -1042,10 +1066,13 @@
 
     //Check maximum length
     $('#txtUserName, #txtFname, #txtLname, #txtCurrentPassword,#txtNewPassword, #txtConfirmPassword').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 30);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0)
+        {
+            var res = CheckMaxLenth(this, this.value, 30);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
 
@@ -1070,10 +1097,13 @@
 
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0)
+        {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
 
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
@@ -1113,11 +1143,16 @@
             e.preventDefault();
             return;
         }
-
-        res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0)
+        {
+            res = CheckMaxLenth(this, this.value, 14);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
+
+    $('input').prop('autocomplete', 'off');
+
 </script>
