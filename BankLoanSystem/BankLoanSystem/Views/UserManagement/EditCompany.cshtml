@@ -372,12 +372,13 @@
 
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
         res = InvalidCharacters(this, array, e.which);
 
@@ -393,12 +394,17 @@
     });
     //Check maximum length
     $('#txtCompanyName, #txtCity').keypress(function (e) {
-        //alert('CheckMaxLenth');
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        //alert(e.which);
+        if (e.which !== 8 && e.which !== 0)
+        {            
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+
+        
 
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
         res = InvalidCharacters(this, array, e.which);
@@ -448,10 +454,13 @@
     });
 
     $('#txtExtension').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 4);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
         res = AllowNumbers(this, e.which);
         if (res === 0) {
@@ -464,12 +473,13 @@
 
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
@@ -490,11 +500,12 @@
             e.preventDefault();
             return;
         }
-
-        res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            res = CheckMaxLenth(this, this.value, 14);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
 
@@ -504,11 +515,12 @@
             e.preventDefault();
             return;
         }
-
-        res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            res = CheckMaxLenth(this, this.value, 15);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
 

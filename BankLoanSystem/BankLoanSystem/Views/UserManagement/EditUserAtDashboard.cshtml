@@ -167,7 +167,7 @@
                                                
                                                 <div class="col-xs-8 text_field short_text_field" id="divUserId">
                                                     @Html.HiddenFor(model => model.UserId, htmlAttributes: new { id = "hdnUserId3" })
-                                                    @Html.DropDownListFor(model => model.UserId, null, "--Select User--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" })
+                                                    @Html.DropDownListFor(model => model.UserId, null, "--Select User--", htmlAttributes: new { @class = "form-control text_field_input", id = "UserIdSA", @onchange = "javascript:GetUserByUserId(this.value);" ,@style = "width:234px" })
                                                 </div>
                                                @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "hdnUserName3" })
                                             
@@ -217,8 +217,8 @@
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>email</label>
                                         </div>
-                                        <div class="col-xs-8 text_field short_text_field">
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtEmail" } })
+                                        <div class="col-xs-8 text_field">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtEmail",@style="width:394px" } })
                                         </div>
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
@@ -448,12 +448,16 @@
         $('#txtConfirmPassword').removeClass('input-validation-error');
         $('#txtFname').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtFname').next("div").children("p").children("span").text("");
+        $('#txtFname').removeClass('input-validation-error');
         $('#txtLname').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtLname').next("div").children("p").children("span").text("");
+        $('#txtLname').removeClass('input-validation-error');
         $('#txtEmail').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtEmail').next("div").children("p").children("span").text("");
+        $('#txtEmail').removeClass('input-validation-error');
         $('#txtPhone').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhone').next("div").children("p").children("span").text("");
+        $('#txtPhone').removeClass('input-validation-error');
         $('#rbStatusA').closest("div").siblings('div').children("p").children("span").text("");
         $('#rbStatusA').next("div").children("p").children("span").text("");
         $('#rbStatusN').closest("div").siblings('div').children("p").children("span").text("");
@@ -507,10 +511,13 @@
         ClearErrorMsgs();
         $('#RoleIdSlct').closest("div").siblings('div').children("p").children("span").text("");
         $('#RoleIdSlct').next("div").children("p").children("span").text("");
+        $('#RoleIdSlct').removeClass('input-validation-error');
         $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
         $('#BranchId').next("div").children("p").children("span").text("");
+        $('#BranchId').removeClass('input-validation-error');
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
+        $('#UserIdSA').removeClass('input-validation-error');
         $('#RoleIdSlct').val('');
         $('#BranchId').val('');
         $('#BranchId2Lbl').text('');
@@ -547,6 +554,7 @@
         ClearErrorMsgs();
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
+        $('#UserIdSA').removeClass('input-validation-error');
         $('#UserIdSA').show();
         $('#UserIdSA').val(0);
         //$('#divUserId').hide();
@@ -584,8 +592,10 @@
         ClearErrorMsgs();
         $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
         $('#BranchId').next("div").children("p").children("span").text("");
+        $('#BranchId').removeClass('input-validation-error');
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
+        $('#UserIdSA').removeClass('input-validation-error');
         $('#BranchId').val('');
         //$('#BranchId2Lbl').text('');
         $('#txtBranchId2').val('');
