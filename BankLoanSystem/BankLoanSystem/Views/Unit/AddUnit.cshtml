@@ -1954,11 +1954,13 @@
                     $('#advanceDateFormDiv').hide();
                     $('#advanceDate').val('');
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
-                    //$("#advanceDateFormDiv").attr('value', '');
+                    $('#advanceDate').removeClass('input-validation-error');
+                    $('#advanceDate').siblings('span').text('');
+
                     files = null;
                     storedFiles = [];
                     upc = 0;
-                    //$('#selectedFiles').children().parent().remove();
+
                     $('#selectedFiles').children().remove();
                     $(".miles").val("");
                     $(".lengths").val("");
