@@ -128,7 +128,7 @@ footer{
                color:#E2DDDD ;
                /*font-size:23px;  - asanka*/
 
-                display: table-cell;
+                display: inline-flex;
                 vertical-align: middle;
                 font-size: 16px;
                 font-weight:bold;
@@ -627,6 +627,25 @@ display: inline-block;
 
 }
 
+.show-logout-popup{
+    text-decoration:none !important;
+    color:#e2dddd;
+    font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-size: 22px;
+    font-weight:bold;
+}
+
+.show-logout-popup:hover{
+    
+    color:white;
+}
+
+.show-logout-popup:after {
+    font-family:icomoon !important;
+    content: "\e901";
+    margin-left: 4px;
+    font-size:23px;
+}
 
 
 
