@@ -323,8 +323,12 @@ namespace BankLoanSystem.DAL
                     string[] zipWithExtention = branch.BranchZip.Split('-');
                     if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
                     if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                    else if(zipWithExtention.Count() == 1)
+                        {
+                            branch.Extention = "";
+                        }
 
-                    branch.BranchEmail = dataRow["email"].ToString();
+                            branch.BranchEmail = dataRow["email"].ToString();
                     branch.BranchPhoneNum1 = dataRow["phone_num_1"].ToString();
                     branch.BranchPhoneNum2 = dataRow["phone_num_2"].ToString();
                     branch.BranchPhoneNum3 = dataRow["phone_num_3"].ToString();
@@ -392,7 +396,8 @@ namespace BankLoanSystem.DAL
                     string[] zipWithExtention = branch.BranchZip.Split('-');
 
                     if (zipWithExtention[0] != null) branch.ZipPre = zipWithExtention[0];
-                    if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                        if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) branch.Extention = zipWithExtention[1];
+                        else if (zipWithExtention.Count() == 1) branch.Extention = "";
 
                     branch.CompanyNameBranchName = dataRow["company_name"].ToString() + " - "  +dataRow["branch_name"].ToString();
                     branch.BranchEmail = dataRow["email"].ToString();

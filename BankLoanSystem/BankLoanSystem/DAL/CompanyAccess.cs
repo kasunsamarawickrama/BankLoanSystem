@@ -1095,12 +1095,14 @@ namespace BankLoanSystem.DAL
 
                             if (zipWithExtention[0] != null) company.ZipPre = zipWithExtention[0];
                             if (zipWithExtention.Count() >= 2 && zipWithExtention[1] != null) company.Extension = zipWithExtention[1];
+                            else if (zipWithExtention.Count() == 1) company.Extension = "";
 
                             company.Email = dataRow["email"].ToString().Trim();
                             company.PhoneNum1 = dataRow["phone_num_1"].ToString().Trim();
                             company.PhoneNum2 = dataRow["phone_num_2"].ToString().Trim();
                             company.PhoneNum3 = dataRow["phone_num_3"].ToString().Trim();
                             company.Fax = dataRow["fax"].ToString().Trim();
+                        company.WebsiteUrl = dataRow["website_url"] == null ? "" : dataRow["website_url"].ToString();
 
                             nonRegCompanies.Add(company);
                         }
