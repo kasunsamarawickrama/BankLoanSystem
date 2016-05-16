@@ -13,30 +13,30 @@
 
 @*<link href="~/Content/commonActions.css" rel="stylesheet" />*@
 @section AddToHead{
-<style>
-    .col-md-2 {
-    text-align: left;
-}
+    <style>
+        .col-md-2 {
+            text-align: left;
+        }
 
-    .overlay-content {
-        top: 14%;
-        width: 600px;
-        text-align: center;
-    }
+        .overlay-content {
+            top: 14%;
+            width: 600px;
+            text-align: center;
+        }
 
-    #confirmBox {
-        display: none;
-        background-color: #eee;
-        border-radius: 5px;
-        border: 1px solid #aaa;
-        position: fixed;
-        width: 300px;
-        left: 50%;
-        margin-left: -150px;
-        padding: 6px 8px 8px;
-        box-sizing: border-box;
-        text-align: center;
-    }
+        #confirmBox {
+            display: none;
+            background-color: #eee;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            position: fixed;
+            width: 300px;
+            left: 50%;
+            margin-left: -150px;
+            padding: 6px 8px 8px;
+            box-sizing: border-box;
+            text-align: center;
+        }
 
         #confirmBox .button {
             background-color: #ccc;
@@ -49,22 +49,27 @@
             cursor: pointer;
         }
 
-            #confirmBox .button:hover {
-                background-color: #ddd;
-            }
+        #confirmBox .button:hover {
+            background-color: #ddd;
+        }
 
         #confirmBox .message {
             text-align: left;
             margin-bottom: 8px;
         }
-    .next_back{
-        background-color:red;
-    }
-    .next_back:hover{ background:#AD2121;}
-    .dsh-name > h3{
-        color:#BB2D2D;
-    }
-</style>}
+        .next_back {
+            background-color: red;
+        }
+        .next_back:hover { background: #AD2121; }
+        .dsh-name > h3 {
+            color: #BB2D2D;
+        }
+
+        #identificationNumberSearch {
+            text-transform: uppercase;
+        }
+
+    </style>}
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Delete Unit";
@@ -540,6 +545,10 @@
 
                         $('#checkableGridDiv').html(View);
                         $('#checkableGridDiv').show();
+
+                        $('#searchDiv').html();
+                        $('#searchDiv').show();
+                        
                         //.highlight { background-color: lightblue; }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
