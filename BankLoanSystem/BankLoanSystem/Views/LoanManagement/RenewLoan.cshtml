@@ -63,13 +63,13 @@
                                 <div style="clear:both"></div>
                                 @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("success"))
                                 {
-                                    <div id="successSpn" class="text-success"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan Maturity date successfully updated</span></div>
+                                    <div id="successSpn" class="text-success"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan is successfully renewed</span></div>
                                    
                                 }
                                 else {
                                     if (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("fail"))
                                     {
-                                        <div id="errorSpn" class="text-danger"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan Maturity date Update failed</span></div>
+                                        <div id="errorSpn" class="text-danger"><span style="float:left ;margin-top: -44px;margin-left: 109px;">Loan renewal failed</span></div>
                                     }
                                 }
                                 @using (Html.BeginForm("RenewLoan", "LoanManagement", FormMethod.Post, new { id = "form1" }))

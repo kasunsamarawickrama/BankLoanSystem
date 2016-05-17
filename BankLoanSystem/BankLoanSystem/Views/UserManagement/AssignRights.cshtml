@@ -153,12 +153,12 @@
                                                         <div class="button_box algn_left">
                                                             <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
                                                         </div>
-                                                        <div class="button_box algn_center">
-                                                            <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="Submit">
+                                                        <div class="button_box algn_right" style="margin-right:25px;float:right">
+                                                            <input value="Assign" class="btn btn-primary m-b next_clear_button next_back" type="submit" id="Submit">
                                                         </div>
-                                                        <div class="button_box algn_right">
+                                                        @*<div class="button_box algn_right">
                                                             <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                        </div>
+                                                        </div>*@
                                                         <div style="clear:both"></div>
                                                     </div>
                                                 </nav>
@@ -187,7 +187,7 @@
 
             if (!checked) {
                 //alert("You must check at least one checkbox.");
-                $('#checkBoxMessage span').text("please check at least one checkbox.");
+                $('#checkBoxMessage span').text("please select at least one right.");
                 if($('#SelectUser').val() != ""){
                     e.preventDefault();
                 }
