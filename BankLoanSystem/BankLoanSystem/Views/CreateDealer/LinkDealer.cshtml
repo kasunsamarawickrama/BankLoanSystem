@@ -322,20 +322,23 @@
 
     // User name validate
     $('#txtUserName').keypress(function (e) {
-        var code = e.which;
-        if (this.value.length === 0 && (48 <= code && code <= 57)) {
-            //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
-            this.focus();
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var code = e.which;
+            if (this.value.length === 0 && (48 <= code && code <= 57)) {
+                //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+                this.focus();
+                e.preventDefault();
+                return;
+            }
 
-        var res = BlockText(e.which);
-        if (res === 1) {
-            //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
-            e.preventDefault();
-            return;
+            var res = BlockText(e.which);
+            if (res === 1) {
+                //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+                e.preventDefault();
+                return;
+            }
         }
+        
     });
 
     // change to title case
@@ -349,83 +352,98 @@
 
     //Check maximum length
     $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 30);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 30);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+       
     });
 
     $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
-        if (this.value.length === 0 && e.which === 32) {
-            e.preventDefault();
-            return;
-        }
-        var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
-        var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (this.value.length === 0 && e.which === 32) {
+                e.preventDefault();
+                return;
+            }
+            var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
+            var res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     //Check maximum length for email address and valid characters
     $('#txtNewEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
-        //var array = [' ', '/', '`', '~', '!'];
-        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
-        var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //var array = [' ', '/', '`', '~', '!'];
+            var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
+            var res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
 
-        if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
+            if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
+        
     });
 
     $('#txtPhoneNumber').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+            res = CheckMaxLenth(this, this.value, 15);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+        
     });
 
     $('#txtUserName').click(function () {
