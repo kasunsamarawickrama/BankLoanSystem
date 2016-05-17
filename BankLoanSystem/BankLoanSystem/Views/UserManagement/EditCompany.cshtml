@@ -372,77 +372,85 @@
 
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 50);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //Check maximum length
     $('#txtCompanyName').keypress(function (e) {
-        //alert(e.which);
-        if (e.which !== 8 && e.which !== 0)
-        {            
-            var res = CheckMaxLenth(this, this.value, 50);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+
+
+            var array = ['~', '`', '!', '#', '$', '%', '*', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-
         
-
-        var array = ['~', '`', '!', '#', '$', '%', '*','+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
     });
     $(' #txtCity').keypress(function (e) {
-        //alert(e.which);
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 50);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+
+
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-
-
-
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //$('#txtWebsiteUrl').keypress(function (e) {
     //    //alert('CheckMaxLenth');
@@ -466,87 +474,102 @@
     //    }
     //});
     $('#txtZipPre').keypress(function (e) {
-        //alert(e.which);
-        //var res = CheckMaxLenth(this, this.value, 4);
-        //if (res === 0) {
-        //    $("#txtExtension").focus();
-        //}
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
-
-    $('#txtExtension').keypress(function (e) {
-
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 4);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            //var res = CheckMaxLenth(this, this.value, 4);
+            //if (res === 0) {
+            //    $("#txtExtension").focus();
+            //}
+            var res = AllowNumbers(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
         }
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        
+    });
+
+    $('#txtExtension').keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 4);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+
+        
     });
 
 
 
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 100);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 100);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        if (e.which !== 8 && e.which !== 0) {
-            res = CheckMaxLenth(this, this.value, 14);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
+            if (e.which !== 8 && e.which !== 0) {
+                res = CheckMaxLenth(this, this.value, 14);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
+        
     });
 
     $('#txtFax').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        if (e.which !== 8 && e.which !== 0) {
-            res = CheckMaxLenth(this, this.value, 15);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
+            if (e.which !== 8 && e.which !== 0) {
+                res = CheckMaxLenth(this, this.value, 15);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
+        
     });
 
     //$('#txtFirstName, #txtLastName').keypress(function (e) {
@@ -561,15 +584,18 @@
     //});
 
     $('input').keypress(function (e) {
-        var array = [' '];
-        if (this.value.length === 0) {
-            var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var array = [' '];
+            if (this.value.length === 0) {
+                var res = InvalidCharacters(this, array, e.which);
 
-            if (res === 1) {
-                e.preventDefault();
-                return;
+                if (res === 1) {
+                    e.preventDefault();
+                    return;
+                }
             }
         }
+        
     });
 
     $('input').prop('autocomplete', 'off');

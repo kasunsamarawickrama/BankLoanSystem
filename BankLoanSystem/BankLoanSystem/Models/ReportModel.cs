@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BankLoanSystem.Models
@@ -39,6 +40,19 @@ namespace BankLoanSystem.Models
         public string LoanNumberB { get; set; }
         public int BranchId { get; set; }
     }
+
+    public class UserRights
+    {
+        public int UserId { get; set; }
+        public int LoanId { get; set; }
+        public string PermissionList { get; set; }
+    }
+
+    //public class LoanIdNumberUserRights
+    //{
+    //    public List<LoanIdNumber> LoanNumbers;
+    //    public List<UserRights> UserLoanRights;
+    //}
 
     public class LoanDetailsRpt
     {
