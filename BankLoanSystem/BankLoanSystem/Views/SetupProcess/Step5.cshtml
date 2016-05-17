@@ -30,15 +30,17 @@
                             <div style="clear:both;"></div>
                             @if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Dealer branch is successfully created") || ViewBag.SuccessMsg.ToString().Equals("Lender branch is successfully created")))
                             {
-                                using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-                                {
+                                //using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
+                                //{
 
-                                    OnFailure = "handleErrorMsg",
-                                    HttpMethod = "POST",
-                                    InsertionMode = InsertionMode.Replace,
-                                    UpdateTargetId = "changeContainer",
-                                    LoadingElementId = "loadingDiv"
-                                }, new { id = "form" }))
+                                //    OnFailure = "handleErrorMsg",
+                                //    HttpMethod = "POST",
+                                //    InsertionMode = InsertionMode.Replace,
+                                //    UpdateTargetId = "changeContainer",
+                                //    LoadingElementId = "loadingDiv"
+                                //}, new { id = "form" }))
+                                using (Html.BeginForm("Step5", "SetupProcess", FormMethod.Post,
+            new { id = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <span class="text-success">@ViewBag.SuccessMsg</span>
@@ -52,15 +54,17 @@
                             }
                             else
                             {
-                                using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-                                {
+                                //using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
+                                //{
 
-                                    OnFailure = "handleErrorMsg",
-                                    HttpMethod = "POST",
-                                    InsertionMode = InsertionMode.Replace,
-                                    UpdateTargetId = "changeContainer",
-                                    LoadingElementId = "loadingDiv"
-                                }, new { id = "form" }))
+                                //    OnFailure = "handleErrorMsg",
+                                //    HttpMethod = "POST",
+                                //    InsertionMode = InsertionMode.Replace,
+                                //    UpdateTargetId = "changeContainer",
+                                //    LoadingElementId = "loadingDiv"
+                                //}, new { id = "form" }))
+                                using (Html.BeginForm("Step5", "SetupProcess", FormMethod.Post,
+                new { id = "form" }))
                                 {
 
                                     @Html.AntiForgeryToken()
