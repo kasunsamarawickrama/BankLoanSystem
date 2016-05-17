@@ -2736,7 +2736,7 @@ namespace BankLoanSystem.Controllers
                 ViewBag.SuccessMsg = lbls;
             }
             else if (lbls != null &&
-                (lbls.Equals("Failed to udate")))
+                (lbls.Equals("Failed to update")))
             {
                 ViewBag.ErrorMsg = lbls;
             }
@@ -2825,7 +2825,7 @@ namespace BankLoanSystem.Controllers
             }
             else
             {
-                ViewBag.ErrorMsg = "Failed to udate";
+                ViewBag.ErrorMsg = "Failed to update";
                 return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
             }
         }
