@@ -10,45 +10,51 @@
 @using System.Globalization;
 
 
+@if (Model.CurtailmentScheduleInfoModel.Count == 0)
+{
+    <div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
+        @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
+        <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
+    </div>
+}
+else
+{
 
-<div id="noCurtLabelDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
-    @*@Html.Label("No Curtailments matching the date could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
-    <label style="float:unset;margin-top:2%;margin-bottom:2%">No Curtailments matching the due date could be found.</label>
-</div>
+
 <div class="info-bar" id="checkableGridDiv" style="margin-top: 10px; padding: 1px 0px 30px 0px">
                             <div>
                                 @grid.GetHtml(
-                                   tableStyle: "gridtable",                                
-                                   headerStyle: "webgrid-header",
-                                   alternatingRowStyle: "webgrid-alternating-row",
-                                   rowStyle: "webgrid-row-style",
-            htmlAttributes: new {id = "checkableGrid"},
-                                   columns: grid.Columns(
-                                   grid.Column(style: "gridColumnSelect",
-                                        format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
-                                           , header: "{checkall}"
-                                   ),
-                                   //grid.Column(
-                                   //     "AdvanceDate",
-                                   //     "Date Advanced",
-                                   //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
-                                   //),
-                                   grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
-                                   grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
-                                   grid.Column("Year", "Year", style: "gridColumnOthers", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
-                                   grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
-                                   grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
-                                   grid.Column("CurtNumber", "Curt-No", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
-                                   grid.Column(
-                                        "DueDate",
-                                        "Due Date", style: "gridColumnOthers",
-                                        format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
-                                   ),
-                grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>
+            tableStyle: "gridtable",
+            headerStyle: "webgrid-header",
+            alternatingRowStyle: "webgrid-alternating-row",
+            rowStyle: "webgrid-row-style",
+htmlAttributes: new { id = "checkableGrid" },
+            columns: grid.Columns(
+            grid.Column(style: "gridColumnSelect",
+                 format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all"/></text>
+                    , header: "{checkall}"
+            ),
+            //grid.Column(
+            //     "AdvanceDate",
+            //     "Date Advanced",
+            //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+            //),
+            grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
+            grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
+            grid.Column("Year", "Year", style: "gridColumnOthers", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
+            grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
+            grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
+            grid.Column("CurtNumber", "Curt-No", style: "gridColumnSmall", format:@<text>@{<label id="CurtNumber" class="CurtNumber">@item.CurtNumber</label>}</text>),
+            grid.Column(
+                 "DueDate",
+                 "Due Date", style: "gridColumnOthers",
+                 format: (item) => string.Format("{0:MM/dd/yyyy}", item.DueDate)
+            ),
+grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="curtAmount">@Convert.ToDecimal(item.CurtAmount).ToString("#,##0.00")</label>
                                                                                                                     <input type="hidden" id="curtailmentStatus" name="curtailmentStatus" value="@item.Status"/>}</text>)
-                                   
-                                )
-                            )
+
+         )
+     )
                          </div>
     
                         <div>
@@ -59,7 +65,7 @@
                         
                         <div id="unitid" class="hidden"></div>
                 </div>
-
+}
 <script>
 
     
