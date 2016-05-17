@@ -100,11 +100,11 @@ namespace BankLoanSystem.Models
         [Display(Name = "Created By ")]
         public int CreatedBy { get; set; }
 
-        [Required(ErrorMessage = "Please select the branch")]
+        [Required(ErrorMessage = "Please select a branch")]
         [Display(Name = "Branch ")]
         public int BranchId { get; set; }
 
-        [Required(ErrorMessage = "Please select the branch")]
+        [Required(ErrorMessage = "Please select a branch")]
         [Display(Name = "Branch ")]
         public int BranchIdUser { get; set; }
 
