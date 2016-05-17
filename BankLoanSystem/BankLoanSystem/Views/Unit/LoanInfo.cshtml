@@ -46,10 +46,11 @@
     {
 
         <div class="address">
-            <div style="float:left;width:30%"><strong>@ViewBag.loanCompanyType</strong> : @ViewBag.loanBranchAddress </div>
+            <div style="float:left;width:30%"><strong>@ViewBag.loanCompanyType </strong><span style="max-width:39%;display: inline-flex;
+    text-align: left;"> : @ViewBag.NonRegBranchName</span> - <span style = "width:41%;display: inline-flex;text-align: left; ">@ViewBag.loanBranchAddress</span></div>
 
 
-
+            
 
             <div style="float:left;width:25%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 

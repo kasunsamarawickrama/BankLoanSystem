@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="col-md-2" style="width:15%;margin-left:-2%">
                                             <label for="">Year</label>
-                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled",@style="text-align:left;"} })
+                                            @Html.EditorFor(model => model.TitleDetails.Year, new { htmlAttributes = new { @class = "form-control", @id = "unitYear", @disabled = "disabled",@style="text-align:left;",@type="text"} })
                                             @Html.ValidationMessageFor(model => model.TitleDetails.Year, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-2" style="margin-left:-2%">
