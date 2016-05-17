@@ -83,12 +83,12 @@ else {
     $(window).resize(function() {
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     }).resize(); // Trigger resize handler
 
@@ -96,12 +96,12 @@ else {
 
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     });
 </script>
