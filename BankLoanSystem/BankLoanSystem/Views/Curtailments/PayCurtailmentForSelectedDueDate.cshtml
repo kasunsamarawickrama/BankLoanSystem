@@ -78,12 +78,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     $(window).resize(function() {
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
     
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });    
     }).resize(); // Trigger resize handler  
 
@@ -91,12 +91,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
     
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });    
     });
 </script>
@@ -580,12 +580,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 $(window).resize(function() {
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function() {
-                        return $(this).width();
+                        return $(this)[0].getBoundingClientRect().width;
                     }).get();
     
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
-                        $(v).width(colWidth[i]);
+                        $(v).outerWidth(colWidth[i]);
                     });    
                 }).resize(); // Trigger resize handler  
 
@@ -593,12 +593,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function() {
-                        return $(this).width();
+                        return $(this)[0].getBoundingClientRect().width;
                     }).get();
     
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
-                        $(v).width(colWidth[i]);
+                        $(v).outerWidth(colWidth[i]);
                     });    
                 });
             }
@@ -869,12 +869,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             colWidth;
 
                         colWidth = bodyCells.map(function () {
-                            return $(this).width();
+                            return $(this)[0].getBoundingClientRect().width;
                         }).get();
 
                         // Set the width of thead columns
                         table.find('thead tr').children().each(function (i, v) {
-                            $(v).width(colWidth[i]);
+                            $(v).outerWidth(colWidth[i]);
                         });
 
                     },

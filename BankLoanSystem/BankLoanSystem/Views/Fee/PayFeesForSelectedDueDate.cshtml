@@ -276,7 +276,8 @@ if (Model.Type == "advanceFee")
 
 
 </div>
-}
+                                    }
+                                  
                                 }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
@@ -565,35 +566,35 @@ if (Model.Type == "advanceFee")
 
                 //
                 // Change the selector if needed
-                //var table = $('table'),
-                //    bodyCells = table.find('tbody tr:first').children(),
-                //    colWidth;
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
 
-                //// Adjust the width of thead cells when window resizes
-                //$(window).resize(function() {
-                //    // Get the tbody columns width array
-                //    colWidth = bodyCells.map(function() {
-                //        return $(this).width();
-                //    }).get();
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function() {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });    
+                }).resize(); // Trigger resize handler  
 
-                //    // Set the width of thead columns
-                //    table.find('thead tr').children().each(function(i, v) {
-                //        $(v).width(colWidth[i]);
-                //    });
-                //}).resize(); // Trigger resize handler
-
-                //$(window).bind("load",function(){
-
-                //    // Get the tbody columns width array
-                //    colWidth = bodyCells.map(function() {
-                //        return $(this).width();
-                //    }).get();
-
-                //    // Set the width of thead columns
-                //    table.find('thead tr').children().each(function(i, v) {
-                //        $(v).width(colWidth[i]);
-                //    });
-                //});
+                $(window).bind("load",function(){
+                  
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function() {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+    
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function(i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });    
+                });
             }
 
             $(document).on('click', 'tbody', (function (e) {
@@ -844,16 +845,16 @@ if (Model.Type == "advanceFee")
                         //changePartialPaymentRowColor();
                         // Change the selector if needed
                         var table = $('table'),
-                            bodyCells = table.find('tbody tr:first').children(),
-                            colWidth;
-
+                             bodyCells = table.find('tbody tr:first').children(),
+                             colWidth;
+                       
                         colWidth = bodyCells.map(function () {
-                            return $(this).width();
+                            return $(this)[0].getBoundingClientRect().width;
                         }).get();
 
                         // Set the width of thead columns
                         table.find('thead tr').children().each(function (i, v) {
-                            $(v).width(colWidth[i]);
+                            $(v).outerWidth(colWidth[i]);
                         });
 
                     },
@@ -1192,32 +1193,41 @@ if (Model.Type == "advanceFee")
         bodyCells = table.find('tbody tr:first').children(),
         colWidth;
 
+   
+    // Get the tbody columns width array
+    colWidth = bodyCells.map(function() {
+        return $(this)[0].getBoundingClientRect().width;
+    }).get();
+    
+    // Set the width of thead columns
+    table.find('thead tr').children().each(function(i, v) {
+        $(v).outerWidth(colWidth[i]);
+    });  
     // Adjust the width of thead cells when window resizes
     $(window).resize(function() {
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
-
+    
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
-        });
-    }).resize(); // Trigger resize handler
+            $(v).outerWidth(colWidth[i]);
+        });    
+    }).resize(); // Trigger resize handler  
 
-   
-    var table = $('table'),
-        bodyCells = table.find('tbody tr:first').children(),
-        colWidth;
+    $(window).bind("load",function(){
+    
         // Get the tbody columns width array
         colWidth = bodyCells.map(function() {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
-
+    
         // Set the width of thead columns
         table.find('thead tr').children().each(function(i, v) {
-            $(v).width(colWidth[i]);
-        });
+            $(v).outerWidth(colWidth[i]);
+        });    
+    });
     
 </script>
 

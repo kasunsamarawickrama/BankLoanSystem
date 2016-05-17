@@ -34,7 +34,7 @@
         }
 
     .gridsdiv {
-        margin-top: 11px;
+        /*margin-top: 11px;*/
     }
 
      #checkableGridDiv table tbody,
@@ -491,18 +491,23 @@
                     //    $('#checkableGridDiv').show();
                     //}
 
+                   
+                },
+                complete: function (data) {
                     // Change the selector if needed
                     var table = $('table'),
                         bodyCells = table.find('tbody tr:first').children(),
                         colWidth;
 
+                   
+                    // Get the tbody columns width array
                     colWidth = bodyCells.map(function () {
-                        return $(this).width()+ 12;
+                        return $(this)[0].getBoundingClientRect().width + 12;
                     }).get();
 
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function (i, v) {
-                        $(v).width(colWidth[i]);
+                        $(v).outerWidth(colWidth[i]);
                     });
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
