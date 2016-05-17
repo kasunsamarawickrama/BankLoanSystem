@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Web.Mvc;
 using BankLoanSystem.Models;
 
 namespace BankLoanSystem.DAL
 {
-    public class ReportAccess
+    public class ReportAccess: Controller
     {
         public List<LoanIdNumber> GetLoanNumbersWithBranch(int companyId)
         {
@@ -14,6 +17,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_id", companyId });
+            //paramertList.Add(new object[] { "@user_id", companyId });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanNumbersWithBranch", paramertList);
 
@@ -28,9 +32,89 @@ namespace BankLoanSystem.DAL
                     loanNumbers.Add(loanNumber);
                     //unitModels.
                 }
+
+                //foreach (DataRow dataRow in dataSet.Tables[1].Rows)
+                //{
+                //    UserRights userRights = new UserRights();
+                //    userRights.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                //    userRights.PermissionList = dataRow["right_id"].ToString();
+                //    userLoanRights.Add(userRights);
+                //}
+                //Session["UserRightListReport"] = userLoanRights;
             }
 
+            //using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            //{
+            //    connection.Open();
+            //    SqlCommand cmd = new SqlCommand("spGetLoanNumbersWithBranch", connection);
+            //    cmd.CommandType = CommandType.StoredProcedure;
+
+            //    cmd.Parameters.AddWithValue("@company_id", companyId);
+            //    cmd.Parameters.AddWithValue("@user_id", companyId);
+
+            //    using (SqlDataReader dr = cmd.ExecuteReader())
+            //    {
+            //        while (dr.Read())
+            //        {
+            //            LoanIdNumber loanNumber = new LoanIdNumber();
+
+            //            loanNumber.LoanId = Convert.ToInt32(dr["loan_id"]);
+            //            loanNumber.LoanNumberB = dr["LoanDisplay"].ToString();
+            //            loanNumber.BranchId = Convert.ToInt32(dr["branch_id"]);
+            //            loanNumbers.Add(loanNumber);
+            //        }
+
+            //        if (dr.NextResult())
+            //        {
+            //            while (dr.Read())
+            //            {
+            //                UserRights userRights = new UserRights();
+            //                userRights.LoanId = Convert.ToInt32(dr["loan_id"]);
+            //                userRights.PermissionList = dr["right_id"].ToString();
+            //                userLoanRights.Add(userRights);
+            //            }
+            //        }
+            //        Session["UserRightListReport"] = userLoanRights;
+            //    }
+
+            //    //SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+            //    //dataAdapter.TableMappings.Add("0", "");
+            //    //DataSet dataSet = new DataSet();
+            //    //dataAdapter.Fill(dataSet);
+
+            //    //DataTable ta = dataSet.Tables[0];
+
+            //    //dataSet.Tables[1].TableName = "UserPermission";
+            //    //DataTable tb = dataSet.Tables[1];
+
+            //    //dataAdapter.Dispose();
+            //}
+
             return loanNumbers;
+        }
+
+        public List<UserRights> GeUserRightsForReporting(int userId)
+        {
+            List<UserRights> userLoanRights = new List<UserRights>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGeUserRightsForReporting", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    UserRights userRights = new UserRights();
+                    userRights.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    userRights.PermissionList = dataRow["right_id"].ToString();
+                    userLoanRights.Add(userRights);
+                }
+            }
+
+            return userLoanRights;
         }
 
         public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)

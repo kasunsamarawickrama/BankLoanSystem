@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -52,11 +53,6 @@ namespace BankLoanSystem.Controllers.Reports
         /// <returns></returns>
         public ActionResult ReportIndex()
         {
-            //string fullPath = System.Web.HttpContext.Current.Server.MapPath("~/Reports/FullInvontory.pdf");
-
-            //Email email = new Email("kanishkashm@gmail.com");
-            //email.SendMailWithAttachment("Report", "Here is Full invontory report test mail", fullPath);
-
             ReportAccess ra = new ReportAccess();
             List<LoanIdNumber> loanNumbers = ra.GetLoanNumbersWithBranch(_userData.Company_Id);
 
@@ -68,11 +64,12 @@ namespace BankLoanSystem.Controllers.Reports
             }
             else if (_userData.RoleId == 2 || _userData.RoleId == 3)
             {
-                foreach (var loans in loanNumbers)
-                {
-                    if(_userData.BranchId == loans.BranchId)
-                        userLoanNumbers.Add(loans);
-                }
+                //foreach (var loans in loanNumbers)
+                //{
+                //    if (_userData.BranchId == loans.BranchId)
+                //        userLoanNumbers.Add(loans);
+                //}
+                userLoanNumbers.AddRange(loanNumbers.Where(loans => _userData.BranchId == loans.BranchId));
             }
             if (_userData.RoleId == 3)
             {
@@ -101,6 +98,39 @@ namespace BankLoanSystem.Controllers.Reports
                         if (checkPermission == false)
                         {
                             return RedirectToAction("UserDetails", "UserManagement");
+                        }
+                        else if (Session["oneLoanDashboard"] != null)
+                        {
+                            Loan loan = (Loan) Session["oneLoanDashboard"];
+                            userLoanNumbers = new List<LoanIdNumber>();
+                            LoanIdNumber uLoans = new LoanIdNumber();
+                            uLoans.LoanId = loan.LoanId;
+                            uLoans.LoanNumberB = loan.LoanNumber;
+                            uLoans.BranchId = loan.BranchId;
+                            userLoanNumbers.Add(uLoans);
+                        }
+                        else if (checkPermission && Session["oneLoanDashboard"] == null)
+                        {
+                            List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
+                            List<LoanIdNumber> loanNumbersUsers = new List<LoanIdNumber>();
+                            foreach (var item in userLoanRights)
+                            {
+                                string[] tokens = null;
+                                string loanRights = item.PermissionList;
+                                if (loanRights != "") tokens = loanRights.Split(',');
+                                if (tokens != null)
+                                {
+                                    foreach (var x in tokens)
+                                    {
+                                        if (x == "U006")
+                                        {
+                                            loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
+                                        }
+                                    }
+                                }
+                            }
+                            userLoanNumbers = loanNumbersUsers;
+
                         }
                     }
                     else {

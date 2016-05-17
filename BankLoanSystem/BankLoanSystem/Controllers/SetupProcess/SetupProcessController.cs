@@ -1324,7 +1324,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step5(string lbls)
-        {
+         {
             int userId = userData.UserId;
             BranchAccess ba = new BranchAccess();
             int compType = ba.getCompanyTypeByUserId(userId);

@@ -35,17 +35,19 @@
                                 </div>
                                 <div class="form-horizontal">
                                     <div style="clear:both"></div>
-                                    @if (ViewBag.SuccessMsg != null &&( (ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Created"))||(ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Updated"))))
+                                    @if (ViewBag.SuccessMsg != null && ((ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Created")) || (ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Updated"))))
                                     {
-                                        using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
-                                        {
+                                        //using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
+                                        //{
 
-                                            OnFailure = "handleErrorMsg",
-                                            HttpMethod = "POST",
-                                            InsertionMode = InsertionMode.Replace,
-                                            UpdateTargetId = "changeContainer",
-                                            LoadingElementId = "loadingDiv"
-                                        }, new { id = "form", style = "clear: both;" }))
+                                        //    OnFailure = "handleErrorMsg",
+                                        //    HttpMethod = "POST",
+                                        //    InsertionMode = InsertionMode.Replace,
+                                        //    UpdateTargetId = "changeContainer",
+                                        //    LoadingElementId = "loadingDiv"
+                                        //}, new { id = "form", style = "clear: both;" }))
+                                        using (Html.BeginForm("Step2", "SetupProcess", FormMethod.Post,
+              new { id = "form", style = "clear: both;" }))
                                         {
                                             @Html.AntiForgeryToken()
                                             <span class="text-success">@ViewBag.SuccessMsg</span>
@@ -125,15 +127,17 @@
                                     }
                                     else
                                     {
-                                        using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
-                                        {
-                                            OnSuccess = "Progress(3)",
-                                            OnFailure = "handleErrorMsg",
-                                            HttpMethod = "POST",
-                                            InsertionMode = InsertionMode.Replace,
-                                            UpdateTargetId = "changeContainer",
-                                            LoadingElementId = "loadingDiv"
-                                        }, new { id = "form" }))
+                                        //using (Ajax.BeginForm("Step2", "SetupProcess", new AjaxOptions()
+                                        //{
+                                        //    OnSuccess = "Progress(3)",
+                                        //    OnFailure = "handleErrorMsg",
+                                        //    HttpMethod = "POST",
+                                        //    InsertionMode = InsertionMode.Replace,
+                                        //    UpdateTargetId = "changeContainer",
+                                        //    LoadingElementId = "loadingDiv"
+                                        //}, new { id = "form" }))
+                                        using (Html.BeginForm("Step2", "SetupProcess", FormMethod.Post,
+                        new { id = "form", style = "clear: both;" }))
                                         {
 
                                             @Html.AntiForgeryToken()
