@@ -182,7 +182,22 @@
 
 
     <script>
+        $(document).ready(function (){
+            @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
+        {                                                    
+            <text>
+            $('#Submit').prop('disabled', true);
+            </text>
+        }
+        });
+
         $('#Submit').click(function (e) {
+            @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
+            {                                                    
+                <text>
+                    e.preventDefault();
+                </text>
+            }
             var checked = $("input[type=checkbox]:checked").length;
 
             if (!checked) {
@@ -236,7 +251,7 @@
                 url: '/UserManagement/ExistingUserRights',
                 type: 'POST',
                 contentType: 'application/json;',
-                data: JSON.stringify({ userId: selectedUser, loanId, loanId }),
+                data: JSON.stringify({ userId: selectedUser, loanId: loanId }),
                 success: function (data) {
                     //alert(data);
                     var array = data.split(',');
