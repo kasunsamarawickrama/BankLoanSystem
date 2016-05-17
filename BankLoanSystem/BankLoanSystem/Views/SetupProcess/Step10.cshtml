@@ -690,16 +690,18 @@
 
     // allow to enter only numbers
     $(document).on('keypress', '.clsaddCuirtailment, .clstimePeriod', function (e) {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9){
+            var res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+            res = CheckMaxLenth(this, this.value, 4);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
 
