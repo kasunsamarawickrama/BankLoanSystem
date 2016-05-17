@@ -214,22 +214,25 @@
     });
 
     //Phone number validate
-    $('#txtPhoneNumber').keypress(function (e) {
-        var res = PhoneNumber('#txtPhoneNumber', e.which);
-        if (res === 0) {
-            //$(this).siblings('div').children('span').fadeIn();
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            //$(this).siblings('div').children('span').delay(100).fadeOut();
-            e.preventDefault();
-        }
-    });
+    //$('#txtPhoneNumber').keypress(function (e) {
+    //    var res = PhoneNumber('#txtPhoneNumber', e.which);
+    //    if (res === 0) {
+    //        //$(this).siblings('div').children('span').fadeIn();
+    //        //$(this).siblings('div').children('span').text("Invalid character.");
+    //        //$(this).siblings('div').children('span').delay(100).fadeOut();
+    //        e.preventDefault();
+    //    }
+    //});
 
     //Check maximum length
     $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
         var res = CheckMaxLenth(this, this.value, 30);
         if (res === 0) {
-            e.preventDefault();
-            return;
+            if(e.which != 8 && e.keyCode !=46 && e.keyCode != 9){
+                e.preventDefault();
+                return;
+            } 
+           
         }
     });
 
@@ -296,16 +299,20 @@
 
     $('#txtPhoneNumber').keypress(function (e) {
         var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.keyCode != 9) {
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
+
+            res = CheckMaxLenth(this, this.value, 14);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
 
-        res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     $('#txtPhoneNumber').focusout(function (e) {
