@@ -69,6 +69,16 @@
             text-transform: uppercase;
         }
 
+        
+      #checkableGridDiv table tbody,
+#checkableGridDiv table thead { display: block; }
+
+#checkableGridDiv table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
     </style>}
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -383,6 +393,34 @@
                 $('#checkableGridDiv').html(View);
                 $('#checkableGridDiv').show();
 
+
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Get the tbody columns width array
+                colWidth = bodyCells.map(function () {
+                    return $(this)[0].getBoundingClientRect().width;
+                }).get();
+
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).outerWidth(colWidth[i]);
+                });
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function () {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                }).resize(); // Trigger resize handler
                 //.highlight { background-color: lightblue; }
             },
             
@@ -445,6 +483,34 @@
                 $('#checkableGridDiv').html(View);
                 $('#checkableGridDiv').show();
 
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Get the tbody columns width array
+                colWidth = bodyCells.map(function () {
+                    return $(this)[0].getBoundingClientRect().width;
+                }).get();
+
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).outerWidth(colWidth[i]);
+                });
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function () {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                }).resize(); // Trigger resize handler
+
                 //.highlight { background-color: lightblue; }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -481,6 +547,35 @@
             success: function (View) {
                 $('#checkableGridDiv').html(View);
                 $('#checkableGridDiv').show();
+
+
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+              
+                // Get the tbody columns width array
+                colWidth = bodyCells.map(function () {
+                    return $(this)[0].getBoundingClientRect().width;
+                }).get();
+
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).outerWidth(colWidth[i]);
+                });
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function () {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                }).resize(); // Trigger resize handler
 
                 //.highlight { background-color: lightblue; }
             },
@@ -548,6 +643,34 @@
 
                         $('#searchDiv').html();
                         $('#searchDiv').show();
+
+                        // Change the selector if needed
+                        var table = $('table'),
+                            bodyCells = table.find('tbody tr:first').children(),
+                            colWidth;
+
+                        // Get the tbody columns width array
+                        colWidth = bodyCells.map(function () {
+                            return $(this)[0].getBoundingClientRect().width;
+                        }).get();
+
+                        // Set the width of thead columns
+                        table.find('thead tr').children().each(function (i, v) {
+                            $(v).outerWidth(colWidth[i]);
+                        });
+
+                        // Adjust the width of thead cells when window resizes
+                        $(window).resize(function () {
+                            // Get the tbody columns width array
+                            colWidth = bodyCells.map(function () {
+                                return $(this)[0].getBoundingClientRect().width;
+                            }).get();
+
+                            // Set the width of thead columns
+                            table.find('thead tr').children().each(function (i, v) {
+                                $(v).outerWidth(colWidth[i]);
+                            });
+                        }).resize(); // Trigger resize handler
                         
                         //.highlight { background-color: lightblue; }
                     },
@@ -585,4 +708,8 @@
     }
 
     $("#lkdeluni").hide();
+
+
+
+
 </script>
