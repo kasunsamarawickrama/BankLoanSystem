@@ -262,8 +262,9 @@
     .gridtable th, .gridtable td {
         border: 1px solid cadetblue;
         padding: 5px;
-        /*width:2%;*/
+        width:12.5%;
     }
+   
 
     .webgrid-alternating-row {
         background-color:aliceblue;
@@ -272,7 +273,7 @@
     }
     .webgrid-row-style
     {
-        padding: 3px 7px 2px;
+        /*padding: 3px 7px 2px;*/
     }
     .gridHead a:hover {
         text-decoration: underline;
@@ -291,48 +292,50 @@
     }
      .gridColumn {
        text-align:right ;
-        width: 130px;  
+       /*width:20% !important;*/
+        /*width: 130px !important;*/  
+        padding-left:42px !important;
     }
 
     .gridColumnSelect {
        text-align:left ; 
-            width: 100px;     
+            /*width: 100px;*/     
     }
     .gridColumnVIN {
        text-align:left ; 
-        width: 130px;     
+        /*width: 130px;*/     
          
     }
     .gridColumnSmall {
        text-align:left ; 
-        width: 70px;     
+        /*width: 70px;*/     
        
     }
     .gridColumnOthers {
        text-align:left ; 
-        width: 120px;     
+        /*width: 120px;*/     
        
     }
      .gridColumnlarge {
        text-align:left ; 
-        width: 410px;     
+        /*width: 410px;*/     
        
     }
      .gridColumnlargeWithAlign {
        text-align:left ; 
-        width: 410px; 
+        /*width: 410px;*/ 
         text-align:right ;    
        
     }
 
        .gridColumnSearch {  
             text-align:left ;      
-        width: 250px;  
+        /*width: 250px;*/  
     }
 
          .gridColumnSearchAlign {
        text-align:right ;
-        width: 400px;  
+        /*width: 400px;*/  
     }
      
 
