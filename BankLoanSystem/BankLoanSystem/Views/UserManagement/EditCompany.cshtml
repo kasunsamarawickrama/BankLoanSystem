@@ -83,9 +83,9 @@
                                             <div class="control-label col-sm-2 lable_style">
                                                 <label>Company Name</label>
                                             </div>
-                                            <div class="col-xs-8 text_field short_text_field">
+                                            <div class="col-xs-8 text_field">
                                                 @Html.HiddenFor(model=>model.CompanyId)
-                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCompanyName" } })
+                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyName",@style="width:100%" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
@@ -96,7 +96,7 @@
                                                 <label>Street Address 1</label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress1" } })
+                                                @Html.EditorFor(model => model.CompanyAddress1, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress1", @style = "width:100%" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress1, "", new { @class = "text-danger" })</p>
@@ -107,7 +107,7 @@
                                                 <label>Street Address 2<br><span class="optional">(Optional)</span></label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress2" } })
+                                                @Html.EditorFor(model => model.CompanyAddress2, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input first_letter_capital", @id = "txtCompanyAddress2", @style = "width:100%" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyAddress2, "", new { @class = "text-danger" })</p>
@@ -211,8 +211,8 @@
                                                     <span class="optional">(Optional)</span>
                                                 </label>
                                             </div>
-                                            <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtEmail" } })
+                                            <div class="col-xs-8 text_field">
+                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtEmail",@style = "width:100%" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })</p>
@@ -226,7 +226,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-xs-8 text_field">
-                                                @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtWebsiteUrl" } })
+                                                @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtWebsiteUrl", @style = "width:100%" } })
                                             </div>
                                             <div class="err_msg_box">
                                                 <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })</p>
@@ -238,14 +238,14 @@
                                                 <nav>
                                                     <div class="pager new_pager">
                                                         <div class="button_box algn_left">
-                                                            <input value="Dashboard" name="subBack" id="btnDashbrd" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                                            <input value="Dashboard" name="subBack" id="btnDashbrd" tabindex="-1" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
                                                         </div>
-                                                        <div class="button_box algn_center">
-                                                            <input value="Update" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnUpdateCompany">
+                                                        <div class="button_box algn_right" style="margin-right:25px;float:right" >
+                                                            <input value="Update" class="btn btn-primary m-b next_clear_button next_back" type="submit" id="btnUpdateCompany">
                                                         </div>
-                                                        <div class="button_box algn_right">
+                                                        @*<div class="button_box algn_right">
                                                             <input id="btnClear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                        </div>
+                                                        </div>*@
                                                         <div style="clear:both"></div>
                                                     </div>
                                                 </nav>
@@ -372,52 +372,85 @@
 
 
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 50);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //Check maximum length
-    $('#txtCompanyName, #txtCity').keypress(function (e) {
-        //alert(e.which);
-        if (e.which !== 8 && e.which !== 0)
-        {            
-            var res = CheckMaxLenth(this, this.value, 50);
-            if (res === 0) {
+    $('#txtCompanyName').keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+
+
+            var array = ['~', '`', '!', '#', '$', '%', '*', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-
         
+    });
+    $(' #txtCity').keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 50);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
-        res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //$('#txtWebsiteUrl').keypress(function (e) {
     //    //alert('CheckMaxLenth');
@@ -441,87 +474,102 @@
     //    }
     //});
     $('#txtZipPre').keypress(function (e) {
-        //alert(e.which);
-        //var res = CheckMaxLenth(this, this.value, 4);
-        //if (res === 0) {
-        //    $("#txtExtension").focus();
-        //}
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-    });
-
-    $('#txtExtension').keypress(function (e) {
-
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 4);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //alert(e.which);
+            //var res = CheckMaxLenth(this, this.value, 4);
+            //if (res === 0) {
+            //    $("#txtExtension").focus();
+            //}
+            var res = AllowNumbers(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
         }
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        
+    });
+
+    $('#txtExtension').keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 4);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+
+        
     });
 
 
 
     //Check maximum length for email address and valid characters
     $('#txtEmail').keypress(function (e) {
-        if (e.which !== 8 && e.which !== 0) {
-            var res = CheckMaxLenth(this, this.value, 100);
-            if (res === 0) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 100);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
+
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        if (e.which !== 8 && e.which !== 0) {
-            res = CheckMaxLenth(this, this.value, 14);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
+            if (e.which !== 8 && e.which !== 0) {
+                res = CheckMaxLenth(this, this.value, 14);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
+        
     });
 
     $('#txtFax').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
-        if (e.which !== 8 && e.which !== 0) {
-            res = CheckMaxLenth(this, this.value, 15);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
             if (res === 0) {
                 e.preventDefault();
                 return;
             }
+            if (e.which !== 8 && e.which !== 0) {
+                res = CheckMaxLenth(this, this.value, 15);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
+        
     });
 
     //$('#txtFirstName, #txtLastName').keypress(function (e) {
@@ -536,15 +584,18 @@
     //});
 
     $('input').keypress(function (e) {
-        var array = [' '];
-        if (this.value.length === 0) {
-            var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var array = [' '];
+            if (this.value.length === 0) {
+                var res = InvalidCharacters(this, array, e.which);
 
-            if (res === 1) {
-                e.preventDefault();
-                return;
+                if (res === 1) {
+                    e.preventDefault();
+                    return;
+                }
             }
         }
+        
     });
 
     $('input').prop('autocomplete', 'off');

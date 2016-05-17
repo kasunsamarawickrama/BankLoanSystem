@@ -252,7 +252,7 @@
                                                 <nav>
                                                     <div class="pager new_pager">
                                                         <div class="button_box algn_left">
-                                                            <input value="Dashboard" name="subBack" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                                            <input value="Dashboard" name="subBack" tabindex="-1" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
                                                         </div>
                                                         <div class="button_box algn_center">
                                                             <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnNext">
@@ -385,120 +385,142 @@
 
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+            res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //Check maximum length
     $('#branchName, #branchCity').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
-        res = InvalidCharacters(this, array, e.which);
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
+            res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //Check maximum Email
     $('#branchEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
     //Check maximum PhoneNumbers
     $('#branchFax').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 15);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
+            res = PhoneNumber(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-        res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     //Check maximum PhoneNumbers
+
     $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 14);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
+            res = PhoneNumber(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-        res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     //Check maximum ZipExtension
     $('#branchZipExten').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 4);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+            res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+       
     });
     //Check maximum ZipCode
     $('#branchZipPre').keypress(function (e) {
-        //var res = CheckMaxLenth(this, this.value, 4);
-        //if (res === 0) {
-        //    $("#branchZipExten").focus();
-        //}
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //var res = CheckMaxLenth(this, this.value, 4);
+            //if (res === 0) {
+            //    $("#branchZipExten").focus();
+            //}
+            var res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
+        
     });
     $(function () {
 

@@ -140,11 +140,15 @@
     <div class="container" id="container">
 
 <div class="body-content" style="width:100%;float:none">
-
-    <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
-        @*@Html.Label("No units to Advance could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })*@
-        <label>No units to Advance could be found.</label>
-    </div>
+    @if (Model.NotAdvanced.Count == 0)
+    {
+        <div id="noUnitLabelDiv" class="info-unit" style="float: unset;margin-top:15px; font:medium;color:red;margin-right:unset" hidden>
+            @*@Html.Label("No units to Advance could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;" })*@
+            <label>No units to Advance could be found.</label>
+        </div>
+    }
+    else
+    {
     <div class ="info-unit" id ="checkableGridDiv" style="padding: 1px 30px 30px 0px;">
         <div>
             @grid.GetHtml(
@@ -183,6 +187,7 @@
         
         <div id="unitid" class="hidden"></div>
     </div>
+    }
         <div id="unitid" style="clear:both" class="hidden"></div>
     </div>
 
@@ -389,16 +394,26 @@
         bodyCells = table.find('tbody tr:first').children(),
         colWidth;
 
+    // Get the tbody columns width array
+    colWidth = bodyCells.map(function () {
+        return $(this)[0].getBoundingClientRect().width;
+    }).get();
+
+    // Set the width of thead columns
+    table.find('thead tr').children().each(function (i, v) {
+        $(v).outerWidth(colWidth[i]);
+    });
+
     // Adjust the width of thead cells when window resizes
     $(window).resize(function () {
         // Get the tbody columns width array
         colWidth = bodyCells.map(function () {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function (i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     }).resize(); // Trigger resize handler
 
@@ -406,12 +421,12 @@
 
         // Get the tbody columns width array
         colWidth = bodyCells.map(function () {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function (i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     });
 
@@ -840,12 +855,12 @@
         $(window).resize(function () {
             // Get the tbody columns width array
             colWidth = bodyCells.map(function () {
-                return $(this).width();
+                return $(this)[0].getBoundingClientRect().width;
             }).get();
 
             // Set the width of thead columns
             table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
+                $(v).outerWidth(colWidth[i]);
             });
         }).resize(); // Trigger resize handler
 
@@ -853,12 +868,12 @@
 
             // Get the tbody columns width array
             colWidth = bodyCells.map(function () {
-                return $(this).width();
+                return $(this)[0].getBoundingClientRect().width;
             }).get();
 
             // Set the width of thead columns
             table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
+                $(v).outerWidth(colWidth[i]);
             });
         });
     }

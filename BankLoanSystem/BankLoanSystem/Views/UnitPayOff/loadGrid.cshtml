@@ -7,6 +7,11 @@
 }
 @using System.Threading;
 @using System.Globalization;
+
+@if (Model.UnitPayOffList.Count > 0)
+{
+
+
 <div class="info-bar" id="payOffGridDIv" style="margin-top:10px;padding:1px 0px 20px 0px">
     <!-- This is for Grid-->
     <input type="hidden" value="@ViewBag.loanId" id="loanId" />
@@ -41,6 +46,7 @@
         <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
     }
 </div>
+}
 <div class="info-bar" style="margin-top:15px">
     @if (ViewBag.IsTitleTrack == "Yes")
     {
@@ -298,12 +304,12 @@
         $(window).resize(function () {
             // Get the tbody columns width array
             colWidth = bodyCells.map(function () {
-                return $(this).width();
+                return $(this)[0].getBoundingClientRect().width;
             }).get();
 
             // Set the width of thead columns
             table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
+                $(v).outerWidth(colWidth[i]);
             });
         }).resize(); // Trigger resize handler
 
@@ -311,12 +317,12 @@
 
             // Get the tbody columns width array
             colWidth = bodyCells.map(function () {
-                return $(this).width();
+                return $(this)[0].getBoundingClientRect().width;
             }).get();
 
             // Set the width of thead columns
             table.find('thead tr').children().each(function (i, v) {
-                $(v).width(colWidth[i]);
+                $(v).outerWidth(colWidth[i]);
             });
         });
     });
@@ -397,7 +403,11 @@
         $('#searchIdentificationNumber').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
         // $('#identificationNumberSearch').val('');
+        var checked = $("#checkableGrid td :checkbox:checked").length;
 
+        if(checked == 0){
+            $('.centered span').text('');
+        }
     }
 
     var payDate = new Pikaday({
@@ -713,12 +723,12 @@
         {
 
             <text>
-            var pay = tr.find("#balance").text().replace(',', '')
-            $('#iAdvanceFee').val(advanceFee);
-            var tot = parseFloat(advanceFee) + parseFloat(pay);
-            tot = tot.toFixed(2); 
-            $('#iTotal').val(tot);
-            </text>
+        var pay = tr.find("#balance").text().replace(',', '')
+        $('#iAdvanceFee').val(advanceFee);
+        var tot = parseFloat(advanceFee) + parseFloat(pay);
+        tot = tot.toFixed(2);
+        $('#iTotal').val(tot);
+        </text>
         }
         //$("#btnPayAll").attr("disabled", "disabled");
         //$("#payDate").attr("disabled", "disabled");
@@ -728,6 +738,8 @@
         if ("@ViewBag.IsTitleTrack" === "Yes") {
             document.getElementById('rdTitleYes2').checked = false;
             document.getElementById('rdTitleNo2').checked = false;
+            document.getElementById('rdTitleYes1').checked = false;
+            document.getElementById('rdTitleNo1').checked = false;
             $('#customErrorTitleReturn2').children('span').text("");
         }
         $('#iVin').val('');
@@ -1264,12 +1276,12 @@
     $(window).resize(function () {
         // Get the tbody columns width array
         colWidth = bodyCells.map(function () {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function (i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     }).resize(); // Trigger resize handler
 
@@ -1277,12 +1289,12 @@
 
         // Get the tbody columns width array
         colWidth = bodyCells.map(function () {
-            return $(this).width();
+            return $(this)[0].getBoundingClientRect().width;
         }).get();
 
         // Set the width of thead columns
         table.find('thead tr').children().each(function (i, v) {
-            $(v).width(colWidth[i]);
+            $(v).outerWidth(colWidth[i]);
         });
     }).resize();
 
@@ -1373,8 +1385,14 @@
             <text>$('#iAdvanceFee').val("");</text>
             <text> $('#iTotal').val("");</text>
         }
+        @if (ViewBag.IsTitleTrack == "Yes")
+        {
+            <text>
+                document.getElementById('rdTitleYes2').checked = false;
+                document.getElementById('rdTitleNo2').checked = false;
+            </text>
+        }
         ClearSearchRelatedData();
-
     });
 
     //capitalize letters when typing
