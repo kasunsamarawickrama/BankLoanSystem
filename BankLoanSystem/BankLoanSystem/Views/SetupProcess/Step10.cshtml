@@ -57,15 +57,17 @@
                         else
                         {
                             List<SelectListItem> listItems = new List<SelectListItem>();
-                            using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
-                            {
+                            //using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
+                            //{
 
-                                OnFailure = "handleError",
-                                HttpMethod = "POST",
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "changeContainer",
-                                LoadingElementId = "loadingDiv"
-                            }, new { id = "form" }))
+                            //    OnFailure = "handleError",
+                            //    HttpMethod = "POST",
+                            //    InsertionMode = InsertionMode.Replace,
+                            //    UpdateTargetId = "changeContainer",
+                            //    LoadingElementId = "loadingDiv"
+                            //}, new { id = "form" }))
+                            using (Html.BeginForm("Step10", "SetupProcess", FormMethod.Post,
+            new { id = "form" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -522,7 +524,7 @@
         }
     });
 
-    var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;">' +
+    var initialTbl = '<table id="tblGrid" cellpadding="3" cellspacing="0" border="1" style="border-color: Black;color:black; border-collapse: collapse; text-align: center; width: 60%;float:left">' +
         '<tbody><tr style="font-weight: bold; background-color: darkgray; height: 15px;">' +
         '<th style="width: 10%; text-align: center" height="30px">' +
         '<p id="cuId"> Curt#</p>' +
@@ -622,7 +624,7 @@
         
         //set curtailment shedule grid as initial
         $('#tblGrid').remove();
-        $('#divTbl').append(initialTbl);
+        $('#divTbl').prepend(initialTbl);
         initializeData();
         window.scrollTo(0, 0);
 
@@ -761,6 +763,11 @@
         var curid = tr.find("#lblCur").html();
         var timePeriod = tr.find("#timePeriod").val();
         var percentage = tr.find("#percentage").val();
+
+        if (timePeriod === '0') {
+            $('#spnremainTimeError').children('span').text("Time must be greater than 0");
+            return;
+        }
 
         var isNewRow = false;
 

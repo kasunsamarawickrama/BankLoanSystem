@@ -119,15 +119,17 @@
                                 else
                                 {
 
-                                    using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
-                                    {
+                                    //using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
+                                    //{
 
-                                        OnFailure = "handleErrorMsg",
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "changeContainer",
-                                        LoadingElementId = "loadingDiv"
-                                    }, new { id = "form" }))
+                                    //    OnFailure = "handleErrorMsg",
+                                    //    HttpMethod = "POST",
+                                    //    InsertionMode = InsertionMode.Replace,
+                                    //    UpdateTargetId = "changeContainer",
+                                    //    LoadingElementId = "loadingDiv"
+                                    //}, new { id = "form" }))
+                                    using (Html.BeginForm("Step3", "SetupProcess", FormMethod.Post,
+        new { id = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
