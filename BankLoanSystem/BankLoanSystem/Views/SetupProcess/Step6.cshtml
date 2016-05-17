@@ -44,7 +44,7 @@
                             </div>
                             <div style="clear:both;"></div>
 
-                            @using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
+                        @*@using (Ajax.BeginForm("Step6", "SetupProcess", new AjaxOptions()
                             {
 
                                 OnFailure = "handleErrorMsg",
@@ -52,7 +52,9 @@
                                 InsertionMode = InsertionMode.Replace,
                                 UpdateTargetId = "changeContainer",
                                 LoadingElementId = "loadingDiv"
-                            }, new { id = "form" }))
+                            }, new { id = "form" }))*@
+                            @using (Html.BeginForm("Step6", "SetupProcess", FormMethod.Post,
+                            new { id = "form" }))
                             {
                                 @Html.AntiForgeryToken()
 

@@ -57,15 +57,17 @@
                         else
                         {
                             List<SelectListItem> listItems = new List<SelectListItem>();
-                            using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
-                            {
+                            //using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
+                            //{
 
-                                OnFailure = "handleError",
-                                HttpMethod = "POST",
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "changeContainer",
-                                LoadingElementId = "loadingDiv"
-                            }, new { id = "form" }))
+                            //    OnFailure = "handleError",
+                            //    HttpMethod = "POST",
+                            //    InsertionMode = InsertionMode.Replace,
+                            //    UpdateTargetId = "changeContainer",
+                            //    LoadingElementId = "loadingDiv"
+                            //}, new { id = "form" }))
+                            using (Html.BeginForm("Step10", "SetupProcess", FormMethod.Post,
+            new { id = "form" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -761,6 +763,11 @@
         var curid = tr.find("#lblCur").html();
         var timePeriod = tr.find("#timePeriod").val();
         var percentage = tr.find("#percentage").val();
+
+        if (timePeriod === '0') {
+            $('#spnremainTimeError').children('span').text("Time must be greater than 0");
+            return;
+        }
 
         var isNewRow = false;
 
