@@ -1519,15 +1519,18 @@
             });
         });
     $("#advanceAmount").keypress(function(e){
-        var advanceAmount = $('#advanceAmount').val();
-        if($('#advanceAmount').val().length >= 15){
-            e.preventDefault();
-        }
-        else if(numericAllowDecimal(e,advanceAmount)){
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var advanceAmount = $('#advanceAmount').val();
+            if($('#advanceAmount').val().length >= 15){
+                e.preventDefault();
+            }
+            else if(numericAllowDecimal(e,advanceAmount)){
 
-        }else{
-            e.preventDefault();
+            }else{
+                e.preventDefault();
+            }
         }
+        
     });
     $("#advanceAmount").blur(function(){
         var advanceAmount = $('#advanceAmount').val();
@@ -1539,16 +1542,20 @@
             }
         }
     });
+    
     $("#loanAmount").keypress(function(e){
-        var advanceAmount = $('#loanAmount').val();
-        if($('#loanAmount').val().length >= 15){
-            e.preventDefault();
-        }
-        else if(numericAllowDecimal(e,advanceAmount)){
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var advanceAmount = $('#loanAmount').val();
+            if($('#loanAmount').val().length >= 15){
+                e.preventDefault();
+            }
+            else if(numericAllowDecimal(e,advanceAmount)){
 
-        }else{
-            e.preventDefault();
+            }else{
+                e.preventDefault();
+            }
         }
+        
     });
     $("#loanAmount").blur(function(){
         var loanAmount = $('#loanAmount').val();
@@ -1560,16 +1567,20 @@
         }
         }
     });
+    
     $("#lotAmount").keypress(function(e){
-        var advanceAmount = $('#lotAmount').val();
-        if($('#lotAmount').val().length >= 15){
-            e.preventDefault();
-        }
-        else if(numericAllowDecimal(e,advanceAmount)){
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var advanceAmount = $('#lotAmount').val();
+            if($('#lotAmount').val().length >= 15){
+                e.preventDefault();
+            }
+            else if(numericAllowDecimal(e,advanceAmount)){
 
-        }else{
-            e.preventDefault();
+            }else{
+                e.preventDefault();
+            }
         }
+        
     });
     $("#lotAmount").blur(function(){
         var lotAmount = $('#lotAmount').val();
@@ -1596,24 +1607,30 @@
     }
 
     $(".x").keypress(function(e){
-        if($(this).val().length >= 5){
-            e.preventDefault();
-        }
-        else if(numericAllow(e)){
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if($(this).val().length >= 5){
+                e.preventDefault();
+            }
+            else if(numericAllow(e)){
 
-        }else{
-            e.preventDefault();
+            }else{
+                e.preventDefault();
+            }
         }
+        
     });
     $(".e").keypress(function(e){
-        if($(this).val().length >= 100){
-            e.preventDefault();
-        }
-        else if(forEmail(e)){
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if($(this).val().length >= 100){
+                e.preventDefault();
+            }
+            else if(forEmail(e)){
 
-        }else{
-            e.preventDefault();
+            }else{
+                e.preventDefault();
+            }
         }
+        
     });
     function numericAllow(e){
         var ch = e.which;
