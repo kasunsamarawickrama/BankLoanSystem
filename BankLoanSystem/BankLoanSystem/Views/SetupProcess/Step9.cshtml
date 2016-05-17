@@ -303,22 +303,27 @@
         });
     };
     $("#autoRemindEmail").keypress(function(e){
-
-        var ch = e.which;
-        if ((ch >= 47 && ch <= 57) ||(ch >= 65 && ch <= 90) ||(ch >= 97 && ch <= 122)|| (ch == 46) ||(ch == 64)) {
-            return 1;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var ch = e.which;
+            if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch == 46) || (ch == 64)) {
+                return 1;
+            }
+            else {
+                e.preventDefault();
+            }
         }
-        else{
-            e.preventDefault();
-        }
+        
         //alert(ch);
     });
 
     $('#autoRemindEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+            }
         }
+        
     });
 
     $('#autoRemindEmail').blur(function (e) {
@@ -542,14 +547,17 @@
         });
 
         $('#autoRemindPeriod').keypress(function (evt) {
-            //only allowed numbers
-            if (!(48 <= evt.which && evt.which <= 58))
-                evt.preventDefault();
+            if (evt.which != 8 && evt.keyCode != 46 && evt.keyCode != 9) {
+                //only allowed numbers
+                if (!(48 <= evt.which && evt.which <= 58))
+                    evt.preventDefault();
 
-            // preventing to type 'e' or 'E'
-            if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
-                evt.preventDefault();
+                // preventing to type 'e' or 'E'
+                if (evt.keyCode == 101 || evt.keyCode == 69 || evt.keyCode == 45 || evt.keyCode == 43 || evt.keyCode == 46 || $(this).val() > 100) {
+                    evt.preventDefault();
+                }
             }
+            
         });
 
     //Back Button

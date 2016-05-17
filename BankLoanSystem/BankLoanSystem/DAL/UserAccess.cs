@@ -520,7 +520,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool updateUserRightDetails(User user, int loggedUser)
+        public int updateUserRightDetails(User user, int loggedUser)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
@@ -532,7 +532,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spUpdateUserRightDetails", paramertList) ? true : false;
+                return dataHandler.ExecuteSQLReturn("spUpdateUserRightDetails", paramertList);
             }
             catch (Exception ex)
             {

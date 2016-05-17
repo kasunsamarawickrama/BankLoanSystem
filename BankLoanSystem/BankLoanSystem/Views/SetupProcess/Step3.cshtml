@@ -139,8 +139,8 @@
                                                 <div class="control-label col-sm-2 lable_style">
                                                     <label>User Role</label>
                                                 </div>
-                                                <div class="col-xs-8 text_field short_text_field">
-                                                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId" })
+                                                <div class="col-xs-8 text_field">
+                                                    @Html.DropDownListFor(model => model.RoleId, null, "--Select Role--", htmlAttributes: new { @class = "form-control text_field_input", id = "RoleId",@style="width:50%" })
 
                                                 </div>
                                                 <div class="err_msg_box">
@@ -168,11 +168,11 @@
                                                         }
                                                         else
                                                         {
-                                                            <div class="col-xs-8 text_field short_text_field">
-                                                                @Html.DropDownListFor(model => model.BranchId, null, "--Select a company branch--", htmlAttributes: new { @class = "form-control", id = "BranchId" })
+                                                            <div class="col-xs-8 text_field">
+                                                                @Html.DropDownListFor(model => model.BranchId, null, "--Select a branch--", htmlAttributes: new { @class = "form-control", id = "BranchId", @style = "width:50%" })
                                                             </div>
                                                         }
-                                                        <div class="err_msg_box">
+                                                        <div class="err_msg_box" style="margin-top:5px">
                                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })</p>
                                                         </div>
                                                     </div>
@@ -202,7 +202,7 @@
                                             </div>
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Email Address</label>
+                                                    <label>email</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field">
                                                     @Html.EditorFor(model => model.NewEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtNewEmail" } })
@@ -269,7 +269,7 @@
                                                     @Html.RadioButtonFor(model => model.Status, "false", new { @id = "rbNo", @style = "margin-left:20px" }) No
                                                 </div>
                                                 <div class="err_msg_box">
-                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })</p>
+                                                    <p class="err_msg new_err_msg" style="margin-left:35% !important">@Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
 
@@ -454,6 +454,36 @@
 
     Progress(3);
     $('#RoleId').change(function () {
+        $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
+        $('#BranchId').next("div").children("p").children("span").text("");
+        $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtUserName').next("div").children("p").children("span").text("");
+        $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPassword').next("div").children("p").children("span").text("");
+        $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+        $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtFirstName').next("div").children("p").children("span").text("");
+        $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtLastName').next("div").children("p").children("span").text("");
+        $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+        $('input[type=radio]').each(function () {
+            ($(this).removeClass('input-validation-error'));
+            ($(this).closest("div").siblings('div').children("p").children("span").text(""));
+            ($(this).next("div").children("p").children("span").text(""));
+        });
+        $('input[type=text]').each(function () {
+            ($(this).removeClass('input-validation-error'));
+        });
+        $('#txtNewEmail').removeClass('input-validation-error');
+        $('#txtPassword').removeClass('input-validation-error');
+        $('#txtConfirmPassword').removeClass('input-validation-error');
+        $('#BranchId').removeClass('input-validation-error');
+        $('#txtPhoneNumber').removeClass('valid');
+
         var val = document.getElementById("RoleId").value;
         if (val == '2' || val == '3') {
             $('#branchDiv').show();
@@ -467,20 +497,24 @@
 
     // User name validate
     $('#txtUserName').keypress(function (e) {
-        var code = e.which;
-        if (this.value.length === 0 && (48 <= code && code <= 57)) {
-            //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
-            this.focus();
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var code = e.which;
+            if (this.value.length === 0 && (48 <= code && code <= 57)) {
+                //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+                this.focus();
+                e.preventDefault();
+                return;
+            }
+
+            var res = BlockText(e.which);
+            if (res === 1) {
+                //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+                e.preventDefault();
+                return;
+            }
         }
 
-        var res = BlockText(e.which);
-        if (res === 1) {
-            //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     // change to title case
@@ -494,85 +528,106 @@
 
     //Check maximum length
     $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 30);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 30);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
+
+        
     });
 
     $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
-        if (this.value.length === 0 && e.which === 32) {
-            e.preventDefault();
-            return;
-        }
-        var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
-        var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (this.value.length === 0 && e.which === 32) {
+                e.preventDefault();
+                return;
+            }
+            var array = ['`', '*', '&', '=', '|', ';', '"', '<', '>'];
+            var res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     //Check maximum length for email address and valid characters
     $('#txtNewEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if (e.which !== 8 && e.which !== 0) {
+                var res = CheckMaxLenth(this, this.value, 100);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
-
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
     });
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
-        //var array = [' ', '/', '`', '~', '!'];
-        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
-        var res = InvalidCharacters(this, array, e.which);
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            //var array = [' ', '/', '`', '~', '!'];
+            var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
+            var res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
-        }
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
 
-        if (e.which === 92) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
+            if (e.which === 92) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
+        
     });
 
     $('#txtPhoneNumber').keypress(function (e) {
-        var res = PhoneNumber(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = PhoneNumber(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
+            if (e.which !== 8 && e.which !== 0) {
+                res = CheckMaxLenth(this, this.value, 14);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+            }
         }
-
-        res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        
     });
 
+    $('input').prop('autocomplete', 'off');
 </script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

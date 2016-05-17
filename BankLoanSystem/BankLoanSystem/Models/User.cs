@@ -71,7 +71,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select")]
         public bool ChangePassword { get; set; }
 
         [Required(ErrorMessage = "Please confirm the Password")]
@@ -80,7 +80,7 @@ namespace BankLoanSystem.Models
         [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Your Passwords do not match, please check your inputs")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select")]
         [Display(Name = "Status")]
         public bool Status { get; set; }
 
@@ -100,11 +100,11 @@ namespace BankLoanSystem.Models
         [Display(Name = "Created By ")]
         public int CreatedBy { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a branch")]
         [Display(Name = "Branch ")]
         public int BranchId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a branch")]
         [Display(Name = "Branch ")]
         public int BranchIdUser { get; set; }
 

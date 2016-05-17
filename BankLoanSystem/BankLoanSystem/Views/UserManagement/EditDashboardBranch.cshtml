@@ -43,7 +43,7 @@
                     <div class="container body-content new_container">
 
                         <div style="clear:both;"></div>
-                        @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Branch Successfully Updated"))
+                        @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("Branch is successfully updated"))
                         {
 
                         <span id="successSpn" class="text-success">@ViewBag.SuccessMsg</span>
@@ -84,9 +84,22 @@
                                     </tr>
                                     }
                                 </table>
+                                <div id="dashBoard">
+                                    <div class="form-group new_form_group clear_next">
+                                        <div>
+                                            <nav>
+                                                <div class="pager new_pager">
+                                                    <div class="button_box algn_left">
+                                                        <input value="Dashboard" name="subBack" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href = '/UserManagement/UserDetails'">
+                                                    </div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             }
-                            <div id="branchDiv" class="form-horizontal">
+                            <div id="branchDiv" class="form-horizontal" hidden>
                                 <input id="branchCode" name="branchCode" type="hidden" value="" />
                                 <div class="form-group new_form_group">
                                     <div class="control-label col-sm-2 lable_style">
@@ -234,14 +247,14 @@
                                         <nav>
                                             <div class="pager new_pager">
                                                 <div class="button_box algn_left">
-                                                    <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
+                                                    <input value="Dashboard" name="subBack" id="btnPreStep3" tabindex="-1" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
                                                 </div>
-                                                <div class="button_box algn_center">
+                                                <div class="button_box algn_right" style="float:right;margin-right:25px">
                                                     <input id="btnNext" value="Update" class="btn btn-primary m-b next_clear_button next_back" style="margin-left: 10px" type="submit">
                                                 </div>
-                                                <div class="button_box algn_right">
+                                                @*<div class="button_box algn_right">
                                                     <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                </div>
+                                                </div>*@
                                                 <div style="clear:both"></div>
                                             </div>
                                         </nav>
@@ -249,6 +262,7 @@
                                 </div>
 
                             </div>
+                          
                         </div>
 
                         }
@@ -267,7 +281,7 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script>
-
+    
     // for input mask
 
     new InputMask().Initialize(document.querySelectorAll("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3"),
@@ -293,12 +307,13 @@
 
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
         res = InvalidCharacters(this, array, e.which);
 
@@ -314,12 +329,13 @@
     });
     //Check maximum length
     $('#branchName, #branchAddress1, #branchAddress2, #branchCity').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 50);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 50);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>'];
         res = InvalidCharacters(this, array, e.which);
 
@@ -335,12 +351,13 @@
     });
     //Check maximum Email
     $('#branchEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         var array = ['~', '`','&', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
         res = InvalidCharacters(this, array, e.which);
 
@@ -356,10 +373,12 @@
     });
     //Check maximum PhoneNumbers
     $('#branchFax').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 15);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 15);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
         res = PhoneNumber(this, e.which);
         if (res === 0) {
@@ -370,10 +389,12 @@
 
 
     $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 14);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 14);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
         res = PhoneNumber(this, e.which);
         if (res === 0) {
@@ -384,12 +405,13 @@
 
     //Check maximum ZipExtension
     $('#branchZipExten').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+        if (e.which !== 8 && e.which !== 0) {
+            var res = CheckMaxLenth(this, this.value, 4);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
-
         res = AllowNumbers(this, e.which);
         if (res === 0) {
             e.preventDefault();
@@ -418,6 +440,7 @@
             }
             else{
                 $('#branchDiv').show();
+                $('#dashBoard').hide();
                 //---------------------
                 var model = @Html.Raw(Json.Encode(Model));
                 var index=0;
@@ -492,8 +515,10 @@
         $('input').parent('div').siblings('div').children('p').children("span").text("");
         $('select').parent('div').siblings('div').children('p').children("span").text("");
         $('.input-validation-error').removeClass('input-validation-error');
-
+        $('#dashBoard').hide();
         $('#branchDiv').show();
+        $('#successSpn').text("");
+        $('#errSpn').text("");
         $('#btnNext').val('Update');
         var model = @Html.Raw(Json.Encode(Model));
         console.log(model);
@@ -515,6 +540,17 @@
 </script>
 
 <script type="text/javascript">
+    $('#StateId').change(function () {
+
+        $('#successSpn').text("");
+        $('#errSpn').text("");
+    });
+    $("input[type=text]").click(function () {
+        //alert('gg');
+        $('#successSpn').text("");
+        $('#errSpn').text("");
+
+    });
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
         $(".text-danger").html("");
@@ -524,4 +560,6 @@
             $("#dashBoard").show();
         }
     });
+
+    $('input').prop('autocomplete', 'off');
 </script>

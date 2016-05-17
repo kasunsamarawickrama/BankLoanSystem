@@ -1763,8 +1763,8 @@ namespace BankLoanSystem.Controllers
             arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
             //user.UserRights = arrList.ToString();
             user.UserRights = string.Join(",", arrList);
-            bool check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
-            if(check)
+            int check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
+            if(check==1)
                 TempData["submit"] = "success";
             else
                 TempData["submit"] = "failed";
@@ -2736,7 +2736,7 @@ namespace BankLoanSystem.Controllers
                 ViewBag.SuccessMsg = lbls;
             }
             else if (lbls != null &&
-                (lbls.Equals("Failed to udate")))
+                (lbls.Equals("Failed to update")))
             {
                 ViewBag.ErrorMsg = lbls;
             }
@@ -2825,7 +2825,7 @@ namespace BankLoanSystem.Controllers
             }
             else
             {
-                ViewBag.ErrorMsg = "Failed to udate";
+                ViewBag.ErrorMsg = "Failed to update";
                 return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.ErrorMsg });
             }
         }

@@ -99,7 +99,7 @@
                                             @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
                                             {
                                                 @Html.HiddenFor(model => model.RegBranchId, new {@Value = (int) ViewBag.RegBranchId.Items[0].BranchId})
-                                                @Html.LabelFor(model => model.RegBranchId, (string) ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new {@class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;"})
+                                                @Html.LabelFor(model => model.RegBranchId, (string) ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new {@class = "form-control text_field_input", style = "float:left;border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;"})
                                             }
                                             else
                                             {
@@ -121,7 +121,7 @@
                                         {
 
                                             @Html.HiddenFor(model => model.NonRegCompanyId, new {@Value = (int) ViewBag.NonRegCompanyId.Items[0].CompanyId})
-                                            @Html.LabelFor(model => model.NonRegCompanyId, (string) ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new {@class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;"})
+                                            @Html.LabelFor(model => model.NonRegCompanyId, (string) ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new {@class = "form-control text_field_input", style = "float:left;border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                         }
                                         else
                                         {
@@ -282,14 +282,14 @@
                                         <nav>
                                             <div class="pager new_pager">
                                                 <div class="button_box algn_left">
-                                                    <input value="Dashboard" name="subBack" class="btn btn-primary m-b cancel next_clear_button back_back" style="margin-left: 10px" type="button" onclick="window.location.href = '/UserManagement/UserDetails'">
+                                                    <input value="Dashboard" name="subBack" class="btn btn-primary m-b cancel next_clear_button back_back" tabindex="-1" style="margin-left: 10px" type="button" onclick="window.location.href = '/UserManagement/UserDetails'">
                                                 </div>
-                                                <div class="button_box algn_center">
-                                                    <input value="Update" class="btn btn-primary m-b next_clear_button next_back" style="margin-left: 10px" type="submit" id="btnNext">
+                                                <div class="button_box algn_right" style="margin-right:25px;float:right">
+                                                    <input value="Update" class="btn btn-primary m-b next_clear_button next_back" type="submit" id="btnNext">
                                                 </div>
-                                                <div class="button_box algn_right">
+                                                @*<div class="button_box algn_right">
                                                     <input id="clear1" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                </div>
+                                                </div>*@
                                                 <div style="clear: both"></div>
                                             </div>
                                         </nav>
@@ -613,7 +613,7 @@
         //alert(count);
         if (count === 1) {
             $("#branchGrid").hide();
-            EditBranch(0);
+            EditBranchOne(0);
         }
     });
 
@@ -645,4 +645,46 @@
         $("#fields").show();
         $("#dashBoard").hide();
     };
+
+    function EditBranchOne(index) {
+
+        //$('#erMsg').text('');
+        //$('#sucMsg').text('');
+        $('input').parent('div').siblings('div').children('p').children("span").text("");
+        $('select').parent('div').siblings('div').children('p').children("span").text("");
+        $('.input-validation-error').removeClass('input-validation-error');
+
+        document.getElementById("branchName").value = model.NonRegBranches[index].BranchName;
+        document.getElementById("branchAddress1").value = model.NonRegBranches[index].BranchAddress1;
+        document.getElementById("branchAddress2").value = model.NonRegBranches[index].BranchAddress2;
+
+        document.getElementById("StateId").value = model.NonRegBranches[index].StateId;
+        document.getElementById("branchCity").value = model.NonRegBranches[index].BranchCity;
+        document.getElementById("branchZipPre").value = model.NonRegBranches[index].ZipPre;
+        document.getElementById("branchZipExten").value = model.NonRegBranches[index].Extention;
+        document.getElementById("branchEmail").value = model.NonRegBranches[index].BranchEmail;
+        document.getElementById("branchPhoneNum1").value = model.NonRegBranches[index].BranchPhoneNum1;
+        document.getElementById("branchPhoneNum2").value = model.NonRegBranches[index].BranchPhoneNum2;
+        document.getElementById("branchPhoneNum3").value = model.NonRegBranches[index].BranchPhoneNum3;
+        document.getElementById("branchFax").value = model.NonRegBranches[index].BranchFax;
+        document.getElementById("branchCode").value = model.NonRegBranches[index].BranchCode;
+        document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
+        document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
+
+        $("#fields").show();
+        $("#dashBoard").hide();
+    };
+
+    $('input').prop('autocomplete', 'off');
+    $("input[type=text]").click(function () {
+
+        $('#sucMsg').text("");
+        $('#erMsg').text("");
+
+    });
+    $('#StateId').change(function () {
+
+        $('#sucMsg').text("");
+        $('#erMsg').text("");
+    });
 </script>

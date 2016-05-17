@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -226,19 +225,18 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return unitModel;
         }
 
-        static int? _viewType;
-        static string _id;
-        static string _year;
-        static string _make;
-        static string _model;
-
         public ActionResult GridView(int? viewType, string id, string year, string make, string model)
         {
-            _viewType = viewType;
-            _id = id;
-            _year = year;
-            _make = make;
-            _model = model;
+            id = id.ToUpper();
+            DeleteSearchUnit seachUnit = new DeleteSearchUnit();
+
+            seachUnit.ViewType = viewType;
+            seachUnit.Id = id;
+            seachUnit.Year = year;
+            seachUnit.Make = make;
+            seachUnit.Model = model;
+
+            Session["DeleteSearchUnit"] = seachUnit;
 
             UnitDeleteViewModel unitModel = GetGridViewDetails(viewType, id, year, make, model);
             //int? a = viewType;
@@ -324,11 +322,10 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return PartialView(unitModel);
         }
 
-        static decimal _paidCurtAmount = 0.00M;
-
         public ActionResult FeeDetails(string unitId)
         {
-            _paidCurtAmount = 0.00M;
+            decimal paidCurtAmount = 0.00M;
+
             UnitFeeTypeViewModel feeDetailsModel = new UnitFeeTypeViewModel();
 
             UnitAccess ua = new UnitAccess();
@@ -353,28 +350,35 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                             i++;
                             continue;
                         }
-                        _paidCurtAmount += d.PaidAmount;
+                        paidCurtAmount += d.PaidAmount;
                         feeDetailsModelNew.UnitFeeTypes.Add(new UnitFeeType { LoanId = d.LoanId, UnitId = d.UnitId, CurtNumber = d.CurtNumber, TblName = d.TblName, FeeType = d.FeeType, PaidAmount = d.PaidAmount, PaidDate = d.PaidDate });
                         i++;
                     }
                     else
                     {
                         if(d.TblName != "F")
-                            _paidCurtAmount += d.PaidAmount;
+                            paidCurtAmount += d.PaidAmount;
                         feeDetailsModelNew.UnitFeeTypes.Add(new UnitFeeType { LoanId = d.LoanId, UnitId = d.UnitId, CurtNumber = d.CurtNumber, TblName = d.TblName, FeeType = d.FeeType, PaidAmount = d.PaidAmount, PaidDate = d.PaidDate });
                     }
                 }
             }
-
+            Session["PaidCurtAmount"] = paidCurtAmount;
             return PartialView(feeDetailsModelNew);
         }
 
         public ActionResult DeleteUnitPost(string unitId,string identificationNo)
         {
+            decimal paidCurtAmount = 0.00M;
+            if (Session["PaidCurtAmount"] != null)
+            {
+                paidCurtAmount = (decimal) Session["PaidCurtAmount"];
+            }
+
+
             int loanId = (int) Session["deleteUnitloanId"];
             UnitAccess ua = new UnitAccess();
             UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
-            int res = ua.DeleteUnit(loanId, unitId, _paidCurtAmount);
+            int res = ua.DeleteUnit(loanId, unitId, paidCurtAmount);
             
             if (res == 1)
             {
@@ -395,9 +399,13 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                 return new HttpStatusCodeResult(400, "Failed to delete unit, try again!");
             }
 
-            //TempData["message"] = res;
-            unitModel = GetGridViewDetails(_viewType, _id, _year, _make, _model);
-            //return RedirectToAction("Delete");
+            if (Session["DeleteSearchUnit"] != null)
+            {
+                DeleteSearchUnit seachUnit = (DeleteSearchUnit) Session["DeleteSearchUnit"];
+                unitModel = GetGridViewDetails(seachUnit.ViewType, seachUnit.Id, seachUnit.Year, seachUnit.Make,
+                    seachUnit.Model);
+            }
+            ViewBag.DeleteList = unitModel.DeleteUnits;
             return PartialView("GridView", unitModel);
         }
     }

@@ -114,8 +114,7 @@
                                         </div>
                 
                                     </div>
-                
-
+               
                                 </div>
                 
                                             <div class="info-unit" id="vehicle" hidden>
@@ -153,9 +152,9 @@
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
                                     @*<div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" onmouseout="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-2">*@
-                                    <div class="col-sm-2 block_invalid" id="div-combobox1-2">
+                                    <div class="col-sm-4 block_invalid" id="div-combobox1-2">
 
-                                        <div style="margin-left: -8px;">
+                                        <div style="margin-left: -45px;">
                                             @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-2" })
 
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
@@ -305,7 +304,7 @@
 
                                     @Html.LabelFor(model => model.rv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.rv.Make, new { htmlAttributes = new { @id = "editor2-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2 block_invalid">
+                                    <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2',2);" onmouseout="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-2">*@
                                             <div id="div-combobox2-2">
 
@@ -403,7 +402,7 @@
 
                                     @Html.LabelFor(model => model.camper.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.camper.Make, new { htmlAttributes = new { @id = "editor3-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2 block_invalid">
+                                    <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2',3);" onmouseout="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-2">*@
                                             <div id="div-combobox3-2">
 
@@ -527,7 +526,7 @@
 
                                     @Html.LabelFor(model => model.atv.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" onmouseout="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-2">*@
                                             <div class="block_invalid" id="div-combobox4-2">
 
@@ -700,7 +699,7 @@
 
                                     @Html.LabelFor(model => model.motorcycle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.motorcycle.Make, new { htmlAttributes = new { @id = "editor6-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" onmouseout="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-2">*@
                                             <div class="block_invalid" id="div-combobox6-2">
 
@@ -800,7 +799,7 @@
 
                                     @Html.LabelFor(model => model.snowmobile.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.snowmobile.Make, new { htmlAttributes = new { @id = "editor7-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" onmouseout="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-2">*@
                                             <div class="block_invalid" id="div-combobox7-2">
 
@@ -877,7 +876,7 @@
 
                                     @Html.LabelFor(model => model.heavyequipment.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.heavyequipment.Make, new { htmlAttributes = new { @id = "editor8-2", @Style = "display: none;" } })
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">*@
                                             <div class="block_invalid" id="div-combobox8-2">
                                                 @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
@@ -1069,97 +1068,88 @@
             <script type="text/javascript">
 
                 _previousMakeYear = "";
-                                    _previousMake     = "";
-
-                function getResult(data) {
-                                        alert(data.get_response().get_object().Result);
-                                        //$(location).attr('href', '/Unit/AddUnit?flag=1');
-                                        if(data === 1)
-                        $(location).attr('href', '/Unit/AddUnit?flag=1');
-                    else if (data === 0)
-                                            alert(data);
-                                    }
+                _previousMake     = "";
 
                 $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox1-2" ).focusin(function(){
                     $('#vehiclemake').children('span').text("");
-                                        GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    });
+                    GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                });
                 $( "#div-combobox1-3" ).focusin(function(){
                     $('#vehiclemodel').children('span').text("");
-                                        GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
-                                    });
+                    GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
+                });
                 $( "#div-combobox2-1" ).focusin(function(){
                     $('#rvyear').children('span').text("");
-                                    });
+                 });
                 $( "#div-combobox2-2" ).focusin(function(){
                     $('#rvmake').children('span').text("");
-                                        GetMakes($('#combobox2-1'),'#combobox2-2',2);
-                                    });
+                    GetMakes($('#combobox2-1'),'#combobox2-2',2);
+                });
                 $( "#div-combobox2-3" ).focusin(function(){
                     $('#rvmodel').children('span').text("");
-                                        GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
-                                    });
+                    GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
+                });
                 $( "#div-combobox3-1" ).focusin(function(){
                     $('#camperyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox3-2" ).focusin(function(){
                     $('#campermake').children('span').text("");
-                                        GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                                    });
+                    GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                });
                 $( "#div-combobox3-3" ).focusin(function(){
                     $('#campermodel').children('span').text("");
-                                        GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);
-                                    });
+                    GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);
+                });
                 $( "#div-combobox4-1" ).focusin(function(){
                     $('#atvyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox4-2" ).focusin(function(){
                     $('#atvmake').children('span').text("");
-                                        GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                                    });
+                    GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                });
                 $( "#div-combobox4-3" ).focusin(function(){
                     $('#atvmodel').children('span').text("");
-                                        GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
-                                    });
+                    GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
+                });
                 $( "#div-combobox5-1" ).focusin(function(){
                     $('#boatyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox5-2" ).focusin(function(){
                     $('#boatmake').children('span').text("");
-                                        GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                                    });
+                    GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                });
                 $( "#div-combobox6-1" ).focusin(function(){
                     $('#motorcycleyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox6-2" ).focusin(function(){
                     $('#motorcyclemake').children('span').text("");
-                                        GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                                    });
+                    GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                });
                 $( "#div-combobox6-3" ).focusin(function(){
                     $('#motorcyclemodel').children('span').text("");
-                                        GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
-                                    });
+                    GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
+                });
                 $( "#div-combobox7-1" ).focusin(function(){
                     $('#snowmobileyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox7-2" ).focusin(function(){
                     $('#snowmobilemake').children('span').text("");
-                                        GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                                    });
+                    GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                });
                 $( "#div-combobox7-3" ).focusin(function(){
                     $('#snowmobilemodel').children('span').text("");
-                                        GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
-                                    });
+                    GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
+                });
                 $( "#div-combobox8-1" ).focusin(function(){
                     $('#heavyequipmentyear').children('span').text("");
-                                    });
+                });
                 $( "#div-combobox8-2" ).focusin(function(){
                     $('#heavyequipmentmake').children('span').text("");
-                                        GetMakes($('#combobox8-1'),'#combobox8-2',8);
-                                    });
+                    GetMakes($('#combobox8-1'),'#combobox8-2',8);
+                });
 
 
 
@@ -1200,7 +1190,7 @@
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
                                 }
                             }
-                                });
+                            });
                         }
                     }
                         else{
@@ -1217,11 +1207,11 @@
                         if(checkYear != ""){
                             if(_previousMakeYear != checkYear){
                                 $.ajax({
-                                        url: '/Unit/GetMakes',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({year: checkYear , unitId :id}),
-                                        success: function (data) {
+                                url: '/Unit/GetMakes',
+                                type: 'POST',
+                                contentType: 'application/json;',
+                                data: JSON.stringify({year: checkYear , unitId :id}),
+                                success: function (data) {
                                     //var markup = "<option value='0'>-- select a model --</option>";
                                     for (var x = 0; x < data.length; x++) {
                                         markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
@@ -1233,54 +1223,23 @@
                                     _previousMakeYear = checkYear;
                                     _previousMake= "";
                                 },
-                                        error: function (jqXHR, textStatus, errorThrown){
-                                            // Your handler here...
+                                error: function (jqXHR, textStatus, errorThrown){
+                                    // Your handler here...
                                 
-                                            // if session expires
-                                            if(jqXHR.status == "404"){
-                                                window.location.href='/Login/UserLogin?lbl=Session expired';
-                                            }
-                                        }
-                            });
+                                    // if session expires
+                                    if(jqXHR.status == "404"){
+                                        window.location.href='/Login/UserLogin?lbl=Session expired';
+                                    }
+                                }
+                                });
+                            }
+                        }
+                        else{
+                            markup="";
+                            $(var2).html(markup);
                         }
                     }
-                    else{
-                        markup="";
-                        $(var2).html(markup);
-                    }
-                }
 
-
-                //$('.vinUnique').change(function(){
-                //    $.ajax({
-                //        url: '/Unit/IsVinExists',
-                //        type: 'POST',
-                //        contentType: 'application/json;',
-                //        data: JSON.stringify({identificationNumber :$(this).val()}),
-                //        success: function (data) {
-                //            //alert(data);
-                //            if(data == 0){
-                //               // $('.centered span').text('Error');
-                //                $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
-                //                middleSpanCheck();
-                //            }else if(data == 1){
-                //              //  $('.centered span').text('Error');
-                //                $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
-                //                middleSpanCheck();
-                //            }
-                //            else if(data == 2){
-                //                showPopup(8);
-                //            }
-                //            else{
-                //                $('.vinCheck').text("");
-                //                middleSpanCheck();
-                //            }
-                //        },
-                //        error: function (reponse) {
-                //        }
-                //    });
-
-                //});
                 $('.vinUnique').focusout(function(){
                     $.ajax({
                         url: '/Unit/IsVinExists',
@@ -1325,133 +1284,133 @@
                 // focusout functions Start
                 // --------------------------
                 $('#div-combobox1-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox1-1').next().children('input').val();
-                                        document.getElementById('editor1-1').value = yearmakemodel;
-                                        focusoutcall('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);
-                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    });
+                    var yearmakemodel = $('#combobox1-1').next().children('input').val();
+                    document.getElementById('editor1-1').value = yearmakemodel;
+                    focusoutcall('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);
+                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                });
                 $('#div-combobox1-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox1-2').next().children('input').val();
-                                        document.getElementById('editor1-2').value = yearmakemodel;
-                                        //GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
-                                    });
+                    var yearmakemodel = $('#combobox1-2').next().children('input').val();
+                    document.getElementById('editor1-2').value = yearmakemodel;
+                    //GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
+                });
                 $('#div-combobox1-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox1-3').next().children('input').val();
-                                        document.getElementById('editor1-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox1-3').next().children('input').val();
+                    document.getElementById('editor1-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox1-4').focusout(function(){
-                                        var yearmakemodel = $('#combobox1-4').next().children('input').val();
-                                        document.getElementById('editor1-4').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox1-4').next().children('input').val();
+                    document.getElementById('editor1-4').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox2-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox2-1').next().children('input').val();
-                                        document.getElementById('editor2-1').value = yearmakemodel;
-                                        focusoutcall('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
-                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    });
+                    var yearmakemodel = $('#combobox2-1').next().children('input').val();
+                    document.getElementById('editor2-1').value = yearmakemodel;
+                    focusoutcall('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
+                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                });
                 $('#div-combobox2-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox2-2').next().children('input').val();
-                                        document.getElementById('editor2-2').value = yearmakemodel;
-                                        //GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
-                                    });
+                    var yearmakemodel = $('#combobox2-2').next().children('input').val();
+                    document.getElementById('editor2-2').value = yearmakemodel;
+                    //GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
+                });
                 $('#div-combobox2-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox2-3').next().children('input').val();
-                                        document.getElementById('editor2-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox2-3').next().children('input').val();
+                    document.getElementById('editor2-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox3-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox3-1').next().children('input').val();
-                                        document.getElementById('editor3-1').value = yearmakemodel;
-                                        focusoutcall('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
-                                        //GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                                    });
+                    var yearmakemodel = $('#combobox3-1').next().children('input').val();
+                    document.getElementById('editor3-1').value = yearmakemodel;
+                    focusoutcall('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
+                    //GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                });
                 $('#div-combobox3-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox3-2').next().children('input').val();
-                                        document.getElementById('editor3-2').value = yearmakemodel;
-                                        //GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',6);
-                                    });
+                    var yearmakemodel = $('#combobox3-2').next().children('input').val();
+                    document.getElementById('editor3-2').value = yearmakemodel;
+                    //GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',6);
+                });
                 $('#div-combobox3-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox3-3').next().children('input').val();
-                                        document.getElementById('editor3-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox3-3').next().children('input').val();
+                    document.getElementById('editor3-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox4-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox4-1').next().children('input').val();
-                                        document.getElementById('editor4-1').value = yearmakemodel;
-                                        focusoutcall('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
-                                        //GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                                    });
+                    var yearmakemodel = $('#combobox4-1').next().children('input').val();
+                    document.getElementById('editor4-1').value = yearmakemodel;
+                    focusoutcall('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
+                    //GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                });
                 $('#div-combobox4-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox4-2').next().children('input').val();
-                                        document.getElementById('editor4-2').value = yearmakemodel;
-                                        //GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
-                                    });
+                    var yearmakemodel = $('#combobox4-2').next().children('input').val();
+                    document.getElementById('editor4-2').value = yearmakemodel;
+                    //GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
+                });
                 $('#div-combobox4-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox4-3').next().children('input').val();
-                                        document.getElementById('editor4-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox4-3').next().children('input').val();
+                    document.getElementById('editor4-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox5-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox5-1').next().children('input').val();
-                                        document.getElementById('editor5-1').value = yearmakemodel;
-                                        focusoutcall('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
-                                        //GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                                    });
+                    var yearmakemodel = $('#combobox5-1').next().children('input').val();
+                    document.getElementById('editor5-1').value = yearmakemodel;
+                    focusoutcall('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
+                    //GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                });
                 $('#div-combobox5-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox5-2').next().children('input').val();
-                                        document.getElementById('editor5-2').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox5-2').next().children('input').val();
+                    document.getElementById('editor5-2').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox6-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox6-1').next().children('input').val();
-                                        document.getElementById('editor6-1').value = yearmakemodel;
-                                        focusoutcall('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
-                                        // GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                                    });
+                    var yearmakemodel = $('#combobox6-1').next().children('input').val();
+                    document.getElementById('editor6-1').value = yearmakemodel;
+                    focusoutcall('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
+                    // GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                });
                 $('#div-combobox6-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox6-2').next().children('input').val();
-                                        document.getElementById('editor6-2').value = yearmakemodel;
-                                        //GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
-                                    });
+                    var yearmakemodel = $('#combobox6-2').next().children('input').val();
+                    document.getElementById('editor6-2').value = yearmakemodel;
+                    //GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
+                });
                 $('#div-combobox6-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox6-3').next().children('input').val();
-                                        document.getElementById('editor6-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox6-3').next().children('input').val();
+                    document.getElementById('editor6-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox6-4').focusout(function(){
-                                        var yearmakemodel = $('#combobox6-4').next().children('input').val();
-                                        document.getElementById('editor6-4').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox6-4').next().children('input').val();
+                    document.getElementById('editor6-4').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox7-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox7-1').next().children('input').val();
-                                        document.getElementById('editor7-1').value = yearmakemodel;
-                                        focusoutcall('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
-                                        //GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                                    });
+                    var yearmakemodel = $('#combobox7-1').next().children('input').val();
+                    document.getElementById('editor7-1').value = yearmakemodel;
+                    focusoutcall('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
+                    //GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                });
                 $('#div-combobox7-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox7-2').next().children('input').val();
-                                        document.getElementById('editor7-2').value = yearmakemodel;
-                                        //GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
-                                    });
+                    var yearmakemodel = $('#combobox7-2').next().children('input').val();
+                    document.getElementById('editor7-2').value = yearmakemodel;
+                    //GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
+                });
                 $('#div-combobox7-3').focusout(function(){
-                                        var yearmakemodel = $('#combobox7-3').next().children('input').val();
-                                        document.getElementById('editor7-3').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox7-3').next().children('input').val();
+                    document.getElementById('editor7-3').value = yearmakemodel;
 
-                                    });
+                });
                 $('#div-combobox8-1').focusout(function(){
-                                        var yearmakemodel = $('#combobox8-1').next().children('input').val();
-                                        document.getElementById('editor8-1').value = yearmakemodel;
-                                        focusoutcall('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
-                                        //GetMakes($('#combobox8-1'),'#combobox8-2',8);
-                                    });
+                    var yearmakemodel = $('#combobox8-1').next().children('input').val();
+                    document.getElementById('editor8-1').value = yearmakemodel;
+                    focusoutcall('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
+                    //GetMakes($('#combobox8-1'),'#combobox8-2',8);
+                });
                 $('#div-combobox8-2').focusout(function(){
-                                        var yearmakemodel = $('#combobox8-2').next().children('input').val();
-                                        document.getElementById('editor8-2').value = yearmakemodel;
+                    var yearmakemodel = $('#combobox8-2').next().children('input').val();
+                    document.getElementById('editor8-2').value = yearmakemodel;
 
-                                    });
+                });
                 // -------------------------
                 //focusout functions End
                 function focusoutcall(span,vareditor,varcombo, val){
@@ -2100,6 +2059,7 @@
                     clearform();
                     $('#advanceDateFormDiv').hide();
                     $('#advanceDate').val('');
+                    $('#errorAdvanceDate').text("");
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
                     $('#advanceDate').removeClass('input-validation-error');
                     $('#advanceDate').siblings('span').text('');
@@ -2178,161 +2138,200 @@
                     $('.vinCheck').text('');
 
                     // reset the form
-        // for all input field
-        $('input').next('span').children('span').text('');
-        $('input').removeClass('valid');
-        // for dropdown field
-        $('select').next('span').children('span').text('');
-        $('select').removeClass('valid');
+                    // for all input field
+                    $('input').next('span').children('span').text('');
+                    $('input').removeClass('valid');
+                    // for dropdown field
+                    $('select').next('span').children('span').text('');
+                    $('select').removeClass('valid');
 
-        $('.new_err_msg').children("span").text("");
+                    $('.new_err_msg').children("span").text("");
 
                 };
                 // vin key press key block validation with 17 charactors and Miles 10 charactors
 
                 $("#vehicleVin").keypress(function(e){
-                    if($('#vehicleVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#vehicleVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#rvVin").keypress(function(e){
-                    if($('#rvVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#rvVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#camperVin").keypress(function(e){
-                    if($('#camperVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#camperVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
                         
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#atvVin").keypress(function(e){
-                    if($('#atvVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#atvVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#boatVin").keypress(function(e){
-                    if($('#boatVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#boatVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#motorcycleVin").keypress(function(e){
-                    if($('#motorcycleVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#motorcycleVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#snowmobileVin").keypress(function(e){
-                    if($('#snowmobileVin').val().length >= 17){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(alphaNumericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#snowmobileVin').val().length >= 17){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(alphaNumericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#vehiclemiles").keypress(function(e){
-                    if($('#vehiclemiles').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#vehiclemiles').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#rvmiles").keypress(function(e){
-                    if($('#rvmiles').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#rvmiles').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#atvmiles").keypress(function(e){
-                    if($('#atvmiles').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#atvmiles').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#motorcyclemiles").keypress(function(e){
-                    if($('#motorcyclemiles').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllow(e)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if($('#motorcyclemiles').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllow(e)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    } 
+                    
                 });
                 $("#rvlength").keypress(function(e){
-                    var val = $("#rvlength").val();
-                    if($('#rvlength').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllowDecimal(e,val)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        var val = $("#rvlength").val();
+                        if($('#rvlength').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllowDecimal(e,val)){
 
-                    }else{
-                        e.preventDefault();
-                    }
+                        }else{
+                            e.preventDefault();
+                        }
+                    }                   
+                    
                 });
                 $("#camperlength").keypress(function(e){
-                    var val = $("#camperlength").val();
-                    if($('#camperlength').val().length >= 10){
-                        if(e.which != 8)
-                        e.preventDefault();
-                    }
-                    else if(numericAllowDecimal(e,val)){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        var val = $("#camperlength").val();
+                        if($('#camperlength').val().length >= 10){
+                            if(e.which != 8)
+                                e.preventDefault();
+                        }
+                        else if(numericAllowDecimal(e,val)){
 
-                    }else{
-                        e.preventDefault();
+                        }else{
+                            e.preventDefault();
+                        }
                     }
                 });
                 function numericAllowDecimal(e,val){
@@ -2414,8 +2413,10 @@
 
                 //calculate advance
                 $('#txtCost').keypress(function(e) {
+                   
+
                     $("#tagscloud span").text("");
-                    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
+                    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
                         //var val = this.value + (e.which - 48);
                         var cost = document.getElementById('txtCost').value;
                         if (e.which !== 46 && e.which !== 8) {
@@ -2540,7 +2541,7 @@
                     var cost = document.getElementById('txtCost').value;
                     //alert(e.which);
                     var advance = document.getElementById('txtAdvanceAmount').value;
-                    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
+                    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 || e.keyCode === 9) {
                         //var val = this.value + (e.which - 48);
                         //alert(cost + ' ' + val);
                         if (e.which !== 46 && e.which !== 8) {
@@ -2682,7 +2683,6 @@
                                 
                                 e.preventDefault();
                             }
-                            
                         }
                         if ($('#combobox1-2').next().children('input').val() == "") {
                             //$('#vehiclemake span').fadeIn();
@@ -3180,32 +3180,26 @@
                     }
                 }
 
-                //$('label[for=vehicle_IdentificationNumber], label[for=vehicle_Year],label[for=vehicle_Model],label[for=vehicle_Make],label[for=vehicle_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=rv_IdentificationNumber], label[for=rv_Year],label[for=rv_Model],label[for=rv_Make],label[for=rv_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=camper_IdentificationNumber], label[for=camper_Year],label[for=camper_Model],label[for=camper_Make],label[for=camper_Length],label[for=camper_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=atv_IdentificationNumber], label[for=atv_Year],label[for=atv_Model],label[for=atv_Make],label[for=atv_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=boat_IdentificationNumber], label[for=boat_Year],label[for=boat_Make],label[for=boat_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=motorcycle_IdentificationNumber], label[for=motorcycle_Year],label[for=motorcycle_Model],label[for=motorcycle_Make],label[for=motorcycle_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=snowmobile_IdentificationNumber], label[for=snowmobile_Year],label[for=snowmobile_Model],label[for=snowmobile_Make],label[for=snowmobile_NewOrUsed]').append('<span style="color: red">*</span>');
-                //$('label[for=heavyequipment_SerialNumber], label[for=heavyequipment_Year],label[for=heavyequipment_Make]').append('<span style="color: red">*</span>');
-                //$('label[for=Cost], label[for=AdvanceAmount],label[for=AdvanceNow]').append('<span style="color: red">*</span>');
-
 
                 // block unwanted characters
 
                 $(document).on('keypress','.block_invalid_char' , function(e){
-                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
-                    res = InvalidCharacters(this, array, e.which);
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+                        res = InvalidCharacters(this, array, e.which);
 
-                    if (res === 1) {
-                        e.preventDefault();
-                        return;
+                        if (res === 1) {
+                            e.preventDefault();
+                            return;
+                        }
+                        else if (e.which === 92 || e.which === 39) {
+                            //$(this).siblings('div').children('span').text("Invalid character.");
+                            e.preventDefault();
+                            return;
+                        }
                     }
-                    else if (e.which === 92 || e.which === 39) {
-                        //$(this).siblings('div').children('span').text("Invalid character.");
-                        e.preventDefault();
-                        return;
-                    }
+                    
+                   
                 } );
                 //$(document).on('keypress','.block_invalid span input' , function(e){
                 //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
@@ -3222,40 +3216,50 @@
                 //    }
                 //} );
                 $(document).on('keypress','.block_invalid_allow_dash' , function(e){
-                    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
-                    res = InvalidCharacters(this, array, e.which);
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
+                        res = InvalidCharacters(this, array, e.which);
 
-                    if (res === 1) {
-                        e.preventDefault();
-                        return;
+                        if (res === 1) {
+                            e.preventDefault();
+                            return;
+                        }
+                        else if (e.which === 92 || e.which === 39) {
+                            //$(this).siblings('div').children('span').text("Invalid character.");
+                            e.preventDefault();
+                            return;
+                        }
                     }
-                    else if (e.which === 92 || e.which === 39) {
-                        //$(this).siblings('div').children('span').text("Invalid character.");
-                        e.preventDefault();
-                        return;
-                    }
+                    
+                    
                 } );
 
                 $(document).on('keypress','.max_length4 span input' , function(e){
-                    if($(this).val().length  == 4){
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        
+                        if($(this).val().length  == 4){
 
-                        e.preventDefault();
-                        return;
+                            e.preventDefault();
+                            return;
+                        }
                     }
+                    
 
                 } );
 
                 $(document).on('keypress','.allow_numeric span input' , function(e){
 
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        if (e.which > 47 && e.which < 58 || e.which == 8 || e.which == 127 ) {
 
-                    if (e.which > 47 && e.which < 58 || e.which == 8 || e.which == 127 ) {
-
-                        return;
+                            return;
+                        }
+                        else {
+                            e.preventDefault();
+                            return;
+                        }
                     }
-                    else {
-                        e.preventDefault();
-                        return;
-                    }
+                    
                 } );
 
                 function ClearVin(){
@@ -3264,23 +3268,28 @@
 
                 }
                 $('.dateKeyPressValidate').keypress(function (e) {
-                    var ch = e.which;
-                    if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
-                        return 1;
-                    }
-                    else {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                        var ch = e.which;
+                        if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
+                            return 1;
+                        }
+                        else {
 
-                        e.preventDefault();
+                            e.preventDefault();
+                        }
                     }
+                    
+                    
                 });
 
                 $('#advanceDate').blur(function () {
 
                     if ($(this).val() == "") {
-                        $('#errorAdvanceDate').text('Please select the Advance Date');
-                        $(this).addClass('input-validation-error');
+                        //$('#errorAdvanceDate').text('Please select the Advance Date');
+                        //$(this).addClass('input-validation-error');
+                        $('#errorAdvanceDate').text("");
                         $(this).attr('placeholder', 'MM/DD/YYYY');
-                        $('.centered span').text('Error');
+                        //$('.centered span').text('Error');
                         return;
                     }
                     var valid = isValidDate($(this).val());
@@ -3298,9 +3307,6 @@
                             $('#errorAdvanceDate').text('');
                             $(this).removeClass('input-validation-error');
                         }
-
-
-
                     } else {
 
                         // not valid data error
@@ -3312,8 +3318,9 @@
 
                 function checkDate(){
                     if ($('#advanceDate').val() == "") {
-                        $('#errorAdvanceDate').text('Please select the Advance Date');
-                        $('#advanceDate').addClass('input-validation-error');
+                        //$('#errorAdvanceDate').text('Please select the Advance Date');
+                        //$('#advanceDate').addClass('input-validation-error');
+                        $('#errorAdvanceDate').text("");
                         $('#advanceDate').attr('placeholder', 'MM/DD/YYYY');
                         $('.centered span').text('Error');
                         return false;
@@ -3348,22 +3355,13 @@
                     }
                 }
             </script>
-
-
-        </div>
-
-
-       
+        </div>      
     </div>
 
     <div class="link-bar" style="margin-bottom:15px;">
-
-
         @{
             Html.RenderAction("GetLinkBar", "Unit");
         }
-
-
     </div>
 <div style="clear:both"></div>
 

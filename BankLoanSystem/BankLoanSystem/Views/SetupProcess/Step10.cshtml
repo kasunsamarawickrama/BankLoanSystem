@@ -553,36 +553,47 @@
         '</tbody></table>';
 
     $('#curtailmentDueEmail').keypress(function (e) {
-        var res = CheckMaxLenth(this, this.value, 100);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var res = CheckMaxLenth(this, this.value, 100);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
-        res = InvalidCharacters(this, array, e.which);
+            var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ','];
+            res = InvalidCharacters(this, array, e.which);
 
-        if (res === 1) {
-            e.preventDefault();
-            return;
+            if (res === 1) {
+                e.preventDefault();
+                return;
+            }
+            else if (e.which === 92 || e.which === 39) {
+                //$(this).siblings('div').children('span').text("Invalid character.");
+                e.preventDefault();
+                return;
+            }
         }
-        else if (e.which === 92 || e.which === 39) {
-            //$(this).siblings('div').children('span').text("Invalid character.");
-            e.preventDefault();
-            return;
-        }
+        
+       
     });
 
     $('#curtailmentDueEmail, #curtailmentDueEmailRemindPeriod').click(function (e) {
         $('#customErrorPeriod').children('span').text("");
     });
 
-    $('curtailmentDueEmailRemindPeriod').keypress(function(e) {
-        if (!(48 <= e.which && e.which <= 58))
-            e.preventDefault();
+    $('#curtailmentDueEmailRemindPeriod').keypress(function(e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            if($(this).val().length >= 5){
+                e.preventDefault();
+            }
+            
+            if (!(48 <= e.which && e.which <= 58))
+                e.preventDefault();
+        }
+        
     });
-
-    $('curtailmentDueEmailRemindPeriod').click(function(e) {
+   
+    $('#curtailmentDueEmailRemindPeriod').click(function(e) {
         if (!(48 <= e.which && e.which <= 58))
             e.preventDefault();
     });
@@ -679,16 +690,18 @@
 
     // allow to enter only numbers
     $(document).on('keypress', '.clsaddCuirtailment, .clstimePeriod', function (e) {
-        var res = AllowNumbers(this, e.which);
-        if (res === 0) {
-            e.preventDefault();
-            return;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9){
+            var res = AllowNumbers(this, e.which);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
 
-        res = CheckMaxLenth(this, this.value, 4);
-        if (res === 0) {
-            e.preventDefault();
-            return;
+            res = CheckMaxLenth(this, this.value, 4);
+            if (res === 0) {
+                e.preventDefault();
+                return;
+            }
         }
     });
 
