@@ -80,7 +80,7 @@
             <label for="">Pay Date : </label>
 
 
-            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
+            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidater", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
             @Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger", style = "left:25%" })
             <div id="customErrorPayDate" style="margin-left: 70px;"><span class="text-danger field-validation-error"></span></div>
         </div>
@@ -241,7 +241,7 @@
                         
                         <div class="col-md-2" style="margin-left:9%">
                             <label for="">Pay Date </label>
-                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidater", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                             <div id="customErrorPayDate2"><span class="text-danger field-validation-error" style="width: 185px"></span></div>
                         </div>
 
@@ -1111,15 +1111,18 @@
             $('.centered span').text('');
     });
 
-    $('.dateKeyPressValidate').keypress(function (e) {
-        var ch = e.which;
-        if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
-            return 1;
-        }
-        else {
+    $('.dateKeyPressValidater').keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var ch = e.which;
+            if ((ch >= 47 && ch <= 57) || ch === 127 || ch === 8) {
+                return 1;
+            }
+            else {
 
-            e.preventDefault();
+                e.preventDefault();
+            }
         }
+        
     });
 
     $('.titleReturn').change(function () {
@@ -1411,14 +1414,17 @@
     //block invalid characters
     $("#identificationNumberSearch").keypress(function (e) {
         //alert(e.which);
-        var ch = e.which;
-        if ((ch > 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
-            return 1;
-        }
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var ch = e.which;
+            if ((ch > 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                return 1;
+            }
 
-        else {
-            e.preventDefault();
+            else {
+                e.preventDefault();
+            }
         }
+        
         //alert(ch);
     });
 

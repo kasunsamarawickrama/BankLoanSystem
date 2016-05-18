@@ -306,15 +306,17 @@
     });
     //block invalid characters
     $("#identificationNumberSearch").keypress(function (e) {
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var ch = e.which;
+            if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                return 1;
+            }
 
-        var ch = e.which;
-        if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
-            return 1;
+            else {
+                e.preventDefault();
+            }
         }
-
-        else {
-            e.preventDefault();
-        }
+       
         //alert(ch);
     });
 
@@ -1213,12 +1215,14 @@
     });
 
     $("#iCurtAmount").keypress(function (e){
-        
-        var charCode = !e.charCode ? e.which : e.charCode;
+        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+            var charCode = !e.charCode ? e.which : e.charCode;
 
-        if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
-        else
-            e.preventDefault();
+            if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
+            else
+                e.preventDefault();
+        }
+        
 
 
       
