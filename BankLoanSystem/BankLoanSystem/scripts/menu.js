@@ -2,8 +2,10 @@
 
     'use strict';
 
-    jQuery(document).ready(function() {
- // Object.defineProperty(Element.prototype, 'classList', {
+    
+
+    // jQuery(document).ready(function() {
+    Object.defineProperty(Element.prototype, 'classList', {
       get: function () {
           var self = this, bValue = self.className.split(" ");
 
@@ -73,7 +75,7 @@
   /**
    * Menu Constructor.
    */
-  function Menu(options) {
+  function menu(options) {
     this.options = extend({}, this.options);
     extend(this.options, options);
     this._init();
@@ -82,7 +84,7 @@
   /**
    * Menu Options.
    */
-  Menu.prototype.options = {
+  menu.prototype.options = {
     wrapper: '#o-wrapper',          // The content wrapper
     type: 'slide-left',             // The menu type
     menuOpenerClass: '.c-button',   // The menu opener class names (i.e. the buttons)
@@ -92,7 +94,7 @@
   /**
    * Initialise Menu.
    */
-  Menu.prototype._init = function() {
+  menu.prototype._init = function() {
     this.body = document.body;
     this.wrapper = document.querySelector(this.options.wrapper);
     this.mask = document.querySelector(this.options.maskId);
@@ -105,7 +107,7 @@
   /**
    * Initialise Menu Events.
    */
-  Menu.prototype._initEvents = function() {
+  menu.prototype._initEvents = function() {
     // Event for clicks on the close button inside the menu.
     this.closeBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -115,14 +117,14 @@
     // Event for clicks on the mask.
     this.mask.addEventListener('click', function(e) {
       e.preventDefault();
-      this.close();
+      this.bind();
     }.bind(this));
   };
 
   /**
    * Open Menu.
    */
-  Menu.prototype.open = function() {
+  menu.prototype.open = function() {
     this.body.classList.add('has-active-menu');
     this.wrapper.classList.add('has-' + this.options.type);
     this.menu.classList.add('is-active');
@@ -133,7 +135,7 @@
   /**
    * Close Menu.
    */
-  Menu.prototype.close = function() {
+  menu.prototype.close = function() {
     this.body.classList.remove('has-active-menu');
     this.wrapper.classList.remove('has-' + this.options.type);
     this.menu.classList.remove('is-active');
@@ -144,7 +146,7 @@
   /**
    * Disable Menu Openers.
    */
-  Menu.prototype.disableMenuOpeners = function() {
+  menu.prototype.disableMenuOpeners = function() {
     each(this.menuOpeners, function(item) {
       item.disabled = true;
     });
@@ -153,7 +155,7 @@
   /**
    * Enable Menu Openers.
    */
-  Menu.prototype.enableMenuOpeners = function() {
+  menu.prototype.enableMenuOpeners = function() {
     each(this.menuOpeners, function(item) {
       item.disabled = false;
     });
@@ -162,6 +164,6 @@
   /**
    * Add to global namespace.
    */
-  window.Menu = Menu;
+  window.Menu = menu;
 
 })(window);
