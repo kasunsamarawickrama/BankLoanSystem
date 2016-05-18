@@ -326,6 +326,7 @@
                     data: JSON.stringify({ identificationNumber: para1 }),
                     success: function (View) {
                         $('#searchGrid1').html(View);
+                        window.scrollTo(0, 0);
                         //$('#searchGrid1').show();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {

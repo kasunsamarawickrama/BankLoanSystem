@@ -1418,7 +1418,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (View) {
-                     
+                        window.scrollTo(0, 0);
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == ""){
                             $('.centered1 span').text('Successfully Updated');
