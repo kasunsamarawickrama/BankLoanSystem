@@ -51,7 +51,7 @@ var InputMask = (function() {
         z: 90,
         backSpace: 8,
         tab: 9,
-        delete: 46,
+        delete1: 46,
         left: 37,
         right: 39,
         end: 35,
@@ -255,7 +255,7 @@ var InputMask = (function() {
                     index -= 1;
                 }
 
-                if (keyCode === keys.delete) {
+                if (keyCode === keys.delete1) {
                     index += 1;
                 }
             }
@@ -357,14 +357,14 @@ var InputMask = (function() {
             return true;
         }
 
-        if (key === keys.backSpace || key === keys.delete) {
+        if (key === keys.backSpace || key === keys.delete1) {
             if (key === keys.backSpace) {
                 checkAndRemoveMaskCharacters(element, getCursorPosition(element) - 1, key);
 
                 removeCharacterAtIndex(element, getCursorPosition(element) - 1);
             }
 
-            if (key === keys.delete) {
+            if (key === keys.delete1) {
                 checkAndRemoveMaskCharacters(element, getCursorPosition(element), key);
 
                 removeCharacterAtIndex(element, getCursorPosition(element));
