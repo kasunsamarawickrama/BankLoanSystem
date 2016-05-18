@@ -59,7 +59,7 @@
 </style>
 <script src="~/scripts/input-mask.js"></script>
 <h2>Sign up</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("SignUp", "SetupSignUp", FormMethod.Post, new { id = "form" }))
             {
     @Html.AntiForgeryToken()
 
