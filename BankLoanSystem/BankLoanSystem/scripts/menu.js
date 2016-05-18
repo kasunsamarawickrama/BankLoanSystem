@@ -117,7 +117,7 @@
     // Event for clicks on the mask.
     this.mask.addEventListener('click', function(e) {
       e.preventDefault();
-      this.bind();
+      this.close();
     }.bind(this));
   };
 
