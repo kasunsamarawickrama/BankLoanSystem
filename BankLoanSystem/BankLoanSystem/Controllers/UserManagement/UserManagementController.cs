@@ -343,13 +343,14 @@ namespace BankLoanSystem.Controllers
                     }
                     if (loan != null)
                     {
+                        Session["LoanOne"] = loan;
                         if (userData.RoleId == 3)
                         {
                             Session["CurrentLoanRights"] = loan.Rights;
                         }
-                        ViewBag.PartnerName = loan.PartnerName;
+                        ViewBag.PartnerName = ((Loan)Session["LoanOne"]).PartnerName;
                         ViewBag.PartnerType = loan.PartnerType;
-                        ViewBag.Branch = loan.BranchName;
+                        ViewBag.Branch = ((Loan)Session["LoanOne"]).BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
                         if ((loan.AdvanceFee==1) || (loan.LotInspectionFee==1) || (loan.MonthlyLoanFee==1))
@@ -2420,6 +2421,11 @@ namespace BankLoanSystem.Controllers
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["updateComReslt"] = reslt;
+
+                    if (Session["AuthenticatedUser"] != null)
+                    {
+                        ((User)Session["AuthenticatedUser"]).CompanyName = company.CompanyName;
+                    }
                 }
                 else
                 {
@@ -2604,6 +2610,14 @@ namespace BankLoanSystem.Controllers
             if (reslt == 0)
             {
                 TempData["editBranchResult"] = 1;
+
+                if (Session["loanDashboard"] != null)
+                {
+                    if (((Loan)Session["loanDashboard"]).BranchId == userCompany2.MainBranch.BranchId)
+                    {
+                        ((Loan)Session["loanDashboard"]).BranchName = userCompany2.MainBranch.BranchName;
+                    }
+                }
             }
             else
             {
@@ -2820,7 +2834,20 @@ namespace BankLoanSystem.Controllers
                 {
                     ViewBag.SuccessMsg = "Lender branch is successfully updated";
                 }
-
+                if (Session["loanDashboard"] != null)
+                {
+                    if (((Loan)Session["loanDashboard"]).NonRegBranchId == model.CompanyBranch.MainBranch.NonRegBranchId)
+                    {
+                        ((Loan)Session["loanDashboard"]).PartnerName = model.NonRegCompanyName+" - "+model.CompanyBranch.MainBranch.BranchName;
+                    }
+                }
+                else if (Session["LoanOne"] != null)
+                {
+                    if (((Loan)Session["LoanOne"]).NonRegBranchId == model.CompanyBranch.MainBranch.NonRegBranchId)
+                    {
+                        ((Loan)Session["LoanOne"]).PartnerName = model.NonRegCompanyName + " - " + model.CompanyBranch.MainBranch.BranchName;
+                    }
+                }
                 return RedirectToAction("EditPartnerBranchAtDashboard", new { lbls = ViewBag.SuccessMsg });
             }
             else
@@ -3087,6 +3114,20 @@ namespace BankLoanSystem.Controllers
                     if ( (new CompanyAccess()).UpdatePartnerCompany(partnerCompany) == 1)
                     {
                         TempData["partnerEditReslt"] = 1;
+                        //if (Session["loanDashboard"] != null)
+                        //{
+                        //    if (((Loan)Session["loanDashboard"]). == model.CompanyBranch.MainBranch.NonRegBranchId)
+                        //    {
+                        //        ((Loan)Session["loanDashboard"]).PartnerName = model.NonRegCompanyName + " - " + model.CompanyBranch.MainBranch.BranchName;
+                        //    }
+                        //}
+                        //else if (Session["LoanOne"] != null)
+                        //{
+                        //    if (((Loan)Session["LoanOne"]).NonRegBranchId == model.CompanyBranch.MainBranch.NonRegBranchId)
+                        //    {
+                        //        ((Loan)Session["LoanOne"]).PartnerName = model.NonRegCompanyName + " - " + model.CompanyBranch.MainBranch.BranchName;
+                        //    }
+                        //}
                     }
                     else
                     {

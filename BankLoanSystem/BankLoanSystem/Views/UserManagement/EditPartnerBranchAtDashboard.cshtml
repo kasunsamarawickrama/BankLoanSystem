@@ -103,7 +103,8 @@
                                             }
                                             else
                                             {
-                                                @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new {@class = "form-control text_field_input", id = "RegBranchId"})
+                                                @Html.HiddenFor(model => model.RegBranchId, new { @id = "RegBranchId" })
+                                                @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new {@class = "form-control text_field_input", id = "RegBranchId2",@disabled="disabled"})
                                             }
 
                                         </div>
@@ -119,13 +120,15 @@
                                     <div class="col-xs-8 text_field short_text_field" style="width: 44%">
                                         @if (Enumerable.Count(ViewBag.NonRegCompanyId) == 1)
                                         {
-
+                                            @Html.HiddenFor(model => model.NonRegCompanyName, new { @Value = (string)ViewBag.NonRegCompanyId.Items[0].CompanyName })
                                             @Html.HiddenFor(model => model.NonRegCompanyId, new {@Value = (int) ViewBag.NonRegCompanyId.Items[0].CompanyId})
                                             @Html.LabelFor(model => model.NonRegCompanyId, (string) ViewBag.NonRegCompanyId.Items[0].CompanyName, htmlAttributes: new {@class = "form-control text_field_input", style = "float:left;border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                                         }
                                         else
                                         {
-                                            @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new {@class = "form-control text_field_input", @id = "NonRegCompanyId"})
+                                            @Html.HiddenFor(model => model.NonRegCompanyName, new { @id = "NonRegCompanyName" })
+                                            @Html.HiddenFor(model => model.NonRegCompanyId, new { @id = "NonRegCompanyId" })
+                                            @Html.DropDownListFor(model => model.NonRegCompanyId, null, "--Select Partner Comapny--", htmlAttributes: new {@class = "form-control text_field_input", @id = "NonRegCompanyId2",@disabled = "disabled" })
                                         }
                                     </div>
                                     <div class="err_msg_box">
@@ -137,7 +140,8 @@
                                         <label>Partner Branch Name</label>
                                     </div>
                                     <div class="col-xs-8 text_field">
-                                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new {htmlAttributes = new {@class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName", @maxlength = 50}})
+                                        @Html.HiddenFor(model => model.CompanyBranch.MainBranch.NonRegBranchId, new { @id = "branchId" })
+                                        @Html.EditorFor(model => model.CompanyBranch.MainBranch.BranchName, new {htmlAttributes = new {@class = "form-control text-box single-line text_field_input first_letter_capital", @id = "branchName", @maxlength = 50} })
                                     </div>
                                     <div class="err_msg_box">
                                         <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.CompanyBranch.MainBranch.BranchName, "", new {@class = "text-danger"})</p>
@@ -647,6 +651,7 @@
         $('.input-validation-error').removeClass('input-validation-error');
 
         document.getElementById("branchName").value = model.NonRegBranches[index].BranchName;
+        document.getElementById("branchId").value = model.NonRegBranches[index].NonRegBranchId;
         document.getElementById("branchAddress1").value = model.NonRegBranches[index].BranchAddress1;
         document.getElementById("branchAddress2").value = model.NonRegBranches[index].BranchAddress2;
 
@@ -662,13 +667,16 @@
         document.getElementById("branchCode").value = model.NonRegBranches[index].BranchCode;
         document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
         document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
+        document.getElementById("NonRegCompanyName").value = model.NonRegBranches[index].NonRegCompanyName;
+        document.getElementById("RegBranchId2").value = model.NonRegBranches[index].BranchId;
+        document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;
 
         $("#fields").show();
         $("#dashBoard").hide();
     };
 
     function EditBranchOne(index) {
-
+    
         //$('#erMsg').text('');
         //$('#sucMsg').text('');
         $('input').parent('div').siblings('div').children('p').children("span").text("");
@@ -676,6 +684,7 @@
         $('.input-validation-error').removeClass('input-validation-error');
 
         document.getElementById("branchName").value = model.NonRegBranches[index].BranchName;
+        document.getElementById("branchId").value = model.NonRegBranches[index].NonRegBranchId;
         document.getElementById("branchAddress1").value = model.NonRegBranches[index].BranchAddress1;
         document.getElementById("branchAddress2").value = model.NonRegBranches[index].BranchAddress2;
 
@@ -691,6 +700,12 @@
         document.getElementById("branchCode").value = model.NonRegBranches[index].BranchCode;
         document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
         document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
+        document.getElementById("NonRegCompanyName").value = model.NonRegBranches[index].NonRegCompanyName;
+        //alert(model.NonRegBranches[index].BranchId);
+        //document.getElementById("RegBranchId2").value = model.NonRegBranches[index].BranchId;
+        
+        //document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;
+        //alert('d2');
 
         $("#fields").show();
         $("#dashBoard").hide();
