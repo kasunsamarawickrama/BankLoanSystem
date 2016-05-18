@@ -9,7 +9,7 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/general_foundicons.css?version=1" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/Content/style.min.css" rel="stylesheet" />
+    <link href="~/Content/style.min.css?version=1" rel="stylesheet" />
 
     <link href="~/Content/dashboard_layout.css?version=4" rel="stylesheet" />
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
@@ -152,7 +152,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
-    <script src="~/scripts/menu.js?version=1"></script>
+    <script src="~/scripts/menu.js?version=2"></script>
    
     
 </head>
@@ -400,12 +400,12 @@
    * Slide right instantiation and action.
    */
     $(document).ready(function () {
-        var slideRight = new Menu({
-            wrapper: '#o-wrapper',
-            type: 'slide-right',
-            menuOpenerClass: '.c-button',
-            maskId: '#c-mask'
-        });
+        //var slideRight = new Menu({
+        //    wrapper: '#o-wrapper',
+        //    type: 'slide-right',
+        //    menuOpenerClass: '.c-button',
+        //    maskId: '#c-mask'
+        //});
 
         //var slideRightBtn = document.querySelectorAll('.icon-help_outline');
 
@@ -417,7 +417,7 @@
 
         $('.icon-help_outline').click(function (e) {
             e.preventDefault;
-            slideRight.open();
+            slideRight_open();
 
         });
     });
