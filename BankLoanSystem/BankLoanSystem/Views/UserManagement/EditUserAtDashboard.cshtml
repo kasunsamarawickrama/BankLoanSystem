@@ -125,9 +125,9 @@
                                                                                             </div>
                                                 @if (ViewBag.BranchId.Items.Count == 1)
                                                 {
-                                                    <div class="col-xs-8 text_field short_text_field" style="margin-left:-20px">
+                                                    <div class="col-xs-8 text_field">
                                                         @Html.HiddenFor(model => model.BranchId, new { Value = (int)ViewBag.BranchId.Items[0].BranchId, id = "BranchId2" })
-                                                        @Html.LabelFor(model => model.BranchNameAddress, (string)ViewBag.BranchId.Items[0].BranchNameAddress, htmlAttributes: new { @class = "form-control text_field_input", id = "BranchId2Lbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                        @Html.LabelFor(model => model.BranchNameAddress, (string)ViewBag.BranchId.Items[0].BranchNameAddress, htmlAttributes: new { @class = "form-control text_field_input", id = "BranchId2Lbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top:3px;display:block;width:100%;text-align:left" })
                                                     </div>
                                                 }
                                                 else if (ViewBag.BranchId.Items.Count > 1)
@@ -154,9 +154,9 @@
                                                 <label>Select User</label>
                                             </div>
                                                
-                                                    <div class="col-xs-8 text_field short_text_field" id="divSingleUser" style="text-align:left;font-weight: normal;color:#545454;font-size:14px;" hidden>
+                                                    <div class="col-xs-8 text_field short_text_field" id="divSingleUser" style="text-align:left;margin-left:10px;font-weight: normal;color:#545454;font-size:14px;" hidden>
                                                         @*<input type="hidden" id="hdnUserId2" />*@
-                                                        <label id = "txtUserId2">First Name</label>
+                                                        <label id = "txtUserId2">No users found</label>
                                                         @*@Html.Label("No users found", new { htmlAttributes = new { @class = "form-control text_field_input", id = "txtUserId2"} })*@
                                                     </div>
                                             <div class="col-xs-8 text_field short_text_field" id="divSingleUser2" hidden>

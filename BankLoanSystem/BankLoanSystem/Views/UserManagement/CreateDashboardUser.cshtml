@@ -357,6 +357,10 @@
         $('#BranchId').next("div").children("p").children("span").text("");
         $('#BranchIdUser').closest("div").siblings('div').children("p").children("span").text("");
         $('#BranchIdUser').next("div").children("p").children("span").text("");
+        $('#rbYes').closest("div").siblings('div').children("p").children("span").text("");
+        $('#rbYes').next("div").children("p").children("span").text("");
+        $('#rbNo').closest("div").siblings('div').children("p").children("span").text("");
+        $('#rbNo').next("div").children("p").children("span").text("");
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
         $('#branchDiv').hide();
@@ -367,7 +371,43 @@
 
     });
 
-    function clearValues_1() {
+     function clearValues_1() {
+         //alert('hi');
+
+         $("input[type=text]").each(function () {
+
+             ($(this).removeClass('input-validation-error'));
+
+         });
+         $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtUserName').next("div").children("p").children("span").text("");
+
+         $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtPassword').next("div").children("p").children("span").text("");
+         $('#txtPassword').removeClass('input-validation-error');
+         $('#txtConfirmPassword').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtConfirmPassword').next("div").children("p").children("span").text("");
+         $('#txtConfirmPassword').removeClass('input-validation-error');
+         $('#txtFirstName').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtFirstName').next("div").children("p").children("span").text("");
+         $('#txtLastName').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtLastName').next("div").children("p").children("span").text("");
+         $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtNewEmail').next("div").children("p").children("span").text("");
+         $('#txtNewEmail').removeClass('input-validation-error');
+         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
+         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
+         $('#txtPhoneNumber').removeClass('valid');
+         $('#RoleId').closest("div").siblings('div').children("p").children("span").text("");
+         $('#RoleId').next("div").children("p").children("span").text("");
+         $('#BranchId').closest("div").siblings('div').children("p").children("span").text("");
+         $('#BranchId').next("div").children("p").children("span").text("");
+         $('#BranchIdUser').closest("div").siblings('div').children("p").children("span").text("");
+         $('#BranchIdUser').next("div").children("p").children("span").text("");
+         $('#rbYes').closest("div").siblings('div').children("p").children("span").text("");
+         $('#rbYes').next("div").children("p").children("span").text("");
+         $('#rbNo').closest("div").siblings('div').children("p").children("span").text("");
+         $('#rbNo').next("div").children("p").children("span").text("");
         $('#BranchIdUser').val('');
         $('#BranchId').val('');
         $('#LoanIdUser2').val('');

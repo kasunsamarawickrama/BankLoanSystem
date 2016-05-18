@@ -137,6 +137,10 @@ namespace BankLoanSystem.Controllers.UnitTitle
         /// <returns></returns>
         public ActionResult SearchTitleStatus(string identificationNumber)
         {
+            if(Session["AuthenticatedUser"]==null || Session["loanCode"] == null)
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
             string loanCode = Session["loanCode"].ToString();
 
             TitleAccess obj1 = new TitleAccess();
