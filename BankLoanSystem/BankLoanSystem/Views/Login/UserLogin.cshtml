@@ -93,7 +93,7 @@
 
                     <div class="errorMsg"><p id="error" style="height: 31px;">@Html.DisplayFor(item => item.lbl)</p></div>
                     <div class="login-button">
-                        <button class="btn btn-md btn-success btn-block" type="submit">Sign in</button>
+                        <button class="btn btn-md btn-success btn-block" id="sub" type="submit">Sign in</button>
                     </div>
                         <small> <a href="~/ForgotPassword/Index">Forgot Password?</a></small>
 
@@ -102,7 +102,41 @@
     </div>
     <!-- / login container -->
 </div>
+<script>
 
+jQuery(function() {
+   jQuery.support.placeholder = false;
+   test = document.createElement('input');
+   if('placeholder' in test) jQuery.support.placeholder = true;
+});
+
+$(function() {
+    if (!$.support.placeholder) {
+        $('input').focusin(function () {
+         if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+            $(this).val('');
+         }
+      }).blur(function () {
+         if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+             $(this).val($(this).attr('placeholder'));
+         }
+      });
+       $('input').blur();
+    }
+});
+
+$('#sub').click(function () {
+    if (!$.support.placeholder) {
+        if ($('#userName').attr('placeholder') != '' && $('#userName').val() == $('#userName').attr('placeholder')) {
+            $('#userName').val('');
+        }
+        else if ($('#password').attr('placeholder') != '' && $('#password').val() == $('#password').attr('placeholder')) {
+            $('#password').val('');
+        }
+    }
+    
+});
+</script>
 <script>
 
     $('#userName').focusout(function () {
