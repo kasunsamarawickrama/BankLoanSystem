@@ -140,7 +140,7 @@
                                     <div class="form-group new_form_group">
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>
-                                                Email<br>
+                                                email<br>
                                                 <span class="optional">(Optional)</span>
                                             </label>
                                         </div>
@@ -454,6 +454,8 @@
 
 
     $('#clear').click(function () {
+        $('#successSpn').text("");
+        $('#errSpn').text("");
         if($('#btnNext').val() === "Update")
         {
             $('#btnNext').val('Next');
@@ -494,6 +496,19 @@
     $('#branchZipExten').focusout(function () {
         $(this).attr('placeholder', 'Extension');
     });
+
+    $('#StateId').change(function () {
+        //alert('2');
+        $('#successSpn').text("");
+        $('#errSpn').text("");
+    });
+    $("input[type=text]").click(function () {
+       // alert('1');
+        $('#successSpn').text("");
+        $('#errSpn').text("");
+
+    });
+    $('input').prop('autocomplete', 'off');
 </script>
 
 

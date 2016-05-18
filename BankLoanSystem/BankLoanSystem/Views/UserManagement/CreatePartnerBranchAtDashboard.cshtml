@@ -183,7 +183,7 @@
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style">
                                                 <label>
-                                                    Email<br>
+                                                    email<br>
                                                     <span class="optional">(Optional)</span>
                                                 </label>
                                             </div>
@@ -568,9 +568,21 @@
     $('#clear').click(function () {
         document.getElementsByTagName("form")[0].reset();
         $(".text-danger").html("");
+        $('#sucMsg').text("");
+        $('#erMsg').text("");
     });
 </script>
 
 <script type="text/javascript">
+    $('#StateId').change(function () {
+        //alert('2');
+        $('#sucMsg').text("");
+        $('#erMsg').text("");
+    });
+    $("input[type=text]").click(function () {
+        // alert('1');
+        $('#sucMsg').text("");
+        $('#erMsg').text("");
 
+    });
 </script>
