@@ -19,10 +19,11 @@
 else {
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top:10px;padding:1px 0px 30px 0px">
-    <div>
+    
         
         @if (Model.Type == "advanceFee")
         {
+            <div>
             <h4 id="gridHeader" style="font-weight: bold;">
                 Advance Fee
             </h4>
@@ -46,10 +47,15 @@ else {
                                            )
 
                                        )
+
+
+           </div>
         }
         else
         {
-            if (Model.Type == "monthlyLoanFee")
+            <div style="padding-left: 18%;padding-right: 18%;">
+
+            @if (Model.Type == "monthlyLoanFee")
             {
                 <h4 id="gridHeader" style="font-weight: bold;">
                     Monthly Loan Fee
@@ -88,8 +94,12 @@ else {
                                                  )
 
                                           )
+
+
+           
+            </div>
         }
-    </div>
+   
 
     <div>
         <span id="subtotal" style="margin-right:25px;float:right;text-align:right;font-weight: bold;"> Current Fee Total : $ 0.00  </span>
