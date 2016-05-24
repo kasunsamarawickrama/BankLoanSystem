@@ -2654,6 +2654,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step10(string lbl)
         {
+            CurtailmentModel curtailment = new CurtailmentModel();
+
             int userId = userData.UserId;
             if (userData.RoleId >= 3)
             {
@@ -2671,9 +2673,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     if (HttpContext.Request.IsAjaxRequest())
                     {
                         ViewBag.AjaxRequest = 1;
-                        return PartialView();
+                        return PartialView(curtailment);
                     }
-                    return View();
+                    return View(curtailment);
                 }
 
                 int branchId = loanData.BranchId;
@@ -2683,8 +2685,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CurtailmentAccess curAccess = new CurtailmentAccess();
                 _loan = curAccess.GetLoanDetailsByLoanId(loanId);
                 _loan.loanId = loanId;
-
-                CurtailmentModel curtailment = new CurtailmentModel();
+                
                 curtailment.AdvancePt = _loan.advancePercentage;
                 curtailment.RemainingPercentage = curtailment.AdvancePt;
 
