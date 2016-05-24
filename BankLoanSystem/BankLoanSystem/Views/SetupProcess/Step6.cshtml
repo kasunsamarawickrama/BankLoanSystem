@@ -563,7 +563,7 @@
     });
 
     $('#advancePercentage').keypress(function (evt) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+        if (evt.which != 8 && evt.keyCode != 46 && evt.keyCode != 9) {
             // preventing to type 'e' or 'E'mmitted - piyumi
             if (evt.keyCode == 101 || evt.keyCode == 69 || $(this).val() > 100) {
                 evt.preventDefault();
@@ -601,7 +601,7 @@
 
 
     $('#emailPeriod').keypress(function (evt) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+        if (evt.which != 8 && evt.keyCode != 46 && evt.keyCode != 9) {
             //only allowed numbers
             if (!(48 <= evt.which && evt.which <= 58))
                 evt.preventDefault();
@@ -615,7 +615,7 @@
     });
 
     $('#advancePercentage').keypress(function (evt) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+        if (evt.which != 8 && evt.keyCode != 46 && evt.keyCode != 9) {
             //only allowed numbers
             if (!(48 <= evt.which && evt.which <= 58))
                 evt.preventDefault();

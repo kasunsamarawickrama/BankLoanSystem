@@ -232,8 +232,6 @@
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -242,6 +240,18 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
     // for input mask
+    //$(document).ready(function()
+    //{
+    //    ctrlDown = false;
+
+    //    $(document).keydown(function(e)
+    //    {
+    //        if (e.keyCode == 17) ctrlDown = true;
+    //    }).keyup(function(e)
+    //    {
+    //        if (e.keyCode == 17) ctrlDown = false;
+    //    });
+    //});
 
     new InputMask().Initialize(document.querySelectorAll("#branchPhoneNum1,#branchPhoneNum2, #branchPhoneNum3"),
     {
@@ -263,6 +273,7 @@
 
             ToTitleCase(this.id, this.value);
     });
+
 
 
     $('#branchAddress1, #branchAddress2').keypress(function (e) {
@@ -338,68 +349,80 @@
     });
     //Check maximum PhoneNumbers
     $('#branchPhoneNum1,#branchPhoneNum2,#branchPhoneNum3').keypress(function (e) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            var res = CheckMaxLenth(this, this.value, 14);
-            if (res === 0) {
-                e.preventDefault();
-                return;
+        //if (ctrlDown && (e.keyCode == 86 || e.keyCode == 67)){
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                var res = CheckMaxLenth(this, this.value, 14);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+                res = PhoneNumber(this, e.which);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
             }
-            res = PhoneNumber(this, e.which);
-            if (res === 0) {
-                e.preventDefault();
-                return;
-            }
-        }
+        //}
+        
         
     });
 
     //Check maximum PhoneNumbers
     $('#branchFax').keypress(function (e) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            var res = CheckMaxLenth(this, this.value, 15);
-            if (res === 0) {
-                e.preventDefault();
-                return;
+        //if (ctrlDown && (e.keyCode == 86 || e.keyCode == 67)){
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                var res = CheckMaxLenth(this, this.value, 15);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
+                res = PhoneNumber(this, e.which);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
             }
-            res = PhoneNumber(this, e.which);
-            if (res === 0) {
-                e.preventDefault();
-                return;
-            }
-        }
+        //}
+        
         
     });
 
     //Check maximum ZipExtension
     $('#branchZipExten').keypress(function (e) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            var res = CheckMaxLenth(this, this.value, 4);
-            if (res === 0) {
-                e.preventDefault();
-                return;
-            }
+        //if (ctrlDown && (e.keyCode == 86 || e.keyCode == 67)){
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                var res = CheckMaxLenth(this, this.value, 4);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
 
-            res = AllowNumbers(this, e.which);
-            if (res === 0) {
-                e.preventDefault();
-                return;
+                res = AllowNumbers(this, e.which);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
             }
-        }
+        //}
+        
         
     });
     //Check maximum ZipCode
     $('#branchZipPre').keypress(function (e) {
-        if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            //var res = CheckMaxLenth(this, this.value, 4);
-            //if (res === 0) {
-            //    $("#branchZipExten").focus();
-            //}
-            var res = AllowNumbers(this, e.which);
-            if (res === 0) {
-                e.preventDefault();
-                return;
+        //if (ctrlDown && (e.keyCode == 86 || e.keyCode == 67)){
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                //var res = CheckMaxLenth(this, this.value, 4);
+                //if (res === 0) {
+                //    $("#branchZipExten").focus();
+                //}
+                var res = AllowNumbers(this, e.which);
+                if (res === 0) {
+                    e.preventDefault();
+                    return;
+                }
             }
-        }
+        //}
+        
         
     });
 </script>
@@ -509,6 +532,9 @@
 
     });
     $('input').prop('autocomplete', 'off');
+
+    
+
 </script>
 
 
