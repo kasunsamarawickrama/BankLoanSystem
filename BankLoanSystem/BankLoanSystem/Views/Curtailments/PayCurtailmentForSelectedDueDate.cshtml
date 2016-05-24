@@ -186,7 +186,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 }
                             }
 
-                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style= "width: 117%;" })
                                     @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
 

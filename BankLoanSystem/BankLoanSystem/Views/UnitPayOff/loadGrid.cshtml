@@ -285,9 +285,9 @@
     var browser = navigator.userAgent.toLowerCase();
     
     if (/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())) {
-        $('head').append('<style>#btnSearch{    margin-left:29px; margin-top: 28px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 28px;margin-bottom: 0px;margin-right: 0px;  }</style>');
+        $('head').append('<style>#btnSearch{    margin-left:29px; margin-top: 18px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 18px;margin-bottom: 0px;margin-right: 0px;  }</style>');
     } else if ((browser.indexOf('firefox') > -1)) {
-        $('head').append('<style>#btnSearch{   margin-left:29px; margin-top: 28px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 28px;margin-bottom: 0px;margin-right: 0px;  }</style>');
+        $('head').append('<style>#btnSearch{   margin-left:29px; margin-top: 19px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 19px;margin-bottom: 0px;margin-right: 0px;  }</style>');
     } else if (browser.indexOf('msie') > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
         $('head').append('<style>#btnSearch{    margin-left:29px; margin-top: 28px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 28px;margin-bottom: 0px;margin-right: 0px;  }</style>');
 
@@ -594,12 +594,14 @@
 
     });
 
-    $(document).on('click', '.checkboxAll', function () {
+    $(document).on('change', '.checkboxAll', function () {
 
 
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
+
+        //alert("isChecked: "+ isChecked + " balance: " + balance);
 
         if (isChecked === false) {
             countSelect--;
