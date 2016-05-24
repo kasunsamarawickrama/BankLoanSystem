@@ -594,12 +594,14 @@
 
     });
 
-    $(document).on('click', '.checkboxAll', function () {
+    $(document).on('change', '.checkboxAll', function () {
 
 
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
+
+        //alert("isChecked: "+ isChecked + " balance: " + balance);
 
         if (isChecked === false) {
             countSelect--;
