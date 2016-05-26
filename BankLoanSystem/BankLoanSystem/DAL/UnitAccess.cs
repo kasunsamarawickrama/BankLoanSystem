@@ -1505,7 +1505,7 @@ namespace BankLoanSystem.DAL
 
         }
 
-        public int insertFreeDetailsForPayOffPage(UnitPayOffModel unit, DateTime payday)
+        public int insertFreeDetailsForPayOffPage(UnitPayOffModel unit, DateTime payday,int userID)
         {
             try
             {
@@ -1548,6 +1548,7 @@ namespace BankLoanSystem.DAL
                     paramertList.Add(new object[] { "@amount", fee_amount });
                     paramertList.Add(new object[] { "@due_date", fee_billdate });
                     paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
+                    paramertList.Add(new object[] { "@user_id", userID });
 
                     dataHandler.ExecuteSQL("spInsertAdvanceFeeForPayoff", paramertList);
                 }

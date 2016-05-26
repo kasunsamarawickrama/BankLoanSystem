@@ -297,7 +297,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                             //check advance amount and other details      
                             foreach (var payoff in payOffModelList)
                             {
-                                unitAccess.insertFreeDetailsForPayOffPage(payoff, payDate);
+                                unitAccess.insertFreeDetailsForPayOffPage(payoff, payDate,userData.UserId);
                             }
                          }
                     }
