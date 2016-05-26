@@ -1534,7 +1534,7 @@ namespace BankLoanSystem.DAL
                 v_make = unit.Make;
                 v_model = unit.Model;
                 v_year = unit.Year.ToString();
-                v_advance_date = unit.DateAdvanced.ToString();// ("MM/dd/yyyy");
+                v_advance_date = unit.DateAdvanced.ToString("MM/dd/yyyy");// ("MM/dd/yyyy");
 
                 string discription = fee_due_method + "," + v_vin + "," + v_year + "," + v_make + "," + v_model + "," + v_advance_date;
 
