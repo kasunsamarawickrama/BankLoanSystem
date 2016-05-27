@@ -81,7 +81,11 @@ namespace BankLoanSystem.Controllers.Curtailments
 
             lCode = Session["loanCode"].ToString();
 
-            if (userData.RoleId == 3)
+            if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+            else if (userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {
