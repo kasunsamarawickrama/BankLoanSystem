@@ -108,6 +108,10 @@ namespace BankLoanSystem.Controllers.UnitTitle
 
                 }
             }
+            else if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
             if ((TempData["reslt"] !=null)&& (TempData["reslt"].ToString() != ""))
             {
                 flag = int.Parse(TempData["reslt"].ToString());

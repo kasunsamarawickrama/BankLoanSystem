@@ -96,6 +96,10 @@ namespace BankLoanSystem.Controllers.DeleteUnit
 
                 }
             }
+            else if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
             LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             UnitDeleteViewModel unitDeleteViewModel = new UnitDeleteViewModel();
