@@ -64,7 +64,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             {
                 loan = (Loan)Session["oneLoanDashboard"];
             }
-            else if (Session["loanDashboardJoinDealer"] != null)
+           if (Session["loanDashboardJoinDealer"] != null)
             {
                 loan = (Loan)Session["loanDashboardJoinDealer"];
             }
@@ -106,7 +106,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 loan = (Loan)Session["oneLoanDashboard"];
                 //Session.Remove("oneLoanDashboard");
             }
-            else if (Session["loanDashboardJoinDealer"] != null)
+            if (Session["loanDashboardJoinDealer"] != null)
             {
                 loan = (Loan)Session["loanDashboardJoinDealer"];
             }
