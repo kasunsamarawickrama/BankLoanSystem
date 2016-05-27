@@ -73,6 +73,24 @@ namespace BankLoanSystem.Controllers.CreateDealer
             NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
             ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
+            List<User> userList = new List<User>();
+            userList = (new UserAccess()).GetUserListByCompany(userData.Company_Id);
+
+            if (userData.RoleId == 1)
+            {
+                ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                Session["UserReqList"] = userList;
+            }
+            else if (userData.RoleId == 2)
+            {
+                userList = userList.FindAll(t => t.BranchId == userData.BranchId);
+                ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                Session["UserReqList"] = userList;
+            }
+            else
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
             return View();
         }
 
@@ -158,6 +176,29 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 TempData["msg"] = 2;
                 return RedirectToAction("LinkDealer");                
             }
-        }        
+        }
+
+        [HttpPost]
+        public ActionResult GetUserEmailByUserId(int userId)
+        {
+            User userObj = new User();
+            if (userId > 0 && Session["UserReqList"]!=null)
+            {
+                List<User> userList = new List<User>();
+                userList = (List<User>)Session["UserReqList"];
+                foreach(User u in userList)
+                {
+                    if (u.UserId == userId)
+                    {
+                        userObj = u;
+                    }
+                }
+                return Json(userObj);
+            }
+            else
+            {
+                return RedirectToAction("UserLogin", "Login");
+            }
+        }
     }
 }
