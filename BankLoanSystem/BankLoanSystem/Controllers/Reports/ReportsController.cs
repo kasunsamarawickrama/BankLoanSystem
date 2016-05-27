@@ -71,7 +71,7 @@ namespace BankLoanSystem.Controllers.Reports
                 //}
                 userLoanNumbers.AddRange(loanNumbers.Where(loans => _userData.BranchId == loans.BranchId));
             }
-            if (_userData.RoleId == 3)
+            if (_userData.RoleId == 3 || _userData.RoleId == 4)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {

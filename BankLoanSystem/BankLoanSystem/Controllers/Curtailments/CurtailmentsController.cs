@@ -81,11 +81,7 @@ namespace BankLoanSystem.Controllers.Curtailments
 
             lCode = Session["loanCode"].ToString();
 
-            if (userData.RoleId == 4)
-            {
-                return RedirectToAction("UserDetails", "UserManagement");
-            }
-            else if (userData.RoleId == 3)
+            if (userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {
@@ -119,6 +115,10 @@ namespace BankLoanSystem.Controllers.Curtailments
                     }
 
                 }
+            }
+            else if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
             }
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
