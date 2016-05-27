@@ -149,6 +149,7 @@ namespace BankLoanSystem.Controllers.Unit
             int companyType = ba.getCompanyTypeByUserId(userId);
 
             ViewBag.CompabyType = companyType;
+            ViewBag.RoleId = userData.RoleId;
 
             //Check title 
             TitleAccess ta = new TitleAccess();
