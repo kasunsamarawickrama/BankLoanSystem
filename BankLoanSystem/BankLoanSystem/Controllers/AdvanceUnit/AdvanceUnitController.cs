@@ -108,7 +108,7 @@ namespace BankLoanSystem.Controllers
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-            if (userData.RoleId == 3)
+            if (userData.RoleId == 3 || userData.RoleId == 4)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {

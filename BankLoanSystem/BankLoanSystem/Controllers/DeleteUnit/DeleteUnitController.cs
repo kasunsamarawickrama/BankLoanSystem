@@ -61,7 +61,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
-            if (userData.RoleId == 3)
+            if (userData.RoleId == 3 || userData.RoleId == 4)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {

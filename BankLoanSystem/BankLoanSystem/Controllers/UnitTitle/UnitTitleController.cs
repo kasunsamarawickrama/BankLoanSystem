@@ -73,7 +73,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
             }
             int flag = -1;
 
-            if (userData.RoleId == 3)
+            if (userData.RoleId == 3 || userData.RoleId == 4)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {
