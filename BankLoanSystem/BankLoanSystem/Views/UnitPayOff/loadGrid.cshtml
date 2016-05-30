@@ -505,14 +505,14 @@
         });
 
         //alert(totalToPay);
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         //alert(countSelect);
         var advance = 0;
         advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -521,8 +521,10 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
+
+        checkTextBoxBlurCenterError();
     });
 
     $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -573,7 +575,7 @@
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
         var advance = 0;
         
@@ -581,7 +583,7 @@
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -589,7 +591,7 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -597,22 +599,20 @@
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
-
+        checkTextBoxBlurCenterError();
     });
 
-    $(document).on('change', '.checkboxAll', function () {
+    $(document).on('click', '.checkboxAll', function () {
 
 
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
-
-        //alert("isChecked: "+ isChecked + " balance: " + balance);
 
         if (isChecked === false) {
             countSelect--;
@@ -701,7 +701,7 @@
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         var advance = 0;
         if($(this).parents('tr:first').find('#isAdvancePaid').val() == 'False'){
             if (isChecked === false)
@@ -713,7 +713,7 @@
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -721,17 +721,18 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
         if(countSelect == 1){
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
+        checkTextBoxBlurCenterError();
     });
 
     function SetTextBoxValues(tr) {
@@ -1378,6 +1379,7 @@
         countSelect = 0;
         totalToPay = 0;
         checkCount = 0;
+        advanceFeeSelect = 0;
 
         $("#payDate").attr("disabled", "disabled");
 

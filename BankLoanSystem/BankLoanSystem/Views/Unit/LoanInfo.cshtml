@@ -171,7 +171,7 @@
             {
                 <text>
             if ($('#payDate2').val() != undefined){
-            if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
+                if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0 || $("#searchGrid1").css('display') == "block") {
                 event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
             }
             }</text>
