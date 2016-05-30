@@ -171,7 +171,10 @@
                 grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                grid.Column("Cost", "Cost ($)", style: "gridColumn", format:@<text>@{<label id="cost" class="cost">@Convert.ToDecimal(item.Cost).ToString("#,##0.00")</label>}</text>),
-                grid.Column("Advance Amount", "Advance Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="am" class="advanceAmount">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>}</text>)
+                grid.Column("Advance Amount", "Advance Amount ($)", canSort: false, style: "gridColumn", format:@<text>@{
+                                                                                                                           <label id="am" class="advanceAmount">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>
+                                                                                                                        <input type="hidden" id="isTitleUploaded" name="isTitleUploaded" value="@item.IsTitleUploaded" />
+                }</text>)
 
                )
 )
@@ -345,7 +348,7 @@
                         <div class="form-group row" style="margin-top:15px !important">
 
                             <div class="col-md-2">
-                                <input type="button" id="titleShow" class="btn btn-primary titleView" value="View Titles"/>
+                                <input type="button" id="titleShow" class="btn btn-primary titleView" value="View Titles" style="display:none;"/>
                             </div>
                         </div>
                     }
@@ -577,6 +580,7 @@
         $('#identificationNumberSearch').removeClass('input-validation-error');
        
     });
+
     function ClearMainGrid() {
         var count = 0;
         $("#checkableGrid").find("input:checkbox").each(function () {
@@ -710,6 +714,7 @@
                         var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
                         checkboxes.prop('checked', $(this).is(':checked'));
                         var chk = checkboxes.prop('checked');
+
                         if (chk) {
                             var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                             $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
@@ -789,8 +794,7 @@
                 $(this).parents('tr').css('background', 'transparent');
             }
 
-            if (checkCount == 1) {
-               
+            if (checkCount === 1) {
                 if (checked) {
                     SetTextBoxValues(tr);
                     //alert("r");
@@ -846,6 +850,38 @@
                     $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                 }
             }
+
+            //check titleShow button  should be displyed or not 
+            var btnTitleShow;
+            var checkedX = tr.find("#all").is(':checked');
+            
+            if (checkedX) {
+                if (checkCount === 1) {
+                    btnTitleShow = tr.find('#isTitleUploaded').val();
+                    if (btnTitleShow === '1') {
+
+                        $('#titleShow').show();
+                    } else {
+                        $('#titleShow').hide();
+                    }
+                }
+            } else {
+                if (checkCount === 1) {
+                    $('table#checkableGrid > tbody > tr').each(function () {
+                        var checkedOne = $(this).find("#all").is(':checked');
+                        if (checkedOne) {
+                            btnTitleShow = $(this).find('#isTitleUploaded').val();
+                            if (btnTitleShow === '1') {
+
+                                $('#titleShow').show();
+                            } else {
+                                $('#titleShow').hide();
+                            }
+                        }
+                    });
+                }
+            }
+            
             $('#errorStartDate').text('');
             $('#startDate').removeClass('input-validation-error');
 
@@ -902,6 +938,7 @@
             if (ColIndex != 0) {
 
                 var checked = row.find("#all").prop('checked');
+
                 if (!checked) {
                     row.find("#all").prop('checked', true);
                     row.css('background', 'lightblue');
@@ -917,6 +954,15 @@
                         var x = row.find("#all").val();
                         //$('#uId').val(x);
                         unitIdSelect = x;
+
+                        var btnTitleShow = row.find('#isTitleUploaded').val();
+                        if (btnTitleShow === '1') {
+
+                            $('#titleShow').show();
+                        } else {
+                            $('#titleShow').hide();
+                        }
+
                     }
                     else {
                         ClearSearchGrid();

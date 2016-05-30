@@ -434,17 +434,19 @@ namespace BankLoanSystem.Controllers
             ViewBag.LoanId = loanId;
             return View();
         }
-        public FileResult Download(string ImageName)
+        public FileResult Download(string imagePath)
         {
-            return File(ImageName, System.Net.Mime.MediaTypeNames.Application.Octet);
+            string[] tokens = imagePath.Split('/');
+            string fileName = tokens[tokens.Length - 1];
+            return File(imagePath, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
         public FileResult Downloadx(string image, string path)
         {
             return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
-        public ActionResult Downloaderx(string ImageName)
+        public ActionResult Downloaderx(string imagePath)
         {
-            return File(ImageName, "application/pdf");
+            return File(imagePath, "application/pdf");
 
         }
     }
