@@ -3051,18 +3051,19 @@
                 });
 
 
-                $('#Note').keyup(function(e) {
-                    //alert(this.value.length);
-                    if (this.value.length === 1) {
-                        //alert(this.value.length);
-                        document.getElementById('Note').value = this.value.toUpperCase();
-                    }
-                });
+                //$('#Note').keyup(function(e) {
+                //    //alert(this.value.length);
+                //    if (this.value.length === 1) {
+                //        //alert(this.value.length);
+                //        document.getElementById('Note').value = this.value.toUpperCase();
+                //    }
+                //});
                 $('#Note').keypress(function(e) {
                     //alert(this.value.length);
                     if (this.value.length === 0) {
                         //alert(this.value.length);
                         document.getElementById('Note').value = String.fromCharCode(e.which).toUpperCase();
+                        e.preventDefault();
                     }
                 });
 
