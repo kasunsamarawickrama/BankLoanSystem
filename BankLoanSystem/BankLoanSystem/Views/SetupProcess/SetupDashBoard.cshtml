@@ -35,7 +35,8 @@
                 </div>
                 <div class="logo-element"> TFN </div>
             </li>
-
+            @if (Model.step_status == 0)
+            {
             <li class="navig1 company">
                 <a href="#" class="companyIco">
                     <span class="nav-label">Company Setup</span><span class="numbers">01</span> <span class="caret arrow" style="margin-top:
@@ -173,7 +174,7 @@
             </li>
         </ul>
         </li>
-
+            }
         <li class="navig4 loan">
             <a href="#" class="loanIco">
                 <span class="nav-label">Loan Setup</span><span class="numbers">04</span> <span class="caret arrow" style="margin-top:

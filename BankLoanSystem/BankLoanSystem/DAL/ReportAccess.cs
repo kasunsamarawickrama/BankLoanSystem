@@ -805,5 +805,33 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// CreatedBy: Kanishka
+        /// CreatedDate: 5/28/2016
+        /// Get unit cost by unit id list
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <returns></returns>
+        public List<CurtailmentShedule> GetCurtailmentPaidDetailsDuringSession(string xmlDoc)
+        {
+            List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@Input", xmlDoc });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentPaidDetailsDuringSession", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    CurtailmentShedule curtailment = new CurtailmentShedule();
+                    curtailment.UnitId = dataRow["unit_id"].ToString();
+                    curtailment.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    lstCurtailmentShedule.Add(curtailment);
+                }
+            }
+            return lstCurtailmentShedule;
+        }
+
     }
 }

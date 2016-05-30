@@ -164,11 +164,14 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 }
             }
-
+            else if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
             //LoanSetupStep1 loanDetails = new LoanSetupStep1();
             //loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-            
+
 
             //BranchAccess ba = new BranchAccess();
             //_companyType = ba.getCompanyTypeByUserId(userData.UserId);
@@ -240,7 +243,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             //else
             //{
 
-                return View();
+            return View();
             //}
         }
 
@@ -297,7 +300,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                             //check advance amount and other details      
                             foreach (var payoff in payOffModelList)
                             {
-                                unitAccess.insertFreeDetailsForPayOffPage(payoff, payDate);
+                                unitAccess.insertFreeDetailsForPayOffPage(payoff, payDate,userData.UserId);
                             }
                          }
                     }

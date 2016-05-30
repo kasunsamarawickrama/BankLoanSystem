@@ -51,6 +51,22 @@ namespace BankLoanSystem.Reports
             List<CurtailmentShedule> selectedCurtailmentSchedules =
                 (List<CurtailmentShedule>) Session["CurtUnitDuringSession"];
 
+            List<string> uniList = (from item in selectedCurtailmentSchedules
+                                    select item.UnitId).Distinct().ToList();
+
+            XElement xEle = new XElement("Curtailments",
+                    from id in uniList
+                    select new XElement("Unit",
+                        new XElement("UnitId", id)
+                        ));
+            string xmlDoc = xEle.ToString();
+            List<CurtailmentShedule> unitWithAdvanceAmount = ra.GetCurtailmentPaidDetailsDuringSession(xmlDoc);
+
+            foreach (var item in selectedCurtailmentSchedules)
+            {
+                item.PurchasePrice = unitWithAdvanceAmount.First(x => x.UnitId == item.UnitId).PurchasePrice;
+            }
+
             if (selectedCurtailmentSchedules != null && selectedCurtailmentSchedules.Count > 0)
             {
                 rptViewerCurtailmentReceiptDuringSession.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));

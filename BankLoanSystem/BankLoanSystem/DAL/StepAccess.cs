@@ -436,7 +436,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spUpdateLoanSetupStep_kas", paramertList) ? true : false;
+                return dataHandler.ExecuteSQL("spUpdateLoanSetupStep_piy", paramertList) ? true : false;
 
             }
             catch (Exception ex)
