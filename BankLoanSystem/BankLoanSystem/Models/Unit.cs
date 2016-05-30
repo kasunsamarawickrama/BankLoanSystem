@@ -109,7 +109,7 @@ namespace BankLoanSystem.Models
 
         public bool IsAdvanced { get; set; }
 
-        [Required(ErrorMessage = "Please chose if the vehicle will be advanced at this time")]
+        [Required(ErrorMessage = "Please choose if the vehicle will be advanced at this time")]
         [Display(Name = "Will you advance the unit today?")]
         public string AdvanceNow { get; set; }
 

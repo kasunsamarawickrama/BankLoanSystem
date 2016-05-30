@@ -1016,10 +1016,7 @@
                                         </label>
                                         @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;top: 100%;" })
                                     </div>
-                                </div>
-
-                        
-
+                                </div> 
                             </div>
                         }
 
@@ -2563,14 +2560,15 @@
                                 e.preventDefault();
                             }
                         }
-                    } else {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        $(this).addClass('input-validation-error');
-                        $("#tagscloudAdvance span").text("Invalid character");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        $(this).removeClass('input-validation-error');
-                        e.preventDefault();
                     }
+                    //else {
+                    //    //$("#tagscloudAdvance span").fadeIn();
+                    //    $(this).addClass('input-validation-error');
+                    //    $("#tagscloudAdvance span").text("Invalid character");
+                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //    $(this).removeClass('input-validation-error');
+                    //    e.preventDefault();
+                    //}
                 });
 
                 //claculate advance when click back-space
@@ -2993,12 +2991,14 @@
                     </text>
                     }
                    
-
-                    if($('.conditionRadio:checked').length > 0){
+                    if(unitType != "8"){
+                        if($('.conditionRadio:checked').length > 0){
                     
-                    }else{
-                        $('#btnSubmit').prop('disabled', false);
+                        }else{
+                            $('#btnSubmit').prop('disabled', false);
+                        }
                     }
+                    
 
                     if($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
                         if($('#rdAdvanceYes').is(':checked')){
@@ -3051,18 +3051,19 @@
                 });
 
 
-                $('#Note').keyup(function(e) {
-                    //alert(this.value.length);
-                    if (this.value.length === 1) {
-                        //alert(this.value.length);
-                        document.getElementById('Note').value = this.value.toUpperCase();
-                    }
-                });
+                //$('#Note').keyup(function(e) {
+                //    //alert(this.value.length);
+                //    if (this.value.length === 1) {
+                //        //alert(this.value.length);
+                //        document.getElementById('Note').value = this.value.toUpperCase();
+                //    }
+                //});
                 $('#Note').keypress(function(e) {
                     //alert(this.value.length);
                     if (this.value.length === 0) {
                         //alert(this.value.length);
                         document.getElementById('Note').value = String.fromCharCode(e.which).toUpperCase();
+                        e.preventDefault();
                     }
                 });
 

@@ -31,6 +31,7 @@ namespace BankLoanSystem.Models
         public string Model { get; set; }
         public decimal Balance { get; set; }
         public decimal PurchasePrice { get; set; }
+        public bool IsAdvancePaid { get; set; }
         
         
     }

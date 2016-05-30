@@ -24,9 +24,6 @@
         #payOffGridDIv table thead {
             display: block;
         }
-
-
-
         #payOffGridDIv table tbody {
             max-height: 300px;
             overflow-y: auto;
@@ -56,7 +53,7 @@
     <div class="container" id="container">
        
         <div class="details-container">
-            <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;">
+            <div id="noPayOffDiv" class="info-bar" style="margin-top:10px;padding:unset; color:red;" hidden>
                 @*@Html.Label("No units to Payoff could be found.", htmlAttributes: new { @class = "control-label col-sm-8", @style = "float:unset;margin-top:2%;margin-bottom:2%;" })*@
                 <label style="float:unset;margin-top:2%;margin-bottom:2%">No units to Payoff could be found.</label>
             </div>
@@ -70,20 +67,9 @@
                     }
 
                 </div>
-
-               
-
-              
-
             </div>
 
         </div>
-
-
-       
-
-
-
     </div>
 <div class="link-bar" style="margin-bottom: 15px;">
     @{
@@ -91,3 +77,12 @@
     }
 </div>
 
+@*<script>
+    $(document).ready(function () {
+        $('#noPayOffDiv').hide();
+    });
+</script>*@
+
+<script>
+    $("#lkpoff").hide();
+</script>

@@ -25,7 +25,8 @@
                     columns: grid.Columns(
                     grid.Column(style: "gridColumnSelect",
                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />
-                                      <input type="hidden" id="advanceDate" name="advanceDate" value="@item.DateAdvanced" /></text>
+                                      <input type="hidden" id="advanceDate" name="advanceDate" value="@item.DateAdvanced" />
+                                      <input type="hidden" id="isAdvancePaid" name="isAdvancePaid" value="@item.IsAdvancePaid.ToString()" /></text>
                             , header: "{checkall}"
 
                     ),
@@ -437,6 +438,7 @@
 
     var totalSelect = $('table#checkableGrid > tbody > tr').length;
     var countSelect = 0;
+    var advanceFeeSelect = 0;
 
     $(document).on('click', '#cbSelectAll', function () {
         ClearTextBoxValues();
@@ -450,7 +452,7 @@
             $(this).siblings('span').text('Select');
             status = false;
             countSelect = 0;
-
+            advanceFeeSelect = 0;
 
             $('table#checkableGrid > tbody > tr').each(function () {
                 $(this).css('background', 'aliceblue');
@@ -476,13 +478,15 @@
             $(this).siblings('span').text('Deselect');
             status = true;
             countSelect = totalSelect;
-
+            advanceFeeSelect = 0;
             $('table#checkableGrid > tbody > tr').each(function () {
                 $(this).css('background', 'lightblue');
+                if($(this).find('#isAdvancePaid').val() == 'False'){
+                    advanceFeeSelect ++;     
+                }
             });
-
             $("#btnPayAll").removeAttr("disabled");
-            $("#payDate").removeAttr("disabled");
+            $("#payDate").removeAttr("disabled");        
         }
 
         $('table#checkableGrid > tbody > tr').each(function () {
@@ -501,14 +505,14 @@
         });
 
         //alert(totalToPay);
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         //alert(countSelect);
-
-        var advance = (advanceFee * countSelect);
+        var advance = 0;
+        advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -517,8 +521,10 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
+
+        checkTextBoxBlurCenterError();
     });
 
     $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -553,24 +559,31 @@
             $("#payDate").removeAttr("disabled");
 
             SetTextBoxValues(tr);
+
+            if($(this).find('#isAdvancePaid').val() == 'False'){
+                if($(this).find("#all").is(':checked')){
+                    advanceFeeSelect ++;
+                }                     
+            }
         }
 
         if (countSelect > 1) {
             ClearTextBoxValues();
-
         }
 
         $('table#searchResultGrid > tbody > tr').each(function () {
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
-        var advance = (advanceFee * countSelect);
+        var advance = 0;
+        
+        advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -578,7 +591,7 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -586,22 +599,20 @@
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
-
+        checkTextBoxBlurCenterError();
     });
 
-    $(document).on('change', '.checkboxAll', function () {
+    $(document).on('click', '.checkboxAll', function () {
 
 
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
-
-        //alert("isChecked: "+ isChecked + " balance: " + balance);
 
         if (isChecked === false) {
             countSelect--;
@@ -690,13 +701,19 @@
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
-
-        var advance = (advanceFee * countSelect);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        var advance = 0;
+        if($(this).parents('tr:first').find('#isAdvancePaid').val() == 'False'){
+            if (isChecked === false)
+                advanceFeeSelect --;      
+            else
+                advanceFeeSelect ++;      
+        }
+        advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -704,17 +721,18 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
         if(countSelect == 1){
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
+        checkTextBoxBlurCenterError();
     });
 
     function SetTextBoxValues(tr) {
@@ -732,11 +750,17 @@
 
         @if (ViewBag.AdvanceFee != 0)
         {
-
-            <text>
+        <text>
         var pay = tr.find("#balance").text().replace(',', '')
-        $('#iAdvanceFee').val(advanceFee);
-        var tot = parseFloat(advanceFee) + parseFloat(pay);
+        var tot = 0;
+        if(tr.find('#isAdvancePaid').val() == 'False'){
+            $('#iAdvanceFee').val('0.00');
+            tot = parseFloat(pay);
+        }else{
+            $('#iAdvanceFee').val(advanceFee);
+            tot = parseFloat(advanceFee) + parseFloat(pay);
+        }
+               
         tot = tot.toFixed(2);
         $('#iTotal').val(tot);
         </text>
@@ -1262,14 +1286,12 @@
 
             $("#cbSelectAll").removeAttr("checked");
         }
-
     }
 
     function ChangeCheckBoxText(value) {
         var chkText = $('<div />').attr({ id: 'someID' }).html(value);
         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
     }
-
 
     //$("#lkpoff").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
     //$("#lkpoff").click(function (e) { e.preventDefault(); });
@@ -1279,7 +1301,6 @@
     //});
 
     $("#lkpoff").hide();
-
 
     // Change the selector if needed
     var table = $('table'),
@@ -1358,6 +1379,7 @@
         countSelect = 0;
         totalToPay = 0;
         checkCount = 0;
+        advanceFeeSelect = 0;
 
         $("#payDate").attr("disabled", "disabled");
 
