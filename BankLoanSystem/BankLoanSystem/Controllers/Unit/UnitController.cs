@@ -149,6 +149,7 @@ namespace BankLoanSystem.Controllers.Unit
             int companyType = ba.getCompanyTypeByUserId(userId);
 
             ViewBag.CompabyType = companyType;
+            ViewBag.RoleId = userData.RoleId;
 
             //Check title 
             TitleAccess ta = new TitleAccess();
@@ -618,6 +619,7 @@ namespace BankLoanSystem.Controllers.Unit
                 userId = userData.UserId;
 
                 loanCode = Session["loanCode"].ToString();
+                ViewBag.UserRole = userData.RoleId;
             }
             catch (Exception)
             {
@@ -660,6 +662,47 @@ namespace BankLoanSystem.Controllers.Unit
             int num = (new UnitAccess()).IsUniqueVinForaLoan(identificationNumber, loanId);
 
             return Json(num, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddUnitRequestAdvance()
+        {
+
+            Models.User user = new Models.User();
+            if (Session["loanCode"] == null)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
+            else {
+                string Code = Session["loanCode"].ToString();
+                user = (new UserAccess()).GetDealerUserDetails(userData.UserId, Code);
+
+                if (user != null)
+                {
+
+
+
+                    string body = "Hi , <br /><br /> Dealer User " + user.FirstName + " " + user.LastName + " requested to advance " + user.NoOfUnitsAdded + " new unit(s) for loan number " + user.LoanNumber +" on "+user.AddedDate+
+
+                                  "<br /><br/> Thanks <br />.";
+
+                    Email email = new Email(user.UserEmailForSendReq);
+
+
+                    email.SendMail(body, "Request Advance");
+
+                    //Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, user.LoanId, "Create Dealer Account", "Inserted Dealer : " + user.UserName, DateTime.Now);
+
+                    //int islog = (new LogAccess()).InsertLog(log);
+
+                    //TempData["msg"] = 1;
+                    return RedirectToAction("AddUnit", "Unit");
+
+                }
+                return RedirectToAction("AddUnit", "Unit");
+            }
+
+
+            //return View();
         }
 
     }

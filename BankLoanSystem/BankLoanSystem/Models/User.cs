@@ -14,6 +14,15 @@ namespace BankLoanSystem.Models
         [Display(Name = "Username")]
         public int UserId { get; set; }
 
+        [Required(ErrorMessage = "Please select.")]
+        [Display(Name = "Username")]
+        public int UserIdForSendReq { get; set; }
+
+        public int NoOfUnitsAdded { get; set; }
+
+        [Required(ErrorMessage = "Please indicate email address to request advance.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
+        public string UserEmailForSendReq { get; set; }
 
         [Required(ErrorMessage = "Please indicate the username.")]
         [Display(Name = "Username")]
@@ -91,6 +100,8 @@ namespace BankLoanSystem.Models
         [Required]
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
+
+        public DateTime AddedDate { get; set; }
 
         [Required]
         [Display(Name = "Delete")]

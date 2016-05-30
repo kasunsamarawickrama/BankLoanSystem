@@ -56,13 +56,48 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertUser", paramertList) ? 1 : 0;               
+                return dataHandler.ExecuteSQL("spInsertUser", paramertList) ? 1 : 0;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public List<User> GetUserListByCompany(int companyId)
+        {
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", companyId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetUsersbyCompany2", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    User user = new User();
+                    user.UserId = Convert.ToInt32(dataRow["user_id"].ToString());
+                    user.UserName = dataRow["user_name"].ToString();
+                    user.Password = dataRow["password"].ToString();
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.NewEmail = dataRow["email"].ToString();
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    user.RoleId = Convert.ToInt32(dataRow["role_id"].ToString());
+
+                    users.Add(user);
+                }
+
+                return users;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// CreatedBy : MAM. IRFAN
@@ -103,7 +138,7 @@ namespace BankLoanSystem.DAL
 
                 user.IsDelete = (bool)dataRow["is_delete"];
                 user.CreatedBy = int.Parse(dataRow["created_by"].ToString());
-                if (dataRow["branch_id"].ToString()!="")
+                if (dataRow["branch_id"].ToString() != "")
                 {
                     user.BranchId = int.Parse(dataRow["branch_id"].ToString());
                 }
@@ -150,19 +185,19 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_Id", userId });
-            paramertList.Add(new object[] { "@user_name", userName });           
+            paramertList.Add(new object[] { "@user_name", userName });
             paramertList.Add(new object[] { "@first_name", firstName });
             paramertList.Add(new object[] { "@last_name", lastName });
             paramertList.Add(new object[] { "@email", email });
             paramertList.Add(new object[] { "@phone_no", phone });
             paramertList.Add(new object[] { "@status", isActive });
             paramertList.Add(new object[] { "@modified_date", DateTime.Now });
-            paramertList.Add(new object[] { "@branch_id", branchId });          
+            paramertList.Add(new object[] { "@branch_id", branchId });
 
             try
             {
                 return dataHandler.ExecuteSQL("spUpdateUserDetails", paramertList) ? true : false;
-                
+
             }
             catch (Exception ex)
             {
@@ -196,11 +231,11 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@last_name", lastName });
             paramertList.Add(new object[] { "@email", email });
             paramertList.Add(new object[] { "@phone_no", phone });
-            paramertList.Add(new object[] { "@modified_date", DateTime.Now });           
+            paramertList.Add(new object[] { "@modified_date", DateTime.Now });
 
             try
             {
-                return dataHandler.ExecuteSQL("spUpdateProfileDetails", paramertList);                
+                return dataHandler.ExecuteSQL("spUpdateProfileDetails", paramertList);
             }
             catch (Exception ex)
             {
@@ -253,7 +288,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@email", email });
-            return dataHandler.GetDataExistance("spIsUniqueEmail", paramertList);            
+            return dataHandler.GetDataExistance("spIsUniqueEmail", paramertList);
         }
 
         /// <summary>
@@ -279,9 +314,9 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@email", email });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetUserIdByemail", paramertList);
-            if (dataSet != null && dataSet.Tables.Count!=0 && dataSet.Tables[0].Rows.Count != 0)
+            if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
-                int userId = int.Parse(dataSet.Tables[0].Rows[0]["user_id"].ToString());               
+                int userId = int.Parse(dataSet.Tables[0].Rows[0]["user_id"].ToString());
                 return userId;
             }
             return 0;
@@ -309,12 +344,12 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_Id", userId });
-            paramertList.Add(new object[] { "@activation_code", activationCode });          
+            paramertList.Add(new object[] { "@activation_code", activationCode });
 
             try
             {
                 return dataHandler.ExecuteSQL("spUpdateUserStatus", paramertList) ? 1 : 0;
-               
+
             }
             catch (Exception ex)
             {
@@ -344,7 +379,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_Id", userId });
-            paramertList.Add(new object[] { "@activation_code", activationCode });           
+            paramertList.Add(new object[] { "@activation_code", activationCode });
 
             try
             {
@@ -355,7 +390,7 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
-        
+
         /// <summary>
         /// CreatedBy : MAM. IRFAN
         /// CreatedDate: 2016/01/20
@@ -383,7 +418,7 @@ namespace BankLoanSystem.DAL
             if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
             {
                 return dataSet.Tables[0].Rows[0]["user_name"].ToString();
-               
+
             }
             return "";
         }
@@ -469,7 +504,8 @@ namespace BankLoanSystem.DAL
             //paramertList.Add(new object[] { "@branch_id", dealerUser.BranchId });
             paramertList.Add(new object[] { "@role_id", dealerUser.RoleId });
             paramertList.Add(new object[] { "@Company_id", dealerUser.Company_Id });
-
+            paramertList.Add(new object[] { "@request_user_id", dealerUser.UserIdForSendReq });
+            paramertList.Add(new object[] { "@request_email", dealerUser.UserEmailForSendReq });
             //paramertList.Add(new object[] { "@dealer_company_id ", dealerUser.NonRegCompanyId });
             paramertList.Add(new object[] { "@dealer_branch_id", dealerUser.NonRegBranchId });
             paramertList.Add(new object[] { "@loan_id", dealerUser.LoanId });
@@ -498,7 +534,7 @@ namespace BankLoanSystem.DAL
                 {
                     DataRow dataRow = dataSet.Tables[0].Rows[0];
                     step = int.Parse(dataRow["step_status"].ToString());
-                        return step;
+                    return step;
                 }
                 else
                 {
@@ -547,7 +583,7 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="company_Id"></param>
         /// <returns></returns>
-        public List<User> GetAllUsersByBranchId(int role_id,int branch_Id)
+        public List<User> GetAllUsersByBranchId(int role_id, int branch_Id)
         {
             List<User> users = new List<User>();
             DataHandler dataHandler = new DataHandler();
@@ -630,9 +666,9 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-       public int UpdateUser(User user,int userId)
+        public int UpdateUser(User user, int userId)
         {
-            if(user!=null) 
+            if (user != null)
             {
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
@@ -652,15 +688,15 @@ namespace BankLoanSystem.DAL
                 {
                     paramertList.Add(new object[] { "@phone_no", user.PhoneNumber2 });
                 }
-                
-                if(user.Status) 
+
+                if (user.Status)
                 {
                     paramertList.Add(new object[] { "@status", 1 });
                 }
                 else {
                     paramertList.Add(new object[] { "@status", 0 });
                 }
-                
+
                 paramertList.Add(new object[] { "@modified_date", DateTime.Now });
                 paramertList.Add(new object[] { "@modified_by", userId });
 
@@ -673,9 +709,51 @@ namespace BankLoanSystem.DAL
                     throw ex;
                 }
             }
-            else 
+            else
             {
                 return 0;
+            }
+        }
+
+        public User GetDealerUserDetails(int userId, string Code)
+        {
+            User user2 = new User();
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@loan_code", Code });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetDealerUserByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    User user = new User();
+
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.Email = dataRow["email"].ToString();
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.LoanNumber = dataRow["loan_number"].ToString();
+                    user.UserIdForSendReq = Convert.ToInt32(dataRow["request_user_id"].ToString());
+                    user.UserEmailForSendReq = dataRow["request_email"].ToString();
+                    users.Add(user);
+                }
+                user2.FirstName = users[0].FirstName;
+                user2.LastName = users[0].LastName;
+                user2.Email = users[0].Email;
+                user2.PhoneNumber = users[0].PhoneNumber;
+                user2.LoanNumber = users[0].LoanNumber;
+                user2.UserIdForSendReq = Convert.ToInt32(users[0].UserIdForSendReq);
+                user2.UserEmailForSendReq = users[0].UserEmailForSendReq;
+                user2.NoOfUnitsAdded = users.Count;
+                user2.AddedDate = DateTime.Now;
+                return user2;
+            }
+            else
+            {
+                return null;
             }
         }
     }

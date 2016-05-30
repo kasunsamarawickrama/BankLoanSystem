@@ -15,21 +15,26 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
 
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
-<style>
-    .err_msg_box {
-    
-    text-align: left;
-}
+@section AddToHead{
+    <style>
+        .body-content {
+            float: none;
+            width: auto;
+            margin: 0;
+        }
 
-    #page-wrapper {
-    min-height: 568px;
-    padding: 0 36px;
-    float:none !important;
-    /* position: relative !important; */
-    margin: auto !important;
-}
-</style>
+        .err_msg_box {
+            text-align: left;
+        }
 
+        #page-wrapper {
+            min-height: 930px;
+            padding: 0 36px;
+            float: none !important;
+            /* position: relative !important; */
+            margin: auto !important;
+        }
+    </style>}
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 @*<script src="~/scripts/bootstrap.min.js"></script>*@
@@ -46,7 +51,7 @@
 }
 
 
-<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 706px;">
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
             <div class="container body-content">
@@ -216,7 +221,73 @@
                                                 </div>
                                             </div>
                                           
+                                            <hr />
 
+                                            <div class="form-group new_form_group">
+                                                <div class="control-label col-sm-2 lable_style">
+                                                    <label>Select user to request advance units</label>
+                                                </div>
+                                               
+                                                @if (ViewBag.UserIdForSendReq!=null && ViewBag.UserIdForSendReq.Items.Count == 1)
+                                                {
+                                                    <div class="col-xs-8 text_field">
+                                                        @Html.HiddenFor(model => model.UserIdForSendReq, new { Value = (int)ViewBag.UserIdForSendReq.Items[0].UserId, id = "JDUser1" })
+                                                        @Html.LabelFor(model => model.UserIdForSendReq, (string)ViewBag.UserIdForSendReq.Items[0].UserName, htmlAttributes: new { @class = "form-control text_field_input", id = "JDUserLbl", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top:3px;display:block;width:100%;text-align:left" })
+                                                    </div>
+                                                }
+                                                else if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count > 1)
+                                                {
+                                                    <div class="col-xs-8 text_field short_text_field">
+                                                        @Html.DropDownListFor(model => model.UserIdForSendReq, null, "--Select User--", htmlAttributes: new { @class = "form-control text_field_input", @id = "JDUser" })
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-xs-8 text_field short_text_field" id="divSingleBranch" style="text-align:left;font-weight:normal;color:#545454;font-size:14px;" hidden>
+                                                        @*<input type="hidden" id="hdnUserId2" />*@
+
+                                                        <label>No users found</label>
+                                                    </div>
+                                                }
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserIdForSendReq, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            @if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count == 1 && ViewBag.UserIdForSendReq.Items[0].NewEmail == "")
+                                            {
+                                            <div class="form-group new_form_group">
+                                               
+
+                                               
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Email address</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field">
+                                                        @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq",@value= ViewBag.UserIdForSendReq.Items[0].NewEmail } })
+                                                    </div>
+                                                
+                                               
+                                                <div class="err_msg_box">
+                                                    <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserEmailForSendReq, "", new { @class = "text-danger" })</p>
+                                                </div>
+                                            </div>
+                                            }
+                                            else if(ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count > 1)
+                                            {
+                                                <div class="form-group new_form_group" id="DivEmailJD">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Email address</label>
+                                                    </div>
+                                                    <div class="col-xs-8 text_field">
+                                                        @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq" } })
+                                                    </div>
+
+                                                    <div class="err_msg_box">
+                                                        <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserEmailForSendReq, "", new { @class = "text-danger" })</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                            
                                             <div class="form-group new_form_group clear_next clear_next_bordr">
                                                 <div>
                                                     <nav>
@@ -258,13 +329,15 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 <script language="javascript">
 
-  $(document).ready(function(){
+    $(document).ready(function () {
 
-  $('.nav li.active ul').removeClass('in');
-  $('.nav li').removeClass('active');
-  $('.nav li.user').addClass('active');
-  $('.nav li.active ul').addClass('in');
-  })
+        $('.nav li.active ul').removeClass('in');
+        $('.nav li').removeClass('active');
+        $('.nav li.user').addClass('active');
+        $('.nav li.active ul').addClass('in');
+    });
+
+
 </script>
 
 
@@ -273,11 +346,42 @@
 
 <script>
 
+    $('#JDUser').change(function () {
+        var ind = $('#JDUser').val();
+        if(ind>0){
+            var url = "/CreateDealer/GetUserEmailByUserId/";
+        $.ajax({
+            url: url,
+            data: { userId: ind },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var email = data.NewEmail;
+                if(email!=""){
+                    $('#txtEmailForSendReq').val(email);
+                }
+                //else{
+                //   // $('#DivEmailJD').hide();
+                //}
+              
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
+            }
+        });
+        }
+        
+    });
     $("#clear").click(function () {
-        document.getElementsByTagName("form")[0].reset(); 
+        document.getElementsByTagName("form")[0].reset();
         $(".text-danger").html("");
         $(".text-success").html("");
-        //$('#txtUserName').next('span').children().text('');        
+        //$('#txtUserName').next('span').children().text('');
         $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtUserName').next("div").children("p").children("span").text("");
         $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
@@ -290,20 +394,30 @@
         $('#txtLastName').next("div").children("p").children("span").text("");
         $('#txtNewEmail').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtNewEmail').next("div").children("p").children("span").text("");
+        $('#txtEmailForSendReq').closest("div").siblings('div').children("p").children("span").text("");
+        $('#txtEmailForSendReq').next("div").children("p").children("span").text("");
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
 
         $('#successSpn span').text("");
         $('#errSpn span').text("");
-        
 
-    });   
+
+    });
 </script>
-
+@*<script>
+    $(document).ready(function () {
+        if(@ViewBag.UserIdForSendReq.Items.Count===1){
+            var a = @ViewBag.UserIdForSendReq.Items[0].NewEmail;
+            alert('gh');
+            
+        }
+    });
+</script>*@
 <script type="text/javascript">
-   
-    // for input mask
 
+    // for input mask
+   
     new InputMask().Initialize(document.querySelectorAll('#txtPhoneNumber'),
     {
         mask: InputMaskDefaultMask.Phone,
@@ -317,7 +431,7 @@
 
     });
 
-    
+
     //Validation
 
     // User name validate
@@ -338,7 +452,7 @@
                 return;
             }
         }
-        
+
     });
 
     // change to title case
@@ -359,7 +473,7 @@
                 return;
             }
         }
-       
+
     });
 
     $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
@@ -381,11 +495,11 @@
                 return;
             }
         }
-        
+
     });
 
     //Check maximum length for email address and valid characters
-    $('#txtNewEmail').keypress(function (e) {
+    $('#txtNewEmail,#txtEmailForSendReq').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var res = CheckMaxLenth(this, this.value, 100);
             if (res === 0) {
@@ -406,7 +520,7 @@
                 return;
             }
         }
-        
+
     });
 
     $('#txtFirstName, #txtLastName').keypress(function (e) {
@@ -426,7 +540,7 @@
                 return;
             }
         }
-        
+
     });
 
     $('#txtPhoneNumber').keypress(function (e) {
@@ -443,7 +557,7 @@
                 return;
             }
         }
-        
+
     });
 
     $('#txtUserName').click(function () {
@@ -469,7 +583,9 @@
     $('#txtNewEmail').click(function () {
         clearTopMessages();
     });
-
+    $('#txtEmailForSendReq').click(function () {
+        clearTopMessages();
+    });
     $('#txtPhoneNumber').click(function () {
         clearTopMessages();
     });
@@ -480,7 +596,7 @@
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     }
-   
+
 </script>
 
 

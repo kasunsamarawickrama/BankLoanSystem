@@ -132,6 +132,10 @@ namespace BankLoanSystem.Controllers.Fee
 
                 }
             }
+            else if (userData.RoleId == 4)
+            {
+                return RedirectToAction("UserDetails", "UserManagement");
+            }
             string advDuedate;
             string monDueDate;
             string lotDuedate;

@@ -1126,6 +1126,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 }
             });
 
+            $("#btnPay").attr("disabled", "disabled");
+            $("#payAll").attr("disabled", "disabled");
+
             //alert(data.SelectedCurtailmentSchedules.length);
             $.ajax({
                 url: '/Curtailments/PayCurtailments/',
@@ -1413,6 +1416,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
 
 
+            $("#btnPay").attr("disabled", "disabled");
+            $("#payAll").attr("disabled", "disabled");
 
                 //alert(data.SelectedCurtailmentSchedules.length);
                 $.ajax({
