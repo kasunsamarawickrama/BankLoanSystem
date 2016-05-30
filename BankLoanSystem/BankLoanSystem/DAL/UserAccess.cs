@@ -714,5 +714,47 @@ namespace BankLoanSystem.DAL
                 return 0;
             }
         }
+
+        public User GetDealerUserDetails(int userId, string Code)
+        {
+            User user2 = new User();
+            List<User> users = new List<User>();
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@loan_code", Code });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetDealerUserByUserId", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    User user = new User();
+
+                    user.FirstName = dataRow["first_name"].ToString();
+                    user.LastName = dataRow["last_name"].ToString();
+                    user.Email = dataRow["email"].ToString();
+                    user.PhoneNumber = dataRow["phone_no"].ToString();
+                    user.LoanNumber = dataRow["loan_number"].ToString();
+                    user.UserIdForSendReq = Convert.ToInt32(dataRow["request_user_id"].ToString());
+                    user.UserEmailForSendReq = dataRow["request_email"].ToString();
+                    users.Add(user);
+                }
+                user2.FirstName = users[0].FirstName;
+                user2.LastName = users[0].LastName;
+                user2.Email = users[0].Email;
+                user2.PhoneNumber = users[0].PhoneNumber;
+                user2.LoanNumber = users[0].LoanNumber;
+                user2.UserIdForSendReq = Convert.ToInt32(users[0].UserIdForSendReq);
+                user2.UserEmailForSendReq = users[0].UserEmailForSendReq;
+                user2.NoOfUnitsAdded = users.Count;
+                user2.AddedDate = DateTime.Now;
+                return user2;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

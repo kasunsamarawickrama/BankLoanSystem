@@ -4,6 +4,7 @@ using System.Data;
 using BankLoanSystem.Models;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Code;
+using System.Web;
 
 namespace BankLoanSystem.Controllers
 {
@@ -19,7 +20,10 @@ namespace BankLoanSystem.Controllers
         public ActionResult UserLogin(string lbl, string lbl3)
 
         {
-            Session["detail"] = null;
+          
+
+                //
+                Session["detail"] = null;
             Session["dashboard"] = null;
             Session["loanDashboard"] = null;
             // for show the popup message in login page
