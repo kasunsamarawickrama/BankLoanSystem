@@ -390,9 +390,10 @@
                 mainGridSelectedCount = mainGridSelectedCount + 1;
         });
 
-        if (mainGridSelectedCount === 0)
+        if (mainGridSelectedCount === 0){
             ClearTextBoxValues();
 
+        }
     });
     $('#identificationNumberSearch').click(function () {
         $("#searchIdentificationNumber").text('');
@@ -753,7 +754,7 @@
         <text>
         var pay = tr.find("#balance").text().replace(',', '')
         var tot = 0;
-        if(tr.find('#isAdvancePaid').val() == 'False'){
+        if(tr.find('#isAdvancePaid').val() != 'False'){
             $('#iAdvanceFee').val('0.00');
             tot = parseFloat(pay);
         }else{
@@ -855,9 +856,6 @@
                 }
             });
 
-
-
-
             //alert(data.unitIdList[0]);
             $.ajax({
                 url: '/UnitPayOff/UnitListPay/',
@@ -879,11 +877,19 @@
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
                                 window.scrollTo(0, 0);
+
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...
-
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                                 // if session expires
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
@@ -990,10 +996,17 @@
                                 $('.centered span').text('');
                                 window.scrollTo(0, 0);
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...
-
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                                 // if session expires
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
@@ -1192,6 +1205,9 @@
         }
         countSelect = 0;
         totalToPay = 0;
+
+        checkCount = 0;
+        advanceFeeSelect = 0;
         totalToPay = totalToPay.toFixed(2);
         $('#spnTotal').text(totalToPay);
 
