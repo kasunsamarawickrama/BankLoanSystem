@@ -1531,8 +1531,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
     function showPopup5(whichpopup , array) {
 
-        console.log(data);
-        console.log(array);
+       
         var length = array.length;
         var VinNumbers = [];
         for(var i=0 ; i<length ; i++ ){
@@ -1557,7 +1556,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
         // append the message to span
         var vinString = VinNumbers.join(" , ");
-        console.log(vinString);
+       
         $('#payOffAlert strong').text(vinString);
         if(VinNumbers.length == 1){
 
