@@ -495,7 +495,7 @@ namespace BankLoanSystem.DAL
                             command.Parameters.AddWithValue(Parameters[0].ToString(), Parameters[1]);
                         }
                     }
-                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.VarChar, 50);
+                    SqlParameter returnParameter = command.Parameters.Add("@return", SqlDbType.VarChar, -1 );
                     returnParameter.Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
