@@ -984,30 +984,7 @@
                                 </div>
 
                             }
-                            else if (ViewBag.CompabyType == 1 && ViewBag.Upload == "Yes" && ViewBag.RoleId == 4)
-                            {
-                                <div class="form-group" id="fileUploader">
-                                    @Html.HiddenFor(i => i.FileName)
-                                    <label for="file" class="control-label col-md-3" style="width: 22%">
-                                        Upload Image:
-                                        <span class="optional">(Optional)</span>
-                                    </label>
-
-                                    <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                                        <input type="file" id="fileToUpload" name="fileUpload" />
-                                        <br />
-                                        <div><span id="spnFile" style="float: left; color: #FF0000"></span></div>
-
-                                        <div id="selectedFiles" class="control-section" style="text-align:left; width: 400px;margin-bottom:10px;"></div>
-
-                                        @*@Html.ValidationMessage("File")*@
-                                        @Html.Hidden("hdnFileUpload")
-
-                                        <div id="tagscloudFileUpload"><span class="text-danger"></span></div>
-                                    </div>
-
-                                </div>
-                            }
+                            
                         </div>
                         @*PAYMENT DETAILS END*@
 

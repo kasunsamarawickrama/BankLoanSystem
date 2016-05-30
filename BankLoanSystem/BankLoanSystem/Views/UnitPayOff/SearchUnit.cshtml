@@ -23,7 +23,7 @@
                      grid1.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid1.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
                      grid1.Column("Purchese Price ($)", "Purchese Price ($)", style: "gridColumn", format:@<text>@{<label id="cost" class="year">@item.PurchasePrice</label>}</text>),
-                     grid1.Column("Balance ($)", "Balance ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="balance" class="vin">@item.Balance</label>}</text>)))
+                     grid1.Column("Balance ($)", "Balance ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="balance" class="vin">@item.Balance</label><input type="hidden" id="isAdvancePaid" name="isAdvancePaid" value="@item.IsAdvancePaid.ToString()" />}</text>)))
     </div>
 
     <script>
