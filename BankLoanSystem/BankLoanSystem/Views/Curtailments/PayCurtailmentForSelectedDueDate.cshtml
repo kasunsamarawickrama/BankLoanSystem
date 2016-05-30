@@ -59,8 +59,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     
                         <div>
                            
-        <span id="partialPaymentColor" style="margin-left: 10%" hidden><label style="position: relative; width: 20px; height: 15px; background-color: #fffae6;"></label> Part Payment Records</span>
-        <span id="subtotal" style="margin-right: 42px; float: right; text-align: right; font-weight: bold;"> Current Curtailment Total : $ 0.00  </span>
+        
+        <span id="subtotal" style="margin-right: 42px; float: right; text-align: right; font-weight: bold;"> Current Curtailment Total : $ 0.00  </span><br />
+                            <span id="partialPaymentColor"  style="margin-right: 42px;margin-top:4px; float: right; text-align: right; font-weight: bold;" hidden><span style="color: #ecb764;" class="icon-droplet"></span> Part Payment Records</span>
                         </div>
                         
                         <div id="unitid" class="hidden"></div>
@@ -437,7 +438,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                         checkCount++;
                                         if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#fff5cc');  $('#partialPaymentColor').show();
+                                            $(this).parents('tr').css('background', '#C18410');  $('#partialPaymentColor').show();
                                         }else{
                                         $(this).parents('tr').css('background', 'lightblue');
                                         }
@@ -446,7 +447,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         checkCount = 0;
                                         
                                         if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#fffae6'); $('#partialPaymentColor').show();
+                                            $(this).parents('tr').css('background', '#ecb764'); $('#partialPaymentColor').show();
                                         }else{
                                         $(this).parents('tr').css('background', 'transparent');
                                     }
@@ -495,7 +496,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
+                            $(this).parents('tr').css('background', '#C18410'); //checked color of partial payment
                             $('#partialPaymentColor').show();
                         }else{
                         $(this).parents('tr').css('background', 'lightblue');
@@ -506,7 +507,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         total = total - parseFloat(tr.find("#am").text().replace(',', ''));
                         checkCount--;
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#fffae6'); //not checked color of partial payment
+                            $(this).parents('tr').css('background', '#ecb764'); //not checked color of partial payment
                             $('#partialPaymentColor').show();
                         }else{
                         $(this).parents('tr').css('background', 'transparent');
@@ -569,7 +570,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     $('.curtAmount').each(function () {
                         var tr = $(this).parents('tr:first');
                         if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
-                            $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment
+                            $(this).parents('tr').css('background', '#C18410');//checked color of partial payment
                         }
                     });
                 });
@@ -615,7 +616,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 $('.curtAmount').each(function () {
                     var tr = $(this).parents('tr:first');
                     if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#fffae6');     //not checked color of partial payment
+                        $(this).parents('tr').css('background', '#ecb764');     //not checked color of partial payment
                         $('#partialPaymentColor').show();
             }
                 });
@@ -640,7 +641,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         if (!checked) {
                             row.find("#all").prop('checked', true);
                             if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
-                                row.css('background', '#fff5cc');//checked color of partial payment
+                                row.css('background', '#C18410');//checked color of partial payment
                             }else{
                             row.css('background', 'lightblue');
                             }
@@ -953,7 +954,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             if (tr.find("#curtailmentStatus").val() != '2') {
                 tr.css('background', 'transparent');
             }else{
-                tr.css('background', '#fffae6');
+                tr.css('background', '#ecb764');
             }
         });
 
