@@ -5,6 +5,50 @@
 }
 
 
+
+@{
+    // checking browser combatability
+
+    HttpBrowserCapabilitiesBase objBrwInfo = Request.Browser;
+
+    // pass the type and version.
+    string BrowserType = objBrwInfo.Type;
+    int MajorVersion = objBrwInfo.MajorVersion;
+
+    if ((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion < 24) || (BrowserType.ToUpper().Contains("CHROME") && MajorVersion < 5) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion < 10))
+    {
+        // remove
+        <script>
+            window.location.href = "/Browser/Support";
+
+        </script>
+    }
+    else if (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10)
+    {
+        <script>
+            var version = navigator.userAgent;
+            if (version.toUpperCase().indexOf("RV:")> -1 || version.toUpperCase().indexOf("MSIE 10.0") > -1) {
+                // allow
+                
+               
+            } else {
+                // remove all
+                //alert("don't allow");
+                //$('html').text('');
+                window.location.href = "/Browser/Support";
+            }
+
+        </script>
+
+    }
+    else if(!((BrowserType.ToUpper().Contains("FIREFOX")) || (BrowserType.ToUpper().Contains("CHROME")) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER"))))
+    {
+        <script>
+            window.location.href = "/Browser/Support";
+
+        </script>
+    }
+}
 <script>
     // function to show our popups
     function showPopup(whichpopup) {

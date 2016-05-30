@@ -272,6 +272,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\AdvanceUnit\AdvanceUnitController.cs" />
+    <Compile Include="Controllers\BrowserController.cs" />
     <Compile Include="Controllers\CreateBranch\CreateBranchController.cs" />
     <Compile Include="Controllers\CreateDealer\CreateDealerController.cs" />
     <Compile Include="Controllers\CreateUser\CreateUserController.cs" />
@@ -601,6 +602,7 @@
     <Content Include="Views\UserManagement\CreatePartnerCompanyAtDashboard.cshtml" />
     <Content Include="Views\UserManagement\EditProfile.cshtml" />
     <Content Include="Views\UserManagement\EditPartnerCompanyAtDashboard.cshtml" />
+    <Content Include="Views\Browser\Support.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
