@@ -181,7 +181,14 @@ namespace BankLoanSystem.DAL
                         foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                         {
                             Unit title = new Unit();
-                            title.AdvanceDate = DateTime.Parse(dataRow["advance_date"].ToString());
+                            if (!string.IsNullOrEmpty(dataRow["advance_date"].ToString()))
+                            {
+                                title.AdvanceDate = DateTime.Parse(dataRow["advance_date"].ToString());
+                            }
+                            //else
+                            //{
+                            //    title.AdvanceDate = "";
+                            //}    
                             title.UnitId = dataRow["unit_id"].ToString();
                             title.IdentificationNumber = dataRow["identification_number"].ToString();
                             title.Year = int.Parse(dataRow["year"].ToString());
