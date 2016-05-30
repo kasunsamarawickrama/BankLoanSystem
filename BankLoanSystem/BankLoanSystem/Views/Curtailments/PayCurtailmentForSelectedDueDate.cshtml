@@ -438,7 +438,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         total = total + parseFloat(tr.find("#am").text().replace(',', ''));
                                         checkCount++;
                                         if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#fff5cc');  $('#partialPaymentColor').show();
+                                            $(this).parents('tr').css('background', '#C18410');  $('#partialPaymentColor').show();
                                         }else{
                                         $(this).parents('tr').css('background', 'lightblue');
                                         }
@@ -496,7 +496,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#fff5cc'); //checked color of partial payment
+                            $(this).parents('tr').css('background', '#C18410'); //checked color of partial payment
                             $('#partialPaymentColor').show();
                         }else{
                         $(this).parents('tr').css('background', 'lightblue');
@@ -570,7 +570,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     $('.curtAmount').each(function () {
                         var tr = $(this).parents('tr:first');
                         if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
-                            $(this).parents('tr').css('background', '#fff5cc');//checked color of partial payment
+                            $(this).parents('tr').css('background', '#C18410');//checked color of partial payment
                         }
                     });
                 });
@@ -641,7 +641,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         if (!checked) {
                             row.find("#all").prop('checked', true);
                             if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
-                                row.css('background', '#fff5cc');//checked color of partial payment
+                                row.css('background', '#C18410');//checked color of partial payment
                             }else{
                             row.css('background', 'lightblue');
                             }
