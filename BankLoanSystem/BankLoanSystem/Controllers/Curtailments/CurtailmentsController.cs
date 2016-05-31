@@ -123,6 +123,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
             loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
             Session["curtLaonId"] = loanDetails.loanId;
+            ViewBag.curtTotal = (new CurtailmentAccess()).GetCurtailmentsTotal(loanDetails.loanId);
             ViewBag.loanDetails = loanDetails;
             ViewBag.LoanId = loanDetails.loanId;
 
