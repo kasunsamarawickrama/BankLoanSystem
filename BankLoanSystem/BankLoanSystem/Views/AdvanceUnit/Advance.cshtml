@@ -1052,7 +1052,8 @@
         }
 
         else if ($('#iVin').val() != '') {
-
+            $('#btnAdvance').attr("disabled", "disabled");
+            $('#btnAdvanceAll').attr("disabled", "disabled");
             var unit = {
                 "UnitId": $('#unitid').text(),
                 "IdentificationNumber": $('#iVin').val(),
@@ -1110,6 +1111,8 @@
         }
 
         if (checkCount >= 1) {
+            $('#btnAdvance').attr("disabled", "disabled");
+            $('#btnAdvanceAll').attr("disabled", "disabled");
             var data = { ItemList: [] };
             $('.advanceAmount').each(function () {
                 var tr = $(this).parents('tr:first');
