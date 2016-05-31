@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Support</title>
+    <script src="~/scripts/jquery-1.10.2.js"></script>
+</head>
+<body>
+    <div> 
+
+        @{
+            // checking browser combatability
+
+            HttpBrowserCapabilitiesBase objBrwInfo = Request.Browser;
+
+            // pass the type and version.
+            string BrowserType = objBrwInfo.Type;
+            int MajorVersion = objBrwInfo.MajorVersion;
+
+            if ((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion < 24))
+            {
+                // remove
+                <span>This Firefox version is not supported. Please install latest version. To download latest version <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx"> Click Here</a></span>
+
+            }
+            else if ((BrowserType.ToUpper().Contains("CHROME") && MajorVersion < 5))
+            {
+                <span>This Chrome version is not supported. Please install latest version. To download latest version <a href="https://www.google.com/chrome/browser/desktop/index.html">Click here</a> </span>
+            }
+            else if ((BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion < 10))
+            {
+                <span>This Internet Explorer version is not supported. Please install to latest version. To download latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a></span>
+            }
+            else if (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10)
+            {
+                <script>
+            var version = navigator.userAgent;
+                if (version.toUpperCase().indexOf("RV:")> -1 || version.toUpperCase().indexOf("MSIE 10.0") > -1) {
+                    // allow
+                    window.location.href = "/Login/UserLogin";
+
+                } else {
+                    // remove all
+                    //alert("don't allow");
+                    //$('html').text('');
+                    $('body div').append(' <span>This Internet Explorer version is not supported. Please install latest version. To download latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a></span>');
+                }
+
+                </script>
+
+            }
+            else if (!((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion > 24) || (BrowserType.ToUpper().Contains("CHROME") && MajorVersion > 5) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10)))
+            {
+                <span>This Browser is not supported. Please install Chrome / FireFox / Internet Explorer.<br />
+                 To download Chrome <a href="https://www.google.com/chrome/browser/desktop/index.html">Click here</a> <br />
+                 To download FireFox <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx"> Click Here</a> <br />
+                 To download Internet Explorer <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a>
+                </span>
+            }
+            else if((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion > 24) || (BrowserType.ToUpper().Contains("CHROME") && MajorVersion > 5) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10))
+            {
+                <script>
+                    window.location.href = "/Login/UserLogin";
+                </script>
+            }
+        }
+    </div>
+</body>
+</html>
