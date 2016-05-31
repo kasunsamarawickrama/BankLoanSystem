@@ -63,6 +63,10 @@ namespace BankLoanSystem.Controllers.Unit
                 {
                     ViewBag.Msg = "Success";
                 }
+                else if (Flag == 3)
+                {
+                    ViewBag.Msg = "Requested";
+                }
                 else if (Flag == 2)
                 {
                     ViewBag.Msg = "Error";
@@ -694,11 +698,16 @@ namespace BankLoanSystem.Controllers.Unit
 
                     //int islog = (new LogAccess()).InsertLog(log);
 
-                    //TempData["msg"] = 1;
+                   TempData["msg"] = 3;
                     return RedirectToAction("AddUnit", "Unit");
 
                 }
-                return RedirectToAction("AddUnit", "Unit");
+                else
+                {
+                    TempData["Msg"] = 0;
+                    return RedirectToAction("AddUnit", "Unit");
+                }
+                
             }
 
 

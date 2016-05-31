@@ -98,7 +98,10 @@
         @if (ViewBag.Msg == "Success")
         {
            <text> $('.centered1 span').text('Successfully Updated');</text>
-        } else if (ViewBag.Msg == "Error") {
+        } else if (ViewBag.Msg == "Requested") {
+
+            <text> $('.centered1 span').text('Advance request send successfully');</text>
+        }else if (ViewBag.Msg == "Error") {
 
             <text> $('.centered span').text('Error in page');</text>
         }else if (ViewBag.Msg == "Advance Error") {
@@ -170,18 +173,18 @@
             else if (ViewBag.Title == "Pay Off")
             {
                 <text>
-            if ($('#payDate2').val() != undefined){
-            if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }
+            if ($('#payDate2').val() != undefined) {
+                if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
+                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                }
             }</text>
             }
 
             else if (ViewBag.Title == "Pay Fees")
             {
                 <text>if ($('#iVin').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-                }</text>
+                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+            }</text>
             }
 
         });
@@ -238,11 +241,11 @@
             var isError = false;
 
             if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
-                
+
                 $('.centered span').text('Error');
                 isError = true;
             }
- 
+
 
 
             //$.each($('input').next('span'), function (i, obj) {

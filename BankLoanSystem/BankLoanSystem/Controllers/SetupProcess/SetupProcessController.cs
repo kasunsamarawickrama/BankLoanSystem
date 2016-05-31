@@ -1785,203 +1785,203 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
 
-        /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/2/8
-        /// Get Interest Deatils If Exists
-        /// </summary>
-        /// <param name="edit"></param>
-        /// <returns></returns>
-        // GET: Interest
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Step7(int? edit)
-        {
-            int uId = userData.UserId;
-            int branchId = loanData.BranchId;
-            if (userData.RoleId >= 3)
-            {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
-            }
-            //int branchId = 35;
-            List<SelectListItem> listdates = new List<SelectListItem>();
-            for (int i = 1; i <= 28; i++)
-            {
-                listdates.Add(new SelectListItem
-                {
-                    Text = i.ToString(),
-                    Value = i.ToString()
-                });
-            }
+        ///// <summary>
+        ///// CreatedBy:Piyumi
+        ///// CreatedDate:2016/2/8
+        ///// Get Interest Deatils If Exists
+        ///// </summary>
+        ///// <param name="edit"></param>
+        ///// <returns></returns>
+        //// GET: Interest
+        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        //public ActionResult Step7(int? edit)
+        //{
+        //    int uId = userData.UserId;
+        //    int branchId = loanData.BranchId;
+        //    if (userData.RoleId >= 3)
+        //    {
+        //        return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+        //    }
+        //    //int branchId = 35;
+        //    List<SelectListItem> listdates = new List<SelectListItem>();
+        //    for (int i = 1; i <= 28; i++)
+        //    {
+        //        listdates.Add(new SelectListItem
+        //        {
+        //            Text = i.ToString(),
+        //            Value = i.ToString()
+        //        });
+        //    }
 
-            listdates.Add(new SelectListItem
-            {
-                Text = "EOM",
-                Value = "EOM"
-            });
+        //    listdates.Add(new SelectListItem
+        //    {
+        //        Text = "EOM",
+        //        Value = "EOM"
+        //    });
 
             
-            ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
-            InterestAccess ia = new InterestAccess();
-            Interest intrst = new Interest();
-            //get Accrual Methods
-            List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
-            ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+        //    ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
+        //    InterestAccess ia = new InterestAccess();
+        //    Interest intrst = new Interest();
+        //    //get Accrual Methods
+        //    List<AccrualMethods> methodList = ia.GetAllAccrualMethods();
+        //    ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
 
-            if (uId > 0)
-            {
-                LoanSetupAccess la = new LoanSetupAccess();
-                int loanId = loanData.loanId;
+        //    if (uId > 0)
+        //    {
+        //        LoanSetupAccess la = new LoanSetupAccess();
+        //        int loanId = loanData.loanId;
 
-                //int loanId = 1;
-                if (loanId > 0)
-                {
-                    var intrstobj = ia.getInterestDetails(loanId);
-                    if (intrstobj != null)
-                    {
+        //        //int loanId = 1;
+        //        if (loanId > 0)
+        //        {
+        //            var intrstobj = ia.getInterestDetails(loanId);
+        //            if (intrstobj != null)
+        //            {
 
-                        ViewBag.Edit = 1;
-                        //intrst = ia.getInterestDetails(loanId);
-                        //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
+        //                ViewBag.Edit = 1;
+        //                //intrst = ia.getInterestDetails(loanId);
+        //                //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName", intrstobj.AccrualMethodId);
 
-                        if (intrstobj.option != "once a month")
-                        {
-                            ViewBag.Option = true;
-                        }
-                        else
-                        {
-                            ViewBag.Option = false;
-                        }
-                        //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
-                        //ViewBag.Email = intrst.AutoRemindEmail;
+        //                if (intrstobj.option != "once a month")
+        //                {
+        //                    ViewBag.Option = true;
+        //                }
+        //                else
+        //                {
+        //                    ViewBag.Option = false;
+        //                }
+        //                //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text", intrstobj.PaidDate);
+        //                //ViewBag.Email = intrst.AutoRemindEmail;
 
-                        if (HttpContext.Request.IsAjaxRequest())
-                        {
-                            ViewBag.AjaxRequest = 1;
-                            return PartialView(intrstobj);
-                        }
-                        else
-                        {
+        //                if (HttpContext.Request.IsAjaxRequest())
+        //                {
+        //                    ViewBag.AjaxRequest = 1;
+        //                    return PartialView(intrstobj);
+        //                }
+        //                else
+        //                {
 
-                            return View(intrstobj);
-                        }
-                    }
+        //                    return View(intrstobj);
+        //                }
+        //            }
 
-                    else
-                    {
-                        ViewBag.Edit = 0;
-                        //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
-                        //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
-                        string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
-                        ViewBag.Email = defaultEmail;
-                        //intrst.AutoRemindEmail = defaultEmail;
+        //            else
+        //            {
+        //                ViewBag.Edit = 0;
+        //                //ViewBag.AccrualMethodId = new SelectList(methodList, "MethodId", "MethodName");
+        //                //ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
+        //                string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
+        //                ViewBag.Email = defaultEmail;
+        //                //intrst.AutoRemindEmail = defaultEmail;
 
-                        if (HttpContext.Request.IsAjaxRequest())
-                        {
-                            ViewBag.AjaxRequest = 1;
-                            return PartialView();
-                        }
-                        else
-                        {
+        //                if (HttpContext.Request.IsAjaxRequest())
+        //                {
+        //                    ViewBag.AjaxRequest = 1;
+        //                    return PartialView();
+        //                }
+        //                else
+        //                {
 
-                            return View();
-                        }
+        //                    return View();
+        //                }
 
-                    }
-                    //return PartialView();
-                }
+        //            }
+        //            //return PartialView();
+        //        }
 
-                else
-                {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                }
-            }
+        //        else
+        //        {
+        //            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+        //        }
+        //    }
 
-            else
-            {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-            }
+        //    else
+        //    {
+        //        return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+        //    }
 
-        }
+        //}
 
-        /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/2/8
-        /// Post Interest Deatils 
-        /// </summary>
-        /// <param name="interest"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Step7(Interest interest)
-        {
+        ///// <summary>
+        ///// CreatedBy:Piyumi
+        ///// CreatedDate:2016/2/8
+        ///// Post Interest Deatils 
+        ///// </summary>
+        ///// <param name="interest"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public ActionResult Step7(Interest interest)
+        //{
 
-            int userId = userData.UserId;
-            int branchId = loanData.BranchId;
-            if (userData.RoleId >= 3)
-            {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
-            }
+        //    int userId = userData.UserId;
+        //    int branchId = loanData.BranchId;
+        //    if (userData.RoleId >= 3)
+        //    {
+        //        return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
+        //    }
             
-            if (interest.option == "payoff")
-            {
-                interest.PaidDate = interest.option;
-            }
+        //    if (interest.option == "payoff")
+        //    {
+        //        interest.PaidDate = interest.option;
+        //    }
 
-            InterestAccess ia = new InterestAccess();
-            LoanSetupAccess la = new LoanSetupAccess();
-            //int loanId = la.getLoanIdByBranchId(branchId);
-            int loanId = loanData.loanId;
-            if (!interest.NeedReminder)
-            {
-                interest.AutoRemindEmail = null;
-            }
-            interest.LoanId = loanId;
-            // if()
-            int reslt = ia.insertInterestDetails(interest);
+        //    InterestAccess ia = new InterestAccess();
+        //    LoanSetupAccess la = new LoanSetupAccess();
+        //    //int loanId = la.getLoanIdByBranchId(branchId);
+        //    int loanId = loanData.loanId;
+        //    if (!interest.NeedReminder)
+        //    {
+        //        interest.AutoRemindEmail = null;
+        //    }
+        //    interest.LoanId = loanId;
+        //    // if()
+        //    int reslt = ia.insertInterestDetails(interest);
 
-            if (reslt >= 0)
-            {
-                StepAccess sa = new StepAccess();
-                if (sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
-                {
-                    if (loanData.stepId < 3)
-                    {
-                        loanData.stepId = 3;
-                    }
-                    //insert log record
-                    if (reslt == 0)
-                    {
+        //    if (reslt >= 0)
+        //    {
+        //        StepAccess sa = new StepAccess();
+        //        if (sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 3))
+        //        {
+        //            if (loanData.stepId < 3)
+        //            {
+        //                loanData.stepId = 3;
+        //            }
+        //            //insert log record
+        //            if (reslt == 0)
+        //            {
 
-                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Edited interest details of loan : " + loanId, DateTime.Now);
+        //                Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Edited interest details of loan : " + loanId, DateTime.Now);
 
-                        int islog = (new LogAccess()).InsertLog(log);
-                    }
-                    else if(reslt > 0)
-                    {
-                        Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Inserted interest details of loan : " + loanId, DateTime.Now);
+        //                int islog = (new LogAccess()).InsertLog(log);
+        //            }
+        //            else if(reslt > 0)
+        //            {
+        //                Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanId, "Interest", "Inserted interest details of loan : " + loanId, DateTime.Now);
 
-                        int islog = (new LogAccess()).InsertLog(log);
-                    }
-                    //loanData.stepId = 3;
-                    Session["loanStep"] = loanData;
-                    return RedirectToAction("Step8");
+        //                int islog = (new LogAccess()).InsertLog(log);
+        //            }
+        //            //loanData.stepId = 3;
+        //            Session["loanStep"] = loanData;
+        //            return RedirectToAction("Step8");
 
-                }
-                else
-                {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                }
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+        //        }
 
-            }
-            //else if (reslt == 0)
-            //{
-            //    return RedirectToAction("Step8");
-            //}
-            else
-            {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-            }
+        //    }
+        //    //else if (reslt == 0)
+        //    //{
+        //    //    return RedirectToAction("Step8");
+        //    //}
+        //    else
+        //    {
+        //        return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// CreatedBy :kasun samarawickrama

@@ -164,9 +164,12 @@ if (Model.Type == "advanceFee") {
                             <label for="">Make</label> @{List<SelectListItem> makeList = new List<SelectListItem>();
                                 foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
-                                    if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                                    if (CurtailmentSchedule.Make != null && CurtailmentSchedule.Make.ToString() != "")
                                     {
-                                        makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                        if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()))
+                                        {
+                                            makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                        }
                                     }
                                 }
                             }
@@ -180,9 +183,12 @@ if (Model.Type == "advanceFee") {
                             @{List<SelectListItem> modelList = new List<SelectListItem>();
                                 foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
-                                    if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                                    if (CurtailmentSchedule.Model != null && CurtailmentSchedule.Model.ToString() != "" )
                                     {
-                                        modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                        if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()))
+                                        {
+                                            modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                        }
                                     }
                                 }
                             }
