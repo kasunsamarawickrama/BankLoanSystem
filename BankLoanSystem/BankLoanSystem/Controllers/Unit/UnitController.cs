@@ -75,6 +75,7 @@ namespace BankLoanSystem.Controllers.Unit
            
 
             int userId = userData.UserId;
+            ViewBag.Role = userData.RoleId; ;
 
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
@@ -87,6 +88,8 @@ namespace BankLoanSystem.Controllers.Unit
                 }
                 else {
                     var checkPermission = false;
+                    var checkAdvance = false;
+
                     string rgts = "";
                     rgts = (string)Session["CurrentLoanRights"];
                     string[] rgtList =null;
@@ -101,6 +104,17 @@ namespace BankLoanSystem.Controllers.Unit
                             {
                                 checkPermission = true;
                             }
+                            if (x == "U001")
+                            {
+                                checkAdvance = true;
+                            }
+                        }
+                        if (checkAdvance == true)
+                        {
+                            ViewBag.advanceAllow = true;
+                        }
+                        else {
+                            ViewBag.advanceAllow = false;
                         }
                         if (checkPermission == false)
                         {
