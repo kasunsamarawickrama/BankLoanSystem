@@ -2999,22 +2999,30 @@
                         }
                     }
                     
+                    @if (ViewBag.Role != 4)
+                    {
+                        <text>
+                        if ($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
+                            if ($('#rdAdvanceYes').is(':checked')){
+                                //alert(checkDate());
+                                if (checkDate())
+                                {
 
-                    if($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
-                        if($('#rdAdvanceYes').is(':checked')){
-                            //alert(checkDate());
-                            if(checkDate()){
+                                }
+                                else {
+                                    $('#btnSubmit').prop('disabled', false);
+                                    e.preventDefault();
+                                }
+                            }
 
-                            }
-                            else{
-                                $('#btnSubmit').prop('disabled', false);
-                                e.preventDefault();
-                            }
+                        }else{
+                            $('#btnSubmit').prop('disabled', false);
                         }
-
-                    }else{
-                        $('#btnSubmit').prop('disabled', false);
+                        </text>
+                        
                     }
+                   
+
                     var cost = parseFloat(document.getElementById('txtCost').value);
                     var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
                     if (advance > cost) {
