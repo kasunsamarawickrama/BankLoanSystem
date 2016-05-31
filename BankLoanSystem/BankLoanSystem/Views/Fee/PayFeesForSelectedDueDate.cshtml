@@ -444,7 +444,8 @@ if (Model.Type == "advanceFee")
                                         }
 
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total, 2);
+                                    var tot = roundNumber(total, 2);
+                                    document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -536,7 +537,9 @@ if (Model.Type == "advanceFee")
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
+                        var tot1 = roundNumber(total, 2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        //document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
@@ -559,7 +562,9 @@ if (Model.Type == "advanceFee")
                         if($("#hdnSelectedButton").val() == "advanceFee"){
                             ClearTextBoxValues();
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
+                        var tot2 = roundNumber(total, 2);
+                        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot2.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        //document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                     }
 
@@ -653,7 +658,9 @@ if (Model.Type == "advanceFee")
                                 ClearTextBoxValues();
                             }
                             SetRadioBtnHeaderChecked();
-                            document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
+                            var tot3 = roundNumber(total, 2);
+                            document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot3.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            //document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -721,7 +728,9 @@ if (Model.Type == "advanceFee")
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
+                var tot4 = roundNumber(total, 2);
+                document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                //document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -933,7 +942,9 @@ if (Model.Type == "advanceFee")
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
+        var tot5 = roundNumber(total, 2);
+        document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + tot5.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        //document.getElementById("subtotal").innerHTML = "Current Fee Total  : $ " + roundNumber(total,2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error
@@ -1070,6 +1081,8 @@ if (Model.Type == "advanceFee")
     });
 
     function PayFees(lst,date){
+        $('#btnPay').attr("disabled","disabled");
+        $('#payAll').attr("disabled","disabled");
         $.ajax({
             url: '/Fee/PayFees/',
             //data: JSON.stringify(lst),date,
