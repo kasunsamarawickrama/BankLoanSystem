@@ -151,7 +151,7 @@
                                             </tr>
                                         </table>
                                         <div>
-                                            @Html.ValidationMessageFor(model => model.CalculationBase, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.TimeBase, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -945,6 +945,7 @@
 
     $('.timeBase').change(function() {
         var time = $(this).filter(':checked').val();
+        $('#customErrorTimeBase').children('span').text("");
         $('#time').text(time);
 
         isSelectTime = true;
