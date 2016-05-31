@@ -30,7 +30,7 @@
                             , header: "{checkall}"
 
                     ),
-                        grid.Column("Date Entered", "Date Entered", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
+                        grid.Column("AdvanceDate", "Date Advanced",canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateAdvanced)),
                         grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                         grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text><label id="year" class="vin">@item.Year</label></text>),
                         grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text><label id="make" class="vin">@item.Make</label></text>),

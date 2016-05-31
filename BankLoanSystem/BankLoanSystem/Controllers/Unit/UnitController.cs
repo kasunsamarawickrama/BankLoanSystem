@@ -683,7 +683,8 @@ namespace BankLoanSystem.Controllers.Unit
                 if (user != null)
                 {
 
-
+                    string alertmsg = " Dealer User " + user.FirstName + " " + user.LastName + " requested to advance " + user.NoOfUnitsAdded + " new unit(s) for loan number " + user.LoanNumber + " on " + user.AddedDate + ". Please login to the system and go to advance page to advance the items. ";
+                    int rep = (new UserAccess()).InsertDearlerUserRequest(0,0,user.UserIdForSendReq, Code,alertmsg);
 
                     string body = "Hi , <br /><br /> Dealer User " + user.FirstName + " " + user.LastName + " requested to advance " + user.NoOfUnitsAdded + " new unit(s) for loan number " + user.LoanNumber +" on "+user.AddedDate+
 
