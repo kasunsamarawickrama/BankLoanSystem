@@ -75,16 +75,17 @@ namespace BankLoanSystem.Controllers.CreateDealer
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
             List<User> userList = new List<User>();
             userList = (new UserAccess()).GetUserListByCompany(userData.Company_Id);
-
+            userList = userList.FindAll(t => t.BranchId == loan.BranchId || t.BranchId ==0);
+            ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
             if (userData.RoleId == 1)
             {
-                ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                //ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
                 Session["UserReqList"] = userList;
             }
             else if (userData.RoleId == 2)
             {
-                userList = userList.FindAll(t => t.BranchId == userData.BranchId);
-                ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                
+                //ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
                 Session["UserReqList"] = userList;
             }
             else
