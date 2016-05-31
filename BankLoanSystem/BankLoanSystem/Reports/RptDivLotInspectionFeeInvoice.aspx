@@ -5,7 +5,7 @@
 <form id="form1" runat="server">
     <div>
         <asp:scriptmanager id="ScriptManager1" runat="server"></asp:scriptmanager>
-        <rsweb:ReportViewer ID="rptViewerLotInspectionFeeInvoice" runat="server" Font-Size="8pt" Height="100%" Width="100%" repo ShowPrintButton="True" AsyncRendering="False">
+        <rsweb:ReportViewer ID="rptViewerLotInspectionFeeInvoice" runat="server" Font-Size="8pt" Height="100%" Width="100%" repo ShowPrintButton="True" AsyncRendering="False" SizeToReportContent="True">
             
         </rsweb:ReportViewer>
 
