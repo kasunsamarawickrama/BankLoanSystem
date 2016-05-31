@@ -756,5 +756,25 @@ namespace BankLoanSystem.DAL
                 return null;
             }
         }
+
+        public int InsertDearlerUserRequest(int companyId, int branchId,int userId, string Code,string msg)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@company_id", companyId });
+            paramertList.Add(new object[] { "@branch_id", branchId });
+            paramertList.Add(new object[] { "@user_id",userId });
+            paramertList.Add(new object[] { "@loan_code", Code });
+            paramertList.Add(new object[] { "@message", msg });
+
+            try
+            {
+                return dataHandler.ExecuteSQL("spInsertDealerUserRequest", paramertList) ? 1 : 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
