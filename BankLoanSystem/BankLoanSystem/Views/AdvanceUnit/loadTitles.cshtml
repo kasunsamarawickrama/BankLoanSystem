@@ -14,40 +14,40 @@
                 {
                     var FilePath = "~/Images/doc.png";
                     <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
                 else if (Path.GetExtension(person.OriginalFileName) == ".ppt")
                 {
                     var FilePath = "~/Images/ppt.png";
                     <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
                 else if (Path.GetExtension(person.OriginalFileName) == ".xls")
                 {
                     var FilePath = "~/Images/xls.png";
                     <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
                 else if (Path.GetExtension(person.OriginalFileName) == ".pdf")
                 {
                     var FilePath = "~/Images/pdf.png";
                     <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
                 else if (Path.GetExtension(person.OriginalFileName) == ".sql")
                 {
                     var FilePath = "~/Images/sql.png";
                     <div style="padding:10px;">
-                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(FilePath)" alt="Image" style="max-width: 100px;max-height: 100px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
                 else {
                     <div style="padding:10px;">
-                        <img src="@Url.Content(person.FilePath)" onclick="window.open(this.src)" alt="Image" style="max-width: 500px;max-height: 500px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { ImageName = person.FilePath })
+                        <img src="@Url.Content(person.FilePath)" onclick="window.open(this.src)" alt="Image" style="max-width: 500px;max-height: 500px;" /><p>@person.OriginalFileName</p>@Html.ActionLink("download", "Download", new { imagePath = person.FilePath })
                     </div>
                 }
             }

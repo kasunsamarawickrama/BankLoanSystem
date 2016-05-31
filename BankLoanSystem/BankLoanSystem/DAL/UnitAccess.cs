@@ -46,6 +46,7 @@ namespace BankLoanSystem.DAL
                         unit.Model = reader["model"].ToString();
                         unit.Cost = Convert.ToDecimal(reader["cost"].ToString());
                         unit.AdvanceAmount = Convert.ToDecimal(reader["advance_amount"].ToString());
+                        unit.IsTitleUploaded = Convert.ToBoolean(reader["IsTitleUploaded"]) ? 1 : 0;
 
                         unitList.Add(unit);
                     }

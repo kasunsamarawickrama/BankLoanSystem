@@ -1,4 +1,4 @@
-﻿ @model BankLoanSystem.Models.UnitPayOffViewModel
+﻿@model BankLoanSystem.Models.UnitPayOffViewModel
 
 @{
     Layout = null;
@@ -12,10 +12,10 @@
 {
 
 
-<div class="info-bar" id="payOffGridDIv" style="margin-top:10px;padding:1px 0px 20px 0px">
-    <!-- This is for Grid-->
-    <input type="hidden" value="@ViewBag.loanId" id="loanId" />
-    @grid.GetHtml(
+    <div class="info-bar" id="payOffGridDIv" style="margin-top:10px;padding:1px 0px 20px 0px">
+        <!-- This is for Grid-->
+        <input type="hidden" value="@ViewBag.loanId" id="loanId" />
+        @grid.GetHtml(
                     tableStyle: "gridtable",
                     headerStyle: "webgrid-header",
 
@@ -25,28 +25,28 @@
                     columns: grid.Columns(
                     grid.Column(style: "gridColumnSelect",
                         format:@<text><input type="checkbox" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />
-                                      <input type="hidden" id="advanceDate" name="advanceDate" value="@item.DateAdvanced" />
-                                      <input type="hidden" id="isAdvancePaid" name="isAdvancePaid" value="@item.IsAdvancePaid.ToString()" /></text>
+                        <input type="hidden" id="advanceDate" name="advanceDate" value="@item.DateAdvanced" />
+                        <input type="hidden" id="isAdvancePaid" name="isAdvancePaid" value="@item.IsAdvancePaid.ToString()" /></text>
                             , header: "{checkall}"
 
                     ),
                         grid.Column("Date Entered", "Date Entered", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.DateEntered)),
                         grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
-                        grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text>@{<label id="year" class="vin">@item.Year</label>}</text>),
-                        grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="vin">@item.Make</label>}</text>),
-                        grid.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="model" class="vin">@item.Model</label>}</text>),
-                        grid.Column("Purchase Price ($)", "Purchase Price ($)", canSort: false, style: "gridColumn", format:@<text>@{<label id="cost" class="year">@Convert.ToDecimal(item.PurchasePrice).ToString("#,##0.00")</label>}</text>),
-                        grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text>@{<label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label>}</text>)
+                        grid.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text><label id="year" class="vin">@item.Year</label></text>),
+                        grid.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text><label id="make" class="vin">@item.Make</label></text>),
+                        grid.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format:@<text><label id="model" class="vin">@item.Model</label></text>),
+                        grid.Column("Purchase Price ($)", "Purchase Price ($)", canSort: false, style: "gridColumn", format:@<text><label id="cost" class="year">@Convert.ToDecimal(item.PurchasePrice).ToString("#,##0.00")</label></text>),
+                        grid.Column("Balance ($)", "Balance ($)", style: "gridColumn", canSort: false, format:@<text><label id="balance" class="vin">@Convert.ToDecimal(item.Balance).ToString("#,##0.00")</label></text>)
                         )
                         )
-    <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;">Total Pay off Amount  : $ <span id="spnTotal">0.00</span></div>
-    @if (ViewBag.AdvanceFee != 0)
-    {
-        <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
+        <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;">Total Pay off Amount  : $ <span id="spnTotal">0.00</span></div>
+        @if (ViewBag.AdvanceFee != 0)
+        {
+            <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
 
-        <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
-    }
-</div>
+            <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
+        }
+    </div>
 }
 <div class="info-bar" style="margin-top:15px">
     @if (ViewBag.IsTitleTrack == "Yes")
@@ -122,9 +122,9 @@
                                     }
                                 }
                             }
-                                    @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", @style = "width:143px" })
-                                    @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                    <div id="vehicleyear"><span class="text-danger"></span></div>
+                            @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", @style = "width:143px" })
+                            @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
+                            <div id="vehicleyear"><span class="text-danger"></span></div>
 
 
                         </div>
@@ -146,9 +146,9 @@
                             }
 
 
-                                    @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake" })
-                                    @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
-                                    @*<div id="vehiclemake"><span class="text-danger"></span></div>*@<div id="vehiclemake"><span class="text-danger"></span></div><div id="vehiclemake"><span class="text-danger"></span></div>
+                            @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake" })
+                            @*@Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })*@
+                            @*<div id="vehiclemake"><span class="text-danger"></span></div>*@<div id="vehiclemake"><span class="text-danger"></span></div><div id="vehiclemake"><span class="text-danger"></span></div>
 
 
                         </div>
@@ -168,8 +168,8 @@
                                     }
                                 }
                             }
-                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
-                                    @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+                            @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
+                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
 
                         </div>
                         <button type="button" class="btn btn-primary m-b cancel next_clear_button back_back" id="btnSearch" style="">Search</button>
@@ -236,7 +236,7 @@
                                 @Html.Editor("iTotal", new { @id = "iTotal", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                             </div>
                         }
-                        
+
                         <div class="col-md-2" style="margin-left:9%">
                             <label for="">Pay Date </label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidater", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
@@ -282,9 +282,9 @@
 
 
 <script>
-    
+
     var browser = navigator.userAgent.toLowerCase();
-    
+
     if (/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())) {
         $('head').append('<style>#btnSearch{    margin-left:29px; margin-top: 18px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 18px;margin-bottom: 0px;margin-right: 0px;  }</style>');
     } else if ((browser.indexOf('firefox') > -1)) {
@@ -292,7 +292,7 @@
     } else if (browser.indexOf('msie') > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
         $('head').append('<style>#btnSearch{    margin-left:29px; margin-top: 28px;margin-bottom: 0px;margin-right: 0px;        }#btnClear{ margin-top: 28px;margin-bottom: 0px;margin-right: 0px;  }</style>');
 
-    } 
+    }
 
     $(document).ready(function () {
         if ($('#checkableGrid').children('tbody').children('tr').length == 0) {
@@ -390,9 +390,10 @@
                 mainGridSelectedCount = mainGridSelectedCount + 1;
         });
 
-        if (mainGridSelectedCount === 0)
+        if (mainGridSelectedCount === 0){
             ClearTextBoxValues();
 
+        }
     });
     $('#identificationNumberSearch').click(function () {
         $("#searchIdentificationNumber").text('');
@@ -482,11 +483,11 @@
             $('table#checkableGrid > tbody > tr').each(function () {
                 $(this).css('background', 'lightblue');
                 if($(this).find('#isAdvancePaid').val() == 'False'){
-                    advanceFeeSelect ++;     
+                    advanceFeeSelect ++;
                 }
             });
             $("#btnPayAll").removeAttr("disabled");
-            $("#payDate").removeAttr("disabled");        
+            $("#payDate").removeAttr("disabled");
         }
 
         $('table#checkableGrid > tbody > tr').each(function () {
@@ -505,14 +506,14 @@
         });
 
         //alert(totalToPay);
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         //alert(countSelect);
         var advance = 0;
         advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -521,8 +522,10 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
+
+        checkTextBoxBlurCenterError();
     });
 
     $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -561,7 +564,7 @@
             if($(this).find('#isAdvancePaid').val() == 'False'){
                 if($(this).find("#all").is(':checked')){
                     advanceFeeSelect ++;
-                }                     
+                }
             }
         }
 
@@ -573,15 +576,15 @@
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
         var advance = 0;
-        
+
         advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -589,7 +592,7 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
 
@@ -597,22 +600,20 @@
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
-
+        checkTextBoxBlurCenterError();
     });
 
-    $(document).on('change', '.checkboxAll', function () {
+    $('.checkboxAll').click( function () {
 
 
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
-
-        //alert("isChecked: "+ isChecked + " balance: " + balance);
 
         if (isChecked === false) {
             countSelect--;
@@ -701,19 +702,19 @@
             $(this).css('background', 'aliceblue');
         });
 
-        $('#spnTotal').text(totalToPay);
+        $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         var advance = 0;
         if($(this).parents('tr:first').find('#isAdvancePaid').val() == 'False'){
             if (isChecked === false)
-                advanceFeeSelect --;      
+                advanceFeeSelect --;
             else
-                advanceFeeSelect ++;      
+                advanceFeeSelect ++;
         }
         advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#spnAdvanceFee').text(advance);</text>
+                <text>$('#spnAdvanceFee').text(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         var totalx = parseFloat(totalToPay) + parseFloat(advance);
@@ -721,17 +722,18 @@
         //alert(totalx);
         @if (ViewBag.AdvanceFee != 0)
             {
-                <text> $('#spnTotalFinal').text(totalx);</text>
+                <text> $('#spnTotalFinal').text(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
         if(countSelect == 1){
             //alert("gg");
             @if (ViewBag.AdvanceFee != 0)
             {
-                <text>$('#iAdvanceFee').val(advance);</text>
-                <text> $('#iTotal').val(totalx);</text>
+                <text>$('#iAdvanceFee').val(advance.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
+                <text> $('#iTotal').val(totalx.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));</text>
             }
 
         }
+        checkTextBoxBlurCenterError();
     });
 
     function SetTextBoxValues(tr) {
@@ -752,14 +754,14 @@
         <text>
         var pay = tr.find("#balance").text().replace(',', '')
         var tot = 0;
-        if(tr.find('#isAdvancePaid').val() == 'False'){
+        if(tr.find('#isAdvancePaid').val() != 'False'){
             $('#iAdvanceFee').val('0.00');
             tot = parseFloat(pay);
         }else{
             $('#iAdvanceFee').val(advanceFee);
             tot = parseFloat(advanceFee) + parseFloat(pay);
         }
-               
+
         tot = tot.toFixed(2);
         $('#iTotal').val(tot);
         </text>
@@ -811,9 +813,6 @@
                 $('.centered span').text('Error');
             }
         }
-
-
-
         var payDate = document.getElementById('payDate').value;
         if (payDate === '') {
             $('#customErrorPayDate').children('span').text("Please select the date of Pay Off");
@@ -823,8 +822,12 @@
             $('#customErrorPayDate').children('span').text("");
         }
         //alert(payDate);
-
-        if (errorTitleReturn1 === false) {
+        var valid = isValidDate($('#payDate').val());
+        if(!valid){
+            $('#customErrorPayDate').children('span').text("Not valid date");
+            $('.centered span').text('Error');
+        }
+        if (errorTitleReturn1 === false && valid) {
 
             var data = { payOffModelList: [], payDate: payDate, titleReturn: titleStatus }
             $('table#checkableGrid > tbody > tr').each(function () {
@@ -853,10 +856,8 @@
                     data.payOffModelList.push(payOffModel);
                 }
             });
-
-
-
-
+            $('#btnPayAll').prop('disabled', true);
+            $('#btnPay').prop('disabled', true);
             //alert(data.unitIdList[0]);
             $.ajax({
                 url: '/UnitPayOff/UnitListPay/',
@@ -877,13 +878,29 @@
                                 $('#changeContainer').html(partialView);
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
-                                window.scrollTo(0, 0);
+                                //window.scrollTo(0, 0);
+
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
+
+                                $('#btnPayAll').prop('disabled', false);
+                                $('#btnPay').prop('disabled', false);
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...
-
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                                 // if session expires
+
+                                $('#btnPayAll').prop('disabled', false);
+                                $('#btnPay').prop('disabled', false);
+
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                                 }
@@ -910,7 +927,7 @@
     });
 
     var errorTitleReturn2 = false;
-    $("#btnPay").click(function () {
+    $("#btnPay").click(function (e) {
         if ("@ViewBag.IsTitleTrack" == "Yes") {
             var titleStatus = $('.titleReturn2').filter(':checked').val();
             //alert(titleStatus);
@@ -922,18 +939,24 @@
                 $('#customErrorTitleReturn2').children('span').text("Please select if the titles are being returned to the dealer");
                 $('.centered span').text('Error');
                 errorTitleReturn2 = true;
+                e.preventDefault();
             }
         }
         var payDate = document.getElementById('payDate2').value;
         if (payDate === '') {
             $('#customErrorPayDate2').children('span').text("Please select the date of Pay Off");
             $('.centered span').text('Error');
+            e.preventDefault();
             return;
         } else {
             $('#customErrorPayDate2').children('span').text("");
         }
-
-        if (errorTitleReturn2 === false) {
+        var valid = isValidDate($('#payDate2').val());
+        if(!valid){
+            $('#customErrorPayDate2').children('span').text("Not valid date");
+            $('.centered span').text('Error');
+        }
+        if (errorTitleReturn2 === false && valid) {
             var loanId = document.getElementById('loanId').value;
             var hiddenId = document.getElementById('iUnitId').value;
             var balance = document.getElementById('iBalance').value;
@@ -959,7 +982,8 @@
 
 
             }
-
+            $('#btnPayAll').prop('disabled', true);
+            $('#btnPay').prop('disabled', true);
             //alert(data.unitIdList[0]);
             $.ajax({
                 url: '/UnitPayOff/UnitListPay/',
@@ -989,11 +1013,25 @@
                                 $('.centered span').text('');
                                 window.scrollTo(0, 0);
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
+
+                                $('#btnPayAll').prop('disabled', false);
+                                $('#btnPay').prop('disabled', false);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...
-
+                                countSelect = 0;
+                                totalToPay = 0;
+                                checkCount = 0;
+                                advanceFeeSelect = 0;
                                 // if session expires
+
+                                $('#btnPayAll').prop('disabled', false);
+                                $('#btnPay').prop('disabled', false);
+
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                                 }
@@ -1156,7 +1194,7 @@
                 e.preventDefault();
             }
         }
-        
+
     });
 
     $('.titleReturn').change(function () {
@@ -1191,6 +1229,9 @@
         }
         countSelect = 0;
         totalToPay = 0;
+
+        checkCount = 0;
+        advanceFeeSelect = 0;
         totalToPay = totalToPay.toFixed(2);
         $('#spnTotal').text(totalToPay);
 
@@ -1378,6 +1419,7 @@
         countSelect = 0;
         totalToPay = 0;
         checkCount = 0;
+        advanceFeeSelect = 0;
 
         $("#payDate").attr("disabled", "disabled");
 
@@ -1455,7 +1497,7 @@
                 e.preventDefault();
             }
         }
-        
+
         //alert(ch);
     });
 

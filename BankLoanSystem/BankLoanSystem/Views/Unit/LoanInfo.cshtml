@@ -173,18 +173,18 @@
             else if (ViewBag.Title == "Pay Off")
             {
                 <text>
-            if ($('#payDate2').val() != undefined) {
-                if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-                }
+            if ($('#payDate2').val() != undefined){
+                if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0 || $("#searchGrid1").css('display') == "block") {
+                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+            }
             }</text>
             }
 
             else if (ViewBag.Title == "Pay Fees")
             {
                 <text>if ($('#iVin').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }</text>
+                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                }</text>
             }
 
         });
@@ -241,11 +241,11 @@
             var isError = false;
 
             if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
-
+                
                 $('.centered span').text('Error');
                 isError = true;
             }
-
+ 
 
 
             //$.each($('input').next('span'), function (i, obj) {
