@@ -349,8 +349,14 @@ namespace BankLoanSystem.Controllers
                                         //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
                                         return RedirectToAction("UserLogin", "Login");
                                     }
-
+                                    //if SA stepstatus 2 and no records in loan setup and companysetup
+                                    else
+                                    {
+                                        return RedirectToAction("UserDetails", "Usermanagement");
+                                    }
                                 }
+
+
                             }
                         }
                         else

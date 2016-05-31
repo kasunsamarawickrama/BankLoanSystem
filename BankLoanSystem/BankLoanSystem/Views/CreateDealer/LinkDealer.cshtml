@@ -253,7 +253,7 @@
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserIdForSendReq, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
-                                            @if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count == 1 && ViewBag.UserIdForSendReq.Items[0].NewEmail == "")
+                                            @if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count == 1 && ViewBag.UserIdForSendReq.Items[0].NewEmail != "")
                                             {
                                             <div class="form-group new_form_group">
                                                

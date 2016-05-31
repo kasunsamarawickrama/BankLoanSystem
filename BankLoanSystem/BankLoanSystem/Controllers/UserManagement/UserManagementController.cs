@@ -907,8 +907,11 @@ namespace BankLoanSystem.Controllers
             {
 
                 //loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
-
-                loanSelection.RegBranches.Add(detail.RegBranches[0]);
+                if(detail.RegBranches!=null && detail.RegBranches.Count > 0)
+                {
+                    loanSelection.RegBranches.Add(detail.RegBranches[0]);
+                }
+                
 
 
                 // the get non registered branches details for perticular branch  from the non registeres branches list

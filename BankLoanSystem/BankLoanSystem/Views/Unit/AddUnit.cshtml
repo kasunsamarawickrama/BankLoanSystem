@@ -946,8 +946,15 @@
                                         </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
-                                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })
-
+                                    @*@Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })*@
+                                    @if (ViewBag.CompabyType == 1)
+                                    {
+                                        <label class="control-label col-md-4" style = "width: 43%;">Has the title been received?</label>
+                                    }
+                                    else if (ViewBag.CompabyType == 2)
+                                    {
+                                        <label class="control-label col-md-4" style="width: 43%;">Has the title deliver to the bank?</label>
+                                    }
 
                                     <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
                                         <label class="radio-inline">
@@ -988,7 +995,7 @@
                         </div>
                         @*PAYMENT DETAILS END*@
 
-                        @if (ViewBag.RoleId != 4)
+                        @if (ViewBag.Role == 1 || ViewBag.Role == 2 || (ViewBag.advanceAllow ==true && ViewBag.Role == 3))
                         {
                             <div style="padding:20px 20px 10px 20px">
                                 @*<div class="form-group" >
@@ -1081,7 +1088,7 @@
                 });
                 $( "#div-combobox2-1" ).focusin(function(){
                     $('#rvyear').children('span').text("");
-                 });
+                });
                 $( "#div-combobox2-2" ).focusin(function(){
                     $('#rvmake').children('span').text("");
                     GetMakes($('#combobox2-1'),'#combobox2-2',2);
@@ -1162,49 +1169,49 @@
                     if(checkYear != "" && checkMake != ""){
                         if(_previousMakeYear != checkYear|| _previousMake != checkMake){
                             $.ajax({
-                            url: '/Unit/GetModels',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
-                            success: function (data) {
-                                //var markup = "<option value='0'>-- select a model --</option>";
-                                for (var x = 0; x < data.length; x++) {
-                                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                                }
-                                
-                                //if(data.length == 0){
-                                    $(var3).next('span').children('a').click();
-                                //}
-                                $(var3).html(markup);
+                                url: '/Unit/GetModels',
+                                type: 'POST',
+                                contentType: 'application/json;',
+                                data: JSON.stringify({ make: checkMake, year: checkYear , unitId :id }),
+                                success: function (data) {
+                                    //var markup = "<option value='0'>-- select a model --</option>";
+                                    for (var x = 0; x < data.length; x++) {
+                                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                    }
 
-                                        _previousMakeYear = checkYear;
-                                        _previousMake     = checkMake;
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
-                                
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                                    //if(data.length == 0){
+                                    $(var3).next('span').children('a').click();
+                                    //}
+                                    $(var3).html(markup);
+
+                                    _previousMakeYear = checkYear;
+                                    _previousMake     = checkMake;
+                                },
+                                error: function (jqXHR, textStatus, errorThrown){
+                                    // Your handler here...
+
+                                    // if session expires
+                                    if(jqXHR.status == "404"){
+                                        window.location.href='/Login/UserLogin?lbl=Session expired';
+                                    }
                                 }
-                            }
                             });
                         }
                     }
-                        else{
-                            markup="";
-                            $(var3).html(markup);
-                        }
+                    else{
+                        markup="";
+                        $(var3).html(markup);
                     }
+                }
 
-                    function GetMakes(var1,var2,id)
-                    {
-                        var checkYear = var1.val();
-                        checkYear = var1.next().children('input').val();
-                        var markup = "";
-                        if(checkYear != ""){
-                            if(_previousMakeYear != checkYear){
-                                $.ajax({
+                function GetMakes(var1,var2,id)
+                {
+                    var checkYear = var1.val();
+                    checkYear = var1.next().children('input').val();
+                    var markup = "";
+                    if(checkYear != ""){
+                        if(_previousMakeYear != checkYear){
+                            $.ajax({
                                 url: '/Unit/GetMakes',
                                 type: 'POST',
                                 contentType: 'application/json;',
@@ -1214,7 +1221,7 @@
                                     for (var x = 0; x < data.length; x++) {
                                         markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
                                     }
-                                    
+
                                     $(var2).next('span').children('a').click();
                                     $(var2).html(markup);
 
@@ -1223,20 +1230,20 @@
                                 },
                                 error: function (jqXHR, textStatus, errorThrown){
                                     // Your handler here...
-                                
+
                                     // if session expires
                                     if(jqXHR.status == "404"){
                                         window.location.href='/Login/UserLogin?lbl=Session expired';
                                     }
                                 }
-                                });
-                            }
-                        }
-                        else{
-                            markup="";
-                            $(var2).html(markup);
+                            });
                         }
                     }
+                    else{
+                        markup="";
+                        $(var2).html(markup);
+                    }
+                }
 
                 $('.vinUnique').focusout(function(){
                     $.ajax({
@@ -1270,7 +1277,7 @@
                         },
                         error: function (jqXHR, textStatus, errorThrown){
                             // Your handler here...
-                            $('.vinUnique').val(""); 
+                            $('.vinUnique').val("");
                             // if session expires
                             if(jqXHR.status == "404"){
                                 window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1412,23 +1419,23 @@
                 // -------------------------
                 //focusout functions End
                 function focusoutcall(span,vareditor,varcombo, val){
-                                        // $('#editor1-1').trigger('change');
+                    // $('#editor1-1').trigger('change');
 
                     var len = val.length;
                     if(len == 4){
                         var isnum = /^\d+$/.test(val);
                         if(isnum === false){
-                        //$(span).fadeIn();
-                        $(span).text("Invalid : enter only numbers");
-                        $(varcombo).next().children('input').val("");
-                        $(vareditor).val("");
-                        //$(span).delay(3000).fadeOut();
-                        $('.centered span').text('Error');
-                    }
-                    else{
-                        $(span).text("");
-                        //$('.centered span').text('');
-                        middleSpanCheck();
+                            //$(span).fadeIn();
+                            $(span).text("Invalid : enter only numbers");
+                            $(varcombo).next().children('input').val("");
+                            $(vareditor).val("");
+                            //$(span).delay(3000).fadeOut();
+                            $('.centered span').text('Error');
+                        }
+                        else{
+                            $(span).text("");
+                            //$('.centered span').text('');
+                            middleSpanCheck();
                         }
                     }
                     else if(len > 4){
@@ -1454,8 +1461,8 @@
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
                         $('.centered span').text('Error');
-                        }
                     }
+                }
 
                 // drop down combo boxes
                 $(function() {
@@ -1512,7 +1519,7 @@
 
                     $("#advanceDate").val("");
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
-                    
+
                 }
 
 
@@ -1568,39 +1575,39 @@
                                                 //GetMakes($('#combobox1-1'),'#combobox1-2',1);
                                                 makex = "";
                                             }
-                                                //alert(yearx);
-                                                $.ajax({
-                                                    url: '/Unit/GetModelByVin',
-                                                    type: 'POST',
-                                                    contentType: 'application/json;',
-                                                    data: JSON.stringify({ makex: makex, yearx: yearx }),
-                                                    success: function (data) {
-                                                        var model = data;
-                                                        //alert(model);
-                                                        if(model != ""){
-                                                            $('#combobox1-3').next().children('input').val(model);
-                                                            document.getElementById('editor1-3').value = model;
-                                                            //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                                            $('.mo').text("");
-                                                        }else{
-                                                            $('#combobox1-3').next().children('input').val("");
-                                                            document.getElementById('editor1-3').value = "";
-                                                        }
-                                                    },
-                                                    error: function (jqXHR, textStatus, errorThrown){
-                                                        // Your handler here...
-                                
-                                                        // if session expires
-                                                        if(jqXHR.status == "404"){
-                                                            window.location.href='/Login/UserLogin?lbl="Session expired"';
-                                                        }
+                                            //alert(yearx);
+                                            $.ajax({
+                                                url: '/Unit/GetModelByVin',
+                                                type: 'POST',
+                                                contentType: 'application/json;',
+                                                data: JSON.stringify({ makex: makex, yearx: yearx }),
+                                                success: function (data) {
+                                                    var model = data;
+                                                    //alert(model);
+                                                    if(model != ""){
+                                                        $('#combobox1-3').next().children('input').val(model);
+                                                        document.getElementById('editor1-3').value = model;
+                                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                                        $('.mo').text("");
+                                                    }else{
+                                                        $('#combobox1-3').next().children('input').val("");
+                                                        document.getElementById('editor1-3').value = "";
                                                     }
-                                                });
-                                            
+                                                },
+                                                error: function (jqXHR, textStatus, errorThrown){
+                                                    // Your handler here...
+
+                                                    // if session expires
+                                                    if(jqXHR.status == "404"){
+                                                        window.location.href='/Login/UserLogin?lbl="Session expired"';
+                                                    }
+                                                }
+                                            });
+
                                         },
                                         error: function (jqXHR, textStatus, errorThrown){
                                             // Your handler here...
-                                
+
                                             // if session expires
                                             if(jqXHR.status == "404"){
                                                 window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1611,7 +1618,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1619,8 +1626,8 @@
                             }
                         });
 
-                        
-                      
+
+
                     }
                     else if($('#vehicleVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
@@ -1669,7 +1676,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1723,7 +1730,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1776,7 +1783,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1829,7 +1836,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1883,7 +1890,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1936,7 +1943,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-                                
+
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -2070,7 +2077,7 @@
                     $(".miles").val("");
                     $(".lengths").val("");
                     $('.radios').children('span').children('span').text('');
-                    
+
                     $('input[type=radio]').each(function(){
                         ($(this).removeClass('input-validation-error'));
                     });
@@ -2159,8 +2166,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#rvVin").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2173,8 +2180,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#camperVin").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2183,12 +2190,12 @@
                                 e.preventDefault();
                         }
                         else if(alphaNumericAllow(e)){
-                        
+
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#atvVin").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2201,11 +2208,11 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#boatVin").keypress(function(e){
-                    
+
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
                         if($('#boatVin').val().length >= 17){
                             if(e.which != 8)
@@ -2216,8 +2223,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#motorcycleVin").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2230,8 +2237,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#snowmobileVin").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2244,8 +2251,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#vehiclemiles").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2258,8 +2265,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#rvmiles").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2272,8 +2279,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#atvmiles").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2286,8 +2293,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#motorcyclemiles").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2300,8 +2307,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    } 
-                    
+                    }
+
                 });
                 $("#rvlength").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2315,8 +2322,8 @@
                         }else{
                             e.preventDefault();
                         }
-                    }                   
-                    
+                    }
+
                 });
                 $("#camperlength").keypress(function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -2411,7 +2418,7 @@
 
                 //calculate advance
                 $('#txtCost').keypress(function(e) {
-                   
+
 
                     $("#tagscloud span").text("");
                     if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
@@ -2507,7 +2514,7 @@
                         $("#tagscloudAdvance span").text("");
                         if(num != 0){
                             $(this).val(num);
-                        }                       
+                        }
 
                         var advanceAmount = (advancePt * num) / 100;
 
@@ -2644,7 +2651,7 @@
                         $(this).attr('placeholder', 'MM/DD/YYYY');
                 });
 
-                
+
                 $('#form').submit(function(e) {
                     $('#btnSubmit').prop('disabled', true);
                     var unitType = document.getElementById("unitType").value;
@@ -2656,15 +2663,15 @@
 
                     if (vin == ""  || cost =="" || advance == "") {
                         $('#btnSubmit').prop('disabled', false);
-                    } 
+                    }
 
                     if( $('.vinCheck').text().length > 0){
                         $('#btnSubmit').prop('disabled', false);
                         if (cost =="" || advance == "") {
                         } else {
                             e.preventDefault();
-                        }  
-                        
+                        }
+
                     }
                     if (unitType == "1") {
                         var vin = document.getElementById("vehicleVin").value;
@@ -2679,7 +2686,7 @@
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == "" || cost =="" || advance == "" ) {
                             } else {
-                                
+
                                 e.preventDefault();
                             }
                         }
@@ -2691,10 +2698,10 @@
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
-                                
+
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox1-3').next().children('input').val() == "") {
                             // $('#vehiclemodel span').fadeIn();
@@ -2706,7 +2713,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                     } else if (unitType == "2") {
 
@@ -2724,7 +2731,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox2-2').next().children('input').val() == "") {
                             //$('#rvmake span').fadeIn();
@@ -2736,7 +2743,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox2-3').next().children('input').val() == "") {
                             //$('#rvmodel span').fadeIn();
@@ -2748,7 +2755,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
 
 
@@ -2768,7 +2775,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox3-2').next().children('input').val() == "") {
                             //$('#campermake span').fadeIn();
@@ -2780,7 +2787,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox3-3').next().children('input').val() == "") {
                             //$('#campermodel span').fadeIn();
@@ -2793,7 +2800,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
 
                     } else if (unitType == "4") {
@@ -2811,7 +2818,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox4-2').next().children('input').val() == "") {
                             //$('#atvmake span').fadeIn();
@@ -2823,7 +2830,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox4-3').next().children('input').val() == "") {
                             //$('#atvmodel span').fadeIn();
@@ -2835,7 +2842,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
 
                     } else if (unitType == "5") {
@@ -2854,7 +2861,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox5-2').next().children('input').val() == "") {
                             //$('#boatmake span').fadeIn();
@@ -2866,7 +2873,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                           
+
                         }
 
 
@@ -2884,7 +2891,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox6-2').next().children('input').val() == "") {
                             //$('#motorcyclemake span').fadeIn();
@@ -2896,7 +2903,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox6-3').next().children('input').val() == "") {
                             //$('#motorcyclemodel span').fadeIn();
@@ -2908,7 +2915,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
 
                     } else if (unitType == "7") {
@@ -2924,7 +2931,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox7-2').next().children('input').val() == "") {
                             //$('#snowmobilemake span').fadeIn();
@@ -2936,7 +2943,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox7-3').next().children('input').val() == "") {
                             //$('#snowmobilemodel span').fadeIn();
@@ -2948,7 +2955,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                     } else if (unitType == "8") {
                         var vin = document.getElementById("heavyequipmentSerial").value;
@@ -2963,7 +2970,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
                         if ($('#combobox8-2').next().children('input').val() == "") {
                             //$('#heavyequipmentmake span').fadeIn();
@@ -2975,7 +2982,7 @@
                             } else {
                                 e.preventDefault();
                             }
-                            
+
                         }
 
                     } else {
@@ -2983,45 +2990,49 @@
                     }
                     @if (ViewBag.IsTitleTrack == "Yes")
                     {<text>
-                        if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
+                    if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
 
-                        }else{
+                    }else{
                         $('#btnSubmit').prop('disabled', false);
-                        }
+                    }
                     </text>
                     }
-                   
+
                     if(unitType != "8"){
                         if($('.conditionRadio:checked').length > 0){
-                    
+
                         }else{
                             $('#btnSubmit').prop('disabled', false);
                         }
                     }
-                    
+
                     @if (ViewBag.Role != 4)
                     {
-                        <text>
-                        if ($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
-                            if ($('#rdAdvanceYes').is(':checked')){
-                                //alert(checkDate());
-                                if (checkDate())
-                                {
 
+                        if((ViewBag.Role ==3 && ViewBag.advanceAllow == true) || ViewBag.Role == 2 || ViewBag.Role == 2)
+                        {
+                            <text>
+                            if ($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
+                                if ($('#rdAdvanceYes').is(':checked')){
+                                    //alert(checkDate());
+                                    if (checkDate())
+                                    {
+
+                                    }
+                                    else {
+                                        $('#btnSubmit').prop('disabled', false);
+                                        e.preventDefault();
+                                    }
                                 }
-                                else {
-                                    $('#btnSubmit').prop('disabled', false);
-                                    e.preventDefault();
-                                }
+
+                            }else{
+                                $('#btnSubmit').prop('disabled', false);
                             }
-
-                        }else{
-                            $('#btnSubmit').prop('disabled', false);
+                            </text>
                         }
-                        </text>
-                        
+
+
                     }
-                   
 
                     var cost = parseFloat(document.getElementById('txtCost').value);
                     var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
@@ -3033,7 +3044,7 @@
                         //$(this).removeClass('input-validation-error');
                         $('#btnSubmit').prop('disabled', false);
                         e.preventDefault();
-                        
+
                     } else if (cost > maxCost) {
                         //$("#tagscloudAdvance span").fadeIn();
                         //$("#tagscloudAdvance span").addClass('input-validation-error');
@@ -3042,7 +3053,7 @@
                         //$(this).removeClass('input-validation-error');
                         $('#btnSubmit').prop('disabled', false);
                         e.preventDefault();
-                        
+
                     } else if (advance > maxAdvance) {
                         //$("#tagscloudAdvance span").fadeIn();
                         //$("#tagscloudAdvance span").addClass('input-validation-error');
@@ -3051,11 +3062,11 @@
                         //$(this).removeClass('input-validation-error');
                         $('#btnSubmit').prop('disabled', false);
                         e.preventDefault();
-                        
+
                     } else {
-                       
+
                     }
-                    
+
                 });
 
 

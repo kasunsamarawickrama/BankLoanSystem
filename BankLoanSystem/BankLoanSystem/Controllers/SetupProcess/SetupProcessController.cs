@@ -1529,8 +1529,14 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     {
                         ViewBag.SuccessMsg = "Lender branch is successfully created";
                     }
-                    loanData.stepId = 1;
-                    Session["loanStep"] = loanData;
+                    //----------------
+                    if(loanData.stepId<1)
+                    {
+                        loanData.stepId = 1;
+                        Session["loanStep"] = loanData;
+                    }
+                   
+                    //------------------------
 
                     if((userData.step_status==1)|| (userData.step_status == 2)) {
                         return RedirectToAction("Step5", new { lbls = ViewBag.SuccessMsg });
