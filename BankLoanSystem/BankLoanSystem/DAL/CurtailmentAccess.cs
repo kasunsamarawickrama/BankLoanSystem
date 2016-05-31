@@ -288,6 +288,53 @@ namespace BankLoanSystem.DAL
             }
         }
 
+
+        /// <summary>
+        /// CreatedBy : Irfan
+        /// CreatedDate: 2016/30/05
+        /// 
+        /// Getting Curtailment total Number
+        /// 
+        /// 
+        /// </summary>
+        /// 
+        /// <param name="dueDate">due date</param>
+        /// <param name="loanId">loan id</param>
+        /// <returns></returns>
+        public int GetCurtailmentsTotal(int loanId)
+        {
+            try
+            {
+                
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+                paramertList.Add(new object[] { "@loan_id", loanId });
+                int Curtnumber=0;
+
+                DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentsTotal", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        
+                         Curtnumber = int.Parse(dataRow["curt_no"].ToString());
+                        
+
+                        
+                    }
+                    return Curtnumber;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// CreatedBy : Kanishka
         /// CreatedDate: 2016/03/17

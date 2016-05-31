@@ -1065,6 +1065,10 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     $('#payAll').click(function (e) {
     //$(document).on('click', '#payAll', function(e) {
         //check want to view report
+
+       
+    
+        
         var ckbReport = $('#report').is(':checked');
         var ckbEmailReceipt = $('#emailReceipt').is(':checked');
         var needSend = "";
@@ -1112,7 +1116,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             
             return;
         }
-
+        if(checkLastCurtailments()){
         if (checkCount >= 1) {
            
             $('.curtAmount').each(function () {
@@ -1292,7 +1296,75 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             });
         }
 
+        }else{
+            $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
+            window.scrollTo(0, 0);
+            
+}
+
     });
+
+    function checkLastCurtailments(){
+
+       
+        var a  = true;
+    
+       $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+            if($(this).is(':checked')){
+                //if($(this).closest('tr').find("#CurtNumber").text() == $('#curtailmentTotal').val()){
+                var unitId = $(this).val();
+                var curtNo = $(this).closest('tr').find("#CurtNumber").text();
+                    $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+                        if($(this).val() == unitId ){
+                            if($(this).is(':checked') == false && $(this).closest('tr').find("#CurtNumber").text() < curtNo ){
+                                
+                                a =false;
+                                return false;
+                                
+}
+                        }
+            
+                    });
+                //}
+                
+            }
+            return true;
+       });
+
+       return a;
+     
+       
+       
+    }
+
+    function checkLastCurtailmentsForSearch(){
+
+       
+        var a  = true;
+    
+     
+        
+            var unitId = $('#iUnitID').val();
+                    $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+                        if($(this).val() == unitId && $(this).closest('tr').find("#CurtNumber").text() < $('#iCurtNumber').val() ){
+                           
+                                
+                                a =false;
+                                return false;
+                                
+                          
+                        }
+            
+                    });
+                
+                
+           
+
+        return a;
+     
+       
+       
+    }
 
     $('#payDate').click(function(e){
     
@@ -1417,7 +1489,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
             
-
+             if(checkLastCurtailmentsForSearch()){
 
 
             data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
@@ -1460,7 +1532,18 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     }
                 });
 
-        }
+             }
+
+             else{
+                 $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
+                 window.scrollTo(0, 0);
+                
+
+             }
+
+         }
+         
+
     });
 
     $("#iCurtAmount").keypress(function (e){
