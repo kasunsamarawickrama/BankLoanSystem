@@ -322,7 +322,7 @@ namespace BankLoanSystem.DAL
                         payoff.PurchasePrice = Convert.ToDecimal(dataRow["cost"].ToString());
                         payoff.Balance = Convert.ToDecimal(dataRow["Balance"].ToString());
                         payoff.DateAdvanced = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                        payoff.IsAdvancePaid = Convert.ToBoolean(dataRow["is_paid"]);
+                        payoff.IsAdvancePaid = dataRow["is_paid"] == DBNull.Value || Convert.ToBoolean(dataRow["is_paid"]);
                         payOffList.Add(payoff);
                     }
                     return payOffList;
