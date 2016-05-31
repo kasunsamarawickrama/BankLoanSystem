@@ -566,17 +566,27 @@ namespace BankLoanSystem.Controllers.Unit
 
             LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
 
-            Title ttl = (new TitleAccess()).getTitleDetails(loan.loanId);
-            if (ttl != null && ttl.IsTitleTrack)
+            //Title ttl = (new TitleAccess()).getTitleDetails(loan.loanId);
+            if (Session["IsTitleTrack"] != null)
             {
-                ViewBag.ttlAccess = 1;
+                if (int.Parse(Session["IsTitleTrack"].ToString())==1)
+                    {
+                        ViewBag.ttlAccess = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ttlAccess = 0;
+
+                    }
+                
+                
             }
             else
             {
                 ViewBag.ttlAccess = 0;
 
             }
-          
+
             if ((Session["oneLoanDashboard"] != null) && (!string.IsNullOrEmpty(Session["oneLoanDashboard"].ToString())))
             {
                 Loan loanObj = new Loan();
@@ -668,6 +678,8 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(num, JsonRequestBehavior.AllowGet);
         }
 
+       
+      
         public ActionResult AddUnitRequestAdvance()
         {
 
@@ -687,7 +699,7 @@ namespace BankLoanSystem.Controllers.Unit
 
                     string body = "Hi , <br /><br /> Dealer User " + user.FirstName + " " + user.LastName + " requested to advance " + user.NoOfUnitsAdded + " new unit(s) for loan number " + user.LoanNumber +" on "+user.AddedDate+
 
-                                  "<br /><br/> Thanks <br />.";
+                                  ". Please login to the system and go to advance page to advance item(s). <br /><br/> Thanks <br />.";
 
                     Email email = new Email(user.UserEmailForSendReq);
 
