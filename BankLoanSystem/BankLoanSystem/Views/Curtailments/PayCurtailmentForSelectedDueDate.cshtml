@@ -110,7 +110,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 <label>Curtailmnet Payment Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%; margin-top: 35px;"></span>
+                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 31%; margin-top: 35px;"></span>
                 @*<input class="form-control" type="date" style="margin-left:15px" />*@
                 <div style="display: inline-table;margin-left: 13px;"><input type="checkbox" id="report" value="Report" style="margin-right:3px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
 <input type="checkbox" id="emailReceipt" value="email" style="margin-right:3px;width:16px;height:16px"/><label>Email a report of the transactions being submitted at this time</label>
