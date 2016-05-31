@@ -246,6 +246,7 @@
                                         yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
                                     }
                                 }
+                                yearList = yearList.OrderBy(s => s.Value).ToList();
                             }
                              @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
                             @*@Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })*@
@@ -262,6 +263,7 @@
                                         makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                     }
                                 }
+                                makeList = makeList.OrderBy(s => s.Value).ToList();
                             }
 
                         @Html.DropDownList("make", makeList, "-- Select--", new { @class = "form-control", @id = "cmbMake" })
@@ -279,6 +281,7 @@
                                         modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                                     }
                                 }
+                                modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
                                             @Html.DropDownList("model", modelList, "--Select--", new { @class = "form-control", @id = "cmbModel" })

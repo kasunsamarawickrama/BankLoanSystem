@@ -120,6 +120,7 @@
                                             yearList.Add(new SelectListItem { Text = type.Year.ToString(), Value = type.Year.ToString() });
                                         }
                                     }
+                                    yearList = yearList.OrderBy(s => s.Value).ToList();
                                 }
                             }
                             @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", @style = "width:143px" })
@@ -141,6 +142,7 @@
                                             makeList.Add(new SelectListItem { Text = type.Make.ToString(), Value = type.Make.ToString() });
                                         }
                                     }
+                                    makeList = makeList.OrderBy(s => s.Value).ToList();
                                 }
 
                             }
@@ -166,6 +168,7 @@
                                             modelList.Add(new SelectListItem { Text = type.Model.ToString(), Value = type.Model.ToString() });
                                         }
                                     }
+                                    modelList = modelList.OrderBy(s => s.Value).ToList();
                                 }
                             }
                             @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })

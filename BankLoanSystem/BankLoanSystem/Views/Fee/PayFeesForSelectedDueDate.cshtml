@@ -154,6 +154,7 @@ if (Model.Type == "advanceFee") {
                                         yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                                     }
                                 }
+                                yearList = yearList.OrderBy(s => s.Value).ToList();
                             }<SelectListItem>
                                 <SelectListItem>
                                     @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
@@ -172,6 +173,7 @@ if (Model.Type == "advanceFee") {
                                         }
                                     }
                                 }
+                                makeList = makeList.OrderBy(s => s.Value).ToList();
                             }
 
                                     @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
@@ -191,6 +193,7 @@ if (Model.Type == "advanceFee") {
                                         }
                                     }
                                 }
+                                modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
                                             @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
