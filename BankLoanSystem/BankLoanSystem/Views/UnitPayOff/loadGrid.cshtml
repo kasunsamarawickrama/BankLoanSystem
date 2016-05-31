@@ -885,8 +885,8 @@
                                 checkCount = 0;
                                 advanceFeeSelect = 0;
 
-                                $('#btnPayAll').prop('disabled', false);
-                                $('#btnPay').prop('disabled', false);
+                                //$('#btnPayAll').prop('disabled', false);
+                                //$('#btnPay').prop('disabled', false);
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
 
                             },
@@ -898,8 +898,8 @@
                                 advanceFeeSelect = 0;
                                 // if session expires
 
-                                $('#btnPayAll').prop('disabled', false);
-                                $('#btnPay').prop('disabled', false);
+                              //  $('#btnPayAll').prop('disabled', false);
+                              //  $('#btnPay').prop('disabled', false);
 
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
@@ -907,6 +907,8 @@
                             }
                         });
                     } else {
+                        $('#btnPayAll').prop('disabled', false);
+                        $('#btnPay').prop('disabled', false);
 
                     }
                     //location.reload();
