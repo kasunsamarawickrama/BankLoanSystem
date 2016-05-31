@@ -844,7 +844,7 @@
 
                                         </label>
                                         <label class="radio-inline">
-                                           @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;" }) Used
+                                           @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @class = "conditionRadio" }) Used
                                         </label>
                                         @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
