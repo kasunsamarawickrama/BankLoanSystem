@@ -155,6 +155,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                                     }
                                 }
+                                yearList = yearList.OrderBy(s => s.Value).ToList();
                             }
                                     @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
                                     @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
@@ -169,6 +170,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
                                     }
                                 }
+                                makeList = makeList.OrderBy(s => s.Value).ToList();
                             }
 
                                     @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
@@ -185,6 +187,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
                                     }
                                 }
+                                modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
                                     @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style= "width: 117%;" })
@@ -453,7 +456,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
 
                                     }
-                                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total, 2);
+                                    var t = roundNumber(total, 2);
+                                    document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
                                     if (checkCount > 0) {
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -531,7 +535,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                             });
                         }
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        var t1 = roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
                         $("#payAll").removeAttr("disabled");
                         $("#payDate").removeAttr("disabled");
                     }
@@ -551,7 +556,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     else {
 
                         ClearTextBoxValues();
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                        var t2 = roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t2.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                     }
 
@@ -656,7 +663,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 ClearTextBoxValues();
                             }
                             SetRadioBtnHeaderChecked();
-                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                            var t4 = roundNumber(total,2);
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                            //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                             $("#payAll").removeAttr("disabled");
                             $("#payDate").removeAttr("disabled");
@@ -724,7 +733,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 //    count++;
                 //});
                 document.getElementById('all').checked = false;
-                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+                var t5 = roundNumber(total,2);
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t5.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
 
                 $("#someID span").html('Select');
                 $("#tagscloud span").html('');
@@ -937,7 +948,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         });
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+        var t6 = roundNumber(total,2);
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t6.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
         // clear top error

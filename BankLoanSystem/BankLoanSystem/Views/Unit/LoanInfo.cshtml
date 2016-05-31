@@ -98,7 +98,10 @@
         @if (ViewBag.Msg == "Success")
         {
            <text> $('.centered1 span').text('Successfully Updated');</text>
-        } else if (ViewBag.Msg == "Error") {
+        } else if (ViewBag.Msg == "Requested") {
+
+            <text> $('.centered1 span').text('Advance request send successfully');</text>
+        }else if (ViewBag.Msg == "Error") {
 
             <text> $('.centered span').text('Error in page');</text>
         }else if (ViewBag.Msg == "Advance Error") {

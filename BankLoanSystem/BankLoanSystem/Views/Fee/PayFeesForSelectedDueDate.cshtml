@@ -154,6 +154,7 @@ if (Model.Type == "advanceFee") {
                                         yearList.Add(new SelectListItem { Text = CurtailmentSchedule.Year.ToString(), Value = CurtailmentSchedule.Year.ToString() });
                                     }
                                 }
+                                yearList = yearList.OrderBy(s => s.Value).ToList();
                             }<SelectListItem>
                                 <SelectListItem>
                                     @Html.DropDownList("year", yearList, "-- select year --", new { @class = "form-control", @id = "cmbYear", style = "width:143px" })
@@ -164,11 +165,15 @@ if (Model.Type == "advanceFee") {
                             <label for="">Make</label> @{List<SelectListItem> makeList = new List<SelectListItem>();
                                 foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
-                                    if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()) && CurtailmentSchedule.Make.ToString() != "")
+                                    if (CurtailmentSchedule.Make != null && CurtailmentSchedule.Make.ToString() != "")
                                     {
-                                        makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                        if (!makeList.Exists(a => a.Value == CurtailmentSchedule.Make.ToString()))
+                                        {
+                                            makeList.Add(new SelectListItem { Text = CurtailmentSchedule.Make.ToString(), Value = CurtailmentSchedule.Make.ToString() });
+                                        }
                                     }
                                 }
+                                makeList = makeList.OrderBy(s => s.Value).ToList();
                             }
 
                                     @Html.DropDownList("make2", makeList, "--select make--", new { @class = "form-control", @id = "cmbMake", style = "width:143px" })
@@ -180,11 +185,15 @@ if (Model.Type == "advanceFee") {
                             @{List<SelectListItem> modelList = new List<SelectListItem>();
                                 foreach (var CurtailmentSchedule in Model.FeeModelList)
                                 {
-                                    if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()) && CurtailmentSchedule.Model.ToString() != "")
+                                    if (CurtailmentSchedule.Model != null && CurtailmentSchedule.Model.ToString() != "" )
                                     {
-                                        modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                        if (!modelList.Exists(a => a.Value == CurtailmentSchedule.Model.ToString()))
+                                        {
+                                            modelList.Add(new SelectListItem { Text = CurtailmentSchedule.Model.ToString(), Value = CurtailmentSchedule.Model.ToString() });
+                                        }
                                     }
                                 }
+                                modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
                                             @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel" })
