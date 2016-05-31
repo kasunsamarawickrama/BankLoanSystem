@@ -250,6 +250,8 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
+
+                        Session["IsTitleTrack"] = loanSelected.IsTitleTrack;
                         if ((loanSelected.AdvanceFee == 1) || (loanSelected.LotInspectionFee == 1) || (loanSelected.MonthlyLoanFee == 1))
                         {
                             ViewBag.Fee = 1;
@@ -353,6 +355,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.Branch = ((Loan)Session["LoanOne"]).BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
+                        Session["IsTitleTrack"] = loan.IsTitleTrack;
                         if ((loan.AdvanceFee==1) || (loan.LotInspectionFee==1) || (loan.MonthlyLoanFee==1))
                         {
                             ViewBag.Fee = 1;
@@ -904,8 +907,11 @@ namespace BankLoanSystem.Controllers
             {
 
                 //loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
-
-                loanSelection.RegBranches.Add(detail.RegBranches[0]);
+                if(detail.RegBranches!=null && detail.RegBranches.Count > 0)
+                {
+                    loanSelection.RegBranches.Add(detail.RegBranches[0]);
+                }
+                
 
 
                 // the get non registered branches details for perticular branch  from the non registeres branches list

@@ -491,7 +491,7 @@
         });
         document.getElementById('all').checked = false;
         var num =roundNumber(total,2);
-        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + num;
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + num.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 
         $("#someID span").html('Select');
         $("#tagscloud span").html('');
@@ -546,7 +546,8 @@
         $("#iAdvance").attr("disabled", "disabled");
         ClearMainGrid();
         document.getElementById('all').checked = false;
-        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+        var tt = roundNumber(total, 2);
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 
         $("#someID span").html('Select');
         $("#tagscloud span").html('');
@@ -596,7 +597,9 @@
 
         total = 0;
         checkCount = 0;
-        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total, 2);
+        var tt1 = roundNumber(total, 2);
+        document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total, 2);
         $("#payAll").attr("disabled", "disabled");
         $("#payDate").attr("disabled", "disabled");
 
@@ -752,8 +755,9 @@
                                 total = 0;
                                 $(this).parents('tr').css('background', 'transparent');
                             }
-
-                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+                            var tt2 = roundNumber(total, 2);
+                            document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt2.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                             if (checkCount > 0) {
                                 $("#btnAdvanceAll").removeAttr("disabled");
                                 $("#startDate").removeAttr("disabled");
@@ -819,7 +823,9 @@
                         }
                     });
                 }
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+                var tt3 = roundNumber(total, 2);
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt3.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
                 $("#btnAdvanceAll").removeAttr("disabled");
                 $("#startDate").removeAttr("disabled");
             }
@@ -835,7 +841,9 @@
             else {
 
                 ClearTextBoxValues();
-                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+                var tt4 = roundNumber(total, 2);
+                document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
             }
 
             if (checkCount > 0) {
@@ -973,7 +981,9 @@
                         ClearTextBoxValues();
                     }
                     SetRadioBtnHeaderChecked();
-                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
+                    var tt5 = roundNumber(total, 2);
+                    document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + tt5.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ " + roundNumber(total,2);
 
                     $("#btnAdvanceAll").removeAttr("disabled");
                     $("#startDate").removeAttr("disabled");
@@ -1042,7 +1052,8 @@
         }
 
         else if ($('#iVin').val() != '') {
-
+            $('#btnAdvance').attr("disabled", "disabled");
+            $('#btnAdvanceAll').attr("disabled", "disabled");
             var unit = {
                 "UnitId": $('#unitid').text(),
                 "IdentificationNumber": $('#iVin').val(),
@@ -1100,6 +1111,8 @@
         }
 
         if (checkCount >= 1) {
+            $('#btnAdvance').attr("disabled", "disabled");
+            $('#btnAdvanceAll').attr("disabled", "disabled");
             var data = { ItemList: [] };
             $('.advanceAmount').each(function () {
                 var tr = $(this).parents('tr:first');

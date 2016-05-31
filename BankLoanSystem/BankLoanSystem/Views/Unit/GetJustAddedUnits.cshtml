@@ -49,6 +49,32 @@
     <div><a  href = '/Unit/AddUnitReport' value="Report" class="btn btn-primary m-b cancel next_clear_button back_back" target="_blank"> <span class="icon-stack"></span>Report</a></div>
                     if (ViewBag.UserRole == 4)
                     {
-                        <div><a href='/Unit/AddUnitRequestAdvance' value="RequestAdvance" class="btn btn-primary m-b cancel next_clear_button back_back" target="_blank"> <span class="icon-stack"></span>Request For Advance</a></div>
+                        <input type="button" id="btnReqAdvance" class="btn btn-primary m-b cancel next_clear_button back_back" value="Request For Advance" onclick="window.location.href = '/Unit/AddUnitRequestAdvance'"/>
+                            
+                        
+                        @*<div><a href='/Unit/AddUnitRequestAdvance' value="RequestAdvance" class="btn btn-primary m-b cancel next_clear_button back_back"> <span class="icon-stack"></span>Request For Advance</a></div>*@
                         }
                     }
+
+@*<script>
+    $('#btnReqAdvance').click(function () {
+        $.ajax({
+            url: '/Unit/AddUnitRequestAdvance',
+            type: 'POST',
+            //contentType: 'application/json;',
+            //data: JSON.stringify({ identificationNumber: para1 }),
+            success: function (View) {
+                window.location.href = '/Unit/AddUnitRequestAdvance';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
+            }
+        });
+
+    });
+</script>*@
