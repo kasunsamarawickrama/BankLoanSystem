@@ -3,12 +3,13 @@
     ViewBag.Title = "Advance Unit Report";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
+<div class="container">
+    <div id="reportViewerDiv" hidden>
+        <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
+    </div>
+    </div>
 
-<div id="reportViewerDiv" hidden>
-    <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
-</div>
-
-<script type="text/javascript">
+    <script type="text/javascript">
     function ReportCurtailmentInvoice(url) {
         //alert(startDate + ' ' + endDate);
         $('#reportViewerDiv').show();
@@ -33,6 +34,6 @@
         var url = "../Reports/RptDivAdvanceUnit.aspx?loanId=" + "@ViewBag.LoanId";
         ReportCurtailmentInvoice(url);
     });
-</script>
+    </script>
 
 

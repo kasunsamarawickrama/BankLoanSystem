@@ -946,8 +946,15 @@
                                         </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
-                                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })
-
+                                    @*@Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })*@
+                                    @if (ViewBag.CompabyType == 1)
+                                    {
+                                        <label class="control-label col-md-4" style = "width: 43%;">Has the title been received?</label>
+                                    }
+                                    else if (ViewBag.CompabyType == 2)
+                                    {
+                                        <label class="control-label col-md-4" style="width: 43%;">Has the title deliver to the bank?</label>
+                                    }
 
                                     <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
                                         <label class="radio-inline">

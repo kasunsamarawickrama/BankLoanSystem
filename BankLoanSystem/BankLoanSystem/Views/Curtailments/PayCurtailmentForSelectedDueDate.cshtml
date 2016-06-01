@@ -389,472 +389,472 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 </script>
 <script>
 
-            var total = 0;
-            var checkCount = 0;
-            var totalRecCount = 0;
+    var total = 0;
+    var checkCount = 0;
+    var totalRecCount = 0;
 
-            $(function () {
-               
-                GridUpdate();
-            });
+    $(function () {
 
-            function GridUpdate() {
-                total = 0;
-                checkCount = 0;
-                totalRecCount = 0;
-                var ctrl =
-                        $('<input />', {
-                            type: 'checkbox',
-                            id: "cbSelectAll",
-                            click: function () {
-                                var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
-                                checkboxes.prop('checked', $(this).is(':checked'));
-                                var chk = checkboxes.prop('checked');
+        GridUpdate();
+    });
 
-                                if (chk) {
-                                    var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
-                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                    
+    function GridUpdate() {
+        total = 0;
+        checkCount = 0;
+        totalRecCount = 0;
+        var ctrl =
+                $('<input />', {
+                    type: 'checkbox',
+                    id: "cbSelectAll",
+                    click: function () {
+                        var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
+                        checkboxes.prop('checked', $(this).is(':checked'));
+                        var chk = checkboxes.prop('checked');
 
-                                } else {
-                                    var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
-                                    $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
-                                    $("#payAll").attr("disabled", "disabled");
-                                    $("#payDate").attr("disabled", "disabled");
-                                    // clear top error
-                                    $('.centered span').text('');
-                                    $('#errorPayDate').text('');
-                                    
-                                    $('#payDate').removeClass('input-validation-error');
-                                    $('#payDate').next('span').children().text('');
-                                    totalRecCount = 0;
+                        if (chk) {
+                            var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
+                            $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
 
-                                }
-                                total = 0;
-                                totalRecCount = 0;total = 0;
-                               // $('.advanceAmount').each(function () {
-                                $('#checkableGrid').find('.curtAmount') .each(function () {
-                                    var tr = $(this).parents('tr:first');
-
-                                    totalRecCount++;
-                                    if (document.getElementById('all').checked) {
-                                        total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                                        checkCount++;
-                                        if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#C18410');  $('#partialPaymentColor').show();
-                                        }else{
-                                        $(this).parents('tr').css('background', 'lightblue');
-                                        }
-
-                                    } else {
-                                        checkCount = 0;
-                                        
-                                        if (tr.find("#curtailmentStatus").val() === '2') {
-                                            $(this).parents('tr').css('background', '#ecb764'); $('#partialPaymentColor').show();
-                                        }else{
-                                        $(this).parents('tr').css('background', 'transparent');
-                                    }
-
-                                    }
-                                    var t = roundNumber(total, 2);
-                                    document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                                    if (checkCount > 0) {
-                                        $("#payAll").removeAttr("disabled");
-                                        $("#payDate").removeAttr("disabled");
-                                        if (totalRecCount == 1) {
-                                            SetTextBoxValues(tr);
-                                        }
-                                    }
-
-                                });
-                                if (checkCount > 1) {
-                                    ClearTextBoxValues();ClearSearchGrid();
-                                }
-                                else if (checkCount == 0 || totalRecCount == 0) {
-                                    $("#payAll").attr("disabled", "disabled");
-                                    $("#payDate").attr("disabled", "disabled");
-                                    // clear top error
-                                    
-                                    $('#errorPayDate').text('');
-                                    $('.centered span').text('');
-                                    $('#payDate').removeClass('input-validation-error');
-                                    $('#payDate').next('span').children().text('');
-                                    ClearTextBoxValues();
-                                }
-                                //changePartialPaymentRowColor();
-                            }
-                        })
-
-
-                var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
-                $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
-
-                changePartialPaymentRowColor();
-                
-                $('.checkboxAll').change(function () {
-                    var tr = $(this).parents('tr:first');
-                    var checked = tr.find("#all").is(':checked');
-
-                    if (checked) {
-                        total = total + parseFloat(tr.find("#am").text().replace(',', ''));
-                        
-                        checkCount++;
-                        if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#C18410'); //checked color of partial payment
-                            $('#partialPaymentColor').show();
-                        }else{
-                        $(this).parents('tr').css('background', 'lightblue');
-                        }
-
-
-                    } else {
-                        total = total - parseFloat(tr.find("#am").text().replace(',', ''));
-                        checkCount--;
-                        if (tr.find("#curtailmentStatus").val() === '2') {
-                            $(this).parents('tr').css('background', '#ecb764'); //not checked color of partial payment
-                            $('#partialPaymentColor').show();
-                        }else{
-                        $(this).parents('tr').css('background', 'transparent');
-                    }
-
-                    }
-                    
-                    if (checkCount == 1) { 
-                        if (checked) {
-                            SetTextBoxValues(tr);
 
                         } else {
-                            $('.curtAmount').each(function () {
+                            var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
+                            $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
+                            $("#payAll").attr("disabled", "disabled");
+                            $("#payDate").attr("disabled", "disabled");
+                            // clear top error
+                            $('.centered span').text('');
+                            $('#errorPayDate').text('');
 
-                                var tr = $(this).parents('tr:first');
-                                var checked = tr.find("#all").is(':checked');
+                            $('#payDate').removeClass('input-validation-error');
+                            $('#payDate').next('span').children().text('');
+                            totalRecCount = 0;
 
-                                if (checked) {
-                                    SetTextBoxValues(tr);
+                        }
+                        total = 0;
+                        totalRecCount = 0;total = 0;
+                        // $('.advanceAmount').each(function () {
+                        $('#checkableGrid').find('.curtAmount') .each(function () {
+                            var tr = $(this).parents('tr:first');
+
+                            totalRecCount++;
+                            if (document.getElementById('all').checked) {
+                                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                checkCount++;
+                                if (tr.find("#curtailmentStatus").val() === '2') {
+                                    $(this).parents('tr').css('background', '#C18410');  $('#partialPaymentColor').show();
+                                }else{
+                                    $(this).parents('tr').css('background', 'lightblue');
                                 }
 
-                            });
-                        }
-                        var t1 = roundNumber(total,2);
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                        $("#payAll").removeAttr("disabled");
-                        $("#payDate").removeAttr("disabled");
-                    }
-                    else if (checkCount == 0) {
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
-                        ClearTextBoxValues();
-                        $("#payAll").attr("disabled", "disabled");
-                        $("#payDate").attr("disabled", "disabled");
-                        // clear top error
-                        $('.centered span').text('');
-                        $('#errorPayDate').text('');
-                        $('#payDate').removeClass('input-validation-error');
-                        $('#payDate').next('span').children().text('');
-                        $("#someID span").html('Select')
+                            } else {
+                                checkCount = 0;
 
-                    }
-                    else {
+                                if (tr.find("#curtailmentStatus").val() === '2') {
+                                    $(this).parents('tr').css('background', '#ecb764'); $('#partialPaymentColor').show();
+                                }else{
+                                    $(this).parents('tr').css('background', 'transparent');
+                                }
 
-                        ClearTextBoxValues();
-                        var t2 = roundNumber(total,2);
-                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t2.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
-
-                    }
-
-                    if (checkCount > 0) {ClearSearchGrid() ;
-                        var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
-                        $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-
-                        var totalRows = $("#checkableGrid td :checkbox").length;
-                        var checked = $("#checkableGrid td :checkbox:checked").length;
-
-                        if (checked == totalRows) {
-                            var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
-                            $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-                        }
-                    }
-                    $('.curtAmount').each(function () {
-                        var tr = $(this).parents('tr:first');
-                        if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
-                            $(this).parents('tr').css('background', '#C18410');//checked color of partial payment
-                        }
-                    });
-                });
-
-                //
-                // Change the selector if needed
-                var table = $('table'),
-                    bodyCells = table.find('tbody tr:first').children(),
-                    colWidth;
-
-                // Adjust the width of thead cells when window resizes
-                $(window).resize(function() {
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function() {
-                        return $(this)[0].getBoundingClientRect().width;
-                    }).get();
-    
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function(i, v) {
-                        $(v).outerWidth(colWidth[i]);
-                    });    
-                }).resize(); // Trigger resize handler  
-
-                $(window).bind("load",function(){
-    
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function() {
-                        return $(this)[0].getBoundingClientRect().width;
-                    }).get();
-    
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function(i, v) {
-                        $(v).outerWidth(colWidth[i]);
-                    });    
-                });
-            }
-
-            //$(document).ready(function () {
-            //    changePartialPaymentRowColor();
-            //});
-
-            function changePartialPaymentRowColor() {
-                $('.curtAmount').each(function () {
-                    var tr = $(this).parents('tr:first');
-                    if (tr.find("#curtailmentStatus").val() === '2') {
-                        $(this).parents('tr').css('background', '#ecb764');     //not checked color of partial payment
-                        $('#partialPaymentColor').show();
-            }
-                });
-            }
-
-            $(document).on('click', 'tbody', (function (e) {
-                var target = $(e.target);
-               
-                if (target.parents('#checkableGrid').length) {
-
-                    var $td = $(e.target).closest("td");
-                    var rowIndex = $td.parent().index();
-                    rowIndex += 1;
-                    var ColIndex = $td.parent().children().index($td);
-                    var table = document.getElementById("checkableGrid");
-                    var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-                    ClearLabelMessages();
-                    
-                    if (ColIndex != 0) {
-
-                        var checked = row.find("#all").prop('checked');
-                        if (!checked) {
-                            row.find("#all").prop('checked', true);
-                            if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
-                                row.css('background', '#C18410');//checked color of partial payment
-                            }else{
-                            row.css('background', 'lightblue');
+                            }
+                            var t = roundNumber(total, 2);
+                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                            if (checkCount > 0) {
+                                $("#payAll").removeAttr("disabled");
+                                $("#payDate").removeAttr("disabled");
+                                if (totalRecCount == 1) {
+                                    SetTextBoxValues(tr);
+                                }
                             }
 
-                            checkCount++;
-                            total = total + parseFloat(row.find("#am").text().replace(',', ''));
-
-                            if (checkCount == 1) {ClearSearchGrid() ;
-                                SetTextBoxValues(row);
-                            }
-                            else {                               
-                                ClearTextBoxValues();
-                            }
-                            SetRadioBtnHeaderChecked();
-                            var t4 = roundNumber(total,2);
-                            document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                            //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
-
-                            $("#payAll").removeAttr("disabled");
-                            $("#payDate").removeAttr("disabled");
+                        });
+                        if (checkCount > 1) {
+                            ClearTextBoxValues();ClearSearchGrid();
                         }
-                    } else {
-                        SetRadioBtnHeaderChecked();
+                        else if (checkCount == 0 || totalRecCount == 0) {
+                            $("#payAll").attr("disabled", "disabled");
+                            $("#payDate").attr("disabled", "disabled");
+                            // clear top error
+
+                            $('#errorPayDate').text('');
+                            $('.centered span').text('');
+                            $('#payDate').removeClass('input-validation-error');
+                            $('#payDate').next('span').children().text('');
+                            ClearTextBoxValues();
+                        }
+                        //changePartialPaymentRowColor();
                     }
-                    //changePartialPaymentRowColor();
+                })
+
+
+        var gg = $('<div />').attr({ id: 'someID' }).html('<span> Select </span>');
+        $('.gridtable thead tr th:first').html(gg.prepend(ctrl));
+
+        changePartialPaymentRowColor();
+
+        $('.checkboxAll').change(function () {
+            var tr = $(this).parents('tr:first');
+            var checked = tr.find("#all").is(':checked');
+
+            if (checked) {
+                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+
+                checkCount++;
+                if (tr.find("#curtailmentStatus").val() === '2') {
+                    $(this).parents('tr').css('background', '#C18410'); //checked color of partial payment
+                    $('#partialPaymentColor').show();
+                }else{
+                    $(this).parents('tr').css('background', 'lightblue');
                 }
-            }));
 
-            function SetRadioBtnHeaderChecked() {
+
+            } else {
+                total = total - parseFloat(tr.find("#am").text().replace(',', ''));
+                checkCount--;
+                if (tr.find("#curtailmentStatus").val() === '2') {
+                    $(this).parents('tr').css('background', '#ecb764'); //not checked color of partial payment
+                    $('#partialPaymentColor').show();
+                }else{
+                    $(this).parents('tr').css('background', 'transparent');
+                }
+
+            }
+
+            if (checkCount == 1) {
+                if (checked) {
+                    SetTextBoxValues(tr);
+
+                } else {
+                    $('.curtAmount').each(function () {
+
+                        var tr = $(this).parents('tr:first');
+                        var checked = tr.find("#all").is(':checked');
+
+                        if (checked) {
+                            SetTextBoxValues(tr);
+                        }
+
+                    });
+                }
+                var t1 = roundNumber(total,2);
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                $("#payAll").removeAttr("disabled");
+                $("#payDate").removeAttr("disabled");
+            }
+            else if (checkCount == 0) {
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ 0.00";
+                ClearTextBoxValues();
+                $("#payAll").attr("disabled", "disabled");
+                $("#payDate").attr("disabled", "disabled");
+                // clear top error
+                $('.centered span').text('');
+                $('#errorPayDate').text('');
+                $('#payDate').removeClass('input-validation-error');
+                $('#payDate').next('span').children().text('');
+                $("#someID span").html('Select')
+
+            }
+            else {
+
+                ClearTextBoxValues();
+                var t2 = roundNumber(total,2);
+                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t2.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+
+            }
+
+            if (checkCount > 0) {ClearSearchGrid() ;
+                var chkText = $('<div />').attr({ id: 'someID' }).html(' <span> Select </span>');
+                $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+
                 var totalRows = $("#checkableGrid td :checkbox").length;
                 var checked = $("#checkableGrid td :checkbox:checked").length;
 
                 if (checked == totalRows) {
-                    var chkText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
-                    $("#checkableGrid").find("input:checkbox").each(function () {
-                        this.checked = true;
-                    });
-                    $("#someID span").html('Deselect');
+                    var chkText = $('<div />').attr({ id: 'someID' }).html('<span>  Deselect </span>');
+                    $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
                 }
-                else {
-
-                    $("#cbSelectAll").removeAttr("checked");
-                }
-
             }
-
-
-            function ChangeCheckBoxText(value) {
-                var ctrl =
-                        $('<input />', {
-                            type: 'checkbox',
-                            id: "cbSelectAll"
-                        });
-                var chkText = $('<div />').attr({ id: 'someID' }).html(value);
-                $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
-            }
-
-
-            $("#btnSearch").click(function () {
-
-                ClearTextBoxValues();
-
-                total = 0;
-                checkCount = 0;
-                $("#btnPay").attr("disabled", "disabled");
-                $("#payAll").attr("disabled", "disabled");
-                $("#advanceDate").attr("disabled", "disabled");
-                $("#payDate").attr("disabled", "disabled");
-                // clear top error
-                $('#payDate').removeClass('input-validation-error');
-                $('#payDate').next('span').children().text('');
-                $('.centered span').text('');
-                $('#errorPayDate').text('');
-                
-                ClearMainGrid();
-                //var count = 0;
-                //$("#checkableGrid").find("input:checkbox").each(function () {
-                //    this.checked = false;
-                //    if (count > 0) {
-                //        $(this).parents('tr').css('background', 'transparent');
-                //    }
-                //    count++;
-                //});
-                document.getElementById('all').checked = false;
-                var t5 = roundNumber(total,2);
-                document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t5.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
-
-                $("#someID span").html('Select');
-                $("#tagscloud span").html('');
-                $('#iCurtAmount').removeClass('input-validation-error');
-                var para1 = $("#identificationNumberSearch").val();
-                var para2 = $('#cmbYear').val();
-                var para3 = $("#cmbMake").val();
-                var para4 = $("#cmbModel").val();
-                if (para1 == null) { para1 = ''; }
-                if (((para1 != "") &&(para1 != null)) && (para1.length < 6)) {
-                    //alert('ff');
-                    $("#searchIdentificationNumber").text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
-                   // $('#identificationNumberSearch').val("");
-
-                    $('.centered span').text('Error');
-                    $('#identificationNumberSearch').addClass('input-validation-error');
-                    $('#searchGrid1').hide()
-                    e.preventDefault();
-
+            $('.curtAmount').each(function () {
+                var tr = $(this).parents('tr:first');
+                if (tr.find("#curtailmentStatus").val() === '2' && tr.find("#all").is(':checked')) {
+                    $(this).parents('tr').css('background', '#C18410');//checked color of partial payment
                 }
-                else if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
-                    Search(para1, para2, para3, para4);
-                }else{
-                    $('#searchGrid1').hide();
-                }
-
-
             });
-            $('#identificationNumberSearch').click(function () {
-                $("#searchIdentificationNumber").text('');
-                //$('#identificationNumberSearch').val("");
+        });
 
-                $('.centered span').text('');
-                $('#identificationNumberSearch').removeClass('input-validation-error')
+        //
+        // Change the selector if needed
+        var table = $('table'),
+            bodyCells = table.find('tbody tr:first').children(),
+            colWidth;
+
+        // Adjust the width of thead cells when window resizes
+        $(window).resize(function() {
+            // Get the tbody columns width array
+            colWidth = bodyCells.map(function() {
+                return $(this)[0].getBoundingClientRect().width;
+            }).get();
+
+            // Set the width of thead columns
+            table.find('thead tr').children().each(function(i, v) {
+                $(v).outerWidth(colWidth[i]);
             });
-            //clear text box values and disable feild
-            function ClearTextBoxValues() {
-                $('#ivin').val('');
-                $('#identificationNumber').val('');
-                $('#iYear').val('');
-                $('#iMake').val('');
-                $('#iModel').val('');
-                $('#iCost').val('');
-                $('#iCurtAmount').val('');
-                $("#btnPay").attr("disabled", "disabled");
-                //$("#payAll").removeAttr("disabled");
-                $("#advanceDate").attr("disabled", "disabled");
-                //$("#startDate").removeAttr("disabled");
-                $("#singleUnitDiv").hide();
-                $('.centered span').text('');
-                $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
-                $('#errorPayDate').text('');
-                $('#payDate').removeClass('input-validation-error');
-                $('#payDate').next('span').children().text('');
-                $('#payDate').val(''); 
-                $('#payCurtDate').val('');
-                
-            }
+        }).resize(); // Trigger resize handler
 
-            $('#identificationNumberSearch').focusout(function () {
-                $(this).attr('placeholder', 'VIN/HIN/Serial No');
+        $(window).bind("load",function(){
+
+            // Get the tbody columns width array
+            colWidth = bodyCells.map(function() {
+                return $(this)[0].getBoundingClientRect().width;
+            }).get();
+
+            // Set the width of thead columns
+            table.find('thead tr').children().each(function(i, v) {
+                $(v).outerWidth(colWidth[i]);
             });
+        });
+    }
 
-            function ClearTextBoxValues() {
-                $('#iDateAdvance').val('');
-                $('#ivin').val('');
-                $('#iYear').val('');
-                $('#iMake').val('');
-                $('#iModel').val('');
-                $('#iCurtAmount').val('');
-                $('#iCurtNumber').val('');
-                $("#btnPay").attr("disabled", "disabled");
-                $("#advanceDate").attr("disabled", "disabled");
-                $("#singleUnitDiv").hide();
-                $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
-                $('.centered span').text('');
-                $('#errorPayDate').text('');
-                $('#payDate').removeClass('input-validation-error');
-                $('#payDate').next('span').children().text('');
-                $('#payDate').val(''); 
-                $('#payCurtDate').val(''); 
-                
+    //$(document).ready(function () {
+    //    changePartialPaymentRowColor();
+    //});
+
+    function changePartialPaymentRowColor() {
+        $('.curtAmount').each(function () {
+            var tr = $(this).parents('tr:first');
+            if (tr.find("#curtailmentStatus").val() === '2') {
+                $(this).parents('tr').css('background', '#ecb764');     //not checked color of partial payment
+                $('#partialPaymentColor').show();
             }
+        });
+    }
 
-            function SetTextBoxValues(tr) {
+    $(document).on('click', 'tbody', (function (e) {
+        var target = $(e.target);
 
+        if (target.parents('#checkableGrid').length) {
 
+            var $td = $(e.target).closest("td");
+            var rowIndex = $td.parent().index();
+            rowIndex += 1;
+            var ColIndex = $td.parent().children().index($td);
+            var table = document.getElementById("checkableGrid");
+            var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
+            ClearLabelMessages();
 
-                $('#iVin').val(tr.find("#vin").text());
-                $('#iYear').val(tr.find("#year").text());
-                $('#iMake').val(tr.find("#make").text());
-                $('#iModel').val(tr.find("#model").text());
-                $('#iUnitID').val(tr.find("#all").val());
-                $('#iCurtNumber').val(tr.find("#CurtNumber").text());
+            if (ColIndex != 0) {
 
-                $('#iDateAdvance').val(tr.find("#dateAdvance").text());
-                $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
-                $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
-                $('#errorCurtAmount').text('');
-                $('#iCurtAmount').removeClass('input-validation-error');
-                $('#errorCurtPayDate').text('');
-                $('#payCurtDate').removeClass('input-validation-error');
+                var checked = row.find("#all").prop('checked');
+                if (!checked) {
+                    row.find("#all").prop('checked', true);
+                    if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
+                        row.css('background', '#C18410');//checked color of partial payment
+                    }else{
+                        row.css('background', 'lightblue');
+                    }
 
-                //document.getElementById("unitid").innerHTML = tr.find("#all").val(); 
-                
+                    checkCount++;
+                    total = total + parseFloat(row.find("#am").text().replace(',', ''));
 
-                $("#btnPay").removeAttr("disabled");
-                $("#advanceDate").removeAttr("disabled");
-                $("#singleUnitDiv").show();
+                    if (checkCount == 1) {ClearSearchGrid() ;
+                        SetTextBoxValues(row);
+                    }
+                    else {
+                        ClearTextBoxValues();
+                    }
+                    SetRadioBtnHeaderChecked();
+                    var t4 = roundNumber(total,2);
+                    document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                    //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+
+                    $("#payAll").removeAttr("disabled");
+                    $("#payDate").removeAttr("disabled");
+                }
+            } else {
+                SetRadioBtnHeaderChecked();
             }
+            //changePartialPaymentRowColor();
+        }
+    }));
 
-            function ClearLabelMessages() {
-                $('#noDataLabelDiv').text("");
-                $('.label-success').text("");
-            }
+    function SetRadioBtnHeaderChecked() {
+        var totalRows = $("#checkableGrid td :checkbox").length;
+        var checked = $("#checkableGrid td :checkbox:checked").length;
 
-            @*var advDatePicker = new Pikaday({
+        if (checked == totalRows) {
+            var chkText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
+            $("#checkableGrid").find("input:checkbox").each(function () {
+                this.checked = true;
+            });
+            $("#someID span").html('Deselect');
+        }
+        else {
+
+            $("#cbSelectAll").removeAttr("checked");
+        }
+
+    }
+
+
+    function ChangeCheckBoxText(value) {
+        var ctrl =
+                $('<input />', {
+                    type: 'checkbox',
+                    id: "cbSelectAll"
+                });
+        var chkText = $('<div />').attr({ id: 'someID' }).html(value);
+        $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
+    }
+
+
+    $("#btnSearch").click(function () {
+
+        ClearTextBoxValues();
+
+        total = 0;
+        checkCount = 0;
+        $("#btnPay").attr("disabled", "disabled");
+        $("#payAll").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#payDate").attr("disabled", "disabled");
+        // clear top error
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').next('span').children().text('');
+        $('.centered span').text('');
+        $('#errorPayDate').text('');
+
+        ClearMainGrid();
+        //var count = 0;
+        //$("#checkableGrid").find("input:checkbox").each(function () {
+        //    this.checked = false;
+        //    if (count > 0) {
+        //        $(this).parents('tr').css('background', 'transparent');
+        //    }
+        //    count++;
+        //});
+        document.getElementById('all').checked = false;
+        var t5 = roundNumber(total,2);
+        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t5.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+
+        $("#someID span").html('Select');
+        $("#tagscloud span").html('');
+        $('#iCurtAmount').removeClass('input-validation-error');
+        var para1 = $("#identificationNumberSearch").val();
+        var para2 = $('#cmbYear').val();
+        var para3 = $("#cmbMake").val();
+        var para4 = $("#cmbModel").val();
+        if (para1 == null) { para1 = ''; }
+        if (((para1 != "") &&(para1 != null)) && (para1.length < 6)) {
+            //alert('ff');
+            $("#searchIdentificationNumber").text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            // $('#identificationNumberSearch').val("");
+
+            $('.centered span').text('Error');
+            $('#identificationNumberSearch').addClass('input-validation-error');
+            $('#searchGrid1').hide()
+            e.preventDefault();
+
+        }
+        else if (($("#identificationNumberSearch").val() != '') || ($('#cmbYear').val() != '') || ($('#cmbMake').val() != '') || ($("#cmbModel").val() != '')) {
+            Search(para1, para2, para3, para4);
+        }else{
+            $('#searchGrid1').hide();
+        }
+
+
+    });
+    $('#identificationNumberSearch').click(function () {
+        $("#searchIdentificationNumber").text('');
+        //$('#identificationNumberSearch').val("");
+
+        $('.centered span').text('');
+        $('#identificationNumberSearch').removeClass('input-validation-error')
+    });
+    //clear text box values and disable feild
+    function ClearTextBoxValues() {
+        $('#ivin').val('');
+        $('#identificationNumber').val('');
+        $('#iYear').val('');
+        $('#iMake').val('');
+        $('#iModel').val('');
+        $('#iCost').val('');
+        $('#iCurtAmount').val('');
+        $("#btnPay").attr("disabled", "disabled");
+        //$("#payAll").removeAttr("disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        //$("#startDate").removeAttr("disabled");
+        $("#singleUnitDiv").hide();
+        $('.centered span').text('');
+        $('#errorCurtAmount').text('');
+        $('#iCurtAmount').removeClass('input-validation-error');
+        $('#errorPayDate').text('');
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').next('span').children().text('');
+        $('#payDate').val('');
+        $('#payCurtDate').val('');
+
+    }
+
+    $('#identificationNumberSearch').focusout(function () {
+        $(this).attr('placeholder', 'VIN/HIN/Serial No');
+    });
+
+    function ClearTextBoxValues() {
+        $('#iDateAdvance').val('');
+        $('#ivin').val('');
+        $('#iYear').val('');
+        $('#iMake').val('');
+        $('#iModel').val('');
+        $('#iCurtAmount').val('');
+        $('#iCurtNumber').val('');
+        $("#btnPay").attr("disabled", "disabled");
+        $("#advanceDate").attr("disabled", "disabled");
+        $("#singleUnitDiv").hide();
+        $('#errorCurtAmount').text('');
+        $('#iCurtAmount').removeClass('input-validation-error');
+        $('.centered span').text('');
+        $('#errorPayDate').text('');
+        $('#payDate').removeClass('input-validation-error');
+        $('#payDate').next('span').children().text('');
+        $('#payDate').val('');
+        $('#payCurtDate').val('');
+
+    }
+
+    function SetTextBoxValues(tr) {
+
+
+
+        $('#iVin').val(tr.find("#vin").text());
+        $('#iYear').val(tr.find("#year").text());
+        $('#iMake').val(tr.find("#make").text());
+        $('#iModel').val(tr.find("#model").text());
+        $('#iUnitID').val(tr.find("#all").val());
+        $('#iCurtNumber').val(tr.find("#CurtNumber").text());
+
+        $('#iDateAdvance').val(tr.find("#dateAdvance").text());
+        $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
+        $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
+        $('#errorCurtAmount').text('');
+        $('#iCurtAmount').removeClass('input-validation-error');
+        $('#errorCurtPayDate').text('');
+        $('#payCurtDate').removeClass('input-validation-error');
+
+        //document.getElementById("unitid").innerHTML = tr.find("#all").val();
+
+
+        $("#btnPay").removeAttr("disabled");
+        $("#advanceDate").removeAttr("disabled");
+        $("#singleUnitDiv").show();
+    }
+
+    function ClearLabelMessages() {
+        $('#noDataLabelDiv').text("");
+        $('.label-success').text("");
+    }
+
+    @*var advDatePicker = new Pikaday({
                 field: document.getElementById('advanceDate'),
                 format: 'l'
 
@@ -865,46 +865,46 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
 
-            function Search(para1, para2, para3, para4) {
+    function Search(para1, para2, para3, para4) {
 
-                var curtList = @Html.Raw(Json.Encode(Model));
+        var curtList = @Html.Raw(Json.Encode(Model));
 
-                $.ajax({
-                    url: '/Curtailments/SearchCurtailment',
-                    type: 'POST',
-                    contentType: 'application/json;',
-                    data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
-                    success: function (View) {
-                        $('#searchGrid1').html(View);
-                        $('#searchGrid1').removeAttr('hidden');
-                        $('#searchGrid1').show();
-                        changePartialPaymentRowColor();
-                        // Change the selector if needed
-                        var table = $('table'),
-                            bodyCells = table.find('tbody tr:first').children(),
-                            colWidth;
+        $.ajax({
+            url: '/Curtailments/SearchCurtailment',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
+            success: function (View) {
+                $('#searchGrid1').html(View);
+                $('#searchGrid1').removeAttr('hidden');
+                $('#searchGrid1').show();
+                changePartialPaymentRowColor();
+                // Change the selector if needed
+                var table = $('table'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
 
-                        colWidth = bodyCells.map(function () {
-                            return $(this)[0].getBoundingClientRect().width;
-                        }).get();
+                colWidth = bodyCells.map(function () {
+                    return $(this)[0].getBoundingClientRect().width;
+                }).get();
 
-                        // Set the width of thead columns
-                        table.find('thead tr').children().each(function (i, v) {
-                            $(v).outerWidth(colWidth[i]);
-                        });
-
-                    },
-                    
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        // Your handler here...
-                        $('#searchGrid1').hide();
-                        // if session expires
-                        if (jqXHR.status == "404") {
-                            window.location.href = '/Login/UserLogin?lbl=Session expired';
-                        }
-                    }
+                // Set the width of thead columns
+                table.find('thead tr').children().each(function (i, v) {
+                    $(v).outerWidth(colWidth[i]);
                 });
+
+            },
+
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your handler here...
+                $('#searchGrid1').hide();
+                // if session expires
+                if (jqXHR.status == "404") {
+                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                }
             }
+        });
+    }
 
     $("#btnClear").click(function () {
 
@@ -933,7 +933,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         $("#searchIdentificationNumber").text('');
         $('.centered span').text('');
         $('#identificationNumberSearch').removeClass('input-validation-error');
-        
+
     }
 
     function ClearMainGrid() {
@@ -962,7 +962,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     }
 
     function ClearSearchGrid() {
-         $("#searchResultGrid").find('.advanceAmount').each(function () {
+        $("#searchResultGrid").find('.advanceAmount').each(function () {
             var tr = $(this).parents('tr:first');
             if (tr.find("#curtailmentStatus").val() != '2') {
                 tr.css('background', 'transparent');
@@ -991,7 +991,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     });
 
     payPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-   // payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
+    // payPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
     $("#payDate").val("");
     payPicker.gotoDate(new Date('@DateTime.Today.ToString("d")'));
 
@@ -1076,12 +1076,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     var loanId = '@ViewBag.LoanId';
     var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function (e) {
-    //$(document).on('click', '#payAll', function(e) {
+        //$(document).on('click', '#payAll', function(e) {
         //check want to view report
 
-       
-    
-        
+
+
+
         var ckbReport = $('#report').is(':checked');
         var ckbEmailReceipt = $('#emailReceipt').is(':checked');
         var needSend = "";
@@ -1116,276 +1116,276 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
-            
+
                 $('#errorPayDate').text('Please select the Curtailment payment date');
                 $('#payDate').addClass('input-validation-error');
-                
+
             }
             $('.centered span').text('Error');
             return;
         }
 
         if($("#errorPayDate").text() !== "" || $('#errorEmail').text() !== ""){
-            
+
             return;
         }
         if(checkLastCurtailments()){
-        if (checkCount >= 1) {
-           
-            $('.curtAmount').each(function () {
-                var tr = $(this).parents('tr:first');
-                var checked = tr.find("#all").is(':checked');
-                if (checked) {
-                    data.SelectedCurtailmentSchedules.push({
-                        UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(',',''),
-                        Year: tr.find("#year").text(), Make: tr.find("#make").text(), Model: tr.find("#model").text()
-                    });
+            if (checkCount >= 1) {
 
-                }
-            });
+                $('.curtAmount').each(function () {
+                    var tr = $(this).parents('tr:first');
+                    var checked = tr.find("#all").is(':checked');
+                    if (checked) {
+                        data.SelectedCurtailmentSchedules.push({
+                            UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(',',''),
+                            Year: tr.find("#year").text(), Make: tr.find("#make").text(), Model: tr.find("#model").text()
+                        });
 
-            $("#btnPay").attr("disabled", "disabled");
-            $("#payAll").attr("disabled", "disabled");
-
-            //alert(data.SelectedCurtailmentSchedules.length);
-            $.ajax({
-                url: '/Curtailments/PayCurtailments/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-
-                success: function (View) {
-
-                   
-                    //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                    if(View == "") {
-                        window.scrollTo(0, 0);
-                        if (ckbReport) {
-                            doConfirm1();
-                            var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
-
-                            $('#reportViewerDiv').show();
-                            var myFrame = document.getElementById('ifrmReportViewer');
-
-                            if (myFrame !== null) {
-
-                                if (myFrame.src) {
-                                    //alert(1);
-                                    myFrame.src = url;
-                                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                                    //alert(2);
-                                    myFrame.contentWindow.location = url;
-                                } else {
-                                    //alert(3);
-                                    myFrame.setAttribute('src', url);
-                                }
-                            }
-                            $('.overlay-bg, .overlay-content.popupReport').show();
-                            e.preventDefault();
-                            $('#btnCancelPtrDiv').click(function() {
-                                
-                                GetCurrentCurtailment($('#dueDate').val());
-                                $('.overlay-bg, .overlay-content.popupReport').hide();
-                                $('.centered1 span').text('Successfully Updated');
-                            });
-
-                            $('#btnPrint').click(function () {
-                                $('.overlay-bg, .overlay-content.popupReport').hide();
-                                $.ajax({
-                                    url: '/Curtailments/PrintPage',
-                                    type: 'POST',
-                                    contentType: 'application/json;',
-                                    data: {},
-                                    success: function (view) {
-                                        //alert(view);
-                                        $('.centered1 span').text('Successfully Updated');
-                                        GetCurrentCurtailment($('#dueDate').val());
-                                        $('.overlay-bg, .overlay-content.popupReport').hide();
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        // Your handler here...
-       
-                                        // if session expires
-                                        if (jqXHR.status == "404") {
-                                            window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                        } else {
-                                            $('#errPage span').text('No printers are installed.');
-                                        }
-                                    }
-                                });
-                            });
-
-                        } else {
-                            $('.centered1 span').text('Successfully Updated');
-                            GetCurrentCurtailment($('#dueDate').val());
-                            
-                        }
                     }
+                });
 
-                    if(View.length > 5){
+                $("#btnPay").attr("disabled", "disabled");
+                $("#payAll").attr("disabled", "disabled");
 
-                        if (ckbReport) {
-                            doConfirm1();
-                            var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+                //alert(data.SelectedCurtailmentSchedules.length);
+                $.ajax({
+                    url: '/Curtailments/PayCurtailments/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
 
-                            $('#reportViewerDiv').show();
-                            var myFrame = document.getElementById('ifrmReportViewer');
+                    success: function (View) {
 
-                            if (myFrame !== null) {
 
-                                if (myFrame.src) {
-                                    //alert(1);
-                                    myFrame.src = url;
-                                } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                                    //alert(2);
-                                    myFrame.contentWindow.location = url;
-                                } else {
-                                    //alert(3);
-                                    myFrame.setAttribute('src', url);
+                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        if(View == "") {
+                            window.scrollTo(0, 0);
+                            if (ckbReport) {
+                                doConfirm1();
+                                var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+                                $('#reportViewerDiv').show();
+                                var myFrame = document.getElementById('ifrmReportViewer');
+
+                                if (myFrame !== null) {
+
+                                    if (myFrame.src) {
+                                        //alert(1);
+                                        myFrame.src = url;
+                                    } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                        //alert(2);
+                                        myFrame.contentWindow.location = url;
+                                    } else {
+                                        //alert(3);
+                                        myFrame.setAttribute('src', url);
+                                    }
                                 }
+                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                e.preventDefault();
+                                $('#btnCancelPtrDiv').click(function() {
+
+                                    GetCurrentCurtailment($('#dueDate').val());
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $('.centered1 span').text('Successfully Updated');
+                                });
+
+                                $('#btnPrint').click(function () {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $.ajax({
+                                        url: '/Curtailments/PrintPage',
+                                        type: 'POST',
+                                        contentType: 'application/json;',
+                                        data: {},
+                                        success: function (view) {
+                                            //alert(view);
+                                            $('.centered1 span').text('Successfully Updated');
+                                            GetCurrentCurtailment($('#dueDate').val());
+                                            $('.overlay-bg, .overlay-content.popupReport').hide();
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            // Your handler here...
+
+                                            // if session expires
+                                            if (jqXHR.status == "404") {
+                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                            } else {
+                                                $('#errPage span').text('No printers are installed.');
+                                            }
+                                        }
+                                    });
+                                });
+
+                            } else {
+                                $('.centered1 span').text('Successfully Updated');
+                                GetCurrentCurtailment($('#dueDate').val());
+
                             }
-                            $('.overlay-bg, .overlay-content.popupReport').show();
-                            e.preventDefault();
-                            $('#btnCancelPtrDiv').click(function() {
-                                $('.overlay-bg, .overlay-content.popupReport').hide();
-                                if(View.length > 5){
-                                    var array = View.split(',');
-                                    showPopup5(5 , array);
-                                }
-                            });
-                            
-                            $('#btnPrint').click(function () {
-                                $('.overlay-bg, .overlay-content.popupReport').hide();
-                                $.ajax({
-                                    url: '/Curtailments/PrintPage',
-                                    type: 'POST',
-                                    contentType: 'application/json;',
-                                    data: {},
-                                    success: function (view) {
-                                        //alert(view);
+                        }
 
+                        if(View.length > 5){
+
+                            if (ckbReport) {
+                                doConfirm1();
+                                var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+                                $('#reportViewerDiv').show();
+                                var myFrame = document.getElementById('ifrmReportViewer');
+
+                                if (myFrame !== null) {
+
+                                    if (myFrame.src) {
+                                        //alert(1);
+                                        myFrame.src = url;
+                                    } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                        //alert(2);
+                                        myFrame.contentWindow.location = url;
+                                    } else {
+                                        //alert(3);
+                                        myFrame.setAttribute('src', url);
+                                    }
+                                }
+                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                e.preventDefault();
+                                $('#btnCancelPtrDiv').click(function() {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    if(View.length > 5){
                                         var array = View.split(',');
                                         showPopup5(5 , array);
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        // Your handler here...
-       
-                                        // if session expires
-                                        if (jqXHR.status == "404") {
-                                            window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                        } else {
-                                            $('#errPage span').text('No printers are installed.');
-                                        }
                                     }
                                 });
-                            });
-                        } 
-                        else{
 
-                            var array = View.split(',');
-                            showPopup5(5 , array);
+                                $('#btnPrint').click(function () {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $.ajax({
+                                        url: '/Curtailments/PrintPage',
+                                        type: 'POST',
+                                        contentType: 'application/json;',
+                                        data: {},
+                                        success: function (view) {
+                                            //alert(view);
 
+                                            var array = View.split(',');
+                                            showPopup5(5 , array);
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            // Your handler here...
+
+                                            // if session expires
+                                            if (jqXHR.status == "404") {
+                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                            } else {
+                                                $('#errPage span').text('No printers are installed.');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                            else{
+
+                                var array = View.split(',');
+                                showPopup5(5 , array);
+
+                            }
+                        }
+
+                        //$('.centered1 span').text('Successfully Updated');
+                        //load report div
+
+
+
+                        //alert("Success");
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+                        //alert("Error");
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
                         }
                     }
 
-                    //$('.centered1 span').text('Successfully Updated');
-                    //load report div
-                  
 
-
-                    //alert("Success");
-
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    // Your handler here...
-                    //alert("Error");
-                    // if session expires
-                    if (jqXHR.status == "404") {
-                        window.location.href = '/Login/UserLogin?lbl=Session expired';
-                    }
-                }
-
-                
-            });
-        }
+                });
+            }
 
         }else{
             $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
             window.scrollTo(0, 0);
-            
-}
+
+        }
 
     });
 
     function checkLastCurtailments(){
 
-       
+
         var a  = true;
-    
-       $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+
+        $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
             if($(this).is(':checked')){
                 //if($(this).closest('tr').find("#CurtNumber").text() == $('#curtailmentTotal').val()){
                 var unitId = $(this).val();
                 var curtNo = $(this).closest('tr').find("#CurtNumber").text();
-                    $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
-                        if($(this).val() == unitId ){
-                            if($(this).is(':checked') == false && $(this).closest('tr').find("#CurtNumber").text() < curtNo ){
-                                
-                                a =false;
-                                return false;
-                                
-}
+                $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+                    if($(this).val() == unitId ){
+                        if($(this).is(':checked') == false && $(this).closest('tr').find("#CurtNumber").text() < curtNo ){
+
+                            a =false;
+                            return false;
+
                         }
-            
-                    });
+                    }
+
+                });
                 //}
-                
+
             }
             return true;
-       });
+        });
 
-       return a;
-     
-       
-       
+        return a;
+
+
+
     }
 
     function checkLastCurtailmentsForSearch(){
 
-       
+
         var a  = true;
-    
-     
-        
-            var unitId = $('#iUnitID').val();
-                    $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
-                        if($(this).val() == unitId && $(this).closest('tr').find("#CurtNumber").text() < $('#iCurtNumber').val() ){
-                           
-                                
-                                a =false;
-                                return false;
-                                
-                          
-                        }
-            
-                    });
-                
-                
-           
+
+
+
+        var unitId = $('#iUnitID').val();
+        $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+            if($(this).val() == unitId && $(this).closest('tr').find("#CurtNumber").text() < $('#iCurtNumber').val() ){
+
+
+                a =false;
+                return false;
+
+
+            }
+
+        });
+
+
+
 
         return a;
-     
-       
-       
+
+
+
     }
 
     $('#payDate').click(function(e){
-    
+
         $('#errorPayDate').text('');
         $(this).next('span').children('span').remove();
     });
 
-    
+
     $('#payDate').blur(function () {
 
         if ($(this).val() == "") {
@@ -1398,7 +1398,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
             if (selectedDate < minDate) {
                 // out off range error
                 $('#errorPayDate').text('Out of Range');
@@ -1422,16 +1422,16 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     });
 
 
-   
+
 
     $('#payCurtDate').click(function(e){
-    
+
         $('#errorCurtPayDate').text('');
         $('#payCurtDate').removeClass('input-validation-error');
         $(this).next('span').children('span').remove();
     });
 
-  
+
 
 
     $('#payCurtDate').blur(function () {
@@ -1446,7 +1446,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         if (valid) {
             var selectedDate = new Date($(this).val());
             var minDate = new Date("@ViewBag.loanDetails.startDate.Date");
-           // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
+            // var maxDate = new Date("@ViewBag.loanDetails.maturityDate.Date");
             if (selectedDate < minDate) {
                 // out off range error
                 $('#errorCurtPayDate').text('Out of Range');
@@ -1469,47 +1469,47 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         }
     });
 
-   
+
     $('#btnPay').click(function (e) {
 
         data = { SelectedCurtailmentSchedules: [] };
 
-         if ($('#iVin').val() != '') {
-             var a = 1;
-             if($("#payCurtDate").val() == ""){
-                 // show error errorCurtPayDate
-                 $('#errorCurtPayDate').text('Please select the Curtailment payment date');
-                 $('#payCurtDate').addClass('input-validation-error');
-                 a=0;
-             }
-             if($('#errorCurtAmount').text() != "" ){
-                 a=0;
-             }
-             if($('#errorCurtPayDate').text() != ""){
-                 a=0;
-             }
-             if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
-                 $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
-                 $('#iCurtAmount').removeClass('input-validation-error');
-                 
-                 
-                 a=0;
-             }
-             if(a== 0 ){
-                 $('.centered span').text('Error');
-                 return;
-             }
+        if ($('#iVin').val() != '') {
+            var a = 1;
+            if($("#payCurtDate").val() == ""){
+                // show error errorCurtPayDate
+                $('#errorCurtPayDate').text('Please select the Curtailment payment date');
+                $('#payCurtDate').addClass('input-validation-error');
+                a=0;
+            }
+            if($('#errorCurtAmount').text() != "" ){
+                a=0;
+            }
+            if($('#errorCurtPayDate').text() != ""){
+                a=0;
+            }
+            if( parseFloat($('#iCurtAmount').val()).toFixed(2) <= 0){
+                $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
+                $('#iCurtAmount').removeClass('input-validation-error');
 
 
-            
-             if(checkLastCurtailmentsForSearch()){
+                a=0;
+            }
+            if(a== 0 ){
+                $('.centered span').text('Error');
+                return;
+            }
 
 
-            data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+
+            if(checkLastCurtailmentsForSearch()){
 
 
-            $("#btnPay").attr("disabled", "disabled");
-            $("#payAll").attr("disabled", "disabled");
+                data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+
+
+                $("#btnPay").attr("disabled", "disabled");
+                $("#payAll").attr("disabled", "disabled");
 
                 //alert(data.SelectedCurtailmentSchedules.length);
                 $.ajax({
@@ -1526,9 +1526,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             GetCurrentCurtailment($('#dueDate').val());
                         }
                         if(View.length > 5){
-                            
+
                             var array = View.split(',');
-                          
+
                             showPopup5(5 , array);
 
 
@@ -1545,22 +1545,22 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     }
                 });
 
-             }
+            }
 
-             else{
-                 $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
-                 window.scrollTo(0, 0);
-                
+            else{
+                $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
+                window.scrollTo(0, 0);
 
-             }
 
-         }
-         
+            }
+
+        }
+
 
     });
 
     $("#iCurtAmount").keypress(function (e){
-        
+
         var charCode = !e.charCode ? e.which : e.charCode;
 
         if ((charCode > 47 && charCode < 58) || charCode == 127 || charCode == 44 || charCode == 46 || charCode == 8) { }
@@ -1568,12 +1568,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             e.preventDefault();
 
 
-      
-    
+
+
     });
 
     $("#iCurtAmount").blur(function (e){
-        
+
 
 
         if($(this).val() == ""){
@@ -1596,7 +1596,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
         $(this).val( num);
-  
+
         if(parseFloat($(this).val()).toFixed(2) <= 0){
             $('#errorCurtAmount').text('Please enter a Curtailment Amount greater than 0');
             $('#iCurtAmount').addClass('input-validation-error');
@@ -1608,9 +1608,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
             $('#errorCurtAmount').text('');
             $('#iCurtAmount').removeClass('input-validation-error');
-           
+
         }
-    
+
     });
 
     $("#iCurtAmount").on('click', function(e) {
@@ -1627,14 +1627,14 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
     function showPopup5(whichpopup , array) {
 
-       
+
         var length = array.length;
         var VinNumbers = [];
         for(var i=0 ; i<length ; i++ ){
 
 
-            
-                            
+
+
             if(array[i].length > 5){
 
                 for(var j=0; j<data.SelectedCurtailmentSchedules.length ; j++ ){
@@ -1643,20 +1643,25 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         VinNumbers.push(data.SelectedCurtailmentSchedules[j].IDNumber);
                         break;
                     }
-                   
+
                 }
-                
+
             }
 
         }
 
         // append the message to span
         var vinString = VinNumbers.join(" , ");
-       
+
         $('#payOffAlert strong').text(vinString);
         if(VinNumbers.length == 1){
-
-            $('#payOffAlert').text('This '+ VinNumbers[0] + ' Unit Successfully paid off. Do you Like to Update the Title Status?');
+            @if (Session["IsTitleTrack"] != null && int.Parse(Session["IsTitleTrack"].ToString()) == 1)
+                 {
+           <text> $('#payOffAlert').text('This ' + VinNumbers[0] + ' Unit Successfully paid off. Do you Like to Update the Title Status?');</text>
+             }else
+             {
+                 <text> $('#payOffAlert').text('This ' + VinNumbers[0] + ' Unit Successfully paid off.');</text>
+             }
         }
 
 
@@ -1689,13 +1694,34 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
     <h3>Message</h3>
 
-    <div id="payOffAlert" class="alert alert-info" role="alert">
-        These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
-    </div><br />
-    <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
-    <br />
-    @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
-    <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">Cancel</button>
+    @if (Session["IsTitleTrack"] != null && int.Parse(Session["IsTitleTrack"].ToString()) == 1)
+    {
+
+        //ViewBag.ttlAccess = 1;
+        <div id="payOffAlert" class="alert alert-info" role="alert">
+            These <strong>VIN NUMBERS</strong>  Units are Successfully paid off. Do you Like to Update the Title Status?
+        </div><br />
+        <span> Press OK to continue, or Cancel to stay on the current page.</span><br />
+        <br />
+        @Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+        <button class="btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">Cancel</button>
+
+
+    }
+    else
+    {
+        //ViewBag.ttlAccess = 0;
+        <div id="payOffAlert" class="alert alert-info" role="alert">
+            These <strong>VIN NUMBERS</strong>  Units are Successfully paid off.
+        </div><br />
+        <span> Press OK to continue</span><br />
+        <br />
+        @*@Html.ActionLink("OK", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })*@
+        <button class="btn btn-info" style="width: 70px;" onclick="$('.overlay-bg, .overlay-content').hide();GetCurrentCurtailment($('#dueDate').val());">OK</button>
+
+    }
+
+   
 
 
 
