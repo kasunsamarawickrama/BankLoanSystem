@@ -107,11 +107,16 @@
         background: #cc0000;
         color: #ffffff;
         font-weight: bold;
-        margin-left: 10px;
+        /*margin-left: 10px;*/
         border-radius: 9px;
         position: absolute;
-        margin-top: -35px;
+        /*margin-top: -35px;*/
         font-size: 11px;
+        font-size: 11px;
+    position: absolute;
+    z-index: 1;
+    top: -33%;
+    left: 60%;
     }
 
     .messagediv {
@@ -153,13 +158,26 @@
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
     <script src="~/scripts/menu.js?version=2"></script>
-   
     
 </head>
 
 
 
+
 <body data-scrolling-animations="true">
+    @if (true)
+    {
+       
+
+        <script>
+       
+       $('body').css({ 'cursor': 'wait' });
+      
+        </script>
+    }
+
+       
+    
     <div id="o-wrapper" class="o-wrapper">
         <header>
             <div class="common-box">
@@ -413,8 +431,8 @@
         //    e.preventDefault;
         //    slideRight.open();
         //});
-        
-
+      
+        $('body').css({ 'cursor': 'default' });
         $('.icon-help_outline').click(function (e) {
             e.preventDefault;
             slideRight_open();
