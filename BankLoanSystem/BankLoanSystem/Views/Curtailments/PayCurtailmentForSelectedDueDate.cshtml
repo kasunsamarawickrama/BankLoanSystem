@@ -110,12 +110,12 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 <label>Curtailmnet Payment Date : </label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
-                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 31%; margin-top: 35px;"></span>
-                @*<input class="form-control" type="date" style="margin-left:15px" />*@
+                <span class="text-danger field-validation-error" id="errorPayDate" style="left: 28%;margin-top: 35px;width: 14%;"></span>
+                
                 <div style="display: inline-table;margin-left: 13px;"><input type="checkbox" id="report" value="Report" style="margin-right:3px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
 <input type="checkbox" id="emailReceipt" value="email" style="margin-right:3px;width:16px;height:16px"/><label>Email a report of the transactions being submitted at this time</label>
                 <div id="receiptEmail" hidden>
-    email address <input type="text" class="form-control" id="emailAdress" />
+                    <label>email address</label> <input type="text" class="form-control" id="emailAdress" />
     <span class="text-danger field-validation-error" id="errorEmail" style="margin-top: 35px;margin-left:2px;"></span>
 </div></div>
                 
@@ -266,7 +266,16 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     </div>
 
 
-
+                    <div style="display: inline-table;margin-left: 13px;">
+                        <input type="checkbox" id="report2" value="Report" style="margin-right:9px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
+                        <input type="checkbox" id="emailReceipt2" value="email" style="margin-right:3px;width:16px;height:16px" /><label>Email a report of the transactions being submitted at this time</label>
+                        <div id="receiptEmail2" hidden>
+                            <label style="margin-left: -315px;">
+                                email address</label>
+                            <input type="text" class="form-control" id="emailAdress2" style="margin-left: 106px;margin-top: -17px;"/>
+                            <span class="text-danger field-validation-error" id="errorEmail2" style="margin-left: -96px;"></span>
+                        </div>
+                    </div>
 
                 <input type="button" value="Cancel" id="btnCancel" tabindex="-1" class="btn btn-primary m-b next_clear_button clear_back" style="float: right; width: 130px; margin-right: 40px;"/>
 
@@ -1060,6 +1069,50 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             dealerEmail = email;
             $('#receiptEmail').hide();
         }
+        if (!ckb) {
+            $('#emailAdress').val('');
+            $('#errorEmail').text('');
+            $('#emailAdress').removeClass('input-validation-error');
+        }
+    });
+
+    //var dealerEmail = "";
+    var emailError2 = false;
+
+    $('#emailAdress2').blur(function() {
+        if (this.value !== '') {
+            var res = validateEmail(this.value);
+            //alert(res);
+            if (res === false) {
+                $('#errorEmail2').text('Invalid email address');
+            } else {
+                $('#errorEmail2').text('');
+                dealerEmail = this.value;
+            }
+        } else {
+            $('#emailAdress2').removeClass('input-validation-error');
+        }
+    });
+
+    $('#emailAdress2').click(function() {
+        $('#errorEmail2').text('');
+    });
+
+    $('#emailReceipt2').change(function() {
+        var ckb = $(this).is(':checked');
+        var email = '@ViewBag.DealerEmail';
+        //alert(email);
+        if (ckb && email === '') {
+            $('#receiptEmail2').show();
+        } else {
+            dealerEmail = email;
+            $('#receiptEmail2').hide();
+        }
+        if (!ckb) {
+            $('#emailAdress2').val('');
+            $('#errorEmail2').text('');
+            $('#emailAdress2').removeClass('input-validation-error');
+        }
     });
 
     function doConfirm1() {
@@ -1076,12 +1129,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     var loanId = '@ViewBag.LoanId';
     var data = { SelectedCurtailmentSchedules: [] };
     $('#payAll').click(function (e) {
-        //$(document).on('click', '#payAll', function(e) {
         //check want to view report
-
-
-
-
         var ckbReport = $('#report').is(':checked');
         var ckbEmailReceipt = $('#emailReceipt').is(':checked');
         var needSend = "";
@@ -1383,6 +1431,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
         $('#errorPayDate').text('');
         $(this).next('span').children('span').remove();
+        $('#payDate').removeClass('input-validation-error');
     });
 
 
@@ -1472,7 +1521,40 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
     $('#btnPay').click(function (e) {
 
-        data = { SelectedCurtailmentSchedules: [] };
+        //check want to view report
+        var ckbReport = $('#report2').is(':checked');
+        var ckbEmailReceipt = $('#emailReceipt2').is(':checked');
+        var needSend = "";
+        if (ckbEmailReceipt) {
+            needSend = "Yes";
+        } else {
+            needSend = "No";
+        }
+
+        if (needSend === "Yes") {
+            if (dealerEmail === '') {
+                if ($('#emailAdress2').val() === "") {
+                    $('#errorEmail2').text("Please enter the dealer's email address.");
+                    $('#emailAdress2').addClass('input-validation-error');
+
+                    $('.centered span').text('Error');
+                } else {
+                    var res = validateEmail($('#emailAdress2').val());
+                    //alert(res);
+                    if (res === false) {
+                        $('#errorEmail2').text('Invalid email address');
+                        $('#emailAdress2').addClass('input-validation-error');
+                        $('.centered span').text('Error');
+                    } else {
+                        $('#errorEmail2').text('');
+                        $('#emailAdress2').removeClass('input-validation-error');
+                    }
+                }
+            }
+        }
+
+        //data = { SelectedCurtailmentSchedules: [] };
+        data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail };
 
         if ($('#iVin').val() != '') {
             var a = 1;
@@ -1505,7 +1587,10 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             if(checkLastCurtailmentsForSearch()){
 
 
-                data.SelectedCurtailmentSchedules.push({ UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', '') });
+                data.SelectedCurtailmentSchedules.push({
+                    UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', ''),
+                    Year: $("#iYear").val(), Make: $("#iMake").val(), Model: $("#iModel").val()
+                });
 
 
                 $("#btnPay").attr("disabled", "disabled");
@@ -1519,20 +1604,157 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     contentType: 'application/json; charset=utf-8',
 
                     success: function (View) {
-                        window.scrollTo(0, 0);
-                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-                        if(View == ""){
-                            $('.centered1 span').text('Successfully Updated');
-                            GetCurrentCurtailment($('#dueDate').val());
+                        //window.scrollTo(0, 0);
+                        ////$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                        //if(View == ""){
+                        //    $('.centered1 span').text('Successfully Updated');
+                        //    GetCurrentCurtailment($('#dueDate').val());
+                        //}
+                        //if(View.length > 5){
+
+                        //    var array = View.split(',');
+
+                        //    showPopup5(5 , array);
+
+
+                        //}
+
+                        if(View == "") {
+                            window.scrollTo(0, 0);
+                            if (ckbReport) {
+                                doConfirm1();
+                                var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+                                $('#reportViewerDiv').show();
+                                var myFrame = document.getElementById('ifrmReportViewer');
+
+                                if (myFrame !== null) {
+
+                                    if (myFrame.src) {
+                                        //alert(1);
+                                        myFrame.src = url;
+                                    } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                        //alert(2);
+                                        myFrame.contentWindow.location = url;
+                                    } else {
+                                        //alert(3);
+                                        myFrame.setAttribute('src', url);
+                                    }
+                                }
+                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                e.preventDefault();
+                                $('#btnCancelPtrDiv').click(function() {
+
+                                    GetCurrentCurtailment($('#dueDate').val());
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $('.centered1 span').text('Successfully Updated');
+                                });
+
+                                $('#btnPrint').click(function () {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $.ajax({
+                                        url: '/Curtailments/PrintPage',
+                                        type: 'POST',
+                                        contentType: 'application/json;',
+                                        data: {},
+                                        success: function (view) {
+                                            //alert(view);
+                                            $('.centered1 span').text('Successfully Updated');
+                                            GetCurrentCurtailment($('#dueDate').val());
+                                            $('.overlay-bg, .overlay-content.popupReport').hide();
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            // Your handler here...
+
+                                            // if session expires
+                                            if (jqXHR.status == "404") {
+                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                            } else {
+                                                $('#errPage span').text('No printers are installed.');
+                                            }
+                                        }
+                                    });
+                                });
+
+                            } else {
+                                $('.centered1 span').text('Successfully Updated');
+                                GetCurrentCurtailment($('#dueDate').val());
+
+                            }
                         }
+
                         if(View.length > 5){
 
-                            var array = View.split(',');
+                            if (ckbReport) {
+                                doConfirm1();
+                                var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
 
-                            showPopup5(5 , array);
+                                $('#reportViewerDiv').show();
+                                var myFrame = document.getElementById('ifrmReportViewer');
 
+                                if (myFrame !== null) {
 
+                                    if (myFrame.src) {
+                                        //alert(1);
+                                        myFrame.src = url;
+                                    } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                                        //alert(2);
+                                        myFrame.contentWindow.location = url;
+                                    } else {
+                                        //alert(3);
+                                        myFrame.setAttribute('src', url);
+                                    }
+                                }
+                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                e.preventDefault();
+                                $('#btnCancelPtrDiv').click(function() {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    if(View.length > 5){
+                                        var array = View.split(',');
+                                        showPopup5(5 , array);
+                                    }
+                                });
+
+                                $('#btnPrint').click(function () {
+                                    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                    $.ajax({
+                                        url: '/Curtailments/PrintPage',
+                                        type: 'POST',
+                                        contentType: 'application/json;',
+                                        data: {},
+                                        success: function (view) {
+                                            //alert(view);
+
+                                            var array = View.split(',');
+                                            showPopup5(5 , array);
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            // Your handler here...
+
+                                            // if session expires
+                                            if (jqXHR.status == "404") {
+                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                            } else {
+                                                $('#errPage span').text('No printers are installed.');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                            else{
+
+                                var array = View.split(',');
+                                showPopup5(5 , array);
+
+                            }
                         }
+
+                        //$('.centered1 span').text('Successfully Updated');
+                        //load report div
+
+
+
+                        //alert("Success");
 
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
