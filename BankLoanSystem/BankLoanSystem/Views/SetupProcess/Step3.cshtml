@@ -353,7 +353,7 @@
   var HelpString = $('.right_panel_box p').html();
   var HelpTitle = $('.right_panel_box h4').html();
 
-  $('#BranchId , .icon-help_outline').click(function () {
+  $(' .icon-help_outline').click(function () {
      
       $('.right_panel_box p').html('Select the branch this Admin will be assigned to. The Admin will be able to control all areas of this branch only.');
       $('.right_panel_box h4').html('Select a company branch');
@@ -361,13 +361,29 @@
 
   });
 
-  $('select:not(#BranchId), span:not(.icon-help_outline), input ').click(function () {
+  $(' span:not(.icon-help_outline) ').click(function () {
 
       $('.right_panel_box p').html(HelpString);
       $('.right_panel_box h4').html(HelpTitle);
 
 
-      });
+  });
+
+  $('#BranchId').focus(function () {
+
+      $('.right_panel_box p').html('Select the branch this Admin will be assigned to. The Admin will be able to control all areas of this branch only.');
+      $('.right_panel_box h4').html('Select a company branch');
+
+
+  });
+
+  $('select:not(#BranchId), input ').focus(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
 
 
   })

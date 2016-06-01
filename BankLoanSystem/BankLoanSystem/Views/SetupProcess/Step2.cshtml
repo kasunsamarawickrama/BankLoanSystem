@@ -403,7 +403,7 @@
   var HelpString = $('.right_panel_box p').html();
   var HelpTitle = $('.right_panel_box h4').html();
 
-  $('#Previous , .icon-help_outline').click(function () {
+  $(' .icon-help_outline').click(function () {
 
       $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details you previously entered. If your company has no branches or you will be using the program at the company location please select 'Same details as company'.");
       $('.right_panel_box h4').html('Branch details the same as company details');
@@ -411,7 +411,24 @@
 
   });
 
-  $('select, span:not(.icon-help_outline), input:not(#Previous) ').click(function () {
+  $(' span:not(.icon-help_outline) ').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
+
+
+  $('#Previous').focus(function () {
+
+      $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details you previously entered. If your company has no branches or you will be using the program at the company location please select 'Same details as company'.");
+      $('.right_panel_box h4').html('Branch details the same as company details');
+
+
+  });
+
+  $('select, input:not(#Previous) ').focus(function () {
 
       $('.right_panel_box p').html(HelpString);
       $('.right_panel_box h4').html(HelpTitle);
