@@ -3389,7 +3389,7 @@
                     // Callback function to be called when the API response is returned
                     function success(res) {
                         console.log(res);
-                        if(res.errorType == "Not Found"){
+                        if(res.errorType){
                             document.getElementById('editor1-2').value = "";
                             $('#combobox1-2').next().children('input').val("");
                             document.getElementById('editor1-3').value = "";
