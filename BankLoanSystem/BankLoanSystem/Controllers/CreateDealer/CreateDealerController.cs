@@ -75,7 +75,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
             List<User> userList = new List<User>();
             userList = (new UserAccess()).GetUserListByCompany(userData.Company_Id);
-            userList = userList.FindAll(t => t.BranchId == loan.BranchId || t.BranchId ==0);
+            userList = userList.FindAll(t => t.BranchId == loan.BranchId || (t.BranchId ==0 && t.RoleId==1));
             ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
             if (userData.RoleId == 1)
             {
