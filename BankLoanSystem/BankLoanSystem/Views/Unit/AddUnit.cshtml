@@ -1072,14 +1072,14 @@
                 _previousMakeYear = "";
                 _previousMake     = "";
 
-                $( "#div-combobox1-1" ).click(function(){
+                $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
                 });
-                $( "#div-combobox1-2" ).click(function(){
+                $( "#div-combobox1-2" ).focusin(function(){
                     $('#vehiclemake').children('span').text("");
                     GetMakes($('#combobox1-1'),'#combobox1-2',1);
                 });
-                $( "#div-combobox1-3" ).click(function(){
+                $( "#div-combobox1-3" ).focusin(function(){
                     $('#vehiclemodel').children('span').text("");
                     GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
                 });
@@ -3389,7 +3389,7 @@
                     // Callback function to be called when the API response is returned
                     function success(res) {
                         console.log(res);
-                        if(res.errorType == "Not Found"){
+                        if(res.errorType){
                             document.getElementById('editor1-2').value = "";
                             $('#combobox1-2').next().children('input').val("");
                             document.getElementById('editor1-3').value = "";
