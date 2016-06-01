@@ -22,6 +22,7 @@
 <script src="~/scripts/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/scripts/edmunds.api.sdk.js"></script>
 
 <script src="~/scripts/CommonFunctions.js"></script>
 @*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
@@ -35,13 +36,13 @@
 
 
 
-    
-        @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
-             }
-    <div class="container" id="container">
-        <div class="details-container">
-            @using(Html.BeginForm("AddUnit", "Unit", FormMethod.Post, new { enctype = "multipart/form-data", id = "form" }))
-            {  <div class="right-panel">
+
+@{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
+}
+<div class="container" id="container">
+    <div class="details-container">
+        @using (Html.BeginForm("AddUnit", "Unit", FormMethod.Post, new { enctype = "multipart/form-data", id = "form" }))
+        {  <div class="right-panel">
                 @{
                     Html.RenderAction("LoanPaymentDetails", "Unit");
                 }
@@ -51,7 +52,7 @@
                     Html.RenderAction("GetJustAddedUnits", "Unit");
                 }
 
-            </div>          
+            </div>
             <div class="body-content">
                 @Html.AntiForgeryToken()
 
@@ -68,63 +69,63 @@
                                     @Html.HiddenFor(model => model.LoanId)
                                     <div class="col-md-10">
                                         @{
-                                        List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
+                                            List<SelectListItem> ListOfUnitTypes = new List<SelectListItem>();
 
-                                        var id = 0;
-                                        var name = "";
-                                        foreach (var type in ViewBag.loanDetails.selectedUnitTypes)
-                                        {
-
-                                            id = type.unitTypeId;
-                                            name = type.unitTypeName;
-
-                                            if (id == ViewBag.loanDetails.defaultUnitType)
+                                            var id = 0;
+                                            var name = "";
+                                            foreach (var type in ViewBag.loanDetails.selectedUnitTypes)
                                             {
-                                                ListOfUnitTypes.Add(new SelectListItem
+
+                                                id = type.unitTypeId;
+                                                name = type.unitTypeName;
+
+                                                if (id == ViewBag.loanDetails.defaultUnitType)
                                                 {
-                                                    Value = id.ToString(),
-                                                    Text = name,
-                                                    Selected = true
-                                                });
-                                            }
-                                            else
-                                            {
-                                                ListOfUnitTypes.Add(new SelectListItem
+                                                    ListOfUnitTypes.Add(new SelectListItem
+                                                    {
+                                                        Value = id.ToString(),
+                                                        Text = name,
+                                                        Selected = true
+                                                    });
+                                                }
+                                                else
                                                 {
-                                                    Value = id.ToString(),
-                                                    Text = name
-                                                });
+                                                    ListOfUnitTypes.Add(new SelectListItem
+                                                    {
+                                                        Value = id.ToString(),
+                                                        Text = name
+                                                    });
+                                                }
+                                                id = 0;
+                                                name = "";
                                             }
-                                            id = 0;
-                                            name = "";
-                                        }
                                         }
                                         @if (ViewBag.loanDetails.selectedUnitTypes.Count == 1)
                                         {
-                                                @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
-                                                @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
-                                                @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
+                                            @*@Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 22%;", @disabled = "disabled" })*@
+                                            @Html.HiddenFor(model => model.UnitTypeId, new { @id = "unitType" })
+                                            @Html.Label("", (string)ViewBag.UnitTypeId, htmlAttributes: new { @class = "form-control", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block; width: 27.4%;" })
 
                                         }
                                         else
                                         {
-                                                @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
+                                            @Html.DropDownListFor(model => model.UnitTypeId, ListOfUnitTypes, new { @id = "unitType", @class = "form-control col-sm-2", @Style = "width: 26%;height: 31px;", onChange = "valueChangeUnitType();" })
                                         }
-                                                @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                
+                                        @Html.ValidationMessageFor(model => model.UnitTypeId, "", new { @class = "text-danger" })
                                     </div>
-               
+
                                 </div>
-                
-                                            <div class="info-unit" id="vehicle" hidden>
+
+                            </div>
+
+                            <div class="info-unit" id="vehicle" hidden>
                                 <div class="form-group">
                                     @*@Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="vehicle_IdentificationNumber">VIN <span class="icon-help_outline help-veh-vin"></span></label>
 
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "vehicleVin", @style = "width: 225px;" } })
-                                        @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger", @style= "width: 300px; left: 0%;" })
+                                        @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="vehicleVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                     <div class="col-sm-2" style="width: 271px;">
@@ -160,20 +161,20 @@
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         </div>
                                         <div id="vehiclemake" class="validation-error"><span class="text-danger ma"></span></div>
-                                  </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.vehicle.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.vehicle.Model, new { htmlAttributes = new { @id = "editor1-3", @Style = "display: none;" } })
                                     @*<div class="col-sm-4 block_invalid" onmouseover="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-3">*@
-                                        <div class="col-sm-4 block_invalid" id="div-combobox1-3">
-                                            <div>
-                                                @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger"})
-                                            <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
+                                    <div class="col-sm-4 block_invalid" id="div-combobox1-3">
+                                        <div>
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                         </div>
+                                        @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
+                                        <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
+                                    </div>
                                     <label class="control-label col-md-2">
                                         Trim <span class="icon-help_outline help-veh-trim"></span>
                                         <span class="optional">(Optional)</span>
@@ -250,32 +251,32 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2" >
-                                        
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
-                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
-                                        
+                                        @Html.LabelFor(model => model.vehicle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2" >
+
+                                                @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class="conditionRadio"}) New
+                                                @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false ,new { @class = "conditionRadio",@style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
+
+                                        </div>
+                                    </div>*@
+
+
+                                <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
+                                    <label for="" class="col-md-2 control-label">Condition</label>
+
+
+                                    <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class = "conditionRadio" }) New
+
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false, new { @class = "conditionRadio" }) Used
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
-                                </div>*@
-
-
-                                                <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
-                                                    <label for="" class="col-md-2 control-label">Condition</label>
-
-
-                                                    <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, true, new { @class = "conditionRadio" }) New
-
-                                                        </label>
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(model => model.vehicle.NewOrUsed, false, new { @class = "conditionRadio" }) Used
-                                                        </label>
-                                                       @Html.ValidationMessageFor(model => model.vehicle.NewOrUsed, "", new { @class = "text-danger", @style = "top: 89%;left: 0%;width: 120%; " })
-                                                    </div>
-                                                </div>
+                                </div>
 
                             </div>
 
@@ -306,10 +307,10 @@
                                     @Html.EditorFor(model => model.rv.Make, new { htmlAttributes = new { @id = "editor2-2", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2',2);" onmouseout="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-2">*@
-                                            <div id="div-combobox2-2">
+                                        <div id="div-combobox2-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.rv.Make, "", new { @class = "text-danger" })
                                         <div id="rvmake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -320,10 +321,10 @@
                                     @Html.EditorFor(model => model.rv.Model, new { htmlAttributes = new { @id = "editor2-3", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-3">*@
-                                            <div id="div-combobox2-3">
+                                        <div id="div-combobox2-3">
 
-                                                @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
-                                            </div>
+                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.rv.Model, "", new { @class = "text-danger" })
                                         <div id="rvmodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -350,15 +351,15 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2">
-                                       
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, true, new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @class = "conditionRadio" }) Used
-                                            @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
-                                        
-                                    </div>
-                                </div>*@
+                                        @Html.LabelFor(model => model.rv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+
+                                                @Html.RadioButtonFor(model => model.rv.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.rv.NewOrUsed, false, new { @class = "conditionRadio" }) Used
+                                                @Html.ValidationMessageFor(model => model.rv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+
+                                        </div>
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -404,10 +405,10 @@
                                     @Html.EditorFor(model => model.camper.Make, new { htmlAttributes = new { @id = "editor3-2", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2',3);" onmouseout="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-2">*@
-                                            <div id="div-combobox3-2">
+                                        <div id="div-combobox3-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.camper.Make, "", new { @class = "text-danger" })
                                         <div id="campermake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -418,10 +419,10 @@
                                     @Html.EditorFor(model => model.camper.Model, new { htmlAttributes = new { @id = "editor3-3", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
                                         @*<div onmouseover="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-3">*@
-                                            <div id="div-combobox3-3">
+                                        <div id="div-combobox3-3">
 
-                                                @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
-                                            </div>
+                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.camper.Model, "", new { @class = "text-danger" })
                                         <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -446,7 +447,7 @@
                                             @{
                                                 List<SelectListItem> hitchlist = new List<SelectListItem>();
 
-                                            hitchlist.Add(new SelectListItem
+                                                hitchlist.Add(new SelectListItem
                                                 {
                                                     Text = "Bumper Pull",
                                                     Value = "Bumper Pull"
@@ -470,17 +471,17 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2 rad-style">
-                                        <div class="radio">
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
+                                        @Html.LabelFor(model => model.camper.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2 rad-style">
+                                            <div class="radio">
+                                                @Html.RadioButtonFor(model => model.camper.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.camper.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.camper.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: -7%;width: 120%; " })
+                                            </div>
+
                                         </div>
 
-                                    </div>
-
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -528,10 +529,10 @@
                                     @Html.EditorFor(model => model.atv.Make, new { htmlAttributes = new { @id = "editor4-2", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox4-1'),'#combobox4-2',4);" onmouseout="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-2">*@
-                                            <div class="block_invalid" id="div-combobox4-2">
+                                        <div class="block_invalid" id="div-combobox4-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.atv.Make, "", new { @class = "text-danger" })
                                         <div id="atvmake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -542,17 +543,18 @@
                                     @Html.EditorFor(model => model.atv.Model, new { htmlAttributes = new { @id = "editor4-3", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);" id="div-combobox4-3">*@
-                                            <div class="block_invalid" id="div-combobox4-3">
+                                        <div class="block_invalid" id="div-combobox4-3">
 
-                                                @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-3" })
-                                            </div>
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox4-3" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.atv.Model, "", new { @class = "text-danger" })
                                         <div id="atvmodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
 
-                                  
-                                    <label class="control-label col-md-2">Miles/Hours
-                                    <span class="optional">(Optional)</span>
+
+                                    <label class="control-label col-md-2">
+                                        Miles/Hours
+                                        <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-2" style="width: 32.667%;">
                                         @Html.EditorFor(model => model.atv.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "atvmiles", @placeholder = "0", @Style = "width: 70%;text-align: right;" } })
@@ -561,15 +563,15 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2 rad-style">
-                                        <div class="radio">
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                        @Html.LabelFor(model => model.atv.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2 rad-style">
+                                            <div class="radio">
+                                                @Html.RadioButtonFor(model => model.atv.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -581,7 +583,7 @@
 
                                         </label>
                                         <label class="radio-inline">
-                                           @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio" })Used
+                                            @Html.RadioButtonFor(model => model.atv.NewOrUsed, false, new { @class = "conditionRadio" })Used
                                         </label>
                                         @Html.ValidationMessageFor(model => model.atv.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
@@ -617,21 +619,21 @@
                                     @Html.EditorFor(model => model.boat.Make, new { htmlAttributes = new { @id = "editor5-2", @Style = "display: none;" } })
                                     <div class="col-sm-2 block_invalid">
                                         @*<div onmouseover="GetMakes($('#combobox5-1'),'#combobox5-2',5);" id="div-combobox5-2">*@
-                                            <div id="div-combobox5-2">
+                                        <div id="div-combobox5-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.boat.Make, "", new { @class = "text-danger" })
                                         <div id="boatmake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-2" , style = "width:18%;padding-right:0px">
+                                    <label class="control-label col-md-2" , style="width:18%;padding-right:0px">
                                         Trailer ID  <span class="icon-help_outline help-boat-tra_id"></span>
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17  } })
+                                        @Html.EditorFor(model => model.boat.TrailerId, new { htmlAttributes = new { @class = "form-control cap block_invalid_char", @id = "boattrailer", @maxlength = 17 } })
                                         @Html.ValidationMessageFor(model => model.boat.TrailerId, "", new { @class = "text-danger" })
                                     </div>
 
@@ -646,15 +648,15 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2 rad-style">
-                                        <div class="radio">
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                        @Html.LabelFor(model => model.boat.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2 rad-style">
+                                            <div class="radio">
+                                                @Html.RadioButtonFor(model => model.boat.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -662,11 +664,11 @@
 
                                     <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
                                         <label class="radio-inline">
-                                           @Html.RadioButtonFor(model => model.boat.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, true, new { @class = "conditionRadio" }) New
 
                                         </label>
                                         <label class="radio-inline">
-                                           @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio"}) Used
+                                            @Html.RadioButtonFor(model => model.boat.NewOrUsed, false, new { @class = "conditionRadio" }) Used
                                         </label>
                                         @Html.ValidationMessageFor(model => model.boat.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
@@ -675,7 +677,7 @@
 
                             <div class="info-unit" id="motorcycle" hidden>
                                 <div class="form-group">
-                                    @*@Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@  
+                                    @*@Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="motorcycle_IdentificationNumber">VIN  <span class="icon-help_outline help-mot-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "motorcycleVin" } })
@@ -701,10 +703,10 @@
                                     @Html.EditorFor(model => model.motorcycle.Make, new { htmlAttributes = new { @id = "editor6-2", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" onmouseout="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-2">*@
-                                            <div class="block_invalid" id="div-combobox6-2">
+                                        <div class="block_invalid" id="div-combobox6-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.motorcycle.Make, "", new { @class = "text-danger" })
                                         <div id="motorcyclemake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -715,10 +717,10 @@
                                     @Html.EditorFor(model => model.motorcycle.Model, new { htmlAttributes = new { @id = "editor6-3", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-3">*@
-                                            <div class="block_invalid" id="div-combobox6-3">
+                                        <div class="block_invalid" id="div-combobox6-3">
 
-                                                @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
-                                            </div>
+                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
                                         <div id="motorcyclemodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -746,15 +748,15 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2 rad-style">
-                                        <div class="radio">
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true,new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                        @Html.LabelFor(model => model.motorcycle.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2 rad-style">
+                                            <div class="radio">
+                                                @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, true,new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio", @style = "margin-left: 21px;" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -766,7 +768,7 @@
 
                                         </label>
                                         <label class="radio-inline">
-                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio"}) Used
+                                            @Html.RadioButtonFor(model => model.motorcycle.NewOrUsed, false, new { @class = "conditionRadio" }) Used
                                         </label>
                                         @Html.ValidationMessageFor(model => model.motorcycle.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
@@ -775,7 +777,7 @@
 
                             <div class="info-unit" id="snowmobile" hidden>
                                 <div class="form-group">
-                                    @*@Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@ 
+                                    @*@Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="snowmobile_IdentificationNumber">VIN <span class="icon-help_outline help-snow-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "snowmobileVin" } })
@@ -801,10 +803,10 @@
                                     @Html.EditorFor(model => model.snowmobile.Make, new { htmlAttributes = new { @id = "editor7-2", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" onmouseout="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-2">*@
-                                            <div class="block_invalid" id="div-combobox7-2">
+                                        <div class="block_invalid" id="div-combobox7-2">
 
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
-                                            </div>
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.snowmobile.Make, "", new { @class = "text-danger" })
                                         <div id="snowmobilemake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -814,25 +816,25 @@
                                     @Html.LabelFor(model => model.snowmobile.Model, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.snowmobile.Model, new { htmlAttributes = new { @id = "editor7-3", @Style = "display: none;" } })
                                     <div class="col-sm-4">
-                                        @*<div class="block_invalid" onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-3">*@                                      
-                                            <div class="block_invalid" id="div-combobox7-3">
-                                                @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
-                                            </div>
+                                        @*<div class="block_invalid" onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-3">*@
+                                        <div class="block_invalid" id="div-combobox7-3">
+                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.snowmobile.Model, "", new { @class = "text-danger" })
                                         <div id="snowmobilemodel" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-2 rad-style">
-                                        <div class="radio">
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new { @class = "conditionRadio" }) New
-                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
-                                            @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                        @Html.LabelFor(model => model.snowmobile.NewOrUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2 rad-style">
+                                            <div class="radio">
+                                                @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, true, new { @class = "conditionRadio" }) New
+                                                @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @style = "margin-left: 21px;", @class = "conditionRadio" }) <p style="margin-left: 107px;margin-top: -15px;">Used</p>
+                                                @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     <label for="" class="col-md-2 control-label">Condition</label>
@@ -844,7 +846,7 @@
 
                                         </label>
                                         <label class="radio-inline">
-                                           @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @class = "conditionRadio" }) Used
+                                            @Html.RadioButtonFor(model => model.snowmobile.NewOrUsed, false, new { @class = "conditionRadio" }) Used
                                         </label>
                                         @Html.ValidationMessageFor(model => model.snowmobile.NewOrUsed, "", new { @class = "text-danger", style = "top: 89%;left: 0%;width: 120%; " })
                                     </div>
@@ -878,9 +880,9 @@
                                     @Html.EditorFor(model => model.heavyequipment.Make, new { htmlAttributes = new { @id = "editor8-2", @Style = "display: none;" } })
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">*@
-                                            <div class="block_invalid" id="div-combobox8-2">
-                                                @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
-                                            </div>
+                                        <div class="block_invalid" id="div-combobox8-2">
+                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
+                                        </div>
                                         @Html.ValidationMessageFor(model => model.heavyequipment.Make, "", new { @class = "text-danger" })
                                         <div id="heavyequipmentmake" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -892,12 +894,12 @@
                         @*PAYMENT DETAILS START*@
                         <div class="info-unit" style="margin-top:20px">
                             <div class="form-group">
-                                @*@Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })*@  
+                                @*@Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })*@
 
                                 <label class="control-label col-md-2" for="Cost">Cost  <span class="icon-help_outline help-cost"></span></label>
                                 <div class="col-md-3">
                                     @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
-                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style= "left: 1%;" })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style = "left: 1%;" })
                                     <div id="tagscloud" class="validation-error"><span class="text-danger co"></span></div>
                                 </div>
 
@@ -906,13 +908,13 @@
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;" , @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
-                                    @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style= "left: 0%; text-align: left; width: 217px;" })
+                                    @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style = "left: 0%; text-align: left; width: 217px;" })
                                     <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
                                 </div>
                             </div>
@@ -931,30 +933,23 @@
                             </div>
 
                             @if (ViewBag.IsTitleTrack == "Yes")
-                                    {
-                                        @*<div class="form-group">
-                                            @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new {@class = "control-label col-md-4", style = "width: 43%;"})
-                                            <div class="col-md-2">
-                                                <div class="checkbox rad-style">
-                                                    @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new {@id = "rdYes", @class = "titleReceived"}) Yes @*, @checked = "checked"
-                                                    @Html.RadioButtonFor(model => model.TitleReceived, "No", new {@id = "rdNo", @class = "titleReceived", @style = "margin-left: 21px;"}) No
-                                                    @Html.ValidationMessageFor(model => model.TitleReceived, "", new {@class = "text-danger", style = "left: 1%; text-align: left; width: 260px;"})
-                                                </div>
-
+                            {
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new {@class = "control-label col-md-4", style = "width: 43%;"})
+                                        <div class="col-md-2">
+                                            <div class="checkbox rad-style">
+                                                @Html.RadioButtonFor(model => model.TitleReceived, "Yes", new {@id = "rdYes", @class = "titleReceived"}) Yes @*, @checked = "checked"
+                                                @Html.RadioButtonFor(model => model.TitleReceived, "No", new {@id = "rdNo", @class = "titleReceived", @style = "margin-left: 21px;"}) No
+                                                @Html.ValidationMessageFor(model => model.TitleReceived, "", new {@class = "text-danger", style = "left: 1%; text-align: left; width: 260px;"})
                                             </div>
 
-                                        </div>*@
+                                        </div>
+
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
-                                    @*@Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })*@
-                                    @if (ViewBag.CompabyType == 1)
-                                    {
-                                        <label class="control-label col-md-4" style = "width: 43%;">Has the title been received?</label>
-                                    }
-                                    else if (ViewBag.CompabyType == 2)
-                                    {
-                                        <label class="control-label col-md-4" style="width: 43%;">Has the title deliver to the bank?</label>
-                                    }
+                                    @Html.LabelFor(model => model.TitleReceived, htmlAttributes: new { @class = "control-label col-md-4", style = "width: 43%;" })
+
 
                                     <div class="col-md-8 radios" style="display: inline-block;width: 398px;">
                                         <label class="radio-inline">
@@ -972,11 +967,13 @@
                             {
                                 <div class="form-group" id="fileUploader">
                                     @Html.HiddenFor(i => i.FileName)
-                                    <label for="file" class="control-label col-md-3" style="width: 22%">Upload Image:
-                                        <span class="optional">(Optional)</span></label>
+                                    <label for="file" class="control-label col-md-3" style="width: 22%">
+                                        Upload Image:
+                                        <span class="optional">(Optional)</span>
+                                    </label>
 
                                     <div class="col-md-3" id="fileUploaderInsideDiv" style="padding-left: 0px; margin-top: 10px">
-                                        <input type="file" id="fileToUpload" name="fileUpload"  />
+                                        <input type="file" id="fileToUpload" name="fileUpload" />
                                         <br />
                                         <div><span id="spnFile" style="float: left; color: #FF0000"></span></div>
 
@@ -991,23 +988,23 @@
                                 </div>
 
                             }
-                            
+
                         </div>
                         @*PAYMENT DETAILS END*@
 
-                        @if (ViewBag.Role == 1 || ViewBag.Role == 2 || (ViewBag.advanceAllow ==true && ViewBag.Role == 3))
+                        @if (ViewBag.Role == 1 || ViewBag.Role == 2 || (ViewBag.advanceAllow == true && ViewBag.Role == 3))
                         {
                             <div style="padding:20px 20px 10px 20px">
                                 @*<div class="form-group" >
-                                    //@Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
-                                    <label class="control-label col-md-5" for="AdvanceNow" style="width:43%">Will you advance the unit today?  <span class="icon-help_outline help-date"></span></label>
-                                    <div class="col-md-2 rad-style">
-                                        @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
-                                        @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" , @style = "margin-left: 21px;" }) No
-                                        @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;" })
-                                    </div>
-                        
-                                </div>*@
+                                        //@Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
+                                        <label class="control-label col-md-5" for="AdvanceNow" style="width:43%">Will you advance the unit today?  <span class="icon-help_outline help-date"></span></label>
+                                        <div class="col-md-2 rad-style">
+                                            @Html.RadioButtonFor(model => model.AdvanceNow, "Yes", new { @id = "rdAdvanceYes", @class = "advanceNow" }) Yes
+                                            @Html.RadioButtonFor(model => model.AdvanceNow, "No", new { @id = "rdAdvanceNo", @class = "advanceNow" , @style = "margin-left: 21px;" }) No
+                                            @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;" })
+                                        </div>
+
+                                    </div>*@
 
                                 <div class="form-group" style="margin-top:25px !important;text-align:left;margin-bottom:15px !important">
                                     @Html.LabelFor(model => model.AdvanceNow, htmlAttributes: new { @class = "control-label col-md-5", style = "width:43%" })
@@ -1023,7 +1020,7 @@
                                         </label>
                                         @Html.ValidationMessageFor(model => model.AdvanceNow, "", new { @class = "text-danger", style = "left: 3%; text-align: left; width: 247px;top: 100%;" })
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         }
 
@@ -1039,25 +1036,25 @@
                         <div style="padding:0px 20px 0px 20px">
                             <div class="form-group" id="advanceDateFormDiv" hidden>
 
-                                <div class="control-label col-sm-3" >
+                                <div class="control-label col-sm-3">
                                     @Html.LabelFor(model => model.AdvanceDate, htmlAttributes: new { })@*<span style="color:red"> *</span>*@
                                 </div>
 
 
                                 <div class="col-xs-3" id="advanceDateDiv">
                                     @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off" } })
-                                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger", @style= "text-align: left; left: 0%; width: 208px; " })
+                                    @Html.ValidationMessageFor(model => model.AdvanceDate, "", new { @class = "text-danger", @style = "text-align: left; left: 0%; width: 208px; " })
                                     <span class="text-danger field-validation-error" id="errorAdvanceDate" style=""></span>
                                 </div>
-                           
-                                </div>
-                            
-                            </div>
-                            
 
-                            <div style="padding:0px 20px 0px 20px">
-                            
-                                <div class="form-group btn-panel">
+                            </div>
+
+                        </div>
+
+                        <div id="results-body"></div>
+                        <div style="padding:0px 20px 0px 20px">
+
+                            <div class="form-group btn-panel">
                                 <input type="button" value="Cancel" id="btnCancel" class="btn btn-primary m-b next_clear_button clear_back" tabindex="-1" style="float:right;margin-right:4%" />
 
                                 <input type="submit" value="Add" name="btnAdd" id="btnSubmit" class="btn btn-primary m-b next_clear_button next_back" style="width: 200px;margin-left: 102px;" />
@@ -1067,10 +1064,10 @@
                 </form>
 
             </div>
-            }
+                                                }
 
 
-            <script type="text/javascript">
+        <script type="text/javascript">
 
                 _previousMakeYear = "";
                 _previousMake     = "";
@@ -1224,13 +1221,13 @@
 
                                     $(var2).next('span').children('a').click();
                                     $(var2).html(markup);
-
+                                    //alert("success");
                                     _previousMakeYear = checkYear;
                                     _previousMake= "";
                                 },
                                 error: function (jqXHR, textStatus, errorThrown){
                                     // Your handler here...
-
+                                    //alert("wrong");
                                     // if session expires
                                     if(jqXHR.status == "404"){
                                         window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1541,6 +1538,7 @@
                         $("#vehicleVin").val(($("#vehicleVin").val()).toUpperCase());
                         var vin =document.getElementById('vehicleVin').value;
                         $('#vehicleVIN span').text("");
+
                         $.ajax({
                             url: '/Unit/GetYearByVin',
                             type: 'POST',
@@ -1555,65 +1553,67 @@
                                     yearx = year;
                                     $('.y').text("");
 
-                                    $.ajax({
-                                        url: '/Unit/GetMakeByVin',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({vin: vin }),
-                                        success: function (data) {
-                                            var make = data;
-                                            if(make != ""){
-                                                $('#combobox1-2').next().children('input').val(make);
-                                                document.getElementById('editor1-2').value = make;
-                                                //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                                makex = make;
-                                                //alert(makex);
-                                                $('.ma').text("");
-                                            }else{
-                                                $('#combobox1-2').next().children('input').val("");
-                                                document.getElementById('editor1-2').value = "";
-                                                //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                                makex = "";
-                                            }
-                                            //alert(yearx);
-                                            $.ajax({
-                                                url: '/Unit/GetModelByVin',
-                                                type: 'POST',
-                                                contentType: 'application/json;',
-                                                data: JSON.stringify({ makex: makex, yearx: yearx }),
-                                                success: function (data) {
-                                                    var model = data;
-                                                    //alert(model);
-                                                    if(model != ""){
-                                                        $('#combobox1-3').next().children('input').val(model);
-                                                        document.getElementById('editor1-3').value = model;
-                                                        //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                                        $('.mo').text("");
-                                                    }else{
-                                                        $('#combobox1-3').next().children('input').val("");
-                                                        document.getElementById('editor1-3').value = "";
-                                                    }
-                                                },
-                                                error: function (jqXHR, textStatus, errorThrown){
-                                                    // Your handler here...
+                                    CallVinDecode($('#vehicleVin').val());
 
-                                                    // if session expires
-                                                    if(jqXHR.status == "404"){
-                                                        window.location.href='/Login/UserLogin?lbl="Session expired"';
-                                                    }
-                                                }
-                                            });
+                                    //$.ajax({
+                                    //    url: '/Unit/GetMakeByVin',
+                                    //    type: 'POST',
+                                    //    contentType: 'application/json;',
+                                    //    data: JSON.stringify({vin: vin }),
+                                    //    success: function (data) {
+                                    //        var make = data;
+                                    //        if(make != ""){
+                                    //            $('#combobox1-2').next().children('input').val(make);
+                                    //            document.getElementById('editor1-2').value = make;
+                                    //            //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    //            makex = make;
+                                    //            //alert(makex);
+                                    //            $('.ma').text("");
+                                    //        }else{
+                                    //            $('#combobox1-2').next().children('input').val("");
+                                    //            document.getElementById('editor1-2').value = "";
+                                    //            //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    //            makex = "";
+                                    //        }
+                                    //        //alert(yearx);
+                                    //        $.ajax({
+                                    //            url: '/Unit/GetModelByVin',
+                                    //            type: 'POST',
+                                    //            contentType: 'application/json;',
+                                    //            data: JSON.stringify({ makex: makex, yearx: yearx }),
+                                    //            success: function (data) {
+                                    //                var model = data;
+                                    //                //alert(model);
+                                    //                if(model != ""){
+                                    //                    $('#combobox1-3').next().children('input').val(model);
+                                    //                    document.getElementById('editor1-3').value = model;
+                                    //                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                                    //                    $('.mo').text("");
+                                    //                }else{
+                                    //                    $('#combobox1-3').next().children('input').val("");
+                                    //                    document.getElementById('editor1-3').value = "";
+                                    //                }
+                                    //            },
+                                    //            error: function (jqXHR, textStatus, errorThrown){
+                                    //                // Your handler here...
 
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown){
-                                            // Your handler here...
+                                    //                // if session expires
+                                    //                if(jqXHR.status == "404"){
+                                    //                    window.location.href='/Login/UserLogin?lbl="Session expired"';
+                                    //                }
+                                    //            }
+                                    //        });
 
-                                            // if session expires
-                                            if(jqXHR.status == "404"){
-                                                window.location.href='/Login/UserLogin?lbl=Session expired';
-                                            }
-                                        }
-                                    });
+                                    //    },
+                                    //    error: function (jqXHR, textStatus, errorThrown){
+                                    //        // Your handler here...
+
+                                    //        // if session expires
+                                    //        if(jqXHR.status == "404"){
+                                    //            window.location.href='/Login/UserLogin?lbl=Session expired';
+                                    //        }
+                                    //    }
+                                    //});
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown){
@@ -3164,9 +3164,9 @@
                     upc = upc - 1;
                 }
 
-            </script>
+        </script>
 
-            <script>
+        <script>
                 //Add date picker
                 var startPicker = new Pikaday({
                     field: document.getElementById('advanceDate'),
@@ -3219,8 +3219,8 @@
                             return;
                         }
                     }
-                    
-                   
+
+
                 } );
                 //$(document).on('keypress','.block_invalid span input' , function(e){
                 //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
@@ -3251,20 +3251,20 @@
                             return;
                         }
                     }
-                    
-                    
+
+
                 } );
 
                 $(document).on('keypress','.max_length4 span input' , function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-                        
+
                         if($(this).val().length  == 4){
 
                             e.preventDefault();
                             return;
                         }
                     }
-                    
+
 
                 } );
 
@@ -3280,7 +3280,7 @@
                             return;
                         }
                     }
-                    
+
                 } );
 
                 function ClearVin(){
@@ -3299,8 +3299,8 @@
                             e.preventDefault();
                         }
                     }
-                    
-                    
+
+
                 });
 
                 $('#advanceDate').blur(function () {
@@ -3363,9 +3363,6 @@
                             $('#advanceDate').removeClass('input-validation-error');
                             return true;
                         }
-
-
-
                     } else {
 
                         // not valid data error
@@ -3375,15 +3372,78 @@
                         return false;
                     }
                 }
-            </script>
-        </div>      
-    </div>
 
-    <div class="link-bar" style="margin-bottom:15px;">
-        @{
-            Html.RenderAction("GetLinkBar", "Unit");
-        }
+                // Load the SDK asynchronously
+                (function(d, s, id){
+                    var js, sdkjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "../scripts/edmunds.api.sdk.js";
+                    sdkjs.parentNode.insertBefore(js, sdkjs);
+                }(document, 'script', 'edmunds-jssdk'));
+
+                function CallVinDecode(vin) {
+                    // Instantiate the SDK
+                    var res = new EDMUNDSAPI('3jbs6wjrsbyuwvz783y8jgmf');
+
+                    // Callback function to be called when the API response is returned
+                    function success(res) {
+                        console.log(res);
+                        if(res.errorType){
+                            document.getElementById('editor1-2').value = "";
+                            $('#combobox1-2').next().children('input').val("");
+                            document.getElementById('editor1-3').value = "";
+                            $('#combobox1-3').next().children('input').val("");
+                        }else{
+                            //document.getElementById('editor1-1').value = res.years[0].year;
+                            //$('#combobox1-1').next().children('input').val(res.years[0].year);
+                            document.getElementById('editor1-2').value = res.make.name;
+                            $('#combobox1-2').next().children('input').val(res.make.name);
+                            document.getElementById('editor1-3').value = res.model.name;
+                            $('#combobox1-3').next().children('input').val(res.model.name);
+                        }
+                    }
+                    // Oops, Houston we have a problem!
+                    function fail(data) {
+                        console.log(data);
+                    }
+                    // Fire the API call
+                    res.api('/api/vehicle/v2/vins/'+ vin, '', success, fail);
+                    // Additional initialization code such as adding Event Listeners goes here
+                };
+
+                //function CallMakes() {
+                //    // Instantiate the SDK
+                //    var res = new EDMUNDSAPI('3jbs6wjrsbyuwvz783y8jgmf');
+
+                //    // Callback function to be called when the API response is returned
+                //    function success(res) {
+                //        console.log(res);
+                //        if(res.errorType == "Not Found"){
+
+                //        }else{
+
+                //        }
+                //    }
+                //    // Oops, Houston we have a problem!
+                //    function fail(data) {
+                //        console.log(data);
+                //    }
+                //    // Fire the API call
+                //    res.api('/api/vehicle/v2/makes', '', success, fail);
+                //    // Additional initialization code such as adding Event Listeners goes here
+                //};
+                //CallMakes();
+
+        </script>
     </div>
+</div>
+
+<div class="link-bar" style="margin-bottom:15px;">
+    @{
+        Html.RenderAction("GetLinkBar", "Unit");
+    }
+</div>
 <div style="clear:both"></div>
 
 
@@ -3433,7 +3493,7 @@
 
 
 </div>
-<script >
+<script>
 
 
     // function to show our popups
@@ -3479,7 +3539,7 @@
 
 
 
-    // help 
+    // help
     $('.title-help').click(function () {
 
         $('.help-text h4').html("About this page");
@@ -3498,7 +3558,7 @@
 
         $('.help-text h4').html("VIN");
         $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
-       
+
 
     });
 
@@ -3507,7 +3567,7 @@
         $('.help-text h4').html("Color");
         $('.help-text p').html(" &nbsp;&nbsp; If you enter the color of the vehicle (often found on the title or purchase paperwork), it is typically easier for the inspector during lot inspection to identify the proper vehicle more quickly.");
 
-    });  
+    });
 
     $('.help-mot-vin').click(function () {
 
@@ -3521,55 +3581,55 @@
         $('.help-text h4').html("Color");
         $('.help-text p').html(" &nbsp;&nbsp; If you enter the color of the vehicle (often found on the title or purchase paperwork), it is typically easier for the inspector during lot inspection to identify the proper vehicle more quickly.");
 
-    }); 
+    });
 
     $('.help-snow-vin').click(function () {
 
         $('.help-text h4').html("VIN");
         $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
 
-    }); 
+    });
 
     $('.help-boat-hin').click(function () {
 
         $('.help-text h4').html("HIN");
         $('.help-text p').html(" &nbsp;&nbsp; The Hull Identification Number is a 12 character code which consists of numbers and letters. It is unique to each boat and the only way to uniquely identify the boat, therefore it is important to enter this number correctly. It can be found on the title.");
 
-    }); 
+    });
 
     $('.help-boat-tra_id').click(function () {
 
         $('.help-text h4').html("Trailer ID");
         $('.help-text p').html(" &nbsp;&nbsp; If the boat comes with a trailer you can include the ID of that trailer here for reference purposes only.");
 
-    }); 
+    });
 
     $('.help-boat-eng_ser').click(function () {
 
         $('.help-text h4').html("Engine Serial");
         $('.help-text p').html(" &nbsp;&nbsp; If the boat comes with an engine, you can enter the engine serial number here for reference purposes only.");
 
-    }); 
+    });
 
     $('.help-cost').click(function () {
 
         $('.help-text h4').html("Unit cost");
         $('.help-text p').html(" &nbsp;&nbsp; Please enter the cost of the unit. This is the amount which will be used to calculate the advance amount and curtailments.");
 
-    }); 
+    });
 
     $('.help-adv_amount').click(function () {
 
         $('.help-text h4').html("Advance amount");
         $('.help-text p').html(" &nbsp;&nbsp; This amount is automatically calculated based on the loan set up. If allowed by the loan terms this amount can be changed by certain users.");
 
-    }); 
+    });
 
     $('.help-date').click(function () {
 
         $('.help-text h4').html("Advance unit");
         $('.help-text p').html(" &nbsp;&nbsp; You can choose to advance the unit at this time. You will be asked to chose what date the unit is being added. If you choose not to advance the unit now  it will be added as a pending unit. You will then be able to view and advance it at a later time on the advance unit page.");
 
-    }); 
+    });
 
 </script>

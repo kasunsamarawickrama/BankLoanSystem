@@ -57,23 +57,11 @@ namespace BankLoanSystem.Controllers.UnitTitle
 
         public ActionResult TitleStatusUpdate()
         {
-            TitleStatus obj2 = new TitleStatus();
-            obj2.TitleList = new List<Models.Unit>();
-            int compType = 0;
-            
-            //get company type by company id
-            if (userData.UserId > 0)
+            if(Session["IsTitleTrack"] !=null && int.Parse(Session["IsTitleTrack"].ToString()) == 0)
             {
-                BranchAccess obj1 = new BranchAccess();
-                compType = obj1.getCompanyTypeByUserId(userData.UserId);
+                return RedirectToAction("UserDetails", "UserManagement");
             }
-            if (compType > 0)
-            {
-                ViewBag.CompanyType = compType;
-            }
-            int flag = -1;
-
-            if (userData.RoleId == 3)
+            else if (userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {
@@ -112,6 +100,23 @@ namespace BankLoanSystem.Controllers.UnitTitle
             {
                 return RedirectToAction("UserDetails", "UserManagement");
             }
+            TitleStatus obj2 = new TitleStatus();
+            obj2.TitleList = new List<Models.Unit>();
+            int compType = 0;
+            
+            //get company type by company id
+            if (userData.UserId > 0)
+            {
+                BranchAccess obj1 = new BranchAccess();
+                compType = obj1.getCompanyTypeByUserId(userData.UserId);
+            }
+            if (compType > 0)
+            {
+                ViewBag.CompanyType = compType;
+            }
+            int flag = -1;
+
+
             if ((TempData["reslt"] !=null)&& (TempData["reslt"].ToString() != ""))
             {
                 flag = int.Parse(TempData["reslt"].ToString());
