@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using BankLoanSystem.Code;
+using Newtonsoft.Json.Linq;
 
 namespace BankLoanSystem.Controllers.Unit
 {
@@ -364,6 +365,13 @@ namespace BankLoanSystem.Controllers.Unit
             //};
             return Json(modelSelectList);
         }
+
+        
+        //[HttpPost]
+        //public void StoreMakeModels(IList<VehicleUnit> List)
+        //{
+        //    (new UnitAccess()).StoreMakeModels(List);
+        //}
 
         /// <summary>
         /// Auther: kasun

@@ -3388,7 +3388,7 @@
 
                     // Callback function to be called when the API response is returned
                     function success(res) {
-                        console.log(res);
+                        //console.log(res);
                         if(res.errorType){
                             document.getElementById('editor1-2').value = "";
                             $('#combobox1-2').next().children('input').val("");
@@ -3405,7 +3405,7 @@
                     }
                     // Oops, Houston we have a problem!
                     function fail(data) {
-                        console.log(data);
+                        //console.log(data);
                     }
                     // Fire the API call
                     res.api('/api/vehicle/v2/vins/'+ vin, '', success, fail);
@@ -3419,6 +3419,42 @@
                 //    // Callback function to be called when the API response is returned
                 //    function success(res) {
                 //        console.log(res);
+
+                //        var list = [];
+                //        for(var i=0;i<res.makes.length;i++){                      
+                //            for(var j=0;j<res.makes[i].models.length;j++){
+                //                for(var k=0;k<res.makes[i].models[j].years.length;k++){
+                //                    var obj = {
+                //                        Make : res.makes[i].name,
+                //                        Model : res.makes[i].models[j].name,
+                //                        Year : res.makes[i].models[j].years[k].year                       
+                //                    } 
+                //                    //obj.make = res.makes[i].name;
+                //                    //obj.model = res.makes[i].models[j].name;
+                //                    //obj.year = res.makes[i].models[j].years[k].year;
+                //                    list.push(obj);
+                //                }    
+                //            }                           
+                //        }
+                //        console.log(list);
+                //        $.ajax({
+                //            url: '/Unit/StoreMakeModels',
+                //            type: 'POST',
+                //            async: true,
+                //            contentType: 'application/json;',
+                //            data: JSON.stringify({ List: list}),
+                //            success: function (data) {
+
+                //            },
+                //            error: function (jqXHR, textStatus, errorThrown){
+                //                // Your handler here...
+
+                //                // if session expires
+                //                if(jqXHR.status == "404"){
+                //                    window.location.href='/Login/UserLogin?lbl=Session expired';
+                //                }
+                //            }
+                //        });
                 //        if(res.errorType == "Not Found"){
 
                 //        }else{
