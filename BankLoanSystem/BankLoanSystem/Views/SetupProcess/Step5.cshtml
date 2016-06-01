@@ -421,7 +421,7 @@
         var HelpString = $('.right_panel_box p').html();
         var HelpTitle = $('.right_panel_box h4').html();
 
-        $('#RegBranchId , .icon-help_outline.1').click(function () {
+        $(' .icon-help_outline.1').click(function () {
 
             $('.right_panel_box p').html('Select the @(ViewBag.ThisCompanyType == "Dealer" ? "Lender branch this Dealer is financed through." : "Dealer branch which is being financed by this Lender.")');
             $('.right_panel_box h4').html('Assign a partner branch');
@@ -429,7 +429,7 @@
 
         });
 
-        $('#Previous , .icon-help_outline.2').click(function () {
+        $(' .icon-help_outline.2').click(function () {
 
             $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details. A branch is required to setup a loan; if you are working with the company location for the loan select 'Same details as @(ViewBag.ThisCompanyType == "Dealer" ?  "Dealer" : "Lender") company created'.");
             $('.right_panel_box h4').html('Branch details the same as company details');
@@ -437,7 +437,32 @@
 
         });
 
-        $('select:not(#RegBranchId), span:not(.icon-help_outline.1 , .icon-help_outline.2), input:not(#Previous) ').click(function () {
+        $('span:not(.icon-help_outline.1 , .icon-help_outline.2) ').click(function () {
+
+            $('.right_panel_box p').html(HelpString);
+            $('.right_panel_box h4').html(HelpTitle);
+
+
+        });
+
+
+        $('#RegBranchId').focus(function () {
+
+            $('.right_panel_box p').html('Select the @(ViewBag.ThisCompanyType == "Dealer" ? "Lender branch this Dealer is financed through." : "Dealer branch which is being financed by this Lender.")');
+            $('.right_panel_box h4').html('Assign a partner branch');
+
+
+        });
+
+        $('#Previous').focus(function () {
+
+            $('.right_panel_box p').html("Selecting this will auto fill the branch details with the same information as the company details. A branch is required to setup a loan; if you are working with the company location for the loan select 'Same details as @(ViewBag.ThisCompanyType == "Dealer" ?  "Dealer" : "Lender") company created'.");
+            $('.right_panel_box h4').html('Branch details the same as company details');
+
+
+        });
+
+        $('select:not(#RegBranchId), input:not(#Previous) ').focus(function () {
 
             $('.right_panel_box p').html(HelpString);
             $('.right_panel_box h4').html(HelpTitle);
