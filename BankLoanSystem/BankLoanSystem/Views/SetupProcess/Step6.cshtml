@@ -429,7 +429,7 @@
   var HelpString = $('.right_panel_box p').html();
   var HelpTitle = $('.right_panel_box h4').html();
 
-  $('#loanNumber , .icon-help_outline.1').click(function () {
+  $('.icon-help_outline.1').click(function () {
 
       $('.right_panel_box p').html('This number will be used throughout the program to identify the loan. You can use the actual loan number or create a unique ID for the loan between 5 and 30 characters.');
       $('.right_panel_box h4').html('Loan number');
@@ -437,7 +437,7 @@
 
   });
 
-  $('#startDate , .icon-help_outline.2').click(function () {
+  $('.icon-help_outline.2').click(function () {
 
       $('.right_panel_box p').html('The date the loan started.');
       $('.right_panel_box h4').html('Start date');
@@ -445,7 +445,7 @@
 
   });
 
-  $('#maturityDate , .icon-help_outline.3').click(function () {
+  $('.icon-help_outline.3').click(function () {
 
       $('.right_panel_box p').html('The date the loan matures. The program limits the functions allowed in a loan after the maturity date (until the loan is renewed). If there is no maturity date for the loan, please select a date far into the future (1 year or more).');
       $('.right_panel_box h4').html('Maturity date');
@@ -453,7 +453,7 @@
 
   });
 
-  $('#loanAmount , .icon-help_outline.4').click(function () {
+  $('.icon-help_outline.4').click(function () {
 
       $('.right_panel_box p').html('This is the total revolving amount available for this loan.');
       $('.right_panel_box h4').html('Loan amount');
@@ -461,7 +461,7 @@
 
   });
 
-  $('#advancePercentage , .icon-help_outline.5').click(function () {
+  $('.icon-help_outline.5').click(function () {
 
       $('.right_panel_box p').html('This is the percentage of the unit purchase price which is advanced from the loan. <br></br><i>(example: a unit is purchased by the dealer for $10,000 - if your advance % is 80 then $8,000 will be advanced for that unit.)</i>');
       $('.right_panel_box h4').html('Initial advance percentage');
@@ -469,7 +469,7 @@
 
   });
 
-  $('.new_unit_type input , .icon-help_outline.6').click(function () {
+  $('.icon-help_outline.6').click(function () {
 
       $('.right_panel_box p').html("Select each unit type which is allowed to be advanced on this loan. If more than one unit type is selected then the type of unit which will be the most commonly advanced should be selected as 'Make Default'. For faster operation the default unit type will be preselected on the advance page.");
       $('.right_panel_box h4').html('Select unit types');
@@ -477,7 +477,7 @@
 
   });
 
-  $('#isEditAllowable , .icon-help_outline.7').click(function () {
+  $('.icon-help_outline.7').click(function () {
 
       $('.right_panel_box p').html("By selecting 'Yes' here, at the time of advance the user will be allowed to change the advance amount on a specific unit to an amount which is different than the precalculated percentage.<br></br>By selecting 'No' the user will not be allowed to change the precalculated advance amount.");
       $('.right_panel_box h4').html('Allow user to change advance amount');
@@ -485,7 +485,7 @@
 
   });
 
-  $('#autoRem , .icon-help_outline.8').click(function () {
+  $('.icon-help_outline.8').click(function () {
 
       $('.right_panel_box p').html("By selecting 'Yes' you will be asked to provide an email address where you will receive an email reminder prior to the loan maturity date.");
       $('.right_panel_box h4').html('Send loan renewal reminder');
@@ -493,7 +493,82 @@
 
   });
 
-  $('select:not(#isEditAllowable , #autoRem), span:not(.icon-help_outline.1 , .icon-help_outline.2 , .icon-help_outline.3, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6, .icon-help_outline.7, .icon-help_outline.8), input:not(#loanNumber , #startDate, #maturityDate , #loanAmount, #advancePercentage, [name^="allUnitTypes"] ,[id^="radio"]  )').click(function () {
+  $('span:not(.icon-help_outline.1 , .icon-help_outline.2 , .icon-help_outline.3, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6, .icon-help_outline.7, .icon-help_outline.8)').click(function () {
+
+      $('.right_panel_box p').html(HelpString);
+      $('.right_panel_box h4').html(HelpTitle);
+
+
+  });
+
+
+
+
+  $('#loanNumber').focus(function () {
+
+      $('.right_panel_box p').html('This number will be used throughout the program to identify the loan. You can use the actual loan number or create a unique ID for the loan between 5 and 30 characters.');
+      $('.right_panel_box h4').html('Loan number');
+
+
+  });
+
+  $('#startDate').focus(function () {
+
+      $('.right_panel_box p').html('The date the loan started.');
+      $('.right_panel_box h4').html('Start date');
+
+
+  });
+
+  $('#maturityDate').focus(function () {
+
+      $('.right_panel_box p').html('The date the loan matures. The program limits the functions allowed in a loan after the maturity date (until the loan is renewed). If there is no maturity date for the loan, please select a date far into the future (1 year or more).');
+      $('.right_panel_box h4').html('Maturity date');
+
+
+  });
+
+  $('#loanAmount').focus(function () {
+
+      $('.right_panel_box p').html('This is the total revolving amount available for this loan.');
+      $('.right_panel_box h4').html('Loan amount');
+
+
+  });
+
+  $('#advancePercentage').focus(function () {
+
+      $('.right_panel_box p').html('This is the percentage of the unit purchase price which is advanced from the loan. <br></br><i>(example: a unit is purchased by the dealer for $10,000 - if your advance % is 80 then $8,000 will be advanced for that unit.)</i>');
+      $('.right_panel_box h4').html('Initial advance percentage');
+
+
+  });
+
+  $('.new_unit_type input').focus(function () {
+
+      $('.right_panel_box p').html("Select each unit type which is allowed to be advanced on this loan. If more than one unit type is selected then the type of unit which will be the most commonly advanced should be selected as 'Make Default'. For faster operation the default unit type will be preselected on the advance page.");
+      $('.right_panel_box h4').html('Select unit types');
+
+
+  });
+
+  $('#isEditAllowable').focus(function () {
+
+      $('.right_panel_box p').html("By selecting 'Yes' here, at the time of advance the user will be allowed to change the advance amount on a specific unit to an amount which is different than the precalculated percentage.<br></br>By selecting 'No' the user will not be allowed to change the precalculated advance amount.");
+      $('.right_panel_box h4').html('Allow user to change advance amount');
+
+
+  });
+
+  $('#autoRem').focus(function () {
+
+      $('.right_panel_box p').html("By selecting 'Yes' you will be asked to provide an email address where you will receive an email reminder prior to the loan maturity date.");
+      $('.right_panel_box h4').html('Send loan renewal reminder');
+
+
+  });
+
+  $('select:not(#isEditAllowable , #autoRem), input:not(#loanNumber , #startDate, #maturityDate , #loanAmount, #advancePercentage, [name^="allUnitTypes"] ,[id^="radio"]  )').focus(function () {
 
       $('.right_panel_box p').html(HelpString);
       $('.right_panel_box h4').html(HelpTitle);
