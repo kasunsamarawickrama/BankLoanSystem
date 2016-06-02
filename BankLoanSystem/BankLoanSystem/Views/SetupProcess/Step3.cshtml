@@ -26,12 +26,12 @@
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                             </div>
                             <div class="form-horizontal">
-                                @if (ViewBag.SuccessMsg == null)
+                                @if (ViewBag.SuccessMsg == null || ViewBag.ErrorMsg == null)
                                 {
                                     <div class="skipLink" style="font-size:18px"> <a id="skip" href="#">Skip >></a></div>
                                 }
                                 <div style="clear:both"></div>
-                                @if (ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created"))
+                                @if ((ViewBag.SuccessMsg != null && ViewBag.SuccessMsg.ToString().Equals("User Successfully Created")) || (ViewBag.ErrorMsg != null && ViewBag.ErrorMsg.ToString().Equals("Failed to create user")))
                                 {
                                     using (Ajax.BeginForm("Step3", "SetupProcess", new AjaxOptions()
                                     {
@@ -45,6 +45,7 @@
                                     {
                                         @Html.AntiForgeryToken()
                                         <span class="text-success">@ViewBag.SuccessMsg</span>
+                                        <span class="text-danger">@ViewBag.ErrorMsg</span>
                                         <div class="form-group">
                                             <div class="button-panel">
                                                 <input type="button" id="createNewUser" value="Create New User" class="btn btn-info left-button" />
